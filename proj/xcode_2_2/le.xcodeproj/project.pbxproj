@@ -1,0 +1,838 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03874A300983DB1800ABB591 /* CFolder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 03874A2F0983DB1800ABB591 /* CFolder.h */; };
+		03874A360983DBE600ABB591 /* CFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03874A350983DBE600ABB591 /* CFolder.cpp */; };
+		03DC09FA0976B97400899E98 /* CNotificationCenter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 546DEAB109029D0600E62AEA /* CNotificationCenter.h */; };
+		03DC09FB0976B97500899E98 /* CNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB009029D0600E62AEA /* CNotificationCenter.cpp */; };
+		03DC0DB109793D7F00899E98 /* TCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03DC0DB009793D7F00899E98 /* TCPointer.cpp */; };
+		54D18E550907CF4100FBFF4F /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54D18E540907CF4100FBFF4F /* Debug.cpp */; };
+		54D18E5A0907CFC900FBFF4F /* CClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54D18E570907CFC900FBFF4F /* CClassFactory.cpp */; };
+		54D18E5B0907CFC900FBFF4F /* CClassFactory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 54D18E580907CFC900FBFF4F /* CClassFactory.h */; };
+		54DB562B08EB0D120080DBEA /* CButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 54DB562908EB0D120080DBEA /* CButton.h */; };
+		54DB562C08EB0D120080DBEA /* CButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54DB562A08EB0D120080DBEA /* CButton.cpp */; };
+		54F30DE608E9AC02008A8257 /* CTitleBar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 54F30DE408E9AC02008A8257 /* CTitleBar.h */; };
+		54F30DE708E9AC02008A8257 /* CTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F30DE508E9AC02008A8257 /* CTitleBar.cpp */; };
+		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
+		B004630F08E56B7F00236593 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B00485030972839400FA430D /* TCPointer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B00485020972839400FA430D /* TCPointer.h */; };
+		B011D9D109CD88BA002FC0B9 /* TCGraphicControllerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B011D9D009CD88BA002FC0B9 /* TCGraphicControllerClass.h */; };
+		B011D9D209CD88BA002FC0B9 /* TCGraphicControllerClass.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B011D9D009CD88BA002FC0B9 /* TCGraphicControllerClass.h */; };
+		B014667F09C2EC630011B7F3 /* CAutoreleasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E1C69E090A78E300A19814 /* CAutoreleasePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B014668009C2EC660011B7F3 /* CAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C69F090A78E300A19814 /* CAutoreleasePool.cpp */; };
+		B02CBF5009A7805400B7D20A /* CApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B02CBF4E09A7805400B7D20A /* CApplication.h */; };
+		B02CBF5109A7805400B7D20A /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B02CBF4F09A7805400B7D20A /* CApplication.cpp */; };
+		B02CBF5209A7805400B7D20A /* CApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = B02CBF4E09A7805400B7D20A /* CApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B02CBF5309A7805400B7D20A /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B02CBF4F09A7805400B7D20A /* CApplication.cpp */; };
+		B065A74B08E834E1004747AB /* Debug.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B065A74A08E834E1004747AB /* Debug.h */; };
+		B065A7A408E84979004747AB /* CDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B065A7A208E84979004747AB /* CDialog.cpp */; };
+		B065A7A508E84979004747AB /* CDialog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B065A7A308E84979004747AB /* CDialog.h */; };
+		B0B973DA09AB8B36003FF907 /* CAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C69F090A78E300A19814 /* CAutoreleasePool.cpp */; };
+		B0B973DB09AB8B36003FF907 /* CAutoreleasePool.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0E1C69E090A78E300A19814 /* CAutoreleasePool.h */; };
+		B0BFBF8E09A7461B009FA6DF /* CThread.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0BFBF8C09A7461B009FA6DF /* CThread.h */; };
+		B0BFBF8F09A7461B009FA6DF /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BFBF8D09A7461B009FA6DF /* CThread.cpp */; };
+		B0BFBFA109A75FBC009FA6DF /* CMutex.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0BFBF9F09A75FBC009FA6DF /* CMutex.h */; };
+		B0BFBFA209A75FBC009FA6DF /* CMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BFBFA009A75FBC009FA6DF /* CMutex.cpp */; };
+		B0BFC06B09A76932009FA6DF /* TCClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE4826090BACBB000D73FD /* TCClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC06C09A76933009FA6DF /* ClassDeclaration.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE4827090BACBB000D73FD /* ClassDeclaration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC06D09A76934009FA6DF /* ClassImplementation.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE4828090BACBB000D73FD /* ClassImplementation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC06E09A76934009FA6DF /* IClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE4829090BACBB000D73FD /* IClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC06F09A76935009FA6DF /* CClassFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 54D18E580907CFC900FBFF4F /* CClassFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07009A76936009FA6DF /* CClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54D18E570907CFC900FBFF4F /* CClassFactory.cpp */; };
+		B0BFC07109A76937009FA6DF /* CThread.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BFBF8C09A7461B009FA6DF /* CThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07209A76938009FA6DF /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BFBF8D09A7461B009FA6DF /* CThread.cpp */; };
+		B0BFC07309A76939009FA6DF /* CMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BFBF9F09A75FBC009FA6DF /* CMutex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07409A7693A009FA6DF /* CMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BFBFA009A75FBC009FA6DF /* CMutex.cpp */; };
+		B0BFC07509A7693A009FA6DF /* CControlDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DACACF08F9221300EECF6E /* CControlDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07609A7693B009FA6DF /* CControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DACAD008F9221300EECF6E /* CControlDelegate.cpp */; };
+		B0BFC07909A76941009FA6DF /* Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = B065A74A08E834E1004747AB /* Debug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07A09A76941009FA6DF /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54D18E540907CF4100FBFF4F /* Debug.cpp */; };
+		B0BFC07B09A76942009FA6DF /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DD032308E99E8400C31582 /* Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07C09A76943009FA6DF /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = B0D24D7408E6A9FD0060659F /* Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07D09A76944009FA6DF /* Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24D7608E6AF690060659F /* Types.cpp */; };
+		B0BFC07E09A76944009FA6DF /* CText.h in Headers */ = {isa = PBXBuildFile; fileRef = B0D3CC0408EEB20000A64596 /* CText.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC07F09A76945009FA6DF /* CText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D3CC0308EEB20000A64596 /* CText.cpp */; };
+		B0BFC08009A76946009FA6DF /* StdExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E32FB70902761400853311 /* StdExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08109A76947009FA6DF /* CObject.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E1C69A090A775300A19814 /* CObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08209A76948009FA6DF /* CObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C69B090A775300A19814 /* CObject.cpp */; };
+		B0BFC08509A7694A009FA6DF /* TCPointer.h in Headers */ = {isa = PBXBuildFile; fileRef = B00485020972839400FA430D /* TCPointer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08609A7694B009FA6DF /* TCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03DC0DB009793D7F00899E98 /* TCPointer.cpp */; };
+		B0BFC08709A7694D009FA6DF /* CFile.h in Headers */ = {isa = PBXBuildFile; fileRef = B0FC11CA098CDC1100FE654B /* CFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08809A7694E009FA6DF /* CFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FC11CB098CDC1100FE654B /* CFile.cpp */; };
+		B0BFC08909A7694F009FA6DF /* CFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 03874A2F0983DB1800ABB591 /* CFolder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08A09A76950009FA6DF /* CFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03874A350983DBE600ABB591 /* CFolder.cpp */; };
+		B0BFC08B09A76951009FA6DF /* CControl.h in Headers */ = {isa = PBXBuildFile; fileRef = B0D3CC0008EEB20000A64596 /* CControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08C09A7695A009FA6DF /* CControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D3CBFF08EEB20000A64596 /* CControl.cpp */; };
+		B0BFC08D09A7695A009FA6DF /* CWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = B0D24D5508E6A5E40060659F /* CWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC08E09A7695B009FA6DF /* CWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24D5408E6A5E40060659F /* CWindow.cpp */; };
+		B0BFC08F09A7695C009FA6DF /* CScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = B0D24E3A08E6DEF80060659F /* CScreen.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09009A7695D009FA6DF /* CScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24E3B08E6DEF80060659F /* CScreen.cpp */; };
+		B0BFC09109A7695E009FA6DF /* CDragger.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DD026608E963B600C31582 /* CDragger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09209A7695F009FA6DF /* CDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DD026708E963B600C31582 /* CDragger.cpp */; };
+		B0BFC09309A76965009FA6DF /* CTitleBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 54F30DE408E9AC02008A8257 /* CTitleBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09409A76965009FA6DF /* CTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F30DE508E9AC02008A8257 /* CTitleBar.cpp */; };
+		B0BFC09509A76966009FA6DF /* CButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 54DB562908EB0D120080DBEA /* CButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09609A76967009FA6DF /* CButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54DB562A08EB0D120080DBEA /* CButton.cpp */; };
+		B0BFC09709A76968009FA6DF /* CDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = B065A7A308E84979004747AB /* CDialog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09809A7696B009FA6DF /* CDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B065A7A208E84979004747AB /* CDialog.cpp */; };
+		B0BFC09D09A76970009FA6DF /* GraphicControllerRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE4959090BCC4D000D73FD /* GraphicControllerRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09E09A76973009FA6DF /* BasicGraphicControllers.h in Headers */ = {isa = PBXBuildFile; fileRef = B0CE49C9090BD291000D73FD /* BasicGraphicControllers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC09F09A76974009FA6DF /* BasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0CE49CA090BD291000D73FD /* BasicGraphicControllers.cpp */; };
+		B0BFC0A009A76974009FA6DF /* CTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E1C72F090A871300A19814 /* CTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC0A109A76976009FA6DF /* CTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C730090A871300A19814 /* CTheme.cpp */; };
+		B0BFC0A209A76977009FA6DF /* CNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEAB109029D0600E62AEA /* CNotificationCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0BFC0A309A7697A009FA6DF /* CNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB009029D0600E62AEA /* CNotificationCenter.cpp */; };
+		B0BFC0A409A7697B009FA6DF /* LE-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B0BFC06309A7691E009FA6DF /* LE-Info.plist */; };
+		B0BFC0A509A76986009FA6DF /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
+		B0BFC0A609A76986009FA6DF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B0BFC20809A778FE009FA6DF /* LE.framework in Copy to System frameworks */ = {isa = PBXBuildFile; fileRef = B0BFC06209A7691E009FA6DF /* LE.framework */; };
+		B0CE482A090BACBB000D73FD /* TCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0CE4825090BACBB000D73FD /* TCClass.cpp */; };
+		B0CE482B090BACBB000D73FD /* TCClass.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE4826090BACBB000D73FD /* TCClass.h */; };
+		B0CE482C090BACBB000D73FD /* ClassDeclaration.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE4827090BACBB000D73FD /* ClassDeclaration.h */; };
+		B0CE482D090BACBB000D73FD /* ClassImplementation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE4828090BACBB000D73FD /* ClassImplementation.h */; };
+		B0CE482E090BACBB000D73FD /* IClass.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE4829090BACBB000D73FD /* IClass.h */; };
+		B0CE495A090BCC4D000D73FD /* GraphicControllerRegistration.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE4959090BCC4D000D73FD /* GraphicControllerRegistration.h */; };
+		B0CE49CB090BD291000D73FD /* BasicGraphicControllers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0CE49C9090BD291000D73FD /* BasicGraphicControllers.h */; };
+		B0CE49CC090BD291000D73FD /* BasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0CE49CA090BD291000D73FD /* BasicGraphicControllers.cpp */; };
+		B0D24D5608E6A5E40060659F /* CWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24D5408E6A5E40060659F /* CWindow.cpp */; };
+		B0D24D5708E6A5E40060659F /* CWindow.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D24D5508E6A5E40060659F /* CWindow.h */; };
+		B0D24D7508E6A9FD0060659F /* Types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D24D7408E6A9FD0060659F /* Types.h */; };
+		B0D24D7708E6AF690060659F /* Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24D7608E6AF690060659F /* Types.cpp */; };
+		B0D24E3C08E6DEF80060659F /* CScreen.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D24E3A08E6DEF80060659F /* CScreen.h */; };
+		B0D24E3D08E6DEF80060659F /* CScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D24E3B08E6DEF80060659F /* CScreen.cpp */; };
+		B0D3CC0908EEB20000A64596 /* CControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D3CBFF08EEB20000A64596 /* CControl.cpp */; };
+		B0D3CC0A08EEB20000A64596 /* CControl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D3CC0008EEB20000A64596 /* CControl.h */; };
+		B0D3CC0D08EEB20000A64596 /* CText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D3CC0308EEB20000A64596 /* CText.cpp */; };
+		B0D3CC0E08EEB20000A64596 /* CText.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D3CC0408EEB20000A64596 /* CText.h */; };
+		B0DACAD108F9221300EECF6E /* CControlDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0DACACF08F9221300EECF6E /* CControlDelegate.h */; };
+		B0DACAD208F9221300EECF6E /* CControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DACAD008F9221300EECF6E /* CControlDelegate.cpp */; };
+		B0DD026808E963B600C31582 /* CDragger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0DD026608E963B600C31582 /* CDragger.h */; };
+		B0DD026908E963B600C31582 /* CDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DD026708E963B600C31582 /* CDragger.cpp */; };
+		B0DD032408E99E8400C31582 /* Constants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0DD032308E99E8400C31582 /* Constants.h */; };
+		B0E1C69C090A775300A19814 /* CObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0E1C69A090A775300A19814 /* CObject.h */; };
+		B0E1C69D090A775300A19814 /* CObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C69B090A775300A19814 /* CObject.cpp */; };
+		B0E1C731090A871300A19814 /* CTheme.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0E1C72F090A871300A19814 /* CTheme.h */; };
+		B0E1C732090A871300A19814 /* CTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E1C730090A871300A19814 /* CTheme.cpp */; };
+		B0E32FB80902761400853311 /* StdExtensions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0E32FB70902761400853311 /* StdExtensions.h */; };
+		B0FC11CC098CDC1100FE654B /* CFile.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0FC11CA098CDC1100FE654B /* CFile.h */; };
+		B0FC11CD098CDC1100FE654B /* CFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FC11CB098CDC1100FE654B /* CFile.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA460018CE2711CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		014CEA470018CE2711CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F690486A84900D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				B0D24D5708E6A5E40060659F /* CWindow.h in CopyFiles */,
+				B0D24D7508E6A9FD0060659F /* Types.h in CopyFiles */,
+				B0D24E3C08E6DEF80060659F /* CScreen.h in CopyFiles */,
+				B065A74B08E834E1004747AB /* Debug.h in CopyFiles */,
+				B065A7A508E84979004747AB /* CDialog.h in CopyFiles */,
+				B0DD026808E963B600C31582 /* CDragger.h in CopyFiles */,
+				B0DD032408E99E8400C31582 /* Constants.h in CopyFiles */,
+				54F30DE608E9AC02008A8257 /* CTitleBar.h in CopyFiles */,
+				54DB562B08EB0D120080DBEA /* CButton.h in CopyFiles */,
+				B0D3CC0A08EEB20000A64596 /* CControl.h in CopyFiles */,
+				B0D3CC0E08EEB20000A64596 /* CText.h in CopyFiles */,
+				B0DACAD108F9221300EECF6E /* CControlDelegate.h in CopyFiles */,
+				B0E32FB80902761400853311 /* StdExtensions.h in CopyFiles */,
+				54D18E5B0907CFC900FBFF4F /* CClassFactory.h in CopyFiles */,
+				B0E1C69C090A775300A19814 /* CObject.h in CopyFiles */,
+				B0E1C731090A871300A19814 /* CTheme.h in CopyFiles */,
+				B0CE482B090BACBB000D73FD /* TCClass.h in CopyFiles */,
+				B0CE482C090BACBB000D73FD /* ClassDeclaration.h in CopyFiles */,
+				B0CE482D090BACBB000D73FD /* ClassImplementation.h in CopyFiles */,
+				B0CE482E090BACBB000D73FD /* IClass.h in CopyFiles */,
+				B0CE495A090BCC4D000D73FD /* GraphicControllerRegistration.h in CopyFiles */,
+				B0CE49CB090BD291000D73FD /* BasicGraphicControllers.h in CopyFiles */,
+				B00485030972839400FA430D /* TCPointer.h in CopyFiles */,
+				03DC09FA0976B97400899E98 /* CNotificationCenter.h in CopyFiles */,
+				03874A300983DB1800ABB591 /* CFolder.h in CopyFiles */,
+				B0FC11CC098CDC1100FE654B /* CFile.h in CopyFiles */,
+				B0BFBF8E09A7461B009FA6DF /* CThread.h in CopyFiles */,
+				B0BFBFA109A75FBC009FA6DF /* CMutex.h in CopyFiles */,
+				B02CBF5009A7805400B7D20A /* CApplication.h in CopyFiles */,
+				B0B973DB09AB8B36003FF907 /* CAutoreleasePool.h in CopyFiles */,
+				B011D9D209CD88BA002FC0B9 /* TCGraphicControllerClass.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		B0BFC20609A778B2009FA6DF /* Copy to System frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(HOME)/Library/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				B0BFC20809A778FE009FA6DF /* LE.framework in Copy to System frameworks */,
+			);
+			name = "Copy to System frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		03874A2F0983DB1800ABB591 /* CFolder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CFolder.h; sourceTree = "<group>"; };
+		03874A350983DBE600ABB591 /* CFolder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CFolder.cpp; sourceTree = "<group>"; };
+		03DC0DB009793D7F00899E98 /* TCPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TCPointer.cpp; sourceTree = "<group>"; };
+		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		546DEAB009029D0600E62AEA /* CNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CNotificationCenter.cpp; sourceTree = "<group>"; };
+		546DEAB109029D0600E62AEA /* CNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CNotificationCenter.h; sourceTree = "<group>"; };
+		54D18E540907CF4100FBFF4F /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Debug.cpp; sourceTree = "<group>"; };
+		54D18E570907CFC900FBFF4F /* CClassFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CClassFactory.cpp; sourceTree = "<group>"; };
+		54D18E580907CFC900FBFF4F /* CClassFactory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CClassFactory.h; sourceTree = "<group>"; };
+		54DB562908EB0D120080DBEA /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
+		54DB562A08EB0D120080DBEA /* CButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CButton.cpp; sourceTree = "<group>"; };
+		54F30DE408E9AC02008A8257 /* CTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTitleBar.h; sourceTree = "<group>"; };
+		54F30DE508E9AC02008A8257 /* CTitleBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTitleBar.cpp; sourceTree = "<group>"; };
+		54F5555108F95CD800C7D1F4 /* CButtonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButtonDelegate.h; sourceTree = "<group>"; };
+		54F5555208F95CD800C7D1F4 /* CButtonDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CButtonDelegate.cpp; sourceTree = "<group>"; };
+		8DD76F6C0486A84900D96B5E /* le */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = le; sourceTree = BUILT_PRODUCTS_DIR; };
+		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
+		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		B00485020972839400FA430D /* TCPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPointer.h; sourceTree = "<group>"; };
+		B011D9D009CD88BA002FC0B9 /* TCGraphicControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCGraphicControllerClass.h; sourceTree = "<group>"; };
+		B01466AF09C2ECB50011B7F3 /* CRunLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRunLoop.h; sourceTree = "<group>"; };
+		B01466B009C2ECB50011B7F3 /* CRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRunLoop.cpp; sourceTree = "<group>"; };
+		B02CBF4E09A7805400B7D20A /* CApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CApplication.h; sourceTree = "<group>"; };
+		B02CBF4F09A7805400B7D20A /* CApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CApplication.cpp; sourceTree = "<group>"; };
+		B065A74A08E834E1004747AB /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		B065A7A208E84979004747AB /* CDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CDialog.cpp; sourceTree = "<group>"; };
+		B065A7A308E84979004747AB /* CDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CDialog.h; sourceTree = "<group>"; };
+		B0BFBF8C09A7461B009FA6DF /* CThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CThread.h; sourceTree = "<group>"; };
+		B0BFBF8D09A7461B009FA6DF /* CThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CThread.cpp; sourceTree = "<group>"; };
+		B0BFBF9F09A75FBC009FA6DF /* CMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMutex.h; sourceTree = "<group>"; };
+		B0BFBFA009A75FBC009FA6DF /* CMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMutex.cpp; sourceTree = "<group>"; };
+		B0BFC06209A7691E009FA6DF /* LE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0BFC06309A7691E009FA6DF /* LE-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LE-Info.plist"; sourceTree = "<group>"; };
+		B0CE4825090BACBB000D73FD /* TCClass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TCClass.cpp; sourceTree = "<group>"; };
+		B0CE4826090BACBB000D73FD /* TCClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCClass.h; sourceTree = "<group>"; };
+		B0CE4827090BACBB000D73FD /* ClassDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ClassDeclaration.h; sourceTree = "<group>"; };
+		B0CE4828090BACBB000D73FD /* ClassImplementation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ClassImplementation.h; sourceTree = "<group>"; };
+		B0CE4829090BACBB000D73FD /* IClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IClass.h; sourceTree = "<group>"; };
+		B0CE4959090BCC4D000D73FD /* GraphicControllerRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicControllerRegistration.h; sourceTree = "<group>"; };
+		B0CE49C9090BD291000D73FD /* BasicGraphicControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicGraphicControllers.h; sourceTree = "<group>"; };
+		B0CE49CA090BD291000D73FD /* BasicGraphicControllers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicGraphicControllers.cpp; sourceTree = "<group>"; };
+		B0D24D5408E6A5E40060659F /* CWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CWindow.cpp; sourceTree = "<group>"; };
+		B0D24D5508E6A5E40060659F /* CWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CWindow.h; sourceTree = "<group>"; };
+		B0D24D7408E6A9FD0060659F /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		B0D24D7608E6AF690060659F /* Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Types.cpp; sourceTree = "<group>"; };
+		B0D24E3A08E6DEF80060659F /* CScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScreen.h; sourceTree = "<group>"; };
+		B0D24E3B08E6DEF80060659F /* CScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CScreen.cpp; sourceTree = "<group>"; };
+		B0D3CBFF08EEB20000A64596 /* CControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CControl.cpp; sourceTree = "<group>"; wrapsLines = 0; };
+		B0D3CC0008EEB20000A64596 /* CControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CControl.h; sourceTree = "<group>"; };
+		B0D3CC0108EEB20000A64596 /* CDecorator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CDecorator.cpp; sourceTree = "<group>"; };
+		B0D3CC0208EEB20000A64596 /* CDecorator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CDecorator.h; sourceTree = "<group>"; };
+		B0D3CC0308EEB20000A64596 /* CText.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CText.cpp; sourceTree = "<group>"; };
+		B0D3CC0408EEB20000A64596 /* CText.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CText.h; sourceTree = "<group>"; };
+		B0D4C8C908EED69C00C5611F /* CBorderDecorator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBorderDecorator.h; sourceTree = "<group>"; };
+		B0D4C8CA08EED69C00C5611F /* CBorderDecorator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBorderDecorator.cpp; sourceTree = "<group>"; };
+		B0DACACF08F9221300EECF6E /* CControlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CControlDelegate.h; sourceTree = "<group>"; };
+		B0DACAD008F9221300EECF6E /* CControlDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CControlDelegate.cpp; sourceTree = "<group>"; };
+		B0DD026608E963B600C31582 /* CDragger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDragger.h; sourceTree = "<group>"; };
+		B0DD026708E963B600C31582 /* CDragger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CDragger.cpp; sourceTree = "<group>"; };
+		B0DD032308E99E8400C31582 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		B0E1C69A090A775300A19814 /* CObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CObject.h; sourceTree = "<group>"; };
+		B0E1C69B090A775300A19814 /* CObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CObject.cpp; sourceTree = "<group>"; };
+		B0E1C69E090A78E300A19814 /* CAutoreleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAutoreleasePool.h; sourceTree = "<group>"; };
+		B0E1C69F090A78E300A19814 /* CAutoreleasePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAutoreleasePool.cpp; sourceTree = "<group>"; };
+		B0E1C72F090A871300A19814 /* CTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTheme.h; sourceTree = "<group>"; };
+		B0E1C730090A871300A19814 /* CTheme.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTheme.cpp; sourceTree = "<group>"; };
+		B0E32FB70902761400853311 /* StdExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdExtensions.h; sourceTree = "<group>"; };
+		B0FC11CA098CDC1100FE654B /* CFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFile.h; sourceTree = "<group>"; };
+		B0FC11CB098CDC1100FE654B /* CFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CFile.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */,
+				B004630F08E56B7F00236593 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0BFC06009A7691E009FA6DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0BFC0A509A76986009FA6DF /* GLUT.framework in Frameworks */,
+				B0BFC0A609A76986009FA6DF /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* le */ = {
+			isa = PBXGroup;
+			children = (
+				B004630C08E56B7F00236593 /* GLUT.framework */,
+				B004630D08E56B7F00236593 /* OpenGL.framework */,
+				08FB7795FE84155DC02AAC07 /* src */,
+				C6859E8C029090F304C91782 /* doc */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+				B0BFC06309A7691E009FA6DF /* LE-Info.plist */,
+			);
+			name = le;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				54D18E560907CF6600FBFF4F /* Factory */,
+				5A8CDD0A08EED1720068F2A5 /* Kernel */,
+				5A8CDD0708EED0C50068F2A5 /* BaseClasses */,
+				5A8CDD0508EED07A0068F2A5 /* GUIControlls */,
+				5A8CDD0108EED0270068F2A5 /* Themes */,
+				546DEAAF09029CD400E62AEA /* Notifications */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76F6C0486A84900D96B5E /* le */,
+				B0BFC06209A7691E009FA6DF /* LE.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		546DEAAF09029CD400E62AEA /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				546DEAB109029D0600E62AEA /* CNotificationCenter.h */,
+				546DEAB009029D0600E62AEA /* CNotificationCenter.cpp */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
+		54D18E560907CF6600FBFF4F /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				B0CE4825090BACBB000D73FD /* TCClass.cpp */,
+				B0CE4826090BACBB000D73FD /* TCClass.h */,
+				B0CE4827090BACBB000D73FD /* ClassDeclaration.h */,
+				B0CE4828090BACBB000D73FD /* ClassImplementation.h */,
+				B0CE4829090BACBB000D73FD /* IClass.h */,
+				54D18E580907CFC900FBFF4F /* CClassFactory.h */,
+				54D18E570907CFC900FBFF4F /* CClassFactory.cpp */,
+			);
+			name = Factory;
+			sourceTree = "<group>";
+		};
+		5A8CDD0108EED0270068F2A5 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				5A8CDD0408EED0460068F2A5 /* GraphicControllers */,
+				B0E1C72F090A871300A19814 /* CTheme.h */,
+				B0E1C730090A871300A19814 /* CTheme.cpp */,
+			);
+			name = Themes;
+			sourceTree = "<group>";
+		};
+		5A8CDD0408EED0460068F2A5 /* GraphicControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B0CE4959090BCC4D000D73FD /* GraphicControllerRegistration.h */,
+				B0CE49C9090BD291000D73FD /* BasicGraphicControllers.h */,
+				B0CE49CA090BD291000D73FD /* BasicGraphicControllers.cpp */,
+				B011D9D009CD88BA002FC0B9 /* TCGraphicControllerClass.h */,
+			);
+			name = GraphicControllers;
+			sourceTree = "<group>";
+		};
+		5A8CDD0508EED07A0068F2A5 /* GUIControlls */ = {
+			isa = PBXGroup;
+			children = (
+				5A8CDD0608EED0AA0068F2A5 /* Decorators */,
+				54F30DE408E9AC02008A8257 /* CTitleBar.h */,
+				54F30DE508E9AC02008A8257 /* CTitleBar.cpp */,
+				54DB562908EB0D120080DBEA /* CButton.h */,
+				54DB562A08EB0D120080DBEA /* CButton.cpp */,
+				B065A7A308E84979004747AB /* CDialog.h */,
+				B065A7A208E84979004747AB /* CDialog.cpp */,
+			);
+			name = GUIControlls;
+			sourceTree = "<group>";
+		};
+		5A8CDD0608EED0AA0068F2A5 /* Decorators */ = {
+			isa = PBXGroup;
+			children = (
+				B0D3CC0208EEB20000A64596 /* CDecorator.h */,
+				B0D3CC0108EEB20000A64596 /* CDecorator.cpp */,
+				B0DD026608E963B600C31582 /* CDragger.h */,
+				B0DD026708E963B600C31582 /* CDragger.cpp */,
+				B0D4C8C908EED69C00C5611F /* CBorderDecorator.h */,
+				B0D4C8CA08EED69C00C5611F /* CBorderDecorator.cpp */,
+			);
+			name = Decorators;
+			sourceTree = "<group>";
+		};
+		5A8CDD0708EED0C50068F2A5 /* BaseClasses */ = {
+			isa = PBXGroup;
+			children = (
+				B0BFBF8B09A745D5009FA6DF /* Threading */,
+				B0DACACE08F921F400EECF6E /* Delegate */,
+				5A8CDD0908EED1200068F2A5 /* BasicTypes */,
+				B0D3CC0008EEB20000A64596 /* CControl.h */,
+				B0D3CBFF08EEB20000A64596 /* CControl.cpp */,
+				B0D24D5508E6A5E40060659F /* CWindow.h */,
+				B0D24D5408E6A5E40060659F /* CWindow.cpp */,
+				B0D24E3A08E6DEF80060659F /* CScreen.h */,
+				B0D24E3B08E6DEF80060659F /* CScreen.cpp */,
+			);
+			name = BaseClasses;
+			sourceTree = "<group>";
+		};
+		5A8CDD0908EED1200068F2A5 /* BasicTypes */ = {
+			isa = PBXGroup;
+			children = (
+				B065A74A08E834E1004747AB /* Debug.h */,
+				54D18E540907CF4100FBFF4F /* Debug.cpp */,
+				B0DD032308E99E8400C31582 /* Constants.h */,
+				B0D24D7408E6A9FD0060659F /* Types.h */,
+				B0D24D7608E6AF690060659F /* Types.cpp */,
+				B0D3CC0408EEB20000A64596 /* CText.h */,
+				B0D3CC0308EEB20000A64596 /* CText.cpp */,
+				B0E32FB70902761400853311 /* StdExtensions.h */,
+				B0E1C69A090A775300A19814 /* CObject.h */,
+				B0E1C69B090A775300A19814 /* CObject.cpp */,
+				B0E1C69E090A78E300A19814 /* CAutoreleasePool.h */,
+				B0E1C69F090A78E300A19814 /* CAutoreleasePool.cpp */,
+				B00485020972839400FA430D /* TCPointer.h */,
+				03DC0DB009793D7F00899E98 /* TCPointer.cpp */,
+				B0FC11CA098CDC1100FE654B /* CFile.h */,
+				B0FC11CB098CDC1100FE654B /* CFile.cpp */,
+				03874A2F0983DB1800ABB591 /* CFolder.h */,
+				03874A350983DBE600ABB591 /* CFolder.cpp */,
+			);
+			name = BasicTypes;
+			sourceTree = "<group>";
+		};
+		5A8CDD0A08EED1720068F2A5 /* Kernel */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7796FE84155DC02AAC07 /* main.cpp */,
+				B02CBF4E09A7805400B7D20A /* CApplication.h */,
+				B02CBF4F09A7805400B7D20A /* CApplication.cpp */,
+				B01466AF09C2ECB50011B7F3 /* CRunLoop.h */,
+				B01466B009C2ECB50011B7F3 /* CRunLoop.cpp */,
+			);
+			name = Kernel;
+			sourceTree = "<group>";
+		};
+		B0BFBF8B09A745D5009FA6DF /* Threading */ = {
+			isa = PBXGroup;
+			children = (
+				B0BFBF8C09A7461B009FA6DF /* CThread.h */,
+				B0BFBF8D09A7461B009FA6DF /* CThread.cpp */,
+				B0BFBF9F09A75FBC009FA6DF /* CMutex.h */,
+				B0BFBFA009A75FBC009FA6DF /* CMutex.cpp */,
+			);
+			name = Threading;
+			sourceTree = "<group>";
+		};
+		B0DACACE08F921F400EECF6E /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				B0DACACF08F9221300EECF6E /* CControlDelegate.h */,
+				B0DACAD008F9221300EECF6E /* CControlDelegate.cpp */,
+				54F5555108F95CD800C7D1F4 /* CButtonDelegate.h */,
+				54F5555208F95CD800C7D1F4 /* CButtonDelegate.cpp */,
+			);
+			name = Delegate;
+			sourceTree = "<group>";
+		};
+		C6859E8C029090F304C91782 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = doc;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B0BFC05D09A7691E009FA6DF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0BFC06B09A76932009FA6DF /* TCClass.h in Headers */,
+				B0BFC06C09A76933009FA6DF /* ClassDeclaration.h in Headers */,
+				B0BFC06D09A76934009FA6DF /* ClassImplementation.h in Headers */,
+				B0BFC06E09A76934009FA6DF /* IClass.h in Headers */,
+				B0BFC06F09A76935009FA6DF /* CClassFactory.h in Headers */,
+				B0BFC07109A76937009FA6DF /* CThread.h in Headers */,
+				B0BFC07309A76939009FA6DF /* CMutex.h in Headers */,
+				B0BFC07509A7693A009FA6DF /* CControlDelegate.h in Headers */,
+				B0BFC07909A76941009FA6DF /* Debug.h in Headers */,
+				B0BFC07B09A76942009FA6DF /* Constants.h in Headers */,
+				B0BFC07C09A76943009FA6DF /* Types.h in Headers */,
+				B0BFC07E09A76944009FA6DF /* CText.h in Headers */,
+				B0BFC08009A76946009FA6DF /* StdExtensions.h in Headers */,
+				B0BFC08109A76947009FA6DF /* CObject.h in Headers */,
+				B0BFC08509A7694A009FA6DF /* TCPointer.h in Headers */,
+				B0BFC08709A7694D009FA6DF /* CFile.h in Headers */,
+				B0BFC08909A7694F009FA6DF /* CFolder.h in Headers */,
+				B0BFC08B09A76951009FA6DF /* CControl.h in Headers */,
+				B0BFC08D09A7695A009FA6DF /* CWindow.h in Headers */,
+				B0BFC08F09A7695C009FA6DF /* CScreen.h in Headers */,
+				B0BFC09109A7695E009FA6DF /* CDragger.h in Headers */,
+				B0BFC09309A76965009FA6DF /* CTitleBar.h in Headers */,
+				B0BFC09509A76966009FA6DF /* CButton.h in Headers */,
+				B0BFC09709A76968009FA6DF /* CDialog.h in Headers */,
+				B0BFC09D09A76970009FA6DF /* GraphicControllerRegistration.h in Headers */,
+				B0BFC09E09A76973009FA6DF /* BasicGraphicControllers.h in Headers */,
+				B0BFC0A009A76974009FA6DF /* CTheme.h in Headers */,
+				B0BFC0A209A76977009FA6DF /* CNotificationCenter.h in Headers */,
+				B02CBF5209A7805400B7D20A /* CApplication.h in Headers */,
+				B014667F09C2EC630011B7F3 /* CAutoreleasePool.h in Headers */,
+				B011D9D109CD88BA002FC0B9 /* TCGraphicControllerClass.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* le */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+				8DD76F690486A84900D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+			};
+			dependencies = (
+			);
+			name = le;
+			productInstallPath = "$(HOME)/bin";
+			productName = le;
+			productReference = 8DD76F6C0486A84900D96B5E /* le */;
+			productType = "com.apple.product-type.tool";
+		};
+		B0BFC06109A7691E009FA6DF /* LE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0BFC06709A76921009FA6DF /* Build configuration list for PBXNativeTarget "LE" */;
+			buildPhases = (
+				B0BFC05D09A7691E009FA6DF /* Headers */,
+				B0BFC05E09A7691E009FA6DF /* Resources */,
+				B0BFC05F09A7691E009FA6DF /* Sources */,
+				B0BFC06009A7691E009FA6DF /* Frameworks */,
+				B0BFC20609A778B2009FA6DF /* Copy to System frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "LE-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LE;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = LE;
+			productName = LE;
+			productReference = B0BFC06209A7691E009FA6DF /* LE.framework */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.LE</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "le" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA460018CE2711CA2923 /* Debug */,
+				014CEA470018CE2711CA2923 /* Release */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* le */;
+			projectDirPath = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* le */,
+				B0BFC06109A7691E009FA6DF /* LE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B0BFC05E09A7691E009FA6DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0BFC0A409A7697B009FA6DF /* LE-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54D18E550907CF4100FBFF4F /* Debug.cpp in Sources */,
+				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
+				B0D24D5608E6A5E40060659F /* CWindow.cpp in Sources */,
+				B0D24D7708E6AF690060659F /* Types.cpp in Sources */,
+				B0D24E3D08E6DEF80060659F /* CScreen.cpp in Sources */,
+				B065A7A408E84979004747AB /* CDialog.cpp in Sources */,
+				B0DD026908E963B600C31582 /* CDragger.cpp in Sources */,
+				54F30DE708E9AC02008A8257 /* CTitleBar.cpp in Sources */,
+				54DB562C08EB0D120080DBEA /* CButton.cpp in Sources */,
+				B0D3CC0908EEB20000A64596 /* CControl.cpp in Sources */,
+				B0D3CC0D08EEB20000A64596 /* CText.cpp in Sources */,
+				B0DACAD208F9221300EECF6E /* CControlDelegate.cpp in Sources */,
+				54D18E5A0907CFC900FBFF4F /* CClassFactory.cpp in Sources */,
+				B0E1C69D090A775300A19814 /* CObject.cpp in Sources */,
+				B0E1C732090A871300A19814 /* CTheme.cpp in Sources */,
+				B0CE482A090BACBB000D73FD /* TCClass.cpp in Sources */,
+				B0CE49CC090BD291000D73FD /* BasicGraphicControllers.cpp in Sources */,
+				03DC09FB0976B97500899E98 /* CNotificationCenter.cpp in Sources */,
+				03DC0DB109793D7F00899E98 /* TCPointer.cpp in Sources */,
+				03874A360983DBE600ABB591 /* CFolder.cpp in Sources */,
+				B0FC11CD098CDC1100FE654B /* CFile.cpp in Sources */,
+				B0BFBF8F09A7461B009FA6DF /* CThread.cpp in Sources */,
+				B0BFBFA209A75FBC009FA6DF /* CMutex.cpp in Sources */,
+				B02CBF5109A7805400B7D20A /* CApplication.cpp in Sources */,
+				B0B973DA09AB8B36003FF907 /* CAutoreleasePool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0BFC05F09A7691E009FA6DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0BFC07009A76936009FA6DF /* CClassFactory.cpp in Sources */,
+				B0BFC07209A76938009FA6DF /* CThread.cpp in Sources */,
+				B0BFC07409A7693A009FA6DF /* CMutex.cpp in Sources */,
+				B0BFC07609A7693B009FA6DF /* CControlDelegate.cpp in Sources */,
+				B0BFC07A09A76941009FA6DF /* Debug.cpp in Sources */,
+				B0BFC07D09A76944009FA6DF /* Types.cpp in Sources */,
+				B0BFC07F09A76945009FA6DF /* CText.cpp in Sources */,
+				B0BFC08209A76948009FA6DF /* CObject.cpp in Sources */,
+				B0BFC08609A7694B009FA6DF /* TCPointer.cpp in Sources */,
+				B0BFC08809A7694E009FA6DF /* CFile.cpp in Sources */,
+				B0BFC08A09A76950009FA6DF /* CFolder.cpp in Sources */,
+				B0BFC08C09A7695A009FA6DF /* CControl.cpp in Sources */,
+				B0BFC08E09A7695B009FA6DF /* CWindow.cpp in Sources */,
+				B0BFC09009A7695D009FA6DF /* CScreen.cpp in Sources */,
+				B0BFC09209A7695F009FA6DF /* CDragger.cpp in Sources */,
+				B0BFC09409A76965009FA6DF /* CTitleBar.cpp in Sources */,
+				B0BFC09609A76967009FA6DF /* CButton.cpp in Sources */,
+				B0BFC09809A7696B009FA6DF /* CDialog.cpp in Sources */,
+				B0BFC09F09A76974009FA6DF /* BasicGraphicControllers.cpp in Sources */,
+				B0BFC0A109A76976009FA6DF /* CTheme.cpp in Sources */,
+				B0BFC0A309A7697A009FA6DF /* CNotificationCenter.cpp in Sources */,
+				B02CBF5309A7805400B7D20A /* CApplication.cpp in Sources */,
+				B014668009C2EC660011B7F3 /* CAutoreleasePool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = le;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = le;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LINKER_DISPLAYS_MANGLED_NAMES = NO;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		B0BFC06809A76921009FA6DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PFE_FILE_C_DIALECTS = "c c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "LE-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = LE;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		B0BFC06909A76921009FA6DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PFE_FILE_C_DIALECTS = "c c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "LE-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = LE;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "le" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0BFC06709A76921009FA6DF /* Build configuration list for PBXNativeTarget "LE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0BFC06809A76921009FA6DF /* Debug */,
+				B0BFC06909A76921009FA6DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
