@@ -3,9 +3,14 @@
 #include <iostream>
 #include <string>
 
-#if !defined __GNUC__
-#define __PRETTY_FUNCTION__ "_function_unknown_"
-#endif // !defined __GNUC__
+#if defined __GNUC__
+#define LE_PP_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#elif defined _MSC_VER
+#define LE_PP_PRETTY_FUNCTION __FUNCSIG__
+#else
+#define LE_PP_PRETTY_FUNCTION "_ unknown function name _"
+#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // ASSERTS
@@ -68,8 +73,8 @@ class _CLog
 
 #ifdef LOG
 
-#define ENTER_LOG _CLog log(__PRETTY_FUNCTION__, false);
-#define ENTER_LOG_QUIET _CLog log(__PRETTY_FUNCTION__, true);
+#define ENTER_LOG _CLog log(LE_PP_PRETTY_FUNCTION, false);
+#define ENTER_LOG_QUIET _CLog log(LE_PP_PRETTY_FUNCTION, true);
 
 #define IF_LOG(x) x
 

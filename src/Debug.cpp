@@ -12,7 +12,7 @@
 
 void _assert(bool expression, const char* strExression, unsigned line, const char* file, const CObject* object, const char* message)
 {
-	_CLog log(__PRETTY_FUNCTION__, true);
+	_CLog log(LE_PP_PRETTY_FUNCTION, true);
 
 	if(!expression)
 	{
