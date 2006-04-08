@@ -1,7 +1,7 @@
 #pragma once
 
+#include <pointer/TCPointer.h>
 #include "ClassDeclaration.h"
-#include "TCPointer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // CObject

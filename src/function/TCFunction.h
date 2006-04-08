@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <pointer/TCPointer.h>
 #include "base/TCFreeFunction.h"
 
 template <typename RetType, class TypeList>
@@ -12,8 +12,8 @@ class TCFunction
 		
 		}
 
-		TCFunction(const TCFunction& func)// :
-		//	mFunc(new TCFreeFunction<RetType, TypeList, FuncType>(func))
+		TCFunction(const TCFunction& func) :
+			mFunc(func.mFunc)
 		{
 		
 		}
@@ -49,5 +49,5 @@ class TCFunction
 		}
 
 	private:
-		std::auto_ptr<TIFunction<RetType, TypeList> > mFunc;
+		TCPointer<TIFunction<RetType, TypeList> > mFunc;
 };

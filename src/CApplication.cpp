@@ -9,7 +9,7 @@
 #include "CControlDelegate.h"
 #include "CNotificationCenter.h"
 #include "CFile.h"
-#include "CAutoreleasePool.h"
+#include <pointer/CAutoreleasePool.h>
 #include "Debug.h"
 
 static void initOpenGL()

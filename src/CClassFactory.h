@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TCPointer.h"
+#include <pointer/TCPointer.h>
 
 class CObject;
 

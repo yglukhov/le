@@ -55,10 +55,10 @@ class _CLog
 		std::ostream& operator << (T obj)
 		{
 			*sLogStream << sWhiteSpace;
-			if(mQuiet)
-			{
-				*sLogStream << mFunc << ": ";
-			}
+			//if(mQuiet)
+			//{
+			//	*sLogStream /*<< mFunc */<< ": ";
+			//}
 			return (*sLogStream << obj);
 		}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TSFunction.h"
+#include "TSFunctionTraits.h"
 #include "base/TSBind.h"
 
 #define bindTo(bindToIndex) TSBindToIndexedParam<(bindToIndex)>()
@@ -8,12 +9,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functor
-template <typename RetType, class FuncParamList, class RealTypeList>
+template <typename FunctionType, class RealTypeList>
 class TCBind
 {
-	typedef TSFunction<RetType, FuncParamList> TSFuncType;
-	typedef typename TSFuncType::function FunctionType;
+	typedef TSFunctionTraits<FunctionType> TraitsType;
+	typedef typename TraitsType::ParamList FuncParamList;
+	typedef typename TraitsType::RetType RetType;
 	typedef TCTuple<RealTypeList> TupleType;
+	typedef TSFunction<RetType, FuncParamList> TSFuncType;
 
 public:
 	TCBind(FunctionType func) : mFunction(func)
@@ -35,7 +38,7 @@ public:
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
 
-		return TSFuncType::callWithTuple(mFunction, tuple);
+		return TraitsType::callWithTuple(mFunction, tuple);
 	}
 
 	template <typename T0, typename T1>
@@ -48,7 +51,7 @@ public:
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
 
-		return TSFuncType::callWithTuple(mFunction, tuple);
+		return TraitsType::callWithTuple(mFunction, tuple);
 	}
 
 	template <typename T0, typename T1, typename T2>
@@ -62,7 +65,7 @@ public:
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
 
-		return TSFuncType::callWithTuple(mFunction, tuple);
+		return TraitsType::callWithTuple(mFunction, tuple);
 	}
 
 	template <typename T0, typename T1, typename T2, typename T3>
@@ -77,7 +80,7 @@ public:
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
 
-		return TSFuncType::callWithTuple(mFunction, tuple);
+		return TraitsType::callWithTuple(mFunction, tuple);
 	}
 
 private:
@@ -130,26 +133,35 @@ private:
 		TupleType mTuple;
 };
 
-template <typename RetType>
-TCBind<RetType, TSTypeList<>, TSTypeList<> > bind(RetType(*func)())
+template <typename FunctionType>
+TCBind<FunctionType, TSTypeList<> > bind(FunctionType func)
 {
-	return TCBind<RetType, TSTypeList<>, TSTypeList<> >(func);
+	return TCBind<FunctionType, TSTypeList<> >(func);
 }
 
-template <typename RetType, typename T0, typename B0>
-TCBind<RetType, TSTypeList<T0>, TSTypeList<B0> > bind(RetType(*func)(T0), B0 b0)
+template <typename FunctionType, typename B0>
+TCBind<FunctionType, TSTypeList<B0> > bind(FunctionType func, B0 b0)
 {
-	TCBind<RetType, TSTypeList<T0>, TSTypeList<B0> > result(func);
+	TCBind<FunctionType, TSTypeList<B0> > result(func);
 	result.mTuple.template value<0>() = b0;
 	return result;
 }
 
-template <typename RetType, typename T0, typename T1, typename B0, typename B1>
-TCBind<RetType, TSTypeList<T0, T1>, TSTypeList<B0, B1> > bind(RetType(*func)(T0, T1), B0 b0, B1 b1)
+template <typename FunctionType, typename B0, typename B1>
+TCBind<FunctionType, TSTypeList<B0, B1> > bind(FunctionType func, B0 b0, B1 b1)
 {
-	TCBind<RetType, TSTypeList<T0, T1>, TSTypeList<B0, B1> > result(func);
+	TCBind<FunctionType, TSTypeList<B0, B1> > result(func);
 	result.mTuple.template value<0>() = b0;
 	result.mTuple.template value<1>() = b1;
 	return result;
 }
 
+template <typename FunctionType, typename B0, typename B1, typename B2>
+TCBind<FunctionType, TSTypeList<B0, B1, B2> > bind(FunctionType func, B0 b0, B1 b1, B2 b2)
+{
+	TCBind<FunctionType, TSTypeList<B0, B1, B2> > result(func);
+	result.mTuple.template value<0>() = b0;
+	result.mTuple.template value<1>() = b1;
+	result.mTuple.template value<2>() = b2;
+	return result;
+}
