@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\libs&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\libs&quot;;&quot;$(ProjectDir)\..\..\src&quot;"
 				PreprocessorDefinitions="WIN32;DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\libs&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\libs&quot;;&quot;$(ProjectDir)\..\..\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				DisableLanguageExtensions="true"
@@ -193,6 +193,74 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="function"
+			>
+			<File
+				RelativePath="..\..\src\function\TCBind.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\function\TCFunction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\function\TSFunction.h"
+				>
+			</File>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\..\src\function\base\TCFreeFunction.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\function\base\TIFunction.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\function\base\TSBind.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="typelist"
+			>
+			<File
+				RelativePath="..\..\src\typelist\TSTypeList.h"
+				>
+			</File>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\..\src\typelist\base\TSTypeListBase.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="tuple"
+			>
+			<File
+				RelativePath="..\..\src\tuple\TCTuple.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\tuple\TCUnitTuple.h"
+				>
+			</File>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\..\src\tuple\base\TSTuple.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath="..\..\src\BasicGraphicControllers.cpp"
 			>
