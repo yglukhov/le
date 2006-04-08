@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tuple/TCTuple.h>
+
 template <typename RetType, unsigned length>
 struct TSFunctionCallWithTuple;
 
@@ -48,3 +50,7 @@ f_declare_end;
 f_declare_start(5)
 t(0), t(1), t(2), t(3), t(4)
 f_declare_end;
+
+#undef f_declare_start
+#undef t
+#undef f_declare_end

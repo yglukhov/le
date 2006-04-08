@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TIFunction.h"
+#include "TSFunctionTraits.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward Declarations
@@ -10,13 +11,14 @@ class TCFreeFunctionBase;
 ////////////////////////////////////////////////////////////////////////////////
 // TCFreeFunction class declaration
 ////////////////////////////////////////////////////////////////////////////////
-template <typename RetType, class TypeList, typename FunctionType>
+template <typename FunctionType, typename RetType = TSFunctionTraits<FunctionType>::RetType,
+						typename ParamList = TSFunctionTraits<FunctionType>::ParamList>
 class TCFreeFunction :
-	public TCFreeFunctionBase<RetType, TypeList, TypeList::length, FunctionType>
+	public TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType>
 {
 	public:
 		inline TCFreeFunction(FunctionType func) :
-			TCFreeFunctionBase<RetType, TypeList, TypeList::length, FunctionType>(func)
+			TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType>(func)
 		{
 
 		}

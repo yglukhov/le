@@ -20,9 +20,9 @@ class TCFunction
 
 		template <typename FuncType>
 		inline TCFunction(FuncType func) :
-			mFunc(new TCFreeFunction<RetType, TypeList, FuncType>(func))
+			mFunc(new TCFreeFunction<FuncType, RetType, TypeList>(func))
 		{
-		
+
 		}
 
 		inline RetType operator()()

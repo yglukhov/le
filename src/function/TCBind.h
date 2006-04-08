@@ -1,6 +1,5 @@
 #pragma once
 
-#include "TSFunction.h"
 #include "TSFunctionTraits.h"
 #include "base/TSBind.h"
 
@@ -8,7 +7,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Functor
+// TCBind class declaration.
 template <typename FunctionType, class RealTypeList>
 class TCBind
 {
@@ -16,10 +15,9 @@ class TCBind
 	typedef typename TraitsType::ParamList FuncParamList;
 	typedef typename TraitsType::RetType RetType;
 	typedef TCTuple<RealTypeList> TupleType;
-	typedef TSFunction<RetType, FuncParamList> TSFuncType;
 
 public:
-	TCBind(FunctionType func) : mFunction(func)
+	inline TCBind(FunctionType func) : mFunction(func)
 	{
 
 	}
