@@ -22,8 +22,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 0>
 {
 	typedef R(*f)();
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func();
 	}
@@ -33,8 +33,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 1>
 {
 	typedef R(*f)(p(0));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0));
 	}
@@ -44,8 +44,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 2>
 {
 	typedef R(*f)(p(0), p(1));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1));
 	}
@@ -55,8 +55,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 3>
 {
 	typedef R(*f)(p(0), p(1), p(2));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2));
 	}
@@ -66,8 +66,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 4>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3));
 	}
@@ -77,8 +77,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 5>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4));
 	}
@@ -88,8 +88,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 6>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5));
 	}
@@ -99,8 +99,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 7>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6));
 	}
@@ -110,8 +110,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 8>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7));
 	}
@@ -121,8 +121,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 9>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8));
 	}
@@ -132,8 +132,8 @@ template <typename R, class L>
 struct _TSFunction <R, L, 10>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9));
 	}
@@ -144,8 +144,8 @@ struct _TSFunction <R, L, 11>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10));
@@ -157,8 +157,8 @@ struct _TSFunction <R, L, 12>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11));
@@ -170,8 +170,8 @@ struct _TSFunction <R, L, 13>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12));
@@ -183,8 +183,8 @@ struct _TSFunction <R, L, 14>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13));
@@ -196,8 +196,8 @@ struct _TSFunction <R, L, 15>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14));
@@ -209,8 +209,8 @@ struct _TSFunction <R, L, 16>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15));
@@ -222,8 +222,8 @@ struct _TSFunction <R, L, 17>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16));
@@ -235,8 +235,8 @@ struct _TSFunction <R, L, 18>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17));
@@ -248,8 +248,8 @@ struct _TSFunction <R, L, 19>
 {
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18));
@@ -262,8 +262,8 @@ struct _TSFunction <R, L, 20>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -277,8 +277,8 @@ struct _TSFunction <R, L, 21>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -292,8 +292,8 @@ struct _TSFunction <R, L, 22>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -307,8 +307,8 @@ struct _TSFunction <R, L, 23>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -322,8 +322,8 @@ struct _TSFunction <R, L, 24>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -337,8 +337,8 @@ struct _TSFunction <R, L, 25>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -352,8 +352,8 @@ struct _TSFunction <R, L, 26>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -367,8 +367,8 @@ struct _TSFunction <R, L, 27>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -382,8 +382,8 @@ struct _TSFunction <R, L, 28>
 	typedef R(*f)(p(0), p(1), p(2), p(3), p(4), p(5), p(6), p(7), p(8), p(9), 
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -398,8 +398,8 @@ struct _TSFunction <R, L, 29>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -415,8 +415,8 @@ struct _TSFunction <R, L, 30>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -432,8 +432,8 @@ struct _TSFunction <R, L, 31>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -449,8 +449,8 @@ struct _TSFunction <R, L, 32>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -466,8 +466,8 @@ struct _TSFunction <R, L, 33>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -483,8 +483,8 @@ struct _TSFunction <R, L, 34>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -500,8 +500,8 @@ struct _TSFunction <R, L, 35>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -517,8 +517,8 @@ struct _TSFunction <R, L, 36>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -534,8 +534,8 @@ struct _TSFunction <R, L, 37>
 			p(10), p(11), p(12), p(13), p(14), p(15), p(16), p(17), p(18), 
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -552,8 +552,8 @@ struct _TSFunction <R, L, 38>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -571,8 +571,8 @@ struct _TSFunction <R, L, 39>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -590,8 +590,8 @@ struct _TSFunction <R, L, 40>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -609,8 +609,8 @@ struct _TSFunction <R, L, 41>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -628,8 +628,8 @@ struct _TSFunction <R, L, 42>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -647,8 +647,8 @@ struct _TSFunction <R, L, 43>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -666,8 +666,8 @@ struct _TSFunction <R, L, 44>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -685,8 +685,8 @@ struct _TSFunction <R, L, 45>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -704,8 +704,8 @@ struct _TSFunction <R, L, 46>
 			p(19), p(20), p(21), p(22), p(23), p(24), p(25), p(26), p(27), 
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44), p(45));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -724,8 +724,8 @@ struct _TSFunction <R, L, 47>
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44), p(45), 
 			p(46));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -745,8 +745,8 @@ struct _TSFunction <R, L, 48>
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44), p(45), 
 			p(46), p(47));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -766,8 +766,8 @@ struct _TSFunction <R, L, 49>
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44), p(45), 
 			p(46), p(47), p(48));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 
@@ -787,8 +787,8 @@ struct _TSFunction <R, L, 50>
 			p(28), p(29), p(30), p(31), p(32), p(33), p(34), p(35), p(36), 
 			p(37), p(38), p(39), p(40), p(41), p(42), p(43), p(44), p(45), 
 			p(46), p(47), p(48), p(49));
-	template <class Tuple>
-	static inline R c(f func, Tuple& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R c(FuncType func, Tuple& tuple)
 	{
 		return func(t(0), t(1), t(2), t(3), t(4), t(5), t(6), t(7), t(8), t(9), 
 			t(10), t(11), t(12), t(13), t(14), t(15), t(16), t(17), t(18), 

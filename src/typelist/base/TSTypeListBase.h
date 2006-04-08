@@ -54,8 +54,7 @@ struct _TSTypeListTypeAt<_TSTypeListNode<T, U>, index>
 
 ////////////////////////////////////////////////////////////////////////////////
 // TypeAtNonStrict
-template <class TListNode, unsigned int index,
-	typename DefaultType = _SNullType>
+template <class TListNode, unsigned int index, typename DefaultType>
 struct _TSTypeListTypeAtNonStrict
 {
 	typedef DefaultType _result;

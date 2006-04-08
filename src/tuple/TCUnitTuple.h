@@ -5,7 +5,7 @@
 template <class TTypeList, template <typename, unsigned int> class TUnit>
 class TCUnitTuple
 {
-	TSTuple<typename TTypeList::list, TUnit> mTuple;
+	TSTuple<typename TTypeList::_headNode, TUnit> mTuple;
 
 	public:
 		template <unsigned int index>

@@ -54,6 +54,13 @@ struct TSTypeList
 	{
 		typedef typename _TSTypeListTypeAt<_headNode, index>::_result result;
 	};
+
+	template <unsigned int index, typename TDefaultType = _SNullType>
+	struct TypeAtNonStrict
+	{
+		typedef typename _TSTypeListTypeAtNonStrict<_headNode, index,
+												TDefaultType>::_result result;
+	};
 };
 
 ///////////////////////////////////////////////////////////////////////////////
