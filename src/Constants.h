@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glut/glut.h"
+#include <glut/le_glut.h>
 
 
 #define SET_BIT(x) (1 << (x))
