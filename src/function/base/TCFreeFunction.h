@@ -11,8 +11,8 @@ class TCFreeFunctionBase;
 ////////////////////////////////////////////////////////////////////////////////
 // TCFreeFunction class declaration
 ////////////////////////////////////////////////////////////////////////////////
-template <typename FunctionType, typename RetType = TSFunctionTraits<FunctionType>::RetType,
-						typename ParamList = TSFunctionTraits<FunctionType>::ParamList>
+template <typename FunctionType, typename RetType = typename TSFunctionTraits<FunctionType>::RetType,
+						typename ParamList = typename TSFunctionTraits<FunctionType>::ParamList>
 class TCFreeFunction :
 	public TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType>
 {
@@ -62,7 +62,7 @@ class TCFreeFunctionBase <RetType, TypeList, paramCount, FuncType> :	\
 
 
 #define p(index) param##index
-#define t(index) typename TypeList::TypeAt<index>::result p(index)
+#define t(index) typename TypeList::template TypeAt<index>::result p(index)
 
 ////////////////////////////////////////////////////////////////////////////////
 // TCFreeFunctionBase specialization. Limitations are equal to LE_PP_FREEFUNCTION_LIMIT
