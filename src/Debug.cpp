@@ -12,7 +12,7 @@
 
 void _assert(bool expression, const char* strExression, unsigned line, const char* file, const CObject* object, const char* message)
 {
-	_CLog log(LE_PP_PRETTY_FUNCTION, true);
+	std::ostream& log = CLogEntry::defaultStream();
 
 	if(!expression)
 	{
@@ -31,34 +31,3 @@ void _assert(bool expression, const char* strExression, unsigned line, const cha
 
 #endif // DEBUG
 
-
-////////////////////////////////////////////////////////////////////////////////
-// LOG
-////////////////////////////////////////////////////////////////////////////////
-std::ostream* _CLog::sLogStream = NULL;
-std::string _CLog::sWhiteSpace;
-
-_CLog::_CLog(const std::string& func, bool quiet) : mFunc(func), mQuiet(quiet)
-{
-	if(!sLogStream)
-	{
-		CFile* file = CFile::createWithPath("log.txt");
-		// TODO: remove this hack
-		sLogStream = (file)?(static_cast<std::ostream*>(static_cast<void*>(file))):(&std::cout);
-	}
-
-	if(!mQuiet)
-	{
-		*sLogStream << sWhiteSpace << mFunc << '\n' << sWhiteSpace << '{' << std::endl;
-		sWhiteSpace.push_back('\t');
-	}
-}
-
-_CLog::~_CLog()
-{
-	if(!mQuiet)
-	{
-		sWhiteSpace.erase(0, 1);
-		*sLogStream << sWhiteSpace << '}' << std::endl;
-	}
-}
