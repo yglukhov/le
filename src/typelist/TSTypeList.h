@@ -98,7 +98,7 @@ struct TSTypeList
 		typedef TSTypeList<typename _TSTypeListEraseAll<_headNode, T>::_result> result;
 	};
 
-	template <template <typename T1, typename T2> TSelector>
+	template <template <typename T1, typename T2> class TSelector>
 	struct Sort
 	{
 		typedef TSTypeList<typename _TSTypeListSort<_headNode, TSelector>::_result> result;

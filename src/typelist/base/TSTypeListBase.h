@@ -216,17 +216,17 @@ struct _TSTypeListAppend<_TSTypeListNode<Head, Tail>, T>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Sort
-template <class TListNode, template <typename T1, typename T2> TSelector>
+template <class TListNode, template <typename T1, typename T2> class TSelector>
 struct _TSTypeListSort;
 
-template <template <typename T1, typename T2> TSelector>
+template <template <typename T1, typename T2> class TSelector>
 struct _TSTypeListSort<_SNullType, TSelector>
 {
 	typedef _SNullType _result;
 };
 
 template <typename U, typename V, typename C,
-			template <typename T1, typename T2> TSelector> >
+			template <typename T1, typename T2> class TSelector>
 struct _TSTypeListSort<_TSTypeListNode<U, _TSTypeListNode<V, C> >, TSelector>
 {
 	typedef _SNullType _result;
