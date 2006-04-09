@@ -1,6 +1,7 @@
 #pragma once
 
 #include "base/TSTypeListBase.h"
+#include "base/TSTypeListAppendTraits.h"
 
 
 template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNullType, 
@@ -22,7 +23,8 @@ template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNu
 		typename T48 = _SNullType, typename T49 = _SNullType>
 struct TSTypeList
 {
-	typedef _TSTypeListNode<T0, _TSTypeListNode<T1, _TSTypeListNode<T2, 
+	typedef typename TSTypeListTraits<
+		_TSTypeListNode<T0, _TSTypeListNode<T1, _TSTypeListNode<T2, 
 		_TSTypeListNode<T3, _TSTypeListNode<T4, _TSTypeListNode<T5, 
 		_TSTypeListNode<T6, _TSTypeListNode<T7, _TSTypeListNode<T8, 
 		_TSTypeListNode<T9, _TSTypeListNode<T10, _TSTypeListNode<T11, 
@@ -40,14 +42,16 @@ struct TSTypeList
 		_TSTypeListNode<T45, _TSTypeListNode<T46, _TSTypeListNode<T47, 
 		_TSTypeListNode<T48, _TSTypeListNode<T49, _SNullType> > > > > > > > >
 		> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
-		> > > > > > _dirtyList;
+		> > > > > > >::node _dirtyList;
 
-	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::result _headNode;
+	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
 
 	enum
 	{
 		length = _TSTypeListLength<_headNode>::_result
 	};
+
+	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> uniqueItems;
 
 	template <unsigned int index>
 	struct TypeAt
@@ -60,6 +64,44 @@ struct TSTypeList
 	{
 		typedef typename _TSTypeListTypeAtNonStrict<_headNode, index,
 												TDefaultType>::_result result;
+	};
+
+	template <typename T>
+	struct IndexOf
+	{
+		enum { result = _TSTypeListIndexOf<_headNode, T>::_result };
+	};
+
+	template <typename T>
+	struct PushBack
+	{
+		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
+				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
+	};
+
+	template <typename T>
+	struct PushFront
+	{
+		typedef TSTypeList<typename _TSTypeListAppend<
+			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result> result;
+	};
+
+	template <typename T>
+	struct Erase
+	{
+		typedef TSTypeList<typename _TSTypeListErase<_headNode, T>::_result> result;
+	};
+
+	template <typename T>
+	struct EraseAll
+	{
+		typedef TSTypeList<typename _TSTypeListEraseAll<_headNode, T>::_result> result;
+	};
+
+	template <template <typename T1, typename T2> TSelector>
+	struct Sort
+	{
+		typedef TSTypeList<typename _TSTypeListSort<_headNode, TSelector>::_result> result;
 	};
 };
 
