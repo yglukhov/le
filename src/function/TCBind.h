@@ -24,7 +24,7 @@ public:
 
 	RetType operator()()
 	{
-		return TSFuncType::callWithTuple(mFunction, mTuple);
+		return TraitsType::callWithTuple(mFunction, mTuple);
 	}
 
 	template <typename T0>
@@ -103,7 +103,7 @@ private:
 													  TCTuple<FuncParamList>& funcTuple,
 													  Bool2Type<true> /* inBands */)
 	{
-		typedef TSParamTraits<typename RealTypeList::TypeAt<index>::result> Traits;
+		typedef TSParamTraits<typename RealTypeList::template TypeAt<index>::result> Traits;
 		__copyFromParamToFuncTuple<index, Traits::bind, TParamTypeList>(paramTuple, funcTuple,
 															Bool2Type<Traits::bind == -1>());
 		copyFromParamToFuncTuple<index + 1, TParamTypeList>(paramTuple, funcTuple);
