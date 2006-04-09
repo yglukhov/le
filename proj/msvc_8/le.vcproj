@@ -486,6 +486,10 @@
 						RelativePath="..\..\src\typelist\base\TSTypeListBase.h"
 						>
 					</File>
+					<File
+						RelativePath="..\..\src\typelist\base\TSTypeListSorting.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

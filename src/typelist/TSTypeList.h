@@ -2,6 +2,7 @@
 
 #include "base/TSTypeListBase.h"
 #include "base/TSTypeListAppendTraits.h"
+#include "base/TSTypeListSorting.h"
 
 
 template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNullType, 
@@ -98,10 +99,22 @@ struct TSTypeList
 		typedef TSTypeList<typename _TSTypeListEraseAll<_headNode, T>::_result> result;
 	};
 
-	template <template <typename T1, typename T2> class TPredicate>
+	template <template <typename T1, typename T2> class TPredicate, bool ascending>
 	struct Sort
 	{
-		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate>::_result> result;
+		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, ascending>::_result> result;
+	};
+
+	template <template <typename T1, typename T2> class TPredicate>
+	struct SortAsc
+	{
+		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, true>::_result> result;
+	};
+
+	template <template <typename T1, typename T2> class TPredicate>
+	struct SortDes
+	{
+		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, false>::_result> result;
 	};
 };
 

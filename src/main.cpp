@@ -1,5 +1,5 @@
 
-#define FUNCTORS_TESTING 1
+#define FUNCTORS_TESTING 0
 
 #if FUNCTORS_TESTING
 
@@ -30,7 +30,7 @@ struct Predicate
 template <int i, int j>
 struct Predicate <i2t<i>, i2t<j> >
 {
-	enum { result = (i < j)?(1):((i > j)?(-1):(0)) };
+	enum { result = (i < j)?(-1):((i > j)?(1):(0)) };
 };
 
 int main(int argc, char * const argv[])
@@ -46,8 +46,9 @@ int main(int argc, char * const argv[])
 
 	std::cout << "Typelist sorting" << std::endl;
 	
-	typedef TSTypeList<i2t<3>, i2t<6>, i2t<2>, i2t<5>, i2t<7>, i2t<9>, i2t<0>, i2t<-30> > unsortedList;
-	typedef unsortedList::Sort<Predicate>::result sortedList;
+	typedef TSTypeList<i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<-1>, i2t<-2>,
+						i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<-1>, i2t<-2>, i2t<-3> > unsortedList;
+	typedef unsortedList::SortDes<Predicate>::result sortedList;
 
 	unsortedList::TypeAt<0>::result::f();
 	unsortedList::TypeAt<1>::result::f();
@@ -57,7 +58,15 @@ int main(int argc, char * const argv[])
 	unsortedList::TypeAt<5>::result::f();
 	unsortedList::TypeAt<6>::result::f();
 	unsortedList::TypeAt<7>::result::f();
-//	unsortedList::TypeAt<8>::result::f();
+	unsortedList::TypeAt<8>::result::f();
+	unsortedList::TypeAt<9>::result::f();
+	unsortedList::TypeAt<10>::result::f();
+	unsortedList::TypeAt<11>::result::f();
+	unsortedList::TypeAt<12>::result::f();
+	unsortedList::TypeAt<13>::result::f();
+	unsortedList::TypeAt<14>::result::f();
+	unsortedList::TypeAt<15>::result::f();
+	unsortedList::TypeAt<16>::result::f();
 
 	std::cout << "---------" << std::endl;
 
@@ -69,7 +78,16 @@ int main(int argc, char * const argv[])
 	sortedList::TypeAt<5>::result::f();
 	sortedList::TypeAt<6>::result::f();
 	sortedList::TypeAt<7>::result::f();
-//	sortedList::TypeAt<8>::result::f();
+	sortedList::TypeAt<8>::result::f();
+	sortedList::TypeAt<9>::result::f();
+	sortedList::TypeAt<10>::result::f();
+	sortedList::TypeAt<11>::result::f();
+	sortedList::TypeAt<12>::result::f();
+	sortedList::TypeAt<13>::result::f();
+	sortedList::TypeAt<14>::result::f();
+	sortedList::TypeAt<15>::result::f();
+	sortedList::TypeAt<16>::result::f();
+
 	return 1;
 }
 
