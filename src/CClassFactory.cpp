@@ -1,6 +1,6 @@
 #include "CClassFactory.h"
 #include "IClass.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 #include "StdExtensions.h"
 
 #include <map>

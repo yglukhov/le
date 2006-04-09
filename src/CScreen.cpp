@@ -4,7 +4,7 @@
 
 #include "CScreen.h"
 #include "CDragger.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 #include "StdExtensions.h"
 #include "ClassImplementation.h"
 

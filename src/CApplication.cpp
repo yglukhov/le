@@ -10,7 +10,7 @@
 #include "CNotificationCenter.h"
 #include "CFile.h"
 #include <pointer/CAutoreleasePool.h>
-#include "Debug.h"
+#include <debug/Debug.h>
 
 static void initOpenGL()
 {

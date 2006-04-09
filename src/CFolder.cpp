@@ -1,5 +1,5 @@
 #include "CFolder.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 
 CFolder::CFolder()
 #if !defined _WIN32

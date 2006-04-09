@@ -1,6 +1,6 @@
 #include "CDialog.h"
 #include "CTitleBar.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 #include "ClassImplementation.h"
 #include "CScreen.h"
 

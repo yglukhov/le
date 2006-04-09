@@ -1,6 +1,6 @@
 #include "Types.h"
 #include "CNotificationCenter.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 
 #include <algorithm>
 

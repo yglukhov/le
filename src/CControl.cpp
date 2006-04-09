@@ -1,7 +1,7 @@
 #include "CControl.h"
 
 
-#include "Debug.h"
+#include <debug/Debug.h>
 #include "CScreen.h"
 #include "CControlDelegate.h"
 #include "ClassImplementation.h"

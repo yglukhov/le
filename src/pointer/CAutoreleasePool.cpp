@@ -1,5 +1,5 @@
 #include "CAutoreleasePool.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 
 static CAutoreleasePool* _currentPool = NULL;
 

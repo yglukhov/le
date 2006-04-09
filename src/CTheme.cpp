@@ -1,5 +1,5 @@
 #include "CTheme.h"
-#include "Debug.h"
+#include <debug/Debug.h>
 #include "IClass.h"
 #include "CControl.h"
 #include "CClassFactory.h"
