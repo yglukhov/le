@@ -23,7 +23,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		//////////////////////////////////////////////////////////////////////////
 		// value<index>() - return a reference to the object in the tuple at index
 		template <unsigned index>
-		typename TTypeList::TypeAt<index>::result& value()
+		typename TTypeList::template TypeAt<index>::result& value()
 		{
 			return Super::template unit<index>().mValue;
 		}

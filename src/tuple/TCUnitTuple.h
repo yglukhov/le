@@ -9,8 +9,8 @@ class TCUnitTuple
 
 	public:
 		template <unsigned int index>
-		inline TUnit<typename TTypeList::TypeAt<index>::result, index>& unit()
+		inline TUnit<typename TTypeList::template TypeAt<index>::result, index>& unit()
 		{
-			return static_cast<TUnit<typename TTypeList::TypeAt<index>::result, index>&>(mTuple);
+			return static_cast<TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
 		}
 };
