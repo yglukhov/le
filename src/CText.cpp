@@ -1,6 +1,6 @@
 #include "CText.h"
 #include "Types.h"
-#include "glut/glut.h"
+#include <glut/le_glut.h>
 
 CText::CText() :
 	mFormat(0)

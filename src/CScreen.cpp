@@ -1,4 +1,4 @@
-#include "glut/glut.h"
+#include <glut/le_glut.h>
 
 #include <map>
 

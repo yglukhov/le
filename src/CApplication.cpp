@@ -1,6 +1,6 @@
 #include "CApplication.h"
 
-#include "glut/glut.h"
+#include <glut/le_glut.h>
 
 #include "CScreen.h"
 #include "CDialog.h"
