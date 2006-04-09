@@ -1,7 +1,6 @@
 #include "CDialog.h"
 #include "CTitleBar.h"
 #include <debug/Debug.h>
-#include "ClassImplementation.h"
 #include "CScreen.h"
 
 IMPLEMENT_RUNTIME_CLASS(CDialog);

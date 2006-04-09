@@ -1,8 +1,6 @@
 
 
 #include "CButton.h"
-
-#include "ClassImplementation.h"
 #include "CScreen.h"
 
 IMPLEMENT_RUNTIME_CLASS(CButton);

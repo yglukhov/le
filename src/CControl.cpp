@@ -4,7 +4,6 @@
 #include <debug/Debug.h>
 #include "CScreen.h"
 #include "CControlDelegate.h"
-#include "ClassImplementation.h"
 #include "CTheme.h"
 
 IMPLEMENT_RUNTIME_CLASS(CControl);

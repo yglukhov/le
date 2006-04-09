@@ -1,7 +1,6 @@
 #include "CWindow.h"
 #include "CScreen.h"
 #include "StdExtensions.h"
-#include "ClassImplementation.h"
 #include "CTheme.h"
 
 

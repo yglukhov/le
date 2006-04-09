@@ -1,9 +1,7 @@
 
 #include "CTitleBar.h"
-
 #include "CButton.h"
 #include "CText.h"
-#include "ClassImplementation.h"
 #include "CScreen.h"
 
 IMPLEMENT_RUNTIME_CLASS(CTitleBar);

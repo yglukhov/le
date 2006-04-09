@@ -8,7 +8,7 @@
 #ifdef DEBUG
 
 #include "CObject.h"
-#include "IClass.h"
+
 
 void _assert(bool expression, const char* strExression, unsigned line, const char* file, const CObject* object, const char* message)
 {

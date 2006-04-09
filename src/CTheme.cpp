@@ -1,9 +1,7 @@
 #include "CTheme.h"
 #include <debug/Debug.h>
-#include "IClass.h"
 #include "CControl.h"
-#include "CClassFactory.h"
-#include "ClassImplementation.h"
+#include <class/CClassFactory.h>
 #include "BasicGraphicControllers.h"
 #include <list>
 

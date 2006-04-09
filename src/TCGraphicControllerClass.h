@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TCClass.h"
+#include <class/TCClass.h>
 
 template <class T>
 class TCGraphicControllerClass : public TCClass<T>

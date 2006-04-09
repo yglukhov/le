@@ -245,14 +245,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\CClassFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CClassFactory.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\CControl.cpp"
 				>
 			</File>
@@ -298,14 +290,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CFolder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ClassDeclaration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ClassImplementation.h"
 				>
 			</File>
 			<File
@@ -389,23 +373,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\IClass.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\StdExtensions.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\TCClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\TCClass.h"
 				>
 			</File>
 			<File
@@ -577,6 +549,26 @@
 				</File>
 				<File
 					RelativePath="..\..\src\debug\Debug.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="class"
+				>
+				<File
+					RelativePath="..\..\src\class\CClassFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\class\CClassFactory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\class\TCClass.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\class\TCClass.h"
 					>
 				</File>
 			</Filter>

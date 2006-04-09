@@ -1,10 +1,10 @@
 #include "CClassFactory.h"
-#include "IClass.h"
+#include "CObject.h"
 #include <debug/Debug.h>
-#include "StdExtensions.h"
 
 #include <map>
 #include <string>
+
 
 typedef std::map<const std::string, IClass*> CClassMap;
 

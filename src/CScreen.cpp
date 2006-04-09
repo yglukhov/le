@@ -6,7 +6,6 @@
 #include "CDragger.h"
 #include <debug/Debug.h>
 #include "StdExtensions.h"
-#include "ClassImplementation.h"
 
 IMPLEMENT_RUNTIME_CLASS(CScreen);
 
