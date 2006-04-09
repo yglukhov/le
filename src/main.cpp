@@ -12,6 +12,27 @@ void f(int a)
 	std::cout << "f(" << a << ");" << std::endl;
 }
 
+template <int i>
+struct i2t
+{
+	static void f()
+	{
+		std::cout << i << std::endl;
+	}
+};
+
+template <typename T1, typename T2>
+struct Predicate
+{
+
+};
+
+template <int i, int j>
+struct Predicate <i2t<i>, i2t<j> >
+{
+	enum { result = (i < j)?(1):((i > j)?(-1):(0)) };
+};
+
 int main(int argc, char * const argv[])
 {
 	TCFunction<void, TSTypeList<int> > func1 = f;
@@ -23,6 +44,32 @@ int main(int argc, char * const argv[])
 	TCFunction<void, TSTypeList<int> > func3 = bind(func2, 1, 5.0f, bindTo(0));
 	func3(9);
 
+	std::cout << "Typelist sorting" << std::endl;
+	
+	typedef TSTypeList<i2t<3>, i2t<6>, i2t<2>, i2t<5>, i2t<7>, i2t<9>, i2t<0>, i2t<-30> > unsortedList;
+	typedef unsortedList::Sort<Predicate>::result sortedList;
+
+	unsortedList::TypeAt<0>::result::f();
+	unsortedList::TypeAt<1>::result::f();
+	unsortedList::TypeAt<2>::result::f();
+	unsortedList::TypeAt<3>::result::f();
+	unsortedList::TypeAt<4>::result::f();
+	unsortedList::TypeAt<5>::result::f();
+	unsortedList::TypeAt<6>::result::f();
+	unsortedList::TypeAt<7>::result::f();
+//	unsortedList::TypeAt<8>::result::f();
+
+	std::cout << "---------" << std::endl;
+
+	sortedList::TypeAt<0>::result::f();
+	sortedList::TypeAt<1>::result::f();
+	sortedList::TypeAt<2>::result::f();
+	sortedList::TypeAt<3>::result::f();
+	sortedList::TypeAt<4>::result::f();
+	sortedList::TypeAt<5>::result::f();
+	sortedList::TypeAt<6>::result::f();
+	sortedList::TypeAt<7>::result::f();
+//	sortedList::TypeAt<8>::result::f();
 	return 1;
 }
 
