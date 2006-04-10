@@ -2,6 +2,7 @@
 
 #include "CControl.h"
 #include <list>
+#include "CFace.h"
 
 class CWindow : public CControl
 {
@@ -38,5 +39,6 @@ class CWindow : public CControl
 
 	private:
 		friend class CScreen;
+		friend class CFace;
 		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 };

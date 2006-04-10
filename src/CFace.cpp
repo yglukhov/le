@@ -1,7 +1,7 @@
 
 #include "CFace.h"
 
-#include "gl.h"
+#include <glut/le_glut.h>
 ///////////////////////////////////////////////////////////////////////////////
 void initMatrixWithZero(float* matrix)
 {
@@ -14,12 +14,12 @@ void initMatrixWithZero(float* matrix)
 CFace::CFace(Point3DMatrix pointList) :
 	mPointMatrix(pointList)
 {
-	initMatrixWithZero(&mMatrix);
+	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
 }
 
 CFace::CFace()
 {
-	initMatrixWithZero(&mMatrix);
+	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
 }
 
 
@@ -27,7 +27,7 @@ CFace::CFace()
 void CFace::setDimension(unsigned width, unsigned height)
 {
 	mPointMatrix.resize(width);
-	for (i = 0; i < width; ++i)
+	for (unsigned i = 0; i < width; ++i)
 	{
 		mPointMatrix[i].resize(height);
 	}
@@ -127,5 +127,5 @@ void CFace::multiplyMatrix(float& matrix)
 
 void CFace::eraseMatrix()
 {
-	initMatrixWithZero(&mMatrix);
+	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
 }
