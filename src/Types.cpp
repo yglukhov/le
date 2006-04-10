@@ -1,6 +1,6 @@
 #include "Types.h"
 
-#include <glut/le_glut.h>
+#include "gl.h"
 
 
 
@@ -8,14 +8,14 @@
 //#pragma mark -- CPoint --
 ////////////////////////////////////////////////////////////////////////////////
 
-CPoint::CPoint(float x, float y) :
-	mX(x), mY(y)
+CPoint::CPoint(float x, float y, float z) :
+	mX(x), mY(y), mZ(z)
 {
 
 }
 
 CPoint::CPoint(const CPoint& copy) :
-	mX(copy.mX), mY(copy.mY)
+	mX(copy.mX), mY(copy.mY), mZ(copy.mZ)
 {
 
 }
@@ -42,6 +42,16 @@ void CPoint::y(float Y)
 	mY = Y;
 }
 
+float CPoint::z() const
+{
+	return mZ;
+}
+
+void CPoint::z(float Z)
+{
+	mZ = Z;
+}
+
 //#pragma mark -
 
 // Operators
@@ -49,12 +59,14 @@ CPoint& CPoint::operator=(const CPoint& copy)
 {
 	mX = copy.mX;
 	mY = copy.mY;
+	mZ = copy.mZ;
+
 	return *this;
 }
 
 bool CPoint::operator==(const CPoint& point) const
 {
-	return ((mX == point.mX) && (mY == point.mY));
+	return ((mX == point.mX) && (mY == point.mY) && (mZ == point.mZ));
 }
 
 bool CPoint::operator!=(const CPoint& point) const
@@ -66,7 +78,7 @@ bool CPoint::operator!=(const CPoint& point) const
 
 void CPoint::draw() const
 {
-	glVertex2f(mX, mY);
+	glVertex3f(mX, mY, mZ);
 }
 
 
@@ -76,14 +88,14 @@ void CPoint::draw() const
 ////////////////////////////////////////////////////////////////////////////////
 
 
-CSize::CSize(float width, float height) :
-	mWidth(width), mHeight(height)
+CSize::CSize(float width, float height, float depth) :
+	mWidth(width), mHeight(height), mDepth(depth)
 {
 
 }
 
 CSize::CSize(const CSize& copy) :
-	mWidth(copy.mWidth), mHeight(copy.mHeight)
+	mWidth(copy.mWidth), mHeight(copy.mHeight), mDepth(copy.mDepth)
 {
 	
 }
@@ -111,6 +123,16 @@ void CSize::height(float Height)
 	mHeight = Height;
 }
 
+float CSize::depth() const
+{
+	return mDepth;
+}
+
+void CSize::depth(float depth)
+{
+	mDepth = depth;
+}
+
 //#pragma mark -
 
 // Operators
@@ -118,6 +140,8 @@ CSize& CSize::operator=(const CSize& copy)
 {
 	mWidth = copy.mWidth;
 	mHeight = copy.mHeight;
+	mDepth = copy.mDepth;
+
 	return *this;
 }
 
@@ -137,59 +161,58 @@ bool CSize::operator!=(const CSize& size) const
 ////////////////////////////////////////////////////////////////////////////////
 
 CRectangle::CRectangle(float x, float y, float width, float height) :
-	CPoint(x, y), CSize(width, height)
+	CPoint2D(x, y), CSize2D(width, height)
 {
 
 }
 
-
-CRectangle::CRectangle(const CPoint& position, float width, float height) :
-	CPoint(position), CSize(width, height)
+CRectangle::CRectangle(const CPoint2D& position, float width, float height) :
+	CPoint2D(position), CSize2D(width, height)
 {
 
 }
 
 CRectangle::CRectangle(const CRectangle& copy) :
-	CPoint(copy.position()), CSize(copy.size())
+	CPoint2D(copy.position()), CSize2D(copy.size())
 {
 
 }
 
-CRectangle::CRectangle(const CPoint& position, const CSize& size) :
-	CPoint(position), CSize(size)
+CRectangle::CRectangle(const CPoint2D& position, const CSize2D& size) :
+	CPoint2D(position), CSize2D(size)
 {
 
 }
 
-CRectangle::CRectangle(float x, float y, const CSize& size) :
-	CPoint(x, y), CSize(size)
+CRectangle::CRectangle(float x, float y, const CSize2D& size) :
+	CPoint2D(x, y), CSize2D(size)
 {
 
 }
 
 //#pragma mark -
 
-CPoint CRectangle::topLeft() const
+CPoint2D CRectangle::topLeft() const
 {
 	return CPoint(*this);
 }
 
-CPoint CRectangle::topRight() const
+CPoint2D CRectangle::topRight() const
 {
-	return CPoint(x() + width(), y()); 
+	return CPoint2D(x() + width(), y()); 
 }
 
-CPoint CRectangle::bottomLeft() const
+CPoint2D CRectangle::bottomLeft() const
 {
-	return CPoint(x(), y() + height());
+	return CPoint2D(x(), y() + height());
 }
 
-CPoint CRectangle::bottomRight() const
+CPoint2D CRectangle::bottomRight() const
 {
-	return CPoint(x() + width(), y() + height());
+	return CPoint2D(x() + width(), y() + height());
 }
 
-bool CRectangle::pointInRect(const CPoint& point) const
+bool CRectangle::pointInRect(const CPoint2D& point) const
 {
 	return ((point.x() >= x()) && (point.x() <= x() + width()) &&
 			 (point.y() >= y()) && (point.y() <= y() + height()));
@@ -197,24 +220,24 @@ bool CRectangle::pointInRect(const CPoint& point) const
 
 //#pragma mark -
 
-CSize CRectangle::size() const
+CSize2D CRectangle::size() const
 {
-	return CSize(*this);
+	return CSize2D(*this);
 }
 
-void CRectangle::size(const CSize& Size)
+void CRectangle::size(const CSize2D& Size)
 {
-	CSize::operator=(Size);
+	CSize2D::operator=(Size);
 }
 
-CPoint CRectangle::position() const
+CPoint2D CRectangle::position() const
 {
-	return CPoint(*this);
+	return CPoint2D(*this);
 }
 
-void CRectangle::position(const CPoint& point)
+void CRectangle::position(const CPoint2D& point)
 {
-	CPoint::operator=(point);
+	CPoint2D::operator=(point);
 }
 
 void CRectangle::position(float X, float Y)
@@ -227,14 +250,14 @@ void CRectangle::position(float X, float Y)
 
 CRectangle& CRectangle::operator=(const CRectangle& copy)
 {
-	CPoint::operator=(copy);
-	CSize::operator=(copy);
+	CPoint2D::operator=(copy);
+	CSize2D::operator=(copy);
 	return *this;
 }
 
 bool CRectangle::operator==(const CRectangle& rect) const
 {
-	return (CPoint::operator==(rect) && CSize::operator==(rect));
+	return (CPoint2D::operator==(rect) && CSize2D::operator==(rect));
 }
 
 bool CRectangle::operator!=(const CRectangle& rect) const
@@ -258,6 +281,174 @@ void CRectangle::drawWire() const
 	 glVertex2f(x() + width(), y() + height());
 	 glVertex2f(x(), y() + height());
 	 glVertex2f(x(), y());
+	glEnd();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//CBox
+////////////////////////////////////////////////////////////////////////////////
+
+CBox::CBox(float x, float y, float z, float width, float height, float depth) :
+	CPoint3D(x, y, z), CSize3D(width, height, depth)
+{
+
+}
+
+CBox::CBox(const CPoint3D& position, float width, float height, float depth) :
+	CPoint3D(position), CSize3D(width, height, depth)
+{
+
+}
+
+CBox::CBox(const CBox& copy) :
+	CPoint3D(copy.position()), CSize3D(copy.size())
+{
+
+}
+
+CBox::CBox(const CPoint3D& position, const CSize3D& size) :
+	CPoint3D(position), CSize3D(size)
+{
+
+}
+
+CBox::CBox(float x, float y, float z, const CSize3D& size) :
+	CPoint3D(x, y), CSize3D(size)
+{
+
+}
+
+bool CBox::pointInBox(const CPoint3D& point) const
+{
+	return ((point.x() >= x()) && (point.x() <= x() + width()) &&
+			 (point.y() >= y()) && (point.y() <= y() + height()) &&
+ 			 (point.z() >= z()) && (point.z() <= z() + depth()));
+}
+
+//#pragma mark -
+
+CSize3D CBox::size() const
+{
+	return CSize3D(*this);
+}
+
+void CBox::size(const CSize3D& Size)
+{
+	CSize3D::operator=(Size);
+}
+
+CPoint3D CBox::position() const
+{
+	return CPoint3D(*this);
+}
+
+void CBox::position(const CPoint3D& point)
+{
+	CPoint2D::operator=(point);
+}
+
+void CBox::position(float X, float Y, float Z)
+{
+	x(X);
+	y(Y);
+	z(Z);
+}
+
+//#pragma mark -
+
+CBox& CBox::operator=(const CBox& copy)
+{
+	CPoint3D::operator=(copy);
+	CSize3D::operator=(copy);
+	return *this;
+}
+
+bool CBox::operator==(const CBox& rect) const
+{
+	return (CPoint3D::operator==(rect) && CSize3D::operator==(rect));
+}
+
+bool CBox::operator!=(const CBox& rect) const
+{
+	return !(operator==(rect));
+}
+
+//#pragma mark -
+
+// Draw
+void CBox::draw() const
+{
+	glBegin(GL_QUADS);
+		glVertex3f(x(), y(), z());
+		glVertex3f(x() + width(), y(), z());
+		glVertex3f(x() + width(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z());
+
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x(), y() + height(), z() + depth());
+		glVertex3f(x(), y() + height(), z());
+
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z());
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z() + depth());
+		glVertex3f(x(), y() + height(), z() + depth());
+
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z() + depth());
+
+
+		glVertex3f(x(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z());
+	glEnd();
+}
+
+void CBox::drawWire() const
+{
+	glBegin(GL_QUAD_STRIP);
+		glVertex3f(x(), y(), z());
+		glVertex3f(x() + width(), y(), z());
+		glVertex3f(x() + width(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z());
+
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x(), y() + height(), z() + depth());
+		glVertex3f(x(), y() + height(), z());
+
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z());
+	glEnd();
+
+	glBegin(GL_QUAD_STRIP);
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x() + width(), y(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z() + depth());
+		glVertex3f(x(), y() + height(), z() + depth());
+
+		glVertex3f(x(), y(), z() + depth());
+		glVertex3f(x(), y(), z());
+		glVertex3f(x(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z() + depth());
+
+
+		glVertex3f(x(), y() + height(), z());
+		glVertex3f(x(), y() + height(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z() + depth());
+		glVertex3f(x() + width(), y() + height(), z());
 	glEnd();
 }
 
