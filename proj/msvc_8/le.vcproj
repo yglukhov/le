@@ -277,6 +277,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CFace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CFace.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CFile.cpp"
 				>
 			</File>
