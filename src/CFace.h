@@ -4,6 +4,7 @@
 #include <list>
 
 #include "Types.h"
+#include "Constants.h"
 
 class CWindow;
 class CControl;
@@ -33,6 +34,9 @@ class CFace
 	
 	void draw();
 	void addChild(CControl* child);
+
+	bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+	bool hitTest(const CPoint& point) const;
 	
  private:
 	void matrix(float& matrix);
