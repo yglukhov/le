@@ -5,7 +5,7 @@
 
 #define DEFAULT_SCREEN_RECT CRectangle(100, 768, 100, 100)
 
-class CScreen : CWindow
+class CScreen : public CWindow
 {
 	DECLARE_RUNTIME_CLASS(CScreen);
 
@@ -21,7 +21,8 @@ class CScreen : CWindow
 		static CScreen* instance();
 		static unsigned instanceCount();
 
-		virtual void draw() const;
+		virtual void draw();
+		virtual void drawChilds();
 
 		virtual void addChild(CFace* child);
 		virtual void removeChild(CFace* child);
@@ -40,6 +41,7 @@ class CScreen : CWindow
 		void invalidate() const;
 
 		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		bool onMouseFaces(EMouseButton button, EButtonState state, const CPoint& point);		
 		
 		void addControlToDelete(CControl* control);
 

@@ -33,6 +33,7 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 
 	// Initing params
 	glClearColor(0.4, 0.4, 0.4, 0.0); // Background color
+//	glEnable(GL_DEPTH_TEST);
 }
 
 CScreen::~CScreen()
@@ -85,13 +86,24 @@ void CScreen::size(const CSize& Size)
 	CWindow::size(Size);
 }
 
-void CScreen::draw() const
+void CScreen::draw()
 {
 	ENTER_LOG;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	drawChilds();
 	glutSwapBuffers();
+}
+
+void CScreen::drawChilds()
+{
+	ENTER_LOG;
+
+	CFaceList::const_iterator end = mChilds.end();
+	for(CFaceList::const_iterator it = mChilds.begin(); it != end; ++it)
+	{
+		(*it)->draw();
+	}
 }
 
 void CScreen::absolutePosition(const CPoint& point)
@@ -145,9 +157,22 @@ bool CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& poi
 		curDragger->handler()->onMouse(button, state, point);
 	}
 
-	return CWindow::onMouse(button, state, point);
+	return onMouseFaces(button, state, point);
 }
 
+bool CScreen::onMouseFaces(EMouseButton button, EButtonState state, const CPoint& point)
+{
+	ENTER_LOG;
+
+	CFaceList::iterator end = mChilds.end();
+	for (CFaceList::iterator it = mChilds.begin(); it != end; ++it)
+	{
+		if ((*it)->hitTest(point) && (*it)->onMouse(button, state, point))
+			return true;
+	}
+
+	return CControl::onMouse(button, state, point);
+}
 void CScreen::addChild(CFace* child)
 {
 	ENTER_LOG;
