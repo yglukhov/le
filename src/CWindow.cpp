@@ -49,7 +49,9 @@ void CWindow::addChild(CControl* child)
 	if(child)
 	{
 		mChilds.push_back(child);
+
 		child->parent(this);
+		child->face(mFace);
 	}
 }
 

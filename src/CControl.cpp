@@ -55,13 +55,13 @@ class CDelegator
 static CControl* _firstResponder = NULL;
 
 CControl::CControl() :
-	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f)
+	mParent(NULL), mFace(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f)
 {
 	ENTER_LOG;
 }
 
 CControl::CControl(const CRectangle& rect) :
-	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f), mRect(rect)
+	mParent(NULL), mFace(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f), mRect(rect)
 {
 	ENTER_LOG;
 }
@@ -319,6 +319,16 @@ CWindow* CControl::parent() const
 {
 	ENTER_LOG;
 	return mParent;
+}
+
+CFace* CControl::face()
+{
+	return mFace;
+}
+
+void CControl::face(CFace* face)
+{
+	mFace = face;
 }
 
 void CControl::parent(CWindow* newParent)

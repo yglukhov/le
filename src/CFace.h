@@ -32,10 +32,10 @@ class CFace
 	CPoint3D pivotPoint() const;
 	
 	void draw();
+	void addChild(CControl* child);
 	
  private:
 	void matrix(float& matrix);
-	float* matrix() const;
 	void multiplyMatrix(float& matrix);
 	void eraseMatrix();
 

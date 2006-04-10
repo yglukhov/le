@@ -1,5 +1,6 @@
 
 #include "CFace.h"
+#include "CControl.h"
 
 #include <glut/le_glut.h>
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,12 +15,12 @@ void initMatrixWithZero(float* matrix)
 CFace::CFace(Point3DMatrix pointList) :
 	mPointMatrix(pointList)
 {
-	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
+	initMatrixWithZero(mMatrix);
 }
 
 CFace::CFace()
 {
-	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
+	initMatrixWithZero(mMatrix);
 }
 
 
@@ -33,7 +34,7 @@ void CFace::setDimension(unsigned width, unsigned height)
 	}
 }
 
-Point3DMatrix& CFace::getPointMatrix()
+CFace::Point3DMatrix& CFace::getPointMatrix()
 {
 	return mPointMatrix;
 } 
@@ -42,27 +43,27 @@ Point3DMatrix& CFace::getPointMatrix()
 void CFace::rotate(float angle, float x, float y, float z)
 {
 	glPushMatrix();
-	glLoadMatrixf(&mMatrix);
+	glLoadMatrixf(mMatrix);
 	glRotatef(angle, x, y, z);
-	glGetFloatv(GL_MODELVIEW_MATRIX, &mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 	glPopMatrix();
 }
 
 void CFace::translate(float x, float y, float z)
 {
 	glPushMatrix();
-	glLoadMatrixf(&mMatrix);
+	glLoadMatrixf(mMatrix);
 	glTranslatef(x, y, z);
-	glGetFloatv(GL_MODELVIEW_MATRIX, &mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 	glPopMatrix();
 }
 
 void CFace::scale(float x, float y, float z)
 {
 	glPushMatrix();
-	glLoadMatrixf(&mMatrix);
+	glLoadMatrixf(mMatrix);
 	glScalef(x, y, z);
-	glGetFloatv(GL_MODELVIEW_MATRIX, &mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 	glPopMatrix();
 }
 
@@ -99,33 +100,35 @@ void CFace::draw()
 	for(ControlList::const_iterator it = mChilds.begin(); it != end; ++it)
 	{
 		glPushMatrix();
-		glLoadMatrixf(&mMatrix);
+		glLoadMatrixf(mMatrix);
 		(*it)->draw();
 		glPopMatrix();
 	}
 }
 
+void CFace::addChild(CControl* child)
+{
+	ENTER_LOG;
+
+	if(child)
+	{
+		mChilds.push_back(child);
+
+		child->parent(NULL);
+		child->face(this);
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////
-void CFace::matrix(float& matrix)
-{
-	mMatrix = matrix;
-}
-
-float* CFace::matrix() const
-{
-	return &mMatrix;
-}
-
 void CFace::multiplyMatrix(float& matrix)
 {
 	glPushMatrix();
-	glLoadMatrixf(&mMatrix);
-	glMultMatrixf(&mMatrix);
-	glGetFloatv(GL_MODELVIEW_MATRIX, &mMatrix);
+	glLoadMatrixf(mMatrix);
+	glMultMatrixf(mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 	glPopMatrix();
 }
 
 void CFace::eraseMatrix()
 {
-	initMatrixWithZero(reinterpret_cast<float*>(&mMatrix));
+	initMatrixWithZero(mMatrix);
 }

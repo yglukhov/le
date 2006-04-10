@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Types.h"
 #include "CObject.h"
+#include "CFace.h"
 
 class CWindow;
 class CControlDelegate;
@@ -64,9 +65,13 @@ class CControl : public CObject
 		virtual void moveLastToDraw();
 		void parent(CWindow* newParent);
 
+		CFace* face();
+		void face(CFace* face);
+
 	private:
 		friend class CScreen;
 		friend class CWindow;
+		friend class CFace;
 		void parentResized(const CSize& fromSize, const CSize& toSize);
 		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
 		virtual bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
@@ -78,4 +83,5 @@ class CControl : public CObject
 		unsigned mAutoResizingMask;
 		float mBorderWidth;
 		CRectangle mRect;	// Absolute ccords, if mParent != NULL, else relative.
+		CFace* mFace;
 };

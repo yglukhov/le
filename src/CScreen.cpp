@@ -17,7 +17,6 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 	CWindow(rect)
 {
 	ENTER_LOG;
-	borderWidth(0.0);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // non-stereo for main window
 
@@ -147,4 +146,22 @@ bool CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& poi
 	}
 
 	return CWindow::onMouse(button, state, point);
+}
+
+void CScreen::addChild(CFace* child)
+{
+	ENTER_LOG;
+
+	if(child)
+	{
+		mChilds.push_back(child);
+	}
+}
+
+void CScreen::removeChild(CFace* child)
+{
+	ENTER_LOG;
+
+	mChilds.remove(child);
+	invalidate();
 }

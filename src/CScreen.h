@@ -5,11 +5,14 @@
 
 #define DEFAULT_SCREEN_RECT CRectangle(100, 768, 100, 100)
 
-class CScreen : public CWindow
+class CScreen : CWindow
 {
 	DECLARE_RUNTIME_CLASS(CScreen);
 
 	public:
+		typedef std::list<CControl*> CControlList;
+		typedef std::list<CFace*> CFaceList;
+
 		CScreen(bool fullscreen = true, const char* title = NULL,
 				  const CRectangle& rect = DEFAULT_SCREEN_RECT);
 		~CScreen();
@@ -19,6 +22,9 @@ class CScreen : public CWindow
 		static unsigned instanceCount();
 
 		virtual void draw() const;
+
+		virtual void addChild(CFace* child);
+		virtual void removeChild(CFace* child);
 
 		CSize size() const;
 		virtual void size(const CSize& Size);
@@ -39,5 +45,7 @@ class CScreen : public CWindow
 
 	private:
 		int mWindow;
+
+		CFaceList mChilds;
 		CControlList mControlsToDelete;
 };

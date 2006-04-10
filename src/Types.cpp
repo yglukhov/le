@@ -1,6 +1,6 @@
 #include "Types.h"
 
-#include "gl.h"
+#include <glut/le_glut.h>
 
 
 

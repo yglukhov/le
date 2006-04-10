@@ -4,6 +4,7 @@
 
 #include "CScreen.h"
 #include "CDialog.h"
+#include "CFace.h"
 #include "Types.h"
 #include "Constants.h"
 #include "CControlDelegate.h"
@@ -24,7 +25,10 @@ static void initOpenGL()
 	CDialog* dlg2 = new CDialog(CRectangle(1, 1, 60, 60));
 	
 	dlg2->addChild(dlg1.get());
-	CScreen::instance()->addChild(dlg2);
+	CFace* face = new CFace();
+	face->addChild(dlg2);
+
+	CScreen::instance()->addChild(face);
 	
 	dlg2->title("dlg2");
 	dlg1->title("dlg1");
