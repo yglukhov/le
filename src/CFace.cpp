@@ -1,6 +1,8 @@
 
 #include "CFace.h"
 #include "CControl.h"
+#include "CTheme.h"
+#include "CScreen.h"
 
 #include <glut/le_glut.h>
 ///////////////////////////////////////////////////////////////////////////////
@@ -8,19 +10,33 @@ void initMatrixWithZero(float* matrix)
 {
 	for (int i = 0; i < 16; ++i)
 	{
-		matrix[i] = 0;
+		if (i%4 == (int)(i/4))
+		{
+			matrix[i] = 1;
+		}
+		else
+		{
+			matrix[i] = 0;
+		}
 	}
+/*
+	glPushMatrix();
+	glMultMatrixf(matrix);
+	glGetFloatv(GL_PROJECTION_MATRIX, matrix);
+	glPopMatrix();*/
 }
 
 CFace::CFace(Point3DMatrix pointList) :
 	mPointMatrix(pointList)
 {
-	initMatrixWithZero(mMatrix);
+	//initMatrixWithZero(mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 }
 
 CFace::CFace()
 {
-	initMatrixWithZero(mMatrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
+	//initMatrixWithZero(mMatrix);
 }
 
 
@@ -100,7 +116,7 @@ void CFace::draw()
 	for(ControlList::const_iterator it = mChilds.begin(); it != end; ++it)
 	{
 		glPushMatrix();
-		glLoadMatrixf(mMatrix);
+		glMultMatrixf(mMatrix);
 		(*it)->draw();
 		glPopMatrix();
 	}
@@ -114,17 +130,46 @@ void CFace::addChild(CControl* child)
 	{
 		mChilds.push_back(child);
 
-		child->parent(NULL);
+		child->parent(CScreen::instance());
 		child->face(this);
 	}
+}
+
+bool CFace::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+{
+	ENTER_LOG;
+
+	//rotate(0.5, 1,0,0);
+//	mMatrix[0] += 0.1;
+	//scale(2.2,2.1,1.3);
+	rotate(0.01,1,1,1);
+	ControlList::iterator end = mChilds.end();
+	for (ControlList::iterator it = mChilds.begin(); it != end; ++it)
+	{
+		if (CTheme::instance()->hitTest(*it, point) && (*it)->onMouse(button, state, point))
+			return true;
+	}
+
+	return false;
+}
+
+bool CFace::hitTest(const CPoint& point) const
+{
+	ControlList::const_iterator end = mChilds.end();
+	for (ControlList::const_iterator it = mChilds.begin(); it != end; ++it)
+	{
+		if (CTheme::instance()->hitTest(*it, point))
+			return true;
+	}
+	return false;
 }
 ///////////////////////////////////////////////////////////////////////////////
 void CFace::multiplyMatrix(float& matrix)
 {
 	glPushMatrix();
 	glLoadMatrixf(mMatrix);
-	glMultMatrixf(mMatrix);
-	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
+	glMultMatrixf(&matrix);
+	glGetFloatv(GL_PROJECTION_MATRIX, mMatrix);
 	glPopMatrix();
 }
 
