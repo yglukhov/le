@@ -28,12 +28,12 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 	{
 		glutFullScreen();
 	}
-	
+
 	_screenMap[mWindow] = this;
 
 	// Initing params
 	glClearColor(0.4, 0.4, 0.4, 0.0); // Background color
-//	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 }
 
 CScreen::~CScreen()

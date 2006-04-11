@@ -1,19 +1,6 @@
 #pragma once
 
-////////////////////////////////////////////////////////////////////////////////
-// TSSelect utility struct to select 1 of 2 types depending on bool.
-// TODO: Move it somewhere to utilities.
-template <bool, typename T, typename F>
-struct TSSelect
-{
-	typedef T result;
-};
-
-template <typename T, typename F>
-struct TSSelect<false, T, F>
-{
-	typedef F result;
-};
+#include <util/TSSelect.h>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +39,6 @@ struct _TSTypeListSortJ<_SNullType, TPredicate, l2g>
 	typedef _SNullType _result;
 };
 
-#define xor(a, b) (((a) && !(b)) || ((b) && !(a)))
-
 template <typename Head, typename Tail, template <typename T1, typename T2> class TPredicate, bool l2g>
 struct _TSTypeListSortJ<_TSTypeListNode<Head, Tail>, TPredicate, l2g>
 {
@@ -72,7 +57,6 @@ struct _TSTypeListSortJ<_TSTypeListNode<Head, Tail>, TPredicate, l2g>
 	typedef _TSTypeListNode<out1, typename _TSTypeListSortJ<_TSTypeListNode<out2, typename _TSTypeListPopFront<Tail>::_result>, TPredicate, l2g>::_result> _result;
 };
 
-#undef xor
 
 ////////////////////////////////////////////////////////////////////////////////
 // _TSTypeListSortIterate - loop to perform a SortJ algorithm on a Type List
@@ -87,6 +71,7 @@ struct _TSTypeListSortIterate<end, end, TList, TPredicate, l2g>
 {
 	typedef typename _TSTypeListSortJ<TList, TPredicate, l2g>::_result _result;
 };
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // _TSTypeListSort - sort TypeList. TPredicate must define a enum value,

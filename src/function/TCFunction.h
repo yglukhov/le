@@ -3,7 +3,7 @@
 #include <pointer/TCPointer.h>
 #include "base/TCFreeFunction.h"
 
-template <typename RetType, class TypeList>
+template <typename RetType = void, class TypeList = TSTypeList<> >
 class TCFunction
 {
 	public:

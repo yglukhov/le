@@ -1,49 +1,78 @@
+
+
+#if defined _WIN32
+	#pragma message(__FILE__ " : warning LE: If <windows.h> included, it won't compile until Language Extensions are enabled in project properties.")
+	#define WIN32_LEAN_AND_MEAN
+	#define STRICT
+	#include <windows.h>
+#else // defined _WIN32
+	#include <pthread.h>
+#endif // not defined _WIN32
+
 #include "CThread.h"
+#include <debug/Assert.h>
 
-#if !defined _WIN32
-#include <pthread.h>
+
+#if defined _WIN32
+static DWORD WINAPI _threadProc(LPVOID threadProc)
 #else
-#pragma warning("Threading is NOT implemented in Win32!")
-struct pthread_t
-{
-
-};
+static void* _threadProc(void* threadProc)
 #endif
-
-IFuncContext::~IFuncContext()
 {
+	TCFunction<>* pThreadProc = static_cast<TCFunction<>*>(threadProc);
+	(*pThreadProc)();
+	int a;
+	unsigned b;
+	if(b<a)
+	{
 
-}
-
-static void* threadFunc(void* context)
-{
-	static_cast<IFuncContext*>(context)->run();
+	}
 	return NULL;
 }
+
+
+CThread::CThread(TCFunction<> threadProc, bool startImmediately) :
+	mThread(NULL),
+	mThreadProc(threadProc)
+{
+	if(startImmediately)
+	{
+		start();
+	}
+}
+
+
 
 CThread::~CThread()
 {
 	if(mThread)
 	{
+#if defined _WIN32
+		CloseHandle(static_cast<HANDLE>(mThread));
+#else // defined _WIN32
 		// TODO: stop the thread
 		delete static_cast<pthread_t*>(mThread);
+#endif // not defined _WIN32
 	}
-
-	delete mFuncContext;
 }
+
+
+STATIC_ASSERT(sizeof(void*) == sizeof(HANDLE));
+
 
 void CThread::start()
 {
 	if(mThread)
 		return;
 
-	pthread_t* newThread = new pthread_t;
-
 #if !defined _WIN32
-	pthread_create(newThread, NULL, threadFunc,
-						static_cast<void*>(dynamic_cast<IFuncContext*>(mFuncContext)));
+	pthread_t* newThread = new pthread_t;
+	pthread_create(newThread, NULL, _threadProc,
+					static_cast<void*>(&mThreadProc));
 #else
-	threadFunc(mFuncContext);
+	DWORD threadID;
+	HANDLE newThread = CreateThread(NULL, 0, _threadProc, static_cast<LPVOID>(&mThreadProc), 0, &threadID);
+	ASSERT(newThread == NULL);
 #endif
 
 	mThread = static_cast<void*>(newThread);

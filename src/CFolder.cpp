@@ -1,6 +1,10 @@
 #include "CFolder.h"
 #include <debug/Debug.h>
 
+#if defined _WIN32
+	#pragma message(__FILE__ " : warning LE: Folders are not implemented for Win32 yet.")
+#endif
+
 CFolder::CFolder()
 #if !defined _WIN32
 : mDir(NULL), mEntry(NULL)

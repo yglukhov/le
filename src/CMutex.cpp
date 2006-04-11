@@ -1,5 +1,9 @@
 #include "CMutex.h"
 
+#if defined _WIN32
+	#pragma message(__FILE__ " : warning LE: Mutexes are not implemented for Win32 yet.")
+#endif
+
 CMutex::CMutex(bool recursive)
 {
 #if !defined _WIN32

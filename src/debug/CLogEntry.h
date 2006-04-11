@@ -4,6 +4,22 @@
 #include <string>
 #include <map>
 
+
+#if defined __GNUC__
+#define LE_PP_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#elif defined _MSC_VER
+#define LE_PP_PRETTY_FUNCTION __FUNCSIG__
+#else
+#define LE_PP_PRETTY_FUNCTION "_ unknown function name _"
+#endif
+
+
+#ifdef DEBUG
+#define LOG
+#endif // defined DEBUG
+
+
+
 #ifdef LOG
 
 #define ENTER_LOG CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, false);

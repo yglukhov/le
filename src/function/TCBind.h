@@ -87,13 +87,13 @@ private:
 													 TCTuple<FuncParamList>& funcTuple)
 	{
 		_copyFromParamToFuncTuple<index, TParamTypeList>(paramTuple, funcTuple,
-														Bool2Type<(index < FuncParamList::length)>());
+														TSBoolToType<(index < FuncParamList::length)>());
 	}
 
 	template <unsigned index, class TParamTypeList>
 	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 													  TCTuple<FuncParamList>& funcTuple,
-													  Bool2Type<false> /* inBands */)
+													  TSBoolToType<false> /* inBands */)
 	{
 
 	}
@@ -101,18 +101,18 @@ private:
 	template <unsigned index, class TParamTypeList>
 	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 													  TCTuple<FuncParamList>& funcTuple,
-													  Bool2Type<true> /* inBands */)
+													  TSBoolToType<true> /* inBands */)
 	{
 		typedef TSParamTraits<typename RealTypeList::template TypeAt<index>::result> Traits;
 		__copyFromParamToFuncTuple<index, Traits::bind, TParamTypeList>(paramTuple, funcTuple,
-															Bool2Type<Traits::bind == -1>());
+															TSBoolToType<Traits::bind == -1>());
 		copyFromParamToFuncTuple<index + 1, TParamTypeList>(paramTuple, funcTuple);
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 														TCTuple<FuncParamList>& funcTuple,
-														Bool2Type<true> /* notBinded */)
+														TSBoolToType<true> /* notBinded */)
 	{
 		funcTuple.template value<index>() = mTuple.template value<index>();
 	}
@@ -120,7 +120,7 @@ private:
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 														TCTuple<FuncParamList>& funcTuple,
-														Bool2Type<false> /* notBinded */)
+														TSBoolToType<false> /* notBinded */)
 	{
 		funcTuple.template value<index>() = paramTuple.template value<bindIndex>();
 	}

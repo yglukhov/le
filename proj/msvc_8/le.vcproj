@@ -46,8 +46,10 @@
 				PreprocessorDefinitions="WIN32;DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
+				SmallerTypeCheck="true"
 				RuntimeLibrary="1"
-				DisableLanguageExtensions="true"
+				DisableLanguageExtensions="false"
+				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(IntDir)\"
@@ -55,6 +57,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -132,13 +135,15 @@
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\libs&quot;;&quot;$(ProjectDir)\..\..\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
-				DisableLanguageExtensions="true"
+				DisableLanguageExtensions="false"
+				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -552,15 +557,19 @@
 				Name="debug"
 				>
 				<File
+					RelativePath="..\..\src\debug\Assert.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\debug\Assert.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\debug\CLogEntry.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\..\src\debug\CLogEntry.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\debug\Debug.cpp"
 					>
 				</File>
 				<File
@@ -585,6 +594,18 @@
 				</File>
 				<File
 					RelativePath="..\..\src\class\TCClass.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="util"
+				>
+				<File
+					RelativePath="..\..\src\util\TSConstToType.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\util\TSSelect.h"
 					>
 				</File>
 			</Filter>
