@@ -205,7 +205,7 @@
 				Name="glut"
 				>
 				<File
-					RelativePath="..\..\libs\glut\le_glut.h"
+					RelativePath="..\..\libs\glut\slGlut.h"
 					>
 				</File>
 			</Filter>
@@ -215,249 +215,217 @@
 			>
 		</Filter>
 		<Filter
+			Name="res"
+			>
+		</Filter>
+		<Filter
 			Name="src"
 			>
-			<File
-				RelativePath="..\..\src\BasicGraphicControllers.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\BasicGraphicControllers.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CApplication.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CApplication.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CButtonDelegate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CButtonDelegate.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CControl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CControl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CControlDelegate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CControlDelegate.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CDragger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CDragger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFace.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFace.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFolder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CFolder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CMutex.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CMutex.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CNotificationCenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CNotificationCenter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Constants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CScreen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CScreen.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CText.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CText.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CTheme.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CTheme.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CThread.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CThread.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CTitleBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CTitleBar.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CWindow.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GraphicControllerRegistration.h"
-				>
-			</File>
 			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\StdExtensions.h"
+				RelativePath="..\..\src\slBasicGraphicControllers.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TCGraphicControllerClass.h"
+				RelativePath="..\..\src\slBasicGraphicControllers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Types.cpp"
+				RelativePath="..\..\src\slCApplication.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Types.h"
+				RelativePath="..\..\src\slCApplication.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCButtonDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCButtonDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCControlDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCControlDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCDragger.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCDragger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFace.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFolder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCFolder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCMutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCMutex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCNotificationCenter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCNotificationCenter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slConstants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCScreen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCScreen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCText.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCTheme.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCTheme.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCTitleBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCTitleBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slCWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slGraphicControllerRegistration.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slStdExtensions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slTCGraphicControllerClass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\slTypes.h"
 				>
 			</File>
 			<Filter
 				Name="pointer"
 				>
 				<File
-					RelativePath="..\..\src\pointer\CAutoreleasePool.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\src\pointer\CAutoreleasePool.h"
+					RelativePath="..\..\src\pointer\slCAutoreleasePool.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pointer\TCPointer.cpp"
+					RelativePath="..\..\src\pointer\slCAutoreleasePool.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\$(InputName)1.obj"
-							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\src\pointer\TCPointer.h"
+					RelativePath="..\..\src\pointer\slTCPointer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\pointer\slTCPointer.h"
 					>
 				</File>
 			</Filter>
@@ -465,18 +433,18 @@
 				Name="tuple"
 				>
 				<File
-					RelativePath="..\..\src\tuple\TCTuple.h"
+					RelativePath="..\..\src\tuple\slTCTuple.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\tuple\TCUnitTuple.h"
+					RelativePath="..\..\src\tuple\slTCUnitTuple.h"
 					>
 				</File>
 				<Filter
 					Name="base"
 					>
 					<File
-						RelativePath="..\..\src\tuple\base\TSTuple.h"
+						RelativePath="..\..\src\tuple\base\slTSTuple.h"
 						>
 					</File>
 				</Filter>
@@ -485,22 +453,22 @@
 				Name="typelist"
 				>
 				<File
-					RelativePath="..\..\src\typelist\TSTypeList.h"
+					RelativePath="..\..\src\typelist\slTSTypeList.h"
 					>
 				</File>
 				<Filter
 					Name="base"
 					>
 					<File
-						RelativePath="..\..\src\typelist\base\TSTypeListAppendTraits.h"
+						RelativePath="..\..\src\typelist\base\slTSTypeListAppendTraits.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\typelist\base\TSTypeListBase.h"
+						RelativePath="..\..\src\typelist\base\slTSTypeListBase.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\typelist\base\TSTypeListSorting.h"
+						RelativePath="..\..\src\typelist\base\slTSTypeListSorting.h"
 						>
 					</File>
 				</Filter>
@@ -509,46 +477,46 @@
 				Name="function"
 				>
 				<File
-					RelativePath="..\..\src\function\TCBind.h"
+					RelativePath="..\..\src\function\slTCBind.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\function\TCFunction.h"
+					RelativePath="..\..\src\function\slTCFunction.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\function\TSFunctionTraits.h"
+					RelativePath="..\..\src\function\slTSFunctionTraits.h"
 					>
 				</File>
 				<Filter
 					Name="base"
 					>
 					<File
-						RelativePath="..\..\src\function\base\TCFreeFunction.h"
+						RelativePath="..\..\src\function\base\slTCFreeFunction.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TIFunction.h"
+						RelativePath="..\..\src\function\base\slTIFunction.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TSBind.h"
+						RelativePath="..\..\src\function\base\slTSBind.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TSFreeFunctionPointerTraits.h"
+						RelativePath="..\..\src\function\base\slTSFreeFunctionPointerTraits.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TSFreeFunctionTraits.h"
+						RelativePath="..\..\src\function\base\slTSFreeFunctionTraits.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TSFunctionCallWithTuple.h"
+						RelativePath="..\..\src\function\base\slTSFunctionCallWithTuple.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\function\base\TSMemberFunctionTraits.h"
+						RelativePath="..\..\src\function\base\slTSMemberFunctionTraits.h"
 						>
 					</File>
 				</Filter>
@@ -557,23 +525,23 @@
 				Name="debug"
 				>
 				<File
-					RelativePath="..\..\src\debug\Assert.cpp"
+					RelativePath="..\..\src\debug\slAssert.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\debug\Assert.h"
+					RelativePath="..\..\src\debug\slAssert.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\debug\CLogEntry.cpp"
+					RelativePath="..\..\src\debug\slCLogEntry.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\debug\CLogEntry.h"
+					RelativePath="..\..\src\debug\slCLogEntry.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\debug\Debug.h"
+					RelativePath="..\..\src\debug\slDebug.h"
 					>
 				</File>
 			</Filter>
@@ -581,19 +549,19 @@
 				Name="class"
 				>
 				<File
-					RelativePath="..\..\src\class\CClassFactory.cpp"
+					RelativePath="..\..\src\class\slCClassFactory.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\class\CClassFactory.h"
+					RelativePath="..\..\src\class\slCClassFactory.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\class\TCClass.cpp"
+					RelativePath="..\..\src\class\slTCClass.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\class\TCClass.h"
+					RelativePath="..\..\src\class\slTCClass.h"
 					>
 				</File>
 			</Filter>
@@ -601,11 +569,19 @@
 				Name="util"
 				>
 				<File
-					RelativePath="..\..\src\util\TSConstToType.h"
+					RelativePath="..\..\src\util\slTSConstToType.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\util\TSSelect.h"
+					RelativePath="..\..\src\util\slTSSelect.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="config"
+				>
+				<File
+					RelativePath="..\..\src\config\slPrefix.h"
 					>
 				</File>
 			</Filter>

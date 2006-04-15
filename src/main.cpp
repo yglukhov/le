@@ -3,8 +3,8 @@
 
 #if FUNCTORS_TESTING
 
-#include <function/TCFunction.h>
-#include <function/TCBind.h>
+#include <function/slTCFunction.h>
+#include <function/slTCBind.h>
 #include <iostream>
 
 void f(int a)
@@ -35,6 +35,8 @@ struct Predicate <i2t<i>, i2t<j> >
 
 int main(int argc, char * const argv[])
 {
+	using namespace le;
+
 	TCFunction<void, TSTypeList<int> > func1 = f;
 	func1(5);
 
@@ -93,11 +95,12 @@ int main(int argc, char * const argv[])
 
 #else // FUNCTORS_TESTING
 
-#include "CApplication.h"
+#include "slCApplication.h"
+
 
 int main(int argc, char * const argv[])
 {
-	CApplication theApplication;
+	le::CApplication theApplication;
 	return theApplication.run(argc, argv);
 }
 
