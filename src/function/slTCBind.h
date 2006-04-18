@@ -25,13 +25,13 @@ public:
 
 	}
 
-	RetType operator()()
+	RetType operator()() const
 	{
 		return TraitsType::callWithTuple(mFunction, mTuple);
 	}
 
 	template <typename T0>
-	RetType operator()(T0 p0)
+	RetType operator()(T0 p0) const
 	{
 		TCTuple<TSTypeList<T0> > paramTuple;
 		paramTuple.template value<0>() = p0;
@@ -43,7 +43,7 @@ public:
 	}
 
 	template <typename T0, typename T1>
-	RetType operator()(T0 p0, T1 p1)
+	RetType operator()(T0 p0, T1 p1) const
 	{
 		TCTuple<TSTypeList<T0, T1> > paramTuple;
 		paramTuple.template value<0>() = p0;
@@ -56,7 +56,7 @@ public:
 	}
 
 	template <typename T0, typename T1, typename T2>
-	RetType operator()(T0 p0, T1 p1, T2 p2)
+	RetType operator()(T0 p0, T1 p1, T2 p2) const
 	{
 		TCTuple<TSTypeList<T0, T1, T2> > paramTuple;
 		paramTuple.template value<0>() = p0;

@@ -12,7 +12,7 @@ template <typename R>
 struct TSFunctionCallWithTuple<R, 0>
 {
 	template <typename FuncType, class TList>
-	static inline R callWithTuple(FuncType func, TCTuple<TList>& /*tuple*/)
+	static inline R callWithTuple(FuncType func, const TCTuple<TList>& /*tuple*/)
 	{
 		return func();
 	}
@@ -23,7 +23,7 @@ template <typename R>													\
 struct TSFunctionCallWithTuple<R, number>								\
 {																		\
 	template <typename FuncType, class TList>							\
-	static inline R callWithTuple(FuncType func, TCTuple<TList>& tuple)	\
+	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)	\
 	{																	\
 		return func(
 

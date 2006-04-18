@@ -38,29 +38,29 @@ class TCFreeFunction :
 
 ////////////////////////////////////////////////////////////////////////////////
 // Shortcuts to make the code nicer.
-#define f_declare_start(paramCount)	\
-template <typename RetType, class TypeList, typename FuncType>	\
+#define f_declare_start(paramCount)										\
+template <typename RetType, class TypeList, typename FuncType>			\
 class TCFreeFunctionBase <RetType, TypeList, paramCount, FuncType> :	\
-	public TIFunction<RetType, TypeList>	\
-{	\
-	protected:	\
-		FuncType mFunction;	\
-		inline TCFreeFunctionBase(FuncType func) : mFunction(func)	\
-		{	\
-			\
-		}	\
-			\
-	public:		\
+	public TIFunction<RetType, TypeList>								\
+{																		\
+	protected:															\
+		FuncType mFunction;												\
+		inline TCFreeFunctionBase(FuncType func) : mFunction(func)		\
+		{																\
+																		\
+		}																\
+																		\
+	public:																\
 		RetType operator()
 
 #define t_declare
-#define p_declare	\
-		{	\
-			return mFunction	\
+#define p_declare			const										\
+		{																\
+			return mFunction											\
 
-#define f_declare_end	\
-										;	\
-		}	\
+#define f_declare_end													\
+										;								\
+		}																\
 };
 
 

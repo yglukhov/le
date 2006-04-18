@@ -47,25 +47,25 @@ class _CFunctionInterfaceBase
 template <typename RetType, class TList>
 class TIFunctionBase<RetType, TList, 0> : public _CFunctionInterfaceBase
 {
-	public: virtual RetType operator()() = 0;
+	public: virtual RetType operator()() const = 0;
 };
 
 template <typename RetType, class TList>
 class TIFunctionBase<RetType, TList, 1> : public _CFunctionInterfaceBase
 {
-	public: virtual RetType operator()(t(0)) = 0;
+	public: virtual RetType operator()(t(0)) const = 0;
 };
 
 template <typename RetType, class TList>
 class TIFunctionBase<RetType, TList, 2> : public _CFunctionInterfaceBase
 {
-	public: virtual RetType operator()(t(0), t(1)) = 0;
+	public: virtual RetType operator()(t(0), t(1)) const = 0;
 };
 
 template <typename RetType, class TList>
 class TIFunctionBase<RetType, TList, 3> : public _CFunctionInterfaceBase
 {
-	public: virtual RetType operator()(t(0), t(1), t(2)) = 0;
+	public: virtual RetType operator()(t(0), t(1), t(2)) const = 0;
 };
 
 #undef t
