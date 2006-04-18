@@ -53,7 +53,6 @@ class TCPointer
 		inline void retain();
 		inline void release();
 		inline void autorelease();
-//		void dump(std::ostream& ostream);
 
 		//////////////////////////////////////////////////////////////////////////
 		// Private section
@@ -177,10 +176,20 @@ const T* TCPointer<T>::operator->() const
 	return mObj;
 }
 
+LE_NAMESPACE_END
+
+
+void _le_TCPointer_reset(void*);
+void _le_TCPointer_retain(void*);
+void _le_CAutoreleasePool_addObject(void*, void(*)(void*));
+void _le_TCPointer_release(void*, void(*)(void*));
+
+
+LE_NAMESPACE_START
+
 template <typename T>
 T* TCPointer<T>::reset(T* toValue)
 {
-	void _le_TCPointer_reset(void*);
 	_le_TCPointer_reset(static_cast<void*>(mObj));
 	T* retValue = mObj;
 	operator=(toValue);
@@ -190,7 +199,6 @@ T* TCPointer<T>::reset(T* toValue)
 template <typename T>
 void TCPointer<T>::retain()
 {
-	void _le_TCPointer_retain(void*);
 	_le_TCPointer_retain(static_cast<void*>(mObj));
 }
 
@@ -199,7 +207,6 @@ void TCPointer<T>::release()
 {
 	if(mObj)
 	{
-		void _le_TCPointer_release(void*, void(*)(void*));
 		_le_TCPointer_release(static_cast<void*>(mObj), deleteFunc);
 	}
 }
@@ -207,7 +214,6 @@ void TCPointer<T>::release()
 template <typename T>
 void TCPointer<T>::autorelease()
 {
-	void _le_CAutoreleasePool_addObject(void*, void(*)(void*));
 	_le_CAutoreleasePool_addObject(static_cast<void*>(mObj), deleteFunc);
 }
 

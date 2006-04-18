@@ -83,11 +83,17 @@ class TCClass : public IClass
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
+LE_NAMESPACE_END
+
+void _le_register_class(const std::string&, LE_NESTED_NAMESPACE IClass*);
+
+LE_NAMESPACE_START
+
+
 template <typename T>
 TCClass<T>::TCClass(const char* name) :
 	IClass(name)
 {
-	void _le_register_class(const std::string&, IClass*);
 	_le_register_class(mName, this);
 }
 

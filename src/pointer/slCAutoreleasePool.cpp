@@ -1,6 +1,10 @@
 #include "slCAutoreleasePool.h"
 #include <debug/slDebug.h>
 
+
+void _le_TCPointer_release(void*, void(*)(void*)); // defined in TCPointer.cpp
+
+
 LE_NAMESPACE_START
 
 static CAutoreleasePool* _currentPool = NULL;
@@ -12,8 +16,6 @@ CAutoreleasePool::CAutoreleasePool() : mPrevPool(_currentPool)
 
 CAutoreleasePool::~CAutoreleasePool()
 {
-	void _le_TCPointer_release(void*, void(*)(void*)); // defined in TCPointer.cpp
-
 	CPointerList::iterator end = mPointerList.end();
 	for (CPointerList::iterator iter = mPointerList.begin(); iter != end; ++iter)
 	{
