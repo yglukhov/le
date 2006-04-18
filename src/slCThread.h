@@ -2,21 +2,33 @@
 
 #include <config/slPrefix.h>
 #include <function/slTCFunction.h>
+#include <string>
 
 LE_NAMESPACE_START
 
 class CThread
 {
 	public:
-		CThread(const TCFunction<>& threadProc, bool startImmediately = true);
-		~CThread();
-
+		static CThread* create(const TCFunction<>& threadProc,
+							   bool startImmediately = true);
+		
+		
+		static CThread* thread();
 		void start();
 //		void stop();
 
+		const char* someString()
+		{
+			return mSomeString.c_str();
+		}
+		
 	private:
+		inline CThread(const TCFunction<>&, bool);
+		~CThread();
+
 		void* mThread;
 		TCFunction<> mThreadProc;
+		std::string mSomeString;
 };
 
 LE_NAMESPACE_END
