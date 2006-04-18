@@ -359,9 +359,11 @@
 				B01DEECB09F0EDBE00EE27D3 /* slTypes.h */,
 				B01DEECC09F0EDBE00EE27D3 /* util */,
 			);
+			indentWidth = 4;
 			name = src;
 			path = ../../src;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 4;
 		};
 		B01DEE8909F0EDBD00EE27D3 /* class */ = {
 			isa = PBXGroup;
