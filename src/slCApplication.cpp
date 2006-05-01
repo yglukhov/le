@@ -9,7 +9,6 @@
 #include "slConstants.h"
 #include "slCControlDelegate.h"
 #include "slCNotificationCenter.h"
-#include "slCFile.h"
 #include <pointer/slCAutoreleasePool.h>
 #include <debug/slDebug.h>
 

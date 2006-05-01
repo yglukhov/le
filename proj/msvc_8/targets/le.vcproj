@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\build\$(ProjectName)\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\build\$(ProjectName)\intermediate\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\build\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\build\intermediate\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -292,30 +292,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\slCFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCFile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCFolder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCFolder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCMutex.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCMutex.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\slCNotificationCenter.cpp"
 				>
 			</File>
@@ -357,14 +333,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\slCTheme.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCThread.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\slCThread.h"
 				>
 			</File>
 			<File
@@ -576,6 +544,82 @@
 				>
 				<File
 					RelativePath="..\..\..\src\config\slPrefix.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="thread"
+				>
+				<File
+					RelativePath="..\..\..\src\thread\slCMutex.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\slCMutex.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\slCThread.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\slCThread.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="file"
+				>
+				<File
+					RelativePath="..\..\..\src\file\slCFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\file\slCFile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\file\slCFolder.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\file\slCFolder.h"
 					>
 				</File>
 			</Filter>
