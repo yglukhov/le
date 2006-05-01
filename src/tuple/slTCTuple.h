@@ -21,10 +21,20 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		////////////////////////////////////////////////////////////////////////
 		// value<index>() - return a reference to the object in the tuple at index
 		template <unsigned index>
-		typename TTypeList::template TypeAt<index>::result& value()
+		const typename TTypeList::template TypeAt<index>::result& value() const
 		{
 			return TCUnitTuple<TTypeList,
 							TSDefaultTupleUnit>::template unit<index>().mValue;
+		}
+
+		////////////////////////////////////////////////////////////////////////
+		// value<index>() - return a const reference to the object in the tuple
+		// at index
+		template <unsigned index>
+		void value(const typename TTypeList::template TypeAt<index>::result& newValue)
+		{
+			TCUnitTuple<TTypeList,
+					TSDefaultTupleUnit>::template unit<index>().mValue = newValue;
 		}
 
 		////////////////////////////////////////////////////////////////////////

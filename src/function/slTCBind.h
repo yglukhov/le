@@ -34,7 +34,7 @@ public:
 	RetType operator()(T0 p0) const
 	{
 		TCTuple<TSTypeList<T0> > paramTuple;
-		paramTuple.template value<0>() = p0;
+		paramTuple.template value<0>(p0);
 
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
@@ -46,8 +46,8 @@ public:
 	RetType operator()(T0 p0, T1 p1) const
 	{
 		TCTuple<TSTypeList<T0, T1> > paramTuple;
-		paramTuple.template value<0>() = p0;
-		paramTuple.template value<1>() = p1;
+		paramTuple.template value<0>(p0);
+		paramTuple.template value<1>(p1);
 
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
@@ -59,9 +59,9 @@ public:
 	RetType operator()(T0 p0, T1 p1, T2 p2) const
 	{
 		TCTuple<TSTypeList<T0, T1, T2> > paramTuple;
-		paramTuple.template value<0>() = p0;
-		paramTuple.template value<1>() = p1;
-		paramTuple.template value<2>() = p2;
+		paramTuple.template value<0>(p0);
+		paramTuple.template value<1>(p1);
+		paramTuple.template value<2>(p2);
 
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
@@ -73,10 +73,10 @@ public:
 	RetType operator()(T0 p0, T1 p1, T2 p2, T3 p3)
 	{
 		TCTuple<TSTypeList<T0, T1, T2, T3> > paramTuple;
-		paramTuple.template value<0>() = p0;
-		paramTuple.template value<1>() = p1;
-		paramTuple.template value<2>() = p2;
-		paramTuple.template value<3>() = p3;
+		paramTuple.template value<0>(p0);
+		paramTuple.template value<1>(p1);
+		paramTuple.template value<2>(p2);
+		paramTuple.template value<3>(p3);
 
 		TCTuple<FuncParamList> tuple;
 		copyFromParamToFuncTuple<0>(paramTuple, tuple);
@@ -87,7 +87,7 @@ public:
 private:
 	template <unsigned index /* should be 0 */, class TParamTypeList>
 	inline void copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
-													 TCTuple<FuncParamList>& funcTuple)
+													 TCTuple<FuncParamList>& funcTuple) const
 	{
 		_copyFromParamToFuncTuple<index, TParamTypeList>(paramTuple, funcTuple,
 														TSBoolToType<(index < FuncParamList::length)>());
@@ -96,7 +96,7 @@ private:
 	template <unsigned index, class TParamTypeList>
 	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 													  TCTuple<FuncParamList>& funcTuple,
-													  TSBoolToType<false> /* inBands */)
+													  TSBoolToType<false> /* inBands */) const
 	{
 
 	}
@@ -104,7 +104,7 @@ private:
 	template <unsigned index, class TParamTypeList>
 	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 													  TCTuple<FuncParamList>& funcTuple,
-													  TSBoolToType<true> /* inBands */)
+													  TSBoolToType<true> /* inBands */) const
 	{
 		typedef TSParamTraits<typename RealTypeList::template TypeAt<index>::result> Traits;
 		__copyFromParamToFuncTuple<index, Traits::bind, TParamTypeList>(paramTuple, funcTuple,
@@ -115,17 +115,17 @@ private:
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 														TCTuple<FuncParamList>& funcTuple,
-														TSBoolToType<true> /* notBinded */)
+														TSBoolToType<true> /* notBinded */) const
 	{
-		funcTuple.template value<index>() = mTuple.template value<index>();
+		funcTuple.template value<index>(mTuple.template value<index>());
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 														TCTuple<FuncParamList>& funcTuple,
-														TSBoolToType<false> /* notBinded */)
+														TSBoolToType<false> /* notBinded */) const
 	{
-		funcTuple.template value<index>() = paramTuple.template value<bindIndex>();
+		funcTuple.template value<index>(paramTuple.template value<bindIndex>());
 	}
 
 	FunctionType mFunction;
@@ -144,7 +144,7 @@ template <typename FunctionType, typename B0>
 TCBind<FunctionType, TSTypeList<B0> > bind(FunctionType func, B0 b0)
 {
 	TCBind<FunctionType, TSTypeList<B0> > result(func);
-	result.mTuple.template value<0>() = b0;
+	result.mTuple.template value<0>(b0);
 	return result;
 }
 
@@ -152,8 +152,8 @@ template <typename FunctionType, typename B0, typename B1>
 TCBind<FunctionType, TSTypeList<B0, B1> > bind(FunctionType func, B0 b0, B1 b1)
 {
 	TCBind<FunctionType, TSTypeList<B0, B1> > result(func);
-	result.mTuple.template value<0>() = b0;
-	result.mTuple.template value<1>() = b1;
+	result.mTuple.template value<0>(b0);
+	result.mTuple.template value<1>(b1);
 	return result;
 }
 
@@ -161,9 +161,9 @@ template <typename FunctionType, typename B0, typename B1, typename B2>
 TCBind<FunctionType, TSTypeList<B0, B1, B2> > bind(FunctionType func, B0 b0, B1 b1, B2 b2)
 {
 	TCBind<FunctionType, TSTypeList<B0, B1, B2> > result(func);
-	result.mTuple.template value<0>() = b0;
-	result.mTuple.template value<1>() = b1;
-	result.mTuple.template value<2>() = b2;
+	result.mTuple.template value<0>(b0);
+	result.mTuple.template value<1>(b1);
+	result.mTuple.template value<2>(b2);
 	return result;
 }
 

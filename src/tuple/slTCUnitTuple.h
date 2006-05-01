@@ -15,6 +15,12 @@ class TCUnitTuple
 		{
 			return static_cast<TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
 		}
+
+		template <unsigned int index>
+		inline const TUnit<typename TTypeList::template TypeAt<index>::result, index>& unit() const
+		{
+			return static_cast<const TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
+		}
 };
 
 
