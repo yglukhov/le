@@ -466,6 +466,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\src\function\base\slTSFreeFunctionCallWithTuple.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\function\base\slTSFreeFunctionPointerTraits.h"
 						>
 					</File>
@@ -474,7 +478,7 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\function\base\slTSFunctionCallWithTuple.h"
+						RelativePath="..\..\..\src\function\base\slTSMemberFunctionCallWithTuple.h"
 						>
 					</File>
 					<File
@@ -530,6 +534,18 @@
 			<Filter
 				Name="util"
 				>
+				<File
+					RelativePath="..\..\..\src\util\slCompareTypes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\util\slToPointer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\util\slTSConstRef.h"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\util\slTSConstToType.h"
 					>

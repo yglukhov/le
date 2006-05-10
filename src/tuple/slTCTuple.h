@@ -1,6 +1,7 @@
 #pragma once
 
 #include <util/slTSConstToType.h>
+#include <util/slTSConstRef.h>
 #include "slTCUnitTuple.h"
 
 LE_NAMESPACE_START
@@ -31,7 +32,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		// value<index>() - return a const reference to the object in the tuple
 		// at index
 		template <unsigned index>
-		void value(const typename TTypeList::template TypeAt<index>::result& newValue)
+		void value(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
 		{
 			TCUnitTuple<TTypeList,
 					TSDefaultTupleUnit>::template unit<index>().mValue = newValue;

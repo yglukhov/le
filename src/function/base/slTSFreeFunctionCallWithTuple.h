@@ -6,10 +6,10 @@
 LE_NAMESPACE_START
 
 template <typename RetType, unsigned length>
-struct TSFunctionCallWithTuple;
+struct TSFreeFunctionCallWithTuple;
 
 template <typename R>
-struct TSFunctionCallWithTuple<R, 0>
+struct TSFreeFunctionCallWithTuple<R, 0>
 {
 	template <typename FuncType, class TList>
 	static inline R callWithTuple(FuncType func, const TCTuple<TList>& /*tuple*/)
@@ -20,7 +20,7 @@ struct TSFunctionCallWithTuple<R, 0>
 
 #define f_declare_start(number)											\
 template <typename R>													\
-struct TSFunctionCallWithTuple<R, number>								\
+struct TSFreeFunctionCallWithTuple<R, number>							\
 {																		\
 	template <typename FuncType, class TList>							\
 	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)	\

@@ -1,5 +1,5 @@
 
-#define FUNCTORS_TESTING 0
+#define FUNCTORS_TESTING 1
 
 #if FUNCTORS_TESTING
 
@@ -33,18 +33,18 @@ struct Predicate <i2t<i>, i2t<j> >
 	enum { result = (i < j)?(-1):((i > j)?(1):(0)) };
 };
 
+class A
+{
+	public:
+		void memberOfA(int a)
+		{
+			std::cout << "memberOfA(" << a << ")" << std::endl;
+		}
+};
+
 int main(int argc, char * const argv[])
 {
-	using namespace le;
-
-	TCFunction<void, TSTypeList<int> > func1 = f;
-	func1(5);
-
-	TCFunction<void, TSTypeList<int, float, int> > func2 = bind(f, bindTo(2));
-	func2(4, 5.0f, 7);
-
-	TCFunction<void, TSTypeList<int> > func3 = bind(func2, 1, 5.0f, bindTo(0));
-	func3(9);
+//	using namespace le;
 
 	std::cout << "Typelist sorting" << std::endl;
 	
@@ -89,6 +89,22 @@ int main(int argc, char * const argv[])
 	sortedList::TypeAt<14>::result::f();
 	sortedList::TypeAt<15>::result::f();
 	sortedList::TypeAt<16>::result::f();
+
+	std::cout << std::endl << "Member bind testing" << std::endl;
+
+	A objA;
+
+	TCFunction<void, TSTypeList<A*, int> > func = bind(&A::memberOfA, bindTo(0), bindTo(1));
+
+	func(&objA, 5);
+	
+	/*TCFunction<void, TSTypeList<A*> > func2 = func;
+	
+	func(&objA);
+	func2(&objA);
+
+	TCFunction<> func3 = bind(func2, &objA);
+	func3();*/
 
 	return 1;
 }

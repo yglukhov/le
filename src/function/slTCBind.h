@@ -3,6 +3,7 @@
 #include <config/slPrefix.h>
 #include "slTSFunctionTraits.h"
 #include "base/slTSBind.h"
+//#include <util/slCompareTypes.h>
 
 LE_NAMESPACE_START
 
@@ -15,7 +16,7 @@ template <typename FunctionType, class RealTypeList>
 class TCBind
 {
 	typedef TSFunctionTraits<FunctionType> TraitsType;
-	typedef typename TraitsType::ParamList FuncParamList;
+	typedef typename TraitsType::TupleParamList FuncParamList;
 	typedef typename TraitsType::RetType RetType;
 	typedef TCTuple<RealTypeList> TupleType;
 
@@ -25,7 +26,7 @@ public:
 
 	}
 
-	RetType operator()() const
+	inline RetType operator()() const
 	{
 		return TraitsType::callWithTuple(mFunction, mTuple);
 	}
@@ -89,13 +90,13 @@ private:
 	inline void copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
 													 TCTuple<FuncParamList>& funcTuple) const
 	{
-		_copyFromParamToFuncTuple<index, TParamTypeList>(paramTuple, funcTuple,
-														TSBoolToType<(index < FuncParamList::length)>());
+		_copyFromParamToFuncTuple<index>(paramTuple, funcTuple,
+										TSBoolToType<(index < FuncParamList::length)>());
 	}
 
 	template <unsigned index, class TParamTypeList>
-	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
-													  TCTuple<FuncParamList>& funcTuple,
+	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& /*paramTuple*/,
+													  TCTuple<FuncParamList>& /*funcTuple*/,
 													  TSBoolToType<false> /* inBands */) const
 	{
 
@@ -107,25 +108,24 @@ private:
 													  TSBoolToType<true> /* inBands */) const
 	{
 		typedef TSParamTraits<typename RealTypeList::template TypeAt<index>::result> Traits;
-		__copyFromParamToFuncTuple<index, Traits::bind, TParamTypeList>(paramTuple, funcTuple,
-															TSBoolToType<Traits::bind == -1>());
-		copyFromParamToFuncTuple<index + 1, TParamTypeList>(paramTuple, funcTuple);
+		funcTuple.template value<index>(paramForIndex<index, Traits::bind, TParamTypeList>(
+											paramTuple, TSBoolToType<Traits::bind != -1>()));
+
+		copyFromParamToFuncTuple<index + 1>(paramTuple, funcTuple);
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
-	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
-														TCTuple<FuncParamList>& funcTuple,
-														TSBoolToType<true> /* notBinded */) const
+	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
+		paramForIndex(TCTuple<TParamTypeList>& /*paramTuple*/, TSBoolToType<false> /* isBinded */) const
 	{
-		funcTuple.template value<index>(mTuple.template value<index>());
+		return mTuple.template value<index>();
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
-	inline void __copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
-														TCTuple<FuncParamList>& funcTuple,
-														TSBoolToType<false> /* notBinded */) const
+	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
+		paramForIndex(TCTuple<TParamTypeList>& paramTuple, TSBoolToType<true> /* isBinded */) const
 	{
-		funcTuple.template value<index>(paramTuple.template value<bindIndex>());
+		return paramTuple.template value<bindIndex>();
 	}
 
 	FunctionType mFunction;

@@ -110,13 +110,13 @@ struct TSTypeList
 	template <template <typename Arg1, typename Arg2> class TPredicate>
 	struct SortAsc
 	{
-		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, true>::_result> result;
+		typedef typename Sort<TPredicate, true>::result result;
 	};
 
 	template <template <typename Arg1, typename Arg2> class TPredicate>
 	struct SortDes
 	{
-		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, false>::_result> result;
+		typedef typename Sort<TPredicate, false>::result result;
 	};
 };
 

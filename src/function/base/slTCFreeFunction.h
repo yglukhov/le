@@ -56,7 +56,7 @@ class TCFreeFunctionBase <RetType, TypeList, paramCount, FuncType> :	\
 #define t_declare
 #define p_declare			const										\
 		{																\
-			return mFunction											\
+			return mFunction
 
 #define f_declare_end													\
 										;								\

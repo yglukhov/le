@@ -2,7 +2,7 @@
 #define H_slPrefix_included
 
 
-#define LE_IN_OWN_NAMESPACE 1
+#define LE_IN_OWN_NAMESPACE 0
 #define LE_IN_SOKIRA_NAMESPACE 0
 
 #if LE_IN_SOKIRA_NAMESPACE

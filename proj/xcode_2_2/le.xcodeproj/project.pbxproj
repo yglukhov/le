@@ -109,7 +109,7 @@
 		B01DF41B09F1231900EE27D3 /* slTSBind.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF41D09F1231A00EE27D3 /* slTSFreeFunctionPointerTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF41E09F1231B00EE27D3 /* slTSFreeFunctionTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41F09F1231B00EE27D3 /* slTSFunctionCallWithTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB109F0EDBE00EE27D3 /* slTSFunctionCallWithTuple.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B01DF41F09F1231B00EE27D3 /* slTSFreeFunctionCallWithTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF42009F1231E00EE27D3 /* slTSMemberFunctionTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF42109F1233200EE27D3 /* slTSTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC109F0EDBE00EE27D3 /* slTSTuple.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF42209F1234300EE27D3 /* slTSTypeListAppendTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC609F0EDBE00EE27D3 /* slTSTypeListAppendTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -211,7 +211,7 @@
 		B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSBind.h; sourceTree = "<group>"; };
 		B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionPointerTraits.h; sourceTree = "<group>"; };
 		B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionTraits.h; sourceTree = "<group>"; };
-		B01DEEB109F0EDBE00EE27D3 /* slTSFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFunctionCallWithTuple.h; sourceTree = "<group>"; };
+		B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionCallWithTuple.h; sourceTree = "<group>"; };
 		B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionTraits.h; sourceTree = "<group>"; };
 		B01DEEB309F0EDBE00EE27D3 /* slTCBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCBind.h; sourceTree = "<group>"; };
 		B01DEEB409F0EDBE00EE27D3 /* slTCFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFunction.h; sourceTree = "<group>"; };
@@ -240,6 +240,10 @@
 		B01DF32409F11D0900EE27D3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../../res/macosx/Info.plist; sourceTree = SOURCE_ROOT; };
 		B01DF32709F11D6D00EE27D3 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = ../../res/macosx/English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		B0BFC06209A7691E009FA6DF /* LE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0D7A9F50A0E1B6E00BC2491 /* slTSMemberFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionCallWithTuple.h; sourceTree = "<group>"; };
+		B0D7A9F70A0E24E800BC2491 /* slToPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slToPointer.h; sourceTree = "<group>"; };
+		B0D7AA0A0A0E343100BC2491 /* slTSConstRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSConstRef.h; sourceTree = "<group>"; };
+		B0F19FCD0A0E3E7D0066F382 /* slTSFunctionOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSFunctionOwner.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +305,16 @@
 		B01DEE7209F0EDBD00EE27D3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B0D7A9D40A0E170E00BC2491 /* thread */,
+				B0D7A9CD0A0E16DC00BC2491 /* file */,
+				B01DEE8909F0EDBD00EE27D3 /* class */,
+				B01DEE9409F0EDBD00EE27D3 /* config */,
+				B01DEEA409F0EDBD00EE27D3 /* debug */,
+				B01DEEAA09F0EDBE00EE27D3 /* function */,
+				B01DEEB809F0EDBE00EE27D3 /* pointer */,
+				B01DEEBF09F0EDBE00EE27D3 /* tuple */,
+				B01DEEC409F0EDBE00EE27D3 /* typelist */,
+				B01DEECC09F0EDBE00EE27D3 /* util */,
 				B01DEE7309F0EDBD00EE27D3 /* slBasicGraphicControllers.cpp */,
 				B01DEE7409F0EDBD00EE27D3 /* slBasicGraphicControllers.h */,
 				B01DEE7509F0EDBD00EE27D3 /* slCApplication.cpp */,
@@ -319,18 +333,10 @@
 				B01DEE8209F0EDBD00EE27D3 /* slCDragger.h */,
 				B01DEE8309F0EDBD00EE27D3 /* slCFace.cpp */,
 				B01DEE8409F0EDBD00EE27D3 /* slCFace.h */,
-				B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */,
-				B01DEE8609F0EDBD00EE27D3 /* slCFile.h */,
-				B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */,
-				B01DEE8809F0EDBD00EE27D3 /* slCFolder.h */,
-				B01DEE8909F0EDBD00EE27D3 /* class */,
-				B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */,
-				B01DEE8F09F0EDBD00EE27D3 /* slCMutex.h */,
 				B01DEE9009F0EDBD00EE27D3 /* slCNotificationCenter.cpp */,
 				B01DEE9109F0EDBD00EE27D3 /* slCNotificationCenter.h */,
 				B01DEE9209F0EDBD00EE27D3 /* slCObject.cpp */,
 				B01DEE9309F0EDBD00EE27D3 /* slCObject.h */,
-				B01DEE9409F0EDBD00EE27D3 /* config */,
 				B01DEE9509F0EDBD00EE27D3 /* slConstants.h */,
 				B01DEE9609F0EDBD00EE27D3 /* slCRunLoop.cpp */,
 				B01DEE9709F0EDBD00EE27D3 /* slCRunLoop.h */,
@@ -340,24 +346,16 @@
 				B01DEE9B09F0EDBD00EE27D3 /* slCText.h */,
 				B01DEE9C09F0EDBD00EE27D3 /* slCTheme.cpp */,
 				B01DEE9D09F0EDBD00EE27D3 /* slCTheme.h */,
-				B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */,
-				B01DEE9F09F0EDBD00EE27D3 /* slCThread.h */,
 				B01DEEA009F0EDBD00EE27D3 /* slCTitleBar.cpp */,
 				B01DEEA109F0EDBD00EE27D3 /* slCTitleBar.h */,
 				B01DEEA209F0EDBD00EE27D3 /* slCWindow.cpp */,
 				B01DEEA309F0EDBD00EE27D3 /* slCWindow.h */,
-				B01DEEA409F0EDBD00EE27D3 /* debug */,
-				B01DEEAA09F0EDBE00EE27D3 /* function */,
 				B01DEEB609F0EDBE00EE27D3 /* slGraphicControllerRegistration.h */,
 				B01DEEB709F0EDBE00EE27D3 /* main.cpp */,
-				B01DEEB809F0EDBE00EE27D3 /* pointer */,
 				B01DEEBD09F0EDBE00EE27D3 /* slStdExtensions.h */,
 				B01DEEBE09F0EDBE00EE27D3 /* slTCGraphicControllerClass.h */,
-				B01DEEBF09F0EDBE00EE27D3 /* tuple */,
-				B01DEEC409F0EDBE00EE27D3 /* typelist */,
 				B01DEECA09F0EDBE00EE27D3 /* slTypes.cpp */,
 				B01DEECB09F0EDBE00EE27D3 /* slTypes.h */,
-				B01DEECC09F0EDBE00EE27D3 /* util */,
 			);
 			indentWidth = 4;
 			name = src;
@@ -415,8 +413,10 @@
 				B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */,
 				B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */,
 				B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */,
-				B01DEEB109F0EDBE00EE27D3 /* slTSFunctionCallWithTuple.h */,
+				B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */,
 				B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */,
+				B0D7A9F50A0E1B6E00BC2491 /* slTSMemberFunctionCallWithTuple.h */,
+				B0F19FCD0A0E3E7D0066F382 /* slTSFunctionOwner.h */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -474,6 +474,8 @@
 			children = (
 				B01DEECD09F0EDBE00EE27D3 /* slTSConstToType.h */,
 				B01DEECE09F0EDBE00EE27D3 /* slTSSelect.h */,
+				B0D7A9F70A0E24E800BC2491 /* slToPointer.h */,
+				B0D7AA0A0A0E343100BC2491 /* slTSConstRef.h */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -495,6 +497,28 @@
 			name = res;
 			path = ../../res/macosx;
 			sourceTree = SOURCE_ROOT;
+		};
+		B0D7A9CD0A0E16DC00BC2491 /* file */ = {
+			isa = PBXGroup;
+			children = (
+				B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */,
+				B01DEE8609F0EDBD00EE27D3 /* slCFile.h */,
+				B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */,
+				B01DEE8809F0EDBD00EE27D3 /* slCFolder.h */,
+			);
+			path = file;
+			sourceTree = "<group>";
+		};
+		B0D7A9D40A0E170E00BC2491 /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */,
+				B01DEE8F09F0EDBD00EE27D3 /* slCMutex.h */,
+				B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */,
+				B01DEE9F09F0EDBD00EE27D3 /* slCThread.h */,
+			);
+			path = thread;
+			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* doc */ = {
 			isa = PBXGroup;
@@ -556,7 +580,7 @@
 				B01DF41B09F1231900EE27D3 /* slTSBind.h in Headers */,
 				B01DF41D09F1231A00EE27D3 /* slTSFreeFunctionPointerTraits.h in Headers */,
 				B01DF41E09F1231B00EE27D3 /* slTSFreeFunctionTraits.h in Headers */,
-				B01DF41F09F1231B00EE27D3 /* slTSFunctionCallWithTuple.h in Headers */,
+				B01DF41F09F1231B00EE27D3 /* slTSFreeFunctionCallWithTuple.h in Headers */,
 				B01DF42009F1231E00EE27D3 /* slTSMemberFunctionTraits.h in Headers */,
 				B01DF42109F1233200EE27D3 /* slTSTuple.h in Headers */,
 				B01DF42209F1234300EE27D3 /* slTSTypeListAppendTraits.h in Headers */,
