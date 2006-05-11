@@ -1,5 +1,5 @@
 
-#define FUNCTORS_TESTING 1
+#define FUNCTORS_TESTING 0
 
 #if FUNCTORS_TESTING
 
@@ -111,12 +111,12 @@ int main(int argc, char * const argv[])
 
 #else // FUNCTORS_TESTING
 
-#include "slCApplication.h"
+#include <slCApplication.h>
 
 
 int main(int argc, char * const argv[])
 {
-	le::CApplication theApplication;
+	CApplication theApplication;
 	return theApplication.run(argc, argv);
 }
 
