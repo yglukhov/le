@@ -10,6 +10,8 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="&quot;$(slSrcRoot)&quot;;&quot;$(slLibsRoot)&quot;"
+		PreprocessorDefinitions="DEBUG"
+		MinimalRebuild="true"
 		DisableLanguageExtensions="true"
 		TreatWChar_tAsBuiltInType="false"
 		WarningLevel="3"

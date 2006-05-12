@@ -1,11 +1,13 @@
 
-#define FUNCTORS_TESTING 0
+#define FUNCTORS_TESTING 1
 
+#pragma comment(lib, "leCommon")
+#pragma comment(lib, "leGui")
 
 #if FUNCTORS_TESTING
 
-#include <function/slTCFunction.h>
-#include <function/slTCBind.h>
+#include <template/function/slTCFunction.h>
+#include <template/function/slTCBind.h>
 #include <iostream>
 
 void f(int a)
@@ -118,7 +120,7 @@ int main(int argc, char * const argv[])
 #pragma comment(lib, "leFile")
 #pragma comment(lib, "leThread")
 
-#include <slCApplication.h>
+#include <gui/slCApplication.h>
 
 
 int main(int argc, char * const argv[])

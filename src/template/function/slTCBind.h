@@ -1,6 +1,6 @@
 #pragma once
 
-#include <config/slPrefix.h>
+#include <common/config/slPrefix.h>
 #include "slTSFunctionTraits.h"
 #include "base/slTSBind.h"
 //#include <util/slCompareTypes.h>

@@ -40,7 +40,7 @@
 			OutputDirectory="$(SolutionDir)\$(ProjectName)\build\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)\$(ProjectName)\build\intermediate\$(ConfigurationName)"
 			ConfigurationType="10"
-			InheritedPropertySheets=".\slProperties.vsprops"
+			InheritedPropertySheets=".\slProperties.vsprops;.\leProperties.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
