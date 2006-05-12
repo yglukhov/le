@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="testProperties"
+	OutputDirectory="$(testOutputDir)"
+	InheritedPropertySheets=".\leProperties.vsprops"
+	BuildLogFile="$(IntDir)\$(ProjectName)_test_BuildLog.htm"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(testBuildedLeHeadersDir)&quot;;$(NOINHERIT)"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;$(testBuildedLeLibsDir)&quot;"
+	/>
+	<UserMacro
+		Name="testBuildedLeLibsDir"
+		Value="$(leLibOutputDir)"
+	/>
+	<UserMacro
+		Name="testBuildedLeHeadersDir"
+		Value="$(leHeaderOutputDir)"
+	/>
+	<UserMacro
+		Name="testOutputDir"
+		Value="$(SolutionDir)build\$(ConfigurationName)\test"
+	/>
+</VisualStudioPropertySheet>

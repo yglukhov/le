@@ -1,9 +1,9 @@
 #pragma once
 
-#include <config/slPrefix.h>
+#include <common/config/slPrefix.h>
+#include <gui/slConstants.h>
 #include <fstream>
 #include <string>
-#include "slConstants.h"
 
 LE_NAMESPACE_START
 

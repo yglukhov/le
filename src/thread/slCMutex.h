@@ -1,6 +1,6 @@
 #pragma once
 
-#include <config/slPrefix.h>
+#include <common/config/slPrefix.h>
 
 #if !defined _WIN32
 #include <pthread.h>

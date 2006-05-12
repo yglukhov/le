@@ -1,0 +1,20 @@
+#pragma once
+
+#include <common/config/slPrefix.h>
+#include <common/class/slTCClass.h>
+
+LE_NAMESPACE_START
+
+////////////////////////////////////////////////////////////////////////////////
+// CObject
+////////////////////////////////////////////////////////////////////////////////
+class CObject
+{
+	DECLARE_RUNTIME_CLASS(CObject);
+
+	public:
+		CObject();
+		virtual ~CObject();
+};
+
+LE_NAMESPACE_END

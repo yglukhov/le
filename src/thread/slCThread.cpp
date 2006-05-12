@@ -5,7 +5,7 @@
 	#define STRICT
 	#include <windows.h>
 
-	#include <debug/slAssert.h>
+	#include <common/debug/slAssert.h>
 	LE_STATIC_ASSERT(sizeof(void*) == sizeof(HANDLE));
 #else // defined _WIN32
 	#include <pthread.h>

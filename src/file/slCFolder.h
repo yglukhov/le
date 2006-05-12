@@ -1,7 +1,7 @@
 #pragma once
 
-#include <config/slPrefix.h>
-#include "slConstants.h"
+#include <common/config/slPrefix.h>
+#include <gui/slConstants.h>
 
 #if !defined _WIN32
 #include <dirent.h> // posix header

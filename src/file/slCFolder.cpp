@@ -1,5 +1,5 @@
 #include "slCFolder.h"
-#include <debug/slDebug.h>
+#include <common/debug/slDebug.h>
 
 LE_NAMESPACE_START
 
