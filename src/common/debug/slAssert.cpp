@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ASSERT
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG
+#ifdef LE_DEBUG
 
 #include <common/slCObject.h>
 
@@ -31,5 +31,5 @@ void _le_assert(bool expression, const char* strExression, unsigned line, const 
 
 LE_NAMESPACE_END
 
-#endif // DEBUG
+#endif // LE_DEBUG
 

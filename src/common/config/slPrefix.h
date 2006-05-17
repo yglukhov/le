@@ -26,4 +26,9 @@
 #endif // not LE_IN_OWN_NAMESPACE
 
 
+#ifdef _DEBUG
+#define LE_DEBUG
+#endif
+
+
 #endif // not defined H_slPrefix_included

@@ -16,13 +16,12 @@ LE_NAMESPACE_START
 #endif
 
 
-#ifdef DEBUG
-#define LOG
-#endif // defined DEBUG
+#ifdef LE_DEBUG
+#define LE_ENABLE_LOG
+#endif // defined LE_DEBUG
 
 
-
-#ifdef LOG
+#ifdef LE_ENABLE_LOG
 
 #define LE_ENTER_LOG LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, false);
 #define LE_ENTER_LOG_QUIET LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, true);
@@ -31,7 +30,7 @@ LE_NAMESPACE_START
 #define IF_LOG(x) x
 
 
-#else // defined LOG
+#else // defined LE_ENABLE_LOG
 
 #define LE_ENTER_LOG
 #define LE_ENTER_LOG_QUIET
@@ -39,7 +38,7 @@ LE_NAMESPACE_START
 
 #define IF_LOG(x)
 
-#endif // not defined LOG
+#endif // not defined LE_ENABLE_LOG
 
 
 ////////////////////////////////////////////////////////////////////////////////
