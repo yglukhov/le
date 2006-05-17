@@ -18,7 +18,7 @@ CClient::CClient(char* ipAddress, int port, bool needConnect) :
 
 bool CClient::connect()
 {
-	mSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	mSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (-1 == mSocket)
 	{
 		std::cout << "Failed to create socket\n";

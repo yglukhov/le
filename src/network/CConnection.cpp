@@ -11,7 +11,7 @@ void* CConnection::read(unsigned length, int* realLength)
 	if (mSocket != -1)
 	{
 		void* data = new char(length);
-		*realLength = recv(mSocket, data, length, 0);
+		*realLength = ::recv(mSocket, data, length, 0);
 		
 		return data;
 	}
@@ -26,7 +26,7 @@ int CConnection::write(void* data, unsigned bytes)
 {
 	if (mSocket != -1)
 	{
-		return send(mSocket, data, bytes, 0);
+		return ::send(mSocket, data, bytes, 0);
 	}
 	else
 	{
@@ -43,6 +43,7 @@ CConnection::~CConnection()
 {
 	if (mSocket != -1)
 	{
-		//::close(mSocket);
+		::shutdown(mSock, 2);
+		::close(mSocket);
 	}
 }
