@@ -2,7 +2,7 @@
 
 #include <common/config/slPrefix.h>
 #include "slTIFunction.h"
-#include "slTSFunctionTraits.h"
+#include <template/function/slTSFunctionTraits.h>
 
 LE_NAMESPACE_START
 
