@@ -1,10 +1,19 @@
 
 #include "CConnection.h"
 
+#if defined _WIN32
+
+#include "winsock2.h"
+
+#else
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <iostream>
+
+#endif
 
 void* CConnection::read(unsigned length, int* realLength)
 {
@@ -43,7 +52,11 @@ CConnection::~CConnection()
 {
 	if (mSocket != -1)
 	{
-		::shutdown(mSock, 2);
+		::shutdown(mSocket, 2);
+#if defined _WIN32		
+		::closesocket(mSocket);
+#else
 		::close(mSocket);
+#endif
 	}
 }

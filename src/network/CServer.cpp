@@ -3,10 +3,19 @@
 
 #include <iostream>
 
+#if defined _WIN32
+
+#include "winsock2.h"
+
+#else
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <iostream>
+
+#endif
 
 
 
@@ -65,8 +74,12 @@ CServer::~CServer()
 {
 	if (mSock != -1)
 	{
-		shutdown(mSock, 2);
-		close(mSock);
+		::shutdown(mSock, 2);
+#if defined _WIN32		
+		::closesocket(mSock);
+#else
+		::close(mSock);
+#endif
 	}
 }
 //int startServer()
