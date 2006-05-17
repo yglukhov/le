@@ -10,12 +10,11 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="&quot;$(slSrcRoot)&quot;;&quot;$(slLibsRoot)&quot;"
-		PreprocessorDefinitions="DEBUG"
 		MinimalRebuild="true"
 		DisableLanguageExtensions="true"
-		TreatWChar_tAsBuiltInType="false"
 		WarningLevel="3"
 		Detect64BitPortabilityProblems="true"
+		DebugInformationFormat="4"
 	/>
 	<UserMacro
 		Name="slOutputDir"
@@ -32,5 +31,9 @@
 	<UserMacro
 		Name="slLibsRoot"
 		Value="$(SolutionDir)..\..\libs"
+	/>
+	<UserMacro
+		Name="slTestDir"
+		Value="$(SolutionDir)build\$(ConfigurationName)\test"
 	/>
 </VisualStudioPropertySheet>

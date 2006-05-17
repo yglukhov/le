@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\testProperties.vsprops"
+			InheritedPropertySheets=".\properties\testDebug.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -36,8 +36,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				DebugInformationFormat="4"
+				EnableFunctionLevelLinking="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -81,8 +80,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\testProperties.vsprops"
+			InheritedPropertySheets=".\properties\testRelease.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

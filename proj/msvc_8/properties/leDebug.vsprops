@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="leDebug"
+	OutputDirectory="$(leLibOutputDir)"
+	InheritedPropertySheets=".\slProperties.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		Optimization="0"
+		RuntimeLibrary="1"
+		ProgramDataBaseFileName="$(IntDir)\le_$(ProjectName).pdb"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		LinkLibraryDependencies="false"
+		GenerateDebugInformation="true"
+		OptimizeReferences="1"
+		EnableCOMDATFolding="1"
+	/>
+	<UserMacro
+		Name="leLibOutputDir"
+		Value="$(slOutputDir)\lib"
+	/>
+	<UserMacro
+		Name="leHeaderOutputDir"
+		Value="$(slOutputDir)\include"
+	/>
+</VisualStudioPropertySheet>

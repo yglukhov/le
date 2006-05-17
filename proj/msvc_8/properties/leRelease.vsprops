@@ -2,9 +2,16 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="leProperties"
+	Name="leRelease"
+	OutputDirectory="$(leLibOutputDir)"
 	InheritedPropertySheets=".\slProperties.vsprops"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		Optimization="3"
+		ProgramDataBaseFileName="$(IntDir)\le_$(ProjectName).pdb"
+		DebugInformationFormat="0"
+	/>
 	<UserMacro
 		Name="leLibOutputDir"
 		Value="$(slOutputDir)\lib"

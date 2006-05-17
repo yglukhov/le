@@ -18,8 +18,8 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="10"
-			InheritedPropertySheets=".\slProperties.vsprops;.\leProperties.vsprops"
-			CharacterSet="2"
+			InheritedPropertySheets=".\properties\leDebug.vsprops"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -37,11 +37,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\$(ProjectName)\build\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\$(ProjectName)\build\intermediate\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="10"
-			InheritedPropertySheets=".\slProperties.vsprops;.\leProperties.vsprops"
-			CharacterSet="2"
+			InheritedPropertySheets=".\properties\leRelease.vsprops"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

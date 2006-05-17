@@ -2,29 +2,36 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="testProperties"
+	Name="testDebug"
 	OutputDirectory="$(testOutputDir)"
-	InheritedPropertySheets=".\leProperties.vsprops"
+	InheritedPropertySheets=".\slProperties.vsprops"
 	BuildLogFile="$(IntDir)\$(ProjectName)_test_BuildLog.htm"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		Optimization="0"
 		AdditionalIncludeDirectories="&quot;$(testBuildedLeHeadersDir)&quot;;$(NOINHERIT)"
+		RuntimeLibrary="1"
+		ProgramDataBaseFileName="$(IntDir)\test_$(ProjectName).pdb"
 	/>
 	<Tool
 		Name="VCLinkerTool"
+		LinkLibraryDependencies="false"
 		AdditionalLibraryDirectories="&quot;$(testBuildedLeLibsDir)&quot;"
+		GenerateDebugInformation="true"
+		OptimizeReferences="1"
+		EnableCOMDATFolding="1"
 	/>
 	<UserMacro
 		Name="testBuildedLeLibsDir"
-		Value="$(leLibOutputDir)"
+		Value="$(slOutputDir)\lib"
 	/>
 	<UserMacro
 		Name="testBuildedLeHeadersDir"
-		Value="$(leHeaderOutputDir)"
+		Value="$(slOutputDir)\include"
 	/>
 	<UserMacro
 		Name="testOutputDir"
-		Value="$(SolutionDir)build\$(ConfigurationName)\test"
+		Value="$(slTestDir)"
 	/>
 </VisualStudioPropertySheet>
