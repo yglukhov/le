@@ -6,116 +6,63 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		B04FF9040A16002000F559ED /* le */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B04FF90C0A16005900F559ED /* Build configuration list for PBXAggregateTarget "le" */;
+			buildPhases = (
+				B04FF9140A1603BA00F559ED /* Copy Headers */,
+			);
+			buildSettings = {
+				PRODUCT_NAME = le;
+			};
+			dependencies = (
+				B04FF9060A16002900F559ED /* PBXTargetDependency */,
+				B04FF96D0A1615EA00F559ED /* PBXTargetDependency */,
+				B04FF9810A16168500F559ED /* PBXTargetDependency */,
+				B04FF9830A16168500F559ED /* PBXTargetDependency */,
+				B04FF9850A16168500F559ED /* PBXTargetDependency */,
+			);
+			name = le;
+			productName = le;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
-		B01DEECF09F0EDBE00EE27D3 /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7309F0EDBD00EE27D3 /* slBasicGraphicControllers.cpp */; };
-		B01DEED109F0EDBE00EE27D3 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7509F0EDBD00EE27D3 /* slCApplication.cpp */; };
-		B01DEED309F0EDBE00EE27D3 /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7709F0EDBD00EE27D3 /* slCButton.cpp */; };
-		B01DEED509F0EDBE00EE27D3 /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7909F0EDBD00EE27D3 /* slCButtonDelegate.cpp */; };
-		B01DEED709F0EDBE00EE27D3 /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7B09F0EDBD00EE27D3 /* slCControl.cpp */; };
-		B01DEED909F0EDBE00EE27D3 /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7D09F0EDBD00EE27D3 /* slCControlDelegate.cpp */; };
-		B01DEEDB09F0EDBE00EE27D3 /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7F09F0EDBD00EE27D3 /* slCDialog.cpp */; };
-		B01DEEDD09F0EDBE00EE27D3 /* slCDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8109F0EDBD00EE27D3 /* slCDragger.cpp */; };
-		B01DEEDF09F0EDBE00EE27D3 /* slCFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8309F0EDBD00EE27D3 /* slCFace.cpp */; };
-		B01DEEE109F0EDBE00EE27D3 /* slCFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */; };
-		B01DEEE309F0EDBE00EE27D3 /* slCFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */; };
-		B01DEEE509F0EDBE00EE27D3 /* slCClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8A09F0EDBD00EE27D3 /* slCClassFactory.cpp */; };
-		B01DEEE709F0EDBE00EE27D3 /* slTCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8C09F0EDBD00EE27D3 /* slTCClass.cpp */; };
-		B01DEEE909F0EDBE00EE27D3 /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */; };
-		B01DEEEB09F0EDBE00EE27D3 /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9009F0EDBD00EE27D3 /* slCNotificationCenter.cpp */; };
-		B01DEEED09F0EDBE00EE27D3 /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9209F0EDBD00EE27D3 /* slCObject.cpp */; };
-		B01DEEF209F0EDBE00EE27D3 /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9809F0EDBD00EE27D3 /* slCScreen.cpp */; };
-		B01DEEF409F0EDBE00EE27D3 /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9A09F0EDBD00EE27D3 /* slCText.cpp */; };
-		B01DEEF609F0EDBE00EE27D3 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9C09F0EDBD00EE27D3 /* slCTheme.cpp */; };
-		B01DEEF809F0EDBE00EE27D3 /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */; };
-		B01DEEFA09F0EDBE00EE27D3 /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA009F0EDBD00EE27D3 /* slCTitleBar.cpp */; };
-		B01DEEFC09F0EDBE00EE27D3 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA209F0EDBD00EE27D3 /* slCWindow.cpp */; };
-		B01DEEFE09F0EDBE00EE27D3 /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA509F0EDBD00EE27D3 /* slAssert.cpp */; };
-		B01DEF0009F0EDBE00EE27D3 /* slCLogEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA709F0EDBE00EE27D3 /* slCLogEntry.cpp */; };
-		B01DEF0E09F0EDBE00EE27D3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEB709F0EDBE00EE27D3 /* main.cpp */; };
-		B01DEF0F09F0EDBE00EE27D3 /* slCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEB909F0EDBE00EE27D3 /* slCAutoreleasePool.cpp */; };
-		B01DEF1109F0EDBE00EE27D3 /* slTCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEBB09F0EDBE00EE27D3 /* slTCPointer.cpp */; };
-		B01DEF1C09F0EDBE00EE27D3 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEECA09F0EDBE00EE27D3 /* slTypes.cpp */; };
 		B01DF32809F11D6D00EE27D3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B01DF32609F11D6D00EE27D3 /* InfoPlist.strings */; };
-		B01DF3CB09F1221F00EE27D3 /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7309F0EDBD00EE27D3 /* slBasicGraphicControllers.cpp */; };
-		B01DF3CC09F1222000EE27D3 /* slBasicGraphicControllers.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7409F0EDBD00EE27D3 /* slBasicGraphicControllers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3CD09F1222100EE27D3 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7509F0EDBD00EE27D3 /* slCApplication.cpp */; };
-		B01DF3CE09F1222200EE27D3 /* slCApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7609F0EDBD00EE27D3 /* slCApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3CF09F1222300EE27D3 /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7709F0EDBD00EE27D3 /* slCButton.cpp */; };
-		B01DF3D009F1222300EE27D3 /* slCButton.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7809F0EDBD00EE27D3 /* slCButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3D109F1222400EE27D3 /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7909F0EDBD00EE27D3 /* slCButtonDelegate.cpp */; };
-		B01DF3D209F1222500EE27D3 /* slCButtonDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7A09F0EDBD00EE27D3 /* slCButtonDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3D309F1222600EE27D3 /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7B09F0EDBD00EE27D3 /* slCControl.cpp */; };
-		B01DF3D409F1222600EE27D3 /* slCControl.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7C09F0EDBD00EE27D3 /* slCControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3D509F1222700EE27D3 /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7D09F0EDBD00EE27D3 /* slCControlDelegate.cpp */; };
-		B01DF3D609F1222800EE27D3 /* slCControlDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE7E09F0EDBD00EE27D3 /* slCControlDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3D709F1222900EE27D3 /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE7F09F0EDBD00EE27D3 /* slCDialog.cpp */; };
-		B01DF3D809F1222A00EE27D3 /* slCDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8009F0EDBD00EE27D3 /* slCDialog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3D909F1222A00EE27D3 /* slCDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8109F0EDBD00EE27D3 /* slCDragger.cpp */; };
-		B01DF3DA09F1222B00EE27D3 /* slCDragger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8209F0EDBD00EE27D3 /* slCDragger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3DB09F1222C00EE27D3 /* slCFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8309F0EDBD00EE27D3 /* slCFace.cpp */; };
-		B01DF3DC09F1222D00EE27D3 /* slCFace.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8409F0EDBD00EE27D3 /* slCFace.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3DD09F1222E00EE27D3 /* slCFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */; };
-		B01DF3DE09F1222E00EE27D3 /* slCFile.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8609F0EDBD00EE27D3 /* slCFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3DF09F1222F00EE27D3 /* slCFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */; };
-		B01DF3E009F1223000EE27D3 /* slCFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8809F0EDBD00EE27D3 /* slCFolder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3E109F1223200EE27D3 /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */; };
-		B01DF3E209F1223200EE27D3 /* slCMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8F09F0EDBD00EE27D3 /* slCMutex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3E309F1223300EE27D3 /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9009F0EDBD00EE27D3 /* slCNotificationCenter.cpp */; };
-		B01DF3E409F1223400EE27D3 /* slCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9109F0EDBD00EE27D3 /* slCNotificationCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3E509F1223500EE27D3 /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9209F0EDBD00EE27D3 /* slCObject.cpp */; };
-		B01DF3E609F1223600EE27D3 /* slCObject.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9309F0EDBD00EE27D3 /* slCObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3E709F1223700EE27D3 /* slConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9509F0EDBD00EE27D3 /* slConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3E809F1223A00EE27D3 /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9809F0EDBD00EE27D3 /* slCScreen.cpp */; };
-		B01DF3E909F1223B00EE27D3 /* slCScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9909F0EDBD00EE27D3 /* slCScreen.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3EA09F1223B00EE27D3 /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9A09F0EDBD00EE27D3 /* slCText.cpp */; };
-		B01DF3EB09F1223D00EE27D3 /* slCText.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9B09F0EDBD00EE27D3 /* slCText.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3EC09F1223D00EE27D3 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9C09F0EDBD00EE27D3 /* slCTheme.cpp */; };
-		B01DF3ED09F1223D00EE27D3 /* slCTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9D09F0EDBD00EE27D3 /* slCTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3EE09F1223F00EE27D3 /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */; };
-		B01DF3EF09F1223F00EE27D3 /* slCThread.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE9F09F0EDBD00EE27D3 /* slCThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F009F1224000EE27D3 /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA009F0EDBD00EE27D3 /* slCTitleBar.cpp */; };
-		B01DF3F109F1224000EE27D3 /* slCTitleBar.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEA109F0EDBD00EE27D3 /* slCTitleBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F209F1224200EE27D3 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA209F0EDBD00EE27D3 /* slCWindow.cpp */; };
-		B01DF3F309F1224200EE27D3 /* slCWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEA309F0EDBD00EE27D3 /* slCWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F409F1226200EE27D3 /* slGraphicControllerRegistration.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB609F0EDBE00EE27D3 /* slGraphicControllerRegistration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F509F1226400EE27D3 /* slStdExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEBD09F0EDBE00EE27D3 /* slStdExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F609F1226500EE27D3 /* slTCGraphicControllerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEBE09F0EDBE00EE27D3 /* slTCGraphicControllerClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F709F1226600EE27D3 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEECA09F0EDBE00EE27D3 /* slTypes.cpp */; };
-		B01DF3F809F1226700EE27D3 /* slTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEECB09F0EDBE00EE27D3 /* slTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3F909F1226D00EE27D3 /* slCClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8A09F0EDBD00EE27D3 /* slCClassFactory.cpp */; };
-		B01DF3FA09F1226E00EE27D3 /* slCClassFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8B09F0EDBD00EE27D3 /* slCClassFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3FB09F1227000EE27D3 /* slTCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEE8C09F0EDBD00EE27D3 /* slTCClass.cpp */; };
-		B01DF3FC09F1227000EE27D3 /* slTCClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEE8D09F0EDBD00EE27D3 /* slTCClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF3FE09F1228200EE27D3 /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA509F0EDBD00EE27D3 /* slAssert.cpp */; };
-		B01DF3FF09F1228200EE27D3 /* slAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEA609F0EDBE00EE27D3 /* slAssert.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40009F1228400EE27D3 /* slCLogEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEA709F0EDBE00EE27D3 /* slCLogEntry.cpp */; };
-		B01DF40109F1228500EE27D3 /* slCLogEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEA809F0EDBE00EE27D3 /* slCLogEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40209F1228500EE27D3 /* slDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEA909F0EDBE00EE27D3 /* slDebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40309F1228900EE27D3 /* slTCBind.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB309F0EDBE00EE27D3 /* slTCBind.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40409F1228A00EE27D3 /* slTCFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB409F0EDBE00EE27D3 /* slTCFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40509F1228C00EE27D3 /* slTSFunctionTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB509F0EDBE00EE27D3 /* slTSFunctionTraits.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40609F1228E00EE27D3 /* slCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEB909F0EDBE00EE27D3 /* slCAutoreleasePool.cpp */; };
-		B01DF40709F1228E00EE27D3 /* slCAutoreleasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEBA09F0EDBE00EE27D3 /* slCAutoreleasePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40809F1229000EE27D3 /* slTCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01DEEBB09F0EDBE00EE27D3 /* slTCPointer.cpp */; };
-		B01DF40909F1229000EE27D3 /* slTCPointer.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEBC09F0EDBE00EE27D3 /* slTCPointer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40A09F1229500EE27D3 /* slTCTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC209F0EDBE00EE27D3 /* slTCTuple.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40B09F1229600EE27D3 /* slTCUnitTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC309F0EDBE00EE27D3 /* slTCUnitTuple.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40C09F1229900EE27D3 /* slTSTypeList.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC909F0EDBE00EE27D3 /* slTSTypeList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40D09F1229C00EE27D3 /* slTSConstToType.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEECD09F0EDBE00EE27D3 /* slTSConstToType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF40E09F1229D00EE27D3 /* slTSSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEECE09F0EDBE00EE27D3 /* slTSSelect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B01DF41909F1231700EE27D3 /* slTCFreeFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAC09F0EDBE00EE27D3 /* slTCFreeFunction.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41A09F1231700EE27D3 /* slTIFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAD09F0EDBE00EE27D3 /* slTIFunction.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41B09F1231900EE27D3 /* slTSBind.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41D09F1231A00EE27D3 /* slTSFreeFunctionPointerTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41E09F1231B00EE27D3 /* slTSFreeFunctionTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF41F09F1231B00EE27D3 /* slTSFreeFunctionCallWithTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF42009F1231E00EE27D3 /* slTSMemberFunctionTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF42109F1233200EE27D3 /* slTSTuple.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC109F0EDBE00EE27D3 /* slTSTuple.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF42209F1234300EE27D3 /* slTSTypeListAppendTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC609F0EDBE00EE27D3 /* slTSTypeListAppendTraits.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF42309F1234300EE27D3 /* slTSTypeListBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC709F0EDBE00EE27D3 /* slTSTypeListBase.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B01DF42409F1234500EE27D3 /* slTSTypeListSorting.h in Headers */ = {isa = PBXBuildFile; fileRef = B01DEEC809F0EDBE00EE27D3 /* slTSTypeListSorting.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B01DF42909F123B000EE27D3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B04FF8DF0A15FF2600F559ED /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8940A15FF1E00F559ED /* slCObject.cpp */; };
+		B04FF8E10A15FF2A00F559ED /* slCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8900A15FF1E00F559ED /* slCAutoreleasePool.cpp */; };
+		B04FF8E30A15FF2B00F559ED /* slTCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8920A15FF1E00F559ED /* slTCPointer.cpp */; };
+		B04FF8E50A15FF2E00F559ED /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF88A0A15FF1E00F559ED /* slAssert.cpp */; };
+		B04FF8E70A15FF2F00F559ED /* slCLogEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF88C0A15FF1E00F559ED /* slCLogEntry.cpp */; };
+		B04FF8EB0A15FF3500F559ED /* slCClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8830A15FF1E00F559ED /* slCClassFactory.cpp */; };
+		B04FF8ED0A15FF3600F559ED /* slTCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8850A15FF1E00F559ED /* slTCClass.cpp */; };
+		B04FF96E0A16160C00F559ED /* slCFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8970A15FF1E00F559ED /* slCFile.cpp */; };
+		B04FF96F0A16160D00F559ED /* slCFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8990A15FF1E00F559ED /* slCFolder.cpp */; };
+		B04FF9860A1616A600F559ED /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF87C0A15FF1E00F559ED /* slCNotificationCenter.cpp */; };
+		B04FF9870A1616AF00F559ED /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8DB0A15FF1F00F559ED /* slCMutex.cpp */; };
+		B04FF9880A1616AF00F559ED /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8DD0A15FF1F00F559ED /* slCThread.cpp */; };
+		B04FF9890A1616B800F559ED /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF89C0A15FF1E00F559ED /* slBasicGraphicControllers.cpp */; };
+		B04FF98A0A1616B800F559ED /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF89E0A15FF1E00F559ED /* slCApplication.cpp */; };
+		B04FF98B0A1616BA00F559ED /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A00A15FF1E00F559ED /* slCButton.cpp */; };
+		B04FF98C0A1616BB00F559ED /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A20A15FF1E00F559ED /* slCButtonDelegate.cpp */; };
+		B04FF98D0A1616BC00F559ED /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A40A15FF1E00F559ED /* slCControl.cpp */; };
+		B04FF98E0A1616BD00F559ED /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A60A15FF1E00F559ED /* slCControlDelegate.cpp */; };
+		B04FF98F0A1616BE00F559ED /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A80A15FF1E00F559ED /* slCDialog.cpp */; };
+		B04FF9900A1616C000F559ED /* slCDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8AA0A15FF1E00F559ED /* slCDragger.cpp */; };
+		B04FF9910A1616C100F559ED /* slCFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8AC0A15FF1E00F559ED /* slCFace.cpp */; };
+		B04FF9920A1616C200F559ED /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8AF0A15FF1E00F559ED /* slCScreen.cpp */; };
+		B04FF9930A1616C300F559ED /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8B10A15FF1E00F559ED /* slCText.cpp */; };
+		B04FF9940A1616C400F559ED /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8B30A15FF1E00F559ED /* slCTheme.cpp */; };
+		B04FF9950A1616C500F559ED /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8B50A15FF1E00F559ED /* slCTitleBar.cpp */; };
+		B04FF9960A1616C600F559ED /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8B70A15FF1E00F559ED /* slCWindow.cpp */; };
+		B04FF9970A1616C800F559ED /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */; };
+		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
+		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B04FFAA30A1625A100F559ED /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF8750A15FAEA00F559ED /* leCommon.lib */; };
+		B04FFAA80A1625D500F559ED /* leAux.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF9740A16162100F559ED /* leAux.lib */; };
 		B0BFC0A509A76986009FA6DF /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B0BFC0A609A76986009FA6DF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 		B0BFC20809A778FE009FA6DF /* LE.framework in Copy to System frameworks */ = {isa = PBXBuildFile; fileRef = B0BFC06209A7691E009FA6DF /* LE.framework */; };
@@ -136,6 +83,44 @@
 		};
 /* End PBXBuildStyle section */
 
+/* Begin PBXContainerItemProxy section */
+		B04FF9050A16002900F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCommon */;
+			remoteInfo = leCommon;
+		};
+		B04FF96C0A1615EA00F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9640A1615C900F559ED /* leFile */;
+			remoteInfo = leFile;
+		};
+		B04FF9800A16168500F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9730A16162100F559ED /* leAux */;
+			remoteInfo = leAux;
+		};
+		B04FF9820A16168500F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9790A16165700F559ED /* leThread */;
+			remoteInfo = leThread;
+		};
+		B04FF9840A16168500F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
+			remoteInfo = leGui;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		B0BFC20609A778B2009FA6DF /* Copy to System frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -151,99 +136,101 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8DD76F6C0486A84900D96B5E /* le */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = le; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76F6C0486A84900D96B5E /* le */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = folder; path = le; sourceTree = BUILT_PRODUCTS_DIR; };
 		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		B01DEE7309F0EDBD00EE27D3 /* slBasicGraphicControllers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slBasicGraphicControllers.cpp; sourceTree = "<group>"; };
-		B01DEE7409F0EDBD00EE27D3 /* slBasicGraphicControllers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slBasicGraphicControllers.h; sourceTree = "<group>"; };
-		B01DEE7509F0EDBD00EE27D3 /* slCApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCApplication.cpp; sourceTree = "<group>"; };
-		B01DEE7609F0EDBD00EE27D3 /* slCApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCApplication.h; sourceTree = "<group>"; };
-		B01DEE7709F0EDBD00EE27D3 /* slCButton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButton.cpp; sourceTree = "<group>"; };
-		B01DEE7809F0EDBD00EE27D3 /* slCButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButton.h; sourceTree = "<group>"; };
-		B01DEE7909F0EDBD00EE27D3 /* slCButtonDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButtonDelegate.cpp; sourceTree = "<group>"; };
-		B01DEE7A09F0EDBD00EE27D3 /* slCButtonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButtonDelegate.h; sourceTree = "<group>"; };
-		B01DEE7B09F0EDBD00EE27D3 /* slCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControl.cpp; sourceTree = "<group>"; };
-		B01DEE7C09F0EDBD00EE27D3 /* slCControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCControl.h; sourceTree = "<group>"; };
-		B01DEE7D09F0EDBD00EE27D3 /* slCControlDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControlDelegate.cpp; sourceTree = "<group>"; };
-		B01DEE7E09F0EDBD00EE27D3 /* slCControlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCControlDelegate.h; sourceTree = "<group>"; };
-		B01DEE7F09F0EDBD00EE27D3 /* slCDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCDialog.cpp; sourceTree = "<group>"; };
-		B01DEE8009F0EDBD00EE27D3 /* slCDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDialog.h; sourceTree = "<group>"; };
-		B01DEE8109F0EDBD00EE27D3 /* slCDragger.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCDragger.cpp; sourceTree = "<group>"; };
-		B01DEE8209F0EDBD00EE27D3 /* slCDragger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDragger.h; sourceTree = "<group>"; };
-		B01DEE8309F0EDBD00EE27D3 /* slCFace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFace.cpp; sourceTree = "<group>"; };
-		B01DEE8409F0EDBD00EE27D3 /* slCFace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFace.h; sourceTree = "<group>"; };
-		B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFile.cpp; sourceTree = "<group>"; };
-		B01DEE8609F0EDBD00EE27D3 /* slCFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFile.h; sourceTree = "<group>"; };
-		B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFolder.cpp; sourceTree = "<group>"; };
-		B01DEE8809F0EDBD00EE27D3 /* slCFolder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFolder.h; sourceTree = "<group>"; };
-		B01DEE8A09F0EDBD00EE27D3 /* slCClassFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCClassFactory.cpp; sourceTree = "<group>"; };
-		B01DEE8B09F0EDBD00EE27D3 /* slCClassFactory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCClassFactory.h; sourceTree = "<group>"; };
-		B01DEE8C09F0EDBD00EE27D3 /* slTCClass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTCClass.cpp; sourceTree = "<group>"; };
-		B01DEE8D09F0EDBD00EE27D3 /* slTCClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCClass.h; sourceTree = "<group>"; };
-		B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCMutex.cpp; sourceTree = "<group>"; };
-		B01DEE8F09F0EDBD00EE27D3 /* slCMutex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCMutex.h; sourceTree = "<group>"; };
-		B01DEE9009F0EDBD00EE27D3 /* slCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCNotificationCenter.cpp; sourceTree = "<group>"; };
-		B01DEE9109F0EDBD00EE27D3 /* slCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCNotificationCenter.h; sourceTree = "<group>"; };
-		B01DEE9209F0EDBD00EE27D3 /* slCObject.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCObject.cpp; sourceTree = "<group>"; };
-		B01DEE9309F0EDBD00EE27D3 /* slCObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCObject.h; sourceTree = "<group>"; };
-		B01DEE9509F0EDBD00EE27D3 /* slConstants.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slConstants.h; sourceTree = "<group>"; };
-		B01DEE9609F0EDBD00EE27D3 /* slCRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCRunLoop.cpp; sourceTree = "<group>"; };
-		B01DEE9709F0EDBD00EE27D3 /* slCRunLoop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCRunLoop.h; sourceTree = "<group>"; };
-		B01DEE9809F0EDBD00EE27D3 /* slCScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCScreen.cpp; sourceTree = "<group>"; };
-		B01DEE9909F0EDBD00EE27D3 /* slCScreen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCScreen.h; sourceTree = "<group>"; };
-		B01DEE9A09F0EDBD00EE27D3 /* slCText.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCText.cpp; sourceTree = "<group>"; };
-		B01DEE9B09F0EDBD00EE27D3 /* slCText.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCText.h; sourceTree = "<group>"; };
-		B01DEE9C09F0EDBD00EE27D3 /* slCTheme.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCTheme.cpp; sourceTree = "<group>"; };
-		B01DEE9D09F0EDBD00EE27D3 /* slCTheme.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCTheme.h; sourceTree = "<group>"; };
-		B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCThread.cpp; sourceTree = "<group>"; };
-		B01DEE9F09F0EDBD00EE27D3 /* slCThread.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCThread.h; sourceTree = "<group>"; };
-		B01DEEA009F0EDBD00EE27D3 /* slCTitleBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCTitleBar.cpp; sourceTree = "<group>"; };
-		B01DEEA109F0EDBD00EE27D3 /* slCTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCTitleBar.h; sourceTree = "<group>"; };
-		B01DEEA209F0EDBD00EE27D3 /* slCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCWindow.cpp; sourceTree = "<group>"; };
-		B01DEEA309F0EDBD00EE27D3 /* slCWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCWindow.h; sourceTree = "<group>"; };
-		B01DEEA509F0EDBD00EE27D3 /* slAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slAssert.cpp; sourceTree = "<group>"; };
-		B01DEEA609F0EDBE00EE27D3 /* slAssert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slAssert.h; sourceTree = "<group>"; };
-		B01DEEA709F0EDBE00EE27D3 /* slCLogEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCLogEntry.cpp; sourceTree = "<group>"; };
-		B01DEEA809F0EDBE00EE27D3 /* slCLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCLogEntry.h; sourceTree = "<group>"; };
-		B01DEEA909F0EDBE00EE27D3 /* slDebug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slDebug.h; sourceTree = "<group>"; };
-		B01DEEAC09F0EDBE00EE27D3 /* slTCFreeFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFreeFunction.h; sourceTree = "<group>"; };
-		B01DEEAD09F0EDBE00EE27D3 /* slTIFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTIFunction.h; sourceTree = "<group>"; };
-		B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSBind.h; sourceTree = "<group>"; };
-		B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionPointerTraits.h; sourceTree = "<group>"; };
-		B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionTraits.h; sourceTree = "<group>"; };
-		B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionCallWithTuple.h; sourceTree = "<group>"; };
-		B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionTraits.h; sourceTree = "<group>"; };
-		B01DEEB309F0EDBE00EE27D3 /* slTCBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCBind.h; sourceTree = "<group>"; };
-		B01DEEB409F0EDBE00EE27D3 /* slTCFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFunction.h; sourceTree = "<group>"; };
-		B01DEEB509F0EDBE00EE27D3 /* slTSFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFunctionTraits.h; sourceTree = "<group>"; };
-		B01DEEB609F0EDBE00EE27D3 /* slGraphicControllerRegistration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slGraphicControllerRegistration.h; sourceTree = "<group>"; };
-		B01DEEB709F0EDBE00EE27D3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		B01DEEB909F0EDBE00EE27D3 /* slCAutoreleasePool.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCAutoreleasePool.cpp; sourceTree = "<group>"; };
-		B01DEEBA09F0EDBE00EE27D3 /* slCAutoreleasePool.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCAutoreleasePool.h; sourceTree = "<group>"; };
-		B01DEEBB09F0EDBE00EE27D3 /* slTCPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTCPointer.cpp; sourceTree = "<group>"; };
-		B01DEEBC09F0EDBE00EE27D3 /* slTCPointer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCPointer.h; sourceTree = "<group>"; };
-		B01DEEBD09F0EDBE00EE27D3 /* slStdExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slStdExtensions.h; sourceTree = "<group>"; };
-		B01DEEBE09F0EDBE00EE27D3 /* slTCGraphicControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCGraphicControllerClass.h; sourceTree = "<group>"; };
-		B01DEEC109F0EDBE00EE27D3 /* slTSTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTuple.h; sourceTree = "<group>"; };
-		B01DEEC209F0EDBE00EE27D3 /* slTCTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCTuple.h; sourceTree = "<group>"; };
-		B01DEEC309F0EDBE00EE27D3 /* slTCUnitTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCUnitTuple.h; sourceTree = "<group>"; };
-		B01DEEC609F0EDBE00EE27D3 /* slTSTypeListAppendTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListAppendTraits.h; sourceTree = "<group>"; };
-		B01DEEC709F0EDBE00EE27D3 /* slTSTypeListBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListBase.h; sourceTree = "<group>"; };
-		B01DEEC809F0EDBE00EE27D3 /* slTSTypeListSorting.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListSorting.h; sourceTree = "<group>"; };
-		B01DEEC909F0EDBE00EE27D3 /* slTSTypeList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeList.h; sourceTree = "<group>"; };
-		B01DEECA09F0EDBE00EE27D3 /* slTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTypes.cpp; sourceTree = "<group>"; };
-		B01DEECB09F0EDBE00EE27D3 /* slTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTypes.h; sourceTree = "<group>"; };
-		B01DEECD09F0EDBE00EE27D3 /* slTSConstToType.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSConstToType.h; sourceTree = "<group>"; };
-		B01DEECE09F0EDBE00EE27D3 /* slTSSelect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSSelect.h; sourceTree = "<group>"; };
 		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
-		B01DF12A09F1045C00EE27D3 /* slPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slPrefix.h; sourceTree = "<group>"; };
 		B01DF32409F11D0900EE27D3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../../res/macosx/Info.plist; sourceTree = SOURCE_ROOT; };
 		B01DF32709F11D6D00EE27D3 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = ../../res/macosx/English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		B04FF8750A15FAEA00F559ED /* leCommon.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leCommon.lib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF87C0A15FF1E00F559ED /* slCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCNotificationCenter.cpp; sourceTree = "<group>"; };
+		B04FF87D0A15FF1E00F559ED /* slCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCNotificationCenter.h; sourceTree = "<group>"; };
+		B04FF87E0A15FF1E00F559ED /* slCRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCRunLoop.cpp; sourceTree = "<group>"; };
+		B04FF87F0A15FF1E00F559ED /* slCRunLoop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCRunLoop.h; sourceTree = "<group>"; };
+		B04FF8800A15FF1E00F559ED /* slStdExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slStdExtensions.h; sourceTree = "<group>"; };
+		B04FF8830A15FF1E00F559ED /* slCClassFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCClassFactory.cpp; sourceTree = "<group>"; };
+		B04FF8840A15FF1E00F559ED /* slCClassFactory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCClassFactory.h; sourceTree = "<group>"; };
+		B04FF8850A15FF1E00F559ED /* slTCClass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTCClass.cpp; sourceTree = "<group>"; };
+		B04FF8860A15FF1E00F559ED /* slTCClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCClass.h; sourceTree = "<group>"; };
+		B04FF8880A15FF1E00F559ED /* slPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slPrefix.h; sourceTree = "<group>"; };
+		B04FF88A0A15FF1E00F559ED /* slAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slAssert.cpp; sourceTree = "<group>"; };
+		B04FF88B0A15FF1E00F559ED /* slAssert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slAssert.h; sourceTree = "<group>"; };
+		B04FF88C0A15FF1E00F559ED /* slCLogEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCLogEntry.cpp; sourceTree = "<group>"; };
+		B04FF88D0A15FF1E00F559ED /* slCLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCLogEntry.h; sourceTree = "<group>"; };
+		B04FF88E0A15FF1E00F559ED /* slDebug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slDebug.h; sourceTree = "<group>"; };
+		B04FF8900A15FF1E00F559ED /* slCAutoreleasePool.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCAutoreleasePool.cpp; sourceTree = "<group>"; };
+		B04FF8910A15FF1E00F559ED /* slCAutoreleasePool.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCAutoreleasePool.h; sourceTree = "<group>"; };
+		B04FF8920A15FF1E00F559ED /* slTCPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTCPointer.cpp; sourceTree = "<group>"; };
+		B04FF8930A15FF1E00F559ED /* slTCPointer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCPointer.h; sourceTree = "<group>"; };
+		B04FF8940A15FF1E00F559ED /* slCObject.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCObject.cpp; sourceTree = "<group>"; };
+		B04FF8950A15FF1E00F559ED /* slCObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCObject.h; sourceTree = "<group>"; };
+		B04FF8970A15FF1E00F559ED /* slCFile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFile.cpp; sourceTree = "<group>"; };
+		B04FF8980A15FF1E00F559ED /* slCFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFile.h; sourceTree = "<group>"; };
+		B04FF8990A15FF1E00F559ED /* slCFolder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFolder.cpp; sourceTree = "<group>"; };
+		B04FF89A0A15FF1E00F559ED /* slCFolder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFolder.h; sourceTree = "<group>"; };
+		B04FF89C0A15FF1E00F559ED /* slBasicGraphicControllers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slBasicGraphicControllers.cpp; sourceTree = "<group>"; };
+		B04FF89D0A15FF1E00F559ED /* slBasicGraphicControllers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slBasicGraphicControllers.h; sourceTree = "<group>"; };
+		B04FF89E0A15FF1E00F559ED /* slCApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCApplication.cpp; sourceTree = "<group>"; };
+		B04FF89F0A15FF1E00F559ED /* slCApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCApplication.h; sourceTree = "<group>"; };
+		B04FF8A00A15FF1E00F559ED /* slCButton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButton.cpp; sourceTree = "<group>"; };
+		B04FF8A10A15FF1E00F559ED /* slCButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButton.h; sourceTree = "<group>"; };
+		B04FF8A20A15FF1E00F559ED /* slCButtonDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButtonDelegate.cpp; sourceTree = "<group>"; };
+		B04FF8A30A15FF1E00F559ED /* slCButtonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButtonDelegate.h; sourceTree = "<group>"; };
+		B04FF8A40A15FF1E00F559ED /* slCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControl.cpp; sourceTree = "<group>"; };
+		B04FF8A50A15FF1E00F559ED /* slCControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCControl.h; sourceTree = "<group>"; };
+		B04FF8A60A15FF1E00F559ED /* slCControlDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControlDelegate.cpp; sourceTree = "<group>"; };
+		B04FF8A70A15FF1E00F559ED /* slCControlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCControlDelegate.h; sourceTree = "<group>"; };
+		B04FF8A80A15FF1E00F559ED /* slCDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCDialog.cpp; sourceTree = "<group>"; };
+		B04FF8A90A15FF1E00F559ED /* slCDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDialog.h; sourceTree = "<group>"; };
+		B04FF8AA0A15FF1E00F559ED /* slCDragger.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCDragger.cpp; sourceTree = "<group>"; };
+		B04FF8AB0A15FF1E00F559ED /* slCDragger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDragger.h; sourceTree = "<group>"; };
+		B04FF8AC0A15FF1E00F559ED /* slCFace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFace.cpp; sourceTree = "<group>"; };
+		B04FF8AD0A15FF1E00F559ED /* slCFace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFace.h; sourceTree = "<group>"; };
+		B04FF8AE0A15FF1E00F559ED /* slConstants.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slConstants.h; sourceTree = "<group>"; };
+		B04FF8AF0A15FF1E00F559ED /* slCScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCScreen.cpp; sourceTree = "<group>"; };
+		B04FF8B00A15FF1E00F559ED /* slCScreen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCScreen.h; sourceTree = "<group>"; };
+		B04FF8B10A15FF1E00F559ED /* slCText.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCText.cpp; sourceTree = "<group>"; };
+		B04FF8B20A15FF1E00F559ED /* slCText.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCText.h; sourceTree = "<group>"; };
+		B04FF8B30A15FF1E00F559ED /* slCTheme.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCTheme.cpp; sourceTree = "<group>"; };
+		B04FF8B40A15FF1E00F559ED /* slCTheme.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCTheme.h; sourceTree = "<group>"; };
+		B04FF8B50A15FF1E00F559ED /* slCTitleBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCTitleBar.cpp; sourceTree = "<group>"; };
+		B04FF8B60A15FF1E00F559ED /* slCTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCTitleBar.h; sourceTree = "<group>"; };
+		B04FF8B70A15FF1E00F559ED /* slCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCWindow.cpp; sourceTree = "<group>"; };
+		B04FF8B80A15FF1E00F559ED /* slCWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCWindow.h; sourceTree = "<group>"; };
+		B04FF8B90A15FF1E00F559ED /* slGraphicControllerRegistration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slGraphicControllerRegistration.h; sourceTree = "<group>"; };
+		B04FF8BA0A15FF1E00F559ED /* slTCGraphicControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCGraphicControllerClass.h; sourceTree = "<group>"; };
+		B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTypes.cpp; sourceTree = "<group>"; };
+		B04FF8BC0A15FF1E00F559ED /* slTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTypes.h; sourceTree = "<group>"; };
+		B04FF8C00A15FF1E00F559ED /* slTCFreeFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFreeFunction.h; sourceTree = "<group>"; };
+		B04FF8C10A15FF1E00F559ED /* slTIFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTIFunction.h; sourceTree = "<group>"; };
+		B04FF8C20A15FF1E00F559ED /* slTSBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSBind.h; sourceTree = "<group>"; };
+		B04FF8C30A15FF1E00F559ED /* slTSFreeFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionCallWithTuple.h; sourceTree = "<group>"; };
+		B04FF8C40A15FF1E00F559ED /* slTSFreeFunctionPointerTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionPointerTraits.h; sourceTree = "<group>"; };
+		B04FF8C50A15FF1E00F559ED /* slTSFreeFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFreeFunctionTraits.h; sourceTree = "<group>"; };
+		B04FF8C60A15FF1E00F559ED /* slTSMemberFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionCallWithTuple.h; sourceTree = "<group>"; };
+		B04FF8C70A15FF1E00F559ED /* slTSMemberFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionTraits.h; sourceTree = "<group>"; };
+		B04FF8C80A15FF1E00F559ED /* slTCBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCBind.h; sourceTree = "<group>"; };
+		B04FF8C90A15FF1E00F559ED /* slTCFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFunction.h; sourceTree = "<group>"; };
+		B04FF8CA0A15FF1E00F559ED /* slTSFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFunctionTraits.h; sourceTree = "<group>"; };
+		B04FF8CD0A15FF1E00F559ED /* slTSTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTuple.h; sourceTree = "<group>"; };
+		B04FF8CE0A15FF1E00F559ED /* slTCTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCTuple.h; sourceTree = "<group>"; };
+		B04FF8CF0A15FF1E00F559ED /* slTCUnitTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCUnitTuple.h; sourceTree = "<group>"; };
+		B04FF8D20A15FF1F00F559ED /* slTSTypeListAppendTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListAppendTraits.h; sourceTree = "<group>"; };
+		B04FF8D30A15FF1F00F559ED /* slTSTypeListBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListBase.h; sourceTree = "<group>"; };
+		B04FF8D40A15FF1F00F559ED /* slTSTypeListSorting.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListSorting.h; sourceTree = "<group>"; };
+		B04FF8D50A15FF1F00F559ED /* slTSTypeList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeList.h; sourceTree = "<group>"; };
+		B04FF8D70A15FF1F00F559ED /* slTSConstRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSConstRef.h; sourceTree = "<group>"; };
+		B04FF8D80A15FF1F00F559ED /* slTSConstToType.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSConstToType.h; sourceTree = "<group>"; };
+		B04FF8D90A15FF1F00F559ED /* slTSSelect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSSelect.h; sourceTree = "<group>"; };
+		B04FF8DB0A15FF1F00F559ED /* slCMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCMutex.cpp; sourceTree = "<group>"; };
+		B04FF8DC0A15FF1F00F559ED /* slCMutex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCMutex.h; sourceTree = "<group>"; };
+		B04FF8DD0A15FF1F00F559ED /* slCThread.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCThread.cpp; sourceTree = "<group>"; };
+		B04FF8DE0A15FF1F00F559ED /* slCThread.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCThread.h; sourceTree = "<group>"; };
+		B04FF9650A1615C900F559ED /* leFile.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leFile.lib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF9740A16162100F559ED /* leAux.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leAux.lib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF97A0A16165700F559ED /* leThread.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leThread.lib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF97F0A16167400F559ED /* leGui.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leGui.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0BFC06209A7691E009FA6DF /* LE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0D7A9F50A0E1B6E00BC2491 /* slTSMemberFunctionCallWithTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSMemberFunctionCallWithTuple.h; sourceTree = "<group>"; };
-		B0D7A9F70A0E24E800BC2491 /* slToPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slToPointer.h; sourceTree = "<group>"; };
-		B0D7AA0A0A0E343100BC2491 /* slTSConstRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSConstRef.h; sourceTree = "<group>"; };
-		B0F19FCD0A0E3E7D0066F382 /* slTSFunctionOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSFunctionOwner.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +240,17 @@
 			files = (
 				B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */,
 				B01DF42909F123B000EE27D3 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF9AA0A16174E00F559ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FFAA80A1625D500F559ED /* leAux.lib in Frameworks */,
+				B04FFAA30A1625A100F559ED /* leCommon.lib in Frameworks */,
+				B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */,
+				B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +269,8 @@
 		08FB7794FE84155DC02AAC07 /* le */ = {
 			isa = PBXGroup;
 			children = (
-				B01DEE7209F0EDBD00EE27D3 /* src */,
+				B04FF9D30A1619B700F559ED /* test */,
+				B04FF9A10A1616E700F559ED /* src */,
 				B01DEE7109F0ED6D00EE27D3 /* libs */,
 				B01DF32309F11CE800EE27D3 /* res */,
 				C6859E8C029090F304C91782 /* doc */,
@@ -287,6 +286,11 @@
 			children = (
 				8DD76F6C0486A84900D96B5E /* le */,
 				B0BFC06209A7691E009FA6DF /* LE.framework */,
+				B04FF8750A15FAEA00F559ED /* leCommon.lib */,
+				B04FF9650A1615C900F559ED /* leFile.lib */,
+				B04FF9740A16162100F559ED /* leAux.lib */,
+				B04FF97A0A16165700F559ED /* leThread.lib */,
+				B04FF97F0A16167400F559ED /* leGui.lib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -301,184 +305,6 @@
 			path = ../../libs;
 			sourceTree = SOURCE_ROOT;
 			tabWidth = 4;
-		};
-		B01DEE7209F0EDBD00EE27D3 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				B0D7A9D40A0E170E00BC2491 /* thread */,
-				B0D7A9CD0A0E16DC00BC2491 /* file */,
-				B01DEE8909F0EDBD00EE27D3 /* class */,
-				B01DEE9409F0EDBD00EE27D3 /* config */,
-				B01DEEA409F0EDBD00EE27D3 /* debug */,
-				B01DEEAA09F0EDBE00EE27D3 /* function */,
-				B01DEEB809F0EDBE00EE27D3 /* pointer */,
-				B01DEEBF09F0EDBE00EE27D3 /* tuple */,
-				B01DEEC409F0EDBE00EE27D3 /* typelist */,
-				B01DEECC09F0EDBE00EE27D3 /* util */,
-				B01DEE7309F0EDBD00EE27D3 /* slBasicGraphicControllers.cpp */,
-				B01DEE7409F0EDBD00EE27D3 /* slBasicGraphicControllers.h */,
-				B01DEE7509F0EDBD00EE27D3 /* slCApplication.cpp */,
-				B01DEE7609F0EDBD00EE27D3 /* slCApplication.h */,
-				B01DEE7709F0EDBD00EE27D3 /* slCButton.cpp */,
-				B01DEE7809F0EDBD00EE27D3 /* slCButton.h */,
-				B01DEE7909F0EDBD00EE27D3 /* slCButtonDelegate.cpp */,
-				B01DEE7A09F0EDBD00EE27D3 /* slCButtonDelegate.h */,
-				B01DEE7B09F0EDBD00EE27D3 /* slCControl.cpp */,
-				B01DEE7C09F0EDBD00EE27D3 /* slCControl.h */,
-				B01DEE7D09F0EDBD00EE27D3 /* slCControlDelegate.cpp */,
-				B01DEE7E09F0EDBD00EE27D3 /* slCControlDelegate.h */,
-				B01DEE7F09F0EDBD00EE27D3 /* slCDialog.cpp */,
-				B01DEE8009F0EDBD00EE27D3 /* slCDialog.h */,
-				B01DEE8109F0EDBD00EE27D3 /* slCDragger.cpp */,
-				B01DEE8209F0EDBD00EE27D3 /* slCDragger.h */,
-				B01DEE8309F0EDBD00EE27D3 /* slCFace.cpp */,
-				B01DEE8409F0EDBD00EE27D3 /* slCFace.h */,
-				B01DEE9009F0EDBD00EE27D3 /* slCNotificationCenter.cpp */,
-				B01DEE9109F0EDBD00EE27D3 /* slCNotificationCenter.h */,
-				B01DEE9209F0EDBD00EE27D3 /* slCObject.cpp */,
-				B01DEE9309F0EDBD00EE27D3 /* slCObject.h */,
-				B01DEE9509F0EDBD00EE27D3 /* slConstants.h */,
-				B01DEE9609F0EDBD00EE27D3 /* slCRunLoop.cpp */,
-				B01DEE9709F0EDBD00EE27D3 /* slCRunLoop.h */,
-				B01DEE9809F0EDBD00EE27D3 /* slCScreen.cpp */,
-				B01DEE9909F0EDBD00EE27D3 /* slCScreen.h */,
-				B01DEE9A09F0EDBD00EE27D3 /* slCText.cpp */,
-				B01DEE9B09F0EDBD00EE27D3 /* slCText.h */,
-				B01DEE9C09F0EDBD00EE27D3 /* slCTheme.cpp */,
-				B01DEE9D09F0EDBD00EE27D3 /* slCTheme.h */,
-				B01DEEA009F0EDBD00EE27D3 /* slCTitleBar.cpp */,
-				B01DEEA109F0EDBD00EE27D3 /* slCTitleBar.h */,
-				B01DEEA209F0EDBD00EE27D3 /* slCWindow.cpp */,
-				B01DEEA309F0EDBD00EE27D3 /* slCWindow.h */,
-				B01DEEB609F0EDBE00EE27D3 /* slGraphicControllerRegistration.h */,
-				B01DEEB709F0EDBE00EE27D3 /* main.cpp */,
-				B01DEEBD09F0EDBE00EE27D3 /* slStdExtensions.h */,
-				B01DEEBE09F0EDBE00EE27D3 /* slTCGraphicControllerClass.h */,
-				B01DEECA09F0EDBE00EE27D3 /* slTypes.cpp */,
-				B01DEECB09F0EDBE00EE27D3 /* slTypes.h */,
-			);
-			indentWidth = 4;
-			name = src;
-			path = ../../src;
-			sourceTree = SOURCE_ROOT;
-			tabWidth = 4;
-		};
-		B01DEE8909F0EDBD00EE27D3 /* class */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEE8A09F0EDBD00EE27D3 /* slCClassFactory.cpp */,
-				B01DEE8B09F0EDBD00EE27D3 /* slCClassFactory.h */,
-				B01DEE8C09F0EDBD00EE27D3 /* slTCClass.cpp */,
-				B01DEE8D09F0EDBD00EE27D3 /* slTCClass.h */,
-			);
-			path = class;
-			sourceTree = "<group>";
-		};
-		B01DEE9409F0EDBD00EE27D3 /* config */ = {
-			isa = PBXGroup;
-			children = (
-				B01DF12A09F1045C00EE27D3 /* slPrefix.h */,
-			);
-			path = config;
-			sourceTree = "<group>";
-		};
-		B01DEEA409F0EDBD00EE27D3 /* debug */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEA509F0EDBD00EE27D3 /* slAssert.cpp */,
-				B01DEEA609F0EDBE00EE27D3 /* slAssert.h */,
-				B01DEEA709F0EDBE00EE27D3 /* slCLogEntry.cpp */,
-				B01DEEA809F0EDBE00EE27D3 /* slCLogEntry.h */,
-				B01DEEA909F0EDBE00EE27D3 /* slDebug.h */,
-			);
-			path = debug;
-			sourceTree = "<group>";
-		};
-		B01DEEAA09F0EDBE00EE27D3 /* function */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEAB09F0EDBE00EE27D3 /* base */,
-				B01DEEB309F0EDBE00EE27D3 /* slTCBind.h */,
-				B01DEEB409F0EDBE00EE27D3 /* slTCFunction.h */,
-				B01DEEB509F0EDBE00EE27D3 /* slTSFunctionTraits.h */,
-			);
-			path = function;
-			sourceTree = "<group>";
-		};
-		B01DEEAB09F0EDBE00EE27D3 /* base */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEAC09F0EDBE00EE27D3 /* slTCFreeFunction.h */,
-				B01DEEAD09F0EDBE00EE27D3 /* slTIFunction.h */,
-				B01DEEAE09F0EDBE00EE27D3 /* slTSBind.h */,
-				B01DEEAF09F0EDBE00EE27D3 /* slTSFreeFunctionPointerTraits.h */,
-				B01DEEB009F0EDBE00EE27D3 /* slTSFreeFunctionTraits.h */,
-				B01DEEB109F0EDBE00EE27D3 /* slTSFreeFunctionCallWithTuple.h */,
-				B01DEEB209F0EDBE00EE27D3 /* slTSMemberFunctionTraits.h */,
-				B0D7A9F50A0E1B6E00BC2491 /* slTSMemberFunctionCallWithTuple.h */,
-				B0F19FCD0A0E3E7D0066F382 /* slTSFunctionOwner.h */,
-			);
-			path = base;
-			sourceTree = "<group>";
-		};
-		B01DEEB809F0EDBE00EE27D3 /* pointer */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEB909F0EDBE00EE27D3 /* slCAutoreleasePool.cpp */,
-				B01DEEBA09F0EDBE00EE27D3 /* slCAutoreleasePool.h */,
-				B01DEEBB09F0EDBE00EE27D3 /* slTCPointer.cpp */,
-				B01DEEBC09F0EDBE00EE27D3 /* slTCPointer.h */,
-			);
-			path = pointer;
-			sourceTree = "<group>";
-		};
-		B01DEEBF09F0EDBE00EE27D3 /* tuple */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEC009F0EDBE00EE27D3 /* base */,
-				B01DEEC209F0EDBE00EE27D3 /* slTCTuple.h */,
-				B01DEEC309F0EDBE00EE27D3 /* slTCUnitTuple.h */,
-			);
-			path = tuple;
-			sourceTree = "<group>";
-		};
-		B01DEEC009F0EDBE00EE27D3 /* base */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEC109F0EDBE00EE27D3 /* slTSTuple.h */,
-			);
-			path = base;
-			sourceTree = "<group>";
-		};
-		B01DEEC409F0EDBE00EE27D3 /* typelist */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEC509F0EDBE00EE27D3 /* base */,
-				B01DEEC909F0EDBE00EE27D3 /* slTSTypeList.h */,
-			);
-			path = typelist;
-			sourceTree = "<group>";
-		};
-		B01DEEC509F0EDBE00EE27D3 /* base */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEEC609F0EDBE00EE27D3 /* slTSTypeListAppendTraits.h */,
-				B01DEEC709F0EDBE00EE27D3 /* slTSTypeListBase.h */,
-				B01DEEC809F0EDBE00EE27D3 /* slTSTypeListSorting.h */,
-			);
-			path = base;
-			sourceTree = "<group>";
-		};
-		B01DEECC09F0EDBE00EE27D3 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				B01DEECD09F0EDBE00EE27D3 /* slTSConstToType.h */,
-				B01DEECE09F0EDBE00EE27D3 /* slTSSelect.h */,
-				B0D7A9F70A0E24E800BC2491 /* slToPointer.h */,
-				B0D7AA0A0A0E343100BC2491 /* slTSConstRef.h */,
-			);
-			path = util;
-			sourceTree = "<group>";
 		};
 		B01DEF2009F0EDD800EE27D3 /* glut */ = {
 			isa = PBXGroup;
@@ -498,26 +324,238 @@
 			path = ../../res/macosx;
 			sourceTree = SOURCE_ROOT;
 		};
-		B0D7A9CD0A0E16DC00BC2491 /* file */ = {
+		B04FF87B0A15FF1E00F559ED /* auxiliary */ = {
 			isa = PBXGroup;
 			children = (
-				B01DEE8509F0EDBD00EE27D3 /* slCFile.cpp */,
-				B01DEE8609F0EDBD00EE27D3 /* slCFile.h */,
-				B01DEE8709F0EDBD00EE27D3 /* slCFolder.cpp */,
-				B01DEE8809F0EDBD00EE27D3 /* slCFolder.h */,
+				B04FF87C0A15FF1E00F559ED /* slCNotificationCenter.cpp */,
+				B04FF87D0A15FF1E00F559ED /* slCNotificationCenter.h */,
+				B04FF87E0A15FF1E00F559ED /* slCRunLoop.cpp */,
+				B04FF87F0A15FF1E00F559ED /* slCRunLoop.h */,
+				B04FF8800A15FF1E00F559ED /* slStdExtensions.h */,
+			);
+			path = auxiliary;
+			sourceTree = "<group>";
+		};
+		B04FF8810A15FF1E00F559ED /* common */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8820A15FF1E00F559ED /* class */,
+				B04FF8870A15FF1E00F559ED /* config */,
+				B04FF8890A15FF1E00F559ED /* debug */,
+				B04FF88F0A15FF1E00F559ED /* pointer */,
+				B04FF8940A15FF1E00F559ED /* slCObject.cpp */,
+				B04FF8950A15FF1E00F559ED /* slCObject.h */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		B04FF8820A15FF1E00F559ED /* class */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8830A15FF1E00F559ED /* slCClassFactory.cpp */,
+				B04FF8840A15FF1E00F559ED /* slCClassFactory.h */,
+				B04FF8850A15FF1E00F559ED /* slTCClass.cpp */,
+				B04FF8860A15FF1E00F559ED /* slTCClass.h */,
+			);
+			path = class;
+			sourceTree = "<group>";
+		};
+		B04FF8870A15FF1E00F559ED /* config */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8880A15FF1E00F559ED /* slPrefix.h */,
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		B04FF8890A15FF1E00F559ED /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF88A0A15FF1E00F559ED /* slAssert.cpp */,
+				B04FF88B0A15FF1E00F559ED /* slAssert.h */,
+				B04FF88C0A15FF1E00F559ED /* slCLogEntry.cpp */,
+				B04FF88D0A15FF1E00F559ED /* slCLogEntry.h */,
+				B04FF88E0A15FF1E00F559ED /* slDebug.h */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
+		B04FF88F0A15FF1E00F559ED /* pointer */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8900A15FF1E00F559ED /* slCAutoreleasePool.cpp */,
+				B04FF8910A15FF1E00F559ED /* slCAutoreleasePool.h */,
+				B04FF8920A15FF1E00F559ED /* slTCPointer.cpp */,
+				B04FF8930A15FF1E00F559ED /* slTCPointer.h */,
+			);
+			path = pointer;
+			sourceTree = "<group>";
+		};
+		B04FF8960A15FF1E00F559ED /* file */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8970A15FF1E00F559ED /* slCFile.cpp */,
+				B04FF8980A15FF1E00F559ED /* slCFile.h */,
+				B04FF8990A15FF1E00F559ED /* slCFolder.cpp */,
+				B04FF89A0A15FF1E00F559ED /* slCFolder.h */,
 			);
 			path = file;
 			sourceTree = "<group>";
 		};
-		B0D7A9D40A0E170E00BC2491 /* thread */ = {
+		B04FF89B0A15FF1E00F559ED /* gui */ = {
 			isa = PBXGroup;
 			children = (
-				B01DEE8E09F0EDBD00EE27D3 /* slCMutex.cpp */,
-				B01DEE8F09F0EDBD00EE27D3 /* slCMutex.h */,
-				B01DEE9E09F0EDBD00EE27D3 /* slCThread.cpp */,
-				B01DEE9F09F0EDBD00EE27D3 /* slCThread.h */,
+				B04FF89C0A15FF1E00F559ED /* slBasicGraphicControllers.cpp */,
+				B04FF89D0A15FF1E00F559ED /* slBasicGraphicControllers.h */,
+				B04FF89E0A15FF1E00F559ED /* slCApplication.cpp */,
+				B04FF89F0A15FF1E00F559ED /* slCApplication.h */,
+				B04FF8A00A15FF1E00F559ED /* slCButton.cpp */,
+				B04FF8A10A15FF1E00F559ED /* slCButton.h */,
+				B04FF8A20A15FF1E00F559ED /* slCButtonDelegate.cpp */,
+				B04FF8A30A15FF1E00F559ED /* slCButtonDelegate.h */,
+				B04FF8A40A15FF1E00F559ED /* slCControl.cpp */,
+				B04FF8A50A15FF1E00F559ED /* slCControl.h */,
+				B04FF8A60A15FF1E00F559ED /* slCControlDelegate.cpp */,
+				B04FF8A70A15FF1E00F559ED /* slCControlDelegate.h */,
+				B04FF8A80A15FF1E00F559ED /* slCDialog.cpp */,
+				B04FF8A90A15FF1E00F559ED /* slCDialog.h */,
+				B04FF8AA0A15FF1E00F559ED /* slCDragger.cpp */,
+				B04FF8AB0A15FF1E00F559ED /* slCDragger.h */,
+				B04FF8AC0A15FF1E00F559ED /* slCFace.cpp */,
+				B04FF8AD0A15FF1E00F559ED /* slCFace.h */,
+				B04FF8AE0A15FF1E00F559ED /* slConstants.h */,
+				B04FF8AF0A15FF1E00F559ED /* slCScreen.cpp */,
+				B04FF8B00A15FF1E00F559ED /* slCScreen.h */,
+				B04FF8B10A15FF1E00F559ED /* slCText.cpp */,
+				B04FF8B20A15FF1E00F559ED /* slCText.h */,
+				B04FF8B30A15FF1E00F559ED /* slCTheme.cpp */,
+				B04FF8B40A15FF1E00F559ED /* slCTheme.h */,
+				B04FF8B50A15FF1E00F559ED /* slCTitleBar.cpp */,
+				B04FF8B60A15FF1E00F559ED /* slCTitleBar.h */,
+				B04FF8B70A15FF1E00F559ED /* slCWindow.cpp */,
+				B04FF8B80A15FF1E00F559ED /* slCWindow.h */,
+				B04FF8B90A15FF1E00F559ED /* slGraphicControllerRegistration.h */,
+				B04FF8BA0A15FF1E00F559ED /* slTCGraphicControllerClass.h */,
+				B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */,
+				B04FF8BC0A15FF1E00F559ED /* slTypes.h */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
+		B04FF8BD0A15FF1E00F559ED /* template */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8BE0A15FF1E00F559ED /* function */,
+				B04FF8CB0A15FF1E00F559ED /* tuple */,
+				B04FF8D00A15FF1E00F559ED /* typelist */,
+				B04FF8D60A15FF1F00F559ED /* util */,
+			);
+			path = template;
+			sourceTree = "<group>";
+		};
+		B04FF8BE0A15FF1E00F559ED /* function */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8BF0A15FF1E00F559ED /* base */,
+				B04FF8C80A15FF1E00F559ED /* slTCBind.h */,
+				B04FF8C90A15FF1E00F559ED /* slTCFunction.h */,
+				B04FF8CA0A15FF1E00F559ED /* slTSFunctionTraits.h */,
+			);
+			path = function;
+			sourceTree = "<group>";
+		};
+		B04FF8BF0A15FF1E00F559ED /* base */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8C00A15FF1E00F559ED /* slTCFreeFunction.h */,
+				B04FF8C10A15FF1E00F559ED /* slTIFunction.h */,
+				B04FF8C20A15FF1E00F559ED /* slTSBind.h */,
+				B04FF8C30A15FF1E00F559ED /* slTSFreeFunctionCallWithTuple.h */,
+				B04FF8C40A15FF1E00F559ED /* slTSFreeFunctionPointerTraits.h */,
+				B04FF8C50A15FF1E00F559ED /* slTSFreeFunctionTraits.h */,
+				B04FF8C60A15FF1E00F559ED /* slTSMemberFunctionCallWithTuple.h */,
+				B04FF8C70A15FF1E00F559ED /* slTSMemberFunctionTraits.h */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		B04FF8CB0A15FF1E00F559ED /* tuple */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8CC0A15FF1E00F559ED /* base */,
+				B04FF8CE0A15FF1E00F559ED /* slTCTuple.h */,
+				B04FF8CF0A15FF1E00F559ED /* slTCUnitTuple.h */,
+			);
+			path = tuple;
+			sourceTree = "<group>";
+		};
+		B04FF8CC0A15FF1E00F559ED /* base */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8CD0A15FF1E00F559ED /* slTSTuple.h */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		B04FF8D00A15FF1E00F559ED /* typelist */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8D10A15FF1F00F559ED /* base */,
+				B04FF8D50A15FF1F00F559ED /* slTSTypeList.h */,
+			);
+			path = typelist;
+			sourceTree = "<group>";
+		};
+		B04FF8D10A15FF1F00F559ED /* base */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8D20A15FF1F00F559ED /* slTSTypeListAppendTraits.h */,
+				B04FF8D30A15FF1F00F559ED /* slTSTypeListBase.h */,
+				B04FF8D40A15FF1F00F559ED /* slTSTypeListSorting.h */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		B04FF8D60A15FF1F00F559ED /* util */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8D70A15FF1F00F559ED /* slTSConstRef.h */,
+				B04FF8D80A15FF1F00F559ED /* slTSConstToType.h */,
+				B04FF8D90A15FF1F00F559ED /* slTSSelect.h */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
+		B04FF8DA0A15FF1F00F559ED /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF8DB0A15FF1F00F559ED /* slCMutex.cpp */,
+				B04FF8DC0A15FF1F00F559ED /* slCMutex.h */,
+				B04FF8DD0A15FF1F00F559ED /* slCThread.cpp */,
+				B04FF8DE0A15FF1F00F559ED /* slCThread.h */,
 			);
 			path = thread;
+			sourceTree = "<group>";
+		};
+		B04FF9A10A1616E700F559ED /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF87B0A15FF1E00F559ED /* auxiliary */,
+				B04FF8810A15FF1E00F559ED /* common */,
+				B04FF8960A15FF1E00F559ED /* file */,
+				B04FF89B0A15FF1E00F559ED /* gui */,
+				B04FF8BD0A15FF1E00F559ED /* template */,
+				B04FF8DA0A15FF1F00F559ED /* thread */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		B04FF9D30A1619B700F559ED /* test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = test;
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* doc */ = {
@@ -535,66 +573,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01DF3CC09F1222000EE27D3 /* slBasicGraphicControllers.h in Headers */,
-				B01DF3CE09F1222200EE27D3 /* slCApplication.h in Headers */,
-				B01DF3D009F1222300EE27D3 /* slCButton.h in Headers */,
-				B01DF3D209F1222500EE27D3 /* slCButtonDelegate.h in Headers */,
-				B01DF3D409F1222600EE27D3 /* slCControl.h in Headers */,
-				B01DF3D609F1222800EE27D3 /* slCControlDelegate.h in Headers */,
-				B01DF3D809F1222A00EE27D3 /* slCDialog.h in Headers */,
-				B01DF3DA09F1222B00EE27D3 /* slCDragger.h in Headers */,
-				B01DF3DC09F1222D00EE27D3 /* slCFace.h in Headers */,
-				B01DF3DE09F1222E00EE27D3 /* slCFile.h in Headers */,
-				B01DF3E009F1223000EE27D3 /* slCFolder.h in Headers */,
-				B01DF3E209F1223200EE27D3 /* slCMutex.h in Headers */,
-				B01DF3E409F1223400EE27D3 /* slCNotificationCenter.h in Headers */,
-				B01DF3E609F1223600EE27D3 /* slCObject.h in Headers */,
-				B01DF3E709F1223700EE27D3 /* slConstants.h in Headers */,
-				B01DF3E909F1223B00EE27D3 /* slCScreen.h in Headers */,
-				B01DF3EB09F1223D00EE27D3 /* slCText.h in Headers */,
-				B01DF3ED09F1223D00EE27D3 /* slCTheme.h in Headers */,
-				B01DF3EF09F1223F00EE27D3 /* slCThread.h in Headers */,
-				B01DF3F109F1224000EE27D3 /* slCTitleBar.h in Headers */,
-				B01DF3F309F1224200EE27D3 /* slCWindow.h in Headers */,
-				B01DF3F409F1226200EE27D3 /* slGraphicControllerRegistration.h in Headers */,
-				B01DF3F509F1226400EE27D3 /* slStdExtensions.h in Headers */,
-				B01DF3F609F1226500EE27D3 /* slTCGraphicControllerClass.h in Headers */,
-				B01DF3F809F1226700EE27D3 /* slTypes.h in Headers */,
-				B01DF3FA09F1226E00EE27D3 /* slCClassFactory.h in Headers */,
-				B01DF3FC09F1227000EE27D3 /* slTCClass.h in Headers */,
-				B01DF3FF09F1228200EE27D3 /* slAssert.h in Headers */,
-				B01DF40109F1228500EE27D3 /* slCLogEntry.h in Headers */,
-				B01DF40209F1228500EE27D3 /* slDebug.h in Headers */,
-				B01DF40309F1228900EE27D3 /* slTCBind.h in Headers */,
-				B01DF40409F1228A00EE27D3 /* slTCFunction.h in Headers */,
-				B01DF40509F1228C00EE27D3 /* slTSFunctionTraits.h in Headers */,
-				B01DF40709F1228E00EE27D3 /* slCAutoreleasePool.h in Headers */,
-				B01DF40909F1229000EE27D3 /* slTCPointer.h in Headers */,
-				B01DF40A09F1229500EE27D3 /* slTCTuple.h in Headers */,
-				B01DF40B09F1229600EE27D3 /* slTCUnitTuple.h in Headers */,
-				B01DF40C09F1229900EE27D3 /* slTSTypeList.h in Headers */,
-				B01DF40D09F1229C00EE27D3 /* slTSConstToType.h in Headers */,
-				B01DF40E09F1229D00EE27D3 /* slTSSelect.h in Headers */,
-				B01DF41909F1231700EE27D3 /* slTCFreeFunction.h in Headers */,
-				B01DF41A09F1231700EE27D3 /* slTIFunction.h in Headers */,
-				B01DF41B09F1231900EE27D3 /* slTSBind.h in Headers */,
-				B01DF41D09F1231A00EE27D3 /* slTSFreeFunctionPointerTraits.h in Headers */,
-				B01DF41E09F1231B00EE27D3 /* slTSFreeFunctionTraits.h in Headers */,
-				B01DF41F09F1231B00EE27D3 /* slTSFreeFunctionCallWithTuple.h in Headers */,
-				B01DF42009F1231E00EE27D3 /* slTSMemberFunctionTraits.h in Headers */,
-				B01DF42109F1233200EE27D3 /* slTSTuple.h in Headers */,
-				B01DF42209F1234300EE27D3 /* slTSTypeListAppendTraits.h in Headers */,
-				B01DF42309F1234300EE27D3 /* slTSTypeListBase.h in Headers */,
-				B01DF42409F1234500EE27D3 /* slTSTypeListSorting.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DD76F620486A84900D96B5E /* le */ = {
+		8DD76F620486A84900D96B5E /* le_bak */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le" */;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le_bak" */;
 			buildPhases = (
 				8DD76F640486A84900D96B5E /* Sources */,
 				8DD76F660486A84900D96B5E /* Frameworks */,
@@ -605,11 +592,127 @@
 			};
 			dependencies = (
 			);
-			name = le;
+			name = le_bak;
 			productInstallPath = "$(HOME)/bin";
 			productName = le;
 			productReference = 8DD76F6C0486A84900D96B5E /* le */;
 			productType = "com.apple.product-type.tool";
+		};
+		B04FF8740A15FAEA00F559ED /* leCommon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF8780A15FB0B00F559ED /* Build configuration list for PBXNativeTarget "leCommon" */;
+			buildPhases = (
+				B04FF8720A15FAEA00F559ED /* Sources */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = leCommon;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = leCommon;
+			productName = leCommon;
+			productReference = B04FF8750A15FAEA00F559ED /* leCommon.lib */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B04FF9640A1615C900F559ED /* leFile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF9690A1615DE00F559ED /* Build configuration list for PBXNativeTarget "leFile" */;
+			buildPhases = (
+				B04FF9620A1615C900F559ED /* Sources */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = leFile;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = leFile;
+			productName = leFile;
+			productReference = B04FF9650A1615C900F559ED /* leFile.lib */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B04FF9730A16162100F559ED /* leAux */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF9980A1616E000F559ED /* Build configuration list for PBXNativeTarget "leAux" */;
+			buildPhases = (
+				B04FF9710A16162100F559ED /* Sources */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = leAux;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = leAux;
+			productName = leAux;
+			productReference = B04FF9740A16162100F559ED /* leAux.lib */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B04FF9790A16165700F559ED /* leThread */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF99B0A1616E000F559ED /* Build configuration list for PBXNativeTarget "leThread" */;
+			buildPhases = (
+				B04FF9770A16165700F559ED /* Sources */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = leThread;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = leThread;
+			productName = leThread;
+			productReference = B04FF97A0A16165700F559ED /* leThread.lib */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B04FF97E0A16167400F559ED /* leGui */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF99E0A1616E000F559ED /* Build configuration list for PBXNativeTarget "leGui" */;
+			buildPhases = (
+				B04FF97C0A16167400F559ED /* Sources */,
+				B04FF9AA0A16174E00F559ED /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = leGui;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = leGui;
+			productName = leGui;
+			productReference = B04FF97F0A16167400F559ED /* leGui.lib */;
+			productType = "com.apple.product-type.library.static";
 		};
 		B0BFC06109A7691E009FA6DF /* LE */ = {
 			isa = PBXNativeTarget;
@@ -685,8 +788,14 @@
 			mainGroup = 08FB7794FE84155DC02AAC07 /* le */;
 			projectDirPath = "";
 			targets = (
-				8DD76F620486A84900D96B5E /* le */,
+				8DD76F620486A84900D96B5E /* le_bak */,
 				B0BFC06109A7691E009FA6DF /* LE */,
+				B04FF9040A16002000F559ED /* le */,
+				B04FF8740A15FAEA00F559ED /* leCommon */,
+				B04FF9640A1615C900F559ED /* leFile */,
+				B04FF9730A16162100F559ED /* leAux */,
+				B04FF9790A16165700F559ED /* leThread */,
+				B04FF97E0A16167400F559ED /* leGui */,
 			);
 		};
 /* End PBXProject section */
@@ -702,39 +811,90 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B04FF9140A1603BA00F559ED /* Copy Headers */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Headers";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -r ${leSrcRoot}/ ${CONFIGURATION_BUILD_DIR}/include;\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -name \".svn\" -type d -delete;\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -name \"*.c*\" -delete;";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8DD76F640486A84900D96B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01DEECF09F0EDBE00EE27D3 /* slBasicGraphicControllers.cpp in Sources */,
-				B01DEED109F0EDBE00EE27D3 /* slCApplication.cpp in Sources */,
-				B01DEED309F0EDBE00EE27D3 /* slCButton.cpp in Sources */,
-				B01DEED509F0EDBE00EE27D3 /* slCButtonDelegate.cpp in Sources */,
-				B01DEED709F0EDBE00EE27D3 /* slCControl.cpp in Sources */,
-				B01DEED909F0EDBE00EE27D3 /* slCControlDelegate.cpp in Sources */,
-				B01DEEDB09F0EDBE00EE27D3 /* slCDialog.cpp in Sources */,
-				B01DEEDD09F0EDBE00EE27D3 /* slCDragger.cpp in Sources */,
-				B01DEEDF09F0EDBE00EE27D3 /* slCFace.cpp in Sources */,
-				B01DEEE109F0EDBE00EE27D3 /* slCFile.cpp in Sources */,
-				B01DEEE309F0EDBE00EE27D3 /* slCFolder.cpp in Sources */,
-				B01DEEE509F0EDBE00EE27D3 /* slCClassFactory.cpp in Sources */,
-				B01DEEE709F0EDBE00EE27D3 /* slTCClass.cpp in Sources */,
-				B01DEEE909F0EDBE00EE27D3 /* slCMutex.cpp in Sources */,
-				B01DEEEB09F0EDBE00EE27D3 /* slCNotificationCenter.cpp in Sources */,
-				B01DEEED09F0EDBE00EE27D3 /* slCObject.cpp in Sources */,
-				B01DEEF209F0EDBE00EE27D3 /* slCScreen.cpp in Sources */,
-				B01DEEF409F0EDBE00EE27D3 /* slCText.cpp in Sources */,
-				B01DEEF609F0EDBE00EE27D3 /* slCTheme.cpp in Sources */,
-				B01DEEF809F0EDBE00EE27D3 /* slCThread.cpp in Sources */,
-				B01DEEFA09F0EDBE00EE27D3 /* slCTitleBar.cpp in Sources */,
-				B01DEEFC09F0EDBE00EE27D3 /* slCWindow.cpp in Sources */,
-				B01DEEFE09F0EDBE00EE27D3 /* slAssert.cpp in Sources */,
-				B01DEF0009F0EDBE00EE27D3 /* slCLogEntry.cpp in Sources */,
-				B01DEF0E09F0EDBE00EE27D3 /* main.cpp in Sources */,
-				B01DEF0F09F0EDBE00EE27D3 /* slCAutoreleasePool.cpp in Sources */,
-				B01DEF1109F0EDBE00EE27D3 /* slTCPointer.cpp in Sources */,
-				B01DEF1C09F0EDBE00EE27D3 /* slTypes.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF8720A15FAEA00F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FF8DF0A15FF2600F559ED /* slCObject.cpp in Sources */,
+				B04FF8E10A15FF2A00F559ED /* slCAutoreleasePool.cpp in Sources */,
+				B04FF8E30A15FF2B00F559ED /* slTCPointer.cpp in Sources */,
+				B04FF8E50A15FF2E00F559ED /* slAssert.cpp in Sources */,
+				B04FF8E70A15FF2F00F559ED /* slCLogEntry.cpp in Sources */,
+				B04FF8EB0A15FF3500F559ED /* slCClassFactory.cpp in Sources */,
+				B04FF8ED0A15FF3600F559ED /* slTCClass.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF9620A1615C900F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FF96E0A16160C00F559ED /* slCFile.cpp in Sources */,
+				B04FF96F0A16160D00F559ED /* slCFolder.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF9710A16162100F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FF9860A1616A600F559ED /* slCNotificationCenter.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF9770A16165700F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FF9870A1616AF00F559ED /* slCMutex.cpp in Sources */,
+				B04FF9880A1616AF00F559ED /* slCThread.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B04FF97C0A16167400F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FF9890A1616B800F559ED /* slBasicGraphicControllers.cpp in Sources */,
+				B04FF98A0A1616B800F559ED /* slCApplication.cpp in Sources */,
+				B04FF98B0A1616BA00F559ED /* slCButton.cpp in Sources */,
+				B04FF98C0A1616BB00F559ED /* slCButtonDelegate.cpp in Sources */,
+				B04FF98D0A1616BC00F559ED /* slCControl.cpp in Sources */,
+				B04FF98E0A1616BD00F559ED /* slCControlDelegate.cpp in Sources */,
+				B04FF98F0A1616BE00F559ED /* slCDialog.cpp in Sources */,
+				B04FF9900A1616C000F559ED /* slCDragger.cpp in Sources */,
+				B04FF9910A1616C100F559ED /* slCFace.cpp in Sources */,
+				B04FF9920A1616C200F559ED /* slCScreen.cpp in Sources */,
+				B04FF9930A1616C300F559ED /* slCText.cpp in Sources */,
+				B04FF9940A1616C400F559ED /* slCTheme.cpp in Sources */,
+				B04FF9950A1616C500F559ED /* slCTitleBar.cpp in Sources */,
+				B04FF9960A1616C600F559ED /* slCWindow.cpp in Sources */,
+				B04FF9970A1616C800F559ED /* slTypes.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,37 +902,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01DF3CB09F1221F00EE27D3 /* slBasicGraphicControllers.cpp in Sources */,
-				B01DF3CD09F1222100EE27D3 /* slCApplication.cpp in Sources */,
-				B01DF3CF09F1222300EE27D3 /* slCButton.cpp in Sources */,
-				B01DF3D109F1222400EE27D3 /* slCButtonDelegate.cpp in Sources */,
-				B01DF3D309F1222600EE27D3 /* slCControl.cpp in Sources */,
-				B01DF3D509F1222700EE27D3 /* slCControlDelegate.cpp in Sources */,
-				B01DF3D709F1222900EE27D3 /* slCDialog.cpp in Sources */,
-				B01DF3D909F1222A00EE27D3 /* slCDragger.cpp in Sources */,
-				B01DF3DB09F1222C00EE27D3 /* slCFace.cpp in Sources */,
-				B01DF3DD09F1222E00EE27D3 /* slCFile.cpp in Sources */,
-				B01DF3DF09F1222F00EE27D3 /* slCFolder.cpp in Sources */,
-				B01DF3E109F1223200EE27D3 /* slCMutex.cpp in Sources */,
-				B01DF3E309F1223300EE27D3 /* slCNotificationCenter.cpp in Sources */,
-				B01DF3E509F1223500EE27D3 /* slCObject.cpp in Sources */,
-				B01DF3E809F1223A00EE27D3 /* slCScreen.cpp in Sources */,
-				B01DF3EA09F1223B00EE27D3 /* slCText.cpp in Sources */,
-				B01DF3EC09F1223D00EE27D3 /* slCTheme.cpp in Sources */,
-				B01DF3EE09F1223F00EE27D3 /* slCThread.cpp in Sources */,
-				B01DF3F009F1224000EE27D3 /* slCTitleBar.cpp in Sources */,
-				B01DF3F209F1224200EE27D3 /* slCWindow.cpp in Sources */,
-				B01DF3F709F1226600EE27D3 /* slTypes.cpp in Sources */,
-				B01DF3F909F1226D00EE27D3 /* slCClassFactory.cpp in Sources */,
-				B01DF3FB09F1227000EE27D3 /* slTCClass.cpp in Sources */,
-				B01DF3FE09F1228200EE27D3 /* slAssert.cpp in Sources */,
-				B01DF40009F1228400EE27D3 /* slCLogEntry.cpp in Sources */,
-				B01DF40609F1228E00EE27D3 /* slCAutoreleasePool.cpp in Sources */,
-				B01DF40809F1229000EE27D3 /* slTCPointer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B04FF9060A16002900F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF8740A15FAEA00F559ED /* leCommon */;
+			targetProxy = B04FF9050A16002900F559ED /* PBXContainerItemProxy */;
+		};
+		B04FF96D0A1615EA00F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF9640A1615C900F559ED /* leFile */;
+			targetProxy = B04FF96C0A1615EA00F559ED /* PBXContainerItemProxy */;
+		};
+		B04FF9810A16168500F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF9730A16162100F559ED /* leAux */;
+			targetProxy = B04FF9800A16168500F559ED /* PBXContainerItemProxy */;
+		};
+		B04FF9830A16168500F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF9790A16165700F559ED /* leThread */;
+			targetProxy = B04FF9820A16168500F559ED /* PBXContainerItemProxy */;
+		};
+		B04FF9850A16168500F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF97E0A16167400F559ED /* leGui */;
+			targetProxy = B04FF9840A16168500F559ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B01DF32609F11D6D00EE27D3 /* InfoPlist.strings */ = {
@@ -818,6 +979,7 @@
 		1DEB923608733DC60010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
@@ -826,26 +988,233 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../src,
-					../../libs,
+					"$(leSrcRoot)",
+					"$(leLibRoot)",
 				);
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				leLibRoot = ../../libs;
+				leSrcRoot = ../../src;
 			};
 			name = Debug;
 		};
 		1DEB923708733DC60010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../src,
-					../../libs,
+					"$(leSrcRoot)",
+					"$(leLibRoot)",
 				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				leLibRoot = ../../libs;
+				leSrcRoot = ../../src;
+			};
+			name = Release;
+		};
+		B04FF8790A15FB0B00F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Common;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		B04FF87A0A15FB0B00F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Common;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF90D0A16005900F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = le;
+			};
+			name = Debug;
+		};
+		B04FF90E0A16005900F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = le;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF96A0A1615DE00F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = File;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		B04FF96B0A1615DE00F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = File;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF9990A1616E000F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Aux;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		B04FF99A0A1616E000F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Aux;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF99C0A1616E000F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Thread;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		B04FF99D0A1616E000F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Thread;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF99F0A1616E000F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Gui;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		B04FF9A00A1616E000F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = lib;
+				EXECUTABLE_PREFIX = le;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = Gui;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -902,7 +1271,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le" */ = {
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le_bak" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB923208733DC60010E9CD /* Debug */,
@@ -916,6 +1285,60 @@
 			buildConfigurations = (
 				1DEB923608733DC60010E9CD /* Debug */,
 				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF8780A15FB0B00F559ED /* Build configuration list for PBXNativeTarget "leCommon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF8790A15FB0B00F559ED /* Debug */,
+				B04FF87A0A15FB0B00F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF90C0A16005900F559ED /* Build configuration list for PBXAggregateTarget "le" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF90D0A16005900F559ED /* Debug */,
+				B04FF90E0A16005900F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF9690A1615DE00F559ED /* Build configuration list for PBXNativeTarget "leFile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF96A0A1615DE00F559ED /* Debug */,
+				B04FF96B0A1615DE00F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF9980A1616E000F559ED /* Build configuration list for PBXNativeTarget "leAux" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF9990A1616E000F559ED /* Debug */,
+				B04FF99A0A1616E000F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF99B0A1616E000F559ED /* Build configuration list for PBXNativeTarget "leThread" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF99C0A1616E000F559ED /* Debug */,
+				B04FF99D0A1616E000F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF99E0A1616E000F559ED /* Build configuration list for PBXNativeTarget "leGui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF99F0A1616E000F559ED /* Debug */,
+				B04FF9A00A1616E000F559ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

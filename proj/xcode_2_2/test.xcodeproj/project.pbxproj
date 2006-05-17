@@ -1,0 +1,375 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B04FFA050A161C5100F559ED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FFA040A161C5100F559ED /* main.cpp */; };
+		B04FFA720A16233000F559ED /* leAux.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6D0A16233000F559ED /* leAux.lib */; };
+		B04FFA730A16233100F559ED /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6E0A16233000F559ED /* leCommon.lib */; };
+		B04FFA740A16233100F559ED /* leFile.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6F0A16233000F559ED /* leFile.lib */; };
+		B04FFA750A16233100F559ED /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA700A16233000F559ED /* leGui.lib */; };
+		B04FFA760A16233100F559ED /* leThread.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA710A16233000F559ED /* leThread.lib */; };
+		B04FFAB30A16266B00F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
+		B04FFAB40A16266B00F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B04FFA190A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DD76F6C0486A84900D96B5E /* le */;
+			remoteInfo = le_bak;
+		};
+		B04FFA1B0A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0BFC06209A7691E009FA6DF /* LE.framework */;
+			remoteInfo = LE;
+		};
+		B04FFA1D0A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B04FF8750A15FAEA00F559ED /* leCommon.lib */;
+			remoteInfo = leCommon;
+		};
+		B04FFA1F0A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B04FF9650A1615C900F559ED /* leFile.lib */;
+			remoteInfo = leFile;
+		};
+		B04FFA210A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B04FF9740A16162100F559ED /* leAux.lib */;
+			remoteInfo = leAux;
+		};
+		B04FFA230A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B04FF97A0A16165700F559ED /* leThread.lib */;
+			remoteInfo = leThread;
+		};
+		B04FFA250A161CA400F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B04FF97F0A16167400F559ED /* leGui.lib */;
+			remoteInfo = leGui;
+		};
+		B04FFA2A0A161CB700F559ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9040A16002000F559ED /* le */;
+			remoteInfo = le;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B04FF9ED0A161AD500F559ED /* general */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = general; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FFA040A161C5100F559ED /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B04FFA0E0A161CA400F559ED /* le.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = le.xcodeproj; sourceTree = "<group>"; };
+		B04FFA6D0A16233000F559ED /* leAux.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leAux.lib; path = build/Debug/le/lib/leAux.lib; sourceTree = "<group>"; };
+		B04FFA6E0A16233000F559ED /* leCommon.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leCommon.lib; path = build/Debug/le/lib/leCommon.lib; sourceTree = "<group>"; };
+		B04FFA6F0A16233000F559ED /* leFile.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leFile.lib; path = build/Debug/le/lib/leFile.lib; sourceTree = "<group>"; };
+		B04FFA700A16233000F559ED /* leGui.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leGui.lib; path = build/Debug/le/lib/leGui.lib; sourceTree = "<group>"; };
+		B04FFA710A16233000F559ED /* leThread.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leThread.lib; path = build/Debug/le/lib/leThread.lib; sourceTree = "<group>"; };
+		B04FFAB10A16266B00F559ED /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
+		B04FFAB20A16266B00F559ED /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B04FF9EB0A161AD500F559ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FFA720A16233000F559ED /* leAux.lib in Frameworks */,
+				B04FFA730A16233100F559ED /* leCommon.lib in Frameworks */,
+				B04FFA740A16233100F559ED /* leFile.lib in Frameworks */,
+				B04FFA750A16233100F559ED /* leGui.lib in Frameworks */,
+				B04FFA760A16233100F559ED /* leThread.lib in Frameworks */,
+				B04FFAB30A16266B00F559ED /* GLUT.framework in Frameworks */,
+				B04FFAB40A16266B00F559ED /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B04FF9D80A161A9C00F559ED = {
+			isa = PBXGroup;
+			children = (
+				B04FFAB10A16266B00F559ED /* GLUT.framework */,
+				B04FFAB20A16266B00F559ED /* OpenGL.framework */,
+				B04FFA6D0A16233000F559ED /* leAux.lib */,
+				B04FFA6E0A16233000F559ED /* leCommon.lib */,
+				B04FFA6F0A16233000F559ED /* leFile.lib */,
+				B04FFA700A16233000F559ED /* leGui.lib */,
+				B04FFA710A16233000F559ED /* leThread.lib */,
+				B04FFA0E0A161CA400F559ED /* le.xcodeproj */,
+				B04FFA000A161C0900F559ED /* src */,
+				B04FF9EE0A161AD500F559ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B04FF9EE0A161AD500F559ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B04FF9ED0A161AD500F559ED /* general */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B04FFA000A161C0900F559ED /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B04FFA010A161C3000F559ED /* general */,
+			);
+			name = src;
+			path = ../../test;
+			sourceTree = "<group>";
+		};
+		B04FFA010A161C3000F559ED /* general */ = {
+			isa = PBXGroup;
+			children = (
+				B04FFA040A161C5100F559ED /* main.cpp */,
+			);
+			path = general;
+			sourceTree = "<group>";
+		};
+		B04FFA0F0A161CA400F559ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B04FFA1A0A161CA400F559ED /* le */,
+				B04FFA1C0A161CA400F559ED /* LE.framework */,
+				B04FFA1E0A161CA400F559ED /* leCommon.lib */,
+				B04FFA200A161CA400F559ED /* leFile.lib */,
+				B04FFA220A161CA400F559ED /* leAux.lib */,
+				B04FFA240A161CA400F559ED /* leThread.lib */,
+				B04FFA260A161CA400F559ED /* leGui.lib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B04FF9EC0A161AD500F559ED /* general */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B04FF9F00A161AD700F559ED /* Build configuration list for PBXNativeTarget "general" */;
+			buildPhases = (
+				B04FF9EA0A161AD500F559ED /* Sources */,
+				B04FF9EB0A161AD500F559ED /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = general;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+				B04FFA2B0A161CB700F559ED /* PBXTargetDependency */,
+			);
+			name = general;
+			productName = general;
+			productReference = B04FF9ED0A161AD500F559ED /* general */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B04FF9DA0A161A9C00F559ED /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = B04FF9DB0A161A9C00F559ED /* Build configuration list for PBXProject "test" */;
+			buildStyles = (
+			);
+			hasScannedForEncodings = 0;
+			mainGroup = B04FF9D80A161A9C00F559ED;
+			productRefGroup = B04FF9EE0A161AD500F559ED /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B04FFA0F0A161CA400F559ED /* Products */;
+					ProjectRef = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+				},
+			);
+			targets = (
+				B04FF9EC0A161AD500F559ED /* general */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B04FFA1A0A161CA400F559ED /* le */ = {
+			isa = PBXReferenceProxy;
+			fileType = folder;
+			path = le;
+			remoteRef = B04FFA190A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA1C0A161CA400F559ED /* LE.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LE.framework;
+			remoteRef = B04FFA1B0A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA1E0A161CA400F559ED /* leCommon.lib */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = leCommon.lib;
+			remoteRef = B04FFA1D0A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA200A161CA400F559ED /* leFile.lib */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = leFile.lib;
+			remoteRef = B04FFA1F0A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA220A161CA400F559ED /* leAux.lib */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = leAux.lib;
+			remoteRef = B04FFA210A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA240A161CA400F559ED /* leThread.lib */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = leThread.lib;
+			remoteRef = B04FFA230A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B04FFA260A161CA400F559ED /* leGui.lib */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = leGui.lib;
+			remoteRef = B04FFA250A161CA400F559ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B04FF9EA0A161AD500F559ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B04FFA050A161C5100F559ED /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B04FFA2B0A161CB700F559ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = le;
+			targetProxy = B04FFA2A0A161CB700F559ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B04FF9DC0A161A9C00F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
+				LIBRARY_SEARCH_PATHS = "$(testBuildedLeLibsDir)";
+				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
+				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+			};
+			name = Debug;
+		};
+		B04FF9DD0A161A9C00F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				COPY_PHASE_STRIP = YES;
+				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
+				LIBRARY_SEARCH_PATHS = "$(testBuildedLeLibsDir)";
+				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
+				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+			};
+			name = Release;
+		};
+		B04FF9F10A161AD700F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(testBuildedLeLibsDir)",
+					"$(SRCROOT)/build/Debug/le/lib",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = general;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		B04FF9F20A161AD700F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(testBuildedLeLibsDir)",
+					"$(SRCROOT)/build/Debug/le/lib",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = general;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B04FF9DB0A161A9C00F559ED /* Build configuration list for PBXProject "test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF9DC0A161A9C00F559ED /* Debug */,
+				B04FF9DD0A161A9C00F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B04FF9F00A161AD700F559ED /* Build configuration list for PBXNativeTarget "general" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B04FF9F10A161AD700F559ED /* Debug */,
+				B04FF9F20A161AD700F559ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B04FF9DA0A161A9C00F559ED /* Project object */;
+}
