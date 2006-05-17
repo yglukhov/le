@@ -2,7 +2,7 @@
 
 #include <common/config/slPrefix.h>
 #include <common/slCObject.h>
-#include "slGraphicControllerRegistration.h"
+#include "slTCGraphicControllerClass.h"
 
 LE_NAMESPACE_START
 
