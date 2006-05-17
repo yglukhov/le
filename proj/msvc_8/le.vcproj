@@ -37,8 +37,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="10"
 			InheritedPropertySheets=".\properties\leRelease.vsprops"
 			CharacterSet="0"
