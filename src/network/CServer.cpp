@@ -22,7 +22,11 @@
 CServer::CServer(int port)
 {
 	mSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#if defined _WIN32
+	if (INVALID_SOCKET == mSock)
+#else	
 	if (-1 == mSock)
+#endif
 	{
 		std::cout << "Failed to create socket\n";
 		//return -1;
@@ -34,8 +38,12 @@ CServer::CServer(int port)
 	name.sin_port = port;
 	name.sin_addr.s_addr = inet_addr("127.0.0.1");
 	::memset(&(name.sin_zero), 0, sizeof(name.sin_zero));
-	
+
+#if defined _WIN32
+	if (SOCKET_ERROR == bind(mSock, (struct sockaddr*)&name, name.sin_len))
+#else
 	if (0 != bind(mSock, (struct sockaddr*)&name, name.sin_len))
+#endif
 	{
 		close(mSock);
 		std::cout << "Failed to bind socket\n";
@@ -43,7 +51,11 @@ CServer::CServer(int port)
 		return;
 	}
 	
+#if defined _WIN32
+	if (SOCKET_ERROR == listen(mSock, 1))
+#else
 	if (0 != listen(mSock, 1))
+#endif
 	{
 		close(mSock);
 		mSock = -1;

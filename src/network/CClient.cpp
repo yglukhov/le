@@ -27,7 +27,11 @@ CClient::CClient(char* ipAddress, int port, bool needConnect) :
 bool CClient::connect()
 {
 	mSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#if defined _WIN32
+	if (INVALID_SOCKET == mSocket)
+#else	
 	if (-1 == mSocket)
+#endif
 	{
 		std::cout << "Failed to create socket\n";
 		return false;
@@ -42,8 +46,11 @@ bool CClient::connect()
 
 	int result;
 	result = ::connect(mSocket, (struct sockaddr*)&name, name.sin_len);
-	
+#if defined _WIN32
+	if (result == INVALID_SOCKET)
+#else
 	if (result == -1)
+#endif
 	{
 		mSocket = -1;
 	}
