@@ -4,8 +4,9 @@
 	#include "winsock2.h"
 #endif
 
-#include "CConnection.h"
 #include <list>
+
+class CCOnnection;
 
 class CServer
 {
