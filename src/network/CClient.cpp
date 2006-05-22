@@ -1,23 +1,27 @@
-
 #include "CClient.h"
 
-#if defined _WIN32
-
-#include "winsock2.h"
-
-#else
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include <common/debug/slDebug.h>
 #include <iostream>
 
+#if defined _WIN32
+	#include "winsock2.h"
+#else
+	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <iostream>
+#endif
+
+#ifndef _WIN32
+	#define SOCKET int
+	#define INVALID_SOCKET -1
 #endif
 
 CClient::CClient(char* ipAddress, int port, bool needConnect) :
 	mIpAddress(ipAddress), mPort(port)
 {
+	LE_ENTER_LOG;
 	if (needConnect)
 	{
 		connect();
@@ -26,33 +30,36 @@ CClient::CClient(char* ipAddress, int port, bool needConnect) :
 
 bool CClient::connect()
 {
+	LE_ENTER_LOG;
 	mSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-#if defined _WIN32
+
 	if (INVALID_SOCKET == mSocket)
-#else	
-	if (-1 == mSocket)
-#endif
 	{
-		std::cout << "Failed to create socket\n";
+		IF_LOG(log << "Failed to create socket\n");
 		return false;
 	}
 
 	struct sockaddr_in name;
+#ifndef _WIN32
 	name.sin_len = sizeof(name);
+#endif
 	name.sin_family = AF_INET;
 	name.sin_port = mPort;
 	name.sin_addr.s_addr = ::inet_addr(mIpAddress);
 	::memset(&(name.sin_zero), 0, sizeof(name.sin_zero));
 
 	int result;
-	result = ::connect(mSocket, (struct sockaddr*)&name, name.sin_len);
-#if defined _WIN32
+	result = ::connect((SOCKET)mSocket, (struct sockaddr*)&name, sizeof(name));
+
 	if (result == INVALID_SOCKET)
-#else
-	if (result == -1)
-#endif
 	{
-		mSocket = -1;
+		mSocket = INVALID_SOCKET;
 	}
 	return isConnected();
+}
+
+bool CClient::isConnected()
+{
+	LE_ENTER_LOG;
+	return mSocket != INVALID_SOCKET;
 }

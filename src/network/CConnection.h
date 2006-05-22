@@ -1,3 +1,8 @@
+#pragma once 
+
+#if defined _WIN32
+	#include "winsock2.h"
+#endif
 
 class CConnection
 {
@@ -11,6 +16,9 @@ class CConnection
 	~CConnection();
 
 	friend class CServer;
-
+#if defined _WIN32
+	SOCKET mSocket;
+#else
 	int mSocket;
+#endif
 };

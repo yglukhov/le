@@ -1,26 +1,29 @@
-
 #include "CConnection.h"
 
+#include <common/debug/slDebug.h>
+
 #if defined _WIN32
-
-#include "winsock2.h"
-
+	#include "winsock2.h"
 #else
+	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <iostream>
+#endif
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <iostream>
-
+#ifndef _WIN32
+	#define SOCKET int
+	#define INVALID_SOCKET -1
 #endif
 
 void* CConnection::read(unsigned length, int* realLength)
 {
+	LE_ENTER_LOG;
 	if (mSocket != -1)
 	{
 		void* data = new char(length);
-		*realLength = ::recv(mSocket, data, length, 0);
+		*realLength = ::recv((SOCKET)mSocket, (char*)data, length, 0);
 		
 		return data;
 	}
@@ -33,9 +36,10 @@ void* CConnection::read(unsigned length, int* realLength)
 
 int CConnection::write(void* data, unsigned bytes)
 {
-	if (mSocket != -1)
+	LE_ENTER_LOG;
+	if ((SOCKET)mSocket != -1)
 	{
-		return ::send(mSocket, data, bytes, 0);
+		return ::send((SOCKET)mSocket, (char*)data, bytes, 0);
 	}
 	else
 	{
@@ -46,17 +50,19 @@ int CConnection::write(void* data, unsigned bytes)
 CConnection::CConnection(int socket) :
 	mSocket(socket)
 {
+	LE_ENTER_LOG;
 }
 
 CConnection::~CConnection()
 {
-	if (mSocket != -1)
+	LE_ENTER_LOG;
+	if ((SOCKET)mSocket != -1)
 	{
-		::shutdown(mSocket, 2);
+		::shutdown((SOCKET)mSocket, 2);
 #if defined _WIN32		
-		::closesocket(mSocket);
+		::closesocket((SOCKET)mSocket);
 #else
-		::close(mSocket);
+		::close((SOCKET)mSocket);
 #endif
 	}
 }
