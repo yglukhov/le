@@ -12,19 +12,19 @@ class CObject;
 
 void _le_assert(bool, const char*, unsigned, const char*, const CObject*, const char*);
 
-#	define ASSERT(x) _le_assert((x), #x, __LINE__, __FILE__, NULL, NULL)
-#	define ASSERT_MESSAGE(x, message) _assert((x), #x, __LINE__, __FILE__, NULL, message)
+#	define LE_ASSERT(x) _le_assert((x), #x, __LINE__, __FILE__, NULL, NULL)
+#	define LE_ASSERT_MESSAGE(x, message) _assert((x), #x, __LINE__, __FILE__, NULL, message)
 
-#	define ASSERT_EX(x) _le_assert((x), #x, __LINE__, __FILE__, this, NULL)
-#	define ASSERT_EX_MESSAGE(x, message) _assert((x), #x, __LINE__, __FILE__, this, message)
+#	define LE_ASSERT_EX(x) _le_assert((x), #x, __LINE__, __FILE__, this, NULL)
+#	define LE_ASSERT_EX_MESSAGE(x, message) _assert((x), #x, __LINE__, __FILE__, this, message)
 
 #else
 
-#	define ASSERT(x)
-#	define ASSERT_MESSAGE(x, message)
+#	define LE_ASSERT(x)
+#	define LE_ASSERT_MESSAGE(x, message)
 
-#	define ASSERT_EX(x)
-#	define ASSERT_EX_MESSAGE(x, message)
+#	define LE_ASSERT_EX(x)
+#	define LE_ASSERT_EX_MESSAGE(x, message)
 
 #endif // defined LE_DEBUG
 
