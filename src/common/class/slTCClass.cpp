@@ -2,12 +2,12 @@
 
 LE_NAMESPACE_START
 
-const char* IClass::name() const
+CString IClass::name() const
 {
-	return mName.c_str();
+	return mName;
 }
 
-IClass::IClass(const char* name) :
+IClass::IClass(CString name) :
 	mName(name)
 {
 

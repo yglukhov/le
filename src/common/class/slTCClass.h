@@ -5,7 +5,7 @@
 // Includes
 #include <common/config/slPrefix.h>
 #include <common/pointer/slTCPointer.h>
-#include <string>
+#include <common/types/slCString.h>
 
 
 LE_NAMESPACE_START
@@ -21,12 +21,12 @@ class CObject;
 class IClass
 {
 	public:
-		const char* name() const;
+		CString name() const;
 		virtual TCPointer<CObject> create() const = 0;
 
 	protected:
-		IClass(const char* name);
-		std::string mName;
+		IClass(const CString name);
+		CString mName;
 };
 
 
@@ -52,7 +52,7 @@ private:
 // section in global namespace. The class must be inherited from CObject.
 #define IMPLEMENT_RUNTIME_CLASS(Class)							\
 																\
-static TCClass<Class> _##Class##_class_description_(#Class);	\
+static TCClass<Class> _##Class##_class_description_(LESTR(#Class));	\
 																\
 IClass* Class::staticClass()									\
 {																\
@@ -75,7 +75,7 @@ class TCClass : public IClass
 		virtual TCPointer<CObject> create() const;
 
 	public:
-		TCClass(const char*);
+		TCClass(CString);
 };
 
 
@@ -86,16 +86,16 @@ class TCClass : public IClass
 ////////////////////////////////////////////////////////////////////////////////
 LE_NAMESPACE_END
 
-void _le_register_class(const std::string&, LE_NESTED_NAMESPACE IClass*);
+void _le_register_class(LE_NESTED_NAMESPACE IClass*);
 
 LE_NAMESPACE_START
 
 
 template <typename T>
-TCClass<T>::TCClass(const char* name) :
+TCClass<T>::TCClass(CString name) :
 	IClass(name)
 {
-	_le_register_class(mName, this);
+	_le_register_class(this);
 }
 
 
