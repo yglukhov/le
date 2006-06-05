@@ -24,7 +24,7 @@ void CControlBasicController::draw(const CControl* control) const
 
 void CWindowBasicController::draw(const CControl* control) const
 {
-	CColor(0.7, 0.7, 0.7).set();
+	CColor(0.7f, 0.7f, 0.7f);
 	control->absoluteRect().draw();
 }
 
@@ -37,11 +37,11 @@ void CButtonBasicController::draw(const CControl* control) const
 	{
 		if (button->state() == eButtonStateDown)
 		{
-			CColor(0.8, 0.5, 0.2).set();
+			slColor(0.8f, 0.5f, 0.2f);
 		}
 		else
 		{
-			CColor(0.6, 0.9, 0.1).set();
+			slColor(0.6f, 0.9f, 0.1f);
 		}
 	}
 	else
@@ -54,20 +54,20 @@ void CButtonBasicController::draw(const CControl* control) const
 
 void CDialogBasicController::draw(const CControl* control) const
 {
-	CColor(0.0, 0.0, 0.0).set();
+	slColor(CColor());
 	control->absoluteRect().draw();
 }
 
 void CTitleBarBasicController::draw(const CControl* control) const
 {
-	CColor(0.2, 0.3, 0.5).set();
+	slColor(0.2f, 0.3f, 0.5f);
 	CRectangle rect = control->absoluteRect();
 	rect.draw();
 	const CTitleBar* titleBar = dynamic_cast<const CTitleBar*>(control);
 
 	if(titleBar)
 	{
-		CColor(1.0, 1.0, 1.0).set();
+		slColor(1.0f, 1.0f, 1.0f);
 		titleBar->captionText().draw(CPoint(rect.x() + 11, rect.y() + 1));
 	}
 }
