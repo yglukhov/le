@@ -116,7 +116,7 @@ void CThread::start()
 #else
 	DWORD threadID;
 	HANDLE newThread = CreateThread(NULL, 0, _threadProc, static_cast<LPVOID>(threadProcContext), 0, &threadID);
-	ASSERT(newThread == NULL);
+	LE_ASSERT(newThread == NULL);
 #endif
 
 	mThread = static_cast<void*>(newThread);
