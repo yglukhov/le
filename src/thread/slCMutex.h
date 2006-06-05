@@ -38,6 +38,6 @@ class CMutexLock : CNonCopyable
 
 	private:
 		CMutex& mMutex;
-}
+};
 
 LE_NAMESPACE_END
