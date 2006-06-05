@@ -34,7 +34,7 @@ void CDialog::addChild(CControl* child)
 {
 	LE_ENTER_LOG;
 
-	ASSERT_EX(mWorkWindow != NULL);
+	LE_ASSERT_EX(mWorkWindow != NULL);
 	mWorkWindow->addChild(child);
 }
 
@@ -42,7 +42,7 @@ void CDialog::removeChild(CControl* child)
 {
 	LE_ENTER_LOG;
 
-	ASSERT_EX(mWorkWindow != NULL);
+	LE_ASSERT_EX(mWorkWindow != NULL);
 	mWorkWindow->removeChild(child);
 }
 
