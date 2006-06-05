@@ -48,7 +48,7 @@ void CFolder::close()
 bool CFolder::rewindNode()
 {
 #if !defined _WIN32
-	ASSERT(mDir != NULL);
+	LE_ASSERT(mDir != NULL);
 
 	rewinddir(mDir);
 #endif
@@ -58,7 +58,7 @@ bool CFolder::rewindNode()
 bool CFolder::nextNode()
 {
 #if !defined _WIN32
-	ASSERT(mDir != NULL);
+	LE_ASSERT(mDir != NULL);
 
 	mEntry = readdir(mDir);
 #endif
@@ -79,7 +79,7 @@ bool CFolder::endNode() const
 const char* CFolder::curNodeName() const
 {
 #if !defined _WIN32
-	ASSERT(mEntry != NULL);
+	LE_ASSERT(mEntry != NULL);
 	return mEntry->d_name;
 #else
 	return NULL;
@@ -89,7 +89,7 @@ const char* CFolder::curNodeName() const
 EFolderNode CFolder::curNodeType() const
 {
 #if !defined _WIN32
-	ASSERT(mEntry != NULL);
+	LE_ASSERT(mEntry != NULL);
 	switch(mEntry->d_type)
 	{
 		case DT_DIR:		return eFolderNodeFolder;
