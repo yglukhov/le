@@ -207,6 +207,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="strategies"
+				>
+				<File
+					RelativePath="..\..\..\src\common\strategies\slCNonCopyable.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
