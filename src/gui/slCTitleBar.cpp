@@ -36,7 +36,7 @@ CTitleBar::CTitleBar(CWindow* Parent) :
 {
 	LE_ENTER_LOG;
 
-	ASSERT_EX(Parent != NULL);
+	LE_ASSERT_EX(Parent != NULL);
 	addChild(mCloseButton);
 	mCloseButton->relativePosition(CPoint(1,1));					
 	mCloseButton->size(CSize(8,8));

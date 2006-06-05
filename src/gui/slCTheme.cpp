@@ -11,9 +11,9 @@ IMPLEMENT_RUNTIME_CLASS(CTheme);
 
 static CTheme::Ptr _currentTheme;
 
-typedef std::map<std::string /*theme*/,
-					  std::list<std::pair<std::string /*controller*/,
-												 std::string /*control*/> > > CGeneralControllerMap;
+typedef std::map<CString /*theme*/,
+					  std::list<std::pair<CString /*controller*/,
+												 CString /*control*/> > > CGeneralControllerMap;
 
 static inline CGeneralControllerMap& controllerMap()
 {
@@ -38,21 +38,21 @@ CTheme* CTheme::instance()
 
 void CTheme::init()
 {
-	CGeneralControllerMap::iterator foundIt = controllerMap().find(std::string(objectClass()->name()));
+	CGeneralControllerMap::iterator foundIt = controllerMap().find(objectClass()->name());
 	if(foundIt == controllerMap().end())
 	{
 		return;
 	}
 
 	// collecting appropriate controllers to graphic controller map.
-	std::list<std::pair<std::string, std::string> >& controllerList = foundIt->second;
+	std::list<std::pair<CString, CString> >& controllerList = foundIt->second;
 
-	std::list<std::pair<std::string, std::string> >::iterator end = controllerList.end();
-	for(std::list<std::pair<std::string, std::string> >::iterator it = controllerList.begin();
+	std::list<std::pair<CString, CString> >::iterator end = controllerList.end();
+	for(std::list<std::pair<CString, CString> >::iterator it = controllerList.begin();
 			it != end; ++it)
 	{
 		TCPointer<CControlBasicController> controller =
-						CClassFactory::create<CControlBasicController>(it->first.c_str());
+						CClassFactory::create<CControlBasicController>(it->first);
 
 		if(controller)
 		{
@@ -61,11 +61,11 @@ void CTheme::init()
 	}
 }
 
-const CControlBasicController* CTheme::controllerForControl(const char* controlClass) const
+const CControlBasicController* CTheme::controllerForControl(CString controlClass) const
 {
 	LE_ENTER_LOG;
 
-	CControllerMap::const_iterator it = mControllerMap.find(std::string(controlClass));
+	CControllerMap::const_iterator it = mControllerMap.find(CString(controlClass));
 	if(it == mControllerMap.end())
 	{
 		IF_LOG(log << "WARNING: Graphic controller for " << controlClass
@@ -110,7 +110,7 @@ void CTheme::currentTheme(const char* themeClass)
 	}
 }
 
-const char* CTheme::currentTheme()
+CString CTheme::currentTheme()
 {
 	return instance()->objectClass()->name();
 }
@@ -119,16 +119,15 @@ const char* CTheme::currentTheme()
 LE_NAMESPACE_END
 
 
-void _le_register_graphic_controller(const char* controllerClass, 
-										const char* themeClass, const char* controlClass)
+void _le_register_graphic_controller(CString controllerClass, 
+										CString themeClass, CString controlClass)
 {
 	// TODO: check for existance of this controller.
 	LE_ENTER_LOG_SILENT;
 	IF_LOG(log << "Registering graphic controller \"" << controllerClass << "\" for control \""
 		<< controlClass << "\" for theme \"" << themeClass << "\"" << std::endl);
 
-	LE_NESTED_NAMESPACE controllerMap()[std::string(themeClass)].push_back(
-		std::pair<std::string, std::string>(std::string(controllerClass),
-											std::string(controlClass)));
+	LE_NESTED_NAMESPACE controllerMap()[themeClass].push_back(
+		std::pair<CString, CString>(controllerClass, controlClass));
 }
 

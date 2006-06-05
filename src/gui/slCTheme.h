@@ -25,14 +25,14 @@ class CTheme : public CObject
 		bool hitTest(const CControl* control, const CPoint& point) const;
 
 		static void currentTheme(const char* themeClass);
-		static const char* currentTheme();
+		static CString currentTheme();
 
-		const CControlBasicController* controllerForControl(const char* controlClass) const;
+		const CControlBasicController* controllerForControl(CString controlClass) const;
 
 	private:
 		void init();
 
-		typedef std::map<std::string, TCPointer<CControlBasicController> > CControllerMap;
+		typedef std::map<CString, TCPointer<CControlBasicController> > CControllerMap;
 		CControllerMap mControllerMap;
 };
 

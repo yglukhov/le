@@ -1,6 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <common/types/slCColor.h>
+
 LE_NAMESPACE_START
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,40 +143,5 @@ class CBox : public CPoint3D, public CSize3D
 		void draw() const;
 		void drawWire() const;
 };
-
-
-////////////////////////////////////////////////////////////////////////////////
-// CColor
-////////////////////////////////////////////////////////////////////////////////
-class CColor
-{
-	// Construction:
-	public:
-		CColor(float red = 1.0, float green = 1.0, float blue = 1.0);
-		CColor(const CColor& copy);
-
-	// Attributes
-		float red() const;
-		void red(float Red);
-
-		float green() const;
-		void green(float Green);
-
-		float blue() const;
-		void blue(float Blue);
-
-	// Operators
-		CColor& operator=(const CColor& copy);
-		bool operator==(const CColor& color) const;
-		bool operator!=(const CColor& color) const;
-
-	// Set
-		void set() const;
-
-	// Members
-	public:
-		float mRed, mGreen, mBlue;
-};
-
 
 LE_NAMESPACE_END
