@@ -54,11 +54,11 @@ static void* _threadProc(void* threadProcContext)
 	{
 		_threadKey = new pthread_key_t;
 		int pthreadKeyCreateResult = pthread_key_create(_threadKey, NULL);
-		ASSERT(pthreadKeyCreateResult == 0);
+		LE_ASSERT(pthreadKeyCreateResult == 0);
 	}
 
 	int pthreadSetSpecificResult = pthread_setspecific(*_threadKey, threadData->thread);
-	ASSERT(pthreadSetSpecificResult == 0);
+	LE_ASSERT(pthreadSetSpecificResult == 0);
 
 	(threadData->threadProc)();
 	delete threadData;
