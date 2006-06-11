@@ -6,134 +6,229 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		B0246ABB0A2095BF0023C1A6 /* prefix */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B0246ABC0A2095DE0023C1A6 /* Build configuration list for PBXAggregateTarget "prefix" */;
+			buildPhases = (
+				B0246AE10A2096AE0023C1A6 /* Copy le libs to temp */,
+			);
+			buildSettings = {
+				PRODUCT_NAME = prefix;
+			};
+			dependencies = (
+				B0246AC80A2096360023C1A6 /* PBXTargetDependency */,
+			);
+			name = prefix;
+			productName = prefix;
+		};
+		B0246ACD0A20965A0023C1A6 /* test */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B0246ADD0A20967E0023C1A6 /* Build configuration list for PBXAggregateTarget "test" */;
+			buildPhases = (
+				B0246B7F0A20A2920023C1A6 /* Run Tests */,
+			);
+			buildSettings = {
+				PRODUCT_NAME = test;
+			};
+			dependencies = (
+				B0246ACF0A20965E0023C1A6 /* PBXTargetDependency */,
+			);
+			name = test;
+			productName = test;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		B009ADF30A3B0F4A008D03AD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B009ADF20A3B0F4A008D03AD /* main.cpp */; };
+		B009AE3F0A3B12B7008D03AD /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D040A20B8C60023C1A6 /* leCommon.lib */; };
+		B0246CB30A20B6E70023C1A6 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
+		B0246CB40A20B6E80023C1A6 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
+		B0246D080A20B8C60023C1A6 /* leAux.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D030A20B8C60023C1A6 /* leAux.lib */; };
+		B0246D090A20B8C60023C1A6 /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D040A20B8C60023C1A6 /* leCommon.lib */; };
+		B0246D0A0A20B8C60023C1A6 /* leFile.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D050A20B8C60023C1A6 /* leFile.lib */; };
+		B0246D0B0A20B8C60023C1A6 /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D060A20B8C60023C1A6 /* leGui.lib */; };
+		B0246D0C0A20B8C60023C1A6 /* leThread.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B0246D070A20B8C60023C1A6 /* leThread.lib */; };
 		B04FFA050A161C5100F559ED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FFA040A161C5100F559ED /* main.cpp */; };
-		B04FFA720A16233000F559ED /* leAux.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6D0A16233000F559ED /* leAux.lib */; };
-		B04FFA730A16233100F559ED /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6E0A16233000F559ED /* leCommon.lib */; };
-		B04FFA740A16233100F559ED /* leFile.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA6F0A16233000F559ED /* leFile.lib */; };
-		B04FFA750A16233100F559ED /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA700A16233000F559ED /* leGui.lib */; };
-		B04FFA760A16233100F559ED /* leThread.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA710A16233000F559ED /* leThread.lib */; };
-		B04FFAB30A16266B00F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
-		B04FFAB40A16266B00F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		B04FFA190A161CA400F559ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76F6C0486A84900D96B5E /* le */;
-			remoteInfo = le_bak;
+/* Begin PBXBuildStyle section */
+		B01235C80A1A1E5C0017BF43 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
 		};
-		B04FFA1B0A161CA400F559ED /* PBXContainerItemProxy */ = {
+		B01235C90A1A1E5C0017BF43 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		B009ADEA0A3B0F17008D03AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FF9DA0A161A9C00F559ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0246ABB0A2095BF0023C1A6;
+			remoteInfo = prefix;
+		};
+		B0246AC70A2096360023C1A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B0BFC06209A7691E009FA6DF /* LE.framework */;
-			remoteInfo = LE;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9040A16002000F559ED;
+			remoteInfo = le;
+		};
+		B0246ACB0A2096430023C1A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FF9DA0A161A9C00F559ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0246ABB0A2095BF0023C1A6;
+			remoteInfo = prefix;
+		};
+		B0246ACE0A20965E0023C1A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FF9DA0A161A9C00F559ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF9EC0A161AD500F559ED;
+			remoteInfo = general;
 		};
 		B04FFA1D0A161CA400F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B04FF8750A15FAEA00F559ED /* leCommon.lib */;
+			remoteGlobalIDString = B04FF8750A15FAEA00F559ED;
 			remoteInfo = leCommon;
 		};
 		B04FFA1F0A161CA400F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B04FF9650A1615C900F559ED /* leFile.lib */;
+			remoteGlobalIDString = B04FF9650A1615C900F559ED;
 			remoteInfo = leFile;
 		};
 		B04FFA210A161CA400F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B04FF9740A16162100F559ED /* leAux.lib */;
+			remoteGlobalIDString = B04FF9740A16162100F559ED;
 			remoteInfo = leAux;
 		};
 		B04FFA230A161CA400F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B04FF97A0A16165700F559ED /* leThread.lib */;
+			remoteGlobalIDString = B04FF97A0A16165700F559ED;
 			remoteInfo = leThread;
 		};
 		B04FFA250A161CA400F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B04FF97F0A16167400F559ED /* leGui.lib */;
+			remoteGlobalIDString = B04FF97F0A16167400F559ED;
 			remoteInfo = leGui;
-		};
-		B04FFA2A0A161CB700F559ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF9040A16002000F559ED /* le */;
-			remoteInfo = le;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B009ADE80A3B0F0F008D03AD /* variant */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = variant; sourceTree = BUILT_PRODUCTS_DIR; };
+		B009ADF20A3B0F4A008D03AD /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B0246D030A20B8C60023C1A6 /* leAux.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leAux.lib; path = build/Debug/le/lib/leAux.lib; sourceTree = "<group>"; };
+		B0246D040A20B8C60023C1A6 /* leCommon.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leCommon.lib; path = build/Debug/le/lib/leCommon.lib; sourceTree = "<group>"; };
+		B0246D050A20B8C60023C1A6 /* leFile.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leFile.lib; path = build/Debug/le/lib/leFile.lib; sourceTree = "<group>"; };
+		B0246D060A20B8C60023C1A6 /* leGui.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leGui.lib; path = build/Debug/le/lib/leGui.lib; sourceTree = "<group>"; };
+		B0246D070A20B8C60023C1A6 /* leThread.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leThread.lib; path = build/Debug/le/lib/leThread.lib; sourceTree = "<group>"; };
 		B04FF9ED0A161AD500F559ED /* general */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = general; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FFA040A161C5100F559ED /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B04FFA0E0A161CA400F559ED /* le.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = le.xcodeproj; sourceTree = "<group>"; };
-		B04FFA6D0A16233000F559ED /* leAux.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leAux.lib; path = build/Debug/le/lib/leAux.lib; sourceTree = "<group>"; };
-		B04FFA6E0A16233000F559ED /* leCommon.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leCommon.lib; path = build/Debug/le/lib/leCommon.lib; sourceTree = "<group>"; };
-		B04FFA6F0A16233000F559ED /* leFile.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leFile.lib; path = build/Debug/le/lib/leFile.lib; sourceTree = "<group>"; };
-		B04FFA700A16233000F559ED /* leGui.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leGui.lib; path = build/Debug/le/lib/leGui.lib; sourceTree = "<group>"; };
-		B04FFA710A16233000F559ED /* leThread.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = leThread.lib; path = build/Debug/le/lib/leThread.lib; sourceTree = "<group>"; };
 		B04FFAB10A16266B00F559ED /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		B04FFAB20A16266B00F559ED /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B009ADE60A3B0F0F008D03AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B009AE3F0A3B12B7008D03AD /* leCommon.lib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B04FF9EB0A161AD500F559ED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B04FFA720A16233000F559ED /* leAux.lib in Frameworks */,
-				B04FFA730A16233100F559ED /* leCommon.lib in Frameworks */,
-				B04FFA740A16233100F559ED /* leFile.lib in Frameworks */,
-				B04FFA750A16233100F559ED /* leGui.lib in Frameworks */,
-				B04FFA760A16233100F559ED /* leThread.lib in Frameworks */,
-				B04FFAB30A16266B00F559ED /* GLUT.framework in Frameworks */,
-				B04FFAB40A16266B00F559ED /* OpenGL.framework in Frameworks */,
+				B0246CB30A20B6E70023C1A6 /* GLUT.framework in Frameworks */,
+				B0246CB40A20B6E80023C1A6 /* OpenGL.framework in Frameworks */,
+				B0246D080A20B8C60023C1A6 /* leAux.lib in Frameworks */,
+				B0246D090A20B8C60023C1A6 /* leCommon.lib in Frameworks */,
+				B0246D0A0A20B8C60023C1A6 /* leFile.lib in Frameworks */,
+				B0246D0B0A20B8C60023C1A6 /* leGui.lib in Frameworks */,
+				B0246D0C0A20B8C60023C1A6 /* leThread.lib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B009ADEC0A3B0F28008D03AD /* variant */ = {
+			isa = PBXGroup;
+			children = (
+				B009ADF20A3B0F4A008D03AD /* main.cpp */,
+			);
+			path = variant;
+			sourceTree = "<group>";
+		};
+		B0246B3E0A209CC50023C1A6 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				B0246B3F0A209CDA0023C1A6 /* le */,
+				B04FFAB10A16266B00F559ED /* GLUT.framework */,
+				B04FFAB20A16266B00F559ED /* OpenGL.framework */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+		B0246B3F0A209CDA0023C1A6 /* le */ = {
+			isa = PBXGroup;
+			children = (
+				B04FFA0E0A161CA400F559ED /* le.xcodeproj */,
+				B0246D030A20B8C60023C1A6 /* leAux.lib */,
+				B0246D040A20B8C60023C1A6 /* leCommon.lib */,
+				B0246D050A20B8C60023C1A6 /* leFile.lib */,
+				B0246D060A20B8C60023C1A6 /* leGui.lib */,
+				B0246D070A20B8C60023C1A6 /* leThread.lib */,
+			);
+			name = le;
+			sourceTree = "<group>";
+		};
 		B04FF9D80A161A9C00F559ED = {
 			isa = PBXGroup;
 			children = (
-				B04FFAB10A16266B00F559ED /* GLUT.framework */,
-				B04FFAB20A16266B00F559ED /* OpenGL.framework */,
-				B04FFA6D0A16233000F559ED /* leAux.lib */,
-				B04FFA6E0A16233000F559ED /* leCommon.lib */,
-				B04FFA6F0A16233000F559ED /* leFile.lib */,
-				B04FFA700A16233000F559ED /* leGui.lib */,
-				B04FFA710A16233000F559ED /* leThread.lib */,
-				B04FFA0E0A161CA400F559ED /* le.xcodeproj */,
+				B0246B3E0A209CC50023C1A6 /* libs */,
 				B04FFA000A161C0900F559ED /* src */,
-				B04FF9EE0A161AD500F559ED /* Products */,
+				B04FF9EE0A161AD500F559ED /* products */,
 			);
 			sourceTree = "<group>";
 		};
-		B04FF9EE0A161AD500F559ED /* Products */ = {
+		B04FF9EE0A161AD500F559ED /* products */ = {
 			isa = PBXGroup;
 			children = (
 				B04FF9ED0A161AD500F559ED /* general */,
+				B009ADE80A3B0F0F008D03AD /* variant */,
 			);
-			name = Products;
+			name = products;
 			sourceTree = "<group>";
 		};
 		B04FFA000A161C0900F559ED /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B009ADEC0A3B0F28008D03AD /* variant */,
 				B04FFA010A161C3000F559ED /* general */,
 			);
 			name = src;
@@ -151,8 +246,6 @@
 		B04FFA0F0A161CA400F559ED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B04FFA1A0A161CA400F559ED /* le */,
-				B04FFA1C0A161CA400F559ED /* LE.framework */,
 				B04FFA1E0A161CA400F559ED /* leCommon.lib */,
 				B04FFA200A161CA400F559ED /* leFile.lib */,
 				B04FFA220A161CA400F559ED /* leAux.lib */,
@@ -165,6 +258,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B009ADE70A3B0F0F008D03AD /* variant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B009ADED0A3B0F28008D03AD /* Build configuration list for PBXNativeTarget "variant" */;
+			buildPhases = (
+				B009ADE50A3B0F0F008D03AD /* Sources */,
+				B009ADE60A3B0F0F008D03AD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = variant;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+				B009ADEB0A3B0F17008D03AD /* PBXTargetDependency */,
+			);
+			name = variant;
+			productName = variant;
+			productReference = B009ADE80A3B0F0F008D03AD /* variant */;
+			productType = "com.apple.product-type.tool";
+		};
 		B04FF9EC0A161AD500F559ED /* general */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B04FF9F00A161AD700F559ED /* Build configuration list for PBXNativeTarget "general" */;
@@ -183,7 +301,7 @@
 				ZERO_LINK = YES;
 			};
 			dependencies = (
-				B04FFA2B0A161CB700F559ED /* PBXTargetDependency */,
+				B0246ACC0A2096430023C1A6 /* PBXTargetDependency */,
 			);
 			name = general;
 			productName = general;
@@ -196,11 +314,15 @@
 		B04FF9DA0A161A9C00F559ED /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = B04FF9DB0A161A9C00F559ED /* Build configuration list for PBXProject "test" */;
+			buildSettings = {
+			};
 			buildStyles = (
+				B01235C80A1A1E5C0017BF43 /* Development */,
+				B01235C90A1A1E5C0017BF43 /* Deployment */,
 			);
 			hasScannedForEncodings = 0;
 			mainGroup = B04FF9D80A161A9C00F559ED;
-			productRefGroup = B04FF9EE0A161AD500F559ED /* Products */;
+			productRefGroup = B04FF9EE0A161AD500F559ED /* products */;
 			projectDirPath = "";
 			projectReferences = (
 				{
@@ -209,26 +331,15 @@
 				},
 			);
 			targets = (
+				B0246ACD0A20965A0023C1A6 /* test */,
+				B0246ABB0A2095BF0023C1A6 /* prefix */,
 				B04FF9EC0A161AD500F559ED /* general */,
+				B009ADE70A3B0F0F008D03AD /* variant */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		B04FFA1A0A161CA400F559ED /* le */ = {
-			isa = PBXReferenceProxy;
-			fileType = folder;
-			path = le;
-			remoteRef = B04FFA190A161CA400F559ED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B04FFA1C0A161CA400F559ED /* LE.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LE.framework;
-			remoteRef = B04FFA1B0A161CA400F559ED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B04FFA1E0A161CA400F559ED /* leCommon.lib */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -266,7 +377,46 @@
 		};
 /* End PBXReferenceProxy section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B0246AE10A2096AE0023C1A6 /* Copy le libs to temp */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy le libs to temp";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# XCode does not handle library dependencies correctly,\n# so it is needed to link a temporary folder (which\n# does not depend on any environment variables) to le\n# libs folder.\n\nif test -e ${testTemporaryLeLibsDir}\nthen\nunlink ${testTemporaryLeLibsDir};\nfi\n\nln -s ${testBuildedLeLibsDir}/ ${testTemporaryLeLibsDir}";
+		};
+		B0246B7F0A20A2920023C1A6 /* Run Tests */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Tests";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the tests\n# TODO: Complete it";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		B009ADE50A3B0F0F008D03AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B009ADF30A3B0F4A008D03AD /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B04FF9EA0A161AD500F559ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,39 +428,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B04FFA2B0A161CB700F559ED /* PBXTargetDependency */ = {
+		B009ADEB0A3B0F17008D03AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0246ABB0A2095BF0023C1A6 /* prefix */;
+			targetProxy = B009ADEA0A3B0F17008D03AD /* PBXContainerItemProxy */;
+		};
+		B0246AC80A2096360023C1A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = le;
-			targetProxy = B04FFA2A0A161CB700F559ED /* PBXContainerItemProxy */;
+			targetProxy = B0246AC70A2096360023C1A6 /* PBXContainerItemProxy */;
+		};
+		B0246ACC0A2096430023C1A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0246ABB0A2095BF0023C1A6 /* prefix */;
+			targetProxy = B0246ACB0A2096430023C1A6 /* PBXContainerItemProxy */;
+		};
+		B0246ACF0A20965E0023C1A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF9EC0A161AD500F559ED /* general */;
+			targetProxy = B0246ACE0A20965E0023C1A6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		B04FF9DC0A161A9C00F559ED /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
-				COPY_PHASE_STRIP = NO;
-				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
-				LIBRARY_SEARCH_PATHS = "$(testBuildedLeLibsDir)";
-				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
-				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
-			};
-			name = Debug;
-		};
-		B04FF9DD0A161A9C00F559ED /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
-				COPY_PHASE_STRIP = YES;
-				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
-				LIBRARY_SEARCH_PATHS = "$(testBuildedLeLibsDir)";
-				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
-				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
-			};
-			name = Release;
-		};
-		B04FF9F10A161AD700F559ED /* Debug */ = {
+		B009ADEE0A3B0F28008D03AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -321,16 +462,15 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = (
-					"$(testBuildedLeLibsDir)",
+					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/build/Debug/le/lib",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = general;
-				ZERO_LINK = NO;
+				PRODUCT_NAME = variant;
 			};
 			name = Debug;
 		};
-		B04FF9F20A161AD700F559ED /* Release */ = {
+		B009ADEF0A3B0F28008D03AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -339,18 +479,144 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = (
-					"$(testBuildedLeLibsDir)",
+					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/build/Debug/le/lib",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = general;
+				PRODUCT_NAME = variant;
+			};
+			name = Release;
+		};
+		B0246ABD0A2095DE0023C1A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = prefix;
+			};
+			name = Debug;
+		};
+		B0246ABE0A2095DE0023C1A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = prefix;
 				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B0246ADE0A20967E0023C1A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = test;
+			};
+			name = Debug;
+		};
+		B0246ADF0A20967E0023C1A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = test;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B04FF9DC0A161A9C00F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
+				LIBRARY_SEARCH_PATHS = "$(testTemporaryLeLibsDir)";
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
+				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				testTemporaryLeLibsDir = "$(SYMROOT)/leLibsForTest.tmp";
+			};
+			name = Debug;
+		};
+		B04FF9DD0A161A9C00F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				COPY_PHASE_STRIP = YES;
+				HEADER_SEARCH_PATHS = "$(testBuildedLeHeaderDir)";
+				LIBRARY_SEARCH_PATHS = "$(testTemporaryLeLibsDir)";
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				testBuildedLeHeaderDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
+				testBuildedLeLibsDir = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				testTemporaryLeLibsDir = "$(SYMROOT)/leLibsForTest.tmp";
+			};
+			name = Release;
+		};
+		B04FF9F10A161AD700F559ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = general;
+			};
+			name = Debug;
+		};
+		B04FF9F20A161AD700F559ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				PRODUCT_NAME = general;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B009ADED0A3B0F28008D03AD /* Build configuration list for PBXNativeTarget "variant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B009ADEE0A3B0F28008D03AD /* Debug */,
+				B009ADEF0A3B0F28008D03AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0246ABC0A2095DE0023C1A6 /* Build configuration list for PBXAggregateTarget "prefix" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0246ABD0A2095DE0023C1A6 /* Debug */,
+				B0246ABE0A2095DE0023C1A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0246ADD0A20967E0023C1A6 /* Build configuration list for PBXAggregateTarget "test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0246ADE0A20967E0023C1A6 /* Debug */,
+				B0246ADF0A20967E0023C1A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B04FF9DB0A161A9C00F559ED /* Build configuration list for PBXProject "test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
