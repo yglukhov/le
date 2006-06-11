@@ -6,7 +6,7 @@
 #include <common/config/slPrefix.h>
 #include <common/pointer/slTCPointer.h>
 #include <common/types/slCString.h>
-
+#include <typeinfo>
 
 LE_NAMESPACE_START
 
@@ -23,6 +23,10 @@ class IClass
 	public:
 		CString name() const;
 		virtual TCPointer<CObject> create() const = 0;
+
+		virtual const NChar* stdTypeInfoName() const = 0;
+
+		bool operator == (const IClass& rhs) const;
 
 	protected:
 		IClass(const CString name);
@@ -73,12 +77,13 @@ class TCClass : public IClass
 {
 	public:
 		virtual TCPointer<CObject> create() const;
-
-	public:
-		TCClass(CString);
+		virtual const NChar* stdTypeInfoName() const;
+	
+	// Private
+	TCClass(CString);
+	private:
+		TCClass(const TCClass& copy) {}
 };
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,5 +110,10 @@ TCPointer<CObject> TCClass<T>::create() const
 	return TCPointer<CObject>(dynamic_cast<CObject*>(new T()));
 }
 
+template <typename T>
+const NChar* TCClass<T>::stdTypeInfoName() const
+{
+	return typeid(T).name();
+}
 
 LE_NAMESPACE_END
