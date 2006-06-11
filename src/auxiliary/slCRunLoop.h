@@ -1,39 +1,28 @@
 #pragma once
 
-#include <config/slPrefix.h>
+#include <list>
+#include <common/types/slBasic.h>
+#include <thread/slCMutex.h>
+#include <template/function/slTCFunction.h>
 
 LE_NAMESPACE_START
 
-enum EEventType
-{
-	eMouseEvent
-};
-
-class CRunLoopMessage
+class CRunLoop
 {
 	public:
-		CRunLoopMessage(ERunLoopMessage message, CObject* receiver, CObject* sender = NULL, void* data = NULL);
-		
-		
-		ERunLoopMessage mMessage;
-		CObject* receiver, CObject* sender = NULL
-};
+		CRunLoop();
 
-class CMainLoop
-{
-	public:
-		CMainLoop();
-
-		void start();
+		void run();
 		void stop();
+		bool isStopped() const;
 
-		void pushMessage(ERunLoopMessage message, CObject* receiver, CObject* sender = NULL, void* data = NULL);
-
-		bool popMessage(CRunLoopMessage& message);
-		bool peekMessage(CRunLoopMessage& message);
+		void pushEvent(const TCFunction<>& event);
 
 	private:
-		std::list<CRunLoopMessage> mMessageQueue;
+		std::list<TCFunction<> > mEventQueue;
+		CMutex mQueueMutex;
+		UInt4 mSources;
+		bool mStopped;
 };
 
 LE_NAMESPACE_END

@@ -2,36 +2,48 @@
 
 LE_NAMESPACE_START
 
-static CMainLoop* _mainLoop = NULL;
-
-CMainLoop::CMainLoop()
-{
-	_mainLoop = this;
-}
-
-void CMainLoop::start()
+CRunLoop::CRunLoop() :
+	mSources(0),
+	mStopped(true)
 {
 
 }
 
-void CMainLoop::stop()
+void CRunLoop::run()
 {
+	while(!isStopped())
+	{
+		{
+			CMutexLock locker(mQueueMutex);
+			if(!mEventQueue.empty())
+			{
+				mEventQueue.front()();
+				mEventQueue.pop_front();
+				continue;
+			}
+		}
 
+		if (mSources == 0)
+		{
+			stop();
+		}
+	}
 }
 
-void CMainLoop::pushMessage(ERunLoopMessage message, CObject* receiver, CObject* sender, void* data)
+void CRunLoop::stop()
 {
-
+	mStopped = true;
 }
 
-bool CMainLoop::popMessage(CRunLoopMessage& message)
+bool CRunLoop::isStopped() const
 {
-
+	return mStopped;
 }
 
-bool CMainLoop::peekMessage(CRunLoopMessage& message)
+void CRunLoop::pushEvent(const TCFunction<>& event)
 {
-
+	CMutexLock locker(mQueueMutex);
+	mEventQueue.push_back(event);
 }
 
 LE_NAMESPACE_END
