@@ -16,9 +16,9 @@ LE_NAMESPACE_START
 #endif
 
 
-#ifdef LE_DEBUG
+#if LE_FLAG_DEBUG
 #define LE_ENABLE_LOG
-#endif // defined LE_DEBUG
+#endif // LE_FLAG_DEBUG
 
 
 #ifdef LE_ENABLE_LOG

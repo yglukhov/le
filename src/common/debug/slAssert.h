@@ -6,7 +6,7 @@ LE_NAMESPACE_START
 ////////////////////////////////////////////////////////////////////////////////
 // ASSERTS
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef LE_DEBUG
+#if LE_FLAG_DEBUG
 
 class CObject;
 
@@ -26,13 +26,13 @@ void _le_assert(bool, const char*, unsigned, const char*, const CObject*, const 
 #	define LE_ASSERT_EX(x)
 #	define LE_ASSERT_EX_MESSAGE(x, message)
 
-#endif // defined LE_DEBUG
+#endif // LE_FLAG_DEBUG
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Compile time ASSERT:		STATIC_ASSERT(const expression)
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef LE_DEBUG
+#if LE_FLAG_DEBUG
 
 template <bool expression>
 struct TSStaticAssert;
@@ -46,11 +46,11 @@ struct TSStaticAssert<true>
 #define LE_STATIC_ASSERT(expression) \
 static LE_NESTED_NAMESPACE TSStaticAssert<((bool)(expression))> _static_assert_object_##__LINE__
 
-#else // defined LE_DEBUG
+#else // LE_FLAG_DEBUG
 
 #define LE_STATIC_ASSERT(expression)
 
-#endif // not defined LE_DEBUG
+#endif // not LE_FLAG_DEBUG
 
 
 LE_NAMESPACE_END

@@ -299,17 +299,17 @@ Bool CNumber::valueAs(TSTypeToType<Bool>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<Bool>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<Bool>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<Bool>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<Bool>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<Bool>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<Bool>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<Bool>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<Bool>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<Bool>(mData.valFloat4);
-		case numberFormatFloat8: return static_cast<Bool>(mData.valFloat8);
-		case numberFormatBool: return static_cast<Float8>(mData.valBool);
+		case numberFormatUInt1: return (mData.valUInt1)?(true):(false);
+		case numberFormatUInt2: return (mData.valUInt2)?(true):(false);
+		case numberFormatUInt4: return (mData.valUInt4)?(true):(false);
+		case numberFormatUInt8: return (mData.valUInt8)?(true):(false);
+		case numberFormatSInt1: return (mData.valSInt1)?(true):(false);
+		case numberFormatSInt2: return (mData.valSInt2)?(true):(false);
+		case numberFormatSInt4: return (mData.valSInt4)?(true):(false);
+		case numberFormatSInt8: return (mData.valSInt8)?(true):(false);
+		case numberFormatFloat4: return (mData.valFloat4)?(true):(false);
+		case numberFormatFloat8: return (mData.valFloat8)?(true):(false);
+		case numberFormatBool: return mData.valBool;
 		default: return 0;
 	}
 	return 0;
