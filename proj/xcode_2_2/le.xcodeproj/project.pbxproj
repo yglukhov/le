@@ -29,9 +29,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
-		B01DF32809F11D6D00EE27D3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B01DF32609F11D6D00EE27D3 /* InfoPlist.strings */; };
-		B01DF42909F123B000EE27D3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B009AD3E0A3AEA52008D03AD /* slCastPolicies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B009AD3D0A3AEA52008D03AD /* slCastPolicies.cpp */; };
+		B00EC1980A3C5275007EB231 /* slCCastPolicyRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B00EC1970A3C5275007EB231 /* slCCastPolicyRegistry.cpp */; };
+		B00EC1C50A3C581D007EB231 /* slCNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B00EC1C40A3C581D007EB231 /* slCNumber.cpp */; };
+		B021CC8A0A3AD8CA00B915E2 /* slCVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B021CC890A3AD8CA00B915E2 /* slCVariant.cpp */; };
+		B04C113BC5B04377001DB8E9 /* slCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04C1139C5B04377001DB8E9 /* slCData.cpp */; };
+		B04C113EC5B0438C001DB8E9 /* slCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04C113DC5B0438C001DB8E9 /* slCString.cpp */; };
 		B04FF8DF0A15FF2600F559ED /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8940A15FF1E00F559ED /* slCObject.cpp */; };
 		B04FF8E10A15FF2A00F559ED /* slCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8900A15FF1E00F559ED /* slCAutoreleasePool.cpp */; };
 		B04FF8E30A15FF2B00F559ED /* slTCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8920A15FF1E00F559ED /* slTCPointer.cpp */; };
@@ -47,7 +50,6 @@
 		B04FF9890A1616B800F559ED /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF89C0A15FF1E00F559ED /* slBasicGraphicControllers.cpp */; };
 		B04FF98A0A1616B800F559ED /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF89E0A15FF1E00F559ED /* slCApplication.cpp */; };
 		B04FF98B0A1616BA00F559ED /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A00A15FF1E00F559ED /* slCButton.cpp */; };
-		B04FF98C0A1616BB00F559ED /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A20A15FF1E00F559ED /* slCButtonDelegate.cpp */; };
 		B04FF98D0A1616BC00F559ED /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A40A15FF1E00F559ED /* slCControl.cpp */; };
 		B04FF98E0A1616BD00F559ED /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A60A15FF1E00F559ED /* slCControlDelegate.cpp */; };
 		B04FF98F0A1616BE00F559ED /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8A80A15FF1E00F559ED /* slCDialog.cpp */; };
@@ -61,11 +63,7 @@
 		B04FF9970A1616C800F559ED /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
-		B04FFAA30A1625A100F559ED /* leCommon.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF8750A15FAEA00F559ED /* leCommon.lib */; };
-		B04FFAA80A1625D500F559ED /* leAux.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF9740A16162100F559ED /* leAux.lib */; };
-		B0BFC0A509A76986009FA6DF /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
-		B0BFC0A609A76986009FA6DF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
-		B0BFC20809A778FE009FA6DF /* LE.framework in Copy to System frameworks */ = {isa = PBXBuildFile; fileRef = B0BFC06209A7691E009FA6DF /* LE.framework */; };
+		B0DCE211C5B07D97005638CA /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF87E0A15FF1E00F559ED /* slCRunLoop.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -88,60 +86,60 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCommon */;
+			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
 			remoteInfo = leCommon;
 		};
 		B04FF96C0A1615EA00F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF9640A1615C900F559ED /* leFile */;
+			remoteGlobalIDString = B04FF9640A1615C900F559ED;
 			remoteInfo = leFile;
 		};
 		B04FF9800A16168500F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF9730A16162100F559ED /* leAux */;
+			remoteGlobalIDString = B04FF9730A16162100F559ED;
 			remoteInfo = leAux;
 		};
 		B04FF9820A16168500F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF9790A16165700F559ED /* leThread */;
+			remoteGlobalIDString = B04FF9790A16165700F559ED;
 			remoteInfo = leThread;
 		};
 		B04FF9840A16168500F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
+			remoteGlobalIDString = B04FF97E0A16167400F559ED;
 			remoteInfo = leGui;
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		B0BFC20609A778B2009FA6DF /* Copy to System frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(HOME)/Library/Frameworks";
-			dstSubfolderSpec = 0;
-			files = (
-				B0BFC20809A778FE009FA6DF /* LE.framework in Copy to System frameworks */,
-			);
-			name = "Copy to System frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		8DD76F6C0486A84900D96B5E /* le */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = folder; path = le; sourceTree = BUILT_PRODUCTS_DIR; };
 		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		B009ACFC0A3ADB50008D03AD /* slCVariantBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCVariantBase.h; sourceTree = "<group>"; };
+		B009AD3D0A3AEA52008D03AD /* slCastPolicies.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCastPolicies.cpp; sourceTree = "<group>"; };
+		B00EC1960A3C5275007EB231 /* slCCastPolicyRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCCastPolicyRegistry.h; sourceTree = "<group>"; };
+		B00EC1970A3C5275007EB231 /* slCCastPolicyRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCCastPolicyRegistry.cpp; sourceTree = "<group>"; };
+		B00EC1C30A3C581D007EB231 /* slCNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCNumber.h; sourceTree = "<group>"; };
+		B00EC1C40A3C581D007EB231 /* slCNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCNumber.cpp; sourceTree = "<group>"; };
+		B00EC1C60A3C5982007EB231 /* slCNumberBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCNumberBase.h; sourceTree = "<group>"; };
 		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
-		B01DF32409F11D0900EE27D3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../../res/macosx/Info.plist; sourceTree = SOURCE_ROOT; };
-		B01DF32709F11D6D00EE27D3 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = ../../res/macosx/English.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		B021CC880A3AD8CA00B915E2 /* slCVariant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCVariant.h; sourceTree = "<group>"; };
+		B021CC890A3AD8CA00B915E2 /* slCVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCVariant.cpp; sourceTree = "<group>"; };
+		B04865A5C5B0546D00CC530D /* slTCColorBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCColorBase.h; sourceTree = "<group>"; };
+		B0486609C5B060FA00CC530D /* slGlutPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutPrefix.h; sourceTree = "<group>"; };
+		B048660BC5B0613100CC530D /* slGlutColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutColor.h; sourceTree = "<group>"; };
+		B04C1139C5B04377001DB8E9 /* slCData.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCData.cpp; sourceTree = "<group>"; };
+		B04C113AC5B04377001DB8E9 /* slCData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCData.h; sourceTree = "<group>"; };
+		B04C113CC5B0438C001DB8E9 /* slCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCString.h; sourceTree = "<group>"; };
+		B04C113DC5B0438C001DB8E9 /* slCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCString.cpp; sourceTree = "<group>"; };
+		B04C113FC5B04433001DB8E9 /* slBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slBasic.h; sourceTree = "<group>"; };
 		B04FF8750A15FAEA00F559ED /* leCommon.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leCommon.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF87C0A15FF1E00F559ED /* slCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCNotificationCenter.cpp; sourceTree = "<group>"; };
 		B04FF87D0A15FF1E00F559ED /* slCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCNotificationCenter.h; sourceTree = "<group>"; };
@@ -197,7 +195,6 @@
 		B04FF8B60A15FF1E00F559ED /* slCTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCTitleBar.h; sourceTree = "<group>"; };
 		B04FF8B70A15FF1E00F559ED /* slCWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCWindow.cpp; sourceTree = "<group>"; };
 		B04FF8B80A15FF1E00F559ED /* slCWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCWindow.h; sourceTree = "<group>"; };
-		B04FF8B90A15FF1E00F559ED /* slGraphicControllerRegistration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slGraphicControllerRegistration.h; sourceTree = "<group>"; };
 		B04FF8BA0A15FF1E00F559ED /* slTCGraphicControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCGraphicControllerClass.h; sourceTree = "<group>"; };
 		B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTypes.cpp; sourceTree = "<group>"; };
 		B04FF8BC0A15FF1E00F559ED /* slTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTypes.h; sourceTree = "<group>"; };
@@ -230,36 +227,17 @@
 		B04FF9740A16162100F559ED /* leAux.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leAux.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF97A0A16165700F559ED /* leThread.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leThread.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF97F0A16167400F559ED /* leGui.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leGui.lib; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0BFC06209A7691E009FA6DF /* LE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0935BC2C5B0917600A3FED7 /* slCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCColor.h; sourceTree = "<group>"; };
+		B0DCE20CC5B07CCE005638CA /* slCNonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCNonCopyable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8DD76F660486A84900D96B5E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B004630E08E56B7F00236593 /* GLUT.framework in Frameworks */,
-				B01DF42909F123B000EE27D3 /* OpenGL.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B04FF9AA0A16174E00F559ED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B04FFAA80A1625D500F559ED /* leAux.lib in Frameworks */,
-				B04FFAA30A1625A100F559ED /* leCommon.lib in Frameworks */,
 				B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */,
 				B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B0BFC06009A7691E009FA6DF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B0BFC0A509A76986009FA6DF /* GLUT.framework in Frameworks */,
-				B0BFC0A609A76986009FA6DF /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,30 +247,24 @@
 		08FB7794FE84155DC02AAC07 /* le */ = {
 			isa = PBXGroup;
 			children = (
-				B04FF9D30A1619B700F559ED /* test */,
 				B04FF9A10A1616E700F559ED /* src */,
 				B01DEE7109F0ED6D00EE27D3 /* libs */,
-				B01DF32309F11CE800EE27D3 /* res */,
 				C6859E8C029090F304C91782 /* doc */,
-				1AB674ADFE9D54B511CA2CBB /* Products */,
-				B004630C08E56B7F00236593 /* GLUT.framework */,
-				B004630D08E56B7F00236593 /* OpenGL.framework */,
+				1AB674ADFE9D54B511CA2CBB /* products */,
 			);
 			name = le;
 			sourceTree = "<group>";
 		};
-		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+		1AB674ADFE9D54B511CA2CBB /* products */ = {
 			isa = PBXGroup;
 			children = (
-				8DD76F6C0486A84900D96B5E /* le */,
-				B0BFC06209A7691E009FA6DF /* LE.framework */,
 				B04FF8750A15FAEA00F559ED /* leCommon.lib */,
 				B04FF9650A1615C900F559ED /* leFile.lib */,
 				B04FF9740A16162100F559ED /* leAux.lib */,
 				B04FF97A0A16165700F559ED /* leThread.lib */,
 				B04FF97F0A16167400F559ED /* leGui.lib */,
 			);
-			name = Products;
+			name = products;
 			sourceTree = "<group>";
 		};
 		B01DEE7109F0ED6D00EE27D3 /* libs */ = {
@@ -309,20 +281,45 @@
 		B01DEF2009F0EDD800EE27D3 /* glut */ = {
 			isa = PBXGroup;
 			children = (
+				B004630C08E56B7F00236593 /* GLUT.framework */,
+				B004630D08E56B7F00236593 /* OpenGL.framework */,
 				B01DEF2109F0EDEC00EE27D3 /* slGlut.h */,
+				B0486609C5B060FA00CC530D /* slGlutPrefix.h */,
+				B048660BC5B0613100CC530D /* slGlutColor.h */,
 			);
 			path = glut;
 			sourceTree = "<group>";
 		};
-		B01DF32309F11CE800EE27D3 /* res */ = {
+		B04865A4C5B0543900CC530D /* base */ = {
 			isa = PBXGroup;
 			children = (
-				B01DF32609F11D6D00EE27D3 /* InfoPlist.strings */,
-				B01DF32409F11D0900EE27D3 /* Info.plist */,
+				B04865A5C5B0546D00CC530D /* slTCColorBase.h */,
+				B009ACFC0A3ADB50008D03AD /* slCVariantBase.h */,
+				B009AD3D0A3AEA52008D03AD /* slCastPolicies.cpp */,
+				B00EC1960A3C5275007EB231 /* slCCastPolicyRegistry.h */,
+				B00EC1970A3C5275007EB231 /* slCCastPolicyRegistry.cpp */,
+				B00EC1C60A3C5982007EB231 /* slCNumberBase.h */,
 			);
-			name = res;
-			path = ../../res/macosx;
-			sourceTree = SOURCE_ROOT;
+			path = base;
+			sourceTree = "<group>";
+		};
+		B04C1127C5B0431F001DB8E9 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				B04865A4C5B0543900CC530D /* base */,
+				B0935BC2C5B0917600A3FED7 /* slCColor.h */,
+				B04C1139C5B04377001DB8E9 /* slCData.cpp */,
+				B04C113AC5B04377001DB8E9 /* slCData.h */,
+				B04C113DC5B0438C001DB8E9 /* slCString.cpp */,
+				B04C113CC5B0438C001DB8E9 /* slCString.h */,
+				B04C113FC5B04433001DB8E9 /* slBasic.h */,
+				B021CC880A3AD8CA00B915E2 /* slCVariant.h */,
+				B021CC890A3AD8CA00B915E2 /* slCVariant.cpp */,
+				B00EC1C30A3C581D007EB231 /* slCNumber.h */,
+				B00EC1C40A3C581D007EB231 /* slCNumber.cpp */,
+			);
+			path = types;
+			sourceTree = "<group>";
 		};
 		B04FF87B0A15FF1E00F559ED /* auxiliary */ = {
 			isa = PBXGroup;
@@ -339,6 +336,8 @@
 		B04FF8810A15FF1E00F559ED /* common */ = {
 			isa = PBXGroup;
 			children = (
+				B0DCE20BC5B07C9F005638CA /* strategies */,
+				B04C1127C5B0431F001DB8E9 /* types */,
 				B04FF8820A15FF1E00F559ED /* class */,
 				B04FF8870A15FF1E00F559ED /* config */,
 				B04FF8890A15FF1E00F559ED /* debug */,
@@ -434,7 +433,6 @@
 				B04FF8B60A15FF1E00F559ED /* slCTitleBar.h */,
 				B04FF8B70A15FF1E00F559ED /* slCWindow.cpp */,
 				B04FF8B80A15FF1E00F559ED /* slCWindow.h */,
-				B04FF8B90A15FF1E00F559ED /* slGraphicControllerRegistration.h */,
 				B04FF8BA0A15FF1E00F559ED /* slTCGraphicControllerClass.h */,
 				B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */,
 				B04FF8BC0A15FF1E00F559ED /* slTypes.h */,
@@ -551,11 +549,12 @@
 			path = ../../src;
 			sourceTree = "<group>";
 		};
-		B04FF9D30A1619B700F559ED /* test */ = {
+		B0DCE20BC5B07C9F005638CA /* strategies */ = {
 			isa = PBXGroup;
 			children = (
+				B0DCE20CC5B07CCE005638CA /* slCNonCopyable.h */,
 			);
-			name = test;
+			path = strategies;
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* doc */ = {
@@ -568,36 +567,7 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		B0BFC05D09A7691E009FA6DF /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		8DD76F620486A84900D96B5E /* le_bak */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le_bak" */;
-			buildPhases = (
-				8DD76F640486A84900D96B5E /* Sources */,
-				8DD76F660486A84900D96B5E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-			};
-			dependencies = (
-			);
-			name = le_bak;
-			productInstallPath = "$(HOME)/bin";
-			productName = le;
-			productReference = 8DD76F6C0486A84900D96B5E /* le */;
-			productType = "com.apple.product-type.tool";
-		};
 		B04FF8740A15FAEA00F559ED /* leCommon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B04FF8780A15FB0B00F559ED /* Build configuration list for PBXNativeTarget "leCommon" */;
@@ -714,64 +684,6 @@
 			productReference = B04FF97F0A16167400F559ED /* leGui.lib */;
 			productType = "com.apple.product-type.library.static";
 		};
-		B0BFC06109A7691E009FA6DF /* LE */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B0BFC06709A76921009FA6DF /* Build configuration list for PBXNativeTarget "LE" */;
-			buildPhases = (
-				B0BFC05D09A7691E009FA6DF /* Headers */,
-				B0BFC05E09A7691E009FA6DF /* Resources */,
-				B0BFC05F09A7691E009FA6DF /* Sources */,
-				B0BFC06009A7691E009FA6DF /* Frameworks */,
-				B0BFC20609A778B2009FA6DF /* Copy to System frameworks */,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "LE-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = LE;
-				ZERO_LINK = YES;
-			};
-			dependencies = (
-			);
-			name = LE;
-			productName = LE;
-			productReference = B0BFC06209A7691E009FA6DF /* LE.framework */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.LE</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>FMWK</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -788,8 +700,6 @@
 			mainGroup = 08FB7794FE84155DC02AAC07 /* le */;
 			projectDirPath = "";
 			targets = (
-				8DD76F620486A84900D96B5E /* le_bak */,
-				B0BFC06109A7691E009FA6DF /* LE */,
 				B04FF9040A16002000F559ED /* le */,
 				B04FF8740A15FAEA00F559ED /* leCommon */,
 				B04FF9640A1615C900F559ED /* leFile */,
@@ -799,17 +709,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		B0BFC05E09A7691E009FA6DF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B01DF32809F11D6D00EE27D3 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		B04FF9140A1603BA00F559ED /* Copy Headers */ = {
@@ -829,13 +728,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8DD76F640486A84900D96B5E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B04FF8720A15FAEA00F559ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -847,6 +739,12 @@
 				B04FF8E70A15FF2F00F559ED /* slCLogEntry.cpp in Sources */,
 				B04FF8EB0A15FF3500F559ED /* slCClassFactory.cpp in Sources */,
 				B04FF8ED0A15FF3600F559ED /* slTCClass.cpp in Sources */,
+				B04C113BC5B04377001DB8E9 /* slCData.cpp in Sources */,
+				B04C113EC5B0438C001DB8E9 /* slCString.cpp in Sources */,
+				B021CC8A0A3AD8CA00B915E2 /* slCVariant.cpp in Sources */,
+				B009AD3E0A3AEA52008D03AD /* slCastPolicies.cpp in Sources */,
+				B00EC1980A3C5275007EB231 /* slCCastPolicyRegistry.cpp in Sources */,
+				B00EC1C50A3C581D007EB231 /* slCNumber.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -864,6 +762,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B04FF9860A1616A600F559ED /* slCNotificationCenter.cpp in Sources */,
+				B0DCE211C5B07D97005638CA /* slCRunLoop.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,7 +782,6 @@
 				B04FF9890A1616B800F559ED /* slBasicGraphicControllers.cpp in Sources */,
 				B04FF98A0A1616B800F559ED /* slCApplication.cpp in Sources */,
 				B04FF98B0A1616BA00F559ED /* slCButton.cpp in Sources */,
-				B04FF98C0A1616BB00F559ED /* slCButtonDelegate.cpp in Sources */,
 				B04FF98D0A1616BC00F559ED /* slCControl.cpp in Sources */,
 				B04FF98E0A1616BD00F559ED /* slCControlDelegate.cpp in Sources */,
 				B04FF98F0A1616BE00F559ED /* slCDialog.cpp in Sources */,
@@ -895,13 +793,6 @@
 				B04FF9950A1616C500F559ED /* slCTitleBar.cpp in Sources */,
 				B04FF9960A1616C600F559ED /* slCWindow.cpp in Sources */,
 				B04FF9970A1616C800F559ED /* slTypes.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B0BFC05F09A7691E009FA6DF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,54 +826,13 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		B01DF32609F11D6D00EE27D3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B01DF32709F11D6D00EE27D3 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		1DEB923208733DC60010E9CD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = le;
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
-		1DEB923308733DC60010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = le;
-			};
-			name = Release;
-		};
 		1DEB923608733DC60010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
@@ -991,7 +841,6 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
-				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
@@ -1002,6 +851,10 @@
 		1DEB923708733DC60010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1218,68 +1071,9 @@
 			};
 			name = Release;
 		};
-		B0BFC06809A76921009FA6DF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PFE_FILE_C_DIALECTS = "c c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = ../../res/macosx/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = LE;
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
-		B0BFC06909A76921009FA6DF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PFE_FILE_C_DIALECTS = "c c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = ../../res/macosx/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_LDFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = LE;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "le_bak" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1DEB923208733DC60010E9CD /* Debug */,
-				1DEB923308733DC60010E9CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "le" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1339,15 +1133,6 @@
 			buildConfigurations = (
 				B04FF99F0A1616E000F559ED /* Debug */,
 				B04FF9A00A1616E000F559ED /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B0BFC06709A76921009FA6DF /* Build configuration list for PBXNativeTarget "LE" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B0BFC06809A76921009FA6DF /* Debug */,
-				B0BFC06909A76921009FA6DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
