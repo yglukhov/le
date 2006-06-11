@@ -134,6 +134,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\auxiliary\slCRunLoop.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\auxiliary\slCRunLoop.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\auxiliary\slStdExtensions.h"
 				>
 			</File>
