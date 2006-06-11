@@ -21,5 +21,10 @@ struct TSUIntToType
 
 };
 
+template <typename T>
+struct TSTypeToType
+{
+
+};
 
 LE_NAMESPACE_END
