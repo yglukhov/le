@@ -8,6 +8,7 @@
 LE_NAMESPACE_START
 
 class CFolder;
+class CString;
 
 enum ESeekFrom
 {
@@ -28,9 +29,9 @@ enum EOpenFlags
 class CFile : private std::fstream
 {
 	public:
-		static CFile* createWithPath(const char* filePath, unsigned openFlags = 0);
+		static CFile* createWithPath(const CString& filePath, unsigned openFlags = 0);
 
-		EStatus open(const char* filePath, unsigned openFlags = 0);
+		EStatus open(const CString& filePath, unsigned openFlags = 0);
 		EStatus open(const CFolder& folder, unsigned openFlags = 0);
 		void close();
 

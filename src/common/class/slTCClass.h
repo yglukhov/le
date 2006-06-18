@@ -3,9 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
-#include <common/config/slPrefix.h>
-#include <common/pointer/slTCPointer.h>
-#include <common/types/slCString.h>
+#include "slTCClassFactory.h"
 #include <typeinfo>
 
 LE_NAMESPACE_START
@@ -14,24 +12,40 @@ LE_NAMESPACE_START
 // Forward declaraions
 class CObject;
 
-
 ////////////////////////////////////////////////////////////////////////////////
-// IClass interface declaration
+// TIClass
 ////////////////////////////////////////////////////////////////////////////////
-class IClass
+template <class THierarchyRoot>
+class TIClass
 {
 	public:
-		CString name() const;
-		virtual TCPointer<CObject> create() const = 0;
+		inline CString name() const;
+
+		virtual TCPointer<THierarchyRoot> create() const = 0;
 
 		virtual const NChar* stdTypeInfoName() const = 0;
 
-		bool operator == (const IClass& rhs) const;
+		bool operator == (const TIClass<THierarchyRoot>& rhs) const;
 
 	protected:
-		IClass(const CString name);
+		inline TIClass(const CString& name);
 		CString mName;
 };
+
+template <class THierarchyRoot>
+TIClass<THierarchyRoot>::TIClass(const CString& name) :
+	mName(name)
+{
+	TCClassFactory<THierarchyRoot>::registerClass(this);
+}
+
+template <class THierarchyRoot>
+CString TIClass<THierarchyRoot>::name() const
+{
+	return mName;
+}
+
+typedef TIClass<CObject> IClass;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +56,7 @@ class IClass
 // The DECLARE_RUNTIME_CLASS macro must be used in class declaration section.
 // The class must be inherited from CObject.
 #define DECLARE_RUNTIME_CLASS(Class)			\
-template <typename T> friend class TCClass;		\
+template <class, class> friend class TCClass;	\
 public:											\
 	static IClass* staticClass();				\
 	virtual IClass* objectClass() const;		\
@@ -53,65 +67,49 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 // The IMPLEMENT_RUNTIME_CLASS macro must be used in class implementation
-// section in global namespace. The class must be inherited from CObject.
-#define IMPLEMENT_RUNTIME_CLASS(Class)								\
-																	\
-static TCClass<Class> _##Class##_class_description_(LESTR(#Class));	\
-																	\
-IClass* Class::staticClass()										\
-{																	\
-	return &_##Class##_class_description_;							\
-}																	\
-																	\
-IClass* Class::objectClass() const									\
-{																	\
-	return &_##Class##_class_description_;							\
+// section in namespace of class definition. The class must be inherited
+// from CObject.
+#define IMPLEMENT_RUNTIME_CLASS(Class)										\
+																			\
+static TCClass<CObject, Class> _##Class##_class_description_(LESTR(#Class));\
+																			\
+IClass* Class::staticClass()												\
+{																			\
+	return &_##Class##_class_description_;									\
+}																			\
+																			\
+IClass* Class::objectClass() const											\
+{																			\
+	return &_##Class##_class_description_;									\
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // TCClass class declaration
 ////////////////////////////////////////////////////////////////////////////////
-template <typename T>
-class TCClass : public IClass
+template <class THierarchyRoot, class T>
+class TCClass : public TIClass<THierarchyRoot>
 {
 	public:
-		virtual TCPointer<CObject> create() const;
-		virtual const NChar* stdTypeInfoName() const;
-	
-	// Private
-	TCClass(CString);
-	private:
-		TCClass(const TCClass& copy) {}
-};
+		virtual TCPointer<THierarchyRoot> create() const
+		{
+			return TCPointer<THierarchyRoot>(dynamic_cast<THierarchyRoot*>(new T()));
+		}
 
+		virtual const NChar* stdTypeInfoName() const;
+
+	// Private
+		TCClass(const CString& name) :
+			TIClass<THierarchyRoot>(name)
+		{
+			
+		}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
-LE_NAMESPACE_END
-
-void _le_register_class(LE_NESTED_NAMESPACE IClass*);
-
-LE_NAMESPACE_START
-
-
-template <typename T>
-TCClass<T>::TCClass(CString name) :
-	IClass(name)
-{
-	_le_register_class(this);
-}
-
-
-template <typename T>
-TCPointer<CObject> TCClass<T>::create() const
-{
-	return TCPointer<CObject>(dynamic_cast<CObject*>(new T()));
-}
-
-template <typename T>
-const NChar* TCClass<T>::stdTypeInfoName() const
+template <class THierarchyRoot, class T>
+const NChar* TCClass<THierarchyRoot, T>::stdTypeInfoName() const
 {
 	return typeid(T).name();
 }

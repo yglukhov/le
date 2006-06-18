@@ -151,14 +151,14 @@ T* TCPointer<T>::get()
 template <typename T>
 T& TCPointer<T>::operator*()
 {
-	ASSERT(mObj != NULL);
+	LE_ASSERT(mObj != NULL);
 	return *mObj;
 }
 
 template <typename T>
 const T& TCPointer<T>::operator*() const
 {
-	ASSERT(mObj != NULL);
+	LE_ASSERT(mObj != NULL);
 	return *mObj;
 }
 

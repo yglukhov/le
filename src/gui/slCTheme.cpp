@@ -1,7 +1,7 @@
 #include "slCTheme.h"
 #include <common/debug/slDebug.h>
 #include "slCControl.h"
-#include <common/class/slCClassFactory.h>
+#include <common/class/slTCClassFactory.h>
 #include "slBasicGraphicControllers.h"
 #include <list>
 
@@ -52,7 +52,7 @@ void CTheme::init()
 			it != end; ++it)
 	{
 		TCPointer<CControlBasicController> controller =
-						CClassFactory::create<CControlBasicController>(it->first);
+				TCClassFactory<CObject>::create<CControlBasicController>(it->first);
 
 		if(controller)
 		{
@@ -102,7 +102,7 @@ void CTheme::currentTheme(const char* themeClass)
 	LE_ENTER_LOG;
 
 	delete _currentTheme;
-	_currentTheme = CClassFactory::create<CTheme>(themeClass);
+	_currentTheme = TCClassFactory<CObject>::create<CTheme>(themeClass);
 
 	if(_currentTheme)
 	{
@@ -119,8 +119,8 @@ CString CTheme::currentTheme()
 LE_NAMESPACE_END
 
 
-void _le_register_graphic_controller(CString controllerClass, 
-										CString themeClass, CString controlClass)
+void _le_register_graphic_controller(const CString& controllerClass, 
+										const CString& themeClass, const CString& controlClass)
 {
 	// TODO: check for existance of this controller.
 	LE_ENTER_LOG_SILENT;

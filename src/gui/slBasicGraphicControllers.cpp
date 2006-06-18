@@ -1,3 +1,4 @@
+#include <glut/slGlut.h>
 #include "slBasicGraphicControllers.h"
 #include "slCControl.h"
 #include "slCButton.h"

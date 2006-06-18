@@ -1,13 +1,17 @@
 
-#define FUNCTORS_TESTING 1
+#define FUNCTORS_TESTING 0
 
-#pragma comment(lib, "leCommon")
 #pragma comment(lib, "leGui")
+#pragma comment(lib, "leCommon")
+#pragma comment(lib, "leAux")
+#pragma comment(lib, "leFile")
+#pragma comment(lib, "leThread")
 
 #if FUNCTORS_TESTING
 
 #include <template/function/slTCFunction.h>
 #include <template/function/slTCBind.h>
+#include <common/debug/slCLogEntry.h>
 #include <iostream>
 
 void f(int a)
@@ -48,7 +52,7 @@ class A
 int main(int argc, char * const argv[])
 {
 //	using namespace le;
-
+	LE_ENTER_LOG;
 	std::cout << "Typelist sorting" << std::endl;
 	
 	typedef TSTypeList<i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<-1>, i2t<-2>,
@@ -109,22 +113,19 @@ int main(int argc, char * const argv[])
 	TCFunction<> func3 = bind(func2, &objA);
 	func3();*/
 
-	return 1;
+	return 0;
 }
 
 #else // FUNCTORS_TESTING
 
-#pragma comment(lib, "leGui")
-#pragma comment(lib, "leCommon")
-#pragma comment(lib, "leAux")
-#pragma comment(lib, "leFile")
-#pragma comment(lib, "leThread")
+
 
 #include <gui/slCApplication.h>
-
+#include <common/debug/slDebug.h>
 
 int main(int argc, char * const argv[])
 {
+	LE_ENTER_LOG;
 	LE_NESTED_NAMESPACE CApplication theApplication;
 	return theApplication.run(argc, argv);
 }

@@ -1,5 +1,6 @@
 #include "slCFile.h"
 #include "slCFolder.h"
+#include <common/types/slCString.h>
 
 LE_NAMESPACE_START
 
@@ -7,12 +8,12 @@ LE_NAMESPACE_START
 #define SWITCH_MAP2(expr, fromVal, toVal, fromVal1, toVal1, def)\
 	(SWITCH_MAP1(expr, fromVal, toVal, SWITCH_MAP1(expr, fromVal1, toVal1, def)))
 
-CFile* CFile::createWithPath(const char* filePath, unsigned openFlags)
+CFile* CFile::createWithPath(const CString& filePath, unsigned openFlags)
 {
 	CFile* result = new CFile();
 	if(result)
 	{
-		if(result->open(filePath, openFlags) == eStatusOK)
+		if(result->open(filePath.cString(), openFlags) == eStatusOK)
 		{
 			return result;
 		}
@@ -23,26 +24,20 @@ CFile* CFile::createWithPath(const char* filePath, unsigned openFlags)
 	return NULL;
 }
 
-EStatus CFile::open(const char* filePath, unsigned openFlags)
+EStatus CFile::open(const CString& filePath, unsigned openFlags)
 {
 	if(openFlags)
 	{
-		std::ios::openmode mode = static_cast<std::ios::openmode>(0);
+		std::ios::openmode mode = ((openFlags & eOpenRead)?(std::ios::in):((std::ios::openmode)0)) |
+								((openFlags & eOpenWrite)?(std::ios::out):((std::ios::openmode)0)) |
+								((openFlags & eOpenTruncate)?(std::ios::trunc):((std::ios::openmode)0)) |
+								((openFlags & eOpenAppend)?(std::ios::app):((std::ios::openmode)0));
 
-		if(openFlags & eOpenRead)
-			mode |= std::ios::in;
-		if(openFlags & eOpenWrite)
-			mode |= std::ios::out;
-		if(openFlags & eOpenTruncate)
-			mode |= std::ios::trunc;
-		if(openFlags & eOpenAppend)
-			mode |= std::ios::app;
-
-		std::fstream::open(filePath, mode);
+		std::fstream::open(filePath.cString(), mode);
 	}
 	else
 	{
-		std::fstream::open(filePath);
+		std::fstream::open(filePath.cString());
 	}
 
 	return (is_open())?(eStatusOK):(eStatusErrorOpenFailed);

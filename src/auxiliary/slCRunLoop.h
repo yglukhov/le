@@ -21,7 +21,7 @@ class CRunLoop
 	private:
 		std::list<TCFunction<> > mEventQueue;
 		CMutex mQueueMutex;
-		UInt4 mSources;
+		UInt32 mSources;
 		bool mStopped;
 };
 

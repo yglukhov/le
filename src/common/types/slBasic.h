@@ -20,29 +20,29 @@ LE_NAMESPACE_START
 ////////////////////////////////////////////////////////////////////////////////
 
 /// 1-byte signed integer. Value range: <tt>-128 - +127</tt>
-typedef signed char					SInt1;
+typedef signed char					SInt8;
 /// 1-byte unsigned integer. Value range: <tt>0 - +255</tt>
-typedef unsigned char				UInt1;
+typedef unsigned char				UInt8;
 
 /// 2-byte signed integer. Value range: <tt>-32768 - +32767</tt>
-typedef signed short int			SInt2;
+typedef signed short int			SInt16;
 /// 2-byte unsigned integer. Value range: <tt>0 - +65535</tt>
-typedef unsigned short int			UInt2;
+typedef unsigned short int			UInt16;
 
 /// 4-byte signed integer. Value range: <tt>-2147483648 - +2147483647</tt>
-typedef signed long int				SInt4;
+typedef signed long int				SInt32;
 /// 4-byte unsigned integer. Value range: <tt>0 - +4294967295</tt>
-typedef unsigned long int			UInt4;
+typedef unsigned long int			UInt32;
 
 /// 8-byte signed integer. Value range: <tt>-2^63 - +(2^63 - 1)</tt>
-typedef signed long long int		SInt8;
+typedef signed long long int		SInt64;
 /// 8-byte unsigned integer. Value range: <tt>0 - +(2^64 - 1)</tt>
-typedef unsigned long long int		UInt8;
+typedef unsigned long long int		UInt64;
 
 /// 4-byte float. 6 valuable digits.
-typedef float						Float4;
+typedef float						Float32;
 /// 8-byte float. 10 valuable digits.
-typedef double						Float8;
+typedef double						Float64;
 
 /// Boolean type. Values: \c true or \c false. Size is not guaranteed.
 typedef bool						Bool;

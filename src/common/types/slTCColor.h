@@ -3,11 +3,13 @@
 #include "base/slTCColorBase.h"
 
 // TODO: remove this
+#ifndef NULL
 #define NULL 0
+#endif
 
 LE_NAMESPACE_START
 
-template <typename TComponent = Float4>
+template <typename TComponent = Float32>
 class TCColor : public _TCColorBase
 {
 	public:
@@ -18,7 +20,7 @@ class TCColor : public _TCColorBase
 
 		}
 
-		inline TCColor(UInt1 red, UInt1 blue = 0, UInt1 green = 0, UInt1 alpha = 0) :
+		inline TCColor(UInt8 red, UInt8 blue = 0, UInt8 green = 0, UInt8 alpha = 0) :
 			mR(toComponent(red)),
 			mG(toComponent(blue)),
 			mB(toComponent(green)),
@@ -27,7 +29,7 @@ class TCColor : public _TCColorBase
 
 		}
 
-		inline TCColor(Float4 red, Float4 blue = 0.0f, Float4 green = 0.0f, Float4 alpha = 0.0f) :
+		inline TCColor(Float32 red, Float32 blue = 0.0f, Float32 green = 0.0f, Float32 alpha = 0.0f) :
 			mR(toComponent(red)),
 			mG(toComponent(blue)),
 			mB(toComponent(green)),

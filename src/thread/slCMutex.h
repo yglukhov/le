@@ -8,7 +8,7 @@
 
 LE_NAMESPACE_START
 
-class CMutex
+class CMutex : CNonCopyable
 {
 	public:
 		CMutex(bool recursive = false);

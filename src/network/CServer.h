@@ -6,7 +6,7 @@
 
 #include <list>
 
-class CCOnnection;
+class CConnection;
 
 class CServer
 {

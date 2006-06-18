@@ -25,20 +25,20 @@ class _TCColorBase
 		};
 
 		template <>
-		struct _TCColorBase::_convert<Float4, UInt1>
+		struct _TCColorBase::_convert<Float32, UInt8>
 		{
-			static inline Float4 convert(UInt1 component)
+			static inline Float32 convert(UInt8 component)
 			{
-				return static_cast<Float4>(component)/(255.0f);
+				return static_cast<Float32>(component)/(255.0f);
 			}
 		};
 
 		template <>
-		struct _TCColorBase::_convert<UInt1, Float4>
+		struct _TCColorBase::_convert<UInt8, Float32>
 		{
-			static inline UInt1 convert(Float4 component)
+			static inline UInt8 convert(Float32 component)
 			{
-				return static_cast<UInt1>(component * 255.0f);
+				return static_cast<UInt8>(component * 255.0f);
 			}
 		};
 

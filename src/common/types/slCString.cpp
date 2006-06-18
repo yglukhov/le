@@ -1,6 +1,6 @@
 #include "slCString.h"
 #include <common/debug/slAssert.h>
-#include <string.h>
+#include <cstring>
 
 LE_NAMESPACE_START
 
@@ -13,26 +13,26 @@ CString::CString() :
 CString::CString(const CString& copy) :
 	mString(new Char[copy.length() + 1])
 {
-	strcpy(mString, copy.mString);
+	std::strcpy(mString, copy.mString);
 }
 
 CString::CString(const Char* cString) :
 	mString(new Char[strlen(cString) + 1])
 {
-	strcpy(mString, cString);
+	std::strcpy(mString, cString);
 }
 
 CString::CString(const Char* cString, EStringEncoding /*encoding*/) :
 	mString(new Char[strlen(cString) + 1])
 {
-	strcpy(mString, cString);
+	std::strcpy(mString, cString);
 }
 
-CString::CString(const WChar* /*uniString*/, UInt4 /*length*/, EStringEncoding /*encoding*/) :
+CString::CString(const WChar* /*uniString*/, UInt32 /*length*/, EStringEncoding /*encoding*/) :
 	mString(new Char[100])
 {
 	// TODO: complete
-	strcpy(mString, "This string was generated from uniString. Complete the constructor!");
+	std::strcpy(mString, "This string was generated from uniString. Complete the constructor!");
 	LE_ASSERT(false);
 }
 
@@ -45,7 +45,7 @@ const CString& CString::operator = (const Char* cString)
 {
 	delete [] mString;
 	mString = new Char[strlen(cString) + 1];
-	strcpy(mString, cString);
+	std::strcpy(mString, cString);
 	return *this;
 }
 
@@ -130,7 +130,7 @@ void CString::append(const Char* cString, EStringEncoding /*encoding*/)
 	mString = newString;
 }
 
-void CString::append(const WChar* /*uniString*/, UInt4 /*length*/,
+void CString::append(const WChar* /*uniString*/, UInt32 /*length*/,
 				EStringEncoding /*encoding*/)
 {
 	// TODO: complete
@@ -147,13 +147,13 @@ void CString::append(const CString& string)
 
 // Erase characters from string. If toPos is equal to 0, then the
 // characters are erased to the end of the string.
-void CString::erase(UInt4 /*fromPos*/, UInt4 /*toPos*/)
+void CString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
 {
 	// TODO: complete
 }
 
 
-UInt4 CString::length() const
+UInt32 CString::length() const
 {
 	return strlen(mString);
 }

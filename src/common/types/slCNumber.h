@@ -13,18 +13,18 @@ class CNumber : public CObject, CNumberBase
 	public:
 		CNumber();
 
-		CNumber(SInt1 value);
-		CNumber(SInt2 value);
-		CNumber(SInt4 value);
 		CNumber(SInt8 value);
+		CNumber(SInt16 value);
+		CNumber(SInt32 value);
+		CNumber(SInt64 value);
 
-		CNumber(UInt1 value);
-		CNumber(UInt2 value);
-		CNumber(UInt4 value);
 		CNumber(UInt8 value);
+		CNumber(UInt16 value);
+		CNumber(UInt32 value);
+		CNumber(UInt64 value);
 
-		CNumber(Float4 value);
-		CNumber(Float8 value);
+		CNumber(Float32 value);
+		CNumber(Float64 value);
 
 		CNumber(Bool value);
 
@@ -38,30 +38,33 @@ class CNumber : public CObject, CNumberBase
 			return valueAs(TSTypeToType<T>());
 		}
 
-		inline SInt1 valueAsSInt1() const	{ return valueAs(TSTypeToType<SInt1>()); }
-		inline SInt2 valueAsSInt2() const	{ return valueAs(TSTypeToType<SInt2>()); }
-		inline SInt4 valueAsSInt4() const	{ return valueAs(TSTypeToType<SInt4>()); }
+		const CNumber& operator++();		// prefix
+		const CNumber operator++(int);		// postfix
+
 		inline SInt8 valueAsSInt8() const	{ return valueAs(TSTypeToType<SInt8>()); }
-		inline UInt1 valueAsUInt1() const	{ return valueAs(TSTypeToType<UInt1>()); }
-		inline UInt2 valueAsUInt2() const	{ return valueAs(TSTypeToType<UInt2>()); }
-		inline UInt4 valueAsUInt4() const	{ return valueAs(TSTypeToType<UInt4>()); }
+		inline SInt16 valueAsSInt16() const	{ return valueAs(TSTypeToType<SInt16>()); }
+		inline SInt32 valueAsSInt32() const	{ return valueAs(TSTypeToType<SInt32>()); }
+		inline SInt64 valueAsSInt64() const	{ return valueAs(TSTypeToType<SInt64>()); }
 		inline UInt8 valueAsUInt8() const	{ return valueAs(TSTypeToType<UInt8>()); }
-		inline Float4 valueAsFloat4() const	{ return valueAs(TSTypeToType<Float4>()); }
-		inline Float8 valueAsFloat8() const	{ return valueAs(TSTypeToType<Float8>()); }
+		inline UInt16 valueAsUInt16() const	{ return valueAs(TSTypeToType<UInt16>()); }
+		inline UInt32 valueAsUInt32() const	{ return valueAs(TSTypeToType<UInt32>()); }
+		inline UInt64 valueAsUInt64() const	{ return valueAs(TSTypeToType<UInt64>()); }
+		inline Float32 valueAsFloat32() const	{ return valueAs(TSTypeToType<Float32>()); }
+		inline Float64 valueAsFloat64() const	{ return valueAs(TSTypeToType<Float64>()); }
 		inline Bool valueAsBool() const		{ return valueAs(TSTypeToType<Bool>()); }
 		inline CString valueAsString() const{ return valueAs(TSTypeToType<CString>()); }
 
 	private:
-		SInt1 valueAs(TSTypeToType<SInt1>) const;
-		SInt2 valueAs(TSTypeToType<SInt2>) const;
-		SInt4 valueAs(TSTypeToType<SInt4>) const;
 		SInt8 valueAs(TSTypeToType<SInt8>) const;
-		UInt1 valueAs(TSTypeToType<UInt1>) const;
-		UInt2 valueAs(TSTypeToType<UInt2>) const;
-		UInt4 valueAs(TSTypeToType<UInt4>) const;
+		SInt16 valueAs(TSTypeToType<SInt16>) const;
+		SInt32 valueAs(TSTypeToType<SInt32>) const;
+		SInt64 valueAs(TSTypeToType<SInt64>) const;
 		UInt8 valueAs(TSTypeToType<UInt8>) const;
-		Float4 valueAs(TSTypeToType<Float4>) const;
-		Float8 valueAs(TSTypeToType<Float8>) const;
+		UInt16 valueAs(TSTypeToType<UInt16>) const;
+		UInt32 valueAs(TSTypeToType<UInt32>) const;
+		UInt64 valueAs(TSTypeToType<UInt64>) const;
+		Float32 valueAs(TSTypeToType<Float32>) const;
+		Float64 valueAs(TSTypeToType<Float64>) const;
 		Bool valueAs(TSTypeToType<Bool>) const;
 		CString valueAs(TSTypeToType<CString>) const;
 

@@ -12,7 +12,7 @@ class TCFunction
 	public:
 		TCFunction()
 		{
-		
+
 		}
 
 		TCFunction(const TCFunction& func) :

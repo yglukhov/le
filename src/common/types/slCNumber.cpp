@@ -1,33 +1,20 @@
+#include <cmath>
 #include "slCNumber.h"
 #include <common/types/slCString.h>
-#include <math.h>
 
+// TODO: remove
+#define lroundf(x) (x)
+#define lround(x) (x)
+#define llroundf(x) (x)
+#define llround(x) (x)
 LE_NAMESPACE_START
 
 IMPLEMENT_RUNTIME_CLASS(CNumber);
 
 CNumber::CNumber() :
-	mFormat(numberFormatSInt4)
+	mFormat(numberFormatSInt32)
 {
-	mData.valSInt8 = 0;
-}
-
-CNumber::CNumber(SInt1 value) :
-	mFormat(numberFormatSInt1)
-{
-	mData.valSInt1 = value;
-}
-
-CNumber::CNumber(SInt2 value) :
-	mFormat(numberFormatSInt2)
-{
-	mData.valSInt2 = value;
-}
-
-CNumber::CNumber(SInt4 value) :
-	mFormat(numberFormatSInt4)
-{
-	mData.valSInt4 = value;
+	mData.valSInt64 = 0;
 }
 
 CNumber::CNumber(SInt8 value) :
@@ -36,24 +23,24 @@ CNumber::CNumber(SInt8 value) :
 	mData.valSInt8 = value;
 }
 
-
-CNumber::CNumber(UInt1 value) :
-	mFormat(numberFormatUInt1)
+CNumber::CNumber(SInt16 value) :
+	mFormat(numberFormatSInt16)
 {
-	mData.valUInt1 = value;
+	mData.valSInt16 = value;
 }
 
-CNumber::CNumber(UInt2 value) :
-	mFormat(numberFormatUInt2)
+CNumber::CNumber(SInt32 value) :
+	mFormat(numberFormatSInt32)
 {
-	mData.valUInt2 = value;
+	mData.valSInt32 = value;
 }
 
-CNumber::CNumber(UInt4 value) :
-	mFormat(numberFormatUInt4)
+CNumber::CNumber(SInt64 value) :
+	mFormat(numberFormatSInt64)
 {
-	mData.valUInt4 = value;
+	mData.valSInt64 = value;
 }
+
 
 CNumber::CNumber(UInt8 value) :
 	mFormat(numberFormatUInt8)
@@ -61,17 +48,35 @@ CNumber::CNumber(UInt8 value) :
 	mData.valUInt8 = value;
 }
 
-
-CNumber::CNumber(Float4 value) :
-	mFormat(numberFormatFloat4)
+CNumber::CNumber(UInt16 value) :
+	mFormat(numberFormatUInt16)
 {
-	mData.valFloat4 = value;
+	mData.valUInt16 = value;
 }
 
-CNumber::CNumber(Float8 value) :
-	mFormat(numberFormatFloat8)
+CNumber::CNumber(UInt32 value) :
+	mFormat(numberFormatUInt32)
 {
-	mData.valFloat8 = value;
+	mData.valUInt32 = value;
+}
+
+CNumber::CNumber(UInt64 value) :
+	mFormat(numberFormatUInt64)
+{
+	mData.valUInt64 = value;
+}
+
+
+CNumber::CNumber(Float32 value) :
+	mFormat(numberFormatFloat32)
+{
+	mData.valFloat32 = value;
+}
+
+CNumber::CNumber(Float64 value) :
+	mFormat(numberFormatFloat64)
+{
+	mData.valFloat64 = value;
 }
 
 
@@ -82,9 +87,9 @@ CNumber::CNumber(Bool value) :
 }
 
 CNumber::CNumber(const CString& value) :
-	mFormat(numberFormatSInt4)
+	mFormat(numberFormatSInt32)
 {
-	mData.valUInt8 = 0;
+	mData.valUInt64 = 0;
 	// TODO: complete this
 }
 
@@ -95,142 +100,123 @@ CNumber::CNumber(const CNumber& copy) :
 
 }
 
-SInt1 CNumber::valueAs(TSTypeToType<SInt1>) const
+const CNumber& CNumber::operator++()		// prefix
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<SInt1>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<SInt1>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<SInt1>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<SInt1>(mData.valUInt8);
-		case numberFormatSInt1: return mData.valSInt1;
-		case numberFormatSInt2: return static_cast<SInt1>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<SInt1>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<SInt1>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<SInt1>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<SInt1>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<SInt1>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8:		++mData.valUInt8;	break;
+		case numberFormatUInt16:	++mData.valUInt16;	break;
+		case numberFormatUInt32:	++mData.valUInt32;	break;
+		case numberFormatUInt64:	++mData.valUInt64;	break;
+		case numberFormatSInt8:		++mData.valSInt8;	break;
+		case numberFormatSInt16:	++mData.valSInt16;	break;
+		case numberFormatSInt32:	++mData.valSInt32;	break;
+		case numberFormatSInt64:	++mData.valSInt64;	break;
+		case numberFormatFloat32:	++mData.valFloat32; break;
+		case numberFormatFloat64:	++mData.valFloat64; break;
+		case numberFormatBool:		mData.valBool = !mData.valBool;
+		default:;
 	}
-	return 0;
+	return *this;
 }
 
-SInt2 CNumber::valueAs(TSTypeToType<SInt2>) const
+const CNumber CNumber::operator++(int)		// postfix
 {
+	CNumber result = *this;
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<SInt2>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<SInt2>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<SInt2>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<SInt2>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<SInt2>(mData.valSInt1);
-		case numberFormatSInt2: return mData.valSInt2;
-		case numberFormatSInt4: return static_cast<SInt2>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<SInt2>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<SInt2>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<SInt2>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<SInt2>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8:		++mData.valUInt8;	break;
+		case numberFormatUInt16:	++mData.valUInt16;	break;
+		case numberFormatUInt32:	++mData.valUInt32;	break;
+		case numberFormatUInt64:	++mData.valUInt64;	break;
+		case numberFormatSInt8:		++mData.valSInt8;	break;
+		case numberFormatSInt16:	++mData.valSInt16;	break;
+		case numberFormatSInt32:	++mData.valSInt32;	break;
+		case numberFormatSInt64:	++mData.valSInt64;	break;
+		case numberFormatFloat32:	++mData.valFloat32; break;
+		case numberFormatFloat64:	++mData.valFloat64; break;
+		case numberFormatBool:		mData.valBool = !mData.valBool;
+		default:;
 	}
-	return 0;
-}
-
-SInt4 CNumber::valueAs(TSTypeToType<SInt4>) const
-{
-	switch (mFormat)
-	{
-		case numberFormatUInt1: return static_cast<SInt4>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<SInt4>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<SInt4>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<SInt4>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<SInt4>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<SInt4>(mData.valSInt2);
-		case numberFormatSInt4: return mData.valSInt4;
-		case numberFormatSInt8: return static_cast<SInt4>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<SInt4>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<SInt4>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<SInt4>(mData.valBool);
-		default: return 0;
-	}
-	return 0;
+	return result;
 }
 
 SInt8 CNumber::valueAs(TSTypeToType<SInt8>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<SInt8>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<SInt8>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<SInt8>(mData.valUInt4);
 		case numberFormatUInt8: return static_cast<SInt8>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<SInt8>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<SInt8>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<SInt8>(mData.valSInt4);
+		case numberFormatUInt16: return static_cast<SInt8>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<SInt8>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<SInt8>(mData.valUInt64);
 		case numberFormatSInt8: return mData.valSInt8;
-		case numberFormatFloat4: return static_cast<SInt8>(llroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<SInt8>(llround(mData.valFloat8));
+		case numberFormatSInt16: return static_cast<SInt8>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<SInt8>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<SInt8>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<SInt8>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<SInt8>(lround(mData.valFloat64));
 		case numberFormatBool: return static_cast<SInt8>(mData.valBool);
-		default: return 0;
+		default:;
 	}
 	return 0;
 }
 
-UInt1 CNumber::valueAs(TSTypeToType<UInt1>) const
+SInt16 CNumber::valueAs(TSTypeToType<SInt16>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return mData.valUInt1;
-		case numberFormatUInt2: return static_cast<UInt1>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<UInt1>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<UInt1>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<UInt1>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<UInt1>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<UInt1>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<UInt1>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<UInt1>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<UInt1>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<UInt1>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8: return static_cast<SInt16>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<SInt16>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<SInt16>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<SInt16>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<SInt16>(mData.valSInt8);
+		case numberFormatSInt16: return mData.valSInt16;
+		case numberFormatSInt32: return static_cast<SInt16>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<SInt16>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<SInt16>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<SInt16>(lround(mData.valFloat64));
+		case numberFormatBool: return static_cast<SInt16>(mData.valBool);
+		default:;
 	}
 	return 0;
 }
 
-UInt2 CNumber::valueAs(TSTypeToType<UInt2>) const
+SInt32 CNumber::valueAs(TSTypeToType<SInt32>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<UInt2>(mData.valUInt1);
-		case numberFormatUInt2: return mData.valUInt2;
-		case numberFormatUInt4: return static_cast<UInt2>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<UInt2>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<UInt2>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<UInt2>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<UInt2>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<UInt2>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<UInt2>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<UInt2>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<UInt2>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8: return static_cast<SInt32>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<SInt32>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<SInt32>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<SInt32>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<SInt32>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<SInt32>(mData.valSInt16);
+		case numberFormatSInt32: return mData.valSInt32;
+		case numberFormatSInt64: return static_cast<SInt32>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<SInt32>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<SInt32>(lround(mData.valFloat64));
+		case numberFormatBool: return static_cast<SInt32>(mData.valBool);
+		default:;
 	}
 	return 0;
 }
 
-UInt4 CNumber::valueAs(TSTypeToType<UInt4>) const
+SInt64 CNumber::valueAs(TSTypeToType<SInt64>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<UInt4>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<UInt4>(mData.valUInt2);
-		case numberFormatUInt4: return mData.valUInt4;
-		case numberFormatUInt8: return static_cast<UInt4>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<UInt4>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<UInt4>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<UInt4>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<UInt4>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<UInt4>(lroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<UInt4>(lround(mData.valFloat8));
-		case numberFormatBool: return static_cast<UInt4>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8: return static_cast<SInt64>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<SInt64>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<SInt64>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<SInt64>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<SInt64>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<SInt64>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<SInt64>(mData.valSInt32);
+		case numberFormatSInt64: return mData.valSInt64;
+		case numberFormatFloat32: return static_cast<SInt64>(llroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<SInt64>(llround(mData.valFloat64));
+		case numberFormatBool: return static_cast<SInt64>(mData.valBool);
+		default:;
 	}
 	return 0;
 }
@@ -239,86 +225,163 @@ UInt8 CNumber::valueAs(TSTypeToType<UInt8>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<UInt8>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<UInt8>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<UInt8>(mData.valUInt4);
 		case numberFormatUInt8: return mData.valUInt8;
-		case numberFormatSInt1: return static_cast<UInt8>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<UInt8>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<UInt8>(mData.valSInt4);
+		case numberFormatUInt16: return static_cast<UInt8>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<UInt8>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<UInt8>(mData.valUInt64);
 		case numberFormatSInt8: return static_cast<UInt8>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<UInt8>(llroundf(mData.valFloat4));
-		case numberFormatFloat8: return static_cast<UInt8>(llround(mData.valFloat8));
+		case numberFormatSInt16: return static_cast<UInt8>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<UInt8>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<UInt8>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<UInt8>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<UInt8>(lround(mData.valFloat64));
 		case numberFormatBool: return static_cast<UInt8>(mData.valBool);
-		default: return 0;
+		default:;
 	}
 	return 0;
 }
 
-Float4 CNumber::valueAs(TSTypeToType<Float4>) const
+UInt16 CNumber::valueAs(TSTypeToType<UInt16>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<Float4>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<Float4>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<Float4>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<Float4>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<Float4>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<Float4>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<Float4>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<Float4>(mData.valSInt8);
-		case numberFormatFloat4: return mData.valFloat4;
-		case numberFormatFloat8: return static_cast<Float4>(mData.valFloat8);
-		case numberFormatBool: return static_cast<Float4>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8: return static_cast<UInt16>(mData.valUInt8);
+		case numberFormatUInt16: return mData.valUInt16;
+		case numberFormatUInt32: return static_cast<UInt16>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<UInt16>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<UInt16>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<UInt16>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<UInt16>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<UInt16>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<UInt16>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<UInt16>(lround(mData.valFloat64));
+		case numberFormatBool: return static_cast<UInt16>(mData.valBool);
+		default:;
 	}
 	return 0;
 }
 
-Float8 CNumber::valueAs(TSTypeToType<Float8>) const
+UInt32 CNumber::valueAs(TSTypeToType<UInt32>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return static_cast<Float8>(mData.valUInt1);
-		case numberFormatUInt2: return static_cast<Float8>(mData.valUInt2);
-		case numberFormatUInt4: return static_cast<Float8>(mData.valUInt4);
-		case numberFormatUInt8: return static_cast<Float8>(mData.valUInt8);
-		case numberFormatSInt1: return static_cast<Float8>(mData.valSInt1);
-		case numberFormatSInt2: return static_cast<Float8>(mData.valSInt2);
-		case numberFormatSInt4: return static_cast<Float8>(mData.valSInt4);
-		case numberFormatSInt8: return static_cast<Float8>(mData.valSInt8);
-		case numberFormatFloat4: return static_cast<Float8>(mData.valFloat4);
-		case numberFormatFloat8: return mData.valFloat8;
-		case numberFormatBool: return static_cast<Float8>(mData.valBool);
-		default: return 0;
+		case numberFormatUInt8: return static_cast<UInt32>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<UInt32>(mData.valUInt16);
+		case numberFormatUInt32: return mData.valUInt32;
+		case numberFormatUInt64: return static_cast<UInt32>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<UInt32>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<UInt32>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<UInt32>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<UInt32>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<UInt32>(lroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<UInt32>(lround(mData.valFloat64));
+		case numberFormatBool: return static_cast<UInt32>(mData.valBool);
+		default:;
 	}
 	return 0;
+}
+
+UInt64 CNumber::valueAs(TSTypeToType<UInt64>) const
+{
+	switch (mFormat)
+	{
+		case numberFormatUInt8: return static_cast<UInt64>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<UInt64>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<UInt64>(mData.valUInt32);
+		case numberFormatUInt64: return mData.valUInt64;
+		case numberFormatSInt8: return static_cast<UInt64>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<UInt64>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<UInt64>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<UInt64>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<UInt64>(llroundf(mData.valFloat32));
+		case numberFormatFloat64: return static_cast<UInt64>(llround(mData.valFloat64));
+		case numberFormatBool: return static_cast<UInt64>(mData.valBool);
+		default:;
+	}
+	return 0;
+}
+
+Float32 CNumber::valueAs(TSTypeToType<Float32>) const
+{
+	switch (mFormat)
+	{
+		case numberFormatUInt8: return static_cast<Float32>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<Float32>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<Float32>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<Float32>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<Float32>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<Float32>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<Float32>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<Float32>(mData.valSInt64);
+		case numberFormatFloat32: return mData.valFloat32;
+		case numberFormatFloat64: return static_cast<Float32>(mData.valFloat64);
+		case numberFormatBool: return static_cast<Float32>(mData.valBool);
+		default:;
+	}
+	return 0.0f;
+}
+
+Float64 CNumber::valueAs(TSTypeToType<Float64>) const
+{
+	switch (mFormat)
+	{
+		case numberFormatUInt8: return static_cast<Float64>(mData.valUInt8);
+		case numberFormatUInt16: return static_cast<Float64>(mData.valUInt16);
+		case numberFormatUInt32: return static_cast<Float64>(mData.valUInt32);
+		case numberFormatUInt64: return static_cast<Float64>(mData.valUInt64);
+		case numberFormatSInt8: return static_cast<Float64>(mData.valSInt8);
+		case numberFormatSInt16: return static_cast<Float64>(mData.valSInt16);
+		case numberFormatSInt32: return static_cast<Float64>(mData.valSInt32);
+		case numberFormatSInt64: return static_cast<Float64>(mData.valSInt64);
+		case numberFormatFloat32: return static_cast<Float64>(mData.valFloat32);
+		case numberFormatFloat64: return mData.valFloat64;
+		case numberFormatBool: return static_cast<Float64>(mData.valBool);
+		default:;
+	}
+	return 0.0;
 }
 
 Bool CNumber::valueAs(TSTypeToType<Bool>) const
 {
 	switch (mFormat)
 	{
-		case numberFormatUInt1: return (mData.valUInt1)?(true):(false);
-		case numberFormatUInt2: return (mData.valUInt2)?(true):(false);
-		case numberFormatUInt4: return (mData.valUInt4)?(true):(false);
 		case numberFormatUInt8: return (mData.valUInt8)?(true):(false);
-		case numberFormatSInt1: return (mData.valSInt1)?(true):(false);
-		case numberFormatSInt2: return (mData.valSInt2)?(true):(false);
-		case numberFormatSInt4: return (mData.valSInt4)?(true):(false);
+		case numberFormatUInt16: return (mData.valUInt16)?(true):(false);
+		case numberFormatUInt32: return (mData.valUInt32)?(true):(false);
+		case numberFormatUInt64: return (mData.valUInt64)?(true):(false);
 		case numberFormatSInt8: return (mData.valSInt8)?(true):(false);
-		case numberFormatFloat4: return (mData.valFloat4)?(true):(false);
-		case numberFormatFloat8: return (mData.valFloat8)?(true):(false);
+		case numberFormatSInt16: return (mData.valSInt16)?(true):(false);
+		case numberFormatSInt32: return (mData.valSInt32)?(true):(false);
+		case numberFormatSInt64: return (mData.valSInt64)?(true):(false);
+		case numberFormatFloat32: return (mData.valFloat32)?(true):(false);
+		case numberFormatFloat64: return (mData.valFloat64)?(true):(false);
 		case numberFormatBool: return mData.valBool;
-		default: return 0;
+		default:;
 	}
-	return 0;
+	return false;
 }
 
 CString CNumber::valueAs(TSTypeToType<CString>) const
 {
+	Char theString[100];
+	switch (mFormat)
+	{
+		case numberFormatUInt8: sprintf(theString, "%d", mData.valUInt8);
+		case numberFormatUInt16: sprintf(theString, "%d", mData.valUInt16);
+		case numberFormatUInt32: sprintf(theString, "%d", mData.valUInt32);
+		case numberFormatUInt64: sprintf(theString, "%d", mData.valUInt64);
+		case numberFormatSInt8: sprintf(theString, "%d", mData.valSInt8);
+		case numberFormatSInt16: sprintf(theString, "%d", mData.valSInt16);
+		case numberFormatSInt32: sprintf(theString, "%d", mData.valSInt32);
+		case numberFormatSInt64: sprintf(theString, "%d", mData.valSInt64);
+		case numberFormatFloat32: sprintf(theString, "%f", mData.valFloat32);
+		case numberFormatFloat64: sprintf(theString, "%f", mData.valFloat64);
+		case numberFormatBool: sprintf(theString, "%d", mData.valBool);
+		default:;
+	}
+
 	// TODO: complete this
-	return CString();
+	return CString(theString);
 }
 
 LE_NAMESPACE_END

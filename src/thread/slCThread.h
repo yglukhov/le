@@ -1,34 +1,33 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <common/debug/slCLogControl.h>
 #include <template/function/slTCFunction.h>
-#include <string>
+#include <auxiliary/slCRunLoop.h>
 
 LE_NAMESPACE_START
 
 class CThread
 {
 	public:
-		static CThread* create(const TCFunction<>& threadProc,
-							   bool startImmediately = true);
-		
-		
-		static CThread* thread();
+		static TCPointer<CThread> create(const TCFunction<>& threadProc,
+										const CString& threadName = CString(),
+										bool startImmediately = true);
+
+		static TCPointer<CThread> thread();
 		void start();
 //		void stop();
 
-		const char* someString()
-		{
-			return mSomeString.c_str();
-		}
-		
 	private:
-		inline CThread(const TCFunction<>&, bool);
+		inline CThread(const TCFunction<>&, const CString&, bool);
 		~CThread();
 
+		void threadProc();
 		void* mThread;
 		TCFunction<> mThreadProc;
-		std::string mSomeString;
+		CLogControl mLogControl;
+		CRunLoop mRunLoop;
+		template <class T> friend class TCPointer;
+		TCPointer<CThread> mThis;
 };
 
 LE_NAMESPACE_END

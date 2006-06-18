@@ -9,32 +9,32 @@ class CNumberBase
 	protected:
 		enum ENumberFormat
 		{
-			numberFormatUInt1 = 0,
-			numberFormatUInt2,
-			numberFormatUInt4,
-			numberFormatUInt8,
-			numberFormatSInt1,
-			numberFormatSInt2,
-			numberFormatSInt4,
+			numberFormatUInt8 = 0,
+			numberFormatUInt16,
+			numberFormatUInt32,
+			numberFormatUInt64,
 			numberFormatSInt8,
-			numberFormatFloat4,
-			numberFormatFloat8,
+			numberFormatSInt16,
+			numberFormatSInt32,
+			numberFormatSInt64,
+			numberFormatFloat32,
+			numberFormatFloat64,
 			numberFormatBool
 		};
 
 		union UNumberData
 		{
-			UInt1 valUInt1;
-			UInt2 valUInt2;
-			UInt4 valUInt4;
 			UInt8 valUInt8;
-			SInt1 valSInt1;
-			SInt2 valSInt2;
-			SInt4 valSInt4;
+			UInt16 valUInt16;
+			UInt32 valUInt32;
+			UInt64 valUInt64;
 			SInt8 valSInt8;
+			SInt16 valSInt16;
+			SInt32 valSInt32;
+			SInt64 valSInt64;
 
-			Float4 valFloat4;
-			Float8 valFloat8;
+			Float32 valFloat32;
+			Float64 valFloat64;
 
 			Bool valBool;
 		};

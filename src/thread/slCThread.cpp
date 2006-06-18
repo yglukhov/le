@@ -39,17 +39,15 @@ static DWORD WINAPI _threadProc(LPVOID threadProcContext)
 
 	(threadData->threadProc)();
 	delete threadData;
-	return NULL;
+	return 0;
 }
 
 #else
 
 static pthread_key_t* _threadKey = NULL;
 
-static void* _threadProc(void* threadProcContext)
+static void* _threadProc(void* theCThread)
 {
-	const SThreadProcContext* threadData = static_cast<SThreadProcContext*>(threadProcContext);
-
 	if(!_threadKey)
 	{
 		_threadKey = new pthread_key_t;
@@ -57,11 +55,10 @@ static void* _threadProc(void* threadProcContext)
 		LE_ASSERT(pthreadKeyCreateResult == 0);
 	}
 
-	int pthreadSetSpecificResult = pthread_setspecific(*_threadKey, threadData->thread);
+	int pthreadSetSpecificResult = pthread_setspecific(*_threadKey, theThread);
 	LE_ASSERT(pthreadSetSpecificResult == 0);
 
-	(threadData->threadProc)();
-	delete threadData;
+	static_cast<CThread*>(theCThread)->threadProc();
 	return NULL;
 }
 
@@ -72,20 +69,22 @@ CThread* CThread::thread()
 
 #endif
 
-CThread::CThread(const TCFunction<>& threadProc, bool startImmediately) :
+CThread::CThread(const TCFunction<>& threadProc, const CString& name,
+				 bool startImmediately) :
 	mThread(NULL),
-	mThreadProc(threadProc),
-		mSomeString("THREAD_IS_VALID")
+	mLogControl(name)
 {
+	mRunLoop.pushEvent(threadProc);
 	if(startImmediately)
 	{
 		start();
 	}
 }
 
-CThread* CThread::create(const TCFunction<>& threadProc, bool startImmediately)
+TCPointer<CThread> CThread::create(const TCFunction<>& threadProc,
+									const CString& name, bool startImmediately)
 {
-	return new CThread(threadProc, startImmediately);
+	return new CThread(threadProc, name, startImmediately);
 }
 
 CThread::~CThread()
@@ -99,28 +98,33 @@ CThread::~CThread()
 		delete static_cast<pthread_t*>(mThread);
 #endif // not defined _WIN32
 	}
-}
 
+	LE_ASSERT(!mThis);
+}
 
 void CThread::start()
 {
-	if(mThread)
-		return;
-
-	SThreadProcContext* threadProcContext = new SThreadProcContext(mThreadProc, this);
-
+	if(mThis) return;
+	mThis.reset(this);
 #if !defined _WIN32
 	pthread_t* newThread = new pthread_t;
 	pthread_create(newThread, NULL, _threadProc,
-					static_cast<void*>(threadProcContext));
+					static_cast<void*>(this));
 #else
 	DWORD threadID;
-	HANDLE newThread = CreateThread(NULL, 0, _threadProc, static_cast<LPVOID>(threadProcContext), 0, &threadID);
+	HANDLE newThread = CreateThread(NULL, 0, _threadProc, static_cast<LPVOID>(this), 0, &threadID);
 	LE_ASSERT(newThread == NULL);
 #endif
 
 	mThread = static_cast<void*>(newThread);
 }
 
+void CThread::threadProc()
+{
+	// ...
+
+	mThis.release();
+	mThis.reset();
+}
 
 LE_NAMESPACE_END

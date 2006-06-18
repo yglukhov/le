@@ -69,14 +69,18 @@
 					RelativePath="..\..\libs\glut\slGlut.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\libs\glut\slGlutColor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\libs\glut\slGlutPrefix.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="doc"
-			>
-		</Filter>
-		<Filter
-			Name="res"
 			>
 		</Filter>
 	</Files>
