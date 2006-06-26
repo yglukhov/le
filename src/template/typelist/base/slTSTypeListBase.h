@@ -1,6 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <template/util/slTSSelect.h>
+
 LE_NAMESPACE_START
 
 struct _SNullType
@@ -93,29 +94,55 @@ struct _TSTypeListTypeAtNonStrict<_TSTypeListNode<Head, Tail>, i, DefaultType>
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// IndexOf
-template <class TListNode, class T> struct _TSTypeListIndexOf;
+// Find
+template <class TListNode, class T> struct _TSTypeListFind;
 
 template <class T>
-struct _TSTypeListIndexOf<_SNullType, T>
+struct _TSTypeListFind<_SNullType, T>
 {
 	enum { _result = -1 };
 };
 
 template <class T, class Tail>
-struct _TSTypeListIndexOf<_TSTypeListNode<T, Tail>, T>
+struct _TSTypeListFind<_TSTypeListNode<T, Tail>, T>
 {
 	enum { _result = 0 };
 };
 
 template <class Head, class Tail, class T>
-struct _TSTypeListIndexOf<_TSTypeListNode<Head, Tail>, T>
+struct _TSTypeListFind<_TSTypeListNode<Head, Tail>, T>
 {
 	private:
-		enum { temp = _TSTypeListIndexOf<Tail, T>::_result };
+		enum { temp = _TSTypeListFind<Tail, T>::_result };
 	public:
-		enum { _result = temp == -1 ? -1 : 1 + temp };
+		enum { _result = (temp == -1) ? (-1) : 1 + temp };
 };
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Find if
+template <class TListNode, template <class T> class TPredicate>
+struct _TSTypeListFindIf;
+
+template <template <class T> class TPredicate>
+struct _TSTypeListFindIf<_SNullType, TPredicate>
+{
+	enum { _result = -1 };
+};
+
+template <typename U, typename V, template <class T> class TPredicate>
+struct _TSTypeListFindIf<_TSTypeListNode<U, V>, TPredicate>
+{
+	private:
+		enum { temp = _TSTypeListFindIf<V, TPredicate>::_result };
+
+	public:
+		enum { _result = (TPredicate<U>::result)?
+						(0)
+						:
+						((temp == -1)?(-1):(1 + temp)) };
+};
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +241,48 @@ struct _TSTypeListAppend<_TSTypeListNode<Head, Tail>, T>
 {
 	typedef _TSTypeListNode<Head,
 						typename _TSTypeListAppend<Tail, T>::_result> _result;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Collect if
+template <class TListNode, template <typename T> class predicate>
+struct _TSTypeListCollectIf;
+
+template <template <typename T> class predicate>
+struct _TSTypeListCollectIf<_SNullType, predicate>
+{
+	typedef _SNullType _result;
+};
+
+template <typename U, typename V, template <typename T> class predicate>
+struct _TSTypeListCollectIf<_TSTypeListNode<U, V>, predicate>
+{
+	private:
+		typedef typename _TSTypeListCollectIf<V, predicate>::_result _tailCollect;
+
+	public:
+		typedef typename TSSelect<predicate<U>::result,
+				_TSTypeListNode<U, _tailCollect>, _tailCollect>::result _result;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Mutate
+template <class TListNode, template <typename T> class TMutator>
+struct _TSTypeListMutate;
+
+template <template <typename T> class TMutator>
+struct _TSTypeListMutate<_SNullType, TMutator>
+{
+	typedef _SNullType _result;
+};
+
+template <typename U, typename V, template <typename T> class TMutator>
+struct _TSTypeListMutate<_TSTypeListNode<U, V>, TMutator>
+{
+	typedef _TSTypeListNode<typename TMutator<U>::result,
+					typename _TSTypeListMutate<V, TMutator>::_result> _result;
 };
 
 LE_NAMESPACE_END

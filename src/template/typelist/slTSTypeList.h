@@ -26,6 +26,8 @@ template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNu
 		typename T48 = _SNullType, typename T49 = _SNullType>
 struct TSTypeList
 {
+	private:
+
 	typedef typename TSTypeListTraits<
 		_TSTypeListNode<T0, _TSTypeListNode<T1, _TSTypeListNode<T2, 
 		_TSTypeListNode<T3, _TSTypeListNode<T4, _TSTypeListNode<T5, 
@@ -49,6 +51,8 @@ struct TSTypeList
 
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
 
+
+	public:
 	enum
 	{
 		length = _TSTypeListLength<_headNode>::_result
@@ -70,9 +74,15 @@ struct TSTypeList
 	};
 
 	template <typename T>
-	struct IndexOf
+	struct Find
 	{
-		enum { result = _TSTypeListIndexOf<_headNode, T>::_result };
+		enum { result = _TSTypeListFind<_headNode, T>::_result };
+	};
+
+	template <template <typename T> class TPredicate>
+	struct FindIf
+	{
+		enum { result = _TSTypeListFindIf<_headNode, TPredicate>::_result };
 	};
 
 	template <typename T>
@@ -118,7 +128,21 @@ struct TSTypeList
 	{
 		typedef typename Sort<TPredicate, false>::result result;
 	};
+
+	// Collects a new list of types, for which predicate<T>::result == 1;
+	template <template <typename T> class predicate>
+	struct CollectIf
+	{
+		typedef TSTypeList<typename _TSTypeListCollectIf<_headNode, predicate>::_result> result;
+	};
+
+	template <template <typename T> class mutator>
+	struct Mutate
+	{
+		typedef TSTypeList<typename _TSTypeListMutate<_headNode, mutator>::_result> result;
+	};
 };
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Maximum number of elements in TSTypeList
