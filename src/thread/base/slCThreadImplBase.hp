@@ -1,0 +1,78 @@
+#pragma once
+
+#include <template/function/slTCFunction.h>
+#include <auxiliary/slCRunLoop.h>
+#include <common/types/slCString.h>
+
+LE_NAMESPACE_START
+
+class CThreadImplBase
+{
+	public:
+		inline CThreadImplBase(const TCFunction<>& threadProc,
+							   const CString& threadName) :
+			mRunLoop(threadProc),
+			mRefCount(1)
+		{
+
+		}
+
+		virtual ~CThreadImplBase()
+		{
+
+		}
+
+		// Overload this method to start CThreadImplBase::threadProc in a separate thread.
+		virtual void start() = 0;
+
+		inline void stop()
+		{
+			mRunLoop.stop();
+		}
+
+		inline bool isRunning() const
+		{
+			return !mRunLoop.isStopped();
+		}
+
+		inline CThreadImplBase* retain()
+		{
+			++mRefCount;
+			return this;
+		}
+
+		inline void release()
+		{
+			--mRefCount;
+			if (!mRefCount)
+			{
+				delete this;
+			}
+		}
+
+		// The thread impl must call this proc
+		inline static void threadProc(CThreadImplBase* impl)
+		{
+			impl->retain();
+			try
+			{
+				impl->_threadProc();
+			}
+			catch(...)
+			{
+				// TODO: Complete correct error handling
+			}
+			impl->release();
+		}
+
+	private:
+		inline void _threadProc()
+		{
+			mRunLoop.run();
+		}
+
+		UInt32 mRefCount;
+		CRunLoop mRunLoop;
+};
+
+LE_NAMESPACE_END

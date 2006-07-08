@@ -10,7 +10,8 @@ LE_NAMESPACE_START
 class CRunLoop
 {
 	public:
-		CRunLoop();
+		CRunLoop(bool sourceDependent = true);
+		CRunLoop(const TCFunction<>& firstEvent, bool sourceDependent = true);
 
 		void run();
 		void stop();

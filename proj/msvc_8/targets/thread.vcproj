@@ -143,6 +143,34 @@
 				RelativePath="..\..\..\src\thread\slCThread.h"
 				>
 			</File>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\..\..\src\thread\base\slcthreadimpl.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImplBase.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImplPosix.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImplPosix.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImplWindows.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slcthreadimplwindows.hp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

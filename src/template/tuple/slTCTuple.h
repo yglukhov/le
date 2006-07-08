@@ -6,7 +6,7 @@
 
 LE_NAMESPACE_START
 
-template <typename T, unsigned index>
+template <typename T>
 struct TSDefaultTupleUnit
 {
 	T mValue;
@@ -20,7 +20,8 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 {
 	public:
 		////////////////////////////////////////////////////////////////////////
-		// value<index>() - return a reference to the object in the tuple at index
+		// value<index>() - return a const reference to the object in the tuple
+		// at index
 		template <unsigned index>
 		const typename TTypeList::template TypeAt<index>::result& value() const
 		{

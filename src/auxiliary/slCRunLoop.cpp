@@ -2,16 +2,23 @@
 
 LE_NAMESPACE_START
 
-CRunLoop::CRunLoop() :
-	mSources(0),
+CRunLoop::CRunLoop(bool sourceDependent) :
+	mSources(static_cast<UInt32>(!sourceDependent)),
 	mStopped(true)
 {
 
 }
 
+CRunLoop::CRunLoop(const TCFunction<>& firstEvent, bool sourceDependent) :
+	mSources(static_cast<UInt32>(!sourceDependent)),
+	mStopped(true)
+{
+	pushEvent(firstEvent);
+}
+
 void CRunLoop::run()
 {
-	while(!isStopped())
+	do
 	{
 		{
 			CMutexLock locker(mQueueMutex);
@@ -23,11 +30,11 @@ void CRunLoop::run()
 			}
 		}
 
-		if (mSources == 0)
+		if (!mSources)
 		{
 			stop();
 		}
-	}
+	} while(!isStopped());
 }
 
 void CRunLoop::stop()

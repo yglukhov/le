@@ -1,6 +1,7 @@
 #pragma once
 
 #include <common/config/slPrefix.h>
+#include <template/util/slTSTypesEqual.h>
 #include "base/slTSTypeListBase.h"
 #include "base/slTSTypeListAppendTraits.h"
 #include "base/slTSTypeListSorting.h"
@@ -50,15 +51,17 @@ struct TSTypeList
 		> > > > > > >::node _dirtyList;
 
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
-
+	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
 
 	public:
+
 	enum
 	{
 		length = _TSTypeListLength<_headNode>::_result
 	};
 
 	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> uniqueItems;
+	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>::result, TSTypeList<>, _popFront>::result PopFront;
 
 	template <unsigned int index>
 	struct TypeAt
@@ -72,6 +75,9 @@ struct TSTypeList
 		typedef typename _TSTypeListTypeAtNonStrict<_headNode, index,
 												TDefaultType>::_result result;
 	};
+
+	typedef typename TypeAtNonStrict<0>::result Front;
+	typedef typename TypeAtNonStrict<length-1>::result Back;
 
 	template <typename T>
 	struct Find

@@ -1,0 +1,37 @@
+#pragma once
+
+#include <pthread.h>
+#include "slCThreadImplBase.hp"
+
+LE_NAMESPACE_START
+
+class CThreadImplPosix : public CThreadImplBase
+{
+	public:
+		inline CThreadImplPosix(const TCFunction<>& threadProc,
+								const CString& threadName,
+								bool startImmediately) :
+			CThreadImplBase(threadProc, threadName)
+		{
+			if (startImmediately)
+			{
+				start();
+			}
+		}
+
+		virtual void start();
+
+		static CThreadImplBase* thread()
+		{
+			// TODO: complete this
+			return NULL;
+		}
+
+	private:
+		pthread_t mThreadID;
+};
+
+
+typedef CThreadImplPosix CThreadImpl;
+
+LE_NAMESPACE_END

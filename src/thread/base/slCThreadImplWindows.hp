@@ -1,0 +1,37 @@
+#pragma once
+
+#include <windows.h>
+#include "slCThreadImplBase.hp"
+
+LE_NAMESPACE_START
+
+class CThreadImplWindows : public CThreadImplBase
+{
+	public:
+		inline CThreadImplWindows(const TCFunction<>& threadProc,
+								const CString& threadName,
+								bool startImmediately) :
+			CThreadImplBase(threadProc, threadName)
+		{
+			if (startImmediately)
+			{
+				start();
+			}
+		}
+
+		virtual void start();
+
+		static CThreadImplBase* thread()
+		{
+			// TODO: complete this
+			return NULL;
+		}
+
+	private:
+		HANDLE mThread;
+		DWORD mThreadID;
+};
+
+typedef CThreadImplWindows CThreadImpl;
+
+LE_NAMESPACE_END

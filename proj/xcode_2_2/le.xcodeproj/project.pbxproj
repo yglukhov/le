@@ -61,6 +61,8 @@
 		B04FF9970A1616C800F559ED /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8BB0A15FF1E00F559ED /* slTypes.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
+		B0DA1B540A5FC90B000CE093 /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DA1B530A5FC90B000CE093 /* slCThreadImplWindows.cpp */; };
+		B0DA1B570A5FCAF7000CE093 /* slCThreadImplPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DA1B560A5FCAF7000CE093 /* slCThreadImplPosix.cpp */; };
 		B0DB11EF0A45810000C4BB5A /* slCLogControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DB11EE0A45810000C4BB5A /* slCLogControl.cpp */; };
 		B0DCE211C5B07D97005638CA /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF87E0A15FF1E00F559ED /* slCRunLoop.cpp */; };
 /* End PBXBuildFile section */
@@ -225,6 +227,13 @@
 		B04FF97A0A16165700F559ED /* leThread.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leThread.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF97F0A16167400F559ED /* leGui.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leGui.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0935BC2C5B0917600A3FED7 /* slTCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCColor.h; sourceTree = "<group>"; };
+		B0DA1B510A5FC713000CE093 /* slCThreadImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCThreadImpl.hp; sourceTree = "<group>"; };
+		B0DA1B520A5FC90B000CE093 /* slCThreadImplWindows.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCThreadImplWindows.hp; sourceTree = "<group>"; };
+		B0DA1B530A5FC90B000CE093 /* slCThreadImplWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCThreadImplWindows.cpp; sourceTree = "<group>"; };
+		B0DA1B550A5FCAF7000CE093 /* slCThreadImplPosix.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCThreadImplPosix.hp; sourceTree = "<group>"; };
+		B0DA1B560A5FCAF7000CE093 /* slCThreadImplPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCThreadImplPosix.cpp; sourceTree = "<group>"; };
+		B0DA1B580A5FCC9E000CE093 /* slCThreadImplBase.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCThreadImplBase.hp; sourceTree = "<group>"; };
+		B0DA1E8B0A5FFF21000CE093 /* slTSTypesEqual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSTypesEqual.h; sourceTree = "<group>"; };
 		B0DB11ED0A45810000C4BB5A /* slCLogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCLogControl.h; sourceTree = "<group>"; };
 		B0DB11EE0A45810000C4BB5A /* slCLogControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCLogControl.cpp; sourceTree = "<group>"; };
 		B0DCE20CC5B07CCE005638CA /* slCNonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCNonCopyable.h; sourceTree = "<group>"; };
@@ -521,6 +530,7 @@
 				B04FF8D70A15FF1F00F559ED /* slTSConstRef.h */,
 				B04FF8D80A15FF1F00F559ED /* slTSConstToType.h */,
 				B04FF8D90A15FF1F00F559ED /* slTSSelect.h */,
+				B0DA1E8B0A5FFF21000CE093 /* slTSTypesEqual.h */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -528,6 +538,7 @@
 		B04FF8DA0A15FF1F00F559ED /* thread */ = {
 			isa = PBXGroup;
 			children = (
+				B0DA1B2B0A5FC072000CE093 /* base */,
 				B04FF8DB0A15FF1F00F559ED /* slCMutex.cpp */,
 				B04FF8DC0A15FF1F00F559ED /* slCMutex.h */,
 				B04FF8DD0A15FF1F00F559ED /* slCThread.cpp */,
@@ -551,6 +562,19 @@
 			path = ../../src;
 			sourceTree = "<group>";
 			tabWidth = 4;
+		};
+		B0DA1B2B0A5FC072000CE093 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				B0DA1B510A5FC713000CE093 /* slCThreadImpl.hp */,
+				B0DA1B520A5FC90B000CE093 /* slCThreadImplWindows.hp */,
+				B0DA1B530A5FC90B000CE093 /* slCThreadImplWindows.cpp */,
+				B0DA1B550A5FCAF7000CE093 /* slCThreadImplPosix.hp */,
+				B0DA1B560A5FCAF7000CE093 /* slCThreadImplPosix.cpp */,
+				B0DA1B580A5FCC9E000CE093 /* slCThreadImplBase.hp */,
+			);
+			path = base;
+			sourceTree = "<group>";
 		};
 		B0DCE20BC5B07C9F005638CA /* strategies */ = {
 			isa = PBXGroup;
@@ -728,7 +752,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -r ${leSrcRoot}/ ${CONFIGURATION_BUILD_DIR}/include;\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -name \".svn\" -type d -delete;\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -name \"*.c*\" -delete;";
+			shellScript = "cp -r ${leSrcRoot}/ ${CONFIGURATION_BUILD_DIR}/include;\n\n# Delete files and folders whose name begins with \".\"\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -iname \".*\" -delete;\n\n# Delete files and folders whose extension starts with \"c\"\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -iname \"*.c*\" -delete;\n\n# Delete files and folders whose extension is \"hp\"\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -iname \"*.hp\" -delete;\n\n# Delete empty folders\nfind \"${CONFIGURATION_BUILD_DIR}/include\" -type d -empty -delete;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -776,6 +800,8 @@
 			files = (
 				B04FF9870A1616AF00F559ED /* slCMutex.cpp in Sources */,
 				B04FF9880A1616AF00F559ED /* slCThread.cpp in Sources */,
+				B0DA1B540A5FC90B000CE093 /* slCThreadImplWindows.cpp in Sources */,
+				B0DA1B570A5FCAF7000CE093 /* slCThreadImplPosix.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

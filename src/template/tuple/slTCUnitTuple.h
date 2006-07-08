@@ -4,22 +4,26 @@
 
 LE_NAMESPACE_START
 
-template <class TTypeList, template <typename, unsigned int> class TUnit>
+template <class TTypeList, template <typename> class TUnit>
 class TCUnitTuple
 {
-	TSTuple<typename TTypeList::_headNode, TUnit> mTuple;
+	TSTuple<TTypeList, TUnit> mTuple;
 
 	public:
 		template <unsigned int index>
-		inline TUnit<typename TTypeList::template TypeAt<index>::result, index>& unit()
+		inline TUnit<typename TTypeList::template TypeAt<index>::result>& unit()
 		{
-			return static_cast<TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
+			typedef typename TTypeList::template TypeAt<index>::result UnitType; 
+			return static_cast<TUnit<UnitType>&>(static_cast<_TSTupleUnit<index, TUnit<UnitType> >&>(mTuple));
+		//	return static_cast<TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
 		}
 
 		template <unsigned int index>
-		inline const TUnit<typename TTypeList::template TypeAt<index>::result, index>& unit() const
+		inline const TUnit<typename TTypeList::template TypeAt<index>::result>& unit() const
 		{
-			return static_cast<const TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
+			typedef typename TTypeList::template TypeAt<index>::result UnitType; 
+			return static_cast<const TUnit<UnitType>&>(static_cast<const _TSTupleUnit<index, TUnit<UnitType> >&>(mTuple));
+		//	return static_cast<const TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
 		}
 };
 

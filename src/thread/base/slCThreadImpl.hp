@@ -1,0 +1,12 @@
+#pragma once
+
+#include <common/config/slPrefix.h>
+
+#ifdef _WIN32
+
+#include "slCThreadImplWindows.hp"
+#else
+
+// Use posix pthreads
+#include "slCThreadImplPosix.hp"
+#endif
