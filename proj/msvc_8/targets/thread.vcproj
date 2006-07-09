@@ -147,7 +147,15 @@
 				Name="base"
 				>
 				<File
-					RelativePath="..\..\..\src\thread\base\slcthreadimpl.hp"
+					RelativePath="..\..\..\src\thread\base\slCMutexImplPosix.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCMutexImplWindows.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImpl.hp"
 					>
 				</File>
 				<File
@@ -167,7 +175,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\thread\base\slcthreadimplwindows.hp"
+					RelativePath="..\..\..\src\thread\base\slCThreadImplWindows.hp"
 					>
 				</File>
 			</Filter>

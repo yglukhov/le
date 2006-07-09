@@ -1,12 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <common/strategies/slCNonCopyable.h>
 
-#if !defined _WIN32
-#include <pthread.h>
-#endif
 
 LE_NAMESPACE_START
+
+class CMutexImpl;
 
 class CMutex : CNonCopyable
 {
@@ -16,10 +16,8 @@ class CMutex : CNonCopyable
 		void lock();
 		void unlock();
 
-#if !defined _WIN32
 	private:
-		pthread_mutex_t mMutex;
-#endif
+		std::auto_ptr<CMutexImpl> mImpl;
 };
 
 class CMutexLock : CNonCopyable

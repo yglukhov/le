@@ -1,0 +1,50 @@
+#pragma once
+
+#include <pthread.h>
+
+LE_NAMESPACE_START
+
+class CMutexImpl
+{
+	public:
+		CMutexImpl(bool recursive = false)
+		{
+			if(recursive)
+			{
+				// Creating RECURSIVE mutex
+				pthread_mutexattr_t attr;
+				pthread_mutexattr_init(&attr);
+				pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+				
+				pthread_mutex_init(&mMutex, &attr);
+				
+				pthread_mutexattr_destroy(&attr);
+			}
+			else
+			{
+				// Creating NORMAL mutex
+				pthread_mutex_init(&mMutex, NULL);
+			}
+		}
+
+		~CMutexImpl()
+		{
+			pthread_mutex_destroy(&mMutex);
+		}
+
+		void lock()
+		{
+			pthread_mutex_lock(&mMutex);
+		}
+
+		void unlock()
+		{
+			pthread_mutex_unlock(&mMutex);
+		}
+
+	private:
+		pthread_mutex_t mMutex;
+};
+
+
+LE_NAMESPACE_END

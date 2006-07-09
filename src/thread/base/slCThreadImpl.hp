@@ -3,10 +3,13 @@
 #include <common/config/slPrefix.h>
 
 #ifdef _WIN32
-
+#include "slCMutexImplWindows.hp"
 #include "slCThreadImplWindows.hp"
+
 #else
 
 // Use posix pthreads
+#include "slCMutexImplPosix.hp"
 #include "slCThreadImplPosix.hp"
+
 #endif
