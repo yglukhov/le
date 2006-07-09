@@ -32,7 +32,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /E /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -52,7 +52,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /E /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

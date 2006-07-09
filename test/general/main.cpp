@@ -1,3 +1,4 @@
+#if 1
 
 #define FUNCTORS_TESTING 0
 
@@ -131,3 +132,5 @@ int main(int argc, char * const argv[])
 }
 
 #endif // not FUNCTORS_TESTING
+
+#endif // 0

@@ -1,8 +1,31 @@
+#include <iostream>
+#include <cstring>
 #include "slCBasicString.h"
 #include <common/debug/slAssert.h>
-#include <cstring>
+#include <common/config/slCompiler.h>
 
 LE_NAMESPACE_START
+
+#if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
+#pragma warning (push)
+#pragma warning( disable : 4996 )
+#endif // MSVS 2005 or higher
+
+static inline void slStrCpy(Char* dest, const Char* src)
+{
+	using namespace std;
+	strcpy(dest, src);
+}
+
+static inline void slStrCat(Char* dest, const Char* src)
+{
+	using namespace std;
+	strcat(dest, src);
+}
+
+#if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
+#pragma warning (pop)
+#endif // MSVS 2005 or higher
 
 
 CBasicString::CBasicString() :
@@ -14,26 +37,26 @@ CBasicString::CBasicString() :
 CBasicString::CBasicString(const CBasicString& copy) :
 	mString(new Char[copy.length() + 1])
 {
-	std::strcpy(mString, copy.mString);
+	slStrCpy(mString, copy.mString);
 }
 
 CBasicString::CBasicString(const Char* cString) :
 	mString(new Char[strlen(cString) + 1])
 {
-	std::strcpy(mString, cString);
+	slStrCpy(mString, cString);
 }
 
 CBasicString::CBasicString(const Char* cString, EStringEncoding /*encoding*/) :
 	mString(new Char[strlen(cString) + 1])
 {
-	std::strcpy(mString, cString);
+	slStrCpy(mString, cString);
 }
 
 CBasicString::CBasicString(const WChar* /*uniString*/, UInt32 /*length*/, EStringEncoding /*encoding*/) :
 	mString(new Char[100])
 {
 	// TODO: complete
-	std::strcpy(mString, "This string was generated from uniString. Complete the constructor!");
+	slStrCpy(mString, "This string was generated from uniString. Complete the constructor!");
 	LE_ASSERT(false);
 }
 
@@ -46,7 +69,7 @@ const CBasicString& CBasicString::operator = (const Char* cString)
 {
 	delete [] mString;
 	mString = new Char[strlen(cString) + 1];
-	std::strcpy(mString, cString);
+	slStrCpy(mString, cString);
 	return *this;
 }
 
@@ -125,8 +148,8 @@ Bool CBasicString::operator >= (const CBasicString& string) const
 void CBasicString::append(const Char* cString, EStringEncoding /*encoding*/)
 {
 	Char* newString = new Char[strlen(mString) + strlen(cString) + 1];
-	strcpy(newString, mString);
-	strcat(newString, cString);
+	slStrCpy(newString, mString);
+	slStrCat(newString, cString);
 	delete [] mString;
 	mString = newString;
 }
@@ -137,7 +160,7 @@ void CBasicString::append(const WChar* /*uniString*/, UInt32 /*length*/,
 	// TODO: complete
 	delete [] mString;
 	mString = new Char[100];
-	strcpy(mString, "This string was generated from uniString. Complete the append method!");
+	slStrCpy(mString, "This string was generated from uniString. Complete the append method!");
 }
 
 void CBasicString::append(const CBasicString& string)
@@ -156,7 +179,7 @@ void CBasicString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
 
 UInt32 CBasicString::length() const
 {
-	return strlen(mString);
+	return static_cast<UInt32>(std::strlen(mString));
 }
 
 EStringEncoding CBasicString::encoding() const
@@ -173,7 +196,7 @@ const Char* CBasicString::cString(EStringEncoding encoding) const
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string)
 {
-	return (stream << string.cString());
+	return (stream << (string.cString()));
 }
 
 LE_NAMESPACE_END

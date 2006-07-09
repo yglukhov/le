@@ -175,9 +175,25 @@
 				Name="config"
 				>
 				<File
+					RelativePath="..\..\..\src\common\config\slCompiler.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\common\config\slPrefix.h"
 					>
 				</File>
+				<Filter
+					Name="base"
+					>
+					<File
+						RelativePath="..\..\..\src\common\config\base\slGCC.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\common\config\base\slMSVC.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="pointer"
