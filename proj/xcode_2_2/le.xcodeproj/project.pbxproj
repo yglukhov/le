@@ -34,7 +34,6 @@
 		B00EC1C50A3C581D007EB231 /* slCNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B00EC1C40A3C581D007EB231 /* slCNumber.cpp */; };
 		B021CC8A0A3AD8CA00B915E2 /* slCVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B021CC890A3AD8CA00B915E2 /* slCVariant.cpp */; };
 		B04C113BC5B04377001DB8E9 /* slCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04C1139C5B04377001DB8E9 /* slCData.cpp */; };
-		B04C113EC5B0438C001DB8E9 /* slCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04C113DC5B0438C001DB8E9 /* slCString.cpp */; };
 		B04FF8DF0A15FF2600F559ED /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8940A15FF1E00F559ED /* slCObject.cpp */; };
 		B04FF8E10A15FF2A00F559ED /* slCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8900A15FF1E00F559ED /* slCAutoreleasePool.cpp */; };
 		B04FF8E30A15FF2B00F559ED /* slTCPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF8920A15FF1E00F559ED /* slTCPointer.cpp */; };
@@ -65,6 +64,9 @@
 		B0DA1B570A5FCAF7000CE093 /* slCThreadImplPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DA1B560A5FCAF7000CE093 /* slCThreadImplPosix.cpp */; };
 		B0DB11EF0A45810000C4BB5A /* slCLogControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0DB11EE0A45810000C4BB5A /* slCLogControl.cpp */; };
 		B0DCE211C5B07D97005638CA /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FF87E0A15FF1E00F559ED /* slCRunLoop.cpp */; };
+		B0E3CB6C0A6127900067D123 /* slCBasicString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E3CB6B0A6127900067D123 /* slCBasicString.cpp */; };
+		B0E3CBD40A612C4E0067D123 /* slCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E3CAAE0A6114A30067D123 /* slCDictionary.cpp */; };
+		B0E3CBE70A612CB00067D123 /* slCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E3CBE60A612CB00067D123 /* slCTime.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -139,7 +141,6 @@
 		B04C1139C5B04377001DB8E9 /* slCData.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCData.cpp; sourceTree = "<group>"; };
 		B04C113AC5B04377001DB8E9 /* slCData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCData.h; sourceTree = "<group>"; };
 		B04C113CC5B0438C001DB8E9 /* slCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCString.h; sourceTree = "<group>"; };
-		B04C113DC5B0438C001DB8E9 /* slCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCString.cpp; sourceTree = "<group>"; };
 		B04C113FC5B04433001DB8E9 /* slBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slBasic.h; sourceTree = "<group>"; };
 		B04FF8750A15FAEA00F559ED /* leCommon.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leCommon.lib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF87C0A15FF1E00F559ED /* slCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCNotificationCenter.cpp; sourceTree = "<group>"; };
@@ -237,6 +238,12 @@
 		B0DB11ED0A45810000C4BB5A /* slCLogControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCLogControl.h; sourceTree = "<group>"; };
 		B0DB11EE0A45810000C4BB5A /* slCLogControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCLogControl.cpp; sourceTree = "<group>"; };
 		B0DCE20CC5B07CCE005638CA /* slCNonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCNonCopyable.h; sourceTree = "<group>"; };
+		B0E3CAAD0A6114A30067D123 /* slCDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCDictionary.h; sourceTree = "<group>"; };
+		B0E3CAAE0A6114A30067D123 /* slCDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCDictionary.cpp; sourceTree = "<group>"; };
+		B0E3CB6A0A6127900067D123 /* slCBasicString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCBasicString.h; sourceTree = "<group>"; };
+		B0E3CB6B0A6127900067D123 /* slCBasicString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCBasicString.cpp; sourceTree = "<group>"; };
+		B0E3CBE50A612CB00067D123 /* slCTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTime.h; sourceTree = "<group>"; };
+		B0E3CBE60A612CB00067D123 /* slCTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTime.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +316,8 @@
 				B00EC1960A3C5275007EB231 /* slCCastPolicyRegistry.h */,
 				B00EC1970A3C5275007EB231 /* slCCastPolicyRegistry.cpp */,
 				B00EC1C60A3C5982007EB231 /* slCNumberBase.h */,
+				B0E3CB6A0A6127900067D123 /* slCBasicString.h */,
+				B0E3CB6B0A6127900067D123 /* slCBasicString.cpp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -320,13 +329,16 @@
 				B0935BC2C5B0917600A3FED7 /* slTCColor.h */,
 				B04C1139C5B04377001DB8E9 /* slCData.cpp */,
 				B04C113AC5B04377001DB8E9 /* slCData.h */,
-				B04C113DC5B0438C001DB8E9 /* slCString.cpp */,
 				B04C113CC5B0438C001DB8E9 /* slCString.h */,
 				B04C113FC5B04433001DB8E9 /* slBasic.h */,
 				B021CC880A3AD8CA00B915E2 /* slCVariant.h */,
 				B021CC890A3AD8CA00B915E2 /* slCVariant.cpp */,
 				B00EC1C30A3C581D007EB231 /* slCNumber.h */,
 				B00EC1C40A3C581D007EB231 /* slCNumber.cpp */,
+				B0E3CAAD0A6114A30067D123 /* slCDictionary.h */,
+				B0E3CAAE0A6114A30067D123 /* slCDictionary.cpp */,
+				B0E3CBE50A612CB00067D123 /* slCTime.h */,
+				B0E3CBE60A612CB00067D123 /* slCTime.cpp */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -767,12 +779,14 @@
 				B04FF8E50A15FF2E00F559ED /* slAssert.cpp in Sources */,
 				B04FF8E70A15FF2F00F559ED /* slCLogEntry.cpp in Sources */,
 				B04C113BC5B04377001DB8E9 /* slCData.cpp in Sources */,
-				B04C113EC5B0438C001DB8E9 /* slCString.cpp in Sources */,
 				B021CC8A0A3AD8CA00B915E2 /* slCVariant.cpp in Sources */,
 				B009AD3E0A3AEA52008D03AD /* slCastPolicies.cpp in Sources */,
 				B00EC1980A3C5275007EB231 /* slCCastPolicyRegistry.cpp in Sources */,
 				B00EC1C50A3C581D007EB231 /* slCNumber.cpp in Sources */,
 				B0DB11EF0A45810000C4BB5A /* slCLogControl.cpp in Sources */,
+				B0E3CB6C0A6127900067D123 /* slCBasicString.cpp in Sources */,
+				B0E3CBD40A612C4E0067D123 /* slCDictionary.cpp in Sources */,
+				B0E3CBE70A612CB00067D123 /* slCTime.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

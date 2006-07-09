@@ -7,21 +7,6 @@ LE_NAMESPACE_START
 class CNumberBase
 {
 	protected:
-		enum ENumberFormat
-		{
-			numberFormatUInt8 = 0,
-			numberFormatUInt16,
-			numberFormatUInt32,
-			numberFormatUInt64,
-			numberFormatSInt8,
-			numberFormatSInt16,
-			numberFormatSInt32,
-			numberFormatSInt64,
-			numberFormatFloat32,
-			numberFormatFloat64,
-			numberFormatBool
-		};
-
 		union UNumberData
 		{
 			UInt8 valUInt8;

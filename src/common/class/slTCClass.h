@@ -19,7 +19,7 @@ template <class THierarchyRoot>
 class TIClass
 {
 	public:
-		inline CString name() const;
+		inline CBasicString name() const;
 
 		virtual TCPointer<THierarchyRoot> create() const = 0;
 
@@ -28,19 +28,19 @@ class TIClass
 		bool operator == (const TIClass<THierarchyRoot>& rhs) const;
 
 	protected:
-		inline TIClass(const CString& name);
-		CString mName;
+		inline TIClass(const CBasicString& name);
+		CBasicString mName;
 };
 
 template <class THierarchyRoot>
-TIClass<THierarchyRoot>::TIClass(const CString& name) :
+TIClass<THierarchyRoot>::TIClass(const CBasicString& name) :
 	mName(name)
 {
 	TCClassFactory<THierarchyRoot>::registerClass(this);
 }
 
 template <class THierarchyRoot>
-CString TIClass<THierarchyRoot>::name() const
+CBasicString TIClass<THierarchyRoot>::name() const
 {
 	return mName;
 }
@@ -98,7 +98,7 @@ class TCClass : public TIClass<THierarchyRoot>
 		virtual const NChar* stdTypeInfoName() const;
 
 	// Private
-		TCClass(const CString& name) :
+		TCClass(const CBasicString& name) :
 			TIClass<THierarchyRoot>(name)
 		{
 			

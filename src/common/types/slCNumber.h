@@ -2,6 +2,7 @@
 
 #include <common/slCObject.h>
 #include <template/util/slTSConstToType.h>
+#include <common/types/slCString.h>
 #include "base/slCNumberBase.h"
 
 LE_NAMESPACE_START
@@ -11,6 +12,21 @@ class CNumber : public CObject, CNumberBase
 	DECLARE_RUNTIME_CLASS(CNumber);
 
 	public:
+		enum EFormat
+		{
+			eFormatUInt8 = 0,
+			eFormatUInt16,
+			eFormatUInt32,
+			eFormatUInt64,
+			eFormatSInt8,
+			eFormatSInt16,
+			eFormatSInt32,
+			eFormatSInt64,
+			eFormatFloat32,
+			eFormatFloat64,
+			eFormatBool
+		};
+
 		CNumber();
 
 		CNumber(SInt8 value);
@@ -36,6 +52,17 @@ class CNumber : public CObject, CNumberBase
 		inline T valueAs() const
 		{
 			return valueAs(TSTypeToType<T>());
+		}
+
+		template <typename T>
+		inline bool valueIs() const
+		{
+			return _valueIs(TSTypeToType<T>());
+		}
+
+		inline bool valueIs(EFormat format) const
+		{
+			return (mFormat == format);
 		}
 
 		const CNumber& operator++();		// prefix
@@ -68,8 +95,34 @@ class CNumber : public CObject, CNumberBase
 		Bool valueAs(TSTypeToType<Bool>) const;
 		CString valueAs(TSTypeToType<CString>) const;
 
+		template <typename T>
+		inline bool _valueIs(TSTypeToType<T>) const
+			{ return false;}
+		inline bool _valueIs(TSTypeToType<SInt8>) const
+			{ return valueIs(eFormatSInt8); }
+		inline bool _valueIs(TSTypeToType<SInt16>) const
+			{ return valueIs(eFormatSInt16); }
+		inline bool _valueIs(TSTypeToType<SInt32>) const
+			{ return valueIs(eFormatSInt32); }
+		inline bool _valueIs(TSTypeToType<SInt64>) const
+			{ return valueIs(eFormatSInt64); }
+		inline bool _valueIs(TSTypeToType<UInt8>) const
+			{ return valueIs(eFormatUInt8); }
+		inline bool _valueIs(TSTypeToType<UInt16>) const
+			{ return valueIs(eFormatUInt16); }
+		inline bool _valueIs(TSTypeToType<UInt32>) const
+			{ return valueIs(eFormatUInt32); }
+		inline bool _valueIs(TSTypeToType<UInt64>) const
+			{ return valueIs(eFormatUInt64); }
+		inline bool _valueIs(TSTypeToType<Float32>) const
+			{ return valueIs(eFormatFloat32); }
+		inline bool _valueIs(TSTypeToType<Float64>) const
+			{ return valueIs(eFormatFloat64); }
+		inline bool _valueIs(TSTypeToType<bool>) const
+			{ return valueIs(eFormatBool); }
+
 	private:
-		ENumberFormat mFormat;
+		EFormat mFormat;
 		UNumberData mData;
 };
 

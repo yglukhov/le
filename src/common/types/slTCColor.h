@@ -13,7 +13,7 @@ template <typename TComponent = Float32>
 class TCColor : public _TCColorBase
 {
 	public:
-	
+
 		inline TCColor() :
 			mR(), mG(), mB(), mA()
 		{

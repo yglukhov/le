@@ -227,6 +227,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\common\types\slCDictionary.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\types\slCDictionary.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\common\types\slCNumber.cpp"
 					>
 				</File>
@@ -235,11 +243,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\common\types\slCString.cpp"
+					RelativePath="..\..\..\src\common\types\slCString.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\common\types\slCString.h"
+					RelativePath="..\..\..\src\common\types\slCTime.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\types\slCTime.h"
 					>
 				</File>
 				<File
@@ -255,6 +267,14 @@
 					>
 					<File
 						RelativePath="..\..\..\src\common\types\base\slCastPolicies.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\common\types\base\slCBasicString.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\common\types\base\slCBasicString.h"
 						>
 					</File>
 					<File

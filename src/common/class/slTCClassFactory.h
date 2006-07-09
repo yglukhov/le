@@ -1,8 +1,8 @@
 #pragma once
 
 #include <map>
+#include <common/types/base/slCBasicString.h>
 #include <common/pointer/slTCPointer.h>
-#include <common/types/slCString.h>
 #include <common/debug/slDebug.h>
 
 LE_NAMESPACE_START
@@ -14,10 +14,10 @@ template <class THierarchyRoot>
 class TCClassFactory
 {
 	public:
-		static TCPointer<THierarchyRoot> create(CString className);
+		static TCPointer<THierarchyRoot> create(const CBasicString& className);
 
 		template <class TCastTo>
-		static TCPointer<TCastTo> create(CString className)
+		static TCPointer<TCastTo> create(const CBasicString& className)
 		{
 			return TCPointer<TCastTo>(dynamic_cast<TCastTo*>(create(className).get()));
 		}
@@ -25,7 +25,7 @@ class TCClassFactory
 		static void registerClass(TIClass<THierarchyRoot>* classDescription);
 
 	private:
-		typedef std::map<CString, TIClass<THierarchyRoot>* > CClassMap;
+		typedef std::map<CBasicString, TIClass<THierarchyRoot>* > CClassMap;
 		static CClassMap& classMap()
 		{
 			static CClassMap* map = new CClassMap();
@@ -55,7 +55,7 @@ void TCClassFactory<THierarchyRoot>::registerClass(TIClass<THierarchyRoot>* theC
 
 
 template <class THierarchyRoot>
-TCPointer<THierarchyRoot> TCClassFactory<THierarchyRoot>::create(CString className)
+TCPointer<THierarchyRoot> TCClassFactory<THierarchyRoot>::create(const CBasicString& className)
 {
 	LE_ENTER_LOG;
 

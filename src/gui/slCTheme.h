@@ -1,9 +1,6 @@
 #pragma once
+#include <common/types/slCString.h>
 
-#include <common/config/slPrefix.h>
-#include <common/slCObject.h>
-
-#include <string>
 #include <map>
 
 LE_NAMESPACE_START
