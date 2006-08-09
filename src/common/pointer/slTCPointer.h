@@ -42,6 +42,7 @@ class TCPointer
 		// Pointer operations
 		inline operator const T*() const;
 		inline T* get();
+		inline const T* get() const;
 
 		inline T& operator*();
 		inline const T& operator*() const;
@@ -144,6 +145,12 @@ TCPointer<T>::operator const T*() const
 
 template <typename T>
 T* TCPointer<T>::get()
+{
+	return mObj;
+}
+
+template <typename T>
+const T* TCPointer<T>::get() const
 {
 	return mObj;
 }

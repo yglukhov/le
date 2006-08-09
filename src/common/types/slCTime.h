@@ -44,6 +44,9 @@ class CTime : public CObject
 
 		const CTime& operator += (const CTime& rhs) { mData += rhs.mData; return *this; }
 
+		virtual void serialize(CDictionary& toDictionary) const;
+		virtual void deserialize(const CDictionary& fromDictionary);
+
 	private:
 		UInt64 mData;
 };

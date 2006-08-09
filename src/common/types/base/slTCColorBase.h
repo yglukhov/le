@@ -7,12 +7,7 @@ LE_NAMESPACE_START
 class _TCColorBase
 {
 	protected:
-		template <typename To, typename From>
-		struct _convert
-		{
-			
-		};
-
+		template <typename To, typename From> struct _convert;
 };
 
 		template <typename T>

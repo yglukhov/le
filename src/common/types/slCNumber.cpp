@@ -1,6 +1,6 @@
 #include <cmath>
 #include "slCNumber.h"
-#include <common/types/slCString.h>
+#include <common/types/slCDictionary.h>
 
 // TODO: remove
 #define lroundf(x) (x)
@@ -87,15 +87,20 @@ CNumber::CNumber(Bool value) :
 }
 
 CNumber::CNumber(const CString& value) :
-	mFormat(eFormatSInt32)
+	mFormat(eFormatFloat32)
 {
-	mData.valUInt64 = 0;
 	// TODO: complete this
+	sscanf(value.cString(), "%f", &mData.valFloat32);
+}
+
+CNumber::CNumber(const CDictionary& fromDict)
+{
+	operator=(fromDict.rootValue());
 }
 
 CNumber::CNumber(const CNumber& copy) :
-	mFormat(copy.mFormat),
-	mData(copy.mData)
+	mData(copy.mData),
+	mFormat(copy.mFormat)
 {
 
 }
@@ -105,13 +110,13 @@ const CNumber& CNumber::operator++()		// prefix
 	switch (mFormat)
 	{
 		case eFormatUInt8:		++mData.valUInt8;	break;
-		case eFormatUInt16:	++mData.valUInt16;	break;
-		case eFormatUInt32:	++mData.valUInt32;	break;
-		case eFormatUInt64:	++mData.valUInt64;	break;
+		case eFormatUInt16:		++mData.valUInt16;	break;
+		case eFormatUInt32:		++mData.valUInt32;	break;
+		case eFormatUInt64:		++mData.valUInt64;	break;
 		case eFormatSInt8:		++mData.valSInt8;	break;
-		case eFormatSInt16:	++mData.valSInt16;	break;
-		case eFormatSInt32:	++mData.valSInt32;	break;
-		case eFormatSInt64:	++mData.valSInt64;	break;
+		case eFormatSInt16:		++mData.valSInt16;	break;
+		case eFormatSInt32:		++mData.valSInt32;	break;
+		case eFormatSInt64:		++mData.valSInt64;	break;
 		case eFormatFloat32:	++mData.valFloat32; break;
 		case eFormatFloat64:	++mData.valFloat64; break;
 		case eFormatBool:		mData.valBool = !mData.valBool;
@@ -126,19 +131,114 @@ const CNumber CNumber::operator++(int)		// postfix
 	switch (mFormat)
 	{
 		case eFormatUInt8:		++mData.valUInt8;	break;
-		case eFormatUInt16:	++mData.valUInt16;	break;
-		case eFormatUInt32:	++mData.valUInt32;	break;
-		case eFormatUInt64:	++mData.valUInt64;	break;
+		case eFormatUInt16:		++mData.valUInt16;	break;
+		case eFormatUInt32:		++mData.valUInt32;	break;
+		case eFormatUInt64:		++mData.valUInt64;	break;
 		case eFormatSInt8:		++mData.valSInt8;	break;
-		case eFormatSInt16:	++mData.valSInt16;	break;
-		case eFormatSInt32:	++mData.valSInt32;	break;
-		case eFormatSInt64:	++mData.valSInt64;	break;
+		case eFormatSInt16:		++mData.valSInt16;	break;
+		case eFormatSInt32:		++mData.valSInt32;	break;
+		case eFormatSInt64:		++mData.valSInt64;	break;
 		case eFormatFloat32:	++mData.valFloat32; break;
 		case eFormatFloat64:	++mData.valFloat64; break;
 		case eFormatBool:		mData.valBool = !mData.valBool;
 		default:;
 	}
 	return result;
+}
+
+const CNumber& CNumber::operator=(SInt8 value)
+{
+	mFormat = eFormatSInt8;
+	mData.valSInt8 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(SInt16 value)
+{
+	mFormat = eFormatSInt16;
+	mData.valSInt16 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(SInt32 value)
+{
+	mFormat = eFormatSInt32;
+	mData.valSInt32 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(SInt64 value)
+{
+	mFormat = eFormatSInt64;
+	mData.valSInt64 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(UInt8 value)
+{
+	mFormat = eFormatUInt8;
+	mData.valUInt8 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(UInt16 value)
+{
+	mFormat = eFormatUInt16;
+	mData.valUInt16 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(UInt32 value)
+{
+	mFormat = eFormatUInt32;
+	mData.valUInt32 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(UInt64 value)
+{
+	mFormat = eFormatUInt64;
+	mData.valUInt64 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(Float32 value)
+{
+	mFormat = eFormatFloat32;
+	mData.valFloat32 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(Float64 value)
+{
+	mFormat = eFormatFloat64;
+	mData.valFloat64 = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(Bool value)
+{
+	mFormat = eFormatBool;
+	mData.valBool = value;
+	return *this;
+}
+
+const CNumber& CNumber::operator=(const CString& value)
+{
+	// TODO: complete this
+	mFormat = eFormatFloat32;
+	sscanf(value.cString(), "%f", &mData.valFloat32);
+	return *this;
+}
+
+void CNumber::serialize(CDictionary& toDictionary) const
+{
+	toDictionary.rootValue(valueAsString());
+}
+
+void CNumber::deserialize(const CDictionary& fromDictionary)
+{
+	operator=(fromDictionary.rootValue());
 }
 
 SInt8 CNumber::valueAs(TSTypeToType<SInt8>) const
@@ -366,18 +466,18 @@ CString CNumber::valueAs(TSTypeToType<CString>) const
 	Char theString[100];
 	switch (mFormat)
 	{
-		case eFormatUInt8: sprintf(theString, "%d", mData.valUInt8);
-		case eFormatUInt16: sprintf(theString, "%d", mData.valUInt16);
-		case eFormatUInt32: sprintf(theString, "%d", mData.valUInt32);
-		case eFormatUInt64: sprintf(theString, "%d", mData.valUInt64);
-		case eFormatSInt8: sprintf(theString, "%d", mData.valSInt8);
-		case eFormatSInt16: sprintf(theString, "%d", mData.valSInt16);
-		case eFormatSInt32: sprintf(theString, "%d", mData.valSInt32);
-		case eFormatSInt64: sprintf(theString, "%d", mData.valSInt64);
-		case eFormatFloat32: sprintf(theString, "%f", mData.valFloat32);
-		case eFormatFloat64: sprintf(theString, "%f", mData.valFloat64);
-		case eFormatBool: sprintf(theString, "%d", mData.valBool);
-		default:;
+		case eFormatUInt8: sprintf(theString, "%d", mData.valUInt8); break;
+		case eFormatUInt16: sprintf(theString, "%d", mData.valUInt16); break;
+		case eFormatUInt32: sprintf(theString, "%d", mData.valUInt32); break;
+		case eFormatUInt64: sprintf(theString, "%d", mData.valUInt64); break;
+		case eFormatSInt8: sprintf(theString, "%d", mData.valSInt8); break;
+		case eFormatSInt16: sprintf(theString, "%d", mData.valSInt16); break;
+		case eFormatSInt32: sprintf(theString, "%d", mData.valSInt32); break;
+		case eFormatSInt64: sprintf(theString, "%d", mData.valSInt64); break;
+		case eFormatFloat32: sprintf(theString, "%f", mData.valFloat32); break;
+		case eFormatFloat64: sprintf(theString, "%f", mData.valFloat64); break;
+		case eFormatBool: sprintf(theString, "%d", mData.valBool); break;
+		default: *theString = 0;
 	}
 
 	// TODO: complete this

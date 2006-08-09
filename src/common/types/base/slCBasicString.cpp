@@ -3,6 +3,7 @@
 #include "slCBasicString.h"
 #include <common/debug/slAssert.h>
 #include <common/config/slCompiler.h>
+#include <common/types/slCDictionary.h>
 
 LE_NAMESPACE_START
 
@@ -168,6 +169,10 @@ void CBasicString::append(const CBasicString& string)
 	append(string.mString);
 }
 
+void CBasicString::clear()
+{
+	mString[0] = 0;
+}
 
 // Erase characters from string. If toPos is equal to 0, then the
 // characters are erased to the end of the string.
@@ -180,6 +185,11 @@ void CBasicString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
 UInt32 CBasicString::length() const
 {
 	return static_cast<UInt32>(std::strlen(mString));
+}
+
+bool CBasicString::isEmpty() const
+{
+	return (length() == 0);
 }
 
 EStringEncoding CBasicString::encoding() const
@@ -209,5 +219,21 @@ LE_NAMESPACE_END
 LE_NAMESPACE_START
 
 IMPLEMENT_RUNTIME_CLASS(CString);
+
+CString::CString(const CDictionary& fromDictionary) :
+	CBasicString(fromDictionary.rootValue())
+{
+
+}
+
+void CString::serialize(CDictionary& toDictionary) const
+{
+	toDictionary.rootValue(*this);
+}
+
+void CString::deserialize(const CDictionary& fromDictionary)
+{
+	CString::operator=(fromDictionary.rootValue());
+}
 
 LE_NAMESPACE_END

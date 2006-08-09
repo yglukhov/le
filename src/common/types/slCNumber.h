@@ -45,6 +45,7 @@ class CNumber : public CObject, CNumberBase
 		CNumber(Bool value);
 
 		CNumber(const CString& value);
+		CNumber(const CDictionary& fromDict);
 
 		CNumber(const CNumber& copy);
 
@@ -68,6 +69,19 @@ class CNumber : public CObject, CNumberBase
 		const CNumber& operator++();		// prefix
 		const CNumber operator++(int);		// postfix
 
+		const CNumber& operator=(SInt8 value);
+		const CNumber& operator=(SInt16 value);
+		const CNumber& operator=(SInt32 value);
+		const CNumber& operator=(SInt64 value);
+		const CNumber& operator=(UInt8 value);
+		const CNumber& operator=(UInt16 value);
+		const CNumber& operator=(UInt32 value);
+		const CNumber& operator=(UInt64 value);
+		const CNumber& operator=(Float32 value);
+		const CNumber& operator=(Float64 value);
+		const CNumber& operator=(Bool value);
+		const CNumber& operator=(const CString& value);
+
 		inline SInt8 valueAsSInt8() const	{ return valueAs(TSTypeToType<SInt8>()); }
 		inline SInt16 valueAsSInt16() const	{ return valueAs(TSTypeToType<SInt16>()); }
 		inline SInt32 valueAsSInt32() const	{ return valueAs(TSTypeToType<SInt32>()); }
@@ -80,6 +94,9 @@ class CNumber : public CObject, CNumberBase
 		inline Float64 valueAsFloat64() const	{ return valueAs(TSTypeToType<Float64>()); }
 		inline Bool valueAsBool() const		{ return valueAs(TSTypeToType<Bool>()); }
 		inline CString valueAsString() const{ return valueAs(TSTypeToType<CString>()); }
+
+		virtual void serialize(CDictionary& toDictionary) const;
+		virtual void deserialize(const CDictionary& fromDictionary);
 
 	private:
 		SInt8 valueAs(TSTypeToType<SInt8>) const;
@@ -122,8 +139,8 @@ class CNumber : public CObject, CNumberBase
 			{ return valueIs(eFormatBool); }
 
 	private:
-		EFormat mFormat;
 		UNumberData mData;
+		EFormat mFormat;
 };
 
 LE_NAMESPACE_END

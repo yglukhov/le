@@ -8,7 +8,7 @@ class CData : public CObject
 {
 	DECLARE_RUNTIME_CLASS(CData);
 
-	typedef unsigned DataLength;
+	typedef UInt32 DataLength;
 
 	public:
 		CData();

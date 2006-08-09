@@ -3,7 +3,6 @@
 #include <iosfwd>
 #include <common/config/slPrefix.h>
 #include <common/types/slBasic.h>
-//#include <common/slCObject.h>
 
 LE_NAMESPACE_START
 
@@ -55,11 +54,13 @@ class CBasicString
 						EStringEncoding encoding = eEncodingDefault);
 		void append(const CBasicString& string);
 
+		void clear();
 		// Erase characters from string. If toPos is equal to 0, then the
 		// characters are erased to the end of the string.
 		void erase(UInt32 fromPos, UInt32 toPos = 0);
 
 		UInt32 length() const;
+		bool isEmpty() const;
 		EStringEncoding encoding() const;
 
 		const Char* cString(EStringEncoding encoding = eEncodingDefault) const;
@@ -80,7 +81,7 @@ class CBasicString
 
 inline const CBasicString operator + (const Char* cString, const CBasicString& string)
 {
-	return (string + cString);
+	return CBasicString(cString) + string;
 }
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string);

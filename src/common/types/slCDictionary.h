@@ -13,6 +13,17 @@ class CDictionary : public CObject
 	DECLARE_RUNTIME_CLASS(CDictionary);
 
 	public:
+		CDictionary(const CString& rootKey = LESTR("dict"));
+	
+		////////////////////////////////////////////////////////////////////////
+		// Root modifiers
+		////////////////////////////////////////////////////////////////////////
+		void rootKey(const CString& key);
+		CString rootKey() const;
+
+		void rootValue(const CString& value);
+		CString rootValue() const;
+	
 		////////////////////////////////////////////////////////////////////////
 		// Value accessors
 		////////////////////////////////////////////////////////////////////////
@@ -62,11 +73,8 @@ class CDictionary : public CObject
 		////////////////////////////////////////////////////////////////////////
 		// Value setters
 		////////////////////////////////////////////////////////////////////////
-		void valueForKey(const CString& key, const CString& value);
+		void valueForKey(const CString& key, const CObject& value); // serialize
 		void valueForKey(const CString& key, const CObject::Ptr value);	// Stores the mutable reference
-		void valueForKey(const CString& key, const CTime& value);
-		void valueForKey(const CString& key, const CNumber& value);
-		void valueForKey(const CString& key, const CData& value);
 
 		void valueForKey(const CString& key, UInt8 value);
 		void valueForKey(const CString& key, UInt16 value);
@@ -89,6 +97,34 @@ class CDictionary : public CObject
 		bool valueExists(const CString& key) const;
 		void deleteValue(const CString& key);
 		void clear();
+		bool isEmpty() const;
+		UInt32 valueCount() const;
+		void append(const CDictionary& dictionary, bool overwriteExistingValues = true);
+
+		////////////////////////////////////////////////////////////////////////
+		// Attribute management
+		////////////////////////////////////////////////////////////////////////
+		CString attributeForKey(const CString& key) const;
+		void attributeForKey(const CString& key, const CString& attribute);
+		bool attributeExists(const CString& key) const;
+		UInt32 attributeCount() const;
+		void deleteAttribute(const CString& key);
+		void deleteAllAttributes();
+
+		///////////////////////////////////////////////////////////////////////
+		// Operators
+		///////////////////////////////////////////////////////////////////////
+		bool operator == (const CDictionary& rhs) const;
+	//	const CDictionary
+
+		CString toString() const;
+
+
+		///////////////////////////////////////////////////////////////////////
+		// Serialization
+		///////////////////////////////////////////////////////////////////////
+		virtual void serialize(CDictionary& toDictionary) const;
+		virtual void deserialize(const CDictionary& fromDictionary);
 
 	private:
 		CObject::Ptr _valueForKey(const CString& key, TSTypeToType<CObject::Ptr>) const;
@@ -108,10 +144,10 @@ class CDictionary : public CObject
 		Float64 _valueForKey(const CString& key, TSTypeToType<Float64>) const;
 		bool _valueForKey(const CString& key, TSTypeToType<bool>) const;
 
-		template <typename T>
-		inline T dynamic_make(const CString& key) const;
-
-		std::map<CString, CObject::Ptr> mData;
+		CString mRootKey;
+		mutable CString mRootValue;
+		std::map<CString, CDictionary> mData;
+		std::map<CString, CString> mAttributes;
 };
 
 

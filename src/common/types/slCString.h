@@ -11,6 +11,7 @@ class CString : public CObject, public CBasicString
 
 	public:
 		inline CString() {}
+		CString(const CDictionary& fromDictionary);
 		inline CString(const CBasicString& copy) : CBasicString(copy) {}
 		inline CString(const CString& copy) : CBasicString(copy) {}
 		inline CString(const Char* cString) : CBasicString(cString) {}
@@ -18,6 +19,9 @@ class CString : public CObject, public CBasicString
 			CBasicString(cString, encoding) {}
 		inline CString(const WChar* uniString, UInt32 length, EStringEncoding encoding) :
 			CBasicString(uniString, length, encoding) {}
+
+		virtual void serialize(CDictionary& toDictionary) const;
+		virtual void deserialize(const CDictionary& fromDictionary);
 };
 
 LE_NAMESPACE_END

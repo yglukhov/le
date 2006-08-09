@@ -20,19 +20,19 @@ class TCColor : public _TCColorBase
 
 		}
 
-		inline TCColor(UInt8 red, UInt8 blue = 0, UInt8 green = 0, UInt8 alpha = 0) :
+		inline TCColor(UInt8 red, UInt8 green = 0, UInt8 blue = 0, UInt8 alpha = 0) :
 			mR(toComponent(red)),
-			mG(toComponent(blue)),
-			mB(toComponent(green)),
+			mG(toComponent(green)),
+			mB(toComponent(blue)),
 			mA(toComponent(alpha))
 		{
 
 		}
 
-		inline TCColor(Float32 red, Float32 blue = 0.0f, Float32 green = 0.0f, Float32 alpha = 0.0f) :
+		inline TCColor(Float32 red, Float32 green = 0.0f, Float32 blue = 0.0f, Float32 alpha = 0.0f) :
 			mR(toComponent(red)),
-			mG(toComponent(blue)),
-			mB(toComponent(green)),
+			mG(toComponent(green)),
+			mB(toComponent(blue)),
 			mA(toComponent(alpha))
 		{
 
@@ -54,7 +54,7 @@ class TCColor : public _TCColorBase
 			mB(copy.blueAs<TComponent>()),
 			mA(copy.alphaAs<TComponent>())
 		{
-		
+
 		}
 
 
@@ -194,13 +194,13 @@ class TCColor : public _TCColorBase
 	private:
 
 		template <typename From>
-		inline TComponent toComponent(From component)
+		inline TComponent toComponent(From component) const
 		{
 			return _convert<TComponent, From>::convert(component);
 		}
 
 		template <typename To>
-		inline To fromComponent(TComponent component)
+		inline To fromComponent(TComponent component) const
 		{
 			return _convert<To, TComponent>::convert(component);
 		}
@@ -208,10 +208,5 @@ class TCColor : public _TCColorBase
 	private:
 		TComponent mR, mG, mB, mA; // conponents
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// CColor definition.
-typedef TCColor<> CColor;
-
 
 LE_NAMESPACE_END
