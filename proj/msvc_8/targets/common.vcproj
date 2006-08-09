@@ -231,6 +231,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\common\types\slCColor.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\common\types\slCColor.h"
 					>
 				</File>
@@ -276,6 +280,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\common\types\slCVariant.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\types\slTCColor.h"
 					>
 				</File>
 				<Filter
