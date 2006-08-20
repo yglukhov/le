@@ -39,7 +39,7 @@ class TCClassFactory
 template <class THierarchyRoot>
 void TCClassFactory<THierarchyRoot>::registerClass(TIClass<THierarchyRoot>* theClass)
 {
-	LE_ENTER_LOG;
+	LE_ENTER_LOG_SILENT;
 
 	typename CClassMap::iterator it = classMap().find(theClass->name());
 	if(it != classMap().end())

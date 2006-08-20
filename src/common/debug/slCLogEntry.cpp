@@ -1,48 +1,16 @@
-
 #include "slCLogEntry.h"
 #include "slCLogControl.h"
 
 LE_NAMESPACE_START
 
-//CLogEntry::CLogStreamMap& CLogEntry::streamMap()
-//{
-//	static CLogStreamMap* map = new CLogStreamMap();
-//	return *map;
-//}
-//
-//std::ostream& CLogEntry::defaultStream()
-//{
-//	return std::clog;
-//}
-//
-//std::string& CLogEntry::whiteSpace()
-//{
-//	static std::string* str = new std::string();
-//	return *str;
-//}
-//
-//std::ostream& CLogEntry::streamForMode()
-//{
-//	std::ostream* theStream = &defaultStream();
-//
-//	if(mMode)
-//	{
-//		CLogStreamMap::iterator it = streamMap().find(mMode);
-//		if(it != streamMap().end())
-//		{
-//			theStream = &(it->second);
-//		}
-//	}
-//
-//	return *theStream;
-//}
-
+#define LE_LOG_MODE_NORMAL 1
+#define LE_LOG_MODE_QUIET 2
 #define LE_LOG_MODE_SILENT 3
 
-CLogEntry::CLogEntry(const char* func, UInt32 severity, SInt32 mode) :
+CLogEntry::CLogEntry(const CBasicString& func, UInt32 severity, SInt32 mode) :
 	std::ostream(CLogControl::instance()),
 	mFunc(func),
-	mSeverity(mode),
+	mSeverity(severity),
 	mMode(mode),
 	mLogControl(CLogControl::instance()),
 	mPrevEntry(mLogControl->currentEntry())

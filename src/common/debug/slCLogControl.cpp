@@ -1,3 +1,4 @@
+#include <fstream>
 #include "slCLogControl.h"
 #include <common/types/slCNumber.h>
 
@@ -17,32 +18,32 @@ CLogControl::CLogControl() :
 
 	logFileName += LESTR(".runlog");
 
-//	mLogFile.open(logFileName, eOpenWrite | eOpenTruncate);
-
-	attachToStream(new std::ofstream(logFileName.cString()), 0);
+	attachToFile(logFileName, 0);
 }
 
 CLogControl::~CLogControl()
 {
 	for (std::list<std::pair<UInt32, std::ostream*> >::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
 	{
+		(*it->second) << "\n\n---------------------\nLog ended: [TODO: here must be curent time]\nS.O.K.I.R.A. labs." << std::endl;
 		delete it->second;
 	}
 }
 
 void CLogControl::attachToFile(const CString& name, UInt32 minPriority)
 {
-
+	attachToStream(new std::ofstream(name.cString()), minPriority);
 }
 
 void CLogControl::attachToScreen(UInt32 minPriority)
 {
-
+//	attachToStream(new std::ostream(std::cout), minPriority);
 }
 
 void CLogControl::attachToStream(std::ostream* theStream, UInt32 severity)
 {
 	mStreams.push_back(std::make_pair(severity, theStream));
+	*theStream << "S.O.K.I.R.A. labs.\nLog started: [TODO: here must be current time]\n---------------------\n\n" << std::endl;
 }
 
 void CLogControl::currentEntry(CLogEntry* entry)
@@ -56,7 +57,7 @@ CLogEntry* CLogControl::currentEntry() const
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// logstreambuf::sync
+// CLogControl::sync
 //
 // Flush our buffer out to the log
 //
@@ -70,14 +71,14 @@ int CLogControl::sync(void)
 		LE_ASSERT(mCurrentEntry);
 		for (std::list<std::pair<UInt32, std::ostream*> >::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
 		{
-			if (it->first >= mCurrentEntry->severity())
+			if (it->first <= mCurrentEntry->severity())
 			{
 				*(it->second) << mWhiteSpace << mBuffer;
 			}
 		}
 	}
 
-	mBuffer = "";
+	mBuffer.clear();
 	return 0;
 }
 

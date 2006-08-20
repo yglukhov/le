@@ -4,7 +4,6 @@
 #include <list>
 
 #include <common/types/slCString.h>
-#include <file/slCFile.h>
 #include <thread/slTCThreadSingletone.h>
 
 LE_NAMESPACE_START
@@ -42,7 +41,6 @@ class CLogControl :
 		virtual int overflow(int c = EOF);
 
 	private:
-		CFile mLogFile;
 		CLogEntry* mCurrentEntry;
 		std::list<std::pair<UInt32, std::ostream*> > mStreams;
 		std::string mWhiteSpace;

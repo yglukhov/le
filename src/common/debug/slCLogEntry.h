@@ -1,9 +1,9 @@
 #pragma once
 
-#include <common/types/slBasic.h>
 #include <iostream>
 #include <string>
 #include <map>
+#include <common/types/base/slCBasicString.h>
 
 LE_NAMESPACE_START
 
@@ -23,9 +23,9 @@ LE_NAMESPACE_START
 
 #ifdef LE_ENABLE_LOG
 
-#define LE_ENTER_LOG LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, false);
-#define LE_ENTER_LOG_QUIET LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, true);
-#define LE_ENTER_LOG_SILENT LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, 3);
+#define LE_ENTER_LOG LE_NESTED_NAMESPACE CLogEntry log(LESTR(LE_PP_PRETTY_FUNCTION), 0, 1);
+#define LE_ENTER_LOG_QUIET LE_NESTED_NAMESPACE CLogEntry log(LESTR(LE_PP_PRETTY_FUNCTION), 0, 2);
+#define LE_ENTER_LOG_SILENT LE_NESTED_NAMESPACE CLogEntry log(LESTR(LE_PP_PRETTY_FUNCTION), 0, 3);
 
 #define IF_LOG(x) x
 
@@ -48,21 +48,16 @@ class CLogControl;
 class CLogEntry : public std::ostream
 {
 	public:
-		CLogEntry(const char* func, UInt32 severity, SInt32 mode);
+		CLogEntry(const CBasicString& func, UInt32 severity, SInt32 mode);
 		~CLogEntry();
 
-		UInt32 severity() const
+		inline UInt32 severity() const
 		{
 			return  mSeverity;
 		}
 
 	private:
-//		typedef std::map<int /* mode */, std::ostream> CLogStreamMap;
-//		static CLogStreamMap& streamMap();
-//		static std::string& whiteSpace();
-//		std::ostream& streamForMode();
-
-		const std::string mFunc;
+		const CBasicString mFunc;
 		UInt32 mSeverity;
 		SInt32 mMode;
 		CLogControl* mLogControl;
