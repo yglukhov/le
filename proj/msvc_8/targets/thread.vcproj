@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="thread"
 	ProjectGUID="{4A53A8D4-D116-460E-AE0F-5A813F77BB7A}"
+	RootNamespace="thread"
 	>
 	<Platforms>
 		<Platform
@@ -160,6 +161,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\thread\base\slCThreadImplBase.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\thread\base\slCThreadImplMain.hp"
 					>
 				</File>
 				<File

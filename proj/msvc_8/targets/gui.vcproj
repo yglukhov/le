@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="gui"
 	ProjectGUID="{39BCA7B3-D02D-4AD5-96FA-2460C6BF6006}"
+	RootNamespace="gui"
 	>
 	<Platforms>
 		<Platform
@@ -47,7 +48,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
 				OutputFile="$(OutDir)\leGui.lib"
 			/>
 			<Tool

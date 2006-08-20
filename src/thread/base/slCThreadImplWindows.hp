@@ -9,29 +9,47 @@ class CThreadImplWindows : public CThreadImplBase
 {
 	public:
 		inline CThreadImplWindows(const TCFunction<>& threadProc,
-								const CString& threadName,
-								bool startImmediately) :
+								const CString& threadName) :
 			CThreadImplBase(threadProc, threadName)
 		{
-			if (startImmediately)
+			threadList().push_back(this);
+		}
+
+		inline CThreadImplWindows(DWORD id) :
+			mThreadID(id)
+		{
+
+		}
+
+		~CThreadImplWindows()
+		{
+			for (std::list<CThreadImplWindows*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
 			{
-				start();
+				if (*it == this)
+				{
+					threadList().erase(it);
+					return;
+				}
 			}
 		}
 
 		virtual void start();
 
-		static CThreadImplBase* thread()
-		{
-			// TODO: complete this
-			return NULL;
-		}
+		static CThreadImplBase* thread();
 
+	protected:
+		DWORD mThreadID;
 	private:
 		HANDLE mThread;
-		DWORD mThreadID;
+
+		static std::list<CThreadImplWindows*>& threadList()
+		{
+			static std::list<CThreadImplWindows*> mRegisteredThreads;
+			return mRegisteredThreads;
+		}
 };
 
 typedef CThreadImplWindows CThreadImpl;
+typedef DWORD TThreadID;
 
 LE_NAMESPACE_END

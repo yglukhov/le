@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <common/types/slBasic.h>
 #include <iostream>
 #include <string>
 #include <map>
@@ -25,7 +25,7 @@ LE_NAMESPACE_START
 
 #define LE_ENTER_LOG LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, false);
 #define LE_ENTER_LOG_QUIET LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, true);
-#define LE_ENTER_LOG_SILENT LE_NESTED_NAMESPACE CLogEntry log("", 0, true);
+#define LE_ENTER_LOG_SILENT LE_NESTED_NAMESPACE CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, 3);
 
 #define IF_LOG(x) x
 
@@ -40,41 +40,33 @@ LE_NAMESPACE_START
 
 #endif // not defined LE_ENABLE_LOG
 
+class CLogControl;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CLogEntry
 ////////////////////////////////////////////////////////////////////////////////
-class CLogEntry
+class CLogEntry : public std::ostream
 {
 	public:
-		CLogEntry(const char* func, int mode, bool quiet);
+		CLogEntry(const char* func, UInt32 severity, SInt32 mode);
 		~CLogEntry();
 
-		template <typename T>
-		std::ostream& operator << (T obj)
+		UInt32 severity() const
 		{
-			std::ostream& theStream = streamForMode();
-
-			theStream << whiteSpace();
-			if(mQuiet)
-			{
-				theStream << mFunc << ": ";
-			}
-
-			return (theStream << obj);
+			return  mSeverity;
 		}
 
-		static std::ostream& defaultStream();
-
 	private:
-		typedef std::map<int /* mode */, std::ostream> CLogStreamMap;
-		static CLogStreamMap& streamMap();
-		static std::string& whiteSpace();
-		std::ostream& streamForMode();
+//		typedef std::map<int /* mode */, std::ostream> CLogStreamMap;
+//		static CLogStreamMap& streamMap();
+//		static std::string& whiteSpace();
+//		std::ostream& streamForMode();
 
 		const std::string mFunc;
-		int mMode;
-		bool mQuiet;
+		UInt32 mSeverity;
+		SInt32 mMode;
+		CLogControl* mLogControl;
+		CLogEntry* mPrevEntry;
 };
 
 

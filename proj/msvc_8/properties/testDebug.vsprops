@@ -16,11 +16,8 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		LinkLibraryDependencies="false"
 		AdditionalLibraryDirectories="&quot;$(testBuildedLeLibsDir)&quot;"
 		GenerateDebugInformation="true"
-		OptimizeReferences="1"
-		EnableCOMDATFolding="1"
 	/>
 	<UserMacro
 		Name="testBuildedLeLibsDir"

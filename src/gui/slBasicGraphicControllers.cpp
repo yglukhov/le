@@ -4,6 +4,8 @@
 #include "slCButton.h"
 #include "slCTitleBar.h"
 
+LE_DEFINE_LINK_MODULE(slBasicGraphicControllers);
+
 LE_NAMESPACE_START
 
 IMPLEMENT_GRAPHIC_CONTROLLER(CControlBasicController, CTheme, CControl);
@@ -11,7 +13,6 @@ IMPLEMENT_GRAPHIC_CONTROLLER(CWindowBasicController, CTheme, CWindow);
 IMPLEMENT_GRAPHIC_CONTROLLER(CButtonBasicController, CTheme, CButton);
 IMPLEMENT_GRAPHIC_CONTROLLER(CDialogBasicController, CTheme, CDialog);
 IMPLEMENT_GRAPHIC_CONTROLLER(CTitleBarBasicController, CTheme, CTitleBar);
-
 
 bool CControlBasicController::hitTest(const CControl* control, const CPoint& point) const
 {

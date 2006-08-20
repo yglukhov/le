@@ -83,6 +83,25 @@
 #define __LE_PP_STRINGIZE__(x) #x
 
 
+////////////////////////////////////////////////////////////////////////////////
+// Module linkage workaround
+////////////////////////////////////////////////////////////////////////////////
+#define _LE_DEFINE_LINK_MODULE_STRUCt(module)								\
+struct _le_module_lnk_workaraound_##module									\
+{																			\
+	_le_module_lnk_workaraound_##module();									\
+};
+
+#define LE_DEFINE_LINK_MODULE(module)										\
+_LE_DEFINE_LINK_MODULE_STRUCt(module)										\
+_le_module_lnk_workaraound_##module::_le_module_lnk_workaraound_##module()	\
+{																			\
+}
+
+#define LE_LINK_MODULE_DEPENDENCY(module)									\
+_LE_DEFINE_LINK_MODULE_STRUCt(module)										\
+static const _le_module_lnk_workaraound_##module _le_module_lnk_workaraound_##module_;
+
 #endif // not defined H_slPrefix_included
 ////////////////////////////////////////////////////////////////////////////////
 // Revision history:

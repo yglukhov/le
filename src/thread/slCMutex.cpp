@@ -9,6 +9,11 @@ CMutex::CMutex(bool recursive) :
 
 }
 
+CMutex::~CMutex()
+{
+	delete mImpl;
+}
+
 void CMutex::lock()
 {
 	mImpl->lock();

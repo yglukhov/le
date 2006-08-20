@@ -28,150 +28,286 @@ static inline void slStrCat(Char* dest, const Char* src)
 #pragma warning (pop)
 #endif // MSVS 2005 or higher
 
+////////////////////////////////////////////////////////////////////////////////
+// String proxy implementation
+////////////////////////////////////////////////////////////////////////////////
+#define LE_SET_BIT(x) (1 << (x))
 
-CBasicString::CBasicString() :
-	mString(new Char[1])
+enum EOwnPolicy
 {
-	*mString = 0;
+	eOwnPolicyCopy = LE_SET_BIT(0),
+	eOwnPolicyDealloc = LE_SET_BIT(1),
+	eOwnPolicyDefault = eOwnPolicyCopy | eOwnPolicyDealloc,
+	eOwnPolicyLiteral = 0
+};
+
+
+struct CBasicString::SStringProxy
+{
+	inline SStringProxy(const Char* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
+		mOwnPolicy(ownPolicy),
+		mRefCount(1),
+		mString((ownPolicy & eOwnPolicyCopy)?(new Char[std::strlen(string) + 1]):(NULL))
+	{
+		if (mString)
+		{
+			slStrCpy(mString, string);
+		}
+		else
+		{
+			mString = const_cast<Char*>(string);
+		}
+	}
+
+	inline SStringProxy(const Char* cString1, const Char* cString2) :
+		mOwnPolicy(eOwnPolicyDefault),
+		mRefCount(1)
+	{
+		size_t str1len = (cString1)?(std::strlen(cString1)):(0);
+		size_t str2len = (cString1)?(std::strlen(cString2)):(0);
+
+		mString = new Char[str1len + str2len + 1];
+
+		if (str1len)
+		{
+			slStrCpy(mString, cString1);
+			if (str2len)
+			{
+				slStrCat(mString, cString2);
+			}
+		}
+		else
+		{
+			slStrCpy(mString, cString2);
+		}
+	}
+
+
+	inline SStringProxy* retain()
+	{
+		++mRefCount;
+		return this;
+	}
+
+	void release()
+	{
+		--mRefCount;
+		if (!mRefCount)
+		{
+			if (mOwnPolicy & eOwnPolicyDealloc)
+			{
+				delete [] mString;
+			}
+			delete this;
+		}
+	}
+
+	inline UInt32 length() const
+	{
+		return static_cast<UInt32>(std::strlen(mString));
+	}
+
+	inline Bool isEmpty() const
+	{
+		return !(*mString);
+	}
+
+	static inline SStringProxy* emptyStringProxy()
+	{
+		static SStringProxy proxy("", eOwnPolicyLiteral);
+		return &proxy;
+	}
+
+	EOwnPolicy mOwnPolicy;
+	UInt32 mRefCount;
+	Char* mString;
+};
+
+static inline Bool notEmpty(const Char* string)
+{
+	return (string)?(*string):(false);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CBasicString implementation
+////////////////////////////////////////////////////////////////////////////////
+CBasicString::CBasicString() :
+	mProxy(SStringProxy::emptyStringProxy()->retain())
+{
+
 }
 
 CBasicString::CBasicString(const CBasicString& copy) :
-	mString(new Char[copy.length() + 1])
+	mProxy(copy.mProxy->retain())
 {
-	slStrCpy(mString, copy.mString);
+
 }
 
 CBasicString::CBasicString(const Char* cString) :
-	mString(new Char[strlen(cString) + 1])
+	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
 {
-	slStrCpy(mString, cString);
+
 }
 
 CBasicString::CBasicString(const Char* cString, EStringEncoding /*encoding*/) :
-	mString(new Char[strlen(cString) + 1])
+	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
 {
-	slStrCpy(mString, cString);
+
 }
 
 CBasicString::CBasicString(const WChar* /*uniString*/, UInt32 /*length*/, EStringEncoding /*encoding*/) :
-	mString(new Char[100])
+	mProxy(new SStringProxy("This string was generated from uniString. Complete the constructor!", eOwnPolicyLiteral))
 {
 	// TODO: complete
-	slStrCpy(mString, "This string was generated from uniString. Complete the constructor!");
-	LE_ASSERT(false);
+}
+
+CBasicString::CBasicString(const Char* cString1, const Char* cString2) :
+	mProxy((notEmpty(cString1) || notEmpty(cString2))?(new SStringProxy(cString1, cString2)):(SStringProxy::emptyStringProxy()->retain()))
+{
+
+}
+
+CBasicString::CBasicString(SStringProxy* proxy) :
+	mProxy(proxy)
+{
+
+}
+
+CBasicString CBasicString::__CStringWithLiteral(const Char* str)
+{
+	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyLiteral)):(SStringProxy::emptyStringProxy()->retain()));
 }
 
 CBasicString::~CBasicString()
 {
-	delete [] mString;
+	mProxy->release();
 }
 
 const CBasicString& CBasicString::operator = (const Char* cString)
 {
-	delete [] mString;
-	mString = new Char[strlen(cString) + 1];
-	slStrCpy(mString, cString);
+	if (mProxy->mString != cString)
+	{
+		mProxy->release();
+		mProxy = (notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain());
+	}
+
 	return *this;
 }
 
 const CBasicString& CBasicString::operator = (const CBasicString& copy)
 {
-	return operator = (copy.mString);
+	if (mProxy->mString != copy.mProxy->mString)
+	{
+		mProxy->release();
+		mProxy = copy.mProxy->retain();
+	}
+
+	return *this;
 }
 
+SInt32 CBasicString::compare(const Char* cString) const
+{
+	return strcmp(mProxy->mString, cString);
+}
+
+SInt32 CBasicString::compare(const CBasicString& string) const
+{
+	return strcmp(mProxy->mString, string.mProxy->mString);
+}
 
 Bool CBasicString::operator == (const Char* cString) const
 {
-	return !strcmp(mString, cString);
+	return !compare(cString);
 }
 
 Bool CBasicString::operator == (const CBasicString& string) const
 {
-	return !strcmp(mString, string.mString);
+	return !compare(string);
 }
 
 Bool CBasicString::operator != (const Char* cString) const
 {
-	return !(operator==(cString));
+	return compare(cString);
 }
 
 Bool CBasicString::operator != (const CBasicString& string) const
 {
-	return !(operator==(string.mString));
+	return compare(string);
 }
 
 
 Bool CBasicString::operator < (const Char* cString) const
 {
-	return (strcmp(mString, cString) < 0);
+	return (compare(cString) < 0);
 }
 
 Bool CBasicString::operator < (const CBasicString& string) const
 {
-	return (strcmp(mString, string.mString) < 0);
+	return (compare(string) < 0);
 }
 
 
 Bool CBasicString::operator > (const Char* cString) const
 {
-	return (strcmp(mString, cString) > 0);
+	return (compare(cString) > 0);
 }
 
 Bool CBasicString::operator > (const CBasicString& string) const
 {
-	return (strcmp(mString, string.mString) > 0);
+	return (compare(string) > 0);
 }
 
 
 Bool CBasicString::operator <= (const Char* cString) const
 {
-	return (strcmp(mString, cString) <= 0);
+	return (compare(cString) <= 0);
 }
 
 Bool CBasicString::operator <= (const CBasicString& string) const
 {
-	return (strcmp(mString, string.mString) <= 0);
+	return (compare(string) <= 0);
 }
 
 
 Bool CBasicString::operator >= (const Char* cString) const
 {
-	return (strcmp(mString, cString) >= 0);
+	return (compare(cString) >= 0);
 }
 
 Bool CBasicString::operator >= (const CBasicString& string) const
 {
-	return (strcmp(mString, string.mString) >= 0);
+	return (compare(string) >= 0);
 }
 
 
 
-void CBasicString::append(const Char* cString, EStringEncoding /*encoding*/)
+void CBasicString::append(const Char* cString, EStringEncoding /* encoding*/)
 {
-	Char* newString = new Char[strlen(mString) + strlen(cString) + 1];
-	slStrCpy(newString, mString);
-	slStrCat(newString, cString);
-	delete [] mString;
-	mString = newString;
+	if (!notEmpty(cString))
+		return;
+
+	SStringProxy* newProxy = new SStringProxy(mProxy->mString, cString);
+	mProxy->release();
+	mProxy = newProxy;
 }
 
 void CBasicString::append(const WChar* /*uniString*/, UInt32 /*length*/,
 				EStringEncoding /*encoding*/)
 {
 	// TODO: complete
-	delete [] mString;
-	mString = new Char[100];
-	slStrCpy(mString, "This string was generated from uniString. Complete the append method!");
+	mProxy->release();
+	mProxy = new SStringProxy("This string was generated from uniString. Complete the append() method!", eOwnPolicyLiteral);
 }
 
 void CBasicString::append(const CBasicString& string)
 {
-	append(string.mString);
+	append(string.cString());
 }
 
 void CBasicString::clear()
 {
-	mString[0] = 0;
+	mProxy->release();
+	mProxy = SStringProxy::emptyStringProxy()->retain();
 }
 
 // Erase characters from string. If toPos is equal to 0, then the
@@ -184,12 +320,12 @@ void CBasicString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
 
 UInt32 CBasicString::length() const
 {
-	return static_cast<UInt32>(std::strlen(mString));
+	return mProxy->length();
 }
 
 bool CBasicString::isEmpty() const
 {
-	return (length() == 0);
+	return mProxy->isEmpty();
 }
 
 EStringEncoding CBasicString::encoding() const
@@ -200,7 +336,7 @@ EStringEncoding CBasicString::encoding() const
 
 const Char* CBasicString::cString(EStringEncoding encoding) const
 {
-	return mString;
+	return mProxy->mString;
 }
 
 

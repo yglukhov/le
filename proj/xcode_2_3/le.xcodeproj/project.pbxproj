@@ -106,6 +106,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7BA9A2600A9883C400FE1299 /* slTCThreadSingletone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCThreadSingletone.h; sourceTree = "<group>"; };
 		7BBDFEC90A8629CD0089E602 /* slCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCColor.h; sourceTree = "<group>"; };
 		7BBDFECA0A8629CD0089E602 /* slCColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCColor.cpp; sourceTree = "<group>"; };
 		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
@@ -542,6 +543,7 @@
 				B04FF8DC0A15FF1F00F559ED /* slCMutex.h */,
 				B04FF8DD0A15FF1F00F559ED /* slCThread.cpp */,
 				B04FF8DE0A15FF1F00F559ED /* slCThread.h */,
+				7BA9A2600A9883C400FE1299 /* slTCThreadSingletone.h */,
 			);
 			path = thread;
 			sourceTree = "<group>";
@@ -817,6 +819,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le";
+				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_SHADOW = NO;

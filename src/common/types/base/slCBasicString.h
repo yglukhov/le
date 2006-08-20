@@ -7,7 +7,7 @@
 LE_NAMESPACE_START
 
 
-#define LESTR(string) "" string ""
+#define LESTR(string) CBasicString::__CStringWithLiteral("" string "")
 
 
 enum EStringEncoding
@@ -18,11 +18,12 @@ enum EStringEncoding
 class CBasicString
 {
 	public:
-		CBasicString();
-		CBasicString(const CBasicString& copy);
-		CBasicString(const Char* cString);
-		CBasicString(const Char* cString, EStringEncoding encoding);
-		CBasicString(const WChar* uniString, UInt32 length, EStringEncoding encoding);
+		CBasicString();	// Create an empty string.
+		CBasicString(const CBasicString& copy);	// Create a copy.
+		CBasicString(const Char* cString); // Create a string from C-string with default encoding
+		CBasicString(const Char* cString, EStringEncoding encoding); // Create a string from C-string
+		CBasicString(const WChar* uniString, UInt32 length, EStringEncoding encoding); // From uni-string
+		CBasicString(const Char* cString1, const Char* cString2); // Append 2 cStrings with default encoding.
 		~CBasicString();
 
 		const CBasicString& operator = (const Char* cString);
@@ -30,6 +31,9 @@ class CBasicString
 
 		const CBasicString& operator += (const Char* cString) { append(cString); return *this; }
 		const CBasicString& operator += (const CBasicString& string) { append(string); return *this; }
+
+		SInt32 compare(const Char* cString) const;
+		SInt32 compare(const CBasicString& string) const;
 
 		Bool operator == (const Char* cString) const;
 		Bool operator == (const CBasicString& string) const;
@@ -65,26 +69,31 @@ class CBasicString
 
 		const Char* cString(EStringEncoding encoding = eEncodingDefault) const;
 
-		const CBasicString operator + (const Char* cString) const
+		const CBasicString operator + (const Char* nullTerminatedString) const
 		{
-			return CBasicString(*this) += cString;
+			return CBasicString(cString(), nullTerminatedString);
 		}
 
 		const CBasicString operator + (const CBasicString& string) const
 		{
-			return CBasicString(*this) += string;
+			return CBasicString(cString(), string.cString());
 		}
 
+
+	// PRIVATE:
+		static CBasicString __CStringWithLiteral(const Char*);
+
 	private:
-		Char* mString;
+		struct SStringProxy;
+		SStringProxy* mProxy;
+		inline CBasicString(SStringProxy* mProxy);
 };
 
 inline const CBasicString operator + (const Char* cString, const CBasicString& string)
 {
-	return CBasicString(cString) + string;
+	return CBasicString(cString, string.cString());
 }
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string);
-
 
 LE_NAMESPACE_END

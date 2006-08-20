@@ -1,0 +1,25 @@
+#pragma once
+
+
+LE_NAMESPACE_START
+
+class CThreadImplMain : public CThreadImpl
+{
+	public:
+		inline CThreadImplMain(TThreadID id) :
+			CThreadImpl(id)
+		{
+		}
+
+		virtual void start()
+		{
+		}
+
+		virtual bool isRunning() const
+		{
+			return true;
+		}
+};
+
+
+LE_NAMESPACE_END

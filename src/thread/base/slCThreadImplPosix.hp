@@ -9,29 +9,43 @@ class CThreadImplPosix : public CThreadImplBase
 {
 	public:
 		inline CThreadImplPosix(const TCFunction<>& threadProc,
-								const CString& threadName,
-								bool startImmediately) :
+								const CString& threadName) :
 			CThreadImplBase(threadProc, threadName)
 		{
-			if (startImmediately)
+			mRegisteredThreads.push_back(this);
+		}
+
+		inline CThreadImplPosix(pthread_t id) :
+			mThreadID(id)
+		{
+
+		}
+
+		~CThreadImplPosix()
+		{
+			for (std::list<CThreadImplPosix*>::iterator it = mRegisteredThreads.begin(); it != mRegisteredThreads.end(); ++it)
 			{
-				start();
+				if (*it == this)
+				{
+					mRegisteredThreads.erase(it);
+					return;
+				}
 			}
 		}
 
 		virtual void start();
 
-		static CThreadImplBase* thread()
-		{
-			// TODO: complete this
-			return NULL;
-		}
+		static CThreadImplBase* thread();
+
+	protected:
+		pthread_t mThreadID;
 
 	private:
-		pthread_t mThreadID;
+		static std::list<CThreadImplPosix*> mRegisteredThreads;
 };
 
 
 typedef CThreadImplPosix CThreadImpl;
+typedef pthread_t TThreadID;
 
 LE_NAMESPACE_END

@@ -12,9 +12,12 @@ CThread::CThread(const CThread& copy) :
 CThread::CThread(const TCFunction<>& threadProc,
 				 const CString& threadName,
 				 bool startImmediately) :
-	mImpl(new CThreadImpl(threadProc, threadName, startImmediately))
+	mImpl(new CThreadImpl(threadProc, threadName))
 {
-
+	if (startImmediately)
+	{
+		mImpl->start();
+	}
 }
 
 CThread::CThread(CThreadImplBase* impl) :
@@ -53,6 +56,16 @@ void CThread::stop()
 bool CThread::isRunning() const
 {
 	return mImpl->isRunning();
+}
+
+CString CThread::name() const
+{
+	return mImpl->name();
+}
+
+void* CThread::_singletone(const char* stdTypeName, void*(*creator)(), void (*deleter)(void*))
+{
+	return mImpl->singletone(stdTypeName, creator, deleter);
 }
 
 LE_NAMESPACE_END

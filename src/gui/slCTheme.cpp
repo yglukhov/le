@@ -7,6 +7,8 @@
 
 LE_NAMESPACE_START
 
+LE_LINK_MODULE_DEPENDENCY(slBasicGraphicControllers);
+
 IMPLEMENT_RUNTIME_CLASS(CTheme);
 
 static CTheme::Ptr _currentTheme;
@@ -119,8 +121,8 @@ CString CTheme::currentTheme()
 LE_NAMESPACE_END
 
 
-void _le_register_graphic_controller(const CString& controllerClass, 
-										const CString& themeClass, const CString& controlClass)
+void _le_register_graphic_controller(const CBasicString& controllerClass, 
+										const CBasicString& themeClass, const CBasicString& controlClass)
 {
 	// TODO: check for existance of this controller.
 	LE_ENTER_LOG_SILENT;

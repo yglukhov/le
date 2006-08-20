@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <common/strategies/slCNonCopyable.h>
 
 
@@ -12,12 +11,11 @@ class CMutex : CNonCopyable
 {
 	public:
 		CMutex(bool recursive = false);
-		~CMutex();
 		void lock();
 		void unlock();
-
+		~CMutex();
 	private:
-		std::auto_ptr<CMutexImpl> mImpl;
+		CMutexImpl* mImpl;
 };
 
 class CMutexLock : CNonCopyable

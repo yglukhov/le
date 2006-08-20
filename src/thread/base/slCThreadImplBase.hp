@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <template/function/slTCFunction.h>
 #include <auxiliary/slCRunLoop.h>
 #include <common/types/slCString.h>
@@ -12,14 +13,26 @@ class CThreadImplBase
 		inline CThreadImplBase(const TCFunction<>& threadProc,
 							   const CString& threadName) :
 			mRunLoop(threadProc),
-			mRefCount(1)
+			mRefCount(1),
+			mName(threadName)
+		{
+
+		}
+
+		inline CThreadImplBase() :
+			mRefCount(1),
+			mName(LESTR("main"))
 		{
 
 		}
 
 		virtual ~CThreadImplBase()
 		{
-
+			// Clear singletone map
+			for (std::map<CString, std::pair<void*, void(*)(void*)> >::iterator it = mSingletones.begin(); it != mSingletones.end(); ++it)
+			{
+				(it->second.second)(it->second.first);
+			}
 		}
 
 		// Overload this method to start CThreadImplBase::threadProc in a separate thread.
@@ -30,9 +43,14 @@ class CThreadImplBase
 			mRunLoop.stop();
 		}
 
-		inline bool isRunning() const
+		virtual bool isRunning() const
 		{
 			return !mRunLoop.isStopped();
+		}
+
+		inline CString name() const
+		{
+			return mName;
 		}
 
 		inline CThreadImplBase* retain()
@@ -65,7 +83,18 @@ class CThreadImplBase
 			impl->release();
 		}
 
+		void* singletone(const char* stdTypeName, void*(*creator)(), void (*deleter)(void*))
+		{
+			std::map<CString, std::pair<void*, void(*)(void*)> >::iterator it = mSingletones.find(stdTypeName);
+			if (it == mSingletones.end())
+			{
+				mSingletones.insert(std::make_pair(CString(stdTypeName), std::make_pair(creator(), deleter)));
+			}
+			return mSingletones[stdTypeName].first;
+		}
+
 	private:
+
 		inline void _threadProc()
 		{
 			mRunLoop.run();
@@ -73,6 +102,8 @@ class CThreadImplBase
 
 		UInt32 mRefCount;
 		CRunLoop mRunLoop;
+		CString mName;
+		std::map<CString, std::pair<void*, void(*)(void*)> > mSingletones;
 };
 
 LE_NAMESPACE_END

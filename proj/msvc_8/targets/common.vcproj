@@ -139,11 +139,11 @@
 				Name="class"
 				>
 				<File
-					RelativePath="..\..\..\src\common\class\slCClassFactory.h"
+					RelativePath="..\..\..\src\common\class\slTCClass.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\common\class\slTCClass.h"
+					RelativePath="..\..\..\src\common\class\slTCClassFactory.h"
 					>
 				</File>
 			</Filter>
@@ -156,6 +156,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\common\debug\slAssert.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\debug\slCLogControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\common\debug\slCLogControl.h"
 					>
 				</File>
 				<File
