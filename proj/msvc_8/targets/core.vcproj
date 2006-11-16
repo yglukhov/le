@@ -132,7 +132,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slcautoreleasepool.h"
+				RelativePath="..\..\..\src\le\core\slCAutoreleasePool.h"
 				>
 			</File>
 			<File
@@ -140,7 +140,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slccolor.h"
+				RelativePath="..\..\..\src\le\core\slCColor.h"
 				>
 			</File>
 			<File
@@ -148,7 +148,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slcdata.h"
+				RelativePath="..\..\..\src\le\core\slCData.h"
 				>
 			</File>
 			<File
@@ -164,7 +164,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slcnumber.h"
+				RelativePath="..\..\..\src\le\core\slCNumber.h"
 				>
 			</File>
 			<File
@@ -172,11 +172,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slcobject.h"
+				RelativePath="..\..\..\src\le\core\slCObject.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slcstring.h"
+				RelativePath="..\..\..\src\le\core\slCString.h"
 				>
 			</File>
 			<File
@@ -184,7 +184,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slctime.h"
+				RelativePath="..\..\..\src\le\core\slCTime.h"
 				>
 			</File>
 			<File
@@ -192,7 +192,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\sltcclassfactory.h"
+				RelativePath="..\..\..\src\le\core\slTCClassFactory.h"
 				>
 			</File>
 			<File
@@ -204,11 +204,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\sltcpointer.h"
+				RelativePath="..\..\..\src\le\core\slTCPointer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\sltypes.h"
+				RelativePath="..\..\..\src\le\core\slTypes.h"
 				>
 			</File>
 			<Filter
@@ -467,7 +467,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\le\core\thread\slcmutex.h"
+					RelativePath="..\..\..\src\le\core\thread\slCMutex.h"
 					>
 				</File>
 				<File
@@ -475,7 +475,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\le\core\thread\slcthread.h"
+					RelativePath="..\..\..\src\le\core\thread\slCThread.h"
 					>
 				</File>
 				<File
