@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/class/slTCClass.h>
+#include <le/core/slTCClass.h>
 
 LE_NAMESPACE_START
 

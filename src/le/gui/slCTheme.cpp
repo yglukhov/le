@@ -1,7 +1,7 @@
 #include "slCTheme.h"
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 #include "slCControl.h"
-#include <common/class/slTCClassFactory.h>
+#include <le/core/slTCClassFactory.h>
 #include "slBasicGraphicControllers.h"
 #include <list>
 

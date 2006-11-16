@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if LE_FLAG_DEBUG
 
-#include <common/slCObject.h>
+#include <le/core/slCObject.h>
 
 LE_NAMESPACE_START
 

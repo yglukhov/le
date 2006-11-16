@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <common/pointer/slTCPointer.h>
+#include <le/core/config/slPrefix.h>
+#include <le/core/slTCPointer.h>
 #include "base/slTCFreeFunction.h"
 
 LE_NAMESPACE_START

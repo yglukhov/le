@@ -1,7 +1,7 @@
 #pragma once
 
-#include <template/util/slTSConstToType.h>
-#include <template/util/slTSConstRef.h>
+#include <le/core/template/util/slTSConstToType.h>
+#include <le/core/template/util/slTSConstRef.h>
 #include "slTCUnitTuple.h"
 
 LE_NAMESPACE_START

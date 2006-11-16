@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <le/core/config/slPrefix.h>
 LE_NAMESPACE_START
 
 template<typename TContainer>

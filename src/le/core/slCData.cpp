@@ -1,4 +1,4 @@
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 #include "slCData.h"
 
 

@@ -127,123 +127,131 @@
 			Name="src"
 			>
 			<File
-				RelativePath="..\..\..\src\gui\slBasicGraphicControllers.cpp"
+				RelativePath="..\..\..\src\le\gui\slBasicGraphicControllers.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slBasicGraphicControllers.h"
+				RelativePath="..\..\..\src\le\gui\slBasicGraphicControllers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCApplication.cpp"
+				RelativePath="..\..\..\src\le\gui\slCApplication.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCApplication.h"
+				RelativePath="..\..\..\src\le\gui\slCApplication.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCButton.cpp"
+				RelativePath="..\..\..\src\le\gui\slCButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCButton.h"
+				RelativePath="..\..\..\src\le\gui\slCButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCControl.cpp"
+				RelativePath="..\..\..\src\le\gui\slCButtonDelegate.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCControl.h"
+				RelativePath="..\..\..\src\le\gui\slCButtonDelegate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCControlDelegate.cpp"
+				RelativePath="..\..\..\src\le\gui\slCControl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCControlDelegate.h"
+				RelativePath="..\..\..\src\le\gui\slCControl.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCDialog.cpp"
+				RelativePath="..\..\..\src\le\gui\slCControlDelegate.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCDialog.h"
+				RelativePath="..\..\..\src\le\gui\slCControlDelegate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCDragger.cpp"
+				RelativePath="..\..\..\src\le\gui\slCDialog.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCDragger.h"
+				RelativePath="..\..\..\src\le\gui\slCDialog.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCFace.cpp"
+				RelativePath="..\..\..\src\le\gui\slCDragger.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCFace.h"
+				RelativePath="..\..\..\src\le\gui\slCDragger.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slConstants.h"
+				RelativePath="..\..\..\src\le\gui\slCFace.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCScreen.cpp"
+				RelativePath="..\..\..\src\le\gui\slCFace.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCScreen.h"
+				RelativePath="..\..\..\src\le\gui\slconstants.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCText.cpp"
+				RelativePath="..\..\..\src\le\gui\slCScreen.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCText.h"
+				RelativePath="..\..\..\src\le\gui\slCScreen.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCTheme.cpp"
+				RelativePath="..\..\..\src\le\gui\slCText.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCTheme.h"
+				RelativePath="..\..\..\src\le\gui\slCText.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCTitleBar.cpp"
+				RelativePath="..\..\..\src\le\gui\slCTheme.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCTitleBar.h"
+				RelativePath="..\..\..\src\le\gui\slCTheme.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCWindow.cpp"
+				RelativePath="..\..\..\src\le\gui\slCTitleBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slCWindow.h"
+				RelativePath="..\..\..\src\le\gui\slCTitleBar.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slTCGraphicControllerClass.h"
+				RelativePath="..\..\..\src\le\gui\slCWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slTypes.cpp"
+				RelativePath="..\..\..\src\le\gui\slCWindow.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gui\slTypes.h"
+				RelativePath="..\..\..\src\le\gui\slTCGraphicControllerClass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slTypes.h"
 				>
 			</File>
 		</Filter>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <template/typelist/slTSTypeList.h>
+#include <le/core/config/slPrefix.h>
+#include <le/core/template/typelist/slTSTypeList.h>
 
 LE_NAMESPACE_START
 

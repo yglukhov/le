@@ -1,6 +1,6 @@
 #include "slCWindow.h"
 #include "slCScreen.h"
-#include <auxiliary/slStdExtensions.h>
+#include <le/core/auxiliary/slStdExtensions.h>
 #include "slCTheme.h"
 
 LE_NAMESPACE_START

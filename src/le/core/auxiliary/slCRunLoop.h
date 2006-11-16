@@ -1,9 +1,9 @@
 #pragma once
 
 #include <list>
-#include <common/types/slBasic.h>
-#include <thread/slCMutex.h>
-#include <template/function/slTCFunction.h>
+#include <le/core/slTypes.h>
+#include <le/core/thread/slCMutex.h>
+#include <le/core/template/function/slTCFunction.h>
 
 LE_NAMESPACE_START
 

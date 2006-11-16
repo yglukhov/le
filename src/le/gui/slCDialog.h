@@ -1,6 +1,5 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
 #include "slCWindow.h"
 
 LE_NAMESPACE_START

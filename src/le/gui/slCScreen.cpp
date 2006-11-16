@@ -4,8 +4,8 @@
 
 #include "slCScreen.h"
 #include "slCDragger.h"
-#include <common/debug/slDebug.h>
-#include <auxiliary/slStdExtensions.h>
+#include <le/core/debug/slDebug.h>
+#include <le/core/auxiliary/slStdExtensions.h>
 
 LE_NAMESPACE_START
 

@@ -3,8 +3,8 @@
 #include <streambuf>
 #include <list>
 
-#include <common/types/slCString.h>
-#include <thread/slTCThreadSingletone.h>
+#include <le/core/slCString.h>
+#include <le/core/thread/slTCThreadSingletone.h>
 
 LE_NAMESPACE_START
 

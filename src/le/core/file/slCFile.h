@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <gui/slConstants.h>
+#include <le/core/config/slPrefix.h>
+#include <le/gui/slConstants.h>
 #include <fstream>
 #include <string>
 

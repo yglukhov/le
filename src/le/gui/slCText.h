@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <le/core/config/slPrefix.h>
 #include <string>
 
 LE_NAMESPACE_START

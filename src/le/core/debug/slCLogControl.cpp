@@ -1,6 +1,6 @@
 #include <fstream>
 #include "slCLogControl.h"
-#include <common/types/slCNumber.h>
+#include <le/core/slCNumber.h>
 
 LE_NAMESPACE_START
 

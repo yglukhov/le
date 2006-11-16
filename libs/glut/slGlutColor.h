@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/types/slTCColor.h>
+#include <le/core/slTCColor.h>
 
 LE_NAMESPACE_START
 

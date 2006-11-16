@@ -1,6 +1,5 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
 #include "slTypes.h"
 #include "slCWindow.h"
 

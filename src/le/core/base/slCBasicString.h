@@ -1,8 +1,7 @@
 #pragma once
 
 #include <iosfwd>
-#include <common/config/slPrefix.h>
-#include <common/types/slBasic.h>
+#include <le/core/slTypes.h>
 
 LE_NAMESPACE_START
 

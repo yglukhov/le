@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <le/core/config/slPrefix.h>
 
 #ifdef _WIN32
 #include "slCMutexImplWindows.hp"

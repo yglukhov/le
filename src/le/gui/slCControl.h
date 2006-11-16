@@ -1,9 +1,8 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
 #include "slConstants.h"
 #include "slTypes.h"
-#include <common/slCObject.h>
+#include <le/core/slCObject.h>
 #include "slCFace.h"
 
 LE_NAMESPACE_START

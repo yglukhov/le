@@ -1,6 +1,6 @@
 #pragma once
 
-#include <template/util/slTSSelect.h>
+#include <le/core/template/util/slTSSelect.h>
 
 LE_NAMESPACE_START
 

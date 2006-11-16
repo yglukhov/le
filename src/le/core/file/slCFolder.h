@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <gui/slConstants.h>
+#include <le/core/config/slPrefix.h>
+#include <le/gui/slConstants.h> // TODO: Remove dependency from GUI lib
 
 #if !defined _WIN32
 #include <dirent.h> // posix header

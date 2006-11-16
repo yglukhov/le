@@ -1,5 +1,5 @@
 #include "slCAutoreleasePool.h"
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 
 
 void _le_TCPointer_release(void*, void(*)(void*)); // defined in TCPointer.cpp

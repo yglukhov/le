@@ -1,6 +1,6 @@
 #include "slCFile.h"
 #include "slCFolder.h"
-#include <common/types/slCString.h>
+#include <le/core/slCString.h>
 
 LE_NAMESPACE_START
 

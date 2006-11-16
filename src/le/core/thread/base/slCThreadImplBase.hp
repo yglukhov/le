@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include <template/function/slTCFunction.h>
-#include <auxiliary/slCRunLoop.h>
-#include <common/types/slCString.h>
+#include <le/core/template/function/slTCFunction.h>
+#include <le/core/auxiliary/slCRunLoop.h>
+#include <le/core/slCString.h>
 
 LE_NAMESPACE_START
 

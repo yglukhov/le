@@ -1,5 +1,5 @@
 #include "slCObject.h"
-#include <common/types/slCDictionary.h>
+#include <le/core/slCDictionary.h>
 
 LE_NAMESPACE_START
 

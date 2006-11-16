@@ -1,6 +1,5 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
 #include "slCWindow.h"
 #include "slCDragger.h"
 #include "slCControlDelegate.h"

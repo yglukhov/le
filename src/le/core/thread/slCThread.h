@@ -1,8 +1,8 @@
 #pragma once
 
 #include <typeinfo>
-#include <template/function/slTCFunction.h>
-#include <common/types/slCString.h>
+#include <le/core/template/function/slTCFunction.h>
+#include <le/core/slCString.h>
 
 LE_NAMESPACE_START
 

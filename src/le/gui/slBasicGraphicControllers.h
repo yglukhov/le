@@ -1,7 +1,6 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <common/slCObject.h>
+#include <le/core/slCObject.h>
 #include "slTCGraphicControllerClass.h"
 
 LE_NAMESPACE_START

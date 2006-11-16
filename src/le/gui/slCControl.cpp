@@ -1,6 +1,6 @@
 #include "slCControl.h"
 
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 #include "slCScreen.h"
 #include "slCControlDelegate.h"
 #include "slCTheme.h"

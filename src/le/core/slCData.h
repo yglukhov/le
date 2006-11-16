@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/slCObject.h>
+#include <le/core/slCObject.h>
 
 LE_NAMESPACE_START
 

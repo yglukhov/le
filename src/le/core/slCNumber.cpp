@@ -1,6 +1,6 @@
 #include <cmath>
 #include "slCNumber.h"
-#include <common/types/slCDictionary.h>
+#include <le/core/slCDictionary.h>
 
 // TODO: remove
 #define lroundf(x) (x)

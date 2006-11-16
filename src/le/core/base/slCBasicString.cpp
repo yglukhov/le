@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring>
 #include "slCBasicString.h"
-#include <common/debug/slAssert.h>
-#include <common/config/slCompiler.h>
-#include <common/types/slCDictionary.h>
+#include <le/core/debug/slAssert.h>
+#include <le/core/config/slCompiler.h>
+#include <le/core/slCDictionary.h>
 
 LE_NAMESPACE_START
 
@@ -350,7 +350,7 @@ LE_NAMESPACE_END
 ////////////////////////////////////////////////////////////////////////////////
 // CString runtime class implementation
 ////////////////////////////////////////////////////////////////////////////////
-#include <common/types/slCString.h>
+#include <le/core/slCString.h>
 
 LE_NAMESPACE_START
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <common/slCObject.h>
-#include <template/util/slTSConstToType.h>
-#include <common/types/slCString.h>
+#include <le/core/slCObject.h>
+#include <le/core/template/util/slTSConstToType.h>
+#include <le/core/slCString.h>
 #include "base/slCNumberBase.h"
 
 LE_NAMESPACE_START

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/class/slTCClass.h>
+#include <le/core/slTCClass.h>
 
 #define IMPLEMENT_GRAPHIC_CONTROLLER(Class, themeClass, controlClass)	\
 static TCGraphicControllerClass<Class> _##Class##_controller_class(		\

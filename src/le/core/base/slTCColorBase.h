@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/types/slBasic.h>
+#include <le/core/slTypes.h>
 
 LE_NAMESPACE_START
 

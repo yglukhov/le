@@ -1,6 +1,6 @@
 //#include "slTypes.h"
 #include "slCNotificationCenter.h"
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 
 #include <algorithm>
 

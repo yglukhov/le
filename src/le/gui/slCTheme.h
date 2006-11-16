@@ -1,5 +1,5 @@
 #pragma once
-#include <common/types/slCString.h>
+#include <le/core/slCString.h>
 
 #include <map>
 

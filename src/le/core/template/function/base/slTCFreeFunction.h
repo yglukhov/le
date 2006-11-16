@@ -1,8 +1,8 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
+#include <le/core/config/slPrefix.h>
 #include "slTIFunction.h"
-#include <template/function/slTSFunctionTraits.h>
+#include <le/core/template/function/slTSFunctionTraits.h>
 
 LE_NAMESPACE_START
 

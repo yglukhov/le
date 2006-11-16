@@ -1,6 +1,6 @@
 #include "slCDialog.h"
 #include "slCTitleBar.h"
-#include <common/debug/slDebug.h>
+#include <le/core/debug/slDebug.h>
 #include "slCScreen.h"
 
 LE_NAMESPACE_START

@@ -1,5 +1,5 @@
 #include "slCTime.h"
-#include <common/types/slCDictionary.h>
+#include <le/core/slCDictionary.h>
 
 #define MILLISECONDS_IN_SECOND 1000
 #define SECONDS_IN_MINUTE 60

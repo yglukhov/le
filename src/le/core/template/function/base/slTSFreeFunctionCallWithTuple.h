@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <template/tuple/slTCTuple.h>
+#include <le/core/config/slPrefix.h>
+#include <le/core/template/tuple/slTCTuple.h>
 
 LE_NAMESPACE_START
 

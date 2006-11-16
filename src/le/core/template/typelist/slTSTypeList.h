@@ -1,7 +1,7 @@
 #pragma once
 
-#include <common/config/slPrefix.h>
-#include <template/util/slTSTypesEqual.h>
+#include <le/core/config/slPrefix.h>
+#include <le/core/template/util/slTSTypesEqual.h>
 #include "base/slTSTypeListBase.h"
 #include "base/slTSTypeListAppendTraits.h"
 #include "base/slTSTypeListSorting.h"

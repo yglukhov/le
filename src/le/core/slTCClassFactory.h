@@ -1,9 +1,9 @@
 #pragma once
 
 #include <map>
-#include <common/types/base/slCBasicString.h>
-#include <common/pointer/slTCPointer.h>
-#include <common/debug/slDebug.h>
+#include <le/core/base/slCBasicString.h>
+#include <le/core/slTCPointer.h>
+#include <le/core/debug/slDebug.h>
 
 LE_NAMESPACE_START
 

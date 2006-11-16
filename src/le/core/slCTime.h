@@ -1,7 +1,7 @@
 #pragma once
 
-#include "slBasic.h"
-#include <common/slCObject.h>
+#include "slTypes.h"
+#include <le/core/slCObject.h>
 
 LE_NAMESPACE_START
 

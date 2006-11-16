@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/strategies/slCNonCopyable.h>
+#include <le/core/strategies/slCNonCopyable.h>
 
 
 LE_NAMESPACE_START

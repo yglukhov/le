@@ -8,9 +8,9 @@
 #include "slTypes.h"
 #include "slConstants.h"
 #include "slCControlDelegate.h"
-#include <auxiliary/slCNotificationCenter.h>
-#include <common/pointer/slCAutoreleasePool.h>
-#include <common/debug/slDebug.h>
+#include <le/core/auxiliary/slCNotificationCenter.h>
+#include <le/core/slCAutoreleasePool.h>
+#include <le/core/debug/slDebug.h>
 
 LE_NAMESPACE_START
 
