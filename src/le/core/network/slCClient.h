@@ -1,4 +1,9 @@
-#include "CConnection.h"
+#pragma once
+
+#include <le/core/config/slPrefix.h>
+#include "slCConnection.h"
+
+LE_NAMESPACE_START
 
 class CClient : public CConnection
 {
@@ -11,3 +16,5 @@ private:
 	char* mIpAddress;
 	int mPort;
 };
+
+LE_NAMESPACE_END

@@ -1,10 +1,9 @@
 #pragma once
 
-#if defined _WIN32
-	#include "winsock2.h"
-#endif
-
 #include <list>
+#include <le/core/config/slPrefix.h>
+
+LE_NAMESPACE_START
 
 class CConnection;
 
@@ -25,10 +24,12 @@ class CServer
  private:
  	char* mHost;
  	unsigned mPort;
-#if defined _WIN32
-	SOCKET mSock;
-#else
+//#if defined _WIN32
+//	SOCKET mSock;
+//#else
 	int mSock;
-#endif
+//#endif
 	std::list<CConnection*> mConnectionList;
 };
+
+LE_NAMESPACE_END
