@@ -152,34 +152,84 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="src"
+		<File
+			RelativePath="..\..\..\src\le\core\network\CClient.cpp"
 			>
-			<File
-				RelativePath="..\..\..\src\network\CClient.cpp"
+			<FileConfiguration
+				Name="Debug|Win32"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\network\CClient.h"
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\network\CConnection.cpp"
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\src\le\core\network\CClient.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\src\le\core\network\CConnection.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\network\CConnection.h"
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\network\CServer.cpp"
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\src\le\core\network\CConnection.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\src\le\core\network\CServer.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\network\CServer.h"
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
-			</File>
-		</Filter>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\$(InputName)1.obj"
+					XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\src\le\core\network\CServer.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
