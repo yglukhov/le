@@ -3,7 +3,10 @@
 #include <windows.h>
 #include "slCThreadImplBase.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CThreadImplWindows : public CThreadImplBase
 {
@@ -52,4 +55,5 @@ class CThreadImplWindows : public CThreadImplBase
 typedef CThreadImplWindows CThreadImpl;
 typedef DWORD TThreadID;
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

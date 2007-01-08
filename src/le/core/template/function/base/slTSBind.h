@@ -1,7 +1,10 @@
 #pragma once
 
 #include <common/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // TSBindToIndexedParam - helper struct to bind a real function parameter
@@ -34,4 +37,5 @@ struct TSParamTraits<TSBindToIndexedParam<bindIndex> >
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

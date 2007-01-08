@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename T0, typename T1, typename T2,
 		typename T3, typename T4, typename T5,
@@ -64,4 +67,5 @@ struct TSTypeListAppendTraits<TSTypeList<T0, T1, T2, T3, T4, T5, T6, T7, T8,
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

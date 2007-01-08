@@ -5,11 +5,14 @@
 #include <le/core/slCString.h>
 #include "base/slCNumberBase.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CNumber : public CObject, CNumberBase
 {
-	DECLARE_RUNTIME_CLASS(CNumber);
+	LE_DECLARE_RUNTIME_CLASS(CNumber);
 
 	public:
 		enum EFormat
@@ -143,4 +146,5 @@ class CNumber : public CObject, CNumberBase
 		EFormat mFormat;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

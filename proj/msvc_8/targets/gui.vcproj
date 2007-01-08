@@ -199,7 +199,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slconstants.h"
+				RelativePath="..\..\..\src\le\gui\slConstants.h"
 				>
 			</File>
 			<File

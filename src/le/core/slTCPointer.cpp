@@ -1,7 +1,13 @@
 #include "slTCPointer.h"
+
+#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
+
 #include <map>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 typedef std::map<void*, unsigned long> CPointerMap;
 
@@ -12,25 +18,26 @@ static inline CPointerMap& pointerMapSingleton()
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 
 void _le_TCPointer_retain(void* obj)
 {
 	if(obj)
 	{
-		++(LE_NESTED_NAMESPACE pointerMapSingleton()[obj]);
+		++(::sokira::le::pointerMapSingleton()[obj]);
 	}
 }
 
 void _le_TCPointer_release(void* obj, void(*deleteFunc)(void*))
 {
-	LE_NESTED_NAMESPACE CPointerMap::mapped_type& refCnt =
-			LE_NESTED_NAMESPACE pointerMapSingleton()[obj];
+	::sokira::le::CPointerMap::mapped_type& refCnt =
+			::sokira::le::pointerMapSingleton()[obj];
 	--refCnt;
 	if(!refCnt)
 	{
-		LE_NESTED_NAMESPACE pointerMapSingleton().erase(obj);
+		::sokira::le::pointerMapSingleton().erase(obj);
 		deleteFunc(obj);
 	}
 }
@@ -39,15 +46,15 @@ void _le_TCPointer_reset(void* obj)
 {
 	if(obj)
 	{
-		LE_NESTED_NAMESPACE CPointerMap::mapped_type& refCnt =
-			LE_NESTED_NAMESPACE pointerMapSingleton()[obj];
+		::sokira::le::CPointerMap::mapped_type& refCnt =
+			::sokira::le::pointerMapSingleton()[obj];
 		--refCnt;
 		if(!refCnt)
 		{
-			LE_NESTED_NAMESPACE pointerMapSingleton().erase(obj);
+			::sokira::le::pointerMapSingleton().erase(obj);
 		}
 	}
 }
 
-
+#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 

@@ -2,7 +2,10 @@
 
 #include <le/core/config/slPrefix.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <class T, typename TRetType>
 struct TSFunctionTraits<TRetType (T::*)()> :
@@ -34,4 +37,5 @@ struct TSFunctionTraits<TRetType (T::*)(T0, T1)> :
 	typedef typename ParamList::template PushFront<OwnerClass*>::result TupleParamList;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

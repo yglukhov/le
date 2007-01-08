@@ -2,7 +2,10 @@
 #include "slCLogControl.h"
 #include <le/core/slCNumber.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CLogControl::CLogControl() :
 	mCurrentEntry(NULL)
@@ -109,4 +112,5 @@ int CLogControl::overflow(int c)
 	return 0;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

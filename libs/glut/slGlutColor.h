@@ -2,7 +2,10 @@
 
 #include <le/core/slTCColor.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #define DEFINE_GL_COLOR_ACCESSOR_FUNC(type, gltype, cast)	\
 															\
@@ -44,4 +47,5 @@ inline void slColor(const TCColor<TComponent>& color)
 	slColor(color.red(), color.green(), color.blue(), color.alpha());
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

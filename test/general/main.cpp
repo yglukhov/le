@@ -3,10 +3,7 @@
 #define FUNCTORS_TESTING 0
 
 #pragma comment(lib, "leGui")
-#pragma comment(lib, "leCommon")
-#pragma comment(lib, "leAux")
-#pragma comment(lib, "leFile")
-#pragma comment(lib, "leThread")
+#pragma comment(lib, "leCore")
 
 #if FUNCTORS_TESTING
 
@@ -121,14 +118,24 @@ int main(int argc, char * const argv[])
 
 
 
-#include <gui/slCApplication.h>
-#include <common/debug/slDebug.h>
+#include <le/gui/slCApplication.h>
+//#include <le/gui/slCControl.h>
+#include <le/core/debug/slDebug.h>
+#include <le/core/slCData.h>
+#include <le/core/slCClassFactory.h>
 
 int main(int argc, char * const argv[])
 {
 	LE_ENTER_LOG;
-	LE_NESTED_NAMESPACE CApplication theApplication;
+	::sokira::le::CApplication theApplication;
 	return theApplication.run(argc, argv);
+	using namespace sokira::le;
+	//CControl::Ptr someObj = TCClassFactory<CControl>::create("CWindow");
+	//if (!someObj)
+	//	std::cout << "NULL" << std::endl;
+	//else
+	//	std::cout << someObj->objectClass().name() << std::endl;
+	return 0;
 }
 
 #endif // not FUNCTORS_TESTING

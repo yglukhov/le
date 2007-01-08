@@ -4,7 +4,10 @@
 #include <le/core/slTCPointer.h>
 #include "base/slTCFreeFunction.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename RetType = void, class TypeList = TSTypeList<> >
 class TCFunction
@@ -55,4 +58,5 @@ class TCFunction
 		TCPointer<TIFunction<RetType, TypeList> > mFunc;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

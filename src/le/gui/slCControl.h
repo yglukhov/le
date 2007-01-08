@@ -5,7 +5,10 @@
 #include <le/core/slCObject.h>
 #include "slCFace.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CWindow;
 class CControlDelegate;
@@ -24,7 +27,7 @@ enum EAutoResizing
 // CControl objects can not contain any childs.
 class CControl : public CObject
 {
-	DECLARE_RUNTIME_CLASS(CControl);
+	LE_DECLARE_RUNTIME_CLASS(CControl);
 
 	// Creation
 	public:
@@ -89,4 +92,5 @@ class CControl : public CObject
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

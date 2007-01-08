@@ -8,7 +8,10 @@
 
 #include <le/core/slCObject.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 
 void _le_assert(bool expression, const char* strExression, unsigned line, const char* file, const CObject* object, const char* message)
@@ -29,14 +32,15 @@ void _le_assert(bool expression, const char* strExression, unsigned line, const 
 		*log << "\tLINE: " << line << std::endl;
 
 		if(object)
-			*log << "\tOBJECT: " << object->objectClass()->name() << " <" << object << ">" << std::endl;
+			*log << "\tOBJECT: " << object->objectClass().name() << " <" << object << ">" << std::endl;
 
 		if(message)
 			*log << "\tMESSAGE: " << message << std::endl;
 	}
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 #endif // LE_FLAG_DEBUG
 

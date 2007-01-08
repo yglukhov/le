@@ -3,9 +3,12 @@
 #include <le/core/debug/slDebug.h>
 #include "slCScreen.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CDialog);
+LE_IMPLEMENT_RUNTIME_CLASS(CDialog);
 
 CDialog::CDialog()
 {
@@ -52,4 +55,5 @@ void CDialog::title(const char* titleString)
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

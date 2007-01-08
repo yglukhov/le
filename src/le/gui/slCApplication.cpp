@@ -12,7 +12,10 @@
 #include <le/core/slCAutoreleasePool.h>
 #include <le/core/debug/slDebug.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 static void initOpenGL()
 {
@@ -97,4 +100,5 @@ int CApplication::run(int argc, const char * const argv[])
 	return 0;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

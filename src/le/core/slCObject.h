@@ -1,8 +1,12 @@
-#pragma once
+#if !defined _slCObject_h_included_
+#define _slCObject_h_included_
 
-#include <le/core/slTCClass.h>
+#include <le/core/slCClass.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CDictionary;
 class CString;
@@ -12,7 +16,7 @@ class CString;
 ////////////////////////////////////////////////////////////////////////////////
 class CObject
 {
-	DECLARE_RUNTIME_CLASS(CObject);
+	LE_DECLARE_HIERARCHY_ROOT(CObject);
 
 	public:
 		CObject();
@@ -23,4 +27,7 @@ class CObject
 		virtual void deserialize(const CDictionary& fromDictionary);
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
+
+#endif // !defined _slCObject_h_included_

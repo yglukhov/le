@@ -3,13 +3,17 @@
 #include <le/core/slCObject.h>
 #include "slTCGraphicControllerClass.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CControl;
 class CPoint;
 
-class CControlBasicController : public CObject
+class CControlBasicController
 {
+	LE_DECLARE_HIERARCHY_ROOT(CControlBasicController);
 	public:
 		virtual void draw(const CControl* control) const;
 		virtual bool hitTest(const CControl* control, const CPoint& point) const;
@@ -17,22 +21,27 @@ class CControlBasicController : public CObject
 
 class CWindowBasicController : public CControlBasicController
 {
+	LE_DECLARE_GRAPHIC_CONTROLLER(CWindowBasicController);
 	virtual void draw(const CControl* control) const;
 };
 
 class CButtonBasicController : public CWindowBasicController
 {
+	LE_DECLARE_GRAPHIC_CONTROLLER(CButtonBasicController);
 	virtual void draw(const CControl* control) const;
 };
 
 class CDialogBasicController : public CWindowBasicController
 {
+	LE_DECLARE_GRAPHIC_CONTROLLER(CDialogBasicController);
 	virtual void draw(const CControl* control) const;
 };
 
 class CTitleBarBasicController : public CWindowBasicController
 {
+	LE_DECLARE_GRAPHIC_CONTROLLER(CTitleBarBasicController);
 	virtual void draw(const CControl* control) const;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

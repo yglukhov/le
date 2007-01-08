@@ -5,7 +5,10 @@
 #include "slCThreadImplWindows.hp"
 #include "slCThreadImplMain.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 inline static DWORD WINAPI windowsThreadProc(LPVOID thread)
 {
@@ -39,6 +42,7 @@ CThreadImplBase* CThreadImplWindows::thread()
 	return mainThread;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 #endif // defined _WIN32

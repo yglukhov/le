@@ -4,11 +4,14 @@
 #include "slTCColor.h"
 
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CColor : public CObject, public TCColor<>
 {
-	DECLARE_RUNTIME_CLASS(CColor);
+	LE_DECLARE_RUNTIME_CLASS(CColor);
 
 	public:
 		inline CColor() {};
@@ -29,4 +32,5 @@ class CColor : public CObject, public TCColor<>
 		virtual void deserialize(const CDictionary& fromDictionary);
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

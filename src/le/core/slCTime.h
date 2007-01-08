@@ -3,11 +3,14 @@
 #include "slTypes.h"
 #include <le/core/slCObject.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CTime : public CObject
 {
-	DECLARE_RUNTIME_CLASS(CTime);
+	LE_DECLARE_RUNTIME_CLASS(CTime);
 
 	public:
 		CTime(); // init with current time
@@ -50,3 +53,6 @@ class CTime : public CObject
 	private:
 		UInt64 mData;
 };
+
+	} // namespace le
+} // namespace sokira

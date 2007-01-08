@@ -1,7 +1,10 @@
 #include "slCControlDelegate.h"
 #include "slCControl.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 //////////////////////////////////////////////////////////////////////////
 // Mouse Events
@@ -100,4 +103,5 @@ bool CControlDelegate::onMove(const CPoint& point, CControl* sender)
 	return false;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -5,7 +5,10 @@
 #include <le/core/auxiliary/slCRunLoop.h>
 #include <le/core/slCString.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CThreadImplBase
 {
@@ -106,4 +109,5 @@ class CThreadImplBase
 		std::map<CString, std::pair<void*, void(*)(void*)> > mSingletones;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

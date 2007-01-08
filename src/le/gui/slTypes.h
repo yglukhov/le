@@ -2,7 +2,10 @@
 
 #include <le/core/slCColor.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // CPoint
@@ -144,4 +147,5 @@ class CBox : public CPoint3D, public CSize3D
 		void drawWire() const;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

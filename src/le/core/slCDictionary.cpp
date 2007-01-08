@@ -1,8 +1,12 @@
 #include "slCDictionary.h"
+#include "slCClassFactory.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CDictionary);
+LE_IMPLEMENT_RUNTIME_CLASS(CDictionary);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Typedefs
@@ -110,7 +114,7 @@ CObject::Ptr CDictionary::_valueForKey(const CString& key, TSTypeToType<CObject:
 	CDictConstIterator it = mData.find(key);
 	if(it != mData.end())
 	{
-		CObject::Ptr newObj = TCClassFactory<CObject>::create(it->second.attributeForKey(cTypeAttributeKey));
+		CObject::Ptr newObj = CClassFactory::create<CObject>(it->second.attributeForKey(cTypeAttributeKey));
 		if (newObj)
 		{
 			newObj->deserialize(it->second);
@@ -208,7 +212,7 @@ void CDictionary::valueForKey(const CString& key, const CObject& value)
 {
 	mRootValue.clear();
 	CDictionary newDict(key);
-	newDict.attributeForKey(cTypeAttributeKey, value.objectClass()->name());
+	newDict.attributeForKey(cTypeAttributeKey, value.objectClass().name());
 	value.serialize(newDict);
 	mData[key] = newDict;
 }
@@ -345,4 +349,5 @@ void CDictionary::deserialize(const CDictionary& fromDictionary)
 	deleteAttribute(cTypeAttributeKey);
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

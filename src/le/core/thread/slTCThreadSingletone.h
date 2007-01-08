@@ -2,7 +2,10 @@
 
 #include "slCThread.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <class T>
 class TCThreadSingletone
@@ -14,4 +17,5 @@ class TCThreadSingletone
 		}
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

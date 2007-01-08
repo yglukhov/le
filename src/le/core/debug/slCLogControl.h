@@ -6,7 +6,10 @@
 #include <le/core/slCString.h>
 #include <le/core/thread/slTCThreadSingletone.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CLogEntry;
 
@@ -47,4 +50,5 @@ class CLogControl :
 		std::string mBuffer;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

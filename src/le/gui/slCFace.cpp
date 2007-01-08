@@ -5,7 +5,10 @@
 
 #include <glut/slGlut.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ///////////////////////////////////////////////////////////////////////////////
 void initMatrixWithZero(float* matrix)
@@ -180,4 +183,5 @@ void CFace::eraseMatrix()
 	initMatrixWithZero(mMatrix);
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

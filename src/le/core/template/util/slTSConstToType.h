@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <bool boolValue>
 struct TSBoolToType
@@ -27,4 +30,5 @@ struct TSTypeToType
 
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

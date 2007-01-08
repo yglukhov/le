@@ -1,7 +1,10 @@
 #include "slCFolder.h"
 #include <le/core/debug/slDebug.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #if defined _WIN32
 	#pragma message(__FILE__ " : warning LE: Folders are not implemented for Win32 yet.")
@@ -117,4 +120,5 @@ bool CFolder::removeCurNode()
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

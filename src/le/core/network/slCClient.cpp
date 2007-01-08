@@ -18,7 +18,10 @@
 	#define INVALID_SOCKET -1
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CClient::CClient(char* ipAddress, int port, bool needConnect) :
 	mIpAddress(ipAddress), mPort(port)
@@ -66,4 +69,5 @@ bool CClient::isConnected()
 	return mSocket != INVALID_SOCKET;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

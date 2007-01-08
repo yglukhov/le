@@ -5,7 +5,10 @@
 #include "slCThreadImplPosix.hp"
 #include "slCThreadImplMain.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 inline static void* posixThreadProc(void* thread)
 {
@@ -40,6 +43,7 @@ CThreadImplBase* CThreadImplPosix::thread()
 	return mainThread;
 }
 
-LE_NAMESPACE_START
+	} // namespace le
+} // namespace sokira
 
 #endif // !defined _WIN32

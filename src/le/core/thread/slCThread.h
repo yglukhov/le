@@ -4,7 +4,10 @@
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/slCString.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CThreadImplBase;
 
@@ -52,4 +55,5 @@ class CThread
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

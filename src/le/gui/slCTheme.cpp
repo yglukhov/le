@@ -1,15 +1,18 @@
 #include "slCTheme.h"
 #include <le/core/debug/slDebug.h>
 #include "slCControl.h"
-#include <le/core/slTCClassFactory.h>
+#include <le/core/slCClassFactory.h>
 #include "slBasicGraphicControllers.h"
 #include <list>
 
-LE_NAMESPACE_START
+LE_LINK_MODULE_DEPENDENCY(_le_slBasicGraphicControllers);
 
-LE_LINK_MODULE_DEPENDENCY(slBasicGraphicControllers);
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CTheme);
+LE_IMPLEMENT_HIERARCHY_ROOT(CTheme);
 
 static CTheme::Ptr _currentTheme;
 
@@ -40,7 +43,9 @@ CTheme* CTheme::instance()
 
 void CTheme::init()
 {
-	CGeneralControllerMap::iterator foundIt = controllerMap().find(objectClass()->name());
+	CGeneralControllerMap &theMap = controllerMap();
+	CGeneralControllerMap::iterator foundIt;
+	foundIt = theMap.find(objectClass().name());
 	if(foundIt == controllerMap().end())
 	{
 		return;
@@ -54,7 +59,7 @@ void CTheme::init()
 			it != end; ++it)
 	{
 		TCPointer<CControlBasicController> controller =
-				TCClassFactory<CObject>::create<CControlBasicController>(it->first);
+				CClassFactory::create<CControlBasicController>(it->first);
 
 		if(controller)
 		{
@@ -81,7 +86,7 @@ const CControlBasicController* CTheme::controllerForControl(CString controlClass
 
 void CTheme::drawControl(const CControl* control) const
 {
-	const CControlBasicController* controller = controllerForControl(control->objectClass()->name());
+	const CControlBasicController* controller = controllerForControl(control->objectClass().name());
 	if(controller)
 	{
 		controller->draw(control);
@@ -90,7 +95,7 @@ void CTheme::drawControl(const CControl* control) const
 
 bool CTheme::hitTest(const CControl* control, const CPoint& point) const
 {
-	const CControlBasicController* controller = controllerForControl(control->objectClass()->name());
+	const CControlBasicController* controller = controllerForControl(control->objectClass().name());
 	if(controller)
 	{
 		return controller->hitTest(control, point);
@@ -103,8 +108,7 @@ void CTheme::currentTheme(const char* themeClass)
 {
 	LE_ENTER_LOG;
 
-	delete _currentTheme;
-	_currentTheme = TCClassFactory<CObject>::create<CTheme>(themeClass);
+	_currentTheme = CClassFactory::create<CTheme>(themeClass);
 
 	if(_currentTheme)
 	{
@@ -114,22 +118,24 @@ void CTheme::currentTheme(const char* themeClass)
 
 CString CTheme::currentTheme()
 {
-	return instance()->objectClass()->name();
+	return instance()->objectClass().name();
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 
-void _le_register_graphic_controller(const CBasicString& controllerClass, 
-										const CBasicString& themeClass, const CBasicString& controlClass)
+void _le_register_graphic_controller(const char* controllerClass,
+									 const char* themeClass,
+									 const char* controlClass)
 {
 	// TODO: check for existance of this controller.
 	LE_ENTER_LOG_SILENT;
 	IF_LOG(log << "Registering graphic controller \"" << controllerClass << "\" for control \""
 		<< controlClass << "\" for theme \"" << themeClass << "\"" << std::endl);
 
-	LE_NESTED_NAMESPACE controllerMap()[themeClass].push_back(
-		std::pair<CString, CString>(controllerClass, controlClass));
+	::sokira::le::controllerMap()[themeClass].push_back(
+		std::pair<sokira::le::CString, ::sokira::le::CString>(
+			controllerClass, controlClass));
 }
-

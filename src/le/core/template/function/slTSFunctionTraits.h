@@ -2,11 +2,15 @@
 
 #include <le/core/config/slPrefix.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename FuncType> struct TSFunctionTraits;
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 #include "base/slTSFreeFunctionCallWithTuple.h"
 #include "base/slTSFreeFunctionTraits.h"
@@ -15,7 +19,10 @@ LE_NAMESPACE_END
 #include "base/slTSMemberFunctionCallWithTuple.h"
 #include "base/slTSMemberFunctionTraits.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename RetType, class TypeList> class TCFunction;
 template <typename FunctionType, class RealTypeList> class TCBind;
@@ -42,4 +49,5 @@ struct TSFunctionTraits<TCBind<FuncType, TypeList> > :
 	typedef ParamList TupleParamList;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

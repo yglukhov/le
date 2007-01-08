@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include <string>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CPoint;
 
@@ -23,4 +26,5 @@ class CText
 		unsigned mFormat;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

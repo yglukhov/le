@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include <le/core/template/typelist/slTSTypeList.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <unsigned i, class T>
 struct _TSTupleUnit : public T
@@ -34,4 +37,5 @@ struct TSTuple <TSTypeList<>, TUnit, i>
 //};
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

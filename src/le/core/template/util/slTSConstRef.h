@@ -2,7 +2,10 @@
 
 #include "slTSSelect.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename T>
 struct TSConstRef
@@ -10,7 +13,8 @@ struct TSConstRef
 	typedef typename TSSelect<(sizeof(T) > sizeof(const T&)), const T&, const T>::result result;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 /*
 template <typename T>

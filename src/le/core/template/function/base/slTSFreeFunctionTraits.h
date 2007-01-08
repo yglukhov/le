@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename TRetType>
 struct TSFunctionTraits<TRetType()> :
@@ -44,4 +47,5 @@ struct TSFunctionTraits<TRetType(T0, T1, T2)> :
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -6,7 +6,10 @@
 #include "base/slTSTypeListAppendTraits.h"
 #include "base/slTSTypeListSorting.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNullType, 
 		typename T3 = _SNullType, typename T4 = _SNullType, typename T5 = _SNullType, 
@@ -50,10 +53,10 @@ struct TSTypeList
 		> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
 		> > > > > > >::node _dirtyList;
 
+	public:
+
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
 	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
-
-	public:
 
 	enum
 	{
@@ -155,4 +158,5 @@ struct TSTypeList
 #define LE_PP_TYPELIST_LIMIT 50
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

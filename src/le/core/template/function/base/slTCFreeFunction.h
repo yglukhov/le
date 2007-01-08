@@ -4,7 +4,10 @@
 #include "slTIFunction.h"
 #include <le/core/template/function/slTSFunctionTraits.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward Declarations
@@ -106,4 +109,5 @@ f_declare_end;
 #define LE_PP_FREEFUNCTION_LIMIT 4
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -7,9 +7,12 @@
 #define MINUTES_IN_HOUR 60
 #define MILLISECONDS_IN_HOUR (MINUTES_IN_HOUR * MILLISECONDS_IN_MINUTE)
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CTime);
+LE_IMPLEMENT_RUNTIME_CLASS(CTime);
 
 static const CString cMillisecondsKey = LESTR("ms");
 static const CString cSecondsKey = LESTR("s");
@@ -170,4 +173,5 @@ void CTime::deserialize(const CDictionary& fromDictionary)
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

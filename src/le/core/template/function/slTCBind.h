@@ -5,7 +5,10 @@
 #include "base/slTSBind.h"
 //#include <util/slCompareTypes.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #define bindTo(bindToIndex) TSBindToIndexedParam<(bindToIndex)>()
 
@@ -168,4 +171,5 @@ TCBind<FunctionType, TSTypeList<B0, B1, B2> > bind(FunctionType func, B0 b0, B1 
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

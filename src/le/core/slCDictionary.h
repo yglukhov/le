@@ -6,11 +6,14 @@
 #include "slCTime.h"
 #include "slCData.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CDictionary : public CObject
 {
-	DECLARE_RUNTIME_CLASS(CDictionary);
+	LE_DECLARE_RUNTIME_CLASS(CDictionary);
 
 	public:
 		CDictionary(const CString& rootKey = LESTR("dict"));
@@ -151,4 +154,5 @@ class CDictionary : public CObject
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

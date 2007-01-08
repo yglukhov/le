@@ -1,9 +1,12 @@
 #include "slCObject.h"
 #include <le/core/slCDictionary.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CObject);
+LE_IMPLEMENT_HIERARCHY_ROOT(CObject);
 
 CObject::CObject()
 {
@@ -21,7 +24,7 @@ CString CObject::description() const
 	serialize(dict);
 	char str[50];
 	sprintf(str, "%p", (const void*)this);
-	dict.attributeForKey(LESTR("type"), objectClass()->name());
+	dict.attributeForKey(LESTR("type"), objectClass().name());
 	dict.attributeForKey(LESTR("address"), str);
 	return dict.toString();
 }
@@ -36,4 +39,5 @@ void CObject::deserialize(const CDictionary& fromDictionary)
 
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

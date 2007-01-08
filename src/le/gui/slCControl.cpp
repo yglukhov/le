@@ -5,9 +5,12 @@
 #include "slCControlDelegate.h"
 #include "slCTheme.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CControl);
+LE_IMPLEMENT_RUNTIME_CLASS(CControl);
 
 template <class T>
 class CDelegator
@@ -357,4 +360,5 @@ CControl* CControl::firstResponder()
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

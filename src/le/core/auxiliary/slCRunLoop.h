@@ -5,7 +5,10 @@
 #include <le/core/thread/slCMutex.h>
 #include <le/core/template/function/slTCFunction.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CRunLoop
 {
@@ -26,4 +29,5 @@ class CRunLoop
 		bool mStopped;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

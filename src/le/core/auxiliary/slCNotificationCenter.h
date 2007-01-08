@@ -4,7 +4,10 @@
 #include <map>
 #include <list>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CObject;
 
@@ -129,4 +132,5 @@ void CNotificationCenter::addObserver(T* observer, TFuncRetType(T::*function)(CN
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

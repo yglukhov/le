@@ -4,7 +4,10 @@
 
 #include <algorithm>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 struct observer_equals
 {
@@ -197,4 +200,5 @@ void CNotificationCenter::fire()
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

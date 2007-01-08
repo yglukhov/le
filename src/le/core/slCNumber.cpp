@@ -7,9 +7,12 @@
 #define lround(x) (x)
 #define llroundf(x) (x)
 #define llround(x) (x)
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CNumber);
+LE_IMPLEMENT_RUNTIME_CLASS(CNumber);
 
 CNumber::CNumber() :
 	mFormat(eFormatSInt32)
@@ -484,4 +487,5 @@ CString CNumber::valueAs(TSTypeToType<CString>) const
 	return CString(theString);
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

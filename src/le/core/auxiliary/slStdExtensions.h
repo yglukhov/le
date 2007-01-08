@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template<typename TContainer>
 void clearPointerContainer(TContainer& container)
@@ -12,4 +15,5 @@ void clearPointerContainer(TContainer& container)
 	container.clear();
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

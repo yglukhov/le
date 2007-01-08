@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CWindow;
 class CButtonDelegate
@@ -10,4 +13,5 @@ class CButtonDelegate
 	
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

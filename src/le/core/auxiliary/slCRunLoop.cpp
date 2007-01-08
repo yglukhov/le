@@ -1,6 +1,9 @@
 #include "slCRunLoop.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CRunLoop::CRunLoop(bool sourceDependent) :
 	mSources(static_cast<UInt32>(!sourceDependent)),
@@ -53,4 +56,5 @@ void CRunLoop::pushEvent(const TCFunction<>& event)
 	mEventQueue.push_back(event);
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

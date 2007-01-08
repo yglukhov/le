@@ -25,7 +25,10 @@
 	#define socklen_t int
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CServer::CServer(unsigned port)
 {
@@ -113,4 +116,5 @@ CServer::~CServer()
 	}
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

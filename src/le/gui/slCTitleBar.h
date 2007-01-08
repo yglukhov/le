@@ -5,13 +5,16 @@
 #include "slCControlDelegate.h"
 #include "slCText.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CButton;
 
 class CTitleBar: public CWindow, private CDragger, public CControlDelegate
 {
-	DECLARE_RUNTIME_CLASS(CTitleBar);
+	LE_DECLARE_RUNTIME_CLASS(CTitleBar);
 
 	public:
 		CTitleBar();
@@ -29,4 +32,5 @@ class CTitleBar: public CWindow, private CDragger, public CControlDelegate
 		CText mCaption;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

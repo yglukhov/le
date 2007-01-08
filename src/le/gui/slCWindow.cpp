@@ -3,9 +3,12 @@
 #include <le/core/auxiliary/slStdExtensions.h>
 #include "slCTheme.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CWindow);
+LE_IMPLEMENT_RUNTIME_CLASS(CWindow);
 
 CWindow::CWindow(const CRectangle& rect) : CControl(rect)
 {
@@ -143,4 +146,5 @@ bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint& poi
 //}
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

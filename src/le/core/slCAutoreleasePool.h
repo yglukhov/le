@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include <list>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // CAutoreleasePool
@@ -22,4 +25,5 @@ class CAutoreleasePool
 		CAutoreleasePool* mPrevPool;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

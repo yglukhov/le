@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include <le/core/template/tuple/slTCTuple.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename RetType, unsigned length>
 struct TSFreeFunctionCallWithTuple;
@@ -59,4 +62,5 @@ f_declare_end;
 #undef f_declare_end
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

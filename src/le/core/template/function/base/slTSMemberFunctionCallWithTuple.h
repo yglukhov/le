@@ -4,7 +4,10 @@
 #include <le/core/template/tuple/slTCTuple.h>
 //#include <util/slToPointer.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <class T, typename RetType, unsigned length>
 struct TSMemberFunctionCallWithTuple;
@@ -63,4 +66,5 @@ f_declare_end;
 #undef f_declare_end
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

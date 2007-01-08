@@ -4,11 +4,14 @@
 #include "slCControl.h"
 #include <list>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CWindow : public CControl
 {
-	DECLARE_RUNTIME_CLASS(CWindow);
+	LE_DECLARE_RUNTIME_CLASS(CWindow);
 
 	// Creation
 	public:
@@ -43,4 +46,5 @@ class CWindow : public CControl
 		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

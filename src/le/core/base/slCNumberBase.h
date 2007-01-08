@@ -2,7 +2,10 @@
 
 #include <le/core/slTypes.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CNumberBase
 {
@@ -25,4 +28,5 @@ class CNumberBase
 		};
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

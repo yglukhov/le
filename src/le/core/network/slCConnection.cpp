@@ -18,7 +18,10 @@
 	#define INVALID_SOCKET -1
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 void* CConnection::read(unsigned length, int* realLength)
 {
@@ -70,4 +73,5 @@ CConnection::~CConnection()
 	}
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

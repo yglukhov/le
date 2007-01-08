@@ -7,9 +7,12 @@
 #include <le/core/debug/slDebug.h>
 #include <le/core/auxiliary/slStdExtensions.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CScreen);
+LE_IMPLEMENT_RUNTIME_CLASS(CScreen);
 
 
 typedef std::map<int, CScreen*> CScreenMap;
@@ -194,4 +197,5 @@ void CScreen::removeChild(CFace* child)
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

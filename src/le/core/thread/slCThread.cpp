@@ -1,7 +1,10 @@
 #include "slCThread.h"
 #include "base/slCThreadImpl.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CThread::CThread(const CThread& copy) :
 	mImpl(copy.mImpl->retain())
@@ -68,4 +71,5 @@ void* CThread::_singletone(const char* stdTypeName, void*(*creator)(), void (*de
 	return mImpl->singletone(stdTypeName, creator, deleter);
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

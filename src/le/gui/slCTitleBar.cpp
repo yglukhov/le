@@ -4,9 +4,12 @@
 #include "slCText.h"
 #include "slCScreen.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CTitleBar);
+LE_IMPLEMENT_RUNTIME_CLASS(CTitleBar);
 
 //bool closeButtonPressed(int x,int y, CControl* sender)
 //{
@@ -89,4 +92,5 @@ const CText& CTitleBar::captionText() const
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

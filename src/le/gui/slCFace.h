@@ -7,7 +7,10 @@
 #include "slTypes.h"
 #include "slConstants.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CWindow;
 class CControl;
@@ -52,4 +55,5 @@ class CFace
 	CPoint3D mPivotPoint;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

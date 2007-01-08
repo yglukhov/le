@@ -1,7 +1,10 @@
 #include "slCMutex.h"
 #include "base/slCThreadImpl.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CMutex::CMutex(bool recursive) :
 	mImpl(new CMutexImpl(recursive))
@@ -24,4 +27,5 @@ void CMutex::unlock()
 	mImpl->unlock();
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

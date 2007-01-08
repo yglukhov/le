@@ -2,7 +2,10 @@
 
 #include <glut/slGlut.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 //#pragma mark -- CPoint --
@@ -452,4 +455,5 @@ void CBox::drawWire() const
 	glEnd();
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

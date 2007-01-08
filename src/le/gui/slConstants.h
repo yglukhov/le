@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include <glut/slGlut.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #define LE_SET_BIT(x) (1 << (x))
 
@@ -41,4 +44,5 @@ enum EFolderNode
 	eFolderNodeWht // DO NOT USE
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

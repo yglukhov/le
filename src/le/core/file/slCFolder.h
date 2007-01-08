@@ -7,7 +7,10 @@
 #include <dirent.h> // posix header
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // class CFolder - used to enumerate through folder contents, create folders
@@ -49,4 +52,5 @@ class CFolder
 #endif
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

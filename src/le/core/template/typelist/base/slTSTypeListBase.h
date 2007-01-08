@@ -2,7 +2,10 @@
 
 #include <le/core/template/util/slTSSelect.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 struct _SNullType
 {
@@ -285,4 +288,5 @@ struct _TSTypeListMutate<_TSTypeListNode<U, V>, TMutator>
 					typename _TSTypeListMutate<V, TMutator>::_result> _result;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -1,9 +1,12 @@
 #include "slCButton.h"
 #include "slCScreen.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CButton);
+LE_IMPLEMENT_RUNTIME_CLASS(CButton);
 
 CButton::CButton() :
 	CControl(CRectangle(0, 0, 10, 10)),
@@ -47,4 +50,5 @@ EButtonState CButton::state() const
 	return mState;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

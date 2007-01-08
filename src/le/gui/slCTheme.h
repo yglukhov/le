@@ -3,15 +3,18 @@
 
 #include <map>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CControl;
 class CPoint;
 class CControlBasicController;
 
-class CTheme : public CObject
+class CTheme
 {
-	DECLARE_RUNTIME_CLASS(CTheme);
+	LE_DECLARE_HIERARCHY_ROOT(CTheme);
 
 	public:
 		CTheme();
@@ -33,4 +36,5 @@ class CTheme : public CObject
 		CControllerMap mControllerMap;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

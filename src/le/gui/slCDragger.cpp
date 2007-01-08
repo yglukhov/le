@@ -2,7 +2,10 @@
 #include "slCControl.h"
 #include "slCWindow.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 static CDragger* _currentDragger = NULL;
 
@@ -69,4 +72,5 @@ CControl* CDragger::handler()
 	return mHandler;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -5,7 +5,10 @@
 #include <le/core/config/slCompiler.h>
 #include <le/core/slCDictionary.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
 #pragma warning (push)
@@ -42,7 +45,7 @@ enum EOwnPolicy
 };
 
 
-struct CBasicString::SStringProxy
+struct ::sokira::le::CBasicString::SStringProxy
 {
 	inline SStringProxy(const Char* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
 		mOwnPolicy(ownPolicy),
@@ -122,6 +125,7 @@ struct CBasicString::SStringProxy
 	UInt32 mRefCount;
 	Char* mString;
 };
+
 
 static inline Bool notEmpty(const Char* string)
 {
@@ -345,16 +349,20 @@ std::ostream& operator << (std::ostream& stream, const CBasicString& string)
 	return (stream << (string.cString()));
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
 
 ////////////////////////////////////////////////////////////////////////////////
 // CString runtime class implementation
 ////////////////////////////////////////////////////////////////////////////////
 #include <le/core/slCString.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CString);
+LE_IMPLEMENT_RUNTIME_CLASS(CString);
 
 CString::CString(const CDictionary& fromDictionary) :
 	CBasicString(fromDictionary.rootValue())
@@ -372,4 +380,5 @@ void CString::deserialize(const CDictionary& fromDictionary)
 	CString::operator=(fromDictionary.rootValue());
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

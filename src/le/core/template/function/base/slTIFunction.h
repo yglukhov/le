@@ -2,7 +2,10 @@
 
 #include <le/core/config/slPrefix.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward Declarations
@@ -76,4 +79,5 @@ class TIFunctionBase<RetType, TList, 3> : public _CFunctionInterfaceBase
 #define LE_PP_IFUNCTION_LIMIT 3
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

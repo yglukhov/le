@@ -2,15 +2,26 @@
 
 #include <le/core/slCObject.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CData : public CObject
 {
-	DECLARE_RUNTIME_CLASS(CData);
+	LE_DECLARE_RUNTIME_CLASS(CData);
 
 	typedef UInt32 DataLength;
 
 	public:
+		enum ECompressionMethod
+		{
+			eCompressionMethodNone = 0,
+			eCompressionMethodZip,
+			eCompressionMethodRar
+			// ...
+		};
+
 		CData();
 		CData(const void* data, DataLength length);
 		CData(const CData& data);
@@ -20,11 +31,19 @@ class CData : public CObject
 		void crop(DataLength toLength);
 
 		const void* data() const;
-		void data(const void* newData, DataLength length);
+		void setData(const void* newData, DataLength length);
 		const CData& operator = (const CData& newData);
+
+		CData compressedData(ECompressionMethod method) const;
+		CData decompressedData() const;
+
+		ECompressionMethod compressionMethod() const;
+		void compress(ECompressionMethod method);
+		void decompress();
 
 	private:
 		void* mData;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

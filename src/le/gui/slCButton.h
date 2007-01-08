@@ -3,11 +3,14 @@
 #include "slCControl.h"
 #include "slCControlDelegate.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CButton: public CControl, public CControlDelegate
 {
-	DECLARE_RUNTIME_CLASS(CButton);
+	LE_DECLARE_RUNTIME_CLASS(CButton);
 
 	public:
 		CButton();
@@ -32,4 +35,5 @@ class CButton: public CControl, public CControlDelegate
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

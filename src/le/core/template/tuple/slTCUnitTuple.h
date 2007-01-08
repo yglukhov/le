@@ -2,7 +2,10 @@
 
 #include "base/slTSTuple.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <class TTypeList, template <typename> class TUnit>
 class TCUnitTuple
@@ -28,4 +31,5 @@ class TCUnitTuple
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

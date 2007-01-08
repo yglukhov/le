@@ -3,7 +3,10 @@
 #include <le/core/config/slPrefix.h>
 #include "slCConnection.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CClient : public CConnection
 {
@@ -17,4 +20,5 @@ private:
 	int mPort;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

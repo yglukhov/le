@@ -5,7 +5,10 @@
 #include <fstream>
 #include <string>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CFolder;
 class CString;
@@ -65,4 +68,5 @@ class CFile : private std::fstream
 		}
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

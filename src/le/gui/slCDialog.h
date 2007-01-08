@@ -2,13 +2,16 @@
 
 #include "slCWindow.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CTitleBar;
 
 class CDialog: public CWindow
 {
-	DECLARE_RUNTIME_CLASS(CDialog);
+	LE_DECLARE_RUNTIME_CLASS(CDialog);
 
 	public:
 		CDialog();
@@ -24,4 +27,5 @@ class CDialog: public CWindow
 		CTitleBar* mTitleBar;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

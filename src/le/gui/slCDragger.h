@@ -2,7 +2,10 @@
 
 #include "slTypes.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CControl;
 
@@ -25,4 +28,5 @@ class CDragger
 		CPoint mDragPoint;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

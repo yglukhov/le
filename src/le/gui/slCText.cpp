@@ -2,7 +2,10 @@
 #include "slTypes.h"
 #include <glut/slGlut.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 CText::CText() :
 	mFormat(0)
@@ -43,4 +46,5 @@ void CText::text(const char* textString)
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

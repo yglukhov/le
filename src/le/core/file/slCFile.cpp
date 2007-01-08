@@ -2,7 +2,10 @@
 #include "slCFolder.h"
 #include <le/core/slCString.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #define SWITCH_MAP1(expr, fromVal, toVal, def) ((expr == fromVal)?(toVal):(def))
 #define SWITCH_MAP2(expr, fromVal, toVal, fromVal1, toVal1, def)\
@@ -120,4 +123,5 @@ unsigned CFile::size() const
 	return 0;
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

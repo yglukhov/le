@@ -4,15 +4,18 @@
 #include "slCButton.h"
 #include "slCTitleBar.h"
 
-LE_DEFINE_LINK_MODULE(slBasicGraphicControllers);
+LE_DEFINE_LINK_MODULE(_le_slBasicGraphicControllers);
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_GRAPHIC_CONTROLLER(CControlBasicController, CTheme, CControl);
-IMPLEMENT_GRAPHIC_CONTROLLER(CWindowBasicController, CTheme, CWindow);
-IMPLEMENT_GRAPHIC_CONTROLLER(CButtonBasicController, CTheme, CButton);
-IMPLEMENT_GRAPHIC_CONTROLLER(CDialogBasicController, CTheme, CDialog);
-IMPLEMENT_GRAPHIC_CONTROLLER(CTitleBarBasicController, CTheme, CTitleBar);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CControlBasicController, CTheme, CControl);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CWindowBasicController, CTheme, CWindow);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CButtonBasicController, CTheme, CButton);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CDialogBasicController, CTheme, CDialog);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CTitleBarBasicController, CTheme, CTitleBar);
 
 bool CControlBasicController::hitTest(const CControl* control, const CPoint& point) const
 {
@@ -74,4 +77,5 @@ void CTitleBarBasicController::draw(const CControl* control) const
 	}
 }
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

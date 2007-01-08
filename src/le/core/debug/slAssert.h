@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // ASSERTS
@@ -53,4 +56,5 @@ static LE_NESTED_NAMESPACE TSStaticAssert<((bool)(expression))> _static_assert_o
 #endif // not LE_FLAG_DEBUG
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

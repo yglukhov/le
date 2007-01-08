@@ -3,11 +3,14 @@
 #include "base/slCBasicString.h"
 #include <le/core/slCObject.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CString : public CObject, public CBasicString
 {
-	DECLARE_RUNTIME_CLASS(CString);
+	LE_DECLARE_RUNTIME_CLASS(CString);
 
 	public:
 		inline CString() {}
@@ -24,4 +27,5 @@ class CString : public CObject, public CBasicString
 		virtual void deserialize(const CDictionary& fromDictionary);
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

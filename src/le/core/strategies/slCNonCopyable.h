@@ -2,7 +2,10 @@
 
 #include <le/core/config/slPrefix.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CNonCopyable
 {
@@ -13,4 +16,5 @@ class CNonCopyable
 		const CNonCopyable& operator = (const CNonCopyable&) { return *this; }
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

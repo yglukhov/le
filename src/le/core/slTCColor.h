@@ -7,7 +7,10 @@
 #define NULL 0
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename TComponent = Float32>
 class TCColor : public _TCColorBase
@@ -209,4 +212,5 @@ class TCColor : public _TCColorBase
 		TComponent mR, mG, mB, mA; // conponents
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

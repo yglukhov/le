@@ -3,7 +3,10 @@
 #include <le/core/strategies/slCNonCopyable.h>
 
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CMutexImpl;
 
@@ -36,4 +39,5 @@ class CMutexLock : CNonCopyable
 		CMutex& mMutex;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

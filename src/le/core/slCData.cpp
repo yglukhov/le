@@ -2,9 +2,12 @@
 #include "slCData.h"
 
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CData);
+LE_IMPLEMENT_RUNTIME_CLASS(CData);
 
 
 CData::CData() :
@@ -16,13 +19,13 @@ CData::CData() :
 CData::CData(const void* theData, DataLength length) :
 	mData(NULL)
 {
-	data(theData, length);
+	setData(theData, length);
 }
 
 CData::CData(const CData& theData) :
 	mData(NULL)
 {
-	data(theData.mData, theData.length());
+	setData(theData.mData, theData.length());
 }
 
 CData::~CData()
@@ -51,7 +54,7 @@ const void* CData::data() const
 	return static_cast<const void*>(static_cast<const DataLength*>(mData) + 1);
 }
 
-void CData::data(const void* newData, DataLength length)
+void CData::setData(const void* newData, DataLength length)
 {
 	if(mData)
 	{
@@ -69,8 +72,37 @@ void CData::data(const void* newData, DataLength length)
 
 const CData& CData::operator = (const CData& newData)
 {
-	data(newData.mData, newData.length());
+	setData(newData.mData, newData.length());
 	return *this;
 }
 
-LE_NAMESPACE_END
+////////////////////////////////////////////////////////////////////////////////
+// Compression routines
+// TODO: complete
+CData CData::compressedData(ECompressionMethod method) const
+{
+	return *this;
+}
+
+CData CData::decompressedData() const
+{
+	return *this;
+}
+
+CData::ECompressionMethod CData::compressionMethod() const
+{
+	return eCompressionMethodNone;
+}
+
+void CData::compress(ECompressionMethod method)
+{
+
+}
+
+void CData::decompress()
+{
+
+}
+
+	} // namespace le
+} // namespace sokira

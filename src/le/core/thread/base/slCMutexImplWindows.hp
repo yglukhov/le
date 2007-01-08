@@ -2,7 +2,10 @@
 
 #include <windows.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CMutexImpl
 {
@@ -31,4 +34,5 @@ class CMutexImpl
 		CRITICAL_SECTION mMutex;
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

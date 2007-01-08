@@ -4,7 +4,10 @@
 #include <le/core/template/util/slTSConstRef.h>
 #include "slTCUnitTuple.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 template <typename T>
 struct TSDefaultTupleUnit
@@ -68,4 +71,5 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

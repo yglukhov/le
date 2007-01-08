@@ -136,6 +136,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\le\core\slCClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCClass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCClassFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCClassFactory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\le\core\slCColor.cpp"
 				>
 			</File>
@@ -185,14 +201,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\le\core\slCTime.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\core\slTCClass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\core\slTCClassFactory.h"
 				>
 			</File>
 			<File

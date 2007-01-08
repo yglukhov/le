@@ -5,7 +5,10 @@
 	#include "winsock2.h"
 #endif
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CConnection
 {
@@ -26,4 +29,5 @@ class CConnection
 #endif
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

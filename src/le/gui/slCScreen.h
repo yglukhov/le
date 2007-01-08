@@ -3,13 +3,16 @@
 #include "slTypes.h"
 #include "slCWindow.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 #define DEFAULT_SCREEN_RECT CRectangle(100, 768, 100, 100)
 
 class CScreen : public CWindow
 {
-	DECLARE_RUNTIME_CLASS(CScreen);
+	LE_DECLARE_RUNTIME_CLASS(CScreen);
 
 	public:
 		typedef std::list<CControl*> CControlList;
@@ -55,4 +58,5 @@ class CScreen : public CWindow
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -3,10 +3,12 @@
 #include <iosfwd>
 #include <le/core/slTypes.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-
-#define LESTR(string) CBasicString::__CStringWithLiteral("" string "")
+#define LESTR(string) ::sokira::le::CBasicString::__CStringWithLiteral("" string "")
 
 
 enum EStringEncoding
@@ -95,4 +97,5 @@ inline const CBasicString operator + (const Char* cString, const CBasicString& s
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string);
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

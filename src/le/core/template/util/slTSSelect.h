@@ -1,7 +1,10 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 ////////////////////////////////////////////////////////////////////////////////
 // TSSelect utility struct to select 1 of 2 types depending on bool.
@@ -18,4 +21,5 @@ struct TSSelect<false, T, F>
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

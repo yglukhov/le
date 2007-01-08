@@ -2,7 +2,10 @@
 
 #include <le/core/config/slPrefix.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CApplication
 {
@@ -10,4 +13,5 @@ class CApplication
 		int run(int argc = 0, const char * const argv[] = 0);
 };
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

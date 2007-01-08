@@ -1,9 +1,12 @@
 #include "slCColor.h"
 #include "slCDictionary.h"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
-IMPLEMENT_RUNTIME_CLASS(CColor);
+LE_IMPLEMENT_RUNTIME_CLASS(CColor);
 
 static const CString cRedKey = LESTR("r");
 static const CString cGreenKey = LESTR("g");
@@ -28,4 +31,5 @@ void CColor::deserialize(const CDictionary& fromDictionary)
 }
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
