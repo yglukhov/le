@@ -45,7 +45,7 @@ enum EOwnPolicy
 };
 
 
-struct ::sokira::le::CBasicString::SStringProxy
+struct CBasicString::SStringProxy
 {
 	inline SStringProxy(const Char* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
 		mOwnPolicy(ownPolicy),

@@ -29,10 +29,10 @@ class CClass
 		CBasicString name() const;
 		bool operator == (const CClass rhs);
 		template <class TCastTo>
-		TCPointer<TCastTo> create() const
-		{
-			return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
-		}
+		TCPointer<TCastTo> create() const;
+//		{
+//			return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
+//		}
 
 	// Private:
 		CClass(IClassImpl* impl);
@@ -105,26 +105,33 @@ class IClassImpl
 		friend struct SByNameFinder;
 };
 
+template <class TCastTo>
+TCPointer<TCastTo> CClass::create() const
+{
+	return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
+}
+
+
 template <class TListNode, class T>
 struct TSForTypeListParentCreate
 {
 	static void* create(const char* typeName)
 	{
 #ifdef _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
-		if (typeid(TListNode::Head).name() == typeName)
+		if (typeid(typename TListNode::Head).name() == typeName)
 #else
 		error
 #endif
 		{
-			return static_cast<void*>(dynamic_cast<TListNode::Head*>(new T()));
+			return static_cast<void*>(dynamic_cast<typename TListNode::Head*>(new T()));
 		}
 
-		void* result = TSForTypeListParentCreate<TListNode::Head::leParents::_headNode, T>::create(typeName);
+		void* result = TSForTypeListParentCreate<typename TListNode::Head::leParents::_headNode, T>::create(typeName);
 
 		if (result)
 			return result;
 
-		return TSForTypeListParentCreate<TListNode::Tail, T>::create(typeName);
+		return TSForTypeListParentCreate<typename TListNode::Tail, T>::create(typeName);
 	}
 };
 
@@ -142,6 +149,7 @@ struct TSCreator
 {
 	static void* create(const char* typeName)
 	{
+		return NULL;
 	}
 };
 
@@ -163,7 +171,7 @@ class TCClassImpl : public IClassImpl
 			}
 			else
 			{
-				return TSForTypeListParentCreate<T::leParents::_headNode, T>::create(typeName);
+				return TSForTypeListParentCreate<typename T::leParents::_headNode, T>::create(typeName);
 			}
 		}
 

@@ -2,7 +2,11 @@
 
 #include <pthread.h>
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
+
 
 class CMutexImpl
 {
@@ -27,17 +31,17 @@ class CMutexImpl
 			}
 		}
 
-		~CMutexImpl()
+		inline ~CMutexImpl()
 		{
 			pthread_mutex_destroy(&mMutex);
 		}
 
-		void lock()
+		inline void lock()
 		{
 			pthread_mutex_lock(&mMutex);
 		}
 
-		void unlock()
+		inline void unlock()
 		{
 			pthread_mutex_unlock(&mMutex);
 		}
@@ -47,4 +51,5 @@ class CMutexImpl
 };
 
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira

@@ -25,9 +25,9 @@ void CThreadImplPosix::start()
 CThreadImplBase* CThreadImplPosix::thread()
 {
 	pthread_t threadToFind = pthread_self();
-	if(!mRegisteredThreads.empty())
+	if(!threadList().empty())
 	{
-		for (std::list<CThreadImplPosix*>::iterator it = mRegisteredThreads.begin(); it != mRegisteredThreads.end(); ++it)
+		for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
 		{
 			if (pthread_equal((*it)->mThreadID, threadToFind))
 			{
@@ -38,7 +38,7 @@ CThreadImplBase* CThreadImplPosix::thread()
 
 	// Assume that the current thread is a main thread.
 	CThreadImplPosix* mainThread = new CThreadImplMain(threadToFind);
-	mRegisteredThreads.push_back(mainThread);
+	threadList().push_back(mainThread);
 
 	return mainThread;
 }

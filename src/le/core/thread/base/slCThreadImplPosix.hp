@@ -3,7 +3,10 @@
 #include <pthread.h>
 #include "slCThreadImplBase.hp"
 
-LE_NAMESPACE_START
+namespace sokira
+{
+	namespace le
+	{
 
 class CThreadImplPosix : public CThreadImplBase
 {
@@ -12,7 +15,7 @@ class CThreadImplPosix : public CThreadImplBase
 								const CString& threadName) :
 			CThreadImplBase(threadProc, threadName)
 		{
-			mRegisteredThreads.push_back(this);
+			threadList().push_back(this);
 		}
 
 		inline CThreadImplPosix(pthread_t id) :
@@ -23,11 +26,11 @@ class CThreadImplPosix : public CThreadImplBase
 
 		~CThreadImplPosix()
 		{
-			for (std::list<CThreadImplPosix*>::iterator it = mRegisteredThreads.begin(); it != mRegisteredThreads.end(); ++it)
+			for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
 			{
 				if (*it == this)
 				{
-					mRegisteredThreads.erase(it);
+					threadList().erase(it);
 					return;
 				}
 			}
@@ -41,11 +44,19 @@ class CThreadImplPosix : public CThreadImplBase
 		pthread_t mThreadID;
 
 	private:
-		static std::list<CThreadImplPosix*> mRegisteredThreads;
+	
+		static std::list<CThreadImplPosix*>& threadList()
+		{
+			static std::list<CThreadImplPosix*> mRegisteredThreads;
+			return mRegisteredThreads;
+		}
+
+//		static std::list<CThreadImplPosix*> mRegisteredThreads;
 };
 
 
 typedef CThreadImplPosix CThreadImpl;
 typedef pthread_t TThreadID;
 
-LE_NAMESPACE_END
+	} // namespace le
+} // namespace sokira
