@@ -2,8 +2,6 @@
 
 LE_LIBRARY_NAME="$1"
 
-# echo "LE_LIBRARY_NAME: $LE_LIBRARY_NAME"
-
 # Generate a temporary file for a script.
 TMP_FILE="/tmp/`uuidgen`"
 
@@ -12,16 +10,11 @@ do
 	TMP_FILE="/tmp/`uuidgen`"
 done
 
-# echo "CONFIGURATION_BUILD_DIR: ${CONFIGURATION_BUILD_DIR}"
-
 # Generate a script to copy one file from src root to build location.
 cat > "$TMP_FILE" << COPY_ONE_FILE
 #!/bin/sh
 
 DEST="$BUILD_DIR/$CONFIGURATION/le/include/le/$LE_LIBRARY_NAME/\`dirname \$1\`"
-
-# echo "1: \$1"
-# echo "DEST: \$DEST"
 
 mkdir -p "\$DEST"
 cp "\$1" "\$DEST"
