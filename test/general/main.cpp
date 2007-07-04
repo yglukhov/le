@@ -124,6 +124,8 @@ int main(int argc, char * const argv[])
 #include <le/core/slCData.h>
 #include <le/core/slCClassFactory.h>
 
+#include "slCTestSuite.h"
+
 int main(int argc, char * const argv[])
 {
 	LE_ENTER_LOG;
@@ -135,7 +137,26 @@ int main(int argc, char * const argv[])
 	//	std::cout << "NULL" << std::endl;
 	//else
 	//	std::cout << someObj->objectClass().name() << std::endl;
-	return 0;
+
+	CClassFactory::iterator it = CClassFactory::beginForChildsOf<CTestSuite>();
+	CClassFactory::iterator end = CClassFactory::end();
+	
+	int result = 0;
+	for (int i = 1; it != end; ++it, ++i)
+	{
+		std::cout << i << ". Running test " << it->name() << "..." << std::endl;
+		if (!it->create<CTestSuite>()->runTest())
+		{
+			std::cout << it->name() << " test FAILED!" << std::endl;
+			result = 1;
+		}
+		else
+		{
+			std::cout << it->name() << " test passed." << std::endl;
+		}
+	}
+
+	return result;
 }
 
 #endif // not FUNCTORS_TESTING

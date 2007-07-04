@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <le/core/config/slPrefix.h>
 #include <list>
 
@@ -27,3 +28,4 @@ class CAutoreleasePool
 
 	} // namespace le
 } // namespace sokira
+

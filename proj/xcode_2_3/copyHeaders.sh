@@ -17,7 +17,7 @@ cat > "$TMP_FILE" << COPY_ONE_FILE
 DEST="$BUILD_DIR/$CONFIGURATION/le/include/le/$LE_LIBRARY_NAME/\`dirname \$1\`"
 
 mkdir -p "\$DEST"
-cp "\$1" "\$DEST"
+cp -p "\$1" "\$DEST"
 
 COPY_ONE_FILE
 

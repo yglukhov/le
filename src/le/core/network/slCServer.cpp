@@ -6,23 +6,18 @@
 
 #if defined _WIN32
 	#include "winsock2.h"
+
+	#define socklen_t int
+
 #else
 	#include <sys/types.h>
 	#include <sys/socket.h>
 	#include <netinet/in.h>
 	#include <arpa/inet.h>
 	#include <iostream>
-#endif
 
-#if defined _WIN32
-	#include "winsock2.h"
-#endif
-
-#ifndef _WIN32
 	#define SOCKET int
 	#define INVALID_SOCKET -1
-#else
-	#define socklen_t int
 #endif
 
 namespace sokira

@@ -28,7 +28,7 @@ void* CConnection::read(unsigned length, int* realLength)
 	LE_ENTER_LOG;
 	if (mSocket != -1)
 	{
-		void* data = new char(length);
+		void* data = new char[length];
 		*realLength = ::recv((SOCKET)mSocket, (char*)data, length, 0);
 		
 		return data;

@@ -30,18 +30,23 @@ bool CClassFactory::isClassRegistered(const CBasicString& className)
 
 struct SByNameFinder
 {
-	SByNameFinder(const char* name) :
+	SByNameFinder(const CBasicString& name) :
 		mName(name)
 	{
 
 	}
 
-	bool operator()(IClassImpl* impl)
+	bool operator()(IClassImpl* impl) const
 	{
-		return !strcmp(impl->mName, mName);
+		return (mName == impl->mName);
 	}
 
-	const char* mName;
+	virtual bool match(IClassImpl* impl) const
+	{
+		return operator()(impl);
+	}
+
+	CBasicString mName;
 };
 
 struct SByStdNameFinder
@@ -52,9 +57,14 @@ struct SByStdNameFinder
 
 	}
 
-	bool operator()(IClassImpl* impl)
+	bool operator()(IClassImpl* impl) const
 	{
-		return !strcmp(impl->stdName(), mName);
+		return _le_stdNamesEqual(impl->stdName(), mName);
+	}
+
+	virtual bool match(IClassImpl* impl) const
+	{
+		return operator()(impl);
 	}
 
 	const char* mName;
@@ -64,19 +74,59 @@ struct SByStdNameFinder
 IClassImpl* CClassFactory::_classWithName(const CBasicString& name)
 {
 	CClassSet::iterator end = classSet().end();
-	CClassSet::iterator it = std::find_if(classSet().begin(), end, SByNameFinder(name.cString()));
+	CClassSet::iterator it = std::find_if(classSet().begin(), end, SByNameFinder(name));
 	if (it != classSet().end())
 		return *it;
 	return NULL;
 }
 
-IClassImpl* CClassFactory::_classWithStdName(const char* name)
+IClassImpl* _classWithStdName(const char* name)
 {
 	CClassSet::iterator end = classSet().end();
 	CClassSet::iterator it = std::find_if(classSet().begin(), end, SByStdNameFinder(name));
-	if (it != classSet().end())
+	if (it != end)
 		return *it;
 	return NULL;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Iterators
+
+struct SByParentFinder : public CClassFactory::iterator::IPredicate
+{
+	SByParentFinder(const char* stdName) :
+		mName(stdName)
+	{
+
+	}
+
+	virtual bool match(IClassImpl* impl) const
+	{
+		return impl->isChildOfStdNamedClass(mName);
+	}
+
+	const char* mName;
+};
+
+
+CClassFactory::iterator CClassFactory::begin()
+{
+	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new iterator::IPredicate());
+}
+
+CClassFactory::iterator CClassFactory::beginForChildsOf(const CBasicString& name)
+{
+	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new SByParentFinder(_classWithName(name)->stdName()));
+}
+
+CClassFactory::iterator CClassFactory::_beginForChildsOfStd(const char* name)
+{
+	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new SByParentFinder(name));
+}
+
+CClassFactory::iterator CClassFactory::end()
+{
+	return iterator(classSet().end(), classSet().begin(), classSet().end(), new iterator::IPredicate());
 }
 
 	} // namespace le

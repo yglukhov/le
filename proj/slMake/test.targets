@@ -1,0 +1,10 @@
+
+all += test
+
+test : le
+	$(PERFORM_BUILD)
+
+config.test : config.slMake.executable
+	# $@
+	SL_SRC_ROOT = ../../test/general
+	SL_HEADER_SEARCH_PATHS = ../../src ../../libs

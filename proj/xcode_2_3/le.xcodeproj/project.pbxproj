@@ -599,8 +599,8 @@
 		B04FF9A10A1616E700F559ED /* src */ = {
 			isa = PBXGroup;
 			children = (
-				7B052B2F0BD12E3E00AA8BD8 /* gui */,
 				7B052B2E0BD12E2100AA8BD8 /* core */,
+				7B052B2F0BD12E3E00AA8BD8 /* gui */,
 			);
 			indentWidth = 4;
 			name = src;

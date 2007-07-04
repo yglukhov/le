@@ -1,4 +1,5 @@
-#pragma once
+#if !defined H_slCBasicString_included
+#define H_slCBasicString_included
 
 #include <iosfwd>
 #include <le/core/slTypes.h>
@@ -99,3 +100,5 @@ std::ostream& operator << (std::ostream& stream, const CBasicString& string);
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined H_slCBasicString_included

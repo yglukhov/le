@@ -10,6 +10,14 @@
 
 #define _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
 
+#if ! defined _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
+#include <cstring> // for strcmp
+
+#define _le_stdNamesEqual(n1, n2) (!strcmp((n1), (n2)))
+#else
+#define _le_stdNamesEqual(n1, n2) ((n1) == (n2))
+#endif
+
 namespace sokira
 {
 	namespace le
@@ -30,13 +38,11 @@ class CClass
 		bool operator == (const CClass rhs);
 		template <class TCastTo>
 		TCPointer<TCastTo> create() const;
-//		{
-//			return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
-//		}
 
 	// Private:
 		CClass(IClassImpl* impl);
 
+		inline const char* stdName() const;
 	private:
 		IClassImpl* mImpl;
 };
@@ -47,7 +53,7 @@ class CClass
 ////////////////////////////////////////////////////////////////////////////////
 #define LE_DECLARE_HIERARCHY_ROOT(Class)						\
 	public:														\
-		typedef TSTypeList<> leParents;							\
+		typedef sokira::le::TSTypeList<> leParents;				\
 	_LE_DECLARE_RUNTIME_CLASS(Class)
 
 #define LE_IMPLEMENT_HIERARCHY_ROOT(Class)						\
@@ -58,11 +64,11 @@ class CClass
 ////////////////////////////////////////////////////////////////////////////////
 #define LE_DECLARE_RUNTIME_CLASS(Class)							\
 	public:														\
-		typedef TSTypeList<leSelf> leParents;					\
+		typedef sokira::le::TSTypeList<leSelf> leParents;		\
 	_LE_DECLARE_RUNTIME_CLASS(Class)
 
 #define LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
-	static TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
+	static sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
 	_LE_IMPLEMENT_RUNTIME_CLASS(Class)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,20 +78,20 @@ class CClass
 	protected:													\
 		typedef Class leSelf;									\
 	public:														\
-		static CClass staticClass();							\
-		virtual CClass objectClass() const;						\
-		typedef TCPointer<Class> Ptr;							\
+		static sokira::le::CClass staticClass();				\
+		virtual sokira::le::CClass objectClass() const;			\
+		typedef sokira::le::TCPointer<Class> Ptr;				\
 	private:
 
 #define _LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
-	CClass Class::staticClass()									\
+	sokira::le::CClass Class::staticClass()						\
 	{															\
-		return CClass(&_le_##Class##_ClassInfo_);				\
+		return sokira::le::CClass(&_le_##Class##_ClassInfo_);	\
 	}															\
 																\
-	CClass Class::objectClass() const							\
+	sokira::le::CClass Class::objectClass() const				\
 	{															\
-		return CClass(&_le_##Class##_ClassInfo_);				\
+		return sokira::le::CClass(&_le_##Class##_ClassInfo_);	\
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +102,8 @@ class IClassImpl
 	public:
 		virtual void* create(const char* type) const = 0;
 		virtual const char* stdName() const = 0;
+		virtual bool isChildOfStdNamedClass(const char* name) = 0;
+
 	protected:
 		IClassImpl(const char*);
 	private:
@@ -111,17 +119,17 @@ TCPointer<TCastTo> CClass::create() const
 	return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
 }
 
+const char* CClass::stdName() const
+{
+	return mImpl->stdName();
+}
 
 template <class TListNode, class T>
 struct TSForTypeListParentCreate
 {
 	static void* create(const char* typeName)
 	{
-#ifdef _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
-		if (typeid(typename TListNode::Head).name() == typeName)
-#else
-		error
-#endif
+		if (_le_stdNamesEqual(typeid(typename TListNode::Head).name(), typeName))
 		{
 			return static_cast<void*>(dynamic_cast<typename TListNode::Head*>(new T()));
 		}
@@ -153,6 +161,30 @@ struct TSCreator
 	}
 };
 
+template <class TSTypeListNode>
+struct TSChildOf
+{
+};
+
+template <class U, class V>
+struct TSChildOf<_TSTypeListNode<U, V> >
+{
+	static inline bool f(const char* stdName)
+	{
+		return _le_stdNamesEqual(typeid(U).name(), stdName) || TSChildOf<typename U::leParents::_headNode>::f(stdName) || TSChildOf<V>::f(stdName);
+	}
+};
+
+template <>
+struct TSChildOf<_SNullType>
+{
+	static inline bool f(const char*)
+	{
+		return false;
+	}
+};
+
+
 template <class T>
 class TCClassImpl : public IClassImpl
 {
@@ -161,11 +193,7 @@ class TCClassImpl : public IClassImpl
 
 		virtual void* create(const char* typeName) const
 		{
-#ifdef _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
-			if (typeid(T).name() == typeName)
-#else
-			error
-#endif
+			if (_le_stdNamesEqual(typeid(T).name(), typeName))
 			{
 				return static_cast<void*>(new T());
 			}
@@ -173,6 +201,11 @@ class TCClassImpl : public IClassImpl
 			{
 				return TSForTypeListParentCreate<typename T::leParents::_headNode, T>::create(typeName);
 			}
+		}
+
+		virtual bool isChildOfStdNamedClass(const char* name)
+		{
+			return TSChildOf<typename T::leParents::_headNode>::f(name);
 		}
 
 		virtual const char* stdName() const

@@ -7,7 +7,7 @@ namespace sokira
 	namespace le
 	{
 
-// IClassImpl::IClassImpl(const char* typeName); - implemented in slTCClassFactory.cpp
+// IClassImpl::IClassImpl(const char* typeName); - implemented in slCClassFactory.cpp
 
 static inline IClassImpl* stubClassImpl()
 {
@@ -23,6 +23,11 @@ static inline IClassImpl* stubClassImpl()
 		virtual const char* stdName() const
 		{
 			return "(null)";
+		}
+		
+		virtual bool isChildOfStdNamedClass(const char*)
+		{
+			return false;
 		}
 	};
 

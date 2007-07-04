@@ -22,7 +22,7 @@ static const CString cHoursKey = LESTR("h");
 
 CTime::CTime() : mData(0)
 {
-	// TODO: complete this
+	timeWithCurrentTime();
 }
 
 CTime::CTime(UInt32 milliseconds) : mData(milliseconds)

@@ -37,6 +37,8 @@
 		7B15078D0BD2509A0091AFC8 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
 		7B1507BD0BD250EA0091AFC8 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
 		7B1507BE0BD250EA0091AFC8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
+		7BC94C860BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */; };
+		7BD73AEA0BEE12C500EA8396 /* slCTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */; };
 		B009ADF30A3B0F4A008D03AD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B009ADF20A3B0F4A008D03AD /* main.cpp */; };
 		B04FFA050A161C5100F559ED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FFA040A161C5100F559ED /* main.cpp */; };
 /* End PBXBuildFile section */
@@ -87,6 +89,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7BC94C840BEE1C4900F1CB9B /* slCGeneralTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGeneralTestSuite.h; sourceTree = "<group>"; };
+		7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGeneralTestSuite.cpp; sourceTree = "<group>"; };
+		7BD73AE80BEE12C500EA8396 /* slCTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTestSuite.h; sourceTree = "<group>"; };
+		7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTestSuite.cpp; sourceTree = "<group>"; };
 		B009ADE80A3B0F0F008D03AD /* variant */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = variant; sourceTree = BUILT_PRODUCTS_DIR; };
 		B009ADF20A3B0F4A008D03AD /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B04FF9ED0A161AD500F559ED /* general */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = general; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +182,10 @@
 			isa = PBXGroup;
 			children = (
 				B04FFA040A161C5100F559ED /* main.cpp */,
+				7BD73AE80BEE12C500EA8396 /* slCTestSuite.h */,
+				7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */,
+				7BC94C840BEE1C4900F1CB9B /* slCGeneralTestSuite.h */,
+				7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */,
 			);
 			path = general;
 			sourceTree = "<group>";
@@ -299,6 +309,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B04FFA050A161C5100F559ED /* main.cpp in Sources */,
+				7BD73AEA0BEE12C500EA8396 /* slCTestSuite.cpp in Sources */,
+				7BC94C860BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

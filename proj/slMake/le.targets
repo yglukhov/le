@@ -1,0 +1,27 @@
+
+all += le
+
+le : leCore leGui ;
+
+leCore :
+	$(PERFORM_BUILD)
+
+leGui :
+	$(PERFORM_BUILD)
+
+config.leCore : config.leLibrary
+	# $@
+	SL_SRC_ROOT = $$(LE_SRC_ROOT)/core
+	SL_COPY_HEADERS_DEFAULT_DIR = $$(LE_COPY_HEADERS_DEFAULT_DIR)/core
+
+config.leGui : config.leLibrary
+	# $@
+	SL_SRC_ROOT = $$(LE_SRC_ROOT)/gui
+	SL_COPY_HEADERS_DEFAULT_DIR = $$(LE_COPY_HEADERS_DEFAULT_DIR)/gui
+
+config.leLibrary : config.slMake.staticLib
+	# $@
+	LE_SRC_ROOT = ../../src/le
+	LE_COPY_HEADERS_DEFAULT_DIR = $$(SL_CONFIGURATION_BUILD_DIR)/le/inlude/le
+	SL_PRODUCT_DIR = $$(SL_CONFIGURATION_BUILD_DIR)/le/lib
+	SL_HEADER_SEARCH_PATHS = ../../src ../../libs

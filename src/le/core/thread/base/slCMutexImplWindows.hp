@@ -10,22 +10,22 @@ namespace sokira
 class CMutexImpl
 {
 	public:
-		CMutexImpl(bool recursive = false)
+		inline CMutexImpl(bool recursive = false)
 		{
 			InitializeCriticalSection(&mMutex);
 		}
 
-		~CMutexImpl()
+		inline ~CMutexImpl()
 		{
 			DeleteCriticalSection(&mMutex);
 		}
 
-		void lock()
+		inline void lock()
 		{
 			EnterCriticalSection(&mMutex);
 		}
 
-		void unlock()
+		inline void unlock()
 		{
 			LeaveCriticalSection(&mMutex);
 		}
