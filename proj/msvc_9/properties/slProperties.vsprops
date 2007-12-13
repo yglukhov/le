@@ -12,7 +12,6 @@
 		AdditionalIncludeDirectories="&quot;$(slSrcRoot)&quot;;&quot;$(slLibsRoot)&quot;"
 		DisableLanguageExtensions="true"
 		WarningLevel="3"
-		Detect64BitPortabilityProblems="true"
 		DebugInformationFormat="4"
 	/>
 	<UserMacro
