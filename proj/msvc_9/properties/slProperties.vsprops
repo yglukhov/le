@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="slProperties"
+	OutputDirectory="$(slOutputDir)"
+	IntermediateDirectory="$(slIntDir)"
+	BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(slSrcRoot)&quot;;&quot;$(slLibsRoot)&quot;"
+		DisableLanguageExtensions="true"
+		WarningLevel="3"
+		Detect64BitPortabilityProblems="true"
+		DebugInformationFormat="4"
+	/>
+	<UserMacro
+		Name="slOutputDir"
+		Value="$(SolutionDir)build\$(ConfigurationName)\$(SolutionName)"
+	/>
+	<UserMacro
+		Name="slIntDir"
+		Value="$(SolutionDir)build\intermediate\$(ConfigurationName)\$(SolutionName)"
+	/>
+	<UserMacro
+		Name="slSrcRoot"
+		Value="$(SolutionDir)..\..\src"
+	/>
+	<UserMacro
+		Name="slLibsRoot"
+		Value="$(SolutionDir)..\..\libs"
+	/>
+	<UserMacro
+		Name="slTestDir"
+		Value="$(SolutionDir)build\$(ConfigurationName)\test"
+	/>
+</VisualStudioPropertySheet>

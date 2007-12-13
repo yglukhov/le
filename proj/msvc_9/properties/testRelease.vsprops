@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="testRelease"
+	OutputDirectory="$(testOutputDir)"
+	InheritedPropertySheets=".\slProperties.vsprops"
+	BuildLogFile="$(IntDir)\$(ProjectName)_test_BuildLog.htm"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(testBuildedLeHeadersDir)&quot;;$(NOINHERIT)"
+		ProgramDataBaseFileName="$(IntDir)\test_$(ProjectName).pdb"
+		DebugInformationFormat="0"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;$(testBuildedLeLibsDir)&quot;"
+	/>
+	<UserMacro
+		Name="testBuildedLeLibsDir"
+		Value="$(slOutputDir)\lib"
+	/>
+	<UserMacro
+		Name="testBuildedLeHeadersDir"
+		Value="$(slOutputDir)\include"
+	/>
+	<UserMacro
+		Name="testOutputDir"
+		Value="$(slTestDir)"
+	/>
+</VisualStudioPropertySheet>
