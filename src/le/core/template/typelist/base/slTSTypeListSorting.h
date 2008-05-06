@@ -1,7 +1,6 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
-#include <le/core/template/util/slTSSelect.h>
+#include <le/core/template/util/slTSCommon.h>
 
 namespace sokira
 {
@@ -50,14 +49,14 @@ struct _TSTypeListSortJ<_TSTypeListNode<Head, Tail>, TPredicate, l2g>
 	typedef Head in1;
 	typedef typename _TSTypeListTypeAt<Tail, 0>::_result in2;
 
-	typedef typename TSSelect<((TPredicate<in1, in2>::result) < 0), in1, in2>::result outAsc1;
-	typedef typename TSSelect<((TPredicate<in1, in2>::result) >= 0), in1, in2>::result outAsc2;
+	typedef typename TSIntSelect<((TPredicate<in1, in2>::value) < 0), in1, in2>::result outAsc1;
+	typedef typename TSIntSelect<((TPredicate<in1, in2>::value) >= 0), in1, in2>::result outAsc2;
 
-	typedef typename TSSelect<((TPredicate<in1, in2>::result) > 0), in1, in2>::result outDes1;
-	typedef typename TSSelect<((TPredicate<in1, in2>::result) <= 0), in1, in2>::result outDes2;
+	typedef typename TSIntSelect<((TPredicate<in1, in2>::value) > 0), in1, in2>::result outDes1;
+	typedef typename TSIntSelect<((TPredicate<in1, in2>::value) <= 0), in1, in2>::result outDes2;
 
-	typedef typename TSSelect<l2g, outAsc1, outDes1>::result out1;
-	typedef typename TSSelect<l2g, outAsc2, outDes2>::result out2;
+	typedef typename TSIntSelect<l2g, outAsc1, outDes1>::result out1;
+	typedef typename TSIntSelect<l2g, outAsc2, outDes2>::result out2;
 
 	typedef _TSTypeListNode<out1, typename _TSTypeListSortJ<_TSTypeListNode<out2, typename _TSTypeListPopFront<Tail>::_result>, TPredicate, l2g>::_result> _result;
 };

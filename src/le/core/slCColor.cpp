@@ -24,10 +24,10 @@ void CColor::serialize(CDictionary& toDictionary) const
 
 void CColor::deserialize(const CDictionary& fromDictionary)
 {
-	red(fromDictionary.valueAsUInt8ForKey(cRedKey));
-	green(fromDictionary.valueAsUInt8ForKey(cGreenKey));
-	blue(fromDictionary.valueAsUInt8ForKey(cBlueKey));
-	alpha(fromDictionary.valueAsUInt8ForKey(cAlphaKey));
+	setRed(fromDictionary.valueAsUInt8ForKey(cRedKey));
+	setGreen(fromDictionary.valueAsUInt8ForKey(cGreenKey));
+	setBlue(fromDictionary.valueAsUInt8ForKey(cBlueKey));
+	setAlpha(fromDictionary.valueAsUInt8ForKey(cAlphaKey));
 }
 
 

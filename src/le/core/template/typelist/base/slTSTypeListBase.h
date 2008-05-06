@@ -1,6 +1,6 @@
 #pragma once
 
-#include <le/core/template/util/slTSSelect.h>
+#include <le/core/template/util/slTSCommon.h>
 
 namespace sokira
 {
@@ -246,6 +246,23 @@ struct _TSTypeListAppend<_TSTypeListNode<Head, Tail>, T>
 						typename _TSTypeListAppend<Tail, T>::_result> _result;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// Mutate
+template <class TListNode, template <typename T> class TMutator>
+struct _TSTypeListMutate;
+
+template <template <typename T> class TMutator>
+struct _TSTypeListMutate<_SNullType, TMutator>
+{
+	typedef _SNullType _result;
+};
+
+template <typename U, typename V, template <typename T> class TMutator>
+struct _TSTypeListMutate<_TSTypeListNode<U, V>, TMutator>
+{
+	typedef _TSTypeListNode<typename TMutator<U>::result,
+					typename _TSTypeListMutate<V, TMutator>::_result> _result;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Collect if
@@ -265,28 +282,45 @@ struct _TSTypeListCollectIf<_TSTypeListNode<U, V>, predicate>
 		typedef typename _TSTypeListCollectIf<V, predicate>::_result _tailCollect;
 
 	public:
-		typedef typename TSSelect<predicate<U>::result,
+		typedef typename TSIntSelect<predicate<U>::value,
 				_TSTypeListNode<U, _tailCollect>, _tailCollect>::result _result;
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////
-// Mutate
-template <class TListNode, template <typename T> class TMutator>
-struct _TSTypeListMutate;
+// Collect mutants if
+template <class TListNode, template <typename T> class predicate>
+struct _TSTypeListCollectMutantsIf;
 
-template <template <typename T> class TMutator>
-struct _TSTypeListMutate<_SNullType, TMutator>
+template <template <typename T> class predicate>
+struct _TSTypeListCollectMutantsIf<_SNullType, predicate>
 {
 	typedef _SNullType _result;
 };
 
-template <typename U, typename V, template <typename T> class TMutator>
-struct _TSTypeListMutate<_TSTypeListNode<U, V>, TMutator>
+template <bool, typename, template <typename> class pred>
+struct _TSMutatorStubResultSelector
 {
-	typedef _TSTypeListNode<typename TMutator<U>::result,
-					typename _TSTypeListMutate<V, TMutator>::_result> _result;
+	typedef _SNullType _result;
 };
+
+template <typename T, template <typename> class pred>
+struct _TSMutatorStubResultSelector<true, T, pred>
+{
+	typedef typename pred<T>::result _result;
+};
+
+template <typename U, typename V, template <typename T> class predicate>
+struct _TSTypeListCollectMutantsIf<_TSTypeListNode<U, V>, predicate>
+{
+	private:
+		typedef typename _TSTypeListCollectMutantsIf<V, predicate>::_result _tailCollect;
+
+	public:
+		typedef typename TSIntSelect<predicate<U>::value,
+				_TSTypeListNode<typename _TSMutatorStubResultSelector<predicate<U>::value, U, predicate>::_result,
+					_tailCollect>, _tailCollect>::result _result;
+};
+
 
 	} // namespace le
 } // namespace sokira

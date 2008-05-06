@@ -12,7 +12,7 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_HIERARCHY_ROOT(CTheme);
+LE_IMPLEMENT_RUNTIME_CLASS(CTheme);
 
 static CTheme::Ptr _currentTheme;
 

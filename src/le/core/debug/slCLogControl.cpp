@@ -67,13 +67,16 @@ CLogEntry* CLogControl::currentEntry() const
 // RESULT
 //		int		EOF if there's an error
 ///////////////////////////////////////////////////////////////////////////
-int CLogControl::sync(void)
+int CLogControl::sync()
 {
 	if (!mBuffer.empty())
 	{
 		LE_ASSERT(mCurrentEntry);
+//		std::cout << mWhiteSpace << mBuffer;
+//		std::cout << mWhiteSpace << mBuffer;
 		for (std::list<std::pair<UInt32, std::ostream*> >::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
 		{
+			*(it->second) << mWhiteSpace << mBuffer;
 			if (it->first <= mCurrentEntry->severity())
 			{
 				*(it->second) << mWhiteSpace << mBuffer;

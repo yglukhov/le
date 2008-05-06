@@ -12,6 +12,8 @@ namespace sokira
 class CClassFactory
 {
 	public:
+		static CClassFactory *defaultInstance();
+
 		template <class THierarchyRoot>
 		static TCPointer<THierarchyRoot> create(const CBasicString& className)
 		{
@@ -195,6 +197,8 @@ class CClassFactory
 		static iterator end();
 
 	private:
+		typedef std::set<IClassImpl*> CClassSet;
+		CClassSet mClasses;
 		static IClassImpl* _classWithName(const CBasicString& name);
 		static iterator _beginForChildsOfStd(const char* name);
 };

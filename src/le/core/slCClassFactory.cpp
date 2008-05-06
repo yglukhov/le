@@ -19,7 +19,7 @@ IClassImpl::IClassImpl(const char* typeName) :
 	mName(typeName)
 {
 	LE_ENTER_LOG_SILENT;
-	LE_IF_LOG(log << "Registerinng class \"" << mName << "\"." << std::endl);
+	LE_IF_LOG(log << "Registering class \"" << mName << "\"." << std::endl);
 	classSet().insert(this);
 }
 

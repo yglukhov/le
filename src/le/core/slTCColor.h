@@ -106,25 +106,25 @@ class TCColor : public _TCColorBase
 		}
 
 		template <typename T>
-		inline void red(T r)
+		inline void setRed(T r)
 		{
 			mR = toComponent<T>(r);
 		}
 
 		template <typename T>
-		inline void green(T g)
+		inline void setGreen(T g)
 		{
 			mG = toComponent<T>(g);
 		}
 
 		template <typename T>
-		inline void blue(T b)
+		inline void setBlue(T b)
 		{
 			mB = toComponent<T>(b);
 		}
 
 		template <typename T>
-		inline void alpha(T a)
+		inline void setAlpha(T a)
 		{
 			mA = toComponent<T>(a);
 		}

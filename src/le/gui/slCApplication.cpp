@@ -17,6 +17,11 @@ namespace sokira
 	namespace le
 	{
 
+class __le_GLUT_RunLoopExitException
+{
+
+};
+
 static void initOpenGL()
 {
 	LE_ENTER_LOG;
@@ -50,17 +55,23 @@ static void onMouseMove(int x, int y)
 	CScreen::instance()->onMouse(eMouseButtonUnknown, eButtonStateUnknown, CPoint((float)x, (float)y));
 }
 
-// onKey is not static, becouse it is friend for CControl.
+// onKey is not static, because it is friend for CControl.
 void onKey(unsigned char inkey, int px, int py)
 {
 	if(inkey == 27) // Escape key
-		exit(1);
+	{
+		CScreen::instance()->destroy();
+		return;
+//		throw __le_GLUT_RunLoopExitException();
+
+		//exit(0);
+	}
 	CControl* fResponder = CControl::firstResponder();
 	if (fResponder)
 	{
 		CAutoreleasePool autoreleasePool;
 		fResponder->onKey(inkey, px, py);
-	}	
+	}
 }
 
 static void onIdle()
@@ -95,9 +106,29 @@ int CApplication::run(int argc, const char * const argv[])
 	glutMouseFunc(onMouse);
 	glutMotionFunc(onMouseMove);
 	glutIdleFunc(onIdle);
-	glutMainLoop();
-	
-	return 0;
+
+	int result = 0;
+
+	try
+	{
+		glutMainLoop();
+	}
+	catch (__le_GLUT_RunLoopExitException &)
+	{
+
+	}
+	catch (std::exception &ex)
+	{
+		LE_IF_LOG(log << "Exception caught: " << ex.what() << std::endl);
+		result = 1;
+	}
+	catch (...)
+	{
+		LE_IF_LOG(log << "Unknown exception caught!" << std::endl);
+		result = 2;
+	}
+
+	return result;
 }
 
 	} // namespace le

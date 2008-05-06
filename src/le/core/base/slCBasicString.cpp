@@ -9,19 +9,40 @@ namespace sokira
 {
 	namespace le
 	{
+/*
+typedef UInt64 TCharType;
+
+typedef TCharType (*TEncodeFunc)(TCharType);
+typedef UInt32 (*TReadBufFunc)(const UInt8 *, UInt32, TCharType&);
+
+static inline UInt32 readASCIIChar(const UInt8 *buffer, UInt32, TCharType& readChar)
+{
+	readChar = *buffer;
+	return 1;
+}
+
+typedef std::map<EStringEncoding, std::pair<TEncodeFunc, bool> > SubEncodingInfo;
+typedef std::pair<TReadBufFunc, SubEncodingInfo> EncodingInfo;
+
+struct _StringEncoding
+{
+	std::list<std::pair<EStringEncoding, bool> > acceptedEncodings() const;
+};
+
+*/
 
 #if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
 #pragma warning (push)
 #pragma warning( disable : 4996 )
 #endif // MSVS 2005 or higher
 
-static inline void slStrCpy(Char* dest, const Char* src)
+static inline void slStrCpy(NChar* dest, const NChar* src)
 {
 	using namespace std;
 	strcpy(dest, src);
 }
 
-static inline void slStrCat(Char* dest, const Char* src)
+static inline void slStrCat(NChar* dest, const NChar* src)
 {
 	using namespace std;
 	strcat(dest, src);
@@ -34,7 +55,6 @@ static inline void slStrCat(Char* dest, const Char* src)
 ////////////////////////////////////////////////////////////////////////////////
 // String proxy implementation
 ////////////////////////////////////////////////////////////////////////////////
-#define LE_SET_BIT(x) (1 << (x))
 
 enum EOwnPolicy
 {
@@ -47,10 +67,10 @@ enum EOwnPolicy
 
 struct CBasicString::SStringProxy
 {
-	inline SStringProxy(const Char* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
+	inline SStringProxy(const NChar* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
 		mOwnPolicy(ownPolicy),
 		mRefCount(1),
-		mString((ownPolicy & eOwnPolicyCopy)?(new Char[std::strlen(string) + 1]):(NULL))
+		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[std::strlen(string) + 1]):(NULL))
 	{
 		if (mString)
 		{
@@ -58,18 +78,18 @@ struct CBasicString::SStringProxy
 		}
 		else
 		{
-			mString = const_cast<Char*>(string);
+			mString = const_cast<NChar*>(string);
 		}
 	}
 
-	inline SStringProxy(const Char* cString1, const Char* cString2) :
+	inline SStringProxy(const NChar* cString1, const NChar* cString2) :
 		mOwnPolicy(eOwnPolicyDefault),
 		mRefCount(1)
 	{
 		size_t str1len = (cString1)?(std::strlen(cString1)):(0);
 		size_t str2len = (cString1)?(std::strlen(cString2)):(0);
 
-		mString = new Char[str1len + str2len + 1];
+		mString = new NChar[str1len + str2len + 1];
 
 		if (str1len)
 		{
@@ -123,13 +143,13 @@ struct CBasicString::SStringProxy
 
 	EOwnPolicy mOwnPolicy;
 	UInt32 mRefCount;
-	Char* mString;
+	NChar* mString;
 };
 
 
-static inline Bool notEmpty(const Char* string)
+static inline Bool notEmpty(const NChar* string)
 {
-	return (string)?(*string):(false);
+	return string && *string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,13 +167,13 @@ CBasicString::CBasicString(const CBasicString& copy) :
 
 }
 
-CBasicString::CBasicString(const Char* cString) :
+CBasicString::CBasicString(const NChar* cString) :
 	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
 {
 
 }
 
-CBasicString::CBasicString(const Char* cString, EStringEncoding /*encoding*/) :
+CBasicString::CBasicString(const NChar* cString, EStringEncoding /*encoding*/) :
 	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
 {
 
@@ -165,7 +185,7 @@ CBasicString::CBasicString(const WChar* /*uniString*/, UInt32 /*length*/, EStrin
 	// TODO: complete
 }
 
-CBasicString::CBasicString(const Char* cString1, const Char* cString2) :
+CBasicString::CBasicString(const NChar* cString1, const NChar* cString2) :
 	mProxy((notEmpty(cString1) || notEmpty(cString2))?(new SStringProxy(cString1, cString2)):(SStringProxy::emptyStringProxy()->retain()))
 {
 
@@ -177,7 +197,7 @@ CBasicString::CBasicString(SStringProxy* proxy) :
 
 }
 
-CBasicString CBasicString::__CStringWithLiteral(const Char* str)
+CBasicString CBasicString::__CStringWithLiteral(const NChar* str)
 {
 	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyLiteral)):(SStringProxy::emptyStringProxy()->retain()));
 }
@@ -187,7 +207,7 @@ CBasicString::~CBasicString()
 	mProxy->release();
 }
 
-const CBasicString& CBasicString::operator = (const Char* cString)
+const CBasicString& CBasicString::operator = (const NChar* cString)
 {
 	if (mProxy->mString != cString)
 	{
@@ -209,7 +229,7 @@ const CBasicString& CBasicString::operator = (const CBasicString& copy)
 	return *this;
 }
 
-SInt32 CBasicString::compare(const Char* cString) const
+SInt32 CBasicString::compare(const NChar* cString) const
 {
 	return strcmp(mProxy->mString, cString);
 }
@@ -219,7 +239,7 @@ SInt32 CBasicString::compare(const CBasicString& string) const
 	return strcmp(mProxy->mString, string.mProxy->mString);
 }
 
-Bool CBasicString::operator == (const Char* cString) const
+Bool CBasicString::operator == (const NChar* cString) const
 {
 	return !compare(cString);
 }
@@ -229,7 +249,7 @@ Bool CBasicString::operator == (const CBasicString& string) const
 	return !compare(string);
 }
 
-Bool CBasicString::operator != (const Char* cString) const
+Bool CBasicString::operator != (const NChar* cString) const
 {
 	return compare(cString);
 }
@@ -240,7 +260,7 @@ Bool CBasicString::operator != (const CBasicString& string) const
 }
 
 
-Bool CBasicString::operator < (const Char* cString) const
+Bool CBasicString::operator < (const NChar* cString) const
 {
 	return (compare(cString) < 0);
 }
@@ -251,7 +271,7 @@ Bool CBasicString::operator < (const CBasicString& string) const
 }
 
 
-Bool CBasicString::operator > (const Char* cString) const
+Bool CBasicString::operator > (const NChar* cString) const
 {
 	return (compare(cString) > 0);
 }
@@ -262,7 +282,7 @@ Bool CBasicString::operator > (const CBasicString& string) const
 }
 
 
-Bool CBasicString::operator <= (const Char* cString) const
+Bool CBasicString::operator <= (const NChar* cString) const
 {
 	return (compare(cString) <= 0);
 }
@@ -273,7 +293,7 @@ Bool CBasicString::operator <= (const CBasicString& string) const
 }
 
 
-Bool CBasicString::operator >= (const Char* cString) const
+Bool CBasicString::operator >= (const NChar* cString) const
 {
 	return (compare(cString) >= 0);
 }
@@ -285,7 +305,7 @@ Bool CBasicString::operator >= (const CBasicString& string) const
 
 
 
-void CBasicString::append(const Char* cString, EStringEncoding /* encoding*/)
+void CBasicString::append(const NChar* cString, EStringEncoding /* encoding*/)
 {
 	if (!notEmpty(cString))
 		return;
@@ -334,11 +354,11 @@ bool CBasicString::isEmpty() const
 
 EStringEncoding CBasicString::encoding() const
 {
-	return eEncodingDefault;
+	return eStringEncodingASCII;
 }
 
 
-const Char* CBasicString::cString(EStringEncoding encoding) const
+const NChar* CBasicString::cString(EStringEncoding encoding) const
 {
 	return mProxy->mString;
 }

@@ -149,6 +149,47 @@ const CNumber CNumber::operator++(int)		// postfix
 	return result;
 }
 
+const CNumber& CNumber::operator--()		// prefix
+{
+	switch (mFormat)
+	{
+		case eFormatUInt8:		--mData.valUInt8;	break;
+		case eFormatUInt16:		--mData.valUInt16;	break;
+		case eFormatUInt32:		--mData.valUInt32;	break;
+		case eFormatUInt64:		--mData.valUInt64;	break;
+		case eFormatSInt8:		--mData.valSInt8;	break;
+		case eFormatSInt16:		--mData.valSInt16;	break;
+		case eFormatSInt32:		--mData.valSInt32;	break;
+		case eFormatSInt64:		--mData.valSInt64;	break;
+		case eFormatFloat32:	--mData.valFloat32; break;
+		case eFormatFloat64:	--mData.valFloat64; break;
+		case eFormatBool:		mData.valBool = !mData.valBool;
+		default:;
+	}
+	return *this;
+}
+
+const CNumber CNumber::operator--(int)		// postfix
+{
+	CNumber result = *this;
+	switch (mFormat)
+	{
+		case eFormatUInt8:		--mData.valUInt8;	break;
+		case eFormatUInt16:		--mData.valUInt16;	break;
+		case eFormatUInt32:		--mData.valUInt32;	break;
+		case eFormatUInt64:		--mData.valUInt64;	break;
+		case eFormatSInt8:		--mData.valSInt8;	break;
+		case eFormatSInt16:		--mData.valSInt16;	break;
+		case eFormatSInt32:		--mData.valSInt32;	break;
+		case eFormatSInt64:		--mData.valSInt64;	break;
+		case eFormatFloat32:	--mData.valFloat32; break;
+		case eFormatFloat64:	--mData.valFloat64; break;
+		case eFormatBool:		mData.valBool = !mData.valBool;
+		default:;
+	}
+	return result;
+}
+
 const CNumber& CNumber::operator=(SInt8 value)
 {
 	mFormat = eFormatSInt8;
@@ -466,7 +507,7 @@ Bool CNumber::valueAs(TSTypeToType<Bool>) const
 
 CString CNumber::valueAs(TSTypeToType<CString>) const
 {
-	Char theString[100];
+	NChar theString[100];
 	switch (mFormat)
 	{
 		case eFormatUInt8: sprintf(theString, "%d", mData.valUInt8); break;

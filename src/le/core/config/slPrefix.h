@@ -24,9 +24,6 @@
 #define LE_FLAG_DEBUG LE_FALSE
 #endif // defined _DEBUG
 
-/// Define this macro to compile as unicode sources.
-#define LE_FLAG_UNICODE LE_FALSE
-
 #define LE_PP_STRINGIZE(x) __LE_PP_STRINGIZE__(x)
 #define __LE_PP_STRINGIZE__(x) #x
 

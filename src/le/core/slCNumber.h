@@ -15,20 +15,6 @@ class CNumber : public CObject, CNumberBase
 	LE_DECLARE_RUNTIME_CLASS(CNumber);
 
 	public:
-		enum EFormat
-		{
-			eFormatUInt8 = 0,
-			eFormatUInt16,
-			eFormatUInt32,
-			eFormatUInt64,
-			eFormatSInt8,
-			eFormatSInt16,
-			eFormatSInt32,
-			eFormatSInt64,
-			eFormatFloat32,
-			eFormatFloat64,
-			eFormatBool
-		};
 
 		CNumber();
 
@@ -52,25 +38,11 @@ class CNumber : public CObject, CNumberBase
 
 		CNumber(const CNumber& copy);
 
-		template <typename T>
-		inline T valueAs() const
-		{
-			return valueAs(TSTypeToType<T>());
-		}
-
-		template <typename T>
-		inline bool valueIs() const
-		{
-			return _valueIs(TSTypeToType<T>());
-		}
-
-		inline bool valueIs(EFormat format) const
-		{
-			return (mFormat == format);
-		}
-
 		const CNumber& operator++();		// prefix
 		const CNumber operator++(int);		// postfix
+
+		const CNumber& operator--();		// prefix
+		const CNumber operator--(int);		// postfix
 
 		const CNumber& operator=(SInt8 value);
 		const CNumber& operator=(SInt16 value);
@@ -85,6 +57,9 @@ class CNumber : public CObject, CNumberBase
 		const CNumber& operator=(Bool value);
 		const CNumber& operator=(const CString& value);
 
+		template <typename T>
+		inline T valueAs() const { return valueAs(TSTypeToType<T>()); }
+
 		inline SInt8 valueAsSInt8() const	{ return valueAs(TSTypeToType<SInt8>()); }
 		inline SInt16 valueAsSInt16() const	{ return valueAs(TSTypeToType<SInt16>()); }
 		inline SInt32 valueAsSInt32() const	{ return valueAs(TSTypeToType<SInt32>()); }
@@ -96,7 +71,46 @@ class CNumber : public CObject, CNumberBase
 		inline Float32 valueAsFloat32() const	{ return valueAs(TSTypeToType<Float32>()); }
 		inline Float64 valueAsFloat64() const	{ return valueAs(TSTypeToType<Float64>()); }
 		inline Bool valueAsBool() const		{ return valueAs(TSTypeToType<Bool>()); }
+
+		inline SInt valueAsSInt() const		{ return valueAs(TSTypeToType<SInt>()); }
+		inline SIntS valueAsSIntS() const		{ return valueAs(TSTypeToType<SIntS>()); }
+//		inline SIntL valueAsSIntL() const		{ return valueAs(TSTypeToType<SIntL>()); }
+		inline SIntLL valueAsSIntLL() const		{ return valueAs(TSTypeToType<SIntLL>()); }
+
+		inline UInt valueAsUInt() const		{ return valueAs(TSTypeToType<UInt>()); }
+		inline UIntS valueAsUIntS() const		{ return valueAs(TSTypeToType<UIntS>()); }
+//		inline UIntL valueAsUIntL() const		{ return valueAs(TSTypeToType<UIntL>()); }
+		inline UIntLL valueAsUIntLL() const		{ return valueAs(TSTypeToType<UIntLL>()); }
+
 		inline CString valueAsString() const{ return valueAs(TSTypeToType<CString>()); }
+
+		template <typename T>
+		inline Bool valueIs() const { return mFormat == (EFormat)TSTypeToFormat<T>::dataType; }
+
+		inline Bool valueIsSInt8() const { return valueIs<SInt8>(); }
+		inline Bool valueIsSInt16() const { return valueIs<SInt16>(); }
+		inline Bool valueIsSInt32() const { return valueIs<SInt32>(); }
+		inline Bool valueIsSInt64() const { return valueIs<SInt64>(); }
+
+		inline Bool valueIsUInt8() const { return valueIs<UInt8>(); }
+		inline Bool valueIsUInt16() const { return valueIs<UInt16>(); }
+		inline Bool valueIsUInt32() const { return valueIs<UInt32>(); }
+		inline Bool valueIsUInt64() const { return valueIs<UInt64>(); }
+
+		inline Bool valueIsSInt() const { return valueIs<SInt>(); }
+		inline Bool valueIsSIntS() const { return valueIs<SIntS>(); }
+//		inline Bool valueIsSIntL() const { return valueIs<SIntL>(); }
+		inline Bool valueIsSIntLL() const { return valueIs<SIntLL>(); }
+
+		inline Bool valueIsUInt() const { return valueIs<UInt>(); }
+		inline Bool valueIsUIntS() const { return valueIs<UIntS>(); }
+//		inline Bool valueIsUIntL() const { return valueIs<UIntL>(); }
+		inline Bool valueIsUIntLL() const { return valueIs<UIntLL>(); }
+
+		inline Bool valueIsFloat32() const { return valueIs<Float32>(); }
+		inline Bool valueIsFloat64() const { return valueIs<Float64>(); }
+
+		inline Bool valueIsBool() const { return valueIs<Bool>(); }
 
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
@@ -114,32 +128,6 @@ class CNumber : public CObject, CNumberBase
 		Float64 valueAs(TSTypeToType<Float64>) const;
 		Bool valueAs(TSTypeToType<Bool>) const;
 		CString valueAs(TSTypeToType<CString>) const;
-
-		template <typename T>
-		inline bool _valueIs(TSTypeToType<T>) const
-			{ return false;}
-		inline bool _valueIs(TSTypeToType<SInt8>) const
-			{ return valueIs(eFormatSInt8); }
-		inline bool _valueIs(TSTypeToType<SInt16>) const
-			{ return valueIs(eFormatSInt16); }
-		inline bool _valueIs(TSTypeToType<SInt32>) const
-			{ return valueIs(eFormatSInt32); }
-		inline bool _valueIs(TSTypeToType<SInt64>) const
-			{ return valueIs(eFormatSInt64); }
-		inline bool _valueIs(TSTypeToType<UInt8>) const
-			{ return valueIs(eFormatUInt8); }
-		inline bool _valueIs(TSTypeToType<UInt16>) const
-			{ return valueIs(eFormatUInt16); }
-		inline bool _valueIs(TSTypeToType<UInt32>) const
-			{ return valueIs(eFormatUInt32); }
-		inline bool _valueIs(TSTypeToType<UInt64>) const
-			{ return valueIs(eFormatUInt64); }
-		inline bool _valueIs(TSTypeToType<Float32>) const
-			{ return valueIs(eFormatFloat32); }
-		inline bool _valueIs(TSTypeToType<Float64>) const
-			{ return valueIs(eFormatFloat64); }
-		inline bool _valueIs(TSTypeToType<bool>) const
-			{ return valueIs(eFormatBool); }
 
 	private:
 		UNumberData mData;

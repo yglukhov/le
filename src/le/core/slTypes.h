@@ -14,55 +14,112 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
-#include <le/core/config/slPrefix.h>
+#include <le/core/config/slCompiler.h>
 
 namespace sokira
 {
 	namespace le
 	{
-////////////////////////////////////////////////////////////////////////////////
 
-/// 1-byte signed integer. Value range: <tt>-128 - +127</tt>
+// Type: SInt8
+// 1-byte signed integer. Value range: -128 - +127
 typedef signed char					SInt8;
-/// 1-byte unsigned integer. Value range: <tt>0 - +255</tt>
+
+// Type: UInt8
+// 1-byte unsigned integer. Value range: 0 - +255
 typedef unsigned char				UInt8;
 
-/// 2-byte signed integer. Value range: <tt>-32768 - +32767</tt>
+// Type: SInt16
+// 2-byte signed integer. Value range: -32768 - +32767
 typedef signed short int			SInt16;
-/// 2-byte unsigned integer. Value range: <tt>0 - +65535</tt>
+
+// Type: UInt16
+// 2-byte unsigned integer. Value range: 0 - +65535
 typedef unsigned short int			UInt16;
 
-/// 4-byte signed integer. Value range: <tt>-2147483648 - +2147483647</tt>
-typedef signed long int				SInt32;
-/// 4-byte unsigned integer. Value range: <tt>0 - +4294967295</tt>
-typedef unsigned long int			UInt32;
+// Type: SInt32
+// 4-byte signed integer. Value range: -2147483648 - +2147483647
+typedef int							SInt32;
 
-/// 8-byte signed integer. Value range: <tt>-2^63 - +(2^63 - 1)</tt>
+// Type: UInt32
+// 4-byte unsigned integer. Value range: 0 - +4294967295
+typedef unsigned int				UInt32;
+
+// Type: SInt64
+// 8-byte signed integer. Value range: -2^63 - +(2^63 - 1)
 typedef signed long long int		SInt64;
-/// 8-byte unsigned integer. Value range: <tt>0 - +(2^64 - 1)</tt>
+
+// Type: UInt64
+// 8-byte unsigned integer. Value range: 0 - +(2^64 - 1)
 typedef unsigned long long int		UInt64;
 
-/// 4-byte float. 6 valuable digits.
+
+// Type: Float32
+// 4-byte float. 6 valuable digits.
 typedef float						Float32;
-/// 8-byte float. 10 valuable digits.
+
+// Type: Float64
+// 8-byte float. 10 valuable digits.
 typedef double						Float64;
 
-/// Boolean type. Values: \c true or \c false. Size is not guaranteed.
+// Type: Bool
+// Boolean type. Values: true or false. Size is not guaranteed.
 typedef bool						Bool;
 
-/// Narrow character type. Used for 1-byte encodings. It is not recommended
-/// to use this type, when \ref Char can be used instead.
+// Type: NChar
+// Narrow character type. Used for 1-byte encodings.
 typedef char						NChar;
-/// Wide character type. Used for multi-byte encodings. It is not
-/// recommended to use this type, when \ref Char can be used instead.
+
+// Type: WChar
+// Wide character type. Used for multi-byte encodings.
 typedef wchar_t						WChar;
 
-/// Character type (narrow or wide), depending on \ref LE_FLAG_UNICODE macro.
-#if LE_FLAG_UNICODE
-typedef WChar						Char;
-#else
-typedef NChar						Char;
-#endif // defined LE_FLAG_UNICODE
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Platform dependent types
+////////////////////////////////////////////////////////////////////////////////
+
+// Type: SInt
+// Platform dependent signed integer.
+typedef int							SInt;
+
+// Type: UInt
+// Platform dependent unsigned integer
+typedef unsigned int				UInt;
+
+// Type: SIntS
+// Platform dependent signed short integer
+typedef short int					SIntS;
+
+// Type: UIntS
+// Platform dependent unsigned short integer
+typedef unsigned short int			UIntS;
+
+// Type: SIntL
+// Platform dependent signed long integer
+typedef long int			SIntL;
+
+// Type: UIntL
+// Platform dependent unsigned long integer
+typedef unsigned long int			UIntL;
+
+// Type: SIntLL
+// Platform dependent signed very long integer
+typedef long long int				SIntLL;
+
+// Type: UIntLL
+// Platform dependent unsigned very long integer
+typedef unsigned long long int		UIntLL;
+
+#define LE_SET_BIT(x) (1 << (x))
+
+enum EStatus
+{
+	eStatusOK = 0, // Not an error
+	eStatusOpenFailed
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////
 	} // namespace le

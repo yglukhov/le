@@ -16,7 +16,9 @@ class CString;
 ////////////////////////////////////////////////////////////////////////////////
 class CObject
 {
-	LE_DECLARE_HIERARCHY_ROOT(CObject);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CObject)
+	LE_RTTI_END
 
 	public:
 		CObject();

@@ -30,7 +30,7 @@ EStatus CFolder::open(const char* path, unsigned openFlags)
 #if !defined _WIN32
 	// TODO: make processing of openFlags
 	mDir = opendir(path);
-	return (mDir)?(eStatusOK):(eStatusErrorOpenFailed);
+	return (mDir)?(eStatusOK):(eStatusOpenFailed);
 #else
 	return eStatusErrorOpenFailed;
 #endif

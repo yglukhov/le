@@ -13,7 +13,10 @@ class CPoint;
 
 class CControlBasicController
 {
-	LE_DECLARE_HIERARCHY_ROOT(CControlBasicController);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CControlBasicController)
+	LE_RTTI_END
+
 	public:
 		virtual void draw(const CControl* control) const;
 		virtual bool hitTest(const CControl* control, const CPoint& point) const;

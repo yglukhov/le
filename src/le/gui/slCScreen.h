@@ -50,6 +50,7 @@ class CScreen : public CWindow
 		
 		void addControlToDelete(CControl* control);
 
+		void destroy();
 	private:
 		int mWindow;
 

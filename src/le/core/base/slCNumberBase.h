@@ -26,7 +26,38 @@ class CNumberBase
 
 			Bool valBool;
 		};
+
+		enum EFormat
+		{
+			eFormatUInt8 = 0,
+			eFormatUInt16,
+			eFormatUInt32,
+			eFormatUInt64,
+			eFormatSInt8,
+			eFormatSInt16,
+			eFormatSInt32,
+			eFormatSInt64,
+			eFormatFloat32,
+			eFormatFloat64,
+			eFormatBool
+		};
+
+		template <typename T> struct TSTypeToFormat;
 };
+
+template <> struct CNumberBase::TSTypeToFormat<UInt8> { enum { dataType = eFormatUInt8 }; };
+template <> struct CNumberBase::TSTypeToFormat<UInt16> { enum { dataType = eFormatUInt16 }; };
+template <> struct CNumberBase::TSTypeToFormat<UInt32> { enum { dataType = eFormatUInt32 }; };
+template <> struct CNumberBase::TSTypeToFormat<UInt64> { enum { dataType = eFormatUInt64 }; };
+template <> struct CNumberBase::TSTypeToFormat<SInt8> { enum { dataType = eFormatSInt8 }; };
+template <> struct CNumberBase::TSTypeToFormat<SInt16> { enum { dataType = eFormatSInt16 }; };
+template <> struct CNumberBase::TSTypeToFormat<SInt32> { enum { dataType = eFormatSInt32 }; };
+template <> struct CNumberBase::TSTypeToFormat<SInt64> { enum { dataType = eFormatSInt64 }; };
+
+template <> struct CNumberBase::TSTypeToFormat<Float32> { enum { dataType = eFormatFloat32 }; };
+template <> struct CNumberBase::TSTypeToFormat<Float64> { enum { dataType = eFormatFloat64 }; };
+
+template <> struct CNumberBase::TSTypeToFormat<Bool> { enum { dataType = eFormatBool }; };
 
 	} // namespace le
 } // namespace sokira

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
 #include <le/core/debug/slDebug.h>
+#include <le/core/slTypes.h>
 
 //#define LE_SMART_POINTER_IS_NOT_SO_SMART
 

@@ -14,7 +14,9 @@ class CControlBasicController;
 
 class CTheme
 {
-	LE_DECLARE_HIERARCHY_ROOT(CTheme);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CTheme)
+	LE_RTTI_END
 
 	public:
 		CTheme();

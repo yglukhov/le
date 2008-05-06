@@ -27,7 +27,8 @@ CThreadImplBase* CThreadImplPosix::thread()
 	pthread_t threadToFind = pthread_self();
 	if(!threadList().empty())
 	{
-		for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
+		std::list<CThreadImplPosix*>::iterator end = threadList().end();
+		for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != end; ++it)
 		{
 			if (pthread_equal((*it)->mThreadID, threadToFind))
 			{

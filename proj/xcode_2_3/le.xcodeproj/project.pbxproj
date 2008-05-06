@@ -61,6 +61,8 @@
 		7B052BF30BD12ECD00AA8BD8 /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE00BD12ECD00AA8BD8 /* slCTitleBar.cpp */; };
 		7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
+		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
+		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -172,10 +174,7 @@
 		7B052B960BD12EB100AA8BD8 /* slTSTypeListBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListBase.h; sourceTree = "<group>"; };
 		7B052B970BD12EB100AA8BD8 /* slTSTypeListSorting.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListSorting.h; sourceTree = "<group>"; };
 		7B052B980BD12EB100AA8BD8 /* slTSTypeList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeList.h; sourceTree = "<group>"; };
-		7B052B9A0BD12EB100AA8BD8 /* slTSConstRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSConstRef.h; sourceTree = "<group>"; };
 		7B052B9B0BD12EB100AA8BD8 /* slTSConstToType.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSConstToType.h; sourceTree = "<group>"; };
-		7B052B9C0BD12EB100AA8BD8 /* slTSSelect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSSelect.h; sourceTree = "<group>"; };
-		7B052B9D0BD12EB100AA8BD8 /* slTSTypesEqual.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypesEqual.h; sourceTree = "<group>"; };
 		7B052BA00BD12EB100AA8BD8 /* slCMutexImplPosix.hp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = slCMutexImplPosix.hp; sourceTree = "<group>"; };
 		7B052BA10BD12EB100AA8BD8 /* slCMutexImplWindows.hp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = slCMutexImplWindows.hp; sourceTree = "<group>"; };
 		7B052BA20BD12EB100AA8BD8 /* slCThreadImpl.hp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = slCThreadImpl.hp; sourceTree = "<group>"; };
@@ -222,6 +221,11 @@
 		7B052BE40BD12ECD00AA8BD8 /* slTCGraphicControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCGraphicControllerClass.h; sourceTree = "<group>"; };
 		7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTypes.cpp; sourceTree = "<group>"; };
 		7B052BE60BD12ECD00AA8BD8 /* slTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTypes.h; sourceTree = "<group>"; };
+		7B6384E30D4B4E44002357F7 /* slCAssertControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertControl.h; sourceTree = "<group>"; };
+		7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertControl.cpp; sourceTree = "<group>"; };
+		7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertionPolicy.h; sourceTree = "<group>"; };
+		7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertionPolicy.cpp; sourceTree = "<group>"; };
+		7BEFD8EA0D4A612F0033F625 /* slTSCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSCommon.h; sourceTree = "<group>"; };
 		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
@@ -276,6 +280,9 @@
 				7B052B490BD12EB100AA8BD8 /* file */,
 				7B052B4E0BD12EB100AA8BD8 /* network */,
 				7B052B550BD12EB100AA8BD8 /* preprocessor */,
+				7B052B7E0BD12EB100AA8BD8 /* strategies */,
+				7B052B800BD12EB100AA8BD8 /* template */,
+				7B052B9E0BD12EB100AA8BD8 /* thread */,
 				7B052B670BD12EB100AA8BD8 /* slCAutoreleasePool.cpp */,
 				7B052B680BD12EB100AA8BD8 /* slCAutoreleasePool.h */,
 				7B052B690BD12EB100AA8BD8 /* slCClass.cpp */,
@@ -299,9 +306,6 @@
 				7B052B7B0BD12EB100AA8BD8 /* slTCPointer.cpp */,
 				7B052B7C0BD12EB100AA8BD8 /* slTCPointer.h */,
 				7B052B7D0BD12EB100AA8BD8 /* slTypes.h */,
-				7B052B7E0BD12EB100AA8BD8 /* strategies */,
-				7B052B800BD12EB100AA8BD8 /* template */,
-				7B052B9E0BD12EB100AA8BD8 /* thread */,
 			);
 			name = core;
 			path = le/core;
@@ -392,6 +396,8 @@
 		7B052B410BD12EB100AA8BD8 /* debug */ = {
 			isa = PBXGroup;
 			children = (
+				7B6384E30D4B4E44002357F7 /* slCAssertControl.h */,
+				7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */,
 				7B052B420BD12EB100AA8BD8 /* slAssert.cpp */,
 				7B052B430BD12EB100AA8BD8 /* slAssert.h */,
 				7B052B440BD12EB100AA8BD8 /* slCLogControl.cpp */,
@@ -399,6 +405,8 @@
 				7B052B460BD12EB100AA8BD8 /* slCLogEntry.cpp */,
 				7B052B470BD12EB100AA8BD8 /* slCLogEntry.h */,
 				7B052B480BD12EB100AA8BD8 /* slDebug.h */,
+				7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */,
+				7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */,
 			);
 			path = debug;
 			sourceTree = "<group>";
@@ -536,10 +544,8 @@
 		7B052B990BD12EB100AA8BD8 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				7B052B9A0BD12EB100AA8BD8 /* slTSConstRef.h */,
 				7B052B9B0BD12EB100AA8BD8 /* slTSConstToType.h */,
-				7B052B9C0BD12EB100AA8BD8 /* slTSSelect.h */,
-				7B052B9D0BD12EB100AA8BD8 /* slTSTypesEqual.h */,
+				7BEFD8EA0D4A612F0033F625 /* slTSCommon.h */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -660,9 +666,11 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "le" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* le */;
 			projectDirPath = "";
+			projectRoot = ../..;
 			targets = (
 				B04FF9040A16002000F559ED /* le */,
 				B04FF8740A15FAEA00F559ED /* leCore */,
@@ -731,6 +739,8 @@
 				7B052BC30BD12EB200AA8BD8 /* slCThreadImplPosix.cpp in Sources */,
 				7B052BC50BD12EB200AA8BD8 /* slCMutex.cpp in Sources */,
 				7B052BC60BD12EB200AA8BD8 /* slCThread.cpp in Sources */,
+				7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */,
+				7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,10 +786,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_EXTENSION = lib;
 				EXECUTABLE_PREFIX = le;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
@@ -789,7 +802,6 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
-				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
@@ -800,13 +812,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
+					ppc64,
 					i386,
 					ppc,
+					x86_64,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_EXTENSION = lib;
 				EXECUTABLE_PREFIX = le;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
@@ -815,7 +832,6 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
-				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;

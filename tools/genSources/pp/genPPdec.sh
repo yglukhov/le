@@ -1,33 +1,34 @@
 #!/bin/sh
 
-DEFAULT_LIMITATION=255
+LIMITATION=255
 
-echo '#ifndef H_slPPdec_included'
-echo '#define H_slPPdec_included'
-echo
-echo '#define LE_PP_DEC(param) _LE_PP_DEC(param)'
-echo
-echo '#define _LE_PP_DEC(x) _LE_PP_DEC_##x'
-echo
+cat << SOURCE_TEXT
+#ifndef H_slPPdec_included
+#define H_slPPdec_included
 
-if [ $# -ne 1 ]
+#define LE_PP_DEC(param) _LE_PP_DEC(param)
+
+#define _LE_PP_DEC(x) _LE_PP_DEC_##x
+
+#define _LE_PP_DEC_0 0
+SOURCE_TEXT
+
+if [[ $# > 0 ]]
 then
-	LIMITATION=$DEFAULT_LIMITATION
-else
 	LIMITATION=$1
 fi
 
 COUNTER=1
 
-echo '#define _LE_PP_DEC_0 0'
-
-while [ $COUNTER -le $LIMITATION ]
+while [[ $COUNTER < $LIMITATION ]]
 do
-	echo "#define _LE_PP_DEC_$COUNTER `expr $COUNTER - 1`"
-	COUNTER=`expr $COUNTER + 1`
+	echo "#define _LE_PP_DEC_$COUNTER $(($COUNTER - 1))"
+	COUNTER=$(($COUNTER + 1))
 done
 
-echo
-echo "#define LE_PP_DEC_LIMITATION $LIMITATION"
-echo
-echo '#endif // H_slPPdec_included'
+cat << SOURCE_TEXT
+
+#define LE_PP_DEC_LIMITATION $LIMITATION
+
+#endif // H_slPPdec_included
+SOURCE_TEXT

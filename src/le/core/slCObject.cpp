@@ -6,7 +6,7 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_HIERARCHY_ROOT(CObject);
+LE_IMPLEMENT_RUNTIME_CLASS(CObject);
 
 CObject::CObject()
 {

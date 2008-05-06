@@ -47,6 +47,11 @@ CScreen::~CScreen()
 	clearPointerContainer(mControlsToDelete);
 }
 
+void CScreen::destroy()
+{
+	glutDestroyWindow(mWindow);
+}
+
 CScreen* CScreen::instance(int handle)
 {
 	LE_ENTER_LOG;

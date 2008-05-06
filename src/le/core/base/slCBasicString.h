@@ -14,7 +14,21 @@ namespace sokira
 
 enum EStringEncoding
 {
-	eEncodingDefault = 0
+	eStringEncodingASCII = 0,
+	eStringEncodingASCIINonLossy,
+	eStringEncodingUTF8,
+	eStringEncodingUTF8NoBOM,
+	eStringEncodingUTF16BE,
+	eStringEncodingUTF16BENoBOM,
+	eStringEncodingUTF16LE,
+	eStringEncodingUTF16LENoBOM,
+#ifdef LITTLE_ENDIAN
+	eStringEncodingUTF16 = eStringEncodingUTF16LE,
+	eStringEncodingUTF16NoBOM = eStringEncodingUTF16LENoBOM
+#else
+	eStringEncodingUTF16 = eStringEncodingUTF16BE,
+	eStringEncodingUTF16NoBOM = eStringEncodingUTF16BENoBOM
+#endif
 };
 
 class CBasicString
@@ -22,42 +36,42 @@ class CBasicString
 	public:
 		CBasicString();	// Create an empty string.
 		CBasicString(const CBasicString& copy);	// Create a copy.
-		CBasicString(const Char* cString); // Create a string from C-string with default encoding
-		CBasicString(const Char* cString, EStringEncoding encoding); // Create a string from C-string
+		CBasicString(const NChar* cString); // Create a string from C-string with default encoding
+		CBasicString(const NChar* cString, EStringEncoding encoding); // Create a string from C-string
 		CBasicString(const WChar* uniString, UInt32 length, EStringEncoding encoding); // From uni-string
-		CBasicString(const Char* cString1, const Char* cString2); // Append 2 cStrings with default encoding.
+		CBasicString(const NChar* cString1, const NChar* cString2); // Append 2 cStrings with default encoding.
 		~CBasicString();
 
-		const CBasicString& operator = (const Char* cString);
+		const CBasicString& operator = (const NChar* cString);
 		const CBasicString& operator = (const CBasicString& copy);
 
-		const CBasicString& operator += (const Char* cString) { append(cString); return *this; }
+		const CBasicString& operator += (const NChar* cString) { append(cString); return *this; }
 		const CBasicString& operator += (const CBasicString& string) { append(string); return *this; }
 
-		SInt32 compare(const Char* cString) const;
+		SInt32 compare(const NChar* cString) const;
 		SInt32 compare(const CBasicString& string) const;
 
-		Bool operator == (const Char* cString) const;
+		Bool operator == (const NChar* cString) const;
 		Bool operator == (const CBasicString& string) const;
 
-		Bool operator != (const Char* cString) const;
+		Bool operator != (const NChar* cString) const;
 		Bool operator != (const CBasicString& string) const;
 
-		Bool operator < (const Char* cString) const;
+		Bool operator < (const NChar* cString) const;
 		Bool operator < (const CBasicString& string) const;
 
-		Bool operator > (const Char* cString) const;
+		Bool operator > (const NChar* cString) const;
 		Bool operator > (const CBasicString& string) const;
 
-		Bool operator <= (const Char* cString) const;
+		Bool operator <= (const NChar* cString) const;
 		Bool operator <= (const CBasicString& string) const;
 
-		Bool operator >= (const Char* cString) const;
+		Bool operator >= (const NChar* cString) const;
 		Bool operator >= (const CBasicString& string) const;
 
-		void append(const Char* cString, EStringEncoding encoding = eEncodingDefault);
+		void append(const NChar* cString, EStringEncoding encoding = eStringEncodingASCII);
 		void append(const WChar* uniString, UInt32 length,
-						EStringEncoding encoding = eEncodingDefault);
+						EStringEncoding encoding = eStringEncodingASCII);
 		void append(const CBasicString& string);
 
 		void clear();
@@ -69,9 +83,9 @@ class CBasicString
 		bool isEmpty() const;
 		EStringEncoding encoding() const;
 
-		const Char* cString(EStringEncoding encoding = eEncodingDefault) const;
+		const NChar* cString(EStringEncoding encoding = eStringEncodingASCII) const;
 
-		const CBasicString operator + (const Char* nullTerminatedString) const
+		const CBasicString operator + (const NChar* nullTerminatedString) const
 		{
 			return CBasicString(cString(), nullTerminatedString);
 		}
@@ -83,7 +97,7 @@ class CBasicString
 
 
 	// PRIVATE:
-		static CBasicString __CStringWithLiteral(const Char*);
+		static CBasicString __CStringWithLiteral(const NChar*);
 
 	private:
 		struct SStringProxy;
@@ -91,7 +105,7 @@ class CBasicString
 		inline CBasicString(SStringProxy* mProxy);
 };
 
-inline const CBasicString operator + (const Char* cString, const CBasicString& string)
+inline const CBasicString operator + (const NChar* cString, const CBasicString& string)
 {
 	return CBasicString(cString, string.cString());
 }

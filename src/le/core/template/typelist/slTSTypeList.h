@@ -1,7 +1,6 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
-#include <le/core/template/util/slTSTypesEqual.h>
 #include "base/slTSTypeListBase.h"
 #include "base/slTSTypeListAppendTraits.h"
 #include "base/slTSTypeListSorting.h"
@@ -64,9 +63,9 @@ struct TSTypeList
 	};
 
 	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> uniqueItems;
-	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>::result, TSTypeList<>, _popFront>::result PopFront;
+	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>, TSTypeList<>, TSTypeList<_popFront> >::result PopFront;
 
-	template <unsigned int index>
+	template <UInt index>
 	struct TypeAt
 	{
 		typedef typename _TSTypeListTypeAt<_headNode, index>::_result result;
@@ -95,61 +94,48 @@ struct TSTypeList
 	};
 
 	template <typename T>
-	struct PushBack
-	{
-		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
-				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
-	};
+	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode,
+				typename TSTypeListAppendTraits<T>::listNode>::_result>
+	{};
 
 	template <typename T>
-	struct PushFront
-	{
-		typedef TSTypeList<typename _TSTypeListAppend<
-			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result> result;
-	};
+	struct PushFront : public TSTypeList<typename _TSTypeListAppend<
+			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result>
+	{};
 
 	template <typename T>
-	struct Erase
-	{
-		typedef TSTypeList<typename _TSTypeListErase<_headNode, T>::_result> result;
-	};
+	struct Erase : public TSTypeList<typename _TSTypeListErase<_headNode, T>::_result>
+	{};
 
 	template <typename T>
-	struct EraseAll
-	{
-		typedef TSTypeList<typename _TSTypeListEraseAll<_headNode, T>::_result> result;
-	};
+	struct EraseAll : public TSTypeList<typename _TSTypeListEraseAll<_headNode, T>::_result>
+	{};
 
+	// TPredicate<T1, T2>::value should be < 0, =0 or > 0.
 	template <template <typename Arg1, typename Arg2> class TPredicate, bool ascending>
-	struct Sort
-	{
-		typedef TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, ascending>::_result> result;
-	};
+	struct Sort : public TSTypeList<typename _TSTypeListSort<_headNode, TPredicate, ascending>::_result>
+	{};
 
 	template <template <typename Arg1, typename Arg2> class TPredicate>
-	struct SortAsc
-	{
-		typedef typename Sort<TPredicate, true>::result result;
-	};
+	struct SortAsc : public Sort<TPredicate, true>
+	{};
 
 	template <template <typename Arg1, typename Arg2> class TPredicate>
-	struct SortDes
-	{
-		typedef typename Sort<TPredicate, false>::result result;
-	};
-
-	// Collects a new list of types, for which predicate<T>::result == 1;
-	template <template <typename T> class predicate>
-	struct CollectIf
-	{
-		typedef TSTypeList<typename _TSTypeListCollectIf<_headNode, predicate>::_result> result;
-	};
+	struct SortDes : public Sort<TPredicate, false>
+	{};
 
 	template <template <typename T> class mutator>
-	struct Mutate
-	{
-		typedef TSTypeList<typename _TSTypeListMutate<_headNode, mutator>::_result> result;
-	};
+	struct Mutate : public TSTypeList<typename _TSTypeListMutate<_headNode, mutator>::_result>
+	{};
+
+	// Collects a new list of types, for which predicate<T>::value == 1;
+	template <template <typename T> class predicate>
+	struct CollectIf : public TSTypeList<typename _TSTypeListCollectIf<_headNode, predicate>::_result>
+	{};
+
+	template <template <typename T> class mutator>
+	struct CollectMutantsIf : public TSTypeList<typename _TSTypeListCollectMutantsIf<_headNode, mutator>::_result>
+	{};
 };
 
 

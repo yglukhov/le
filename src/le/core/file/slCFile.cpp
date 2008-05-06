@@ -43,7 +43,7 @@ EStatus CFile::open(const CString& filePath, unsigned openFlags)
 		std::fstream::open(filePath.cString());
 	}
 
-	return (is_open())?(eStatusOK):(eStatusErrorOpenFailed);
+	return (is_open())?(eStatusOK):(eStatusOpenFailed);
 }
 
 EStatus CFile::open(const CFolder& folder, unsigned openFlags)

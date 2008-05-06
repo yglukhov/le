@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
+
 namespace sokira
 {
 	namespace le

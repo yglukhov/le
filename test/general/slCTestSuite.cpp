@@ -7,9 +7,9 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CTestSuite);
 
-bool CTestSuite::runTest()
+void CTestSuite::runTest()
 {
-	return true;
+
 }
 
 	} // namespace le

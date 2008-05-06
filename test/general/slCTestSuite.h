@@ -13,7 +13,7 @@ class CTestSuite : public CObject
 	LE_DECLARE_RUNTIME_CLASS(CTestSuite);
 
 	public:
-		virtual bool runTest();
+		virtual void runTest();
 };
 
 	} // namespace le

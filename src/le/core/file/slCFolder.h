@@ -1,7 +1,6 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
-#include <le/gui/slConstants.h> // TODO: Remove dependency from GUI lib
+#include <le/core/slTypes.h>
 
 #if !defined _WIN32
 #include <dirent.h> // posix header
@@ -11,6 +10,19 @@ namespace sokira
 {
 	namespace le
 	{
+
+enum EFolderNode
+{
+	eFolderNodeUnknown = 0,
+	eFolderNodeFolder,
+	eFolderNodeRegular,
+	eFolderNodeLink,
+	eFolderNodeFIFO, // DO NOT USE
+	eFolderNodeChr, // DO NOT USE
+	eFolderNodeBlk, // DO NOT USE
+	eFolderNodeSocket, // DO NOT USE
+	eFolderNodeWht // DO NOT USE
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // class CFolder - used to enumerate through folder contents, create folders

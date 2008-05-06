@@ -1,4 +1,5 @@
-#pragma once
+#if !defined H_included_slCLogControl
+#define H_included_slCLogControl
 
 #include <streambuf>
 #include <list>
@@ -40,6 +41,7 @@ class CLogControl :
 		}
 
 	protected:
+
 		virtual int sync();
 		virtual int overflow(int c = EOF);
 
@@ -52,3 +54,5 @@ class CLogControl :
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined H_included_slCLogControl

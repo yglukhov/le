@@ -12,7 +12,6 @@
 
 #define _LE_PP_NOTHING
 
-
 #define _LE_PP_FOR_0(_p, _a) LE_PP_BIT_IF(_p(0), _a(0) _LE_PP_FOR_1(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_1(_p, _a) LE_PP_BIT_IF(_p(1), _a(1) _LE_PP_FOR_2(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_2(_p, _a) LE_PP_BIT_IF(_p(2), _a(2) _LE_PP_FOR_3(_p, _a), _LE_PP_NOTHING)
@@ -269,7 +268,7 @@
 #define _LE_PP_FOR_253(_p, _a) LE_PP_BIT_IF(_p(253), _a(253) _LE_PP_FOR_254(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_254(_p, _a) LE_PP_BIT_IF(_p(254), _a(254) _LE_PP_FOR_255(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_255(_p, _a) LE_PP_BIT_IF(_p(255), _a(255) _LE_PP_FOR_256(_p, _a), _LE_PP_NOTHING)
-#define _LE_PP_FOR_255(_p, _a) LE_PP_BIT_IF(_p(255), _a(255), _LE_PP_NOTHING)
+#define _LE_PP_FOR_256(_p, _a) LE_PP_BIT_IF(_p(256), _a(256), _LE_PP_NOTHING)
 
 
 #define LE_PP_FOR_LIMITATION 255

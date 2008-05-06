@@ -26,7 +26,8 @@ CThreadImplBase* CThreadImplWindows::thread()
 	DWORD threadToFind = GetCurrentThreadId();
 	if(!threadList().empty())
 	{
-		for (std::list<CThreadImplWindows*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
+		std::list<CThreadImplWindows*>::iterator end = threadList().end();
+		for (std::list<CThreadImplWindows*>::iterator it = threadList().begin(); it != end; ++it)
 		{
 			if ((*it)->mThreadID == threadToFind)
 			{

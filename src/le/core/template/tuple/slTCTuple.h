@@ -1,7 +1,6 @@
 #pragma once
 
 #include <le/core/template/util/slTSConstToType.h>
-#include <le/core/template/util/slTSConstRef.h>
 #include "slTCUnitTuple.h"
 
 namespace sokira
@@ -36,7 +35,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		// value<index>() - return a const reference to the object in the tuple
 		// at index
 		template <unsigned index>
-		void value(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
+		void setValue(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
 		{
 			TCUnitTuple<TTypeList,
 					TSDefaultTupleUnit>::template unit<index>().mValue = newValue;

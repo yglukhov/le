@@ -22,4 +22,10 @@
 			LE_COMPILER_NAME_STRING##" "##LE_COMPILER_VERSION_STRING
 #endif // defined LE_FLAG_COMPILER_CONFIGURED
 
+#if defined(__LP64__) && (__LP64__ == 1)
+#	define LE_ARCHITECTURE_BITS 64
+#else
+#	define LE_ARCHITECTURE_BITS 32
+#endif // defined(__LP64__) && (__LP64__ == 1)
+
 #endif // not defined H_slCompiler_included

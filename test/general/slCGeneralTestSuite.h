@@ -13,7 +13,21 @@ class CGeneralTestSuite : public CTestSuite
 	LE_DECLARE_RUNTIME_CLASS(CGeneralTestSuite);
 
 	public:
-		virtual bool runTest();
+		virtual void runTest()
+		{
+			testTypeTraits();
+			testTypeList();
+			testBasicTypes();
+			testBinds();
+			testTuples();
+		}
+
+	private:
+		void testTypeTraits();
+		void testTypeList();
+		void testBasicTypes();
+		void testBinds();
+		void testTuples();
 };
 
 	} // namespace le

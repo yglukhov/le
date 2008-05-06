@@ -16,17 +16,15 @@ class TCUnitTuple
 		template <unsigned int index>
 		inline TUnit<typename TTypeList::template TypeAt<index>::result>& unit()
 		{
-			typedef typename TTypeList::template TypeAt<index>::result UnitType; 
-			return static_cast<TUnit<UnitType>&>(static_cast<_TSTupleUnit<index, TUnit<UnitType> >&>(mTuple));
-		//	return static_cast<TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
+			typedef TUnit<typename TTypeList::template TypeAt<index>::result> Unit; 
+			return static_cast<Unit&>(static_cast<_TSTupleUnit<index, Unit>&>(mTuple));
 		}
 
 		template <unsigned int index>
 		inline const TUnit<typename TTypeList::template TypeAt<index>::result>& unit() const
 		{
-			typedef typename TTypeList::template TypeAt<index>::result UnitType; 
-			return static_cast<const TUnit<UnitType>&>(static_cast<const _TSTupleUnit<index, TUnit<UnitType> >&>(mTuple));
-		//	return static_cast<const TUnit<typename TTypeList::template TypeAt<index>::result, index>&>(mTuple);
+			typedef TUnit<typename TTypeList::template TypeAt<index>::result> Unit; 
+			return static_cast<const Unit&>(static_cast<const _TSTupleUnit<index, Unit>&>(mTuple));
 		}
 };
 

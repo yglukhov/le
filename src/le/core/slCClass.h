@@ -23,6 +23,146 @@ namespace sokira
 	namespace le
 	{
 
+struct _TSStubDeclarator
+{};
+
+template <class T>
+struct TSPublicParentDeclarator
+{};
+
+template <class T>
+struct TSPrivateParentDeclarator
+{};
+
+template <class T>
+struct TSProtectedParentDeclarator
+{};
+
+typedef _SNullType Self;
+
+template <class T>
+struct TSParentCollector
+{
+	enum { value = false };
+};
+
+template <class T>
+struct TSParentCollector<TSPublicParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+template <class T>
+struct TSParentCollector<TSPrivateParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+template <class T>
+struct TSParentCollector<TSProtectedParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+template <class T>
+struct TSPublicParentCollector
+{
+	enum { value = false };
+};
+
+template <class T>
+struct TSPublicParentCollector<TSPublicParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+template <class T>
+struct TSPrivateParentCollector
+{
+	enum { value = false };
+};
+
+template <class T>
+struct TSPrivateParentCollector<TSPrivateParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+template <class T>
+struct TSProtectedParentCollector
+{
+	enum { value = false };
+};
+
+template <class T>
+struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
+{
+	enum { value = true };
+	typedef T result;
+};
+
+#define LE_DECLARE_RUNTIME_CLASS(name)		\
+	LE_RTTI_BEGIN						\
+		LE_RTTI_SINGLE_PUBLIC_PARENT	\
+		LE_RTTI_SELF(name)				\
+	LE_RTTI_END
+
+#define LE_RTTI_BEGIN	\
+	private:				\
+	typedef TSTypeList<
+
+#define LE_RTTI_SELF(name)	\
+	_TSStubDeclarator> _LE_RTTI_SELF_DECLARATOR_##name##_break; \
+	typedef name __LE_temp_Self; \
+	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
+
+#define LE_RTTI_PUBLIC_PARENT(name)		\
+	TSPublicParentDeclarator<name> >::PushBack<
+
+#define LE_RTTI_PRIVATE_PARENT(name)	\
+	TSPrivateParentDeclarator<name> >::PushBack<
+
+#define LE_RTTI_PROTECTED_PARENT(name)	\
+	TSProtectedParentDeclarator<name> >::PushBack<
+
+#define LE_RTTI_SELECTOR(sel)	\
+	_TSStubDeclarator> _LE_RTTI_SEL_DECLARATOR_##sel##_break; \
+	struct _TSSel_##sel##_declarator		\
+	{	\
+		\
+	};	\
+	typedef _LE_RTTI_SEL_DECLARATOR_##sel##_break::PushBack<_TSSel_##sel##_declarator>::PushBack<
+
+#define LE_RTTI_SINGLE_PUBLIC_PARENT \
+	TSPublicParentDeclarator<leSelf> >::PushBack<
+#define LE_RTTI_SINGLE_PRIVATE_PARENT \
+	TSPrivateParentDeclarator<leSelf> >::PushBack<
+#define LE_RTTI_SINGLE_PROTECTED_PARENT \
+	TSProtectedParentDeclarator<leSelf> >::PushBack<
+
+#define LE_RTTI_END _TSStubDeclarator> \
+	_le_RTTI_INFO; \
+	protected:		\
+	typedef __LE_temp_Self leSelf;					\
+	public:	\
+	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSParentCollector>	leParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSPublicParentCollector> lePublicParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSPrivateParentCollector> lePrivateParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSProtectedParentCollector> leProtectedParents;	\
+	typedef leParents::TypeAtNonStrict<0>::result leFirstParent;	\
+	typedef lePublicParents::TypeAtNonStrict<0>::result leFirstPublicParent;	\
+	typedef lePrivateParents::TypeAtNonStrict<0>::result leFirstPrivateParent;	\
+	typedef leProtectedParents::TypeAtNonStrict<0>::result leFirstProtectedParent;	\
+		static sokira::le::CClass staticClass();				\
+		virtual sokira::le::CClass objectClass() const;			\
+		typedef sokira::le::TCPointer<leSelf> Ptr;				\
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declaraions
 class IClassImpl;
@@ -49,24 +189,8 @@ class CClass
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Hierarchy root declaration
+// RTTI implementation
 ////////////////////////////////////////////////////////////////////////////////
-#define LE_DECLARE_HIERARCHY_ROOT(Class)						\
-	public:														\
-		typedef sokira::le::TSTypeList<> leParents;				\
-	_LE_DECLARE_RUNTIME_CLASS(Class)
-
-#define LE_IMPLEMENT_HIERARCHY_ROOT(Class)						\
-	LE_IMPLEMENT_RUNTIME_CLASS(Class)
-
-////////////////////////////////////////////////////////////////////////////////
-// Runtime class declaration
-////////////////////////////////////////////////////////////////////////////////
-#define LE_DECLARE_RUNTIME_CLASS(Class)							\
-	public:														\
-		typedef sokira::le::TSTypeList<leSelf> leParents;		\
-	_LE_DECLARE_RUNTIME_CLASS(Class)
-
 #define LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
 	static sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
 	_LE_IMPLEMENT_RUNTIME_CLASS(Class)
@@ -107,7 +231,7 @@ class IClassImpl
 	protected:
 		IClassImpl(const char*);
 	private:
-		IClassImpl() {}
+		IClassImpl();
 		const char* mName;
 		friend class CClass;
 		friend struct SByNameFinder;
