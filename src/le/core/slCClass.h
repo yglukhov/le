@@ -4,19 +4,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <typeinfo>
+#include <set>
 #include "base/slCBasicString.h"
+#include "base/slTCSelector.h"
 #include "slTCPointer.h"
 #include "template/typelist/slTSTypeList.h"
-
-#define _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
-
-#if ! defined _LE_STD_TYPENAME_COMPARISON_IS_TRIVIAL_
-#include <cstring> // for strcmp
-
-#define _le_stdNamesEqual(n1, n2) (!strcmp((n1), (n2)))
-#else
-#define _le_stdNamesEqual(n1, n2) ((n1) == (n2))
-#endif
 
 namespace sokira
 {
@@ -114,39 +106,53 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
 
 #define LE_RTTI_BEGIN	\
 	private:				\
-	typedef TSTypeList<
+	typedef TSTypeList<>::PushBack<
 
 #define LE_RTTI_SELF(name)	\
-	_TSStubDeclarator> _LE_RTTI_SELF_DECLARATOR_##name##_break; \
+	_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
 	typedef name __LE_temp_Self; \
 	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
 
 #define LE_RTTI_PUBLIC_PARENT(name)		\
-	TSPublicParentDeclarator<name> >::PushBack<
+	TSPublicParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PRIVATE_PARENT(name)	\
-	TSPrivateParentDeclarator<name> >::PushBack<
+	TSPrivateParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PROTECTED_PARENT(name)	\
-	TSProtectedParentDeclarator<name> >::PushBack<
+	TSProtectedParentDeclarator<name> >::result::PushBack<
 
-#define LE_RTTI_SELECTOR(sel)	\
-	_TSStubDeclarator> _LE_RTTI_SEL_DECLARATOR_##sel##_break; \
-	struct _TSSel_##sel##_declarator		\
-	{	\
-		\
-	};	\
-	typedef _LE_RTTI_SEL_DECLARATOR_##sel##_break::PushBack<_TSSel_##sel##_declarator>::PushBack<
+struct _SSelectorDeclarator {};
+
+#define LE_RTTI_SELECTOR_WITH_NAME(sel, name)							\
+	_TSStubDeclarator>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
+	struct _TSSel_##sel##_##name##_declarator : public _SSelectorDeclarator \
+	{																	\
+		static inline ISelector *selector()								\
+		{																\
+			return _selector(&__LE_temp_Self::sel);						\
+		}																\
+	private:															\
+		template <typename SelType>										\
+		static inline ISelector *_selector(SelType sel)					\
+		{																\
+			return new TCSelector<SelType>(sel, #name);					\
+		}																\
+	};																	\
+	typedef _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break::PushBack<_TSSel_##sel##_##name##_declarator>::result::PushBack<
+
+#define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
 
 #define LE_RTTI_SINGLE_PUBLIC_PARENT \
-	TSPublicParentDeclarator<leSelf> >::PushBack<
+	TSPublicParentDeclarator<leSelf> >::result::PushBack<
 #define LE_RTTI_SINGLE_PRIVATE_PARENT \
-	TSPrivateParentDeclarator<leSelf> >::PushBack<
+	TSPrivateParentDeclarator<leSelf> >::result::PushBack<
 #define LE_RTTI_SINGLE_PROTECTED_PARENT \
-	TSProtectedParentDeclarator<leSelf> >::PushBack<
+	TSProtectedParentDeclarator<leSelf> >::result::PushBack<
 
-#define LE_RTTI_END _TSStubDeclarator> \
+#define LE_RTTI_END _TSStubDeclarator>::result \
 	_le_RTTI_INFO; \
+	template<typename> friend  class TCClassImpl;	\
 	protected:		\
 	typedef __LE_temp_Self leSelf;					\
 	public:	\
@@ -182,7 +188,7 @@ class CClass
 	// Private:
 		CClass(IClassImpl* impl);
 
-		inline const char* stdName() const;
+		inline const std::type_info& stdType() const;
 	private:
 		IClassImpl* mImpl;
 };
@@ -191,22 +197,13 @@ class CClass
 ////////////////////////////////////////////////////////////////////////////////
 // RTTI implementation
 ////////////////////////////////////////////////////////////////////////////////
-#define LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
+#define LE_IMPLEMENT_RUNTIME_CLASS(Class)									\
 	static sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
-	_LE_IMPLEMENT_RUNTIME_CLASS(Class)
+	_LE_IMPLEMENT_RUNTIME_CLASS(Class);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Internal helper macros
 ////////////////////////////////////////////////////////////////////////////////
-#define _LE_DECLARE_RUNTIME_CLASS(Class)						\
-	protected:													\
-		typedef Class leSelf;									\
-	public:														\
-		static sokira::le::CClass staticClass();				\
-		virtual sokira::le::CClass objectClass() const;			\
-		typedef sokira::le::TCPointer<Class> Ptr;				\
-	private:
-
 #define _LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
 	sokira::le::CClass Class::staticClass()						\
 	{															\
@@ -215,8 +212,10 @@ class CClass
 																\
 	sokira::le::CClass Class::objectClass() const				\
 	{															\
-		return sokira::le::CClass(&_le_##Class##_ClassInfo_);	\
+		return staticClass();									\
 	}
+
+class ISelector;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -224,62 +223,92 @@ class CClass
 class IClassImpl
 {
 	public:
-		virtual void* create(const char* type) const = 0;
-		virtual const char* stdName() const = 0;
-		virtual bool isChildOfStdNamedClass(const char* name) = 0;
+		virtual void* create(const std::type_info& type) const = 0;
+		virtual const std::type_info& stdType() const = 0;
+		virtual bool isChildOfStdClass(const std::type_info& type) const = 0;
 
 	protected:
 		IClassImpl(const char*);
+		~IClassImpl()
+		{
+			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
+			{
+				delete *it;
+			}
+		}
+
+		template <class TListNode>
+		inline void registerSelectors()
+		{
+			processDeclarator
+				<
+					TSSelect
+					<
+						TSStrictCastAvailable<typename TListNode::Head, _SSelectorDeclarator>,
+						typename TListNode::Head,
+						_SNullType
+					>::result
+				>();
+			registerSelectors<typename TListNode::Tail>();
+		}
+
 	private:
 		IClassImpl();
 		const char* mName;
+		std::set<ISelector*> mSelectors;
+		template <typename T>
+		inline void processDeclarator()
+		{
+			mSelectors.insert(T::selector());
+		}
+
 		friend class CClass;
 		friend struct SByNameFinder;
 };
 
+template <>
+inline void IClassImpl::registerSelectors<_SNullType>()
+{
+
+}
+
+template <>
+inline void IClassImpl::processDeclarator<_SNullType>()
+{
+
+}
+
 template <class TCastTo>
 TCPointer<TCastTo> CClass::create() const
 {
-	return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo).name())));
+	return TCPointer<TCastTo>(static_cast<TCastTo*>(mImpl->create(typeid(TCastTo))));
 }
 
-const char* CClass::stdName() const
+const std::type_info& CClass::stdType() const
 {
-	return mImpl->stdName();
+	return mImpl->stdType();
 }
 
 template <class TListNode, class T>
 struct TSForTypeListParentCreate
 {
-	static void* create(const char* typeName)
+	static void* create(const std::type_info& type)
 	{
-		if (_le_stdNamesEqual(typeid(typename TListNode::Head).name(), typeName))
+		if (typeid(typename TListNode::Head) == type)
 		{
 			return static_cast<void*>(dynamic_cast<typename TListNode::Head*>(new T()));
 		}
 
-		void* result = TSForTypeListParentCreate<typename TListNode::Head::leParents::_headNode, T>::create(typeName);
+		void* result = TSForTypeListParentCreate<typename TListNode::Head::leParents::_headNode, T>::create(type);
 
-		if (result)
-			return result;
-
-		return TSForTypeListParentCreate<typename TListNode::Tail, T>::create(typeName);
+		return (result)?(result):(TSForTypeListParentCreate<typename TListNode::Tail, T>::create(type));
 	}
 };
 
 template <class T>
 struct TSForTypeListParentCreate<_SNullType, T>
 {
-	static void* create(const char* typeName)
-	{
-		return NULL;
-	}
-};
-
-template <class T>
-struct TSCreator
-{
-	static void* create(const char* typeName)
+	static void* create(const std::type_info& type)
 	{
 		return NULL;
 	}
@@ -293,16 +322,16 @@ struct TSChildOf
 template <class U, class V>
 struct TSChildOf<_TSTypeListNode<U, V> >
 {
-	static inline bool f(const char* stdName)
+	static inline bool f(const std::type_info& stdType)
 	{
-		return _le_stdNamesEqual(typeid(U).name(), stdName) || TSChildOf<typename U::leParents::_headNode>::f(stdName) || TSChildOf<V>::f(stdName);
+		return (typeid(U) == stdType) || TSChildOf<typename U::leParents::_headNode>::f(stdType) || TSChildOf<V>::f(stdType);
 	}
 };
 
 template <>
 struct TSChildOf<_SNullType>
 {
-	static inline bool f(const char*)
+	static inline bool f(const std::type_info&)
 	{
 		return false;
 	}
@@ -313,28 +342,27 @@ template <class T>
 class TCClassImpl : public IClassImpl
 {
 	public:
-		TCClassImpl(const char* typeName) : IClassImpl(typeName) {}
-
-		virtual void* create(const char* typeName) const
+		TCClassImpl(const char* typeName) : IClassImpl(typeName)
 		{
-			if (_le_stdNamesEqual(typeid(T).name(), typeName))
-			{
-				return static_cast<void*>(new T());
-			}
-			else
-			{
-				return TSForTypeListParentCreate<typename T::leParents::_headNode, T>::create(typeName);
-			}
+			registerSelectors<T::_le_RTTI_INFO::_headNode>();
 		}
 
-		virtual bool isChildOfStdNamedClass(const char* name)
+		virtual void* create(const std::type_info& type) const
 		{
-			return TSChildOf<typename T::leParents::_headNode>::f(name);
+			return (typeid(T) == type)?
+				(static_cast<void*>(new T()))
+				:
+				(TSForTypeListParentCreate<typename T::leParents::_headNode, T>::create(type));
 		}
 
-		virtual const char* stdName() const
+		virtual bool isChildOfStdClass(const std::type_info& type) const
 		{
-			return typeid(T).name();
+			return TSChildOf<typename T::leParents::_headNode>::f(type);
+		}
+
+		virtual const std::type_info& stdType() const
+		{
+			return typeid(T);
 		}
 };
 

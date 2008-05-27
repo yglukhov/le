@@ -1,7 +1,7 @@
 #if !defined H_included_slAssert
 #define H_included_slAssert
 
-#include <le/core/config/slPrefix.h>
+#include <le/core/slTypes.h>
 
 
 namespace sokira
@@ -16,11 +16,11 @@ class CObject;
 
 void _le_assert(bool, const char*, unsigned, const char*, const CObject*, const char*);
 
-#	define LE_ASSERT(x) _le_assert((x), #x, __LINE__, __FILE__, NULL, NULL)
-#	define LE_ASSERT_MESSAGE(x, message) _le_assert((x), #x, __LINE__, __FILE__, NULL, message)
+#	define LE_ASSERT(x) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, NULL)
+#	define LE_ASSERT_MESSAGE(x, message) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, message)
 
-#	define LE_ASSERT_EX(x) _le_assert((x), #x, __LINE__, __FILE__, this, NULL)
-#	define LE_ASSERT_EX_MESSAGE(x, message) _le_assert((x), #x, __LINE__, __FILE__, this, message)
+#	define LE_ASSERT_EX(x) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, NULL)
+#	define LE_ASSERT_EX_MESSAGE(x, message) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, message)
 
 
 ////////////////////////////////////////////////////////////////////////////////

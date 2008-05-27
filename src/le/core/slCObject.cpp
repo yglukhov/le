@@ -8,11 +8,6 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CObject);
 
-CObject::CObject()
-{
-
-}
-
 CObject::~CObject()
 {
 
@@ -22,10 +17,9 @@ CString CObject::description() const
 {
 	CDictionary dict(LESTR("object"));
 	serialize(dict);
-	char str[50];
-	sprintf(str, "%p", (const void*)this);
+	CString addressStr = CString::createWithFormat("%p", (const void*)this);
 	dict.attributeForKey(LESTR("type"), objectClass().name());
-	dict.attributeForKey(LESTR("address"), str);
+	dict.attributeForKey(LESTR("address"), addressStr);
 	return dict.toString();
 }
 

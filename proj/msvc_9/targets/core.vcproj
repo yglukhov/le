@@ -263,6 +263,10 @@
 					RelativePath="..\..\..\src\le\core\base\slTCColorBase.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slTCSelector.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="config"
@@ -297,6 +301,22 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\debug\slAssert.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\debug\slCAssertControl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\debug\slCAssertControl.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\debug\slCAssertionPolicy.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\debug\slCAssertionPolicy.h"
 					>
 				</File>
 				<File
@@ -451,19 +471,11 @@
 					Name="util"
 					>
 					<File
-						RelativePath="..\..\..\src\le\core\template\util\slTSConstRef.h"
+						RelativePath="..\..\..\src\le\core\template\util\slTSCommon.h"
 						>
 					</File>
 					<File
 						RelativePath="..\..\..\src\le\core\template\util\slTSConstToType.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\..\src\le\core\template\util\slTSSelect.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\..\src\le\core\template\util\slTSTypesEqual.h"
 						>
 					</File>
 				</Filter>
@@ -529,6 +541,78 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\network\slCServer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="preprocessor"
+				>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPand.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbit_and.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbit_if.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbit_not.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbit_or.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbit_xor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPbool.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPcat.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPdec.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPequal.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPfor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPif.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPinc.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPnot.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPnot_equal.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPxor.h"
 					>
 				</File>
 			</Filter>

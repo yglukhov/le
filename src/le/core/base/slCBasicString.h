@@ -42,6 +42,12 @@ class CBasicString
 		CBasicString(const NChar* cString1, const NChar* cString2); // Append 2 cStrings with default encoding.
 		~CBasicString();
 
+		static CBasicString createWithFormat(const NChar *format, ...);
+		static CBasicString createWithFormat(CBasicString format, ...);
+
+		static CBasicString createWithFormat(const NChar *format, va_list argList);
+		static CBasicString createWithFormat(const CBasicString &format, va_list argList);
+
 		const CBasicString& operator = (const NChar* cString);
 		const CBasicString& operator = (const CBasicString& copy);
 

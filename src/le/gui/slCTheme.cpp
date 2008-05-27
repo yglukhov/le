@@ -59,7 +59,7 @@ void CTheme::init()
 			it != end; ++it)
 	{
 		TCPointer<CControlBasicController> controller =
-				CClassFactory::create<CControlBasicController>(it->first);
+				CClassFactory::defaultInstance()->create<CControlBasicController>(it->first);
 
 		if(controller)
 		{
@@ -108,7 +108,7 @@ void CTheme::currentTheme(const char* themeClass)
 {
 	LE_ENTER_LOG;
 
-	_currentTheme = CClassFactory::create<CTheme>(themeClass);
+	_currentTheme = CClassFactory::defaultInstance()->create<CTheme>(themeClass);
 
 	if(_currentTheme)
 	{

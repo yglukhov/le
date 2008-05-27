@@ -25,14 +25,14 @@ CFolder::~CFolder()
 
 //////////////////////////////////////////////////////////////////////////
 // Opening
-EStatus CFolder::open(const char* path, unsigned openFlags)
+EStatus CFolder::open(const NChar* path, UInt32 openFlags)
 {
 #if !defined _WIN32
 	// TODO: make processing of openFlags
 	mDir = opendir(path);
 	return (mDir)?(eStatusOK):(eStatusOpenFailed);
 #else
-	return eStatusErrorOpenFailed;
+	return eStatusOpenFailed;
 #endif
 }
 

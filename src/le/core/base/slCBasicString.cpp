@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <stdarg.h>
 #include "slCBasicString.h"
 #include <le/core/debug/slAssert.h>
 #include <le/core/config/slCompiler.h>
@@ -207,6 +208,37 @@ CBasicString::~CBasicString()
 	mProxy->release();
 }
 
+CBasicString CBasicString::createWithFormat(const NChar *format, ...)
+{
+	va_list list;
+	va_start(list, format);
+	CBasicString result = createWithFormat(format, list);
+	va_end(list);
+	return result;
+}
+
+CBasicString CBasicString::createWithFormat(CBasicString format, ...)
+{
+	va_list list;
+	va_start(list, format);
+	CBasicString result = createWithFormat(format.cString(), list);
+	va_end(list);
+	return result;
+}
+
+CBasicString CBasicString::createWithFormat(const NChar *format, va_list argList)
+{
+	// TODO: complete this
+	char buffer[1024];
+	vsprintf_s(buffer, format, argList);
+	return CBasicString(buffer);
+}
+
+CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list argList)
+{
+	return createWithFormat(format.cString(), argList);
+}
+
 const CBasicString& CBasicString::operator = (const NChar* cString)
 {
 	if (mProxy->mString != cString)
@@ -251,12 +283,12 @@ Bool CBasicString::operator == (const CBasicString& string) const
 
 Bool CBasicString::operator != (const NChar* cString) const
 {
-	return compare(cString);
+	return _LE_BOOL_CAST(compare(cString));
 }
 
 Bool CBasicString::operator != (const CBasicString& string) const
 {
-	return compare(string);
+	return _LE_BOOL_CAST(compare(string));
 }
 
 

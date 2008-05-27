@@ -20,6 +20,9 @@ class CGeneralTestSuite : public CTestSuite
 			testBasicTypes();
 			testBinds();
 			testTuples();
+			testStrings();
+			testFunctionTraits();
+			testPreprocessor();
 		}
 
 	private:
@@ -28,6 +31,9 @@ class CGeneralTestSuite : public CTestSuite
 		void testBasicTypes();
 		void testBinds();
 		void testTuples();
+		void testStrings();
+		void testFunctionTraits();
+		void testPreprocessor();
 };
 
 	} // namespace le

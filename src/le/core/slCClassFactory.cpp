@@ -8,19 +8,23 @@ namespace sokira
 	namespace le
 	{
 
-typedef std::set<IClassImpl*> CClassSet;
-static inline CClassSet& classSet()
-{
-	static CClassSet theSet;
-	return theSet;
-}
-
 IClassImpl::IClassImpl(const char* typeName) :
 	mName(typeName)
 {
 	LE_ENTER_LOG_SILENT;
 	LE_IF_LOG(log << "Registering class \"" << mName << "\"." << std::endl);
-	classSet().insert(this);
+	CClassFactory::defaultInstance()->registerClass(this);
+}
+
+void CClassFactory::registerClass(IClassImpl* theClass)
+{
+	mClassSet.insert(theClass);
+}
+
+CClassFactory *CClassFactory::defaultInstance()
+{
+	static CClassFactory factory;
+	return &factory;
 }
 
 bool CClassFactory::isClassRegistered(const CBasicString& className)
@@ -41,92 +45,57 @@ struct SByNameFinder
 		return (mName == impl->mName);
 	}
 
-	virtual bool match(IClassImpl* impl) const
-	{
-		return operator()(impl);
-	}
-
 	CBasicString mName;
 };
 
-struct SByStdNameFinder
-{
-	SByStdNameFinder(const char* name) :
-		mName(name)
-	{
-
-	}
-
-	bool operator()(IClassImpl* impl) const
-	{
-		return _le_stdNamesEqual(impl->stdName(), mName);
-	}
-
-	virtual bool match(IClassImpl* impl) const
-	{
-		return operator()(impl);
-	}
-
-	const char* mName;
-};
-
-
 IClassImpl* CClassFactory::_classWithName(const CBasicString& name)
 {
-	CClassSet::iterator end = classSet().end();
-	CClassSet::iterator it = std::find_if(classSet().begin(), end, SByNameFinder(name));
-	if (it != classSet().end())
-		return *it;
-	return NULL;
-}
-
-IClassImpl* _classWithStdName(const char* name)
-{
-	CClassSet::iterator end = classSet().end();
-	CClassSet::iterator it = std::find_if(classSet().begin(), end, SByStdNameFinder(name));
+	CClassSet::iterator end = mClassSet.end();
+	CClassSet::iterator it = std::find_if(mClassSet.begin(), end, SByNameFinder(name));
 	if (it != end)
 		return *it;
 	return NULL;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Iterators
 
 struct SByParentFinder : public CClassFactory::iterator::IPredicate
 {
-	SByParentFinder(const char* stdName) :
-		mName(stdName)
+	SByParentFinder(const std::type_info& stdType) :
+		mType(stdType)
 	{
 
 	}
 
-	virtual bool match(IClassImpl* impl) const
+	virtual bool operator () (IClassImpl* impl) const
 	{
-		return impl->isChildOfStdNamedClass(mName);
+		return impl->isChildOfStdClass(mType);
 	}
 
-	const char* mName;
+	const std::type_info& mType;
 };
 
 
 CClassFactory::iterator CClassFactory::begin()
 {
-	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new iterator::IPredicate());
+	return iterator(mClassSet.begin(), mClassSet.begin(), mClassSet.end(), new iterator::IPredicate());
 }
 
 CClassFactory::iterator CClassFactory::beginForChildsOf(const CBasicString& name)
 {
-	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new SByParentFinder(_classWithName(name)->stdName()));
+	return iterator(mClassSet.begin(), mClassSet.begin(), mClassSet.end(), new SByParentFinder(_classWithName(name)->stdType()));
 }
 
-CClassFactory::iterator CClassFactory::_beginForChildsOfStd(const char* name)
+CClassFactory::iterator CClassFactory::_beginForChildsOfStd(const std::type_info& type)
 {
-	return iterator(classSet().begin(), classSet().begin(), classSet().end(), new SByParentFinder(name));
+	return iterator(mClassSet.begin(), mClassSet.begin(), mClassSet.end(), new SByParentFinder(type));
 }
 
 CClassFactory::iterator CClassFactory::end()
 {
-	return iterator(classSet().end(), classSet().begin(), classSet().end(), new iterator::IPredicate());
+	return iterator(mClassSet.end(), mClassSet.begin(), mClassSet.end(), new iterator::IPredicate());
 }
 
 	} // namespace le

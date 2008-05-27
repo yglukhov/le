@@ -14,8 +14,9 @@ int main(int argc, char * const argv[])
 
 	CAssertControl::instance()->setAssertionPolicy(new CUnitTestingAssertionPolicy());
 
-	CClassFactory::iterator it = CClassFactory::beginForChildsOf<CTestSuite>();
-	CClassFactory::iterator end = CClassFactory::end();
+	CClassFactory* factory = CClassFactory::defaultInstance();
+	CClassFactory::iterator it = factory->beginForChildsOf<CTestSuite>();
+	CClassFactory::iterator end = factory->end();
 
 	for (UInt32 i = 1; it != end; ++it, ++i)
 	{

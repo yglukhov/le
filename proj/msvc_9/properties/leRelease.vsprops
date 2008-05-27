@@ -8,6 +8,8 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		Optimization="3"
+		WholeProgramOptimization="true"
 		ProgramDataBaseFileName="$(IntDir)\le_$(ProjectName).pdb"
 		DebugInformationFormat="0"
 	/>

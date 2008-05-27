@@ -15,17 +15,17 @@ static inline IClassImpl* stubClassImpl()
 	{
 		CStubClassImpl() : IClassImpl("(null)") {}
 
-		virtual void* create(const char* typeName) const
+		virtual void* create(const std::type_info&) const
 		{
 			return NULL;
 		}
 
-		virtual const char* stdName() const
+		virtual const std::type_info& stdType() const
 		{
-			return "(null)";
+			return typeid(NULL);
 		}
-		
-		virtual bool isChildOfStdNamedClass(const char*)
+
+		virtual bool isChildOfStdClass(const std::type_info&) const
 		{
 			return false;
 		}

@@ -1,6 +1,16 @@
 #include <le/core/debug/slDebug.h>
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/template/function/slTCBind.h>
+#include <le/core/slCString.h>
+
+#include <le/core/preprocessor/slPPand.h>
+#include <le/core/preprocessor/slPPor.h>
+#include <le/core/preprocessor/slPPnot.h>
+#include <le/core/preprocessor/slPPif.h>
+#include <le/core/preprocessor/slPPfor.h>
+#include <le/core/preprocessor/slPPequal.h>
+#include <le/core/preprocessor/slPPnot_equal.h>
+
 #include "slCGeneralTestSuite.h"
 
 namespace sokira
@@ -56,10 +66,11 @@ void CGeneralTestSuite::testTypeTraits()
 	LE_ASSERT((TSTypesEqual<TSResetPointerPower<float***, 1>::result, float*>::value));
 
 	// Some rtti tests
-	typedef TSTypesEqual<leFirstParent, leFirstParent> comp6;
-	typedef TSTypesEqual<leFirstParent, CTestSuite> comp7;
-	LE_ASSERT(comp6::value);
-	LE_ASSERT(comp7::value);
+	LE_ASSERT((TSTypesEqual<leFirstParent, leFirstParent>::value));
+	LE_ASSERT((TSTypesEqual<leFirstParent, CTestSuite>::value));
+	LE_ASSERT((TSTypesEqual<leFirstPublicParent, CTestSuite>::value));
+	LE_ASSERT((TSTypesEqual<leFirstPrivateParent, _SNullType>::value));
+	LE_ASSERT((TSTypesEqual<leSelf, CGeneralTestSuite>::value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +178,7 @@ void CGeneralTestSuite::testBasicTypes()
 ////////////////////////////////////////////////////////////////////////////////
 //
 ////////////////////////////////////////////////////////////////////////////////
-int testFunc(int a, int b)
+static int testFunc(int a, int b)
 {
 	return (a < b)?(b):(a);
 }
@@ -216,6 +227,59 @@ void CGeneralTestSuite::testTuples()
 	LE_ASSERT(tuple.value<0>() == 5);
 	LE_ASSERT(tuple.value<1>() > 3.0f && tuple.value<1>() < 3.2f);
 	LE_ASSERT(tuple.value<2>() == 6);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+void CGeneralTestSuite::testStrings()
+{
+	LE_ENTER_LOG;
+
+	int a = 5;
+	CString str = CString::createWithFormat(CString("%d"), a);
+	LE_ASSERT(str == "5");
+
+	a = 10;
+	str = CString::createWithFormat("%d", a);
+	LE_ASSERT(str == "10");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+void CGeneralTestSuite::testFunctionTraits()
+{
+//	typedef TSFunctionTraits<testFunc> TestFuncTraits;
+//	LE_ASSERT((TSTypesEqual<TestFuncTraits::RetType, int>::value));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+void CGeneralTestSuite::testPreprocessor()
+{
+	LE_ASSERT(LE_PP_OR(2, 3));
+	LE_ASSERT(LE_PP_OR(3, 0));
+	LE_ASSERT(LE_PP_NOT(LE_PP_OR(0, 0)));
+	LE_ASSERT(LE_PP_IF(5, 1, error));
+	LE_ASSERT(LE_PP_IF(LE_PP_AND(3, 6), 1, error));
+
+	LE_ASSERT(LE_PP_EQUAL(5, 5));
+	LE_ASSERT(LE_PP_NOT_EQUAL(5, 6));
+
+
+#define LE_TEST_FOR_PREDICATE(current) LE_PP_NOT_EQUAL(current, 2)
+#define LE_TEST_FOR_ACTION(current) current
+
+// TODO: Rework LE_PP_FOR to compile on MSVC without "macros nested too deeply" error
+//		and to allow "," (comma) in expressions.
+//	std::cout << LE_PP_FOR(1, LE_TEST_FOR_PREDICATE, LE_TEST_FOR_ACTION) << std::endl;
+//	LE_ASSERT(CString(1234) == LE_STR(LE_PP_FOR(1, LE_TEST_FOR_PREDICATE, LE_TEST_FOR_ACTION)));
+
+#undef LE_TEST_FOR_PREDICATE
+#undef LE_TEST_FOR_ACTION
+
 }
 
 	} // namespace le

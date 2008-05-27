@@ -10,7 +10,10 @@ namespace sokira
 
 class CString : public CObject, public CBasicString
 {
-	LE_DECLARE_RUNTIME_CLASS(CString);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CString)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
 
 	public:
 		inline CString() {}

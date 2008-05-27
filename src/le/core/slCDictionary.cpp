@@ -114,7 +114,7 @@ CObject::Ptr CDictionary::_valueForKey(const CString& key, TSTypeToType<CObject:
 	CDictConstIterator it = mData.find(key);
 	if(it != mData.end())
 	{
-		CObject::Ptr newObj = CClassFactory::create<CObject>(it->second.attributeForKey(cTypeAttributeKey));
+		CObject::Ptr newObj = CClassFactory::defaultInstance()->create<CObject>(it->second.attributeForKey(cTypeAttributeKey));
 		if (newObj)
 		{
 			newObj->deserialize(it->second);

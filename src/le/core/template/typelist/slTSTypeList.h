@@ -71,7 +71,7 @@ struct TSTypeList
 		typedef typename _TSTypeListTypeAt<_headNode, index>::_result result;
 	};
 
-	template <unsigned int index, typename TDefaultType = _SNullType>
+	template <UInt index, typename TDefaultType = _SNullType>
 	struct TypeAtNonStrict
 	{
 		typedef typename _TSTypeListTypeAtNonStrict<_headNode, index,
@@ -96,7 +96,10 @@ struct TSTypeList
 	template <typename T>
 	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode,
 				typename TSTypeListAppendTraits<T>::listNode>::_result>
-	{};
+	{
+		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
+				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
+	};
 
 	template <typename T>
 	struct PushFront : public TSTypeList<typename _TSTypeListAppend<

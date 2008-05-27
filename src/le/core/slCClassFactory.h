@@ -15,7 +15,7 @@ class CClassFactory
 		static CClassFactory *defaultInstance();
 
 		template <class THierarchyRoot>
-		static TCPointer<THierarchyRoot> create(const CBasicString& className)
+		TCPointer<THierarchyRoot> create(const CBasicString& className)
 		{
 			LE_ENTER_LOG;
 
@@ -26,8 +26,8 @@ class CClassFactory
 			return NULL;
 		}
 
-		static bool isClassRegistered(const CBasicString& className);
-		static CClass classWithName(const CBasicString& className)
+		bool isClassRegistered(const CBasicString& className);
+		CClass classWithName(const CBasicString& className)
 		{
 			return CClass(_classWithName(className));
 		}
@@ -39,7 +39,7 @@ class CClassFactory
 				class IPredicate
 				{
 					public:
-						virtual bool match(IClassImpl*) const
+						virtual bool operator () (IClassImpl*) const
 						{
 							return true;
 						}
@@ -50,31 +50,21 @@ class CClassFactory
 					mIt(it),
 					mBegin(begin),
 					mEnd(end),
-					mClass(*it),
+					mClass(NULL),
 					mPredicate(pred)
 				{
 					while (mIt != mEnd)
 					{
-						if (mPredicate->match(*mIt))
+						if ((*mPredicate)(*mIt))
 						{
 							mClass = CClass(*mIt);
 							break;
 						}
 						++mIt;
 					}
-					
-					if (mIt == mEnd)
-					{
-						mClass = CClass(*mIt);
-					}
 				}
 
-				~iterator()
-				{
-					delete mPredicate;
-				}
-
-				CClass operator* () const
+				const CClass& operator* () const
 				{
 					return mClass;
 				}
@@ -94,7 +84,8 @@ class CClassFactory
 							mClass = CClass(NULL);
 							break;
 						}
-						else if (mPredicate->match(*mIt))
+
+						if ((*mPredicate)(*mIt))
 						{
 							mClass = CClass(*mIt);
 							break;
@@ -106,20 +97,7 @@ class CClassFactory
 				iterator operator++(int)
 				{
 					iterator tmp = *this;
-					while (mIt != mEnd)
-					{
-						++mIt;
-						if (mIt == mEnd)
-						{
-							mClass = CClass(NULL);
-							break;
-						}
-						else if (mPredicate->match(*mIt))
-						{
-							mClass = CClass(*mIt);
-							break;
-						}
-					}
+					++(*this);
 					return tmp;
 				}
 
@@ -129,7 +107,7 @@ class CClassFactory
 					while (mIt != mBegin)
 					{
 						--mIt;
-						if (mPredicate->match(*mIt))
+						if ((*mPredicate)(*mIt))
 						{
 							mClass = CClass(*mIt);
 							matched = true;
@@ -146,21 +124,7 @@ class CClassFactory
 				iterator operator--(int)
 				{
 					iterator tmp = *this;
-					bool matched = false;
-					while (mIt != mBegin)
-					{
-						--mIt;
-						if (mPredicate->match(*mIt))
-						{
-							mClass = CClass(*mIt);
-							matched = true;
-							break;
-						}
-					}
-					if (mIt == mBegin && !matched)
-					{
-						mClass = CClass(NULL);
-					}
+					--(*this);
 					return tmp;
 				}
 
@@ -178,29 +142,31 @@ class CClassFactory
 				std::set<IClassImpl*>::iterator mBegin;
 				std::set<IClassImpl*>::iterator mEnd;
 				CClass mClass;
-				IPredicate* mPredicate;
+				TCPointer<IPredicate> mPredicate;
 		};
 
-		static iterator begin();
+		iterator begin();
 		template <class T>
-		static inline iterator beginForChildsOf()
+		inline iterator beginForChildsOf()
 		{
-			return _beginForChildsOfStd(typeid(T).name());
+			return _beginForChildsOfStd(typeid(T));
 		}
 
-		static iterator beginForChildsOf(const CBasicString& name);
-		static iterator beginForChildsOf(const CClass& theClass)
+		iterator beginForChildsOf(const CBasicString& name);
+		iterator beginForChildsOf(const CClass& theClass)
 		{
-			return _beginForChildsOfStd(theClass.stdName());
+			return _beginForChildsOfStd(theClass.stdType());
 		}
 
-		static iterator end();
+		iterator end();
 
+
+		void registerClass(IClassImpl* theClass);
 	private:
 		typedef std::set<IClassImpl*> CClassSet;
-		CClassSet mClasses;
-		static IClassImpl* _classWithName(const CBasicString& name);
-		static iterator _beginForChildsOfStd(const char* name);
+		CClassSet mClassSet;
+		IClassImpl* _classWithName(const CBasicString& name);
+		iterator _beginForChildsOfStd(const std::type_info& name);
 };
 
 	} // namespace le

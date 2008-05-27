@@ -17,7 +17,7 @@ LE_IMPLEMENT_RUNTIME_CLASS(CNumber);
 CNumber::CNumber() :
 	mFormat(eFormatSInt32)
 {
-	mData.valSInt64 = 0;
+	mData.valSInt32 = 0;
 }
 
 CNumber::CNumber(SInt8 value) :
@@ -507,25 +507,23 @@ Bool CNumber::valueAs(TSTypeToType<Bool>) const
 
 CString CNumber::valueAs(TSTypeToType<CString>) const
 {
-	NChar theString[100];
 	switch (mFormat)
 	{
-		case eFormatUInt8: sprintf(theString, "%d", mData.valUInt8); break;
-		case eFormatUInt16: sprintf(theString, "%d", mData.valUInt16); break;
-		case eFormatUInt32: sprintf(theString, "%d", mData.valUInt32); break;
-		case eFormatUInt64: sprintf(theString, "%d", mData.valUInt64); break;
-		case eFormatSInt8: sprintf(theString, "%d", mData.valSInt8); break;
-		case eFormatSInt16: sprintf(theString, "%d", mData.valSInt16); break;
-		case eFormatSInt32: sprintf(theString, "%d", mData.valSInt32); break;
-		case eFormatSInt64: sprintf(theString, "%d", mData.valSInt64); break;
-		case eFormatFloat32: sprintf(theString, "%f", mData.valFloat32); break;
-		case eFormatFloat64: sprintf(theString, "%f", mData.valFloat64); break;
-		case eFormatBool: sprintf(theString, "%d", mData.valBool); break;
-		default: *theString = 0;
+		case eFormatUInt8: return CString::createWithFormat("%d", mData.valUInt8);
+		case eFormatUInt16: return CString::createWithFormat("%d", mData.valUInt16);
+		case eFormatUInt32: return CString::createWithFormat("%d", mData.valUInt32);
+		case eFormatUInt64: return CString::createWithFormat("%d", mData.valUInt64);
+		case eFormatSInt8: return CString::createWithFormat("%d", mData.valSInt8);
+		case eFormatSInt16: return CString::createWithFormat("%d", mData.valSInt16);
+		case eFormatSInt32: return CString::createWithFormat("%d", mData.valSInt32);
+		case eFormatSInt64: return CString::createWithFormat("%d", mData.valSInt64);
+		case eFormatFloat32: return CString::createWithFormat("%f", mData.valFloat32);
+		case eFormatFloat64: return CString::createWithFormat("%f", mData.valFloat64);
+		case eFormatBool: return CString::createWithFormat("%d", mData.valBool);
+		default: ;
 	}
-
-	// TODO: complete this
-	return CString(theString);
+	std::cout << "ERROR!" << std::endl;
+	return CString();
 }
 
 	} // namespace le
