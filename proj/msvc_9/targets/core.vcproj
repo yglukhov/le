@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="core"
+	Name="le.core"
 	ProjectGUID="{1490BA9A-7302-4EA9-99AE-227D7C7F26F8}"
 	RootNamespace="core"
 	TargetFrameworkVersion="131072"
