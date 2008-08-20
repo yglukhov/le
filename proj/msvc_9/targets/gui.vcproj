@@ -11,6 +11,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="STANDARDSDK_500 (ARMV4I)"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -65,11 +68,82 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|STANDARDSDK_500 (ARMV4I)"
+			OutputDirectory="$(leLibOutputDir)"
+			IntermediateDirectory="$(slIntDir)"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\properties\leDebug.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;DEBUG;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
+				DisableLanguageExtensions="false"
+				RuntimeTypeInfo="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\leGui.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(leLibOutputDir)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\properties\leRelease.vsprops"
 			>
@@ -118,6 +192,78 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|STANDARDSDK_500 (ARMV4I)"
+			OutputDirectory="$(leLibOutputDir)"
+			IntermediateDirectory="$(slIntDir)"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\properties\leRelease.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);STANDARDSHELL_UI_MODEL"
+				DisableLanguageExtensions="false"
+				RuntimeTypeInfo="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\leGui.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCCodeSignTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
 			/>
 		</Configuration>
 	</Configurations>

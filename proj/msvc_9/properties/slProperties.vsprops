@@ -16,11 +16,11 @@
 	/>
 	<UserMacro
 		Name="slOutputDir"
-		Value="$(SolutionDir)build\$(ConfigurationName)\$(SolutionName)"
+		Value="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(SolutionName)"
 	/>
 	<UserMacro
 		Name="slIntDir"
-		Value="$(SolutionDir)build\intermediate\$(ConfigurationName)\$(SolutionName)"
+		Value="$(SolutionDir)build\$(PlatformName)\intermediate\$(ConfigurationName)\$(SolutionName)"
 	/>
 	<UserMacro
 		Name="slSrcRoot"
@@ -32,6 +32,6 @@
 	/>
 	<UserMacro
 		Name="slTestDir"
-		Value="$(SolutionDir)build\$(ConfigurationName)\test"
+		Value="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\test"
 	/>
 </VisualStudioPropertySheet>

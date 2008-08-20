@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="STANDARDSDK_500 (ARMV4I)"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -33,7 +36,42 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|STANDARDSDK_500 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="10"
+			InheritedPropertySheets=".\properties\leDebug.vsprops"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
 			/>
 		</Configuration>
 		<Configuration
@@ -53,7 +91,42 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)&quot; &quot;$(leHeaderOutputDir)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|STANDARDSDK_500 (ARMV4I)"
+			OutputDirectory="$(SolutionDir)STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
+			IntermediateDirectory="STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
+			ConfigurationType="10"
+			InheritedPropertySheets=".\properties\leRelease.vsprops"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="1"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+			<DeploymentTool
+				ForceDirty="-1"
+				RemoteDirectory=""
+				RegisterOutput="0"
+				AdditionalFiles=""
+			/>
+			<DebuggerTool
 			/>
 		</Configuration>
 	</Configurations>
