@@ -2,6 +2,7 @@
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/template/function/slTCBind.h>
 #include <le/core/slCString.h>
+#include <le/core/slCAny.h>
 
 #include <le/core/preprocessor/slPPand.h>
 #include <le/core/preprocessor/slPPor.h>
@@ -280,6 +281,60 @@ void CGeneralTestSuite::testPreprocessor()
 #undef LE_TEST_FOR_PREDICATE
 #undef LE_TEST_FOR_ACTION
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+void CGeneralTestSuite::testAny()
+{
+	int i = 2;
+	CAny any = i;
+
+	std::cout << any.value<int>() << '\n';
+	LE_ASSERT(any.value<int>() == i);
+	LE_ASSERT(any.value<int &>() == i);
+
+	any.value<int&>() = 6;
+
+	LE_ASSERT(any.value<int>() == 6);
+//	LE_ASSERT(i == 5);
+
+	any = CAny::ref(i);
+	LE_ASSERT(any.value<int&>() == i);
+
+	i = 123;
+	LE_ASSERT(any.value<int>() == i);
+
+	any.value<int&>() = 321;
+	LE_ASSERT(any.value<int>() == i);
+
+	const int j = 123;
+	any = j;
+
+	LE_ASSERT(any.value<int>() == j);
+	LE_ASSERT(any.value<int &>() == j);
+
+	any.value<int &>() = 321;
+	LE_ASSERT(any.value<const int>() == 321);
+
+	any = CAny::constRef(j);
+	LE_ASSERT(any.value<int>() == j);
+
+	LE_ASSERT(any.value<int &>() == j);
+	any.value<int &>() = 321;
+
+	std::cout << j << std::endl;
+	std::cout << any.value<int>() << std::endl;
+
+	const CString str = "hi!";
+	any = CAny::constRef(str);
+
+	std::cout << any.value<CString&>() << std::endl;
+	any.value<CString&>() = "qwer";
+
+	std::cout << any.value<CString&>() << std::endl;
+	std::cout << str << std::endl;
 }
 
 	} // namespace le

@@ -23,6 +23,7 @@ class CGeneralTestSuite : public CTestSuite
 			testStrings();
 			testFunctionTraits();
 			testPreprocessor();
+			testAny();
 		}
 
 	private:
@@ -34,6 +35,7 @@ class CGeneralTestSuite : public CTestSuite
 		void testStrings();
 		void testFunctionTraits();
 		void testPreprocessor();
+		void testAny();
 };
 
 	} // namespace le

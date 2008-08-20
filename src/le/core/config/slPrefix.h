@@ -45,7 +45,7 @@ _le_module_lnk_workaraound_##module::_le_module_lnk_workaraound_##module()	\
 
 #define LE_LINK_MODULE_DEPENDENCY(module)									\
 _LE_DEFINE_LINK_MODULE_STRUCt(module)										\
-static const _le_module_lnk_workaraound_##module _le_module_lnk_workaraound_##module_;
+static const _le_module_lnk_workaraound_##module _le_module_lnk_workaraound_##module##_;
 
 #endif // not defined H_slPrefix_included
 ////////////////////////////////////////////////////////////////////////////////

@@ -175,9 +175,74 @@ struct TSIsConst<const T> : public TSTrue
 
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
+struct TSIsMutable : public TSNot<TSIsConst<T> >
+{};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSIsRef : public TSFalse
+{};
+
+template <typename T>
+struct TSIsRef<T&> : public TSFalse
+{};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSIsConstRef : public TSAnd<TSIsRef<T>, TSIsConst<T> >
+{};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSIsMutableRef : public TSAnd<TSIsRef<T>, TSIsMutable<T> >
+{};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSRemoveConst
+{
+	typedef T result;
+};
+
+template <typename T>
+struct TSRemoveConst<const T>
+{
+	typedef T result;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSRemoveRef
+{
+	typedef T result;
+};
+
+template <typename T>
+struct TSRemoveRef<T&>
+{
+	typedef T result;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
 struct TSConstRef
 {
-	typedef typename TSIntSelect<(sizeof(T) > sizeof(const T&)), const T&, const T>::result result;
+	private:
+		typedef typename TSRemoveRef<T>::result _unref;
+	public:
+		typedef typename TSIntSelect<
+			(sizeof(_unref) > sizeof(_unref&)),
+			const _unref&,
+			const _unref>::result result;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSRef
+{
+	typedef typename TSSelect<TSIsConst<T>,
+		typename TSConstRef<T>::result,
+		typename TSRemoveRef<T>::result&>::result result;
 };
 
 	} // namespace le

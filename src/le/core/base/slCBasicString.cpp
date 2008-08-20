@@ -230,7 +230,7 @@ CBasicString CBasicString::createWithFormat(const NChar *format, va_list argList
 {
 	// TODO: complete this
 	char buffer[1024];
-	vsprintf_s(buffer, format, argList);
+	vsprintf(buffer, format, argList);
 	return CBasicString(buffer);
 }
 

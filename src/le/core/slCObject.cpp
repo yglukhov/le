@@ -1,4 +1,3 @@
-#include "slCObject.h"
 #include <le/core/slCDictionary.h>
 
 namespace sokira

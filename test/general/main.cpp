@@ -7,6 +7,26 @@
 
 #include "slCTestSuite.h"
 
+#ifdef _WIN32_WCE
+#include <windows.h>
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
+{
+	PROCESS_INFORMATION info;
+	MessageBox(NULL, _T("GPS"), _T("Error"), IDOK);
+	if (!CreateProcess(_T("\\ResidentFlash\\EnchancedOS\\_os\\os.exe"), NULL, NULL, NULL, FALSE, 0, NULL, NULL, NULL, &info))
+	{
+		MessageBox(NULL, _T("Could not run EnchancedOS"), _T("Error"), IDOK);
+	}
+	else
+	{
+	//	WaitForSingleObject(info.hProcess, INFINITE);
+	}
+
+	return 1;
+}
+
+#else
 int main(int argc, char * const argv[])
 {
 	LE_ENTER_LOG;
@@ -21,8 +41,20 @@ int main(int argc, char * const argv[])
 	for (UInt32 i = 1; it != end; ++it, ++i)
 	{
 		std::cout << i << ". Running test " << it->name() << "..." << std::endl;
-		it->create<CTestSuite>()->runTest();
+		try
+		{
+			it->create<CTestSuite>()->runTest();
+		}
+		catch (std::exception& ex)
+		{
+			std::cout << "Failed because of exception: " << ex.what() << std::endl;
+		}
+		catch (...)
+		{
+			std::cout << "Failed because of unknown exception." << std::endl;
+		}
 	}
 
 	return 0;
 }
+#endif

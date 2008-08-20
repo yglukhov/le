@@ -106,7 +106,7 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
 
 #define LE_RTTI_BEGIN	\
 	private:				\
-	typedef TSTypeList<>::PushBack<
+	typedef sokira::le::TSTypeList<>::PushBack<
 
 #define LE_RTTI_SELF(name)	\
 	_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
