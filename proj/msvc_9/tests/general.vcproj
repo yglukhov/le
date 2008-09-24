@@ -293,47 +293,47 @@
 			Name="src"
 			>
 			<File
-				RelativePath="..\..\..\test\general\main.cpp"
+				RelativePath="..\..\..\src\test\general\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCGeneralTestSuite.cpp"
+				RelativePath="..\..\..\src\test\general\slCGeneralTestSuite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCGeneralTestSuite.h"
+				RelativePath="..\..\..\src\test\general\slCGeneralTestSuite.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCGuiTestSuite.cpp"
+				RelativePath="..\..\..\src\test\general\slCGuiTestSuite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCGuiTestSuite.h"
+				RelativePath="..\..\..\src\test\general\slCGuiTestSuite.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCScriptTestSuite.cpp"
+				RelativePath="..\..\..\src\test\general\slCScriptTestSuite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCScriptTestSuite.h"
+				RelativePath="..\..\..\src\test\general\slCScriptTestSuite.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCTestSuite.cpp"
+				RelativePath="..\..\..\src\test\general\slCTestSuite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCTestSuite.h"
+				RelativePath="..\..\..\src\test\general\slCTestSuite.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCXMLTestSuite.cpp"
+				RelativePath="..\..\..\src\test\general\slCXMLTestSuite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\test\general\slCXMLTestSuite.h"
+				RelativePath="..\..\..\src\test\general\slCXMLTestSuite.h"
 				>
 			</File>
 		</Filter>
