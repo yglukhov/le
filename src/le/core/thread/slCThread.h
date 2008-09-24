@@ -25,6 +25,8 @@ class CThread
 		bool isRunning() const;
 		CString name() const;
 
+		static void sleep(UInt32 milliSeconds);
+
 		const CThread& operator = (const CThread& copy);
 
 		template <class T>

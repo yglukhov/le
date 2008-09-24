@@ -66,6 +66,11 @@ CString CThread::name() const
 	return mImpl->name();
 }
 
+void CThread::sleep(UInt32 milliSeconds)
+{
+	::Sleep(milliSeconds);
+}
+
 void* CThread::_singletone(const char* stdTypeName, void*(*creator)(), void (*deleter)(void*))
 {
 	return mImpl->singletone(stdTypeName, creator, deleter);

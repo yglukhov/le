@@ -3,6 +3,10 @@
 
 #include "slPrefix.h"
 
+#define LE_PLATFORM_WINDOWS 1
+#define LE_PLATFORM_WINDOWS_CE 2
+#define LE_PLATFORM_UNIX 3
+#define LE_PLATFORM_MACOSX 4
 
 #if (!defined LE_FLAG_COMPILER_CONFIGURED) || (!LE_FLAG_COMPILER_CONFIGURED)
 #	include "base/slGCC.h"
@@ -12,6 +16,10 @@
 #	include "base/slMSVC.h"
 #endif
 
+
+#if ! defined LE_TARGET_PLATFORM
+#define LE_TARGET_PLATFORM LE_PLATFORM_UNIX
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // If compiler is not located, then just mark it.

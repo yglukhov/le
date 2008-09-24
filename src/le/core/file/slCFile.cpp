@@ -59,11 +59,12 @@ void CFile::close()
 
 unsigned CFile::read(void* toBuffer, unsigned length)
 {
-	return std::fstream::readsome(static_cast<char*>(toBuffer), length);
+	return std::fstream::read(static_cast<char*>(toBuffer), length).gcount();
 }
 
 std::string CFile::readLine(bool& endOfFile, EStatus*)
 {
+
 	// TODO: complete this
 	return std::string();
 }
@@ -80,6 +81,7 @@ unsigned CFile::write(const void* fromBuffer, unsigned length, EStatus* error)
 
 unsigned CFile::writeLine(const char* fromString)
 {
+	LE_ASSERT(false);
 	// TODO: complete this
 	return 0;
 }

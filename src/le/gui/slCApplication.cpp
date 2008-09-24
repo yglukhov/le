@@ -28,9 +28,9 @@ static void initOpenGL()
 	CDialog::Ptr dlg1 = new CDialog(CRectangle(10, 15, 30, 30));
 	dlg1.retain();
 	dlg1->autoResizing(eAlignSnapToAll);
-	
-	IF_LOG(log << dlg1);
-	
+
+//	IF_LOG(log << dlg1);
+
 	CDialog* dlg2 = new CDialog(CRectangle(1, 1, 60, 60));
 	
 	dlg2->addChild(dlg1.get());
@@ -94,8 +94,14 @@ static void onResize(int x, int y)
 int CApplication::run(int argc, const char * const argv[])
 {
 	LE_ENTER_LOG;
-	
-	glutInit(&argc, (char **)argv);
+
+	char ** arg = new char*[1];
+	int a = 1;
+	arg[0] = "";
+
+	glutInit(&a, arg);
+	delete [] arg;
+
 	new CScreen(false, "Light Engine");
 
 	initOpenGL();

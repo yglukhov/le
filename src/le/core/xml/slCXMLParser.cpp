@@ -106,21 +106,6 @@ Bool CXMLParser::trimsWhitespace() const
 	return mFlags & eOptionTrimWhitespace;
 }
 
-void CXMLParser::setOptions()
-{
-
-}
-
-void CXMLParser::addOptions()
-{
-
-}
-
-void CXMLParser::removeOptions()
-{
-
-}
-
 UInt32 CXMLParser::line() const
 {
 	return mLine;
@@ -166,7 +151,7 @@ Bool CXMLParser::parse()
 		eStateAttrValue = LE_SET_BIT(3)
 	};
 
-	int state = eStateData;
+	UInt32 state = eStateData;
 
 	mLine = 1;
 	mColumn = 0;

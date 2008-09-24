@@ -7,10 +7,10 @@ namespace sokira
 	{
 
 ////////////////////////////////////////////////////////////////////////////////
-// TSBindToIndexedParam - helper struct to bind a real function parameter
+// bindTo - helper struct to bind a real function parameter
 // to parameter at call.
 template <int bindIndex>
-struct TSBindToIndexedParam
+struct bindTo
 {
 
 };
@@ -28,7 +28,7 @@ struct TSParamTraits
 };
 
 template <int bindIndex>
-struct TSParamTraits<TSBindToIndexedParam<bindIndex> >
+struct TSParamTraits<bindTo<bindIndex> >
 {
 	enum
 	{

@@ -30,9 +30,6 @@ class CXMLParser
 
 		void setTrimsWhitespace(Bool trimWhitespace = true);
 		Bool trimsWhitespace() const;
-		void setOptions();
-		void addOptions();
-		void removeOptions();
 
 		UInt32 line() const;
 		UInt32 column() const;

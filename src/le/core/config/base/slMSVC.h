@@ -48,4 +48,11 @@
 #define LE_COMPILER_VERSION_STRING ".NET 2005"
 #endif
 
+#ifdef WINCE
+#define LE_TARGET_PLATFORM LE_PLATFORM_WINDOWS_CE
+#else
+#define LE_TARGET_PLATFORM LE_PLATFORM_WINDOWS
+#endif
+
+
 #endif // defined _MSC_VER

@@ -364,10 +364,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slTCPointer.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\le\core\slTCPointer.h"
 				>
 			</File>

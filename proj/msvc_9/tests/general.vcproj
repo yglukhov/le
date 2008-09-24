@@ -52,7 +52,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
 			<Tool
@@ -186,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
 			<Tool
@@ -302,6 +302,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\test\general\slCGeneralTestSuite.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\test\general\slCGuiTestSuite.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\test\general\slCGuiTestSuite.h"
 				>
 			</File>
 			<File

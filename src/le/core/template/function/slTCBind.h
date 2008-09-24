@@ -9,7 +9,7 @@ namespace sokira
 	namespace le
 	{
 
-#define bindTo(bindToIndex) TSBindToIndexedParam<(bindToIndex)>()
+#define bindTo(bindToIndex) bindTo<(bindToIndex)>()
 
 
 ////////////////////////////////////////////////////////////////////////////////
