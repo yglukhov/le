@@ -1,5 +1,9 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{38FEE89B-7214-45C5-9FAF-38EDC42C80B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{2BEFC054-5865-42FF-B6BC-41C2B751E2A8}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "le", "le.vcproj", "{56FBB8A8-FF2C-40F8-A259-24182F60EA3C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1490BA9A-7302-4EA9-99AE-227D7C7F26F8} = {1490BA9A-7302-4EA9-99AE-227D7C7F26F8}
@@ -10,10 +14,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test.vcproj", "{D39
 	ProjectSection(ProjectDependencies) = postProject
 		{56FBB8A8-FF2C-40F8-A259-24182F60EA3C} = {56FBB8A8-FF2C-40F8-A259-24182F60EA3C}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{38FEE89B-7214-45C5-9FAF-38EDC42C80B3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{2BEFC054-5865-42FF-B6BC-41C2B751E2A8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "targets\gui.vcproj", "{39BCA7B3-D02D-4AD5-96FA-2460C6BF6006}"
 EndProject

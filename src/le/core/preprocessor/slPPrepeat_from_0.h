@@ -1,0 +1,23 @@
+#if !defined SL_LE_core_preprocessor_slPPrepeat_from_0_h
+#define SL_LE_core_preprocessor_slPPrepeat_from_0_h
+
+#include <le/core/config/slPrefix.h>
+
+#define LE_PP_REPETITION_FROM_0_TO_0(m)
+#define LE_PP_REPETITION_FROM_0_TO_1(m) m(1)
+#define LE_PP_REPETITION_FROM_0_TO_2(m) LE_PP_REPETITION_FROM_0_TO_1(m) m(2)
+#define LE_PP_REPETITION_FROM_0_TO_3(m) LE_PP_REPETITION_FROM_0_TO_2(m) m(3)
+#define LE_PP_REPETITION_FROM_0_TO_4(m) LE_PP_REPETITION_FROM_0_TO_3(m) m(4)
+#define LE_PP_REPETITION_FROM_0_TO_5(m) LE_PP_REPETITION_FROM_0_TO_4(m) m(5)
+#define LE_PP_REPETITION_FROM_0_TO_6(m) LE_PP_REPETITION_FROM_0_TO_5(m) m(6)
+#define LE_PP_REPETITION_FROM_0_TO_7(m) LE_PP_REPETITION_FROM_0_TO_6(m) m(7)
+#define LE_PP_REPETITION_FROM_0_TO_8(m) LE_PP_REPETITION_FROM_0_TO_7(m) m(8)
+#define LE_PP_REPETITION_FROM_0_TO_9(m) LE_PP_REPETITION_FROM_0_TO_8(m) m(9)
+#define LE_PP_REPETITION_FROM_0_TO_10(m) LE_PP_REPETITION_FROM_0_TO_9(m) m(10)
+#define LE_PP_REPETITION_FROM_0_TO_11(m) LE_PP_REPETITION_FROM_0_TO_10(m) m(11)
+#define LE_PP_REPETITION_FROM_0_TO_12(m) LE_PP_REPETITION_FROM_0_TO_11(m) m(12)
+
+#define LE_PP_REPETITION_FROM_0_TO(x, m) LE_PP_REPETITION_FROM_0_TO_##x(m)
+
+
+#endif // not defined SL_LE_core_xml_slCXMLParser_h

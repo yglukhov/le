@@ -1,8 +1,12 @@
 #pragma once
 
 #ifdef _WIN32
-#include "win32/glut.h"
+#	ifdef _WIN32_WCE
+#		include "es/inc/glutes.h"
+#	else
+#		include "win32/glut.h"
+#	endif
 #else
-#include <GLUT/glut.h>
+#	include <GLUT/glut.h>
 #endif
 

@@ -320,6 +320,14 @@
 				RelativePath="..\..\..\test\general\slCTestSuite.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\test\general\slCXMLTestSuite.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\test\general\slCXMLTestSuite.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

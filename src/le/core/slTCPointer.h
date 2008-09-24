@@ -3,7 +3,7 @@
 #include <le/core/debug/slDebug.h>
 #include <le/core/slTypes.h>
 
-//#define LE_SMART_POINTER_IS_NOT_SO_SMART
+#define LE_SMART_POINTER_IS_NOT_SO_SMART
 
 namespace sokira
 {
@@ -55,6 +55,11 @@ class TCPointer
 		inline const T& operator*() const;
 		inline T* operator->();
 		inline const T* operator->() const;
+
+		inline operator Bool() const
+		{
+			return _LE_BOOL_CAST(mObj);
+		}
 
 		//////////////////////////////////////////////////////////////////////////
 		// Release
@@ -244,7 +249,7 @@ void TCPointer<T>::retain()
 	{
 		if (!mRefCount)
 		{
-			mRefCount = new TRefCountType(0);
+			mRefCount = new TRefCountType(1);
 		}
 		++(*mRefCount);
 	}

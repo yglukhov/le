@@ -1,6 +1,6 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
+#include <le/core/preprocessor/slPPrepeat_from_0.h>
 
 namespace sokira
 {
@@ -41,10 +41,6 @@ class _CFunctionInterfaceBase
 		}
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// Shortcut to make the code nicer.
-#define t(index) typename TList::template TypeAt<index>::result
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // TIFunctionBase specialization. Limitations are equal to LE_PP_IFUNCTION_LIMIT
@@ -54,29 +50,35 @@ class TIFunctionBase<RetType, TList, 0> : public _CFunctionInterfaceBase
 	public: virtual RetType operator()() const = 0;
 };
 
-template <typename RetType, class TList>
-class TIFunctionBase<RetType, TList, 1> : public _CFunctionInterfaceBase
-{
-	public: virtual RetType operator()(t(0)) const = 0;
+#define _le_val(x) ,typename TList::template TypeAt<x>::result
+
+#define _LE_DEFINE_TIFunctionBase(x) \
+template <typename RetType, class TList> \
+class TIFunctionBase<RetType, TList, x + 1> : public _CFunctionInterfaceBase \
+{ \
+	public: virtual RetType operator()(typename TList::template TypeAt<0>::result LE_PP_REPETITION_FROM_0_TO(x, _le_val)) const = 0; \
 };
 
-template <typename RetType, class TList>
-class TIFunctionBase<RetType, TList, 2> : public _CFunctionInterfaceBase
-{
-	public: virtual RetType operator()(t(0), t(1)) const = 0;
-};
 
-template <typename RetType, class TList>
-class TIFunctionBase<RetType, TList, 3> : public _CFunctionInterfaceBase
-{
-	public: virtual RetType operator()(t(0), t(1), t(2)) const = 0;
-};
+_LE_DEFINE_TIFunctionBase(0)
+_LE_DEFINE_TIFunctionBase(1)
+_LE_DEFINE_TIFunctionBase(2)
+_LE_DEFINE_TIFunctionBase(3)
+_LE_DEFINE_TIFunctionBase(4)
+_LE_DEFINE_TIFunctionBase(5)
+_LE_DEFINE_TIFunctionBase(6)
+_LE_DEFINE_TIFunctionBase(7)
+_LE_DEFINE_TIFunctionBase(8)
+_LE_DEFINE_TIFunctionBase(9)
+_LE_DEFINE_TIFunctionBase(10)
 
-#undef t
+#undef _LE_DEFINE_TIFunctionBase
+#undef _le_val
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Maximum number of parameters for TIFunction
-#define LE_PP_IFUNCTION_LIMIT 3
+#define LE_PP_IFUNCTION_LIMIT 10
 
 
 	} // namespace le

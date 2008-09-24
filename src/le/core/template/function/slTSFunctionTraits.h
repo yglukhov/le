@@ -12,11 +12,8 @@ template <typename FuncType> struct TSFunctionTraits;
 	} // namespace le
 } // namespace sokira
 
-#include "base/slTSFreeFunctionCallWithTuple.h"
+#include "base/slTSFunctionCallWithTuple.h"
 #include "base/slTSFreeFunctionTraits.h"
-#include "base/slTSFreeFunctionPointerTraits.h"
-
-#include "base/slTSMemberFunctionCallWithTuple.h"
 #include "base/slTSMemberFunctionTraits.h"
 
 namespace sokira

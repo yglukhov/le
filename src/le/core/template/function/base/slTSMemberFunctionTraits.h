@@ -1,6 +1,5 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
 
 namespace sokira
 {
@@ -17,25 +16,37 @@ struct TSFunctionTraits<TRetType (T::*)()> :
 	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
 };
 
-template <class T, typename TRetType, typename T0>
-struct TSFunctionTraits<TRetType (T::*)(T0)> :
-	public TSMemberFunctionCallWithTuple<T, TRetType, 1>
-{
-	typedef TRetType RetType;
-	typedef TSTypeList<T0> ParamList;
-	typedef T OwnerClass;
-	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
+#define _le_typenameT(x) ,typename T##x
+#define _le_rawT(x) ,T##x
+
+#define _LE_DEFINE_TSFunctionTraits(x)															\
+template <class T, typename TRetType, typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT)> \
+struct TSFunctionTraits<TRetType (T::*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> :			\
+	public TSMemberFunctionCallWithTuple<T, TRetType, x + 1>									\
+{																								\
+	typedef TRetType RetType;																	\
+	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;					\
+	typedef T OwnerClass;																		\
+	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;					\
 };
 
-template <class T, typename TRetType, typename T0, typename T1>
-struct TSFunctionTraits<TRetType (T::*)(T0, T1)> :
-	public TSMemberFunctionCallWithTuple<T, TRetType, 2>
-{
-	typedef TRetType RetType;
-	typedef TSTypeList<T0, T1> ParamList;
-	typedef T OwnerClass;
-	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
-};
+_LE_DEFINE_TSFunctionTraits(0)
+_LE_DEFINE_TSFunctionTraits(1)
+_LE_DEFINE_TSFunctionTraits(2)
+_LE_DEFINE_TSFunctionTraits(3)
+_LE_DEFINE_TSFunctionTraits(4)
+_LE_DEFINE_TSFunctionTraits(5)
+_LE_DEFINE_TSFunctionTraits(6)
+_LE_DEFINE_TSFunctionTraits(7)
+_LE_DEFINE_TSFunctionTraits(8)
+_LE_DEFINE_TSFunctionTraits(9)
+_LE_DEFINE_TSFunctionTraits(10)
+_LE_DEFINE_TSFunctionTraits(11)
+_LE_DEFINE_TSFunctionTraits(12)
+
+#undef _LE_DEFINE_TSFunctionTraits
+#undef _le_typenameT
+#undef _le_rawT
 
 	} // namespace le
 } // namespace sokira

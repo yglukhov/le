@@ -1,6 +1,8 @@
 #ifndef H_slPPinc_included
 #define H_slPPinc_included
 
+#include <le/core/config/slPrefix.h>
+
 #define LE_PP_INC(param) _LE_PP_INC(param)
 
 #define _LE_PP_INC(x) _LE_PP_INC_##x

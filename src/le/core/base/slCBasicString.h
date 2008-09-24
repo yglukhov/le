@@ -75,6 +75,8 @@ class CBasicString
 		Bool operator >= (const NChar* cString) const;
 		Bool operator >= (const CBasicString& string) const;
 
+		void append(NChar c, EStringEncoding encoding = eStringEncodingASCII);
+		void append(WChar c, EStringEncoding encoding = eStringEncodingASCII);
 		void append(const NChar* cString, EStringEncoding encoding = eStringEncodingASCII);
 		void append(const WChar* uniString, UInt32 length,
 						EStringEncoding encoding = eStringEncodingASCII);
@@ -84,6 +86,8 @@ class CBasicString
 		// Erase characters from string. If toPos is equal to 0, then the
 		// characters are erased to the end of the string.
 		void erase(UInt32 fromPos, UInt32 toPos = 0);
+
+		void trimWhitespace();
 
 		UInt32 length() const;
 		bool isEmpty() const;
@@ -102,6 +106,8 @@ class CBasicString
 		}
 
 
+		static Bool isWhitespace(NChar c);
+		static Bool isWhitespace(WChar c);
 	// PRIVATE:
 		static CBasicString __CStringWithLiteral(const NChar*);
 

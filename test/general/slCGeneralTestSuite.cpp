@@ -244,6 +244,25 @@ void CGeneralTestSuite::testStrings()
 	a = 10;
 	str = CString::createWithFormat("%d", a);
 	LE_ASSERT(str == "10");
+
+	str = "\t\n  test";
+	str.trimWhitespace();
+	LE_ASSERT(str == "test");
+
+	str = "test    ";
+	str.trimWhitespace();
+	LE_ASSERT(str == "test");
+
+	str = "\n  test s  ";
+	str.trimWhitespace();
+	LE_ASSERT(str == "test s");
+
+	str.trimWhitespace();
+	LE_ASSERT(str == "test s");
+
+	str.clear();
+	str.trimWhitespace();
+	LE_ASSERT(str.isEmpty());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

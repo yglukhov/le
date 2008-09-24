@@ -1,6 +1,8 @@
 #ifndef slPPbit_xor_h_included
 #define slPPbit_xor_h_included
 
+#include <le/core/config/slPrefix.h>
+
 #define LE_PP_BIT_XOR(first, second) _LE_PP_BIT_XOR(first, second)
 
 

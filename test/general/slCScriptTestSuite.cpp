@@ -26,7 +26,7 @@ void CScriptTestSuite::testTokenizer()
 	while (!tokenizer.eof())
 	{
 		CToken token = tokenizer.nextToken();
-		std::cout << "token: \"" << token.token << "\" (" << map[token.type] << ")" << std::endl;
+//		std::cout << "token: \"" << token.token << "\" (" << map[token.type] << ")" << std::endl;
 	}
 }
 

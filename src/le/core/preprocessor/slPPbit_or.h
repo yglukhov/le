@@ -1,6 +1,8 @@
 #ifndef slPPbit_or_h_included
 #define slPPbit_or_h_included
 
+#include <le/core/config/slPrefix.h>
+
 #define LE_PP_BIT_OR(first, second) _LE_PP_BIT_OR(first, second)
 
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
 #include "slTIFunction.h"
 #include <le/core/template/function/slTSFunctionTraits.h>
 
@@ -38,12 +37,30 @@ class TCFreeFunction :
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
+template <typename RetType, class TypeList, typename FuncType>
+class TCFreeFunctionBase <RetType, TypeList, 0, FuncType> :
+	public TIFunction<RetType, TypeList>
+{
+	protected:
+		FuncType mFunction;
+		inline TCFreeFunctionBase(FuncType func) : mFunction(func)
+		{
 
-////////////////////////////////////////////////////////////////////////////////
-// Shortcuts to make the code nicer.
-#define f_declare_start(paramCount)										\
+		}
+
+	public:
+		RetType operator()() const
+		{
+			return mFunction();
+		}
+};
+
+#define _le_param(x) ,typename TypeList::template TypeAt<x>::result p##x
+#define _le_val(x) ,p##x
+
+#define _LE_DEFINE_TCFreeFunctionBase(x)								\
 template <typename RetType, class TypeList, typename FuncType>			\
-class TCFreeFunctionBase <RetType, TypeList, paramCount, FuncType> :	\
+class TCFreeFunctionBase <RetType, TypeList, x + 1, FuncType> :			\
 	public TIFunction<RetType, TypeList>								\
 {																		\
 	protected:															\
@@ -54,59 +71,31 @@ class TCFreeFunctionBase <RetType, TypeList, paramCount, FuncType> :	\
 		}																\
 																		\
 	public:																\
-		RetType operator()
-
-#define t_declare
-#define p_declare			const										\
+		RetType operator()(typename TypeList::template TypeAt<0>::result p0 LE_PP_REPETITION_FROM_0_TO(x, _le_param)) const \
 		{																\
-			return mFunction
-
-#define f_declare_end													\
-										;								\
+			return mFunction(p0 LE_PP_REPETITION_FROM_0_TO(x, _le_val));\
 		}																\
 };
 
+_LE_DEFINE_TCFreeFunctionBase(0)
+_LE_DEFINE_TCFreeFunctionBase(1)
+_LE_DEFINE_TCFreeFunctionBase(2)
+_LE_DEFINE_TCFreeFunctionBase(3)
+_LE_DEFINE_TCFreeFunctionBase(4)
+_LE_DEFINE_TCFreeFunctionBase(5)
+_LE_DEFINE_TCFreeFunctionBase(6)
+_LE_DEFINE_TCFreeFunctionBase(7)
+_LE_DEFINE_TCFreeFunctionBase(8)
+_LE_DEFINE_TCFreeFunctionBase(9)
+_LE_DEFINE_TCFreeFunctionBase(10)
 
-#define p(index) param##index
-#define t(index) typename TypeList::template TypeAt<index>::result p(index)
-
-////////////////////////////////////////////////////////////////////////////////
-// TCFreeFunctionBase specialization. Limitations are equal to LE_PP_FREEFUNCTION_LIMIT
-f_declare_start(0)
-t_declare()
-p_declare()
-f_declare_end;
-
-f_declare_start(1)
-t_declare(t(0))
-p_declare(p(0))
-f_declare_end;
-
-f_declare_start(2)
-t_declare(t(0), t(1))
-p_declare(p(0), p(1))
-f_declare_end;
-
-f_declare_start(3)
-t_declare(t(0), t(1), t(2))
-p_declare(p(0), p(1), p(2))
-f_declare_end;
-
-f_declare_start(4)
-t_declare(t(0), t(1), t(2), t(3))
-p_declare(p(0), p(1), p(2), p(3))
-f_declare_end;
-
-#undef f_declare_start
-#undef t_declare
-#undef p_declare
-#undef f_declare_end
-#undef p
-#undef t
+#undef _LE_DEFINE_TCFreeFunctionBase
+#undef _le_param
+#undef _le_val
 
 ////////////////////////////////////////////////////////////////////////////////
 // Maximum number of parameters for TCFreeFunction
-#define LE_PP_FREEFUNCTION_LIMIT 4
+#define LE_PP_FREEFUNCTION_LIMIT 10
 
 
 	} // namespace le

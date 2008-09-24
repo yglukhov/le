@@ -1,15 +1,21 @@
 #include <iostream>
 #include <cstring>
-#include <stdarg.h>
+//#include <stdarg.h>
+//#include <stdio.h>
+
 #include "slCBasicString.h"
 #include <le/core/debug/slAssert.h>
 #include <le/core/config/slCompiler.h>
 #include <le/core/slCDictionary.h>
 
+#include "vasprintf.cp"
+
+
 namespace sokira
 {
 	namespace le
 	{
+
 /*
 typedef UInt64 TCharType;
 
@@ -61,6 +67,7 @@ enum EOwnPolicy
 {
 	eOwnPolicyCopy = LE_SET_BIT(0),
 	eOwnPolicyDealloc = LE_SET_BIT(1),
+	eOwnPolicyDeallocWithFree = LE_SET_BIT(2), // If set the dealloc will use free() otherwise delete[]
 	eOwnPolicyDefault = eOwnPolicyCopy | eOwnPolicyDealloc,
 	eOwnPolicyLiteral = 0
 };
@@ -120,7 +127,14 @@ struct CBasicString::SStringProxy
 		{
 			if (mOwnPolicy & eOwnPolicyDealloc)
 			{
-				delete [] mString;
+				if (mOwnPolicy & eOwnPolicyDeallocWithFree)
+				{
+					free(mString);
+				}
+				else
+				{
+					delete [] mString;
+				}
 			}
 			delete this;
 		}
@@ -228,10 +242,9 @@ CBasicString CBasicString::createWithFormat(CBasicString format, ...)
 
 CBasicString CBasicString::createWithFormat(const NChar *format, va_list argList)
 {
-	// TODO: complete this
-	char buffer[1024];
-	vsprintf(buffer, format, argList);
-	return CBasicString(buffer);
+	char* buffer;
+	vasprintf(&buffer, format, argList);
+	return CBasicString(new SStringProxy(buffer, (EOwnPolicy)(eOwnPolicyDefault | eOwnPolicyDeallocWithFree)));
 }
 
 CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list argList)
@@ -336,6 +349,24 @@ Bool CBasicString::operator >= (const CBasicString& string) const
 }
 
 
+void CBasicString::append(NChar c, EStringEncoding encoding)
+{
+	char str[] = "x";
+	*str = c;
+	append(str, encoding);
+}
+
+void CBasicString::append(WChar c, EStringEncoding)
+{
+	union
+	{
+		WChar c;
+		char s[2];
+	} u;
+	u.c = c;
+	// TODO: complete this to correctly handle endians
+	append(u.s[0]);
+}
 
 void CBasicString::append(const NChar* cString, EStringEncoding /* encoding*/)
 {
@@ -373,6 +404,28 @@ void CBasicString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
 	// TODO: complete
 }
 
+void CBasicString::trimWhitespace()
+{
+	NChar* start = mProxy->mString;
+	for (; *start && isWhitespace(*start); ++start);
+	if (*start)
+	{
+		NChar* end = start + strlen(start) - 1;
+		NChar* endmark = end;
+		for (; isWhitespace(*end); --end);
+		if (start != mProxy->mString || end != endmark)
+		{
+			++end;
+			NChar* newStr = new NChar[end - start + 1];
+			memcpy(newStr, start, end - start);
+			*(newStr + (end - start)) = '\0';
+			mProxy->release();
+			mProxy = new SStringProxy(newStr, eOwnPolicyDealloc);
+		}
+	}
+	else
+		clear();
+}
 
 UInt32 CBasicString::length() const
 {
@@ -399,6 +452,16 @@ const NChar* CBasicString::cString(EStringEncoding encoding) const
 std::ostream& operator << (std::ostream& stream, const CBasicString& string)
 {
 	return (stream << (string.cString()));
+}
+
+Bool CBasicString::isWhitespace(NChar c)
+{
+	return c == ' ' || c == '\n' || c == '\t' || c == '\r';
+}
+
+Bool CBasicString::isWhitespace(WChar c)
+{
+	return isWhitespace((NChar)c);
 }
 
 	} // namespace le

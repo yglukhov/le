@@ -561,19 +561,11 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\..\src\le\core\template\function\base\slTSFreeFunctionCallWithTuple.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\le\core\template\function\base\slTSFreeFunctionPointerTraits.h"
-							>
-						</File>
-						<File
 							RelativePath="..\..\..\src\le\core\template\function\base\slTSFreeFunctionTraits.h"
 							>
 						</File>
 						<File
-							RelativePath="..\..\..\src\le\core\template\function\base\slTSMemberFunctionCallWithTuple.h"
+							RelativePath="..\..\..\src\le\core\template\function\base\slTSFunctionCallWithTuple.h"
 							>
 						</File>
 						<File
@@ -771,6 +763,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\le\core\preprocessor\slPPrepeat_from_0.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\le\core\preprocessor\slPPxor.h"
 					>
 				</File>
@@ -800,6 +796,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\script\slCTokenizer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="xml"
+				>
+				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLParser.h"
 					>
 				</File>
 			</Filter>
