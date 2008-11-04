@@ -1,7 +1,5 @@
-#ifndef H_slPPdec_included
-#define H_slPPdec_included
-
-#include <le/core/config/slPrefix.h>
+#if !defined SL_LE_le_core_preprocessor_slPPdec_h
+#define SL_LE_le_core_preprocessor_slPPdec_h
 
 #define LE_PP_DEC(param) _LE_PP_DEC(param)
 
@@ -266,4 +264,4 @@
 
 #define LE_PP_DEC_LIMITATION 255
 
-#endif // H_slPPdec_included
+#endif // not defined SL_LE_le_core_preprocessor_slPPdec_h

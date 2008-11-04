@@ -1,5 +1,5 @@
-#ifndef H_slPPfor_included
-#define H_slPPfor_included
+#if !defined SL_LE_le_core_preprocessor_slPPfor_h
+#define SL_LE_le_core_preprocessor_slPPfor_h
 
 // predicate - macro of type PREDICATE(current) must expand to 1 or 0
 // action - macro of type ACTION(current)
@@ -267,10 +267,9 @@
 #define _LE_PP_FOR_252(_p, _a) LE_PP_BIT_IF(_p(252), _a(252) _LE_PP_FOR_253(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_253(_p, _a) LE_PP_BIT_IF(_p(253), _a(253) _LE_PP_FOR_254(_p, _a), _LE_PP_NOTHING)
 #define _LE_PP_FOR_254(_p, _a) LE_PP_BIT_IF(_p(254), _a(254) _LE_PP_FOR_255(_p, _a), _LE_PP_NOTHING)
-#define _LE_PP_FOR_255(_p, _a) LE_PP_BIT_IF(_p(255), _a(255) _LE_PP_FOR_256(_p, _a), _LE_PP_NOTHING)
-#define _LE_PP_FOR_256(_p, _a) LE_PP_BIT_IF(_p(256), _a(256), _LE_PP_NOTHING)
+#define _LE_PP_FOR_255(_p, _a) LE_PP_BIT_IF(_p(255), _a(255), _LE_PP_NOTHING)
 
 
 #define LE_PP_FOR_LIMITATION 255
 
-#endif // H_slPPfor_included
+#endif // not defined SL_LE_le_core_preprocessor_slPPfor_h

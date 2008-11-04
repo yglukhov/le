@@ -1,5 +1,5 @@
-#ifndef H_slPPnot_equal_included
-#define H_slPPnot_equal_included
+#if !defined SL_LE_le_core_preprocessor_slPPnot_equal_h
+#define SL_LE_le_core_preprocessor_slPPnot_equal_h
 
 #include "slPPbit_if.h"
 
@@ -528,4 +528,4 @@
 
 #define LE_PP_NOT_EQUAL_LIMITATION 255
 
-#endif // H_slPPnot_equal_included
+#endif // not defined SL_LE_le_core_preprocessor_slPPnot_equal_h

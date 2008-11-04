@@ -1,7 +1,5 @@
-#ifndef H_slPPinc_included
-#define H_slPPinc_included
-
-#include <le/core/config/slPrefix.h>
+#if !defined SL_LE_le_core_preprocessor_slPPinc_h
+#define SL_LE_le_core_preprocessor_slPPinc_h
 
 #define LE_PP_INC(param) _LE_PP_INC(param)
 
@@ -262,8 +260,8 @@
 #define _LE_PP_INC_252 253
 #define _LE_PP_INC_253 254
 #define _LE_PP_INC_254 255
-#define _LE_PP_INC_255 256
-
+#define _LE_PP_INC_255 255
+	
 #define LE_PP_INC_LIMITATION 255
 
-#endif // H_slPPinc_included
+#endif // not defined SL_LE_le_core_preprocessor_slPPinc_h

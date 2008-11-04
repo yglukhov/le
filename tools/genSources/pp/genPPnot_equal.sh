@@ -1,11 +1,11 @@
 #!/bin/sh
 
-LIMITATION=255
+FILE_PATH=le/core/preprocessor/slPPnot_equal.h
+NAMESPACE_PREFIX=SL_LE
 
-cat << SOURCE_TEXT
-#ifndef H_slPPnot_equal_included
-#define H_slPPnot_equal_included
-
+genSource()
+{
+	cat << SOURCE_TEXT
 #include "slPPbit_if.h"
 
 #define LE_PP_NOT_EQUAL(first, second) _LE_PP_NOT_EQUAL(first, second)
@@ -17,32 +17,28 @@ cat << SOURCE_TEXT
 
 SOURCE_TEXT
 
-if [[ $# > 0 ]]
-then
-	LIMITATION=$1
-fi
+	COUNTER=0
+	while [ $COUNTER -le $LIMITATION ]
+	do
+		echo "#define _LE_PP_NOT_EQUAL_CHECK__LE_PP_NOT_EQUAL_$COUNTER(c, y) 0"
+		COUNTER=$(($COUNTER + 1))
+	done
 
-COUNTER=0
-while [[ $COUNTER < $LIMITATION ]]
-do
-	echo "#define _LE_PP_NOT_EQUAL_CHECK__LE_PP_NOT_EQUAL_$COUNTER(c, y) 0"
-	COUNTER=$(($COUNTER + 1))
-done
+	echo
+	echo
 
-echo
-echo
+	COUNTER=0
+	while [ $COUNTER -le $LIMITATION ]
+	do
+		echo "#define _LE_PP_NOT_EQUAL_$COUNTER(c, y) LE_PP_BIT_IF(c, LE_PP_NIL, y(1, LE_PP_NIL))"
+		COUNTER=$(($COUNTER + 1))
+	done
 
-COUNTER=0
-while [[ $COUNTER < $LIMITATION ]]
-do
-	echo "#define _LE_PP_NOT_EQUAL_$COUNTER(c, y) LE_PP_BIT_IF(c, LE_PP_NIL, y(1, LE_PP_NIL))"
-	COUNTER=$(($COUNTER + 1))
-done
-
-cat << SOURCE_TEXT
+	cat << SOURCE_TEXT
 
 
 #define LE_PP_NOT_EQUAL_LIMITATION $LIMITATION
-
-#endif // H_slPPnot_equal_included
 SOURCE_TEXT
+}
+
+. $(dirname ${0})/../genSource.sh

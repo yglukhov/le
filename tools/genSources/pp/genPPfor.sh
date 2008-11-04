@@ -1,11 +1,11 @@
 #!/bin/sh
 
-LIMITATION=255
+FILE_PATH=le/core/preprocessor/slPPfor.h
+NAMESPACE_PREFIX=SL_LE
 
-cat << SOURCE_TEXT
-#ifndef H_slPPfor_included
-#define H_slPPfor_included
-
+genSource()
+{
+	cat << SOURCE_TEXT
 // predicate - macro of type PREDICATE(current) must expand to 1 or 0
 // action - macro of type ACTION(current)
 
@@ -19,25 +19,21 @@ cat << SOURCE_TEXT
 
 SOURCE_TEXT
 
-if [[ $# > 0 ]]
-then
-	LIMITATION=$1
-fi
+	COUNTER=0
 
-COUNTER=0
+	while [ $COUNTER -lt $LIMITATION ]
+	do
+		printf "#define _LE_PP_FOR_$COUNTER(_p, _a) LE_PP_BIT_IF(_p($COUNTER), _a($COUNTER) "
+		COUNTER=$(($COUNTER + 1))
+		echo "_LE_PP_FOR_$COUNTER(_p, _a), _LE_PP_NOTHING)"
+	done
 
-while [[ $COUNTER < $LIMITATION ]]
-do
-	printf "#define _LE_PP_FOR_$COUNTER(_p, _a) LE_PP_BIT_IF(_p($COUNTER), _a($COUNTER) "
-	COUNTER=$(($COUNTER + 1))
-	echo "_LE_PP_FOR_$COUNTER(_p, _a), _LE_PP_NOTHING)"
-done
-
-cat << SOURCE_TEXT
+	cat << SOURCE_TEXT
 #define _LE_PP_FOR_$COUNTER(_p, _a) LE_PP_BIT_IF(_p($COUNTER), _a($COUNTER), _LE_PP_NOTHING)
 
 
 #define LE_PP_FOR_LIMITATION $LIMITATION
-
-#endif // H_slPPfor_included
 SOURCE_TEXT
+}
+
+. $(dirname ${0})/../genSource.sh

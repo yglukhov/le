@@ -1,5 +1,5 @@
-#ifndef slPPbool_h_included
-#define slPPbool_h_included
+#if !defined SL_LE_le_core_preprocessor_slPPbool_h
+#define SL_LE_le_core_preprocessor_slPPbool_h
 
 #include "slPPcat.h"
 
@@ -266,4 +266,4 @@
 
 #define LE_PP_BOOL_LIMITATION 255
 
-#endif // slPPbool_h_included
+#endif // not defined SL_LE_le_core_preprocessor_slPPbool_h
