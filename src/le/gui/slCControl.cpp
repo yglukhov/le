@@ -114,7 +114,7 @@ CSize CControl::size() const
 	return mRect.size();
 }
 
-void CControl::size(const CSize& Size)
+void CControl::setSize(const CSize& Size)
 {
 	LE_ENTER_LOG;
 
@@ -156,7 +156,7 @@ void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 		newSize.height(mRect.height() + deltaHeight);
 	}
 
-	size(newSize);
+	setSize(newSize);
 }
 
 void CControl::parentMoved(const CPoint& fromPos, const CPoint& toPos)

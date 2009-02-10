@@ -1,5 +1,5 @@
-#if !defined H_included_slAssert
-#define H_included_slAssert
+#if !defined SL_LE_core_debug_slAssert_h
+#define SL_LE_core_debug_slAssert_h
 
 #include <le/core/slTypes.h>
 
@@ -16,11 +16,11 @@ class CObject;
 
 void _le_assert(bool, const char*, unsigned, const char*, const CObject*, const char*);
 
-#	define LE_ASSERT(x) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, NULL)
-#	define LE_ASSERT_MESSAGE(x, message) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, message)
+#	define LE_ASSERT(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, NULL)
+#	define LE_ASSERT_MESSAGE(x, message) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, message)
 
-#	define LE_ASSERT_EX(x) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, NULL)
-#	define LE_ASSERT_EX_MESSAGE(x, message) _le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, message)
+#	define LE_ASSERT_EX(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, NULL)
+#	define LE_ASSERT_EX_MESSAGE(x, message) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, message)
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,4 +51,4 @@ static LE_NESTED_NAMESPACE TSStaticAssert<((bool)(expression))> _static_assert_o
 } // namespace sokira
 
 
-#endif // not defined H_included_slAssert
+#endif // not defined SL_LE_core_debug_slAssert_h

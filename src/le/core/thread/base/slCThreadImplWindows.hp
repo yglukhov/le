@@ -40,6 +40,11 @@ class CThreadImplWindows : public CThreadImplBase
 
 		static CThreadImplBase* thread();
 
+		static inline void sleep(UInt32 milliSeconds)
+		{
+			::Sleep(milliSeconds);
+		}
+	
 	protected:
 		DWORD mThreadID;
 	private:

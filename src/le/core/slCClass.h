@@ -30,7 +30,7 @@ template <class T>
 struct TSProtectedParentDeclarator
 {};
 
-typedef _SNullType Self;
+//typedef _SNullType Self;
 
 template <class T>
 struct TSParentCollector
@@ -106,21 +106,21 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
 
 #define LE_RTTI_BEGIN	\
 	private:				\
-	typedef sokira::le::TSTypeList<>::PushBack<
+	typedef ::sokira::le::TSTypeList<>::PushBack<
 
 #define LE_RTTI_SELF(name)	\
-	_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
+	::sokira::le::_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
 	typedef name __LE_temp_Self; \
 	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
 
 #define LE_RTTI_PUBLIC_PARENT(name)		\
-	TSPublicParentDeclarator<name> >::result::PushBack<
+	::sokira::le::TSPublicParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PRIVATE_PARENT(name)	\
-	TSPrivateParentDeclarator<name> >::result::PushBack<
+	::sokira::le::TSPrivateParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PROTECTED_PARENT(name)	\
-	TSProtectedParentDeclarator<name> >::result::PushBack<
+	::sokira::le::TSProtectedParentDeclarator<name> >::result::PushBack<
 
 struct _SSelectorDeclarator {};
 
@@ -143,30 +143,28 @@ struct _SSelectorDeclarator {};
 
 #define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
 
-#define LE_RTTI_SINGLE_PUBLIC_PARENT \
-	TSPublicParentDeclarator<leSelf> >::result::PushBack<
-#define LE_RTTI_SINGLE_PRIVATE_PARENT \
-	TSPrivateParentDeclarator<leSelf> >::result::PushBack<
-#define LE_RTTI_SINGLE_PROTECTED_PARENT \
-	TSProtectedParentDeclarator<leSelf> >::result::PushBack<
+#define LE_RTTI_SINGLE_PUBLIC_PARENT LE_RTTI_PUBLIC_PARENT(leSelf)
+#define LE_RTTI_SINGLE_PRIVATE_PARENT LE_RTTI_PRIVATE_PARENT(leSelf)
+#define LE_RTTI_SINGLE_PROTECTED_PARENT LE_RTTI_PROTECTED_PARENT(leSelf)
 
-#define LE_RTTI_END _TSStubDeclarator>::result \
+
+#define LE_RTTI_END ::sokira::le::_TSStubDeclarator>::result \
 	_le_RTTI_INFO; \
-	template<typename> friend  class TCClassImpl;	\
+	template<typename> friend  class ::sokira::le::TCClassImpl;	\
 	protected:		\
 	typedef __LE_temp_Self leSelf;					\
 	public:	\
-	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSParentCollector>	leParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSPublicParentCollector> lePublicParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSPrivateParentCollector> lePrivateParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf<sokira::le::TSProtectedParentCollector> leProtectedParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSParentCollector>	leParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSPublicParentCollector> lePublicParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSPrivateParentCollector> lePrivateParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSProtectedParentCollector> leProtectedParents;	\
 	typedef leParents::TypeAtNonStrict<0>::result leFirstParent;	\
 	typedef lePublicParents::TypeAtNonStrict<0>::result leFirstPublicParent;	\
 	typedef lePrivateParents::TypeAtNonStrict<0>::result leFirstPrivateParent;	\
 	typedef leProtectedParents::TypeAtNonStrict<0>::result leFirstProtectedParent;	\
-		static sokira::le::CClass staticClass();				\
-		virtual sokira::le::CClass objectClass() const;			\
-		typedef sokira::le::TCPointer<leSelf> Ptr;				\
+		static ::sokira::le::CClass staticClass();				\
+		virtual ::sokira::le::CClass objectClass() const;			\
+		typedef ::sokira::le::TCPointer<leSelf> Ptr;				\
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,19 +196,19 @@ class CClass
 // RTTI implementation
 ////////////////////////////////////////////////////////////////////////////////
 #define LE_IMPLEMENT_RUNTIME_CLASS(Class)									\
-	static sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
+	static ::sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
 	_LE_IMPLEMENT_RUNTIME_CLASS(Class);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Internal helper macros
 ////////////////////////////////////////////////////////////////////////////////
 #define _LE_IMPLEMENT_RUNTIME_CLASS(Class)						\
-	sokira::le::CClass Class::staticClass()						\
+	::sokira::le::CClass Class::staticClass()					\
 	{															\
-		return sokira::le::CClass(&_le_##Class##_ClassInfo_);	\
+		return ::sokira::le::CClass(&_le_##Class##_ClassInfo_);	\
 	}															\
 																\
-	sokira::le::CClass Class::objectClass() const				\
+	::sokira::le::CClass Class::objectClass() const				\
 	{															\
 		return staticClass();									\
 	}
@@ -242,7 +240,7 @@ class IClassImpl
 		{
 			processDeclarator
 				<
-					TSSelect
+					typename TSSelect
 					<
 						TSStrictCastAvailable<typename TListNode::Head, _SSelectorDeclarator>,
 						typename TListNode::Head,
@@ -344,7 +342,7 @@ class TCClassImpl : public IClassImpl
 	public:
 		TCClassImpl(const char* typeName) : IClassImpl(typeName)
 		{
-			registerSelectors<T::_le_RTTI_INFO::_headNode>();
+			registerSelectors<typename T::_le_RTTI_INFO::_headNode>();
 		}
 
 		virtual void* create(const std::type_info& type) const

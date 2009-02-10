@@ -10,22 +10,20 @@ namespace sokira
 	namespace le
 	{
 
+class CRunLoopSource;
+
 class CRunLoop
 {
 	public:
-		CRunLoop(bool sourceDependent = true);
-		CRunLoop(const TCFunction<>& firstEvent, bool sourceDependent = true);
-
 		void run();
 		void stop();
 		bool isStopped() const;
 
-		void pushEvent(const TCFunction<>& event);
 
 	private:
-		std::list<TCFunction<> > mEventQueue;
+		friend class CThread;
+		CRunLoop();
 		CMutex mQueueMutex;
-		UInt32 mSources;
 		bool mStopped;
 };
 

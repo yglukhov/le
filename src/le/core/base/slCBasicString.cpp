@@ -8,8 +8,9 @@
 #include <le/core/config/slCompiler.h>
 #include <le/core/slCDictionary.h>
 
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
 #include "vasprintf.cp"
-
+#endif
 
 namespace sokira
 {

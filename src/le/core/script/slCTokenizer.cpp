@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "slCTokenizer.h"
 
 namespace sokira

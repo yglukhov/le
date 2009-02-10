@@ -22,7 +22,7 @@ class CWindow : public CControl
 		virtual void draw() const;
 
 		CSize size() const;
-		virtual void size(const CSize& Size);
+		virtual void setSize(const CSize& Size);
 
 		virtual void relativePosition(const CPoint& Position);
 		virtual void absolutePosition(const CPoint& Position);

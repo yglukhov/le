@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_gui_slTypes_h
+#define SL_LE_gui_slTypes_h
 
 #include <le/core/slCColor.h>
 
@@ -149,3 +150,5 @@ class CBox : public CPoint3D, public CSize3D
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_gui_slTypes_h

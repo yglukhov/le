@@ -1,7 +1,7 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
-#include <glut/slGlut.h>
+#include <le/core/slTypes.h>
+//#include <glut/slGlut.h>
 
 namespace sokira
 {
@@ -10,17 +10,17 @@ namespace sokira
 
 enum EMouseButton
 {
-	eMouseButtonUnknown = -1,
-	eMouseButtonLeft = GLUT_LEFT_BUTTON,
-	eMouseButtonMiddle = GLUT_RIGHT_BUTTON,
-	eMouseButtonRight = GLUT_MIDDLE_BUTTON
+	eMouseButtonUnknown = 0,
+	eMouseButtonLeft = LE_SET_BIT(1), // = GLUT_LEFT_BUTTON,
+	eMouseButtonMiddle = LE_SET_BIT(2), // = GLUT_MIDDLE_BUTTON,
+	eMouseButtonRight = LE_SET_BIT(3) // = GLUT_RIGHT_BUTTON
 };
 
 enum EButtonState
 {
-	eButtonStateUnknown = -1,
-	eButtonStateDown = GLUT_DOWN,
-	eButtonStateUp = GLUT_UP
+	eButtonStateUnknown = 0,
+	eButtonStateDown = LE_SET_BIT(1), // = GLUT_DOWN,
+	eButtonStateUp = LE_SET_BIT(2), // = GLUT_UP
 };
 
 	} // namespace le

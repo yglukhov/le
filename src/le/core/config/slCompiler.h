@@ -8,6 +8,9 @@
 #define LE_PLATFORM_UNIX 3
 #define LE_PLATFORM_MACOSX 4
 
+#define LE_PLATFORM_FAMILY_WINDOWS 1
+#define LE_PLATFORM_FAMILY_UNIX 2
+
 #if (!defined LE_FLAG_COMPILER_CONFIGURED) || (!LE_FLAG_COMPILER_CONFIGURED)
 #	include "base/slGCC.h"
 #endif
@@ -19,6 +22,21 @@
 
 #if ! defined LE_TARGET_PLATFORM
 #define LE_TARGET_PLATFORM LE_PLATFORM_UNIX
+
+#	if ! defined LE_TARGET_PLATFORM_FAMILY
+#	define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_UNIX
+#	endif
+
+#else
+
+#	if ! defined LE_TARGET_PLATFORM_FAMILY
+#		if LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS || LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS_CE
+#			define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_WINDOWS
+#		else
+#			define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_UNIX
+#		endif
+#	endif
+
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -28,7 +28,6 @@
 #define LE_COMPILER_VERSION_PART_2 LE_COMPILER_VERSION_BUG
 
 // Define compiler family
-#define LE_COMPILER_IS_MSVC
 #define LE_COMPILER_VENDOR_STRING "Microsoft"
 #define LE_COMPILER_NAME_STRING "Visual C++"
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,13 +37,10 @@
 // 1400 - MS Visual C++ .NET 2005
 
 #if (LE_COMPILER_VERSION == 1300)
-#define LE_COMPILER_IS_MSVC_NET
 #define LE_COMPILER_VERSION_STRING ".NET"
 #elif (LE_COMPILER_VERSION == 1310)
-#define LE_COMPILER_IS_MSVC_2003
 #define LE_COMPILER_VERSION_STRING ".NET 2003"
 #elif (LE_COMPILER_VERSION == 1400)
-#define LE_COMPILER_IS_MSVC_2005
 #define LE_COMPILER_VERSION_STRING ".NET 2005"
 #endif
 
@@ -54,5 +50,6 @@
 #define LE_TARGET_PLATFORM LE_PLATFORM_WINDOWS
 #endif
 
+#define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_WINDOWS
 
 #endif // defined _MSC_VER

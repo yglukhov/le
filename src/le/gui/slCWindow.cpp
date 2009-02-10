@@ -73,12 +73,12 @@ CSize CWindow::size() const
 	return CControl::size();
 }
 
-void CWindow::size(const CSize& Size)
+void CWindow::setSize(const CSize& Size)
 {
 	LE_ENTER_LOG;
 
 	CSize prevSize = mRect.size();
-	CControl::size(Size);
+	CControl::setSize(Size);
 
 	CControlList::iterator end = mChilds.end();
 	for (CControlList::iterator it = mChilds.begin(); it != end; ++it)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
+#include <le/core/slTypes.h>
 
 namespace sokira
 {
@@ -50,7 +50,7 @@ struct _TSStrictCastAvailable
 		static t1 _f(int, const TTo*);
 		static t2 _f(int, ...);
 	public:
-		typedef TSBoolTypeFromInt<sizeof(t1) == sizeof(_f(0, static_cast<TFrom*>(NULL)))> _result;
+		typedef TSBoolTypeFromInt<sizeof(t1) == sizeof(_f(0, static_cast<TFrom*>(0)))> _result;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

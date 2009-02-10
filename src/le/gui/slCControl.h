@@ -44,7 +44,7 @@ class CControl : public CObject
 		CRectangle relativeRect() const;
 
 		CSize size() const;
-		virtual void size(const CSize& Size);
+		virtual void setSize(const CSize& Size);
 
 		virtual CPoint relativePosition() const;
 		virtual void relativePosition(const CPoint& point);

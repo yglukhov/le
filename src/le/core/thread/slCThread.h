@@ -3,6 +3,7 @@
 #include <typeinfo>
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/slCString.h>
+#include <le/core/auxiliary/slCRunLoop.h>
 
 namespace sokira
 {
@@ -21,9 +22,10 @@ class CThread
 
 		static CThread thread();
 		void start();
-		void stop();
-		bool isRunning() const;
+//		void stop();
+//		bool isRunning() const;
 		CString name() const;
+		CRunLoop& runLoop();
 
 		static void sleep(UInt32 milliSeconds);
 
@@ -54,6 +56,8 @@ class CThread
 		void* _singletone(const char* stdTypeName, void*(*)(), void (*)(void*));
 
 		CThreadImplBase* mImpl;
+		bool mIsRunning;
+		CRunLoop mRunLoop;
 };
 
 

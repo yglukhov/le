@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_slCNumber_h
+#define SL_LE_core_slCNumber_h
 
 #include <le/core/slCObject.h>
 #include <le/core/template/util/slTSConstToType.h>
@@ -136,3 +137,5 @@ class CNumber : public CObject, CNumberBase
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_slCNumber_h

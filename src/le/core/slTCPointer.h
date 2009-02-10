@@ -3,8 +3,6 @@
 #include <le/core/debug/slDebug.h>
 #include <le/core/slTypes.h>
 
-#define LE_SMART_POINTER_IS_NOT_SO_SMART
-
 namespace sokira
 {
 	namespace le
@@ -65,14 +63,10 @@ class TCPointer
 		// Release
 		inline void retain();
 		inline void release();
-		inline void autorelease();
 
 		//////////////////////////////////////////////////////////////////////////
 		// Private section
 	private:
-#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-		static void deleteFunc(void*);
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 		template <typename Any> friend class TCPointer;
 		T* mObj;
 		TRefCountType* mRefCount;
@@ -86,27 +80,21 @@ class TCPointer
 
 template <typename T>
 TCPointer<T>::TCPointer() : mObj(NULL)
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	, mRefCount(NULL)
-#endif // defined LE_SMART_POINTER_IS_NOT_SO_SMART
 {
 
 }
 
 template <typename T>
 TCPointer<T>::TCPointer(T* obj) : mObj(obj)
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	, mRefCount(NULL)
-#endif // defined LE_SMART_POINTER_IS_NOT_SO_SMART
 {
 	retain();
 }
 
 template <typename T>
 TCPointer<T>::TCPointer(const TCPointer& copy) : mObj(copy.mObj)
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	, mRefCount(copy.mRefCount)
-#endif // defined LE_SMART_POINTER_IS_NOT_SO_SMART
 {
 	retain();
 }
@@ -114,9 +102,7 @@ TCPointer<T>::TCPointer(const TCPointer& copy) : mObj(copy.mObj)
 template <typename T>
 template <typename CastedFrom>
 TCPointer<T>::TCPointer(const TCPointer<CastedFrom>& copy) : mObj(copy.mObj)
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	, mRefCount(copy.mRefCount)
-#endif // defined LE_SMART_POINTER_IS_NOT_SO_SMART
 {
 	retain();
 }
@@ -211,31 +197,10 @@ const T* TCPointer<T>::operator->() const
 	return mObj;
 }
 
-#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-
-	} // namespace le
-} // namespace sokira
-
-
-void _le_TCPointer_reset(void*);
-void _le_TCPointer_retain(void*);
-void _le_CAutoreleasePool_addObject(void*, void(*)(void*));
-void _le_TCPointer_release(void*, void(*)(void*));
-
-
-namespace sokira
-{
-	namespace le
-	{
-
-#endif // !LE_SMART_POINTER_IS_NOT_SO_SMART
 
 template <typename T>
 T* TCPointer<T>::reset(T* toValue)
 {
-#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-	_le_TCPointer_reset(static_cast<void*>(mObj));
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	T* retValue = mObj;
 	operator=(toValue);
 	return retValue;
@@ -244,7 +209,6 @@ T* TCPointer<T>::reset(T* toValue)
 template <typename T>
 void TCPointer<T>::retain()
 {
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	if (mObj)
 	{
 		if (!mRefCount)
@@ -253,9 +217,6 @@ void TCPointer<T>::retain()
 		}
 		++(*mRefCount);
 	}
-#else // defined LE_SMART_POINTER_IS_NOT_SO_SMART
-	_le_TCPointer_retain(static_cast<void*>(mObj));
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 }
 
 template <typename T>
@@ -263,7 +224,6 @@ void TCPointer<T>::release()
 {
 	if(mObj)
 	{
-#if defined LE_SMART_POINTER_IS_NOT_SO_SMART
 		LE_ASSERT(mRefCount != NULL);
 		--(*mRefCount);
 		if (!(*mRefCount))
@@ -273,27 +233,8 @@ void TCPointer<T>::release()
 		}
 		mObj = NULL;
 		mRefCount = NULL;
-#else // defined LE_SMART_POINTER_IS_NOT_SO_SMART
-		_le_TCPointer_release(static_cast<void*>(mObj), deleteFunc);
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 	}
 }
-
-template <typename T>
-void TCPointer<T>::autorelease()
-{
-#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-	_le_CAutoreleasePool_addObject(static_cast<void*>(mObj), deleteFunc);
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-}
-
-#if !defined LE_SMART_POINTER_IS_NOT_SO_SMART
-template <typename T>
-void TCPointer<T>::deleteFunc(void* obj)
-{
-	delete static_cast<T*>(obj);
-}
-#endif // !defined LE_SMART_POINTER_IS_NOT_SO_SMART
 
 	} // namespace le
 } // namespace sokira

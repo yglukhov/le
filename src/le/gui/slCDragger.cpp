@@ -56,7 +56,7 @@ void CDragger::drag(const CPoint& point)
 
 	mControl->relativePosition(CPoint(x,y));
 }
-		
+
 void CDragger::endDrag()
 {
 	_currentDragger = NULL;

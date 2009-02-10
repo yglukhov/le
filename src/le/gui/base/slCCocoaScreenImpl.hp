@@ -1,0 +1,42 @@
+#if !defined SL_LE_gui_base_slCCocoaScreenImpl_hp
+#define SL_LE_gui_base_slCCocoaScreenImpl_hp
+
+#include <le/core/slCString.h>
+#include <le/gui/slTypes.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CGuiApplication;
+class CScreen;
+
+class CCocoaScreenImpl
+{
+	public:
+		CCocoaScreenImpl(bool fullScreen, const CString& title, const CRectangle& rect);
+
+		void screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app);
+		void screenWasAddedToApplication(CScreen* screen, CGuiApplication* app);
+
+		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+		void screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+
+		Bool inLiveResize() const;
+
+		CSize size() const;
+		void setSize(const CSize& size);
+
+	private:
+		Bool mFullScreen;
+		CString mTitle;
+		CRectangle mRect;
+		void* mWindow;
+		void* mView;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCCocoaScreenImpl_hp

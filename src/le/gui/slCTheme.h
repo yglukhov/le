@@ -29,9 +29,9 @@ class CTheme
 		static void currentTheme(const char* themeClass);
 		static CString currentTheme();
 
+	private:
 		const CControlBasicController* controllerForControl(CString controlClass) const;
 
-	private:
 		void init();
 
 		typedef std::map<CString, TCPointer<CControlBasicController> > CControllerMap;

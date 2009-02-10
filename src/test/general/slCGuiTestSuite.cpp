@@ -7,7 +7,7 @@
 
 #if LE_TARGET_PLATFORM != LE_PLATFORM_WINDOWS_CE
 #pragma comment(lib, "leGui")
-#include <le/gui/slCApplication.h>
+#include <le/gui/auxiliary/slCGuiApplication.h>
 #endif
 
 namespace sokira
@@ -25,11 +25,12 @@ void CGuiTestSuite::testGuiApp()
 	for (int i = 5; i > 0; --i)
 	{
 		printf("Preparing to test Gui. Press any key to skip. [%d]\r", i);
-		CThread::sleep(1000);
+//		CThread::sleep(1);
 	}
 	printf("\nRunning gui test...\n");
 
-	::sokira::le::CApplication().run();
+	::sokira::le::CGuiApplication app;
+	app.run(0, NULL);
 #endif
 }
 

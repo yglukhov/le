@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <typeinfo>
+#include <le/core/template/util/slTSCommon.h>
 
 namespace sokira
 {
@@ -35,9 +36,9 @@ class TCAnyContainer : public IAnyContainer
 
 		virtual void* get(const std::type_info& type) const
 		{
-			std::cout << "Requested type: " << type.name() << std::endl;
-			std::cout << "Actual type: " << typeid(TSRemoveRef<T>::result).name() << std::endl;
-			return (type == typeid(TSRemoveRef<T>::result))?(const_cast<void*>(static_cast<const void*>(&mValue))):(NULL);
+//			std::cout << "Requested type: " << type.name() << std::endl;
+//			std::cout << "Actual type: " << typeid(TSRemoveRef<T>::result).name() << std::endl;
+			return (type == typeid(typename TSRemoveRef<T>::result))?(const_cast<void*>(static_cast<const void*>(&mValue))):(0);
 		}
 	private:
 		T mValue;

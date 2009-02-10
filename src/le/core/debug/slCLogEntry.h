@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_debug_slCLogEntry_h
+#define SL_LE_core_debug_slCLogEntry_h
 
 #include <iostream>
 #include <string>
@@ -71,3 +72,5 @@ class CLogEntry : public std::ostream
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_debug_slCLogEntry_h

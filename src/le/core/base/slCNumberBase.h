@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_base_slCNumberBase_h
+#define SL_LE_core_base_slCNumberBase_h
 
 #include <le/core/slTypes.h>
 
@@ -61,3 +62,5 @@ template <> struct CNumberBase::TSTypeToFormat<Bool> { enum { dataType = eFormat
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_base_slCNumberBase_h

@@ -2,7 +2,7 @@
 
 
 #include <le/core/template/function/slTCFunction.h>
-#include <le/core/auxiliary/slCRunLoop.h>
+//#include <le/core/auxiliary/slCRunLoop.h>
 #include <le/core/slCString.h>
 
 namespace sokira
@@ -15,9 +15,9 @@ class CThreadImplBase
 	public:
 		inline CThreadImplBase(const TCFunction<>& threadProc,
 							   const CString& threadName) :
-			mRunLoop(threadProc),
 			mRefCount(1),
-			mName(threadName)
+			mName(threadName),
+			mThreadProc(threadProc)
 		{
 
 		}
@@ -41,15 +41,15 @@ class CThreadImplBase
 		// Overload this method to start CThreadImplBase::threadProc in a separate thread.
 		virtual void start() = 0;
 
-		inline void stop()
-		{
-			mRunLoop.stop();
-		}
+//		inline void stop()
+//		{
+//			mRunLoop.stop();
+//		}
 
-		virtual bool isRunning() const
-		{
-			return !mRunLoop.isStopped();
-		}
+//		virtual bool isRunning() const
+//		{
+//			return !mRunLoop.isStopped();
+//		}
 
 		inline CString name() const
 		{
@@ -100,13 +100,14 @@ class CThreadImplBase
 
 		inline void _threadProc()
 		{
-			mRunLoop.run();
+			if (mThreadProc) mThreadProc();
 		}
 
 		UInt32 mRefCount;
-		CRunLoop mRunLoop;
+//		CRunLoop mRunLoop;
 		CString mName;
 		std::map<CString, std::pair<void*, void(*)(void*)> > mSingletones;
+		TCFunction<> mThreadProc;
 };
 
 	} // namespace le

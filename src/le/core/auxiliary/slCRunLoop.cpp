@@ -5,39 +5,32 @@ namespace sokira
 	namespace le
 	{
 
-CRunLoop::CRunLoop(bool sourceDependent) :
-	mSources(static_cast<UInt32>(!sourceDependent)),
+CRunLoop::CRunLoop() :
 	mStopped(true)
 {
 
-}
-
-CRunLoop::CRunLoop(const TCFunction<>& firstEvent, bool sourceDependent) :
-	mSources(static_cast<UInt32>(!sourceDependent)),
-	mStopped(true)
-{
-	pushEvent(firstEvent);
 }
 
 void CRunLoop::run()
 {
-	do
-	{
-		{
-			CMutexLock locker(mQueueMutex);
-			if(!mEventQueue.empty())
-			{
-				mEventQueue.front()();
-				mEventQueue.pop_front();
-				continue;
-			}
-		}
-
-		if (!mSources)
-		{
-			stop();
-		}
-	} while(!isStopped());
+//	do
+//	{
+//		{
+//			CMutexLock locker(mQueueMutex);
+//			if(!mEventQueue.empty())
+//			{
+//				mEventQueue.front()();
+//				mEventQueue.pop_front();
+//				continue;
+//			}
+//		}
+//
+//		if (!mSources)
+//		{
+//			stop();
+//		}
+//	} while(!isStopped());
+	mStopped = false;
 }
 
 void CRunLoop::stop()
@@ -48,12 +41,6 @@ void CRunLoop::stop()
 bool CRunLoop::isStopped() const
 {
 	return mStopped;
-}
-
-void CRunLoop::pushEvent(const TCFunction<>& event)
-{
-	CMutexLock locker(mQueueMutex);
-	mEventQueue.push_back(event);
 }
 
 	} // namespace le

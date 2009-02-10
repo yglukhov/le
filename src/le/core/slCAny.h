@@ -34,7 +34,7 @@ class CAny : public CObject
 		template <typename T>
 		static CAny ref(T& value)
 		{
-			return CAny((IAnyContainer*)new TCAnyContainer<TSRemoveConst<T>::result&>(value));
+			return CAny((IAnyContainer*)new TCAnyContainer<typename TSRemoveConst<T>::result&>(value));
 		}
 
 		const CAny& operator = (const CAny& copy);

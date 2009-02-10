@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <pthread.h>
 #include "slCThreadImplBase.hp"
 
@@ -39,6 +40,11 @@ class CThreadImplPosix : public CThreadImplBase
 		virtual void start();
 
 		static CThreadImplBase* thread();
+
+		static inline void sleep(UInt32 milliSeconds)
+		{
+			::sleep(milliSeconds);
+		}
 
 	protected:
 		pthread_t mThreadID;

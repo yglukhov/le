@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_slCTime_h
+#define SL_LE_core_slCTime_h
 
 #include "slTypes.h"
 #include <le/core/slCObject.h>
@@ -56,3 +57,5 @@ class CTime : public CObject
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_slCTime_h

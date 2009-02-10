@@ -28,7 +28,7 @@ CTitleBar::CTitleBar() :
 	LE_ENTER_LOG;
 	addChild(mCloseButton);
 	mCloseButton->relativePosition(CPoint(1,1));					
-	mCloseButton->size(CSize(10,10));
+	mCloseButton->setSize(CSize(10,10));
 	mCloseButton->delegate(this);
 	autoResizing(eAlignTop | eAlignLeft | eAlignRight);
 }
@@ -42,13 +42,13 @@ CTitleBar::CTitleBar(CWindow* Parent) :
 	LE_ASSERT_EX(Parent != NULL);
 	addChild(mCloseButton);
 	mCloseButton->relativePosition(CPoint(1,1));					
-	mCloseButton->size(CSize(8,8));
+	mCloseButton->setSize(CSize(8,8));
 	mCloseButton->delegate(this);
 
 	autoResizing(eAlignTop | eAlignLeft | eAlignRight);
 	float border = Parent->borderWidth();
 	relativePosition(CPoint(border, border));
-	size(CSize(Parent->size().width() - 2*border, 10));
+	setSize(CSize(Parent->size().width() - 2*border, 10));
 	parent(Parent);
 }
 

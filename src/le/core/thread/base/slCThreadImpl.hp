@@ -1,15 +1,16 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
+#include <le/core/config/slCompiler.h>
 
-#ifdef _WIN32
-#include "slCMutexImplWindows.hp"
-#include "slCThreadImplWindows.hp"
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+
+#	include "slCMutexImplWindows.hp"
+#	include "slCThreadImplWindows.hp"
 
 #else
 
 // Use posix pthreads
-#include "slCMutexImplPosix.hp"
-#include "slCThreadImplPosix.hp"
+#	include "slCMutexImplPosix.hp"
+#	include "slCThreadImplPosix.hp"
 
 #endif

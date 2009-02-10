@@ -35,12 +35,12 @@ CFace::CFace(Point3DMatrix pointList) :
 	mPointMatrix(pointList)
 {
 	//initMatrixWithZero(mMatrix);
-	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
+//	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 }
 
 CFace::CFace()
 {
-	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
+//	glGetFloatv(GL_MODELVIEW_MATRIX, mMatrix);
 	//initMatrixWithZero(mMatrix);
 }
 
@@ -120,10 +120,10 @@ void CFace::draw()
 	ControlList::const_iterator end = mChilds.end();
 	for(ControlList::const_iterator it = mChilds.begin(); it != end; ++it)
 	{
-		glPushMatrix();
-		glMultMatrixf(mMatrix);
+//		glPushMatrix();
+//		glMultMatrixf(mMatrix);
 		(*it)->draw();
-		glPopMatrix();
+//		glPopMatrix();
 	}
 }
 

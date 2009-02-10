@@ -59,7 +59,7 @@ void CButtonBasicController::draw(const CControl* control) const
 
 void CDialogBasicController::draw(const CControl* control) const
 {
-	slSetColor(CColor());
+	slSetColor(0.2f, 0.7f, 0.5f);
 	control->absoluteRect().draw();
 }
 
