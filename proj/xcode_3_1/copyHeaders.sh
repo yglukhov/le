@@ -2,9 +2,9 @@
 LE_LIBRARY_NAME="$1"
 cd "$leSrcRoot/le"
 
-if [ $# -gt 2 ]
+if [ "x$2" = "x" ]
 then
-	DESTINATION_DIR="$CONFIGURATION_BUILD_DIR/le/include/le"
+	DESTINATION_DIR="$BUILD_DIR/$CONFIGURATION/le/include/le"
 else
 	DESTINATION_DIR="$2"
 fi

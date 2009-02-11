@@ -357,7 +357,6 @@
 				B01DEE7109F0ED6D00EE27D3 /* libs */,
 				C6859E8C029090F304C91782 /* doc */,
 				1AB674ADFE9D54B511CA2CBB /* products */,
-				7B145B480F377730004DF6BE /* Products */,
 				7B145B490F377730004DF6BE /* Info.plist */,
 			);
 			name = le;
@@ -694,13 +693,6 @@
 			path = base;
 			sourceTree = "<group>";
 		};
-		7B145B480F377730004DF6BE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7B15CE7A0F3610B3002E9DA7 /* base */ = {
 			isa = PBXGroup;
 			children = (
@@ -861,7 +853,7 @@
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* le */;
-			productRefGroup = 7B145B480F377730004DF6BE /* Products */;
+			productRefGroup = 08FB7794FE84155DC02AAC07 /* le */;
 			projectDirPath = "";
 			projectRoot = ../..;
 			targets = (
