@@ -56,16 +56,16 @@ class CDelegator
 		CControl* mSender;
 };
 
-static CControl* _firstResponder = NULL;
+//static CControl* _firstResponder = NULL;
 
 CControl::CControl() :
-	mParent(NULL), mFace(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f)
+	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f)
 {
 	LE_ENTER_LOG;
 }
 
 CControl::CControl(const CRectangle& rect) :
-	mParent(NULL), mFace(NULL), mDelegate(NULL), mAutoResizingMask(eAlignTopLeft), mBorderWidth(1.0f), mRect(rect)
+	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f), mRect(rect)
 {
 	LE_ENTER_LOG;
 }
@@ -74,8 +74,8 @@ CControl::~CControl()
 {
 	LE_ENTER_LOG;
 
-	if(_firstResponder == this)
-		_firstResponder = NULL;
+//	if(_firstResponder == this)
+//		_firstResponder = NULL;
 }
 
 void CControl::destroy()
@@ -84,17 +84,9 @@ void CControl::destroy()
 
 	if(mParent)
 		mParent->removeChild(this);
-	
-	CScreen::instance()->addControlToDelete(this);
-	
-}
 
-void CControl::draw() const
-{
-	LE_ENTER_LOG;
-	CTheme::instance()->drawControl(this);
+//	CScreen::instance()->addControlToDelete(this);
 }
-
 
 CRectangle CControl::absoluteRect() const
 {
@@ -122,10 +114,9 @@ void CControl::setSize(const CSize& Size)
 	{
 		mRect.size(Size);
 
-		CDelegator<CControlDelegate>(this, mDelegate, this).
-			callMethod0<const CSize&>(&CControlDelegate::onResize, Size);
+		if (mDelegate) mDelegate->onResize(this);
 
-		CScreen::instance()->invalidate();
+		setNeedsRedraw();
 	}
 }
 
@@ -138,20 +129,20 @@ void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 
 	CSize newSize(mRect.size());
 
-	if((mAutoResizingMask & eAlignRight) && !(mAutoResizingMask & eAlignLeft))
+	if((mAutoResizingMask & eAutoResizingFixedRight) && !(mAutoResizingMask & eAutoResizingFixedLeft))
 	{
 		mRect.x(mRect.x() + deltaWidth);
 	}
-	else if(mAutoResizingMask & eAlignRight)
+	else if(mAutoResizingMask & eAutoResizingFixedRight)
 	{
 		newSize.width(mRect.width() + deltaWidth);
 	}
 
-	if((mAutoResizingMask & eAlignBottom) && !(mAutoResizingMask & eAlignTop))
+	if((mAutoResizingMask & eAutoResizingFixedBottom) && !(mAutoResizingMask & eAutoResizingFixedTop))
 	{
 		mRect.y(mRect.y() + deltaHeight);
 	}
-	else if(mAutoResizingMask & eAlignBottom)
+	else if(mAutoResizingMask & eAutoResizingFixedBottom)
 	{
 		newSize.height(mRect.height() + deltaHeight);
 	}
@@ -159,13 +150,13 @@ void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 	setSize(newSize);
 }
 
-void CControl::parentMoved(const CPoint& fromPos, const CPoint& toPos)
-{
-	LE_ENTER_LOG;
-
-	CPoint prevPos = CControl::absolutePosition();
-	absolutePosition(CPoint(prevPos.x() + (toPos.x() - fromPos.x()), prevPos.y() + (toPos.y() - fromPos.y())));
-}
+//void CControl::parentMoved(const CPoint& fromPos, const CPoint& toPos)
+//{
+//	LE_ENTER_LOG;
+//
+//	CPoint prevPos = CControl::absolutePosition();
+//	absolutePosition(CPoint(prevPos.x() + (toPos.x() - fromPos.x()), prevPos.y() + (toPos.y() - fromPos.y())));
+//}
 
 CPoint CControl::absolutePosition() const
 {
@@ -173,7 +164,7 @@ CPoint CControl::absolutePosition() const
 	return mRect.position();
 }
 
-void CControl::absolutePosition(const CPoint& position)
+void CControl::setAbsolutePosition(const CPoint& position)
 {
 	LE_ENTER_LOG;
 	mRect.position(position);
@@ -192,17 +183,15 @@ CPoint CControl::relativePosition() const
 	return absolutePosition();
 }
 
-void CControl::relativePosition(const CPoint& point)
+void CControl::setRelativePosition(const CPoint& point)
 {
 	LE_ENTER_LOG;
 
 	CPoint parentPosition = (mParent)?(mParent->absolutePosition()):(CPoint());
-
 	mRect.position(CPoint(parentPosition.x() + point.x(), parentPosition.y() + point.y()));
-
-	CDelegator<CControlDelegate>(this, mDelegate, this).
-		callMethod1<const CPoint&>(&CControlDelegate::onMove, point);
-	CScreen::instance()->invalidate();
+	if (mDelegate) mDelegate->onMove(this);
+//
+//	CScreen::instance()->invalidate();
 }
 
 void CControl::delegate(CControlDelegate* Delegate)
@@ -229,41 +218,94 @@ void CControl::borderWidth(float width)
 	mBorderWidth = width;
 }
 
-bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+//bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+//{
+//	LE_ENTER_LOG;
+//
+//	CPoint absPos = absolutePosition();
+//	CPoint relPoint(point.x() - absPos.x(), point.y() - absPos.y());
+//	CDelegator<CControlDelegate> delegator(this, mDelegate, this);
+//
+//	switch(button)
+//	{
+//		case eMouseButtonLeft:
+//		{
+//			std::cout << "CControl::onMouse" << std::endl;
+//			if(state == eButtonStateDown)
+//				setFocus();
+//			return (state == eButtonStateUp)?delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftUp, relPoint):
+//														delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftDown, relPoint);
+//		}
+//		case eMouseButtonMiddle:
+//		{
+//			std::cout << "CControl::onMouse" << std::endl;
+//			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleUp, relPoint)):
+//														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleDown, relPoint));
+//		}
+//		case eMouseButtonRight:
+//		{
+//			std::cout << "CControl::onMouse" << std::endl;
+//			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightUp, relPoint)):
+//														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightDown, relPoint));
+//		}
+//		default:
+//		{
+//			return delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMove, relPoint);
+//		}
+//	}
+//	
+//	return false;
+//}
+
+Bool CControl::onMouseDown(EMouseButton button, const CPoint& point)
 {
-	LE_ENTER_LOG;
-
-	CPoint absPos = absolutePosition();
-	CPoint relPoint(point.x() - absPos.x(), point.y() - absPos.y());
-	CDelegator<CControlDelegate> delegator(this, mDelegate, this);
-
-	switch(button)
-	{
-		case eMouseButtonLeft:
-		{
-			if(state == eButtonStateDown)
-				setFocus();
-			return (state == eButtonStateUp)?delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftUp, relPoint):
-														delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftDown, relPoint);
-		}
-		case eMouseButtonMiddle:
-		{
-			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleUp, relPoint)):
-														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleDown, relPoint));
-		}
-		case eMouseButtonRight:
-		{
-			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightUp, relPoint)):
-														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightDown, relPoint));
-		}
-		default:
-		{
-			return delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMove, relPoint);
-		}
-	}
-	
 	return false;
 }
+
+Bool CControl::onMouseUp(EMouseButton button, const CPoint& point)
+{
+	return false;
+}
+
+Bool CControl::onMouseHover(const CPoint& point)
+{
+	return false;
+}
+
+Bool CControl::onMouseOut(const CPoint& point)
+{
+	return false;
+}
+
+Bool CControl::onMouseIn(const CPoint& point)
+{
+	return false;
+}
+
+//Bool CControl::mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseDown(button, point);
+//}
+//
+//Bool CControl::mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseUp(button, point);
+//}
+//
+//Bool CControl::mouseHovered(const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseHover(point);
+//}
+//
+//Bool CControl::mouseExited(const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseOut(point);
+//}
+//
+//Bool CControl::mouseEntered(const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseOut(point);
+//}
 
 bool CControl::onKey(unsigned char inkey, int px, int py)
 {
@@ -273,7 +315,7 @@ bool CControl::onKey(unsigned char inkey, int px, int py)
 				callMethod1<int>(&CControlDelegate::onKeyDown, inkey);
 }
 
-void CControl::autoResizing(unsigned mask)
+void CControl::setAutoResizing(unsigned mask)
 {
 	LE_ENTER_LOG;
 	mAutoResizingMask = mask;
@@ -285,36 +327,14 @@ unsigned CControl::autoResizing() const
 	return mAutoResizingMask;
 }
 
-bool CControl::setFocus()
-{
-	LE_ENTER_LOG;
-
-	if(_firstResponder)
-	{
-		CDelegator<CControlDelegate> delegator(_firstResponder, _firstResponder->delegate(), this);
-		if(!delegator.callMethod2(&CControlDelegate::onLooseFocus))
-			return false;
-	}
-
-	CDelegator<CControlDelegate> delegator(this, mDelegate, this);
-
-	if(!delegator.callMethod2(&CControlDelegate::onSetFocus))
-		return false;
-
-	_firstResponder = this;
-	moveLastToDraw();
-	CScreen::instance()->invalidate();
-	return true;
-}
-
 void CControl::moveLastToDraw()
 {
 	LE_ENTER_LOG;
 
 	if(mParent)
 	{
-		mParent->mChilds.remove(this);
-		mParent->mChilds.push_back(this);
+		mParent->mChildren.remove(this);
+		mParent->mChildren.push_back(this);
 		mParent->moveLastToDraw();
 	}
 }
@@ -325,17 +345,7 @@ CWindow* CControl::parent() const
 	return mParent;
 }
 
-CFace* CControl::face()
-{
-	return mFace;
-}
-
-void CControl::face(CFace* face)
-{
-	mFace = face;
-}
-
-void CControl::parent(CWindow* newParent)
+void CControl::setParent(CWindow* newParent)
 {
 	LE_ENTER_LOG;
 
@@ -349,16 +359,58 @@ void CControl::parent(CWindow* newParent)
 	}
 
 	CPoint parentPos = (newParent)?(newParent->absolutePosition()):(CPoint());
-	absolutePosition(CPoint(parentPos.x() + relPos.x(), parentPos.y() + relPos.y()));
+	setAbsolutePosition(CPoint(parentPos.x() + relPos.x(), parentPos.y() + relPos.y()));
 	mParent = newParent;
 }
 
-CControl* CControl::firstResponder()
+void CControl::setNeedsRedraw()
 {
-	LE_ENTER_LOG;
-	return _firstResponder;
+	if (mParent) mParent->setNeedsRedraw();
 }
 
+Bool CControl::becomeFirstResponder()
+{
+	if (mParent && controlCanBecomeFirstResponder())
+	{
+		if (mParent->childBecomesFirstResponder(this, NULL))
+		{
+			controlDidBecomeFirstResponder();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+Bool CControl::resignFirstResponder()
+{
+	return isFirstResponder() && mParent && mParent->becomeFirstResponder();
+}
+
+Bool CControl::isFirstResponder() const
+{
+	return mParent && mParent->isChildFirstResponder(this);
+}
+
+Bool CControl::controlCanBecomeFirstResponder()
+{
+	return true;
+}
+
+void CControl::controlDidBecomeFirstResponder()
+{
+
+}
+
+Bool CControl::controlCanResignFirstResponder()
+{
+	return true;
+}
+
+void CControl::controlDidResignFirstResponder()
+{
+
+}
 
 	} // namespace le
 } // namespace sokira

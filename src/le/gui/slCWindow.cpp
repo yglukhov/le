@@ -18,32 +18,7 @@ CWindow::CWindow(const CRectangle& rect) : CControl(rect)
 CWindow::~CWindow()
 {
 	LE_ENTER_LOG;
-	clearPointerContainer(mChilds);
-}
-
-void CWindow::draw() const
-{
-	LE_ENTER_LOG;
-
-	drawSelf();
-	drawChilds();
-}
-
-void CWindow::drawSelf() const
-{
-	LE_ENTER_LOG;
-	CControl::draw();
-}
-
-void CWindow::drawChilds() const
-{
-	LE_ENTER_LOG;
-
-	CControlList::const_iterator end = mChilds.end();
-	for(CControlList::const_iterator it = mChilds.begin(); it != end; ++it)
-	{
-		(*it)->draw();
-	}
+	clearPointerContainer(mChildren);
 }
 
 void CWindow::addChild(CControl* child)
@@ -52,10 +27,9 @@ void CWindow::addChild(CControl* child)
 
 	if(child)
 	{
-		mChilds.push_back(child);
+		mChildren.push_back(child);
 
-		child->parent(this);
-		child->face(mFace);
+		child->setParent(this);
 	}
 }
 
@@ -63,8 +37,8 @@ void CWindow::removeChild(CControl* child)
 {
 	LE_ENTER_LOG;
 
-	mChilds.remove(child);
-	CScreen::instance()->invalidate();
+	mChildren.remove(child);
+	setNeedsRedraw();
 }
 
 CSize CWindow::size() const
@@ -73,74 +47,127 @@ CSize CWindow::size() const
 	return CControl::size();
 }
 
-void CWindow::setSize(const CSize& Size)
+void CWindow::setSize(const CSize& size)
 {
 	LE_ENTER_LOG;
 
 	CSize prevSize = mRect.size();
-	CControl::setSize(Size);
+	CControl::setSize(size);
 
-	CControlList::iterator end = mChilds.end();
-	for (CControlList::iterator it = mChilds.begin(); it != end; ++it)
+	CControlList::iterator end = mChildren.end();
+	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
 	{
 		(*it)->parentResized(prevSize, mRect.size());
 	}
 }
 
-void CWindow::absolutePosition(const CPoint& Position)
+void CWindow::setAbsolutePosition(const CPoint& position)
 {
 	LE_ENTER_LOG;
 
 	CPoint prevPos = mRect.position();
-	CControl::absolutePosition(Position);
-
-	CControlList::iterator end = mChilds.end();
-	for (CControlList::iterator it = mChilds.begin(); it != end; ++it)
-	{
-		(*it)->parentMoved(prevPos, Position);
-	}
+	CControl::setAbsolutePosition(position);
+	moveChildren(CSize(position.x() - prevPos.x(), position.y() - prevPos.y()));
 }
 
-CPoint CWindow::absolutePosition() const
-{
-	LE_ENTER_LOG;
-	return CControl::absolutePosition();
-}
-
-void CWindow::relativePosition(const CPoint& Position)
+void CWindow::setRelativePosition(const CPoint& position)
 {
 	LE_ENTER_LOG;
 
 	CPoint prevPos = mRect.position();
-	CControl::relativePosition(Position);
+	CControl::setRelativePosition(position);
+	CPoint newPos = mRect.position();
+	moveChildren(CSize(newPos.x() - prevPos.x(), newPos.y() - prevPos.y()));
+}
 
-	CControlList::iterator end = mChilds.end();
-	for (CControlList::iterator it = mChilds.begin(); it != end; ++it)
+void CWindow::moveChildren(const CSize& delta)
+{
+	CControlList::iterator end = mChildren.end();
+	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
 	{
-		(*it)->parentMoved(prevPos, mRect.position());
+		CPoint prevPos = (*it)->absolutePosition();
+		(*it)->setAbsolutePosition(
+			CPoint(prevPos.x() + delta.width(), prevPos.y() + delta.height())
+				);
 	}
 }
 
-bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+Bool CWindow::childBecomesFirstResponder(CControl* child, CWindow* parent)
 {
-	LE_ENTER_LOG;
-
-	CControlList::iterator end = mChilds.end();
-	for (CControlList::iterator it = mChilds.begin(); it != end; ++it)
+	if (mParent)
 	{
-		if (CTheme::instance()->hitTest(*it, point) && (*it)->onMouse(button, state, point))
+		if (mParent->childBecomesFirstResponder(child, this))
+		{
+			CControl* controlToMove = (parent)?(parent):(child);
+
+			mChildren.remove(controlToMove);
+			mChildren.push_back(controlToMove);
 			return true;
+		}
 	}
 
-	return CControl::onMouse(button, state, point);
+	return false;
 }
+
+Bool CWindow::isChildFirstResponder(const CControl* child) const
+{
+	return mParent && mParent->isChildFirstResponder(child);
+}
+
+
+//Bool CWindow::mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme)
+//{
+//	CControlList::iterator end = mChildren.end();
+//	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
+//	{
+//		if (theme->hitTest(*it, point) && (*it)->mouseButtonPressed(button, point, theme))
+//			return true;
+//	}
+//
+//	return CControl::mouseButtonPressed(button, point, theme);
+//}
+//
+//Bool CWindow::mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme)
+//{
+//	CControlList::iterator end = mChildren.end();
+//	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
+//	{
+//		if (theme->
+//		if (theme->hitTest(*it, point) && (*it)->mouseButtonReleased(button, point, theme))
+//			return true;
+//	}
+//
+//	return CControl::mouseButtonReleased(button, point, theme);
+//}
+//
+//Bool CWindow::mouseHovered(const CPoint& point, const CTheme* theme)
+//{
+//	CControlList::iterator end = mChildren.end();
+//	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
+//	{
+//		if (theme->hitTest(*it, point) && (*it)->mouseHovered(point, theme))
+//			return true;
+//	}
+//
+//	return CControl::mouseHovered(point, theme);
+//}
+
+//Bool CWindow::mouseExited(const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseOut(point);
+//}
+//
+//Bool CWindow::mouseEntered(const CPoint& point, const CTheme* theme)
+//{
+//	return onMouseOut(point);
+//}
 
 //void CWindow::moveLastToDraw()
 //{
 //	if (mParent)
 //	{
-//		mParent->mChilds.remove(this);
-//		mParent->mChilds.push_back(this);
+//		mParent->mChildren.remove(this);
+//		mParent->mChildren.push_back(this);
 //		mParent->moveLastToDraw();
 //	}
 //}

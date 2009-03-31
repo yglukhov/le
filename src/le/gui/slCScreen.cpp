@@ -1,5 +1,6 @@
 #include <glut/slGlut.h>
 //#include <OpenGL/OpenGL.h>
+//#include <OpenGLES/ES1/gl.h>
 
 #include <map>
 #include <iostream>
@@ -7,9 +8,11 @@
 #include "slCScreen.h"
 #include "slCDragger.h"
 #include <le/core/debug/slDebug.h>
-#include <le/core/auxiliary/slStdExtensions.h>
+//#include <le/core/auxiliary/slStdExtensions.h>
 
 #include <le/core/config/slCompiler.h>
+
+#include <le/gui/slCScene.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #include "base/slCCocoaScreenImpl.hp"
@@ -28,8 +31,9 @@ typedef std::map<int, CScreen*> CScreenMap;
 static CScreenMap	_screenMap;
 
 CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
-	CWindow(rect),
+//	CWindow(rect),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
+	mSize(rect.size()),
 	mSizeChanged(true)
 {
 	LE_ENTER_LOG;
@@ -58,38 +62,18 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 CScreen::~CScreen()
 {
 	LE_ENTER_LOG;
-	clearPointerContainer(mControlsToDelete);
+//	clearPointerContainer(mControlsToDelete);
 }
 
-void CScreen::destroy()
-{
-	glutDestroyWindow(mWindow);
-}
-
-CScreen* CScreen::instance(int handle)
-{
-	LE_ENTER_LOG;
-	return _screenMap[handle];
-}
-
-CScreen* CScreen::instance()
-{
-	LE_ENTER_LOG;
-	return _screenMap[glutGetWindow()];
-}
-
-void CScreen::invalidate() const
+void CScreen::setNeedsRedraw()
 {
 	LE_ENTER_LOG;
 
+	return static_cast<CScreenImpl*>(mImpl)->setNeedsRedraw();
+	
+	
 //	glutSetWindow(mWindow);
 //	glutPostRedisplay();
-}
-
-unsigned CScreen::instanceCount()
-{
-	LE_ENTER_LOG;
-	return static_cast<unsigned>(_screenMap.size());
 }
 
 CSize CScreen::size() const
@@ -112,7 +96,7 @@ void CScreen::setSize(const CSize& size)
 
 	static_cast<CScreenImpl*>(mImpl)->setSize(size);
 
-	CWindow::setSize(size);
+//	CWindow::setSize(size);
 }
 
 void CScreen::draw()
@@ -131,14 +115,28 @@ void CScreen::draw()
 		mSizeChanged = false;
 	}
 
-	std::cout << "CScreen::draw()" << std::endl;
+//	std::cout << "CScreen::draw()" << std::endl;
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+//	CRenderingContext* context = NULL; //static_cast<CScreenImpl*>(mImpl)->renderingContext();
+//	context->clear();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		(*it)->draw(NULL);
+	}
+
 
 //	CSize Size = CScreen::size();
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
 //	glClearColor(0, 0, 0.0, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //	glColor3f(1.0f, 0.85f, 0.35f);
 //	glBegin(GL_TRIANGLES);
 //	{
@@ -147,7 +145,7 @@ void CScreen::draw()
 //		glVertex3f(100.0, 0.0, 0.0);
 //	}
 //	glEnd();
-	drawChilds();
+//	drawChilds();
 
 //	glFlush();
 
@@ -167,14 +165,14 @@ void CScreen::draw()
 //	}
 //}
 
-void CScreen::absolutePosition(const CPoint& point)
+void CScreen::setAbsolutePosition(const CPoint& point)
 {
 	LE_ENTER_LOG;
 
-	CControl::absolutePosition(point);
+//	CControl::setAbsolutePosition(point);
 
-	glutSetWindow(mWindow);
-	glutPositionWindow((int)point.x(), (int)point.y());
+//	glutSetWindow(mWindow);
+//	glutPositionWindow((int)point.x(), (int)point.y());
 }
 
 CPoint CScreen::absolutePosition() const
@@ -195,85 +193,11 @@ void CScreen::color(const CColor& Color)
 	glClearColor(Color.red(), Color.green(), Color.blue(), 0.0);
 }
 
-int CScreen::handle() const
-{
-	LE_ENTER_LOG;
-	return mWindow;
-}
-
 void CScreen::addControlToDelete(CControl* control)
 {
 	LE_ENTER_LOG;
-	mControlsToDelete.push_back(control);
+//	mControlsToDelete.push_back(control);
 }
-
-bool CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
-{
-	LE_ENTER_LOG;
-
-#if 1
-	std::cout << "onMouse: (";
-	if (button & eMouseButtonLeft)
-		std::cout << " eMouseButtonLeft";
-	if (button & eMouseButtonRight)
-		std::cout << " eMouseButtonRight";
-	if (button & eMouseButtonMiddle)
-		std::cout << " eMouseButtonMiddle";
-
-	std::cout << " ), (";
-
-	if (state & eButtonStateUp)
-		std::cout << " eButtonStateUp";
-	if (state & eButtonStateDown)
-		std::cout << " eButtonStateDown";
-
-	std::cout << " ), (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
-
-	CDragger* curDragger = CDragger::currentDragger();
-	if(curDragger)
-	{
-		curDragger->drag(point);
-		curDragger->handler()->onMouse(button, state, point);
-	}
-
-	return CWindow::onMouse(button, state, point);
-
-//	return onMouseFaces(button, state, point);
-}
-
-//bool CScreen::onMouseFaces(EMouseButton button, EButtonState state, const CPoint& point)
-//{
-//	LE_ENTER_LOG;
-//
-////	CFaceList::iterator end = mChilds.end();
-////	for (CFaceList::iterator it = mChilds.begin(); it != end; ++it)
-////	{
-////		if ((*it)->hitTest(point) && (*it)->onMouse(button, state, point))
-////			return true;
-////	}
-////
-//
-//	return CWindow::onMouse(button, state, point);
-//}
-
-//void CScreen::addChild(CFace* child)
-//{
-//	LE_ENTER_LOG;
-//
-//	if(child)
-//	{
-//		mChilds.push_back(child);
-//	}
-//}
-
-//void CScreen::removeChild(CFace* child)
-//{
-//	LE_ENTER_LOG;
-//
-//	mChilds.remove(child);
-//	invalidate();
-//}
 
 void CScreen::screenWillBeAddedToApplication(CGuiApplication* app)
 {
@@ -295,6 +219,15 @@ void CScreen::screenWasRemovedFromApplication(CGuiApplication* app)
 	static_cast<CScreenImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
 }
 
+void CScreen::addScene(CScene* scene, UInt32 order)
+{
+	if (scene)
+	{
+		mScenes.push_back(scene);
+		scene->setScreen(this);
+	}
+}
+
 void CScreen::_prepareOpenGL()
 {
 	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
@@ -302,58 +235,36 @@ void CScreen::_prepareOpenGL()
 
 void CScreen::_screenWasResized()
 {
+	mSize = static_cast<CScreenImpl*>(mImpl)->size();
 	mSizeChanged = true;
 }
 
-void CScreen::onMouseDown(EMouseButton button, const CPoint& point)
+// This event includes mouse up, mouse down and mouse hover.
+void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
 {
-#if 1
-	std::cout << "onMouseDown: (";
-	if (button & eMouseButtonLeft)
-		std::cout << " eMouseButtonLeft";
-	if (button & eMouseButtonRight)
-		std::cout << " eMouseButtonRight";
-	if (button & eMouseButtonMiddle)
-		std::cout << " eMouseButtonMiddle";
-
-	std::cout << " ), (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
-}
-
-void CScreen::onMouseUp(EMouseButton button, const CPoint& point)
-{
-#if 1
-	std::cout << "onMouseUp: (";
-	if (button & eMouseButtonLeft)
-		std::cout << " eMouseButtonLeft";
-	if (button & eMouseButtonRight)
-		std::cout << " eMouseButtonRight";
-	if (button & eMouseButtonMiddle)
-		std::cout << " eMouseButtonMiddle";
-
-	std::cout << " ), (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
-}
-
-void CScreen::onMouseHover(const CPoint& point)
-{
-#if 1
-	std::cout << "onMouseHover: (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
-}
-
-void CScreen::onMouseOut(const CPoint& point)
-{
-#if 1
-	std::cout << "onMouseOut: (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		(*it)->onMouse(button, state, point);
+	}
 }
 
 void CScreen::onMouseIn(const CPoint& point)
 {
-#if 1
-	std::cout << "onMouseIn: (" << point.x() << ", " << point.y() << ")" << std::endl;
-#endif
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		(*it)->mouseEntered(point);
+	}
+}
+
+void CScreen::onMouseOut(const CPoint& point)
+{
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		(*it)->mouseExited(point);
+	}
 }
 
 // This method is always called within valid OpenGL context
@@ -361,7 +272,10 @@ void CScreen::onResize()
 {
 	CSize size = static_cast<CScreenImpl*>(mImpl)->size();
 	glViewport(0, 0, (int)size.width(), (int)size.height());
+	glMatrixMode (GL_PROJECTION); 
+	glLoadIdentity (); 
 	glOrtho(0, (int)size.width(), (int)size.height(), 0, -1, 1);
+
 //	std::cout << "CScreen::onResize(" << size.width() << "," << size.height() << ")" << std::endl;
 }
 

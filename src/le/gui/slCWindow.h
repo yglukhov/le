@@ -19,31 +19,51 @@ class CWindow : public CControl
 		CWindow(const CRectangle& rect);
 		~CWindow();
 
-		virtual void draw() const;
-
 		CSize size() const;
 		virtual void setSize(const CSize& Size);
 
-		virtual void relativePosition(const CPoint& Position);
-		virtual void absolutePosition(const CPoint& Position);
-		
-		CPoint absolutePosition() const;
+		virtual void setRelativePosition(const CPoint& Position);
+		virtual void setAbsolutePosition(const CPoint& Position);
 
 		virtual void addChild(CControl* child);
 		virtual void removeChild(CControl* child);
 
 //		virtual void moveLastToDraw();
 
-	protected:
-		virtual void drawSelf() const;
-		void drawChilds() const;
-		
-		friend class CControl;
+		// Mouse events
+//		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
+//		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
+//		virtual Bool onMouseHover(const CPoint& point);
+//		virtual Bool onMouseOut(const CPoint& point);
+//		virtual Bool onMouseIn(const CPoint& point);
+
+		// Low level mouse events. Do not override.
+//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
+
+
 		typedef std::list<CControl*> CControlList;
-		CControlList mChilds;
+
+		const CControlList& children() const
+		{
+			return mChildren;
+		}
+
+	protected:
+
+		friend class CControl;
+		CControlList mChildren;
+		virtual Bool childBecomesFirstResponder(CControl* child, CWindow* parent);
+		virtual Bool isChildFirstResponder(const CControl* child) const;
+
 	private:
-		friend class CScreen;
-		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		void moveChildren(const CSize& delta);
+
+//		friend class CScreen;
+//		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 };
 
 	} // namespace le

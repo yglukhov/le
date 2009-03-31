@@ -58,6 +58,11 @@ class CNumber : public CObject, CNumberBase
 		const CNumber& operator=(Bool value);
 		const CNumber& operator=(const CString& value);
 
+		const CNumber& operator+=(const CNumber& value);
+		const CNumber& operator-=(const CNumber& value);
+		const CNumber& operator*=(const CNumber& value);
+		const CNumber& operator/=(const CNumber& value);
+
 		template <typename T>
 		inline T valueAs() const { return valueAs(TSTypeToType<T>()); }
 

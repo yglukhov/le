@@ -26,7 +26,7 @@ CDialog::CDialog(const CRectangle& rect) :
 	mWorkWindow = new CWindow(
 		CRectangle(border, border*2 + mTitleBar->size().height(),
 					  rect.width() - border*2, rect.height() - border*3 - mTitleBar->size().height()));
-	mWorkWindow->autoResizing(eAlignSnapToAll);
+	mWorkWindow->setAutoResizing(eAutoResizingFixedMargins);
 	CWindow::addChild(mWorkWindow);
 
 	// Add title bar

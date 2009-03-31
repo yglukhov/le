@@ -1,0 +1,66 @@
+#if !defined SL_LE_core_script_base_slCSokriptImpl_hp
+#define SL_LE_core_script_base_slCSokriptImpl_hp
+
+#include <iosfwd>
+#include <le/core/slCObject.h>
+
+namespace _sokira_le
+{
+	class CSokriptBisonParser;
+}
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CSokriptFlexLexer;
+class CSokriptInstruction;
+
+class CSokriptImpl
+{
+	public:
+		CSokriptImpl();
+		~CSokriptImpl();
+
+		void runFromStream(std::istream& stream);
+
+	private:
+		typedef ::_sokira_le::CSokriptBisonParser CSokriptBisonParser;
+
+		CSokriptFlexLexer* mLexer;
+		CSokriptBisonParser* mParser;
+
+	public:
+		// Lex mediator
+		int lex(void*, void*);
+
+		// Error handlers
+		void parse_error(const void*, const void*);
+		void lex_error(const void*, const void*);
+
+		void setInstruction(CSokriptInstruction* instruction);
+
+		// Arithmetic actions
+		CObject* addObjects(CObject* left, CObject* right);
+//		CObject* substractObjects(CObject* left, CObject* right);
+//		CObject* multiplyObjects(CObject* left, CObject* right);
+//		CObject* divideObjects(CObject* left, CObject* right);
+//		CObject* negateObject(CObject* obj);
+
+		// 
+//		CObject* assignableObjectByName(char* name);
+
+		// Code generation methods
+		CSokriptInstruction* pushConstantInstruction(CObject* theConstant);
+//		CObject* assign(CObject* assignableObject, CObject* expression);
+
+	private:
+		std::map<CString, CObject*> mVars;
+		CSokriptInstruction* mInstruction;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_script_base_slCSokriptImpl_hp

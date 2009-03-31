@@ -110,6 +110,8 @@ class CBasicString
 		static Bool isWhitespace(WChar c);
 	// PRIVATE:
 		static CBasicString __CStringWithLiteral(const NChar*);
+		static CBasicString __CStringNoCopyDeallocWithFree(const NChar*);
+		static CBasicString __CStringNoCopyDeallocWithDelete(const NChar*);
 
 	private:
 		struct SStringProxy;

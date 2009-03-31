@@ -34,7 +34,7 @@ class CPoint
 		bool operator!=(const CPoint& point) const;
 
 	// Draw
-		void draw() const;
+//		void draw() const;
 
 	// Members
 	private:

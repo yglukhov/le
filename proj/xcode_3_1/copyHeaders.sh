@@ -23,11 +23,13 @@ find -E "$LE_LIBRARY_NAME"			\
 		\(							\
 			-type f					\
 			\(						\
-				-iname "*.c*"		\
-				-or					\
-				-iname "*.hp"		\
-				-or					\
-				-iname "*.m*"		\
+				-iname ".*"			\
+				-or -iname "*.c*"	\
+				-or -iname "*.hp"	\
+				-or -iname "*.hh"	\
+				-or -iname "*.y*"	\
+				-or -iname "*.l*"	\
+				-or -iname "*.m*"	\
 			\)						\
 		\)							\
 	\)								\

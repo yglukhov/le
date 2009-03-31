@@ -275,6 +275,28 @@ const CNumber& CNumber::operator=(const CString& value)
 	return *this;
 }
 
+const CNumber& CNumber::operator+=(const CNumber& value)
+{
+	return *this = this->valueAsFloat32() + value.valueAsFloat32();
+}
+
+const CNumber& CNumber::operator-=(const CNumber& value)
+{
+	return *this = this->valueAsFloat32() - value.valueAsFloat32();
+}
+
+const CNumber& CNumber::operator*=(const CNumber& value)
+{
+	return *this = this->valueAsFloat32() * value.valueAsFloat32();
+}
+
+const CNumber& CNumber::operator/=(const CNumber& value)
+{
+	Float32 rval = value.valueAsFloat32();
+//	if (rval == 0.0) rval = 1.0;
+	return *this = this->valueAsFloat32() / rval;
+}
+
 void CNumber::serialize(CDictionary& toDictionary) const
 {
 	toDictionary.rootValue(valueAsString());

@@ -20,6 +20,7 @@ class CApplicationDelegate : public CObject
 	public:
 		virtual void applicationWillFinishLaunching(CApplication& application);
 		virtual void applicationDidFinishLaunching(CApplication& application);
+		virtual Bool applicationShouldTerminateAfterLastWindowClosed(CApplication& application);
 };
 
 	} // namespace le

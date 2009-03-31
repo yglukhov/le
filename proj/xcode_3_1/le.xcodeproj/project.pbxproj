@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		7B5F50FB0F74F2B600269E2D /* genSokript */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7B5F50FE0F74F2F200269E2D /* Build configuration list for PBXAggregateTarget "genSokript" */;
+			buildPhases = (
+				7B5F50FA0F74F2B600269E2D /* genSokript */,
+			);
+			dependencies = (
+			);
+			name = genSokript;
+			productName = genSokript;
+		};
 		B04FF9040A16002000F559ED /* le */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = B04FF90C0A16005900F559ED /* Build configuration list for PBXAggregateTarget "le" */;
@@ -49,13 +60,9 @@
 		7B052BEA0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */; };
 		7B052BEB0BD12ECD00AA8BD8 /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */; };
 		7B052BEC0BD12ECD00AA8BD8 /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
-		7B052BED0BD12ECD00AA8BD8 /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD30BD12ECD00AA8BD8 /* slCDialog.cpp */; };
-		7B052BEE0BD12ECD00AA8BD8 /* slCDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD50BD12ECD00AA8BD8 /* slCDragger.cpp */; };
-		7B052BEF0BD12ECD00AA8BD8 /* slCFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD70BD12ECD00AA8BD8 /* slCFace.cpp */; };
 		7B052BF00BD12ECD00AA8BD8 /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */; };
 		7B052BF10BD12ECD00AA8BD8 /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDC0BD12ECD00AA8BD8 /* slCText.cpp */; };
 		7B052BF20BD12ECD00AA8BD8 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
-		7B052BF30BD12ECD00AA8BD8 /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE00BD12ECD00AA8BD8 /* slCTitleBar.cpp */; };
 		7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
 		7B145B520F37785F004DF6BE /* slCConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B510BD12EB100AA8BD8 /* slCConnection.cpp */; };
@@ -90,17 +97,13 @@
 		7B145B6F0F37785F004DF6BE /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
 		7B145B700F37785F004DF6BE /* slCServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B530BD12EB100AA8BD8 /* slCServer.cpp */; };
 		7B145B710F37785F004DF6BE /* slCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B710BD12EB100AA8BD8 /* slCDictionary.cpp */; };
-		7B145BC50F379457004DF6BE /* slCDragger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD50BD12ECD00AA8BD8 /* slCDragger.cpp */; };
 		7B145BC60F379457004DF6BE /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */; };
-		7B145BC70F379457004DF6BE /* slCTitleBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE00BD12ECD00AA8BD8 /* slCTitleBar.cpp */; };
 		7B145BC80F379457004DF6BE /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */; };
 		7B145BC90F379457004DF6BE /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */; };
 		7B145BCA0F379457004DF6BE /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
-		7B145BCB0F379457004DF6BE /* slCDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD30BD12ECD00AA8BD8 /* slCDialog.cpp */; };
 		7B145BCC0F379457004DF6BE /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BC70BD12ECD00AA8BD8 /* slBasicGraphicControllers.cpp */; };
 		7B145BCD0F379457004DF6BE /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */; };
 		7B145BCE0F379457004DF6BE /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
-		7B145BCF0F379457004DF6BE /* slCFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD70BD12ECD00AA8BD8 /* slCFace.cpp */; };
 		7B145BD00F379457004DF6BE /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDC0BD12ECD00AA8BD8 /* slCText.cpp */; };
 		7B145BD10F379457004DF6BE /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B145BD20F379457004DF6BE /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
@@ -114,16 +117,37 @@
 		7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
 		7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
+		7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2C7F380F5EAC5000B7A324 /* Python.framework */; };
+		7B2C7F3F0F5EACE600B7A324 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
+		7B2C7F400F5EACE600B7A324 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
 		7B46EDED0F3B65DC000E00CB /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
 		7B46EDF50F3B701B000E00CB /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
 		7B46EE030F3B8C34000E00CB /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
+		7B4C2AE30F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
+		7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
+		7B5F50E80F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
+		7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
+		7B5F51430F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
+		7B5F51440F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
+		7B5F51450F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
+		7B5F51460F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
+		7B5F53570F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
+		7B5F53580F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
 		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
+		7BB9D1A80F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
+		7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
+		7BB9D1B50F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
+		7BB9D1B60F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
+		7BC0713B0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
+		7BC0713C0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
 		7BC3AC990EE6FEF700D13036 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
 		7BC3ACAD0EE6FF6B00D13036 /* slCAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */; };
 		7BC3ACDB0EE701CC00D13036 /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
 		7BC3ACDC0EE701CC00D13036 /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
 		7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
+		7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
+		7BE910C80F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
 		7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
@@ -136,6 +160,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
 			remoteInfo = leCore;
+		};
+		7B5F50FF0F74F2FA00269E2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D;
+			remoteInfo = genSokript;
+		};
+		7B5F51010F74F30300269E2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D;
+			remoteInfo = genSokript;
 		};
 		B04FF9050A16002900F559ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -266,8 +304,6 @@
 		7B052BD40BD12ECD00AA8BD8 /* slCDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDialog.h; sourceTree = "<group>"; };
 		7B052BD50BD12ECD00AA8BD8 /* slCDragger.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCDragger.cpp; sourceTree = "<group>"; };
 		7B052BD60BD12ECD00AA8BD8 /* slCDragger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCDragger.h; sourceTree = "<group>"; };
-		7B052BD70BD12ECD00AA8BD8 /* slCFace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCFace.cpp; sourceTree = "<group>"; };
-		7B052BD80BD12ECD00AA8BD8 /* slCFace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCFace.h; sourceTree = "<group>"; };
 		7B052BD90BD12ECD00AA8BD8 /* slConstants.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slConstants.h; sourceTree = "<group>"; };
 		7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCScreen.cpp; sourceTree = "<group>"; };
 		7B052BDB0BD12ECD00AA8BD8 /* slCScreen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCScreen.h; sourceTree = "<group>"; };
@@ -293,16 +329,44 @@
 		7B15CF360F3630F3002E9DA7 /* slCGuiApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiApplication.h; sourceTree = "<group>"; };
 		7B15CF430F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCGuiApplicationCocoaImpl.hp; sourceTree = "<group>"; };
 		7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = slCGuiApplicationCocoaImpl.mm; sourceTree = "<group>"; };
+		7B2C7F380F5EAC5000B7A324 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
+		7B2C7F3D0F5EACE600B7A324 /* slCPythonScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCPythonScript.h; sourceTree = "<group>"; };
+		7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCPythonScript.cpp; sourceTree = "<group>"; };
 		7B46EDEB0F3B65DC000E00CB /* slCBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCBundle.h; sourceTree = "<group>"; };
 		7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCBundle.cpp; sourceTree = "<group>"; };
 		7B46EDF30F3B701B000E00CB /* slCCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCCommandLine.h; sourceTree = "<group>"; };
 		7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCCommandLine.cpp; sourceTree = "<group>"; };
 		7B46EE010F3B8C34000E00CB /* slCApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCApplicationDelegate.h; sourceTree = "<group>"; };
 		7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCApplicationDelegate.cpp; sourceTree = "<group>"; };
+		7B4C2AE10F78EBA1008CF4B6 /* slCSokriptInstruction.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptInstruction.hp; sourceTree = "<group>"; };
+		7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptInstruction.cpp; sourceTree = "<group>"; };
+		7B5F50E60F74F1A500269E2D /* slCSokript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokript.cpp; sourceTree = "<group>"; };
+		7B5F50E70F74F1A500269E2D /* slCSokript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCSokript.h; sourceTree = "<group>"; };
+		7B5F50EB0F74F1B000269E2D /* slCSokriptBisonParser.yy */ = {isa = PBXFileReference; explicitFileType = sourcecode.yacc; fileEncoding = 4; path = slCSokriptBisonParser.yy; sourceTree = "<group>"; };
+		7B5F50EC0F74F1B000269E2D /* slCSokriptFlexLexer.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptFlexLexer.hp; sourceTree = "<group>"; };
+		7B5F50ED0F74F1B000269E2D /* slCSokriptFlexLexer.ll */ = {isa = PBXFileReference; explicitFileType = sourcecode.lex; fileEncoding = 4; path = slCSokriptFlexLexer.ll; sourceTree = "<group>"; };
+		7B5F51300F74F38600269E2D /* genSokript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genSokript.sh; sourceTree = "<group>"; };
+		7B5F51320F74F38600269E2D /* genSource.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genSource.sh; sourceTree = "<group>"; };
+		7B5F51340F74F38600269E2D /* genPPbool.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genPPbool.sh; sourceTree = "<group>"; };
+		7B5F51350F74F38600269E2D /* genPPdec.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genPPdec.sh; sourceTree = "<group>"; };
+		7B5F51360F74F38600269E2D /* genPPfor.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genPPfor.sh; sourceTree = "<group>"; };
+		7B5F51370F74F38600269E2D /* genPPinc.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genPPinc.sh; sourceTree = "<group>"; };
+		7B5F51380F74F38600269E2D /* genPPnot_equal.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genPPnot_equal.sh; sourceTree = "<group>"; };
+		7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptBisonParser.cp; sourceTree = "<group>"; };
+		7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptFlexLexer.cp; sourceTree = "<group>"; };
+		7B5F52570F750E0D00269E2D /* slCSokriptBisonParser.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptBisonParser.hp; sourceTree = "<group>"; };
+		7B5F53550F752B4900269E2D /* slCSokriptImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptImpl.hp; sourceTree = "<group>"; };
+		7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptImpl.cpp; sourceTree = "<group>"; };
 		7B6384E30D4B4E44002357F7 /* slCAssertControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertControl.h; sourceTree = "<group>"; };
 		7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertControl.cpp; sourceTree = "<group>"; };
 		7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertionPolicy.h; sourceTree = "<group>"; };
 		7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertionPolicy.cpp; sourceTree = "<group>"; };
+		7BB9D1A60F433E490026D308 /* slCScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScene.h; sourceTree = "<group>"; };
+		7BB9D1A70F433E490026D308 /* slCScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCScene.cpp; sourceTree = "<group>"; };
+		7BB9D1B30F4340D20026D308 /* slCGuiScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiScene.h; sourceTree = "<group>"; };
+		7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiScene.cpp; sourceTree = "<group>"; };
+		7BC071390F7BE71F009F00D4 /* slCDataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCDataStream.h; sourceTree = "<group>"; };
+		7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCDataStream.cpp; sourceTree = "<group>"; };
 		7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLParser.cpp; sourceTree = "<group>"; };
 		7BC3AC980EE6FEF700D13036 /* slCXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLParser.h; sourceTree = "<group>"; };
 		7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAny.cpp; sourceTree = "<group>"; };
@@ -315,6 +379,8 @@
 		7BC3ACD80EE701CC00D13036 /* slCScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScript.h; sourceTree = "<group>"; };
 		7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTokenizer.cpp; sourceTree = "<group>"; };
 		7BC3ACDA0EE701CC00D13036 /* slCTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTokenizer.h; sourceTree = "<group>"; };
+		7BE910C50F7946C8004C12C9 /* slCSokriptVM.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptVM.hp; sourceTree = "<group>"; };
+		7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptVM.cpp; sourceTree = "<group>"; };
 		7BEAEB010EE7CFC900BD04DE /* slCURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCURL.h; sourceTree = "<group>"; };
 		7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCURL.cpp; sourceTree = "<group>"; };
 		7BEFD8EA0D4A612F0033F625 /* slTSCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSCommon.h; sourceTree = "<group>"; };
@@ -335,6 +401,7 @@
 				7B145BD50F379483004DF6BE /* GLUT.framework in Frameworks */,
 				7B145BD60F379484004DF6BE /* OpenGL.framework in Frameworks */,
 				7B145BDC0F3794D1004DF6BE /* Cocoa.framework in Frameworks */,
+				7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +423,7 @@
 				B04FF9A10A1616E700F559ED /* src */,
 				B01DEE7109F0ED6D00EE27D3 /* libs */,
 				C6859E8C029090F304C91782 /* doc */,
+				7B5F512F0F74F38600269E2D /* tools */,
 				1AB674ADFE9D54B511CA2CBB /* products */,
 				7B145B490F377730004DF6BE /* Info.plist */,
 			);
@@ -377,6 +445,7 @@
 		7B052B2E0BD12E2100AA8BD8 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				7BC071380F7BE704009F00D4 /* io */,
 				7BC3ACD40EE701CC00D13036 /* script */,
 				7BC3AC960EE6FEF700D13036 /* xml */,
 				7B052B300BD12EB100AA8BD8 /* auxiliary */,
@@ -437,8 +506,6 @@
 				7B052BD40BD12ECD00AA8BD8 /* slCDialog.h */,
 				7B052BD50BD12ECD00AA8BD8 /* slCDragger.cpp */,
 				7B052BD60BD12ECD00AA8BD8 /* slCDragger.h */,
-				7B052BD70BD12ECD00AA8BD8 /* slCFace.cpp */,
-				7B052BD80BD12ECD00AA8BD8 /* slCFace.h */,
 				7B052BD90BD12ECD00AA8BD8 /* slConstants.h */,
 				7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */,
 				7B052BDB0BD12ECD00AA8BD8 /* slCScreen.h */,
@@ -453,6 +520,10 @@
 				7B052BE40BD12ECD00AA8BD8 /* slTCGraphicControllerClass.h */,
 				7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */,
 				7B052BE60BD12ECD00AA8BD8 /* slTypes.h */,
+				7BB9D1A60F433E490026D308 /* slCScene.h */,
+				7BB9D1A70F433E490026D308 /* slCScene.cpp */,
+				7BB9D1B30F4340D20026D308 /* slCGuiScene.h */,
+				7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */,
 			);
 			name = gui;
 			path = le/gui;
@@ -721,6 +792,65 @@
 			path = base;
 			sourceTree = "<group>";
 		};
+		7B5F50EA0F74F1B000269E2D /* base */ = {
+			isa = PBXGroup;
+			children = (
+				7B5F52570F750E0D00269E2D /* slCSokriptBisonParser.hp */,
+				7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */,
+				7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */,
+				7B5F50EB0F74F1B000269E2D /* slCSokriptBisonParser.yy */,
+				7B5F50EC0F74F1B000269E2D /* slCSokriptFlexLexer.hp */,
+				7B5F50ED0F74F1B000269E2D /* slCSokriptFlexLexer.ll */,
+				7B5F53550F752B4900269E2D /* slCSokriptImpl.hp */,
+				7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */,
+				7B4C2AE10F78EBA1008CF4B6 /* slCSokriptInstruction.hp */,
+				7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */,
+				7BE910C50F7946C8004C12C9 /* slCSokriptVM.hp */,
+				7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		7B5F512F0F74F38600269E2D /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				7B5F51300F74F38600269E2D /* genSokript.sh */,
+				7B5F51310F74F38600269E2D /* genSources */,
+			);
+			name = tools;
+			path = ../../tools;
+			sourceTree = "<group>";
+		};
+		7B5F51310F74F38600269E2D /* genSources */ = {
+			isa = PBXGroup;
+			children = (
+				7B5F51320F74F38600269E2D /* genSource.sh */,
+				7B5F51330F74F38600269E2D /* pp */,
+			);
+			path = genSources;
+			sourceTree = "<group>";
+		};
+		7B5F51330F74F38600269E2D /* pp */ = {
+			isa = PBXGroup;
+			children = (
+				7B5F51340F74F38600269E2D /* genPPbool.sh */,
+				7B5F51350F74F38600269E2D /* genPPdec.sh */,
+				7B5F51360F74F38600269E2D /* genPPfor.sh */,
+				7B5F51370F74F38600269E2D /* genPPinc.sh */,
+				7B5F51380F74F38600269E2D /* genPPnot_equal.sh */,
+			);
+			path = pp;
+			sourceTree = "<group>";
+		};
+		7BC071380F7BE704009F00D4 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				7BC071390F7BE71F009F00D4 /* slCDataStream.h */,
+				7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
 		7BC3AC960EE6FEF700D13036 /* xml */ = {
 			isa = PBXGroup;
 			children = (
@@ -733,12 +863,17 @@
 		7BC3ACD40EE701CC00D13036 /* script */ = {
 			isa = PBXGroup;
 			children = (
+				7B5F50EA0F74F1B000269E2D /* base */,
+				7B5F50E60F74F1A500269E2D /* slCSokript.cpp */,
+				7B5F50E70F74F1A500269E2D /* slCSokript.h */,
 				7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */,
 				7BC3ACD60EE701CC00D13036 /* slCLexer.h */,
 				7BC3ACD70EE701CC00D13036 /* slCScript.cpp */,
 				7BC3ACD80EE701CC00D13036 /* slCScript.h */,
 				7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */,
 				7BC3ACDA0EE701CC00D13036 /* slCTokenizer.h */,
+				7B2C7F3D0F5EACE600B7A324 /* slCPythonScript.h */,
+				7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */,
 			);
 			path = script;
 			sourceTree = "<group>";
@@ -746,6 +881,7 @@
 		B01DEE7109F0ED6D00EE27D3 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				7B2C7F380F5EAC5000B7A324 /* Python.framework */,
 				7B145BDB0F3794D1004DF6BE /* Cocoa.framework */,
 				B01DEF2009F0EDD800EE27D3 /* glut */,
 			);
@@ -804,6 +940,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7B5F51000F74F2FA00269E2D /* PBXTargetDependency */,
 			);
 			name = framework;
 			productName = framework;
@@ -820,6 +957,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7B5F51020F74F30300269E2D /* PBXTargetDependency */,
 			);
 			name = leCore;
 			productName = leCommon;
@@ -861,6 +999,7 @@
 				B04FF8740A15FAEA00F559ED /* leCore */,
 				B04FF97E0A16167400F559ED /* leGui */,
 				7B145B460F377730004DF6BE /* framework */,
+				7B5F50FB0F74F2B600269E2D /* genSokript */,
 			);
 		};
 /* End PBXProject section */
@@ -918,6 +1057,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\n/bin/sh \"$PROJECT_DIR/copyHeaders.sh\" gui\n";
 		};
+		7B5F50FA0F74F2B600269E2D /* genSokript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = genSokript;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nsh \"$leToolsRoot/genSokript.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -925,17 +1078,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B145BC50F379457004DF6BE /* slCDragger.cpp in Sources */,
 				7B145BC60F379457004DF6BE /* slCScreen.cpp in Sources */,
-				7B145BC70F379457004DF6BE /* slCTitleBar.cpp in Sources */,
 				7B145BC80F379457004DF6BE /* slCControl.cpp in Sources */,
 				7B145BC90F379457004DF6BE /* slCButtonDelegate.cpp in Sources */,
 				7B145BCA0F379457004DF6BE /* slCTheme.cpp in Sources */,
-				7B145BCB0F379457004DF6BE /* slCDialog.cpp in Sources */,
 				7B145BCC0F379457004DF6BE /* slBasicGraphicControllers.cpp in Sources */,
 				7B145BCD0F379457004DF6BE /* slCButton.cpp in Sources */,
 				7B145BCE0F379457004DF6BE /* slCControlDelegate.cpp in Sources */,
-				7B145BCF0F379457004DF6BE /* slCFace.cpp in Sources */,
 				7B145BD00F379457004DF6BE /* slCText.cpp in Sources */,
 				7B145BD10F379457004DF6BE /* slCWindow.cpp in Sources */,
 				7B145BD20F379457004DF6BE /* slTypes.cpp in Sources */,
@@ -977,6 +1126,16 @@
 				7B46EDED0F3B65DC000E00CB /* slCBundle.cpp in Sources */,
 				7B46EDF50F3B701B000E00CB /* slCCommandLine.cpp in Sources */,
 				7B46EE030F3B8C34000E00CB /* slCApplicationDelegate.cpp in Sources */,
+				7BB9D1A80F433E490026D308 /* slCScene.cpp in Sources */,
+				7BB9D1B50F4340D20026D308 /* slCGuiScene.cpp in Sources */,
+				7B2C7F3F0F5EACE600B7A324 /* slCPythonScript.cpp in Sources */,
+				7B5F50E80F74F1A500269E2D /* slCSokript.cpp in Sources */,
+				7B5F51430F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */,
+				7B5F51440F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */,
+				7B5F53570F752B4900269E2D /* slCSokriptImpl.cpp in Sources */,
+				7B4C2AE30F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */,
+				7BE910C80F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */,
+				7BC0713B0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1015,6 +1174,14 @@
 				7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */,
 				7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */,
 				7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */,
+				7B2C7F400F5EACE600B7A324 /* slCPythonScript.cpp in Sources */,
+				7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */,
+				7B5F51450F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */,
+				7B5F51460F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */,
+				7B5F53580F752B4900269E2D /* slCSokriptImpl.cpp in Sources */,
+				7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */,
+				7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */,
+				7BC0713C0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,18 +1194,16 @@
 				7B052BEA0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp in Sources */,
 				7B052BEB0BD12ECD00AA8BD8 /* slCControl.cpp in Sources */,
 				7B052BEC0BD12ECD00AA8BD8 /* slCControlDelegate.cpp in Sources */,
-				7B052BED0BD12ECD00AA8BD8 /* slCDialog.cpp in Sources */,
-				7B052BEE0BD12ECD00AA8BD8 /* slCDragger.cpp in Sources */,
-				7B052BEF0BD12ECD00AA8BD8 /* slCFace.cpp in Sources */,
 				7B052BF00BD12ECD00AA8BD8 /* slCScreen.cpp in Sources */,
 				7B052BF10BD12ECD00AA8BD8 /* slCText.cpp in Sources */,
 				7B052BF20BD12ECD00AA8BD8 /* slCTheme.cpp in Sources */,
-				7B052BF30BD12ECD00AA8BD8 /* slCTitleBar.cpp in Sources */,
 				7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */,
 				7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */,
 				7B15CE7D0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm in Sources */,
 				7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */,
 				7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */,
+				7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */,
+				7BB9D1B60F4340D20026D308 /* slCGuiScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,6 +1214,16 @@
 			isa = PBXTargetDependency;
 			target = B04FF8740A15FAEA00F559ED /* leCore */;
 			targetProxy = 7B15CF4A0F363546002E9DA7 /* PBXContainerItemProxy */;
+		};
+		7B5F51000F74F2FA00269E2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B5F50FB0F74F2B600269E2D /* genSokript */;
+			targetProxy = 7B5F50FF0F74F2FA00269E2D /* PBXContainerItemProxy */;
+		};
+		7B5F51020F74F30300269E2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B5F50FB0F74F2B600269E2D /* genSokript */;
+			targetProxy = 7B5F51010F74F30300269E2D /* PBXContainerItemProxy */;
 		};
 		B04FF9060A16002900F559ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1083,9 +1258,11 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
+				leToolsRoot = ../../tools;
 			};
 			name = Debug;
 		};
@@ -1113,9 +1290,11 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
+				leToolsRoot = ../../tools;
 			};
 			name = Release;
 		};
@@ -1152,6 +1331,18 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = le;
 				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		7B5F50FC0F74F2B600269E2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		7B5F50FD0F74F2B600269E2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 			};
 			name = Release;
 		};
@@ -1223,6 +1414,15 @@
 			buildConfigurations = (
 				7B145B4A0F377731004DF6BE /* Debug */,
 				7B145B4B0F377731004DF6BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B5F50FE0F74F2F200269E2D /* Build configuration list for PBXAggregateTarget "genSokript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B5F50FC0F74F2B600269E2D /* Debug */,
+				7B5F50FD0F74F2B600269E2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

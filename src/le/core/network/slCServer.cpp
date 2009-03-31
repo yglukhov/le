@@ -32,7 +32,7 @@ CServer::CServer(unsigned port)
 
 	if (INVALID_SOCKET == (SOCKET)mSock)
 	{
-		IF_LOG(log << "Failed to create socket\n");
+		LE_IF_LOG(log << "Failed to create socket\n");
 	}
 
 	struct sockaddr_in name;
@@ -55,7 +55,7 @@ CServer::CServer(unsigned port)
 #else
 		::close((SOCKET)mSock);
 #endif
-		IF_LOG(log << "Failed to bind socket\n");
+		LE_IF_LOG(log << "Failed to bind socket\n");
 		/*(SOCKET)*/mSock = INVALID_SOCKET;
 		return;
 	}
@@ -72,7 +72,7 @@ CServer::CServer(unsigned port)
 		::close((SOCKET)mSock);
 #endif
 		/*(SOCKET)*/mSock = INVALID_SOCKET;
-		IF_LOG(log << "Failed to listen socket\n");
+		LE_IF_LOG(log << "Failed to listen socket\n");
 
 		return;
 	}
@@ -87,7 +87,7 @@ CConnection* CServer::accept()
 
 	if (connectionSocket != INVALID_SOCKET)
 	{
-		IF_LOG(log << "Succesfully connected to client\n");
+		LE_IF_LOG(log << "Succesfully connected to client\n");
 		
 		CConnection* connect = new CConnection(connectionSocket);
 		mConnectionList.push_back(connect);

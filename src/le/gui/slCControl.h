@@ -3,7 +3,7 @@
 #include "slConstants.h"
 #include "slTypes.h"
 #include <le/core/slCObject.h>
-#include "slCFace.h"
+//#include "slCFace.h"
 
 namespace sokira
 {
@@ -12,16 +12,19 @@ namespace sokira
 
 class CWindow;
 class CControlDelegate;
-class CButton;
+//class CTheme;
 
 enum EAutoResizing
 {
-	eAlignTop = LE_SET_BIT(0),
-	eAlignBottom = LE_SET_BIT(1),
-	eAlignLeft = LE_SET_BIT(2),
-	eAlignRight = LE_SET_BIT(3),
-	eAlignTopLeft = (eAlignTop | eAlignLeft),
-	eAlignSnapToAll = (eAlignTop | eAlignLeft | eAlignBottom | eAlignRight)
+	eAutoResizingFixedTop = LE_SET_BIT(0),
+	eAutoResizingFixedBottom = LE_SET_BIT(1),
+	eAutoResizingFixedLeft = LE_SET_BIT(2),
+	eAutoResizingFixedRight = LE_SET_BIT(3),
+	eAutoResizingFixedWidth = LE_SET_BIT(4),
+	eAutoResizingFixedHeight = LE_SET_BIT(5),
+	eAutoResizingFixedTopLeft = (eAutoResizingFixedTop | eAutoResizingFixedLeft),
+	eAutoResizingFixedMargins = (eAutoResizingFixedTopLeft | eAutoResizingFixedRight | eAutoResizingFixedBottom),
+	eAutoResizingFixedSize = (eAutoResizingFixedWidth | eAutoResizingFixedHeight)
 };
 
 // CControl objects can not contain any childs.
@@ -37,9 +40,6 @@ class CControl : public CObject
 
 		void destroy();
 
-		static CControl* firstResponder();
-		virtual void draw() const;
-
 		CRectangle absoluteRect() const;
 		CRectangle relativeRect() const;
 
@@ -47,39 +47,61 @@ class CControl : public CObject
 		virtual void setSize(const CSize& Size);
 
 		virtual CPoint relativePosition() const;
-		virtual void relativePosition(const CPoint& point);
+		virtual void setRelativePosition(const CPoint& point);
 
 		virtual CPoint absolutePosition() const;
-		virtual void absolutePosition(const CPoint& point);
+		virtual void setAbsolutePosition(const CPoint& point);
 
 		void delegate(CControlDelegate* Delegate);
 		CControlDelegate* delegate();
 
-		void autoResizing(unsigned mask);
+		void setAutoResizing(unsigned mask);
 		unsigned autoResizing() const;
 
 		float borderWidth() const;
 		void borderWidth(float width);
 
-		bool setFocus();
-
 		CWindow* parent() const;
+
+		virtual void setNeedsRedraw();
+
+		// Mouse events
+		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
+		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
+//		virtual Bool onMouseClick(EMouseButton button, const CPoint& point);
+//		virtual Bool onMouseMultipleClick(EMouseButton button, const CPoint& point);
+		virtual Bool onMouseHover(const CPoint& point);
+		virtual Bool onMouseOut(const CPoint& point);
+		virtual Bool onMouseIn(const CPoint& point);
+
+		// Low level mouse events. Do not override.
+//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
+
+		// Responder chain functions
+		Bool becomeFirstResponder();
+		Bool resignFirstResponder(); // Make parent the first responder.
+		Bool isFirstResponder() const;
+
+		virtual Bool controlCanBecomeFirstResponder();
+		virtual void controlDidBecomeFirstResponder();
+		virtual Bool controlCanResignFirstResponder();
+		virtual void controlDidResignFirstResponder();
 
 	protected:
 
 		virtual void moveLastToDraw();
-		void parent(CWindow* newParent);
-
-		CFace* face();
-		void face(CFace* face);
+		void setParent(CWindow* newParent);
 
 	private:
-		friend class CScreen;
+//		friend class CScreen;
 		friend class CWindow;
-		friend class CFace;
 		void parentResized(const CSize& fromSize, const CSize& toSize);
-		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
-		virtual bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+//		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
+//		virtual bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 		friend void onKey(unsigned char, int, int);
 		bool onKey(unsigned char inkey, int px, int py);
 
@@ -88,7 +110,6 @@ class CControl : public CObject
 		unsigned mAutoResizingMask;
 		float mBorderWidth;
 		CRectangle mRect;	// Absolute ccords, if mParent != NULL, else relative.
-		CFace* mFace;
 };
 
 

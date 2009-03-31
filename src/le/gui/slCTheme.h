@@ -1,5 +1,9 @@
-#pragma once
+#if !defined SL_LE_gui_slCTheme_h
+#define SL_LE_gui_slCTheme_h
+
 #include <le/core/slCString.h>
+#include <le/gui/slBasicGraphicControllers.h>
+#include <le/gui/slConstants.h>
 
 #include <map>
 
@@ -11,6 +15,7 @@ namespace sokira
 class CControl;
 class CPoint;
 class CControlBasicController;
+class CRenderingContext;
 
 class CTheme
 {
@@ -21,13 +26,18 @@ class CTheme
 	public:
 		CTheme();
 
-		static CTheme* instance();
+//		static CTheme* instance();
 
-		void drawControl(const CControl* control) const;
-		bool hitTest(const CControl* control, const CPoint& point) const;
+		void drawControl(const CControl* control, CRenderingContext* context) const;
+//		Bool hitTest(const CControl* control, const CPoint& point) const;
 
-		static void currentTheme(const char* themeClass);
-		static CString currentTheme();
+		Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point, CControl* control) const;
+//		Bool mouseButtonPressed(EMouseButton button, const CPoint& point, CControl* control) const;
+//		Bool mouseButtonReleased(EMouseButton button, const CPoint& point, CControl* control) const;
+//		Bool mouseHovered(const CPoint& point, CControl* control) const;
+
+//		static void currentTheme(const char* themeClass);
+//		static CString currentTheme();
 
 	private:
 		const CControlBasicController* controllerForControl(CString controlClass) const;
@@ -40,3 +50,5 @@ class CTheme
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_gui_slCTheme_h

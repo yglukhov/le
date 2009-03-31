@@ -26,6 +26,8 @@
 // CCompiler		requires CLexer
 //					produces byte
 
+#include <le/core/slCString.h>
+
 namespace sokira
 {
 	namespace le
@@ -34,9 +36,11 @@ namespace sokira
 class CScript
 {
 	public:
-
+	//	virtual void addFunction(const CString& signature, function);
+		virtual void addClass(const CClass& theClass);
+	//	virtual void addInstance(const CString& name, instance);
+		virtual void runFromStream(std::istream& stream);
 };
-
 
 	} // namespace le
 } // namespace sokira

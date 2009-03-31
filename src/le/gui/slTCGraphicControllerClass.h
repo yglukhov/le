@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_gui_slTCGraphicControllerClass_h
+#define SL_LE_gui_slTCGraphicControllerClass_h
 
 #include <le/core/slCClass.h>
 
@@ -41,3 +42,4 @@ TCGraphicControllerClass<T>::TCGraphicControllerClass(const char* className,
 	} // namespace le
 } // namespace sokira
 
+#endif // not defined SL_LE_gui_slTCGraphicControllerClass_h

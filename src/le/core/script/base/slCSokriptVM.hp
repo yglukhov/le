@@ -1,0 +1,43 @@
+#if !defined SL_LE_core_script_base_slCSokriptVM_hp
+#define SL_LE_core_script_base_slCSokriptVM_hp
+
+#include <le/core/slCNumber.h>
+#include <le/core/slCData.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CSokriptInstruction;
+
+class CSokriptVM
+{
+	public:
+		CSokriptVM();
+		~CSokriptVM()
+		{
+
+		}
+
+//		void performInstruction(CSokriptInstruction* instruction);
+		void performByteCode(const CData& data);
+
+	private:
+//		EInstruction nextInstruction();
+//		CString* nextString();
+//		CNumber* nextFloat();
+//		CNumber* nextInt();
+
+		CObject* assignObject(CString* name, CObject* value);
+		CObject* findObject(CString* name);
+
+		CSokriptInstruction *mNext;
+		CObject* mCurrentArg;
+		std::map<CString, CObject*> mSymbols;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_script_base_slCSokriptVM_hp

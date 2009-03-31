@@ -36,13 +36,12 @@
 {
 	LE_ASSERT(mScreen);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	mScreen->draw();
 	if ([self inLiveResize])
 		glFlush();
 	else
 		[[self openGLContext] flushBuffer];
+//[[self openGLContext] 
 	GLenum err = glGetError();
 	if (GL_NO_ERROR != err)
 		std::cout << gluErrorString (err) << std::endl;
@@ -81,7 +80,11 @@
 			mScreen->onMouseIn(::sokira::le::CPoint(point.x, point.y));
 		}
 
-		mScreen->onMouseHover(::sokira::le::CPoint(point.x, point.y));
+		// On Mouse Hover
+		mScreen->onMouse(::sokira::le::eMouseButtonUnknown, ::sokira::le::eButtonStateUnknown,
+			::sokira::le::CPoint(point.x, point.y));
+
+//		mScreen->onMouseHover(::sokira::le::CPoint(point.x, point.y));
 	}
 }
 
@@ -93,7 +96,10 @@
 	point.y = [self frame].size.height - point.y;
 
 	LE_ASSERT(mScreen);
-	mScreen->onMouseDown(button, ::sokira::le::CPoint(point.x, point.y));
+	mScreen->onMouse(button, ::sokira::le::eButtonStateDown,
+			::sokira::le::CPoint(point.x, point.y));
+//
+//	mScreen->onMouseDown(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
 - (void) anyMouseUp: (NSEvent*) event button: (::sokira::le::EMouseButton) button
@@ -105,12 +111,14 @@
 	point.y = size.height - point.y;
 
 	if (point.x < 0.0) point.x = 0.0;
+	else if (point.x > size.width) point.x = size.width;
 	if (point.y < 0.0) point.y = 0.0;
-	if (point.x > size.width) point.x = size.width;
-	if (point.y > size.height) point.y = size.height;
+	else if (point.y > size.height) point.y = size.height;
 
 	LE_ASSERT(mScreen);
-	mScreen->onMouseUp(button, ::sokira::le::CPoint(point.x, point.y));
+	mScreen->onMouse(button, ::sokira::le::eButtonStateUp,
+			::sokira::le::CPoint(point.x, point.y));
+//	mScreen->onMouseUp(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
 - (void) mouseDown: (NSEvent*) event
@@ -304,6 +312,12 @@ void CCocoaScreenImpl::setSize(const CSize& Size)
 	}
 
 	mRect.size(Size);
+}
+
+void CCocoaScreenImpl::setNeedsRedraw()
+{
+	LE_ASSERT(mView);
+	[static_cast<NSView*>(mView) setNeedsDisplay:YES];
 }
 
 	} // namespace le

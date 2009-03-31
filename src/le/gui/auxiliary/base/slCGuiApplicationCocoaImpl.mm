@@ -39,7 +39,7 @@
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
-	return NO;
+	return mDelegate->applicationShouldTerminateAfterLastWindowClosed(*mApp);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

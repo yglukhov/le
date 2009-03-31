@@ -93,14 +93,14 @@ bool CControlDelegate::onLooseFocus(CControl* sender)
 
 //////////////////////////////////////////////////////////////////////////
 // Control specific
-void CControlDelegate::onResize(const CSize& size, CControl* sender)
+void CControlDelegate::onResize(CControl* sender)
 {
 
 }
 
-bool CControlDelegate::onMove(const CPoint& point, CControl* sender)
+void CControlDelegate::onMove(CControl* control)
 {
-	return false;
+
 }
 
 	} // namespace le

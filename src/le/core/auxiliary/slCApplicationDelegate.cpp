@@ -17,5 +17,11 @@ void CApplicationDelegate::applicationDidFinishLaunching(CApplication& applicati
 
 }
 
+Bool CApplicationDelegate::applicationShouldTerminateAfterLastWindowClosed(CApplication& application)
+{
+	return false;
+}
+
+
 	} // namespace le
 } // namespace sokira

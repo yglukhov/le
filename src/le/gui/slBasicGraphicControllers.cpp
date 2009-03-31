@@ -1,5 +1,6 @@
 #include <glut/slGlut.h>
 #include "slBasicGraphicControllers.h"
+#include <le/gui/slCTheme.h>
 #include "slCControl.h"
 #include "slCButton.h"
 #include "slCTitleBar.h"
@@ -13,32 +14,109 @@ namespace sokira
 
 LE_IMPLEMENT_GRAPHIC_CONTROLLER(CControlBasicController, CTheme, CControl);
 LE_IMPLEMENT_GRAPHIC_CONTROLLER(CWindowBasicController, CTheme, CWindow);
+LE_IMPLEMENT_GRAPHIC_CONTROLLER(CGuiSceneBasicController, CTheme, CGuiScene);
 LE_IMPLEMENT_GRAPHIC_CONTROLLER(CButtonBasicController, CTheme, CButton);
-LE_IMPLEMENT_GRAPHIC_CONTROLLER(CDialogBasicController, CTheme, CDialog);
-LE_IMPLEMENT_GRAPHIC_CONTROLLER(CTitleBarBasicController, CTheme, CTitleBar);
+//LE_IMPLEMENT_GRAPHIC_CONTROLLER(CDialogBasicController, CTheme, CDialog);
+//LE_IMPLEMENT_GRAPHIC_CONTROLLER(CTitleBarBasicController, CTheme, CTitleBar);
 
-bool CControlBasicController::hitTest(const CControl* control, const CPoint& point) const
+Bool CControlBasicController::hitTest(const CControl* control, const CPoint& point) const
 {
-	return control->absoluteRect().pointInRect(point);
+	return control->isFirstResponder() || control->absoluteRect().pointInRect(point);
 }
 
-void CControlBasicController::draw(const CControl* control) const
+void CControlBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
 {
 
 }
 
-void CWindowBasicController::draw(const CControl* control) const
+Bool CControlBasicController::onMouse(EMouseButton button, EButtonState state, const CPoint& point, CControl* control, const CTheme* theme) const
 {
-	CColor(0.7f, 0.7f, 0.7f);
+	if (hitTest(control, point))
+	{
+		return performMouse(button, state, point, control);
+	}
+
+	return false;
+}
+
+Bool CControlBasicController::performMouse(EMouseButton button, EButtonState state, const CPoint& point, CControl* control) const
+{
+	switch (state)
+	{
+		case eButtonStateDown:
+			control->becomeFirstResponder();
+			return control->onMouseDown(button, point);
+		case eButtonStateUp:
+			return control->onMouseUp(button, point);
+		default: ;
+	}
+
+	return control->onMouseHover(point);
+}
+
+void CWindowBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
+{
+	slSetColor(0.7f, 0.7f, 0.7f);
 	control->absoluteRect().draw();
+
+	const CWindow* wnd = dynamic_cast<const CWindow*>(control);
+
+	const CWindow::CControlList& list = wnd->children();
+
+	CWindow::CControlList::const_iterator end = list.end();
+	for (CWindow::CControlList::const_iterator it = list.begin(); it != end; ++it)
+	{
+		theme->drawControl(*it, context);
+	}
 }
 
-void CButtonBasicController::draw(const CControl* control) const
+Bool CWindowBasicController::onMouse(EMouseButton button, EButtonState state, const CPoint& point, CControl* control, const CTheme* theme) const
+{
+	if (hitTest(control, point))
+	{
+		const CWindow* wnd = dynamic_cast<const CWindow*>(control);
+
+		const CWindow::CControlList& list = wnd->children();
+
+		CWindow::CControlList::const_iterator end = list.end();
+		for (CWindow::CControlList::const_iterator it = list.begin(); it != end; ++it)
+		{
+			if (theme->onMouse(button, state, point, *it))
+			{
+				return true;
+			}
+		}
+
+		return performMouse(button, state, point, control);
+	}
+
+	return false;
+}
+
+Bool CGuiSceneBasicController::hitTest(const CControl* control, const CPoint& point) const
+{
+	return true;
+}
+
+void CGuiSceneBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
+{
+	const CWindow* wnd = dynamic_cast<const CWindow*>(control);
+
+	const CWindow::CControlList& list = wnd->children();
+
+	CWindow::CControlList::const_iterator end = list.end();
+	for (CWindow::CControlList::const_iterator it = list.begin(); it != end; ++it)
+	{
+		theme->drawControl(*it, context);
+	}
+}
+
+void CButtonBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
 {
 	LE_ENTER_LOG_QUIET;
 
 	const CButton* button = dynamic_cast<const CButton*>(control);
-	if(button)
+	if (button)
 	{
 		if (button->state() == eButtonStateDown)
 		{
@@ -51,19 +129,19 @@ void CButtonBasicController::draw(const CControl* control) const
 	}
 	else
 	{
-		IF_LOG(log << "WARNING: control is not a CButton!" << std::endl);
+		LE_IF_LOG(log << "WARNING: control is not a CButton!" << std::endl);
 	}
 
 	control->absoluteRect().draw();
 }
-
-void CDialogBasicController::draw(const CControl* control) const
+/*
+void CDialogBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
 {
 	slSetColor(0.2f, 0.7f, 0.5f);
 	control->absoluteRect().draw();
 }
 
-void CTitleBarBasicController::draw(const CControl* control) const
+void CTitleBarBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
 {
 	slSetColor(0.2f, 0.3f, 0.5f);
 	CRectangle rect = control->absoluteRect();
@@ -76,6 +154,6 @@ void CTitleBarBasicController::draw(const CControl* control) const
 		titleBar->captionText().draw(CPoint(rect.x() + 11, rect.y() + 1));
 	}
 }
-
+*/
 	} // namespace le
 } // namespace sokira

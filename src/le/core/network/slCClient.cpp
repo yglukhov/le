@@ -40,7 +40,7 @@ bool CClient::connect()
 
 	if (INVALID_SOCKET == mSocket)
 	{
-		IF_LOG(log << "Failed to create socket\n");
+		LE_IF_LOG(log << "Failed to create socket\n");
 		return false;
 	}
 

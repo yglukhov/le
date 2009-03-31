@@ -1,0 +1,93 @@
+#if !defined SL_LE_core_script_base_slCSokriptInstruction_hp
+#define SL_LE_core_script_base_slCSokriptInstruction_hp
+
+#include <iosfwd>
+#include <le/core/slTypes.h>
+
+#define _LE_FOR_INSTRUCTION_LIST(_OP_)	\
+	_OP_(eInstructionPushVar)			\
+	_OP_(eInstructionPushStr)			\
+	_OP_(eInstructionPushInt)			\
+	_OP_(eInstructionPushFloat)			\
+	_OP_(eInstructionDiscard)			\
+	_OP_(eInstructionPrint)				\
+	_OP_(eInstructionAssign)			\
+	_OP_(eInstructionAdd)				\
+	_OP_(eInstructionSubstract)			\
+	_OP_(eInstructionMultiply)			\
+	_OP_(eInstructionDivide)			\
+	_OP_(eInstructionNegate)			\
+	_OP_(eInstructionEqual)				\
+	_OP_(eInstructionNotEqual)			\
+	_OP_(eInstructionGreaterThan)		\
+	_OP_(eInstructionGreaterEqual)		\
+	_OP_(eInstructionLessThan)			\
+	_OP_(eInstructionLessEqual)			\
+	_OP_(eInstructionNot)				\
+	_OP_(eInstructionSetSymbolsCount)	\
+	_OP_(eInstructionJump)				\
+	_OP_(eInstructionJumpIfTrue)		\
+	_OP_(eInstructionJumpIfFalse)		\
+	_OP_(eInstructionStartFunction)		\
+	_OP_(eInstructionCall)				\
+	_OP_(eInstructionReturn)
+
+#define _LE_DECLARE_INSTRUCTION(instruction) instruction,
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CObject;
+
+enum EInstruction
+{
+	eInstructionNOP = 0,
+	_LE_FOR_INSTRUCTION_LIST(_LE_DECLARE_INSTRUCTION)
+	eInstructionCount_			// This is not an instruction, just a constant indicating total instruction count
+};
+
+
+class CSokriptInstruction
+{
+	public:
+		CSokriptInstruction(EInstruction instruction, CObject* arg = NULL) :
+			mNext(NULL),
+			mInstruction(instruction),
+			mArg(arg),
+			mProcessed(false)
+		{
+
+		}
+
+		~CSokriptInstruction();
+
+		void addInstruction(CSokriptInstruction* instruction)
+		{
+			CSokriptInstruction* i = this;
+			while (i->mNext) i = i->mNext;
+			i->mNext = instruction;
+		}
+
+		UInt32 length() const;
+		UInt32 selfLength() const;
+
+		static CSokriptInstruction* postProcessBytecode(CSokriptInstruction* instruction);
+		static void optimizeByteCode(CSokriptInstruction* instruction);
+		static void dumpBytecodeToStream(CSokriptInstruction* instruction, std::ostream& stream);
+
+		void showAll(int i = 1);
+		void show(int i = 1);
+
+	public:
+		CSokriptInstruction *mNext;
+		EInstruction mInstruction;
+		CObject* mArg;
+		Bool mProcessed;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_script_base_slCSokriptInstruction_hp

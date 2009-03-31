@@ -4,7 +4,7 @@
 
 #include "slCScreen.h"
 #include "slCDialog.h"
-#include "slCFace.h"
+//#include "slCFace.h"
 #include "slTypes.h"
 #include "slConstants.h"
 #include "slCControlDelegate.h"
@@ -55,50 +55,50 @@ CGuiApplication::~CGuiApplication()
 //	dlg1->title("dlg1");
 //}
 
-static void onMouse(int button, int state, int x, int y)
-{
-//	CAutoreleasePool autoreleasePool;
-	CScreen::instance()->onMouse((EMouseButton)button, (EButtonState)state, CPoint((float)x, (float)y));
-}
-
-static void onMouseMove(int x, int y)
-{
-//	CAutoreleasePool autoreleasePool;
-	CScreen::instance()->onMouse(eMouseButtonUnknown, eButtonStateUnknown, CPoint((float)x, (float)y));
-}
+//static void onMouse(int button, int state, int x, int y)
+//{
+////	CAutoreleasePool autoreleasePool;
+//	CScreen::instance()->onMouse((EMouseButton)button, (EButtonState)state, CPoint((float)x, (float)y));
+//}
+//
+//static void onMouseMove(int x, int y)
+//{
+////	CAutoreleasePool autoreleasePool;
+//	CScreen::instance()->onMouse(eMouseButtonUnknown, eButtonStateUnknown, CPoint((float)x, (float)y));
+//}
 
 // onKey is not static, because it is friend for CControl.
-void onKey(unsigned char inkey, int px, int py)
-{
-	if(inkey == 27) // Escape key
-	{
-		CScreen::instance()->destroy();
-		exit(0);
-	}
-	CControl* fResponder = CControl::firstResponder();
-	if (fResponder)
-	{
-//		CAutoreleasePool autoreleasePool;
-		fResponder->onKey(inkey, px, py);
-	}
-}
-
-static void onIdle()
-{
-	CNotificationCenter::instance()->fire();
-}
-
-static void onRedraw()
-{
-//	CAutoreleasePool autoreleasePool;
-	CScreen::instance()->draw();
-}
-
-static void onResize(int x, int y)
-{
-//	CAutoreleasePool autoreleasePool;
-	CScreen::instance()->setSize(CSize((float)x, (float)y));
-}
+//void onKey(unsigned char inkey, int px, int py)
+//{
+//	if(inkey == 27) // Escape key
+//	{
+////		CScreen::instance()->destroy();
+//		exit(0);
+//	}
+//	CControl* fResponder = CControl::firstResponder();
+//	if (fResponder)
+//	{
+////		CAutoreleasePool autoreleasePool;
+//		fResponder->onKey(inkey, px, py);
+//	}
+//}
+//
+//static void onIdle()
+//{
+//	CNotificationCenter::instance()->fire();
+//}
+//
+//static void onRedraw()
+//{
+////	CAutoreleasePool autoreleasePool;
+//	CScreen::instance()->draw();
+//}
+//
+//static void onResize(int x, int y)
+//{
+////	CAutoreleasePool autoreleasePool;
+//	CScreen::instance()->setSize(CSize((float)x, (float)y));
+//}
 
 void CGuiApplication::addScreen(CScreen* screen)
 {

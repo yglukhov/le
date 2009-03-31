@@ -35,26 +35,26 @@ void CDragger::drag(const CPoint& point)
 	float height = pRect.height() - mySize.height();
 
 	// correction of x coord
-	if(x < 0)
+	if (x < 0)
 	{
 		x = 0;
 	}
-	else if(x > width)
+	else if (x > width)
 	{
 		x = width;
 	}
 
 	// correction of y coord
-	if(y < 0)
+	if (y < 0)
 	{
 		y = 0;
 	}
-	else if(y > height)
+	else if (y > height)
 	{
 		y = height;
 	}
 
-	mControl->relativePosition(CPoint(x,y));
+	mControl->setRelativePosition(CPoint(x,y));
 }
 
 void CDragger::endDrag()

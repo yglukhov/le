@@ -32,17 +32,62 @@ CButton::CButton(const CRectangle& rect) :
 //
 //}
 
-bool CButton::onMouseLeftDown(const CPoint& point, CControl* sender)
+//bool CButton::onMouseLeftDown(const CPoint& point, CControl* sender)
+//{
+//	mState = eButtonStateDown;
+//	return true;
+//}
+//
+//bool CButton::onMouseLeftUp(const CPoint& point, CControl* sender)
+//{
+//	std::cout << "Button pressed!" << std::endl;
+//	mState = eButtonStateUp;
+//	setNeedsRedraw();
+//	return false;
+//}
+
+Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
 {
-	mState = eButtonStateDown;
-	return true;
+//	std::cout << "Button down!" << std::endl;
+	if (button == eMouseButtonLeft)
+	{
+		mState = eButtonStateDown;
+		setNeedsRedraw();
+		return true;
+	}
+	return false;
 }
 
-bool CButton::onMouseLeftUp(const CPoint& point, CControl* sender)
+Bool CButton::onMouseUp(EMouseButton button, const CPoint& point)
 {
-	mState = eButtonStateUp;
-	CScreen::instance()->invalidate();
+//	std::cout << "Button up!" << std::endl;
+	if (button == eMouseButtonLeft && mState == eButtonStateDown)
+	{
+		mState = eButtonStateUp;
+		resignFirstResponder();
+		if (absoluteRect().pointInRect(point))
+		{
+			onClick();
+		}
+		setNeedsRedraw();
+		return true;
+	}
 	return false;
+}
+
+void CButton::onClick()
+{
+	std::cout << "Click!" << std::endl;
+}
+
+void CButton::controlDidBecomeFirstResponder()
+{
+//	std::cout << "Button did become first responder!" << std::endl;
+}
+
+void CButton::controlDidResignFirstResponder()
+{
+//	std::cout << "Button did resign first responder!" << std::endl;
 }
 
 EButtonState CButton::state() const

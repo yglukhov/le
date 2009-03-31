@@ -50,8 +50,8 @@ class CControlDelegate
 
 		//////////////////////////////////////////////////////////////////////////
 		// Control specific
-		virtual void onResize(const CSize& size, CControl* sender);
-		virtual bool onMove(const CPoint& point, CControl* sender);
+		virtual void onResize(CControl* sender);
+		virtual void onMove(CControl* control);
 };
 
 

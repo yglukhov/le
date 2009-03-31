@@ -27,10 +27,10 @@ CTitleBar::CTitleBar() :
 {
 	LE_ENTER_LOG;
 	addChild(mCloseButton);
-	mCloseButton->relativePosition(CPoint(1,1));					
+	mCloseButton->setRelativePosition(CPoint(1,1));					
 	mCloseButton->setSize(CSize(10,10));
 	mCloseButton->delegate(this);
-	autoResizing(eAlignTop | eAlignLeft | eAlignRight);
+	setAutoResizing(eAutoResizingFixedTopLeft | eAutoResizingFixedRight);
 }
 
 CTitleBar::CTitleBar(CWindow* Parent) :
@@ -41,13 +41,13 @@ CTitleBar::CTitleBar(CWindow* Parent) :
 
 	LE_ASSERT_EX(Parent != NULL);
 	addChild(mCloseButton);
-	mCloseButton->relativePosition(CPoint(1,1));					
+	mCloseButton->setRelativePosition(CPoint(1,1));					
 	mCloseButton->setSize(CSize(8,8));
 	mCloseButton->delegate(this);
 
-	autoResizing(eAlignTop | eAlignLeft | eAlignRight);
+	setAutoResizing(eAutoResizingFixedTopLeft | eAutoResizingFixedRight);
 	float border = Parent->borderWidth();
-	relativePosition(CPoint(border, border));
+	setRelativePosition(CPoint(border, border));
 	setSize(CSize(Parent->size().width() - 2*border, 10));
 	parent(Parent);
 }
@@ -83,7 +83,7 @@ bool CTitleBar::onMouseLeftUp(const CPoint& point, CControl* sender)
 void CTitleBar::caption(const char* captionString)
 {
 	mCaption.text(captionString);
-	CScreen::instance()->invalidate();
+	setNeedsRedraw();
 }
 
 const CText& CTitleBar::captionText() const

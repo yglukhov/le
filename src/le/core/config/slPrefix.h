@@ -3,10 +3,9 @@
 //
 /// \file   common/config/slPrefix.h		Common project settings definitions.
 ///
-/// Defines most common macros, such as LE_FLAG_DEBUG, LE_NAMESPACE,
-/// LE_FLAG_UNICODE, etc.
+/// Defines most common macros, such as LE_FLAG_DEBUG, LE_FLAG_UNICODE, etc.
 //
-//  Copyright (c) 2006 by  S.O.K.I.R.A. labs.
+//  Copyright (c) 2008 by  S.O.K.I.R.A. labs.
 ////////////////////////////////////////////////////////////////////////////////
 #if !defined H_slPrefix_included
 #define H_slPrefix_included

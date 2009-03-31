@@ -76,6 +76,21 @@ const CData& CData::operator = (const CData& newData)
 	return *this;
 }
 
+void CData::append(const CData& data)
+{
+	append(data.data(), data.length());
+}
+
+void CData::append(const void* data, DataLength len)
+{
+	void* newData = malloc(length() + len);
+	*(static_cast<DataLength*>(newData)) = length() + len;
+	memcpy((char*)newData + sizeof(DataLength), mData, length());
+	memcpy((char*)newData + length() + sizeof(DataLength), data, len);
+	if (mData) free(mData);
+	mData = newData;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Compression routines
 // TODO: complete

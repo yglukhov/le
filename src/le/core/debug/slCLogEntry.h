@@ -31,7 +31,6 @@ namespace sokira
 #define LE_ENTER_LOG_QUIET ::sokira::le::CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, 2);
 #define LE_ENTER_LOG_SILENT ::sokira::le::CLogEntry log(LE_PP_PRETTY_FUNCTION, 0, 3);
 
-#define IF_LOG(x) x
 #define LE_IF_LOG(x) x
 
 #else // defined LE_ENABLE_LOG
@@ -40,7 +39,6 @@ namespace sokira
 #define LE_ENTER_LOG_QUIET
 #define LE_ENTER_LOG_SILENT
 
-#define IF_LOG(x)
 #define LE_IF_LOG(x)
 
 #endif // not defined LE_ENABLE_LOG

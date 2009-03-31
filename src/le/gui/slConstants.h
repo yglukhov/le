@@ -1,7 +1,7 @@
-#pragma once
+#if !defined SL_LE_gui_slCConstants_h
+#define SL_LE_gui_slCConstants_h
 
 #include <le/core/slTypes.h>
-//#include <glut/slGlut.h>
 
 namespace sokira
 {
@@ -11,17 +11,19 @@ namespace sokira
 enum EMouseButton
 {
 	eMouseButtonUnknown = 0,
-	eMouseButtonLeft = LE_SET_BIT(1), // = GLUT_LEFT_BUTTON,
-	eMouseButtonMiddle = LE_SET_BIT(2), // = GLUT_MIDDLE_BUTTON,
-	eMouseButtonRight = LE_SET_BIT(3) // = GLUT_RIGHT_BUTTON
+	eMouseButtonLeft = LE_SET_BIT(1),
+	eMouseButtonMiddle = LE_SET_BIT(2),
+	eMouseButtonRight = LE_SET_BIT(3)
 };
 
 enum EButtonState
 {
 	eButtonStateUnknown = 0,
-	eButtonStateDown = LE_SET_BIT(1), // = GLUT_DOWN,
-	eButtonStateUp = LE_SET_BIT(2), // = GLUT_UP
+	eButtonStateDown = LE_SET_BIT(1),
+	eButtonStateUp = LE_SET_BIT(2),
 };
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_gui_slCConstants_h

@@ -1,5 +1,5 @@
-#if !defined _slCObject_h_included_
-#define _slCObject_h_included_
+#if !defined SL_LE_core_slCObject_h
+#define SL_LE_core_slCObject_h
 
 #include <le/core/slCClass.h>
 
@@ -37,4 +37,4 @@ class CObject
 	} // namespace le
 } // namespace sokira
 
-#endif // !defined _slCObject_h_included_
+#endif // not defined SL_LE_core_slCObject_h

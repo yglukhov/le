@@ -79,10 +79,10 @@ bool CPoint::operator!=(const CPoint& point) const
 
 //#pragma mark -
 
-void CPoint::draw() const
-{
-	glVertex3f(mX, mY, mZ);
-}
+//void CPoint::draw() const
+//{
+//	glVertex3f(mX, mY, mZ);
+//}
 
 
 //#pragma mark

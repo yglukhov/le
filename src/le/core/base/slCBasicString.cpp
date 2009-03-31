@@ -218,6 +218,16 @@ CBasicString CBasicString::__CStringWithLiteral(const NChar* str)
 	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyLiteral)):(SStringProxy::emptyStringProxy()->retain()));
 }
 
+CBasicString CBasicString::__CStringNoCopyDeallocWithFree(const NChar* str)
+{
+	return CBasicString((notEmpty(str))?(new SStringProxy(str, (EOwnPolicy)(eOwnPolicyDealloc | eOwnPolicyDeallocWithFree))):(SStringProxy::emptyStringProxy()->retain()));
+}
+
+CBasicString CBasicString::__CStringNoCopyDeallocWithDelete(const NChar* str)
+{
+	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyDealloc)):(SStringProxy::emptyStringProxy()->retain()));
+}
+
 CBasicString::~CBasicString()
 {
 	mProxy->release();

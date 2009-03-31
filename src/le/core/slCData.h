@@ -1,18 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
-// S.O.K.I.R.A. labs - some_project
+// S.O.K.I.R.A. labs - le
 //
 // Copyright:
 //      Here goes the copyright text. This text can be very long and be more
 //  than one line. In that case it is indented for one tab only, while the first
 //  line of it is indented for two lines.
 //
-// Title: slCData.h
-// Type: header
-// Location: le/core
-// Description:
-//      This is the description text, which has to be formatted just like
-//  copyright text.
+//****c* core/CData [ Documentation in ROBODoc format ]
 ////////////////////////////////////////////////////////////////////////////////
+
+
 #pragma once
 
 #include <le/core/slCObject.h>
@@ -22,8 +19,11 @@ namespace sokira
 	namespace le
 	{
 ////////////////////////////////////////////////////////////////////////////////
-// Class: CData
-// Intended to represent binary data and its compression.
+// Class:
+//		CData
+//
+// Description:
+//		Intended to represent binary data and its compression.
 class CData : public CObject
 {
 	LE_RTTI_BEGIN
@@ -56,6 +56,9 @@ class CData : public CObject
 		void setData(const void* newData, DataLength length);
 		const CData& operator = (const CData& newData);
 
+		void append(const CData& data);
+		void append(const void* data, DataLength length);
+
 		CData compressedData(ECompressionMethod method) const;
 		CData decompressedData() const;
 
@@ -69,3 +72,5 @@ class CData : public CObject
 
 	} // namespace le
 } // namespace sokira
+
+/*******/

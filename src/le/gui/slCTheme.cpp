@@ -14,7 +14,7 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CTheme);
 
-static CTheme::Ptr _currentTheme;
+//static CTheme::Ptr _currentTheme;
 
 typedef std::map<CString /*theme*/,
 					  std::list<std::pair<CString /*controller*/,
@@ -28,17 +28,7 @@ static inline CGeneralControllerMap& controllerMap()
 
 CTheme::CTheme()
 {
-
-}
-
-CTheme* CTheme::instance()
-{
-	if(!_currentTheme)
-	{
-		currentTheme("CTheme");
-	}
-
-	return _currentTheme.get();
+	init();
 }
 
 void CTheme::init()
@@ -46,7 +36,7 @@ void CTheme::init()
 	CGeneralControllerMap &theMap = controllerMap();
 	CGeneralControllerMap::iterator foundIt;
 	foundIt = theMap.find(objectClass().name());
-	if(foundIt == controllerMap().end())
+	if (foundIt == controllerMap().end())
 	{
 		return;
 	}
@@ -55,7 +45,7 @@ void CTheme::init()
 	std::list<std::pair<CString, CString> >& controllerList = foundIt->second;
 
 	std::list<std::pair<CString, CString> >::iterator end = controllerList.end();
-	for(std::list<std::pair<CString, CString> >::iterator it = controllerList.begin();
+	for (std::list<std::pair<CString, CString> >::iterator it = controllerList.begin();
 			it != end; ++it)
 	{
 		TCPointer<CControlBasicController> controller =
@@ -75,8 +65,8 @@ const CControlBasicController* CTheme::controllerForControl(CString controlClass
 	CControllerMap::const_iterator it = mControllerMap.find(CString(controlClass));
 	if(it == mControllerMap.end())
 	{
-		IF_LOG(log << "WARNING: Graphic controller for " << controlClass
-					<< " and theme " << currentTheme() << " not found." << std::endl);
+		LE_IF_LOG(log << "WARNING: Graphic controller for " << controlClass
+					<< " not found." << std::endl);
 		// TODO: search for controller from default theme.
 		return NULL;
 	}
@@ -84,43 +74,25 @@ const CControlBasicController* CTheme::controllerForControl(CString controlClass
 	return it->second;
 }
 
-void CTheme::drawControl(const CControl* control) const
+void CTheme::drawControl(const CControl* control, CRenderingContext* context) const
 {
 	const CControlBasicController* controller = controllerForControl(control->objectClass().name());
-	if(controller)
+	if (controller)
 	{
-		controller->draw(control);
+		controller->draw(control, this, context);
 	}
 }
 
-bool CTheme::hitTest(const CControl* control, const CPoint& point) const
+Bool CTheme::onMouse(EMouseButton button, EButtonState state, const CPoint& point, CControl* control) const
 {
 	const CControlBasicController* controller = controllerForControl(control->objectClass().name());
-	if(controller)
+	if (controller)
 	{
-		return controller->hitTest(control, point);
+		return controller->onMouse(button, state, point, control, this);
 	}
 
 	return false;
 }
-
-void CTheme::currentTheme(const char* themeClass)
-{
-	LE_ENTER_LOG;
-
-	_currentTheme = CClassFactory::defaultInstance()->create<CTheme>(themeClass);
-
-	if(_currentTheme)
-	{
-		_currentTheme->init();
-	}
-}
-
-CString CTheme::currentTheme()
-{
-	return instance()->objectClass().name();
-}
-
 
 	} // namespace le
 } // namespace sokira
@@ -132,7 +104,7 @@ void _le_register_graphic_controller(const char* controllerClass,
 {
 	// TODO: check for existance of this controller.
 	LE_ENTER_LOG_SILENT;
-	IF_LOG(log << "Registering graphic controller \"" << controllerClass << "\" for control \""
+	LE_IF_LOG(log << "Registering graphic controller \"" << controllerClass << "\" for control \""
 		<< controlClass << "\" for theme \"" << themeClass << "\"" << std::endl);
 
 	::sokira::le::controllerMap()[themeClass].push_back(
