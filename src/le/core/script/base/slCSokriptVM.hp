@@ -20,21 +20,10 @@ class CSokriptVM
 
 		}
 
-//		void performInstruction(CSokriptInstruction* instruction);
 		void performByteCode(const CData& data);
 
 	private:
-//		EInstruction nextInstruction();
-//		CString* nextString();
-//		CNumber* nextFloat();
-//		CNumber* nextInt();
-
-		CObject* assignObject(CString* name, CObject* value);
-		CObject* findObject(CString* name);
-
-		CSokriptInstruction *mNext;
-		CObject* mCurrentArg;
-		std::map<CString, CObject*> mSymbols;
+		std::map<CString, CObject* (*)(CObject*)> mFunctions;
 };
 
 	} // namespace le

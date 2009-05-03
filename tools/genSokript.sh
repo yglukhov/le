@@ -17,10 +17,9 @@ log_bison_error()
 	while read STRING
 	do
 		# Produce an XCode friendly message
-		FILE_NAME=`expr "$STRING" : "\(.*\):.*:.*"`
 		LINE_NO=`expr "$STRING" : ".*:\(.*\)\..*:.*"`
 		MESSAGE=`expr "$STRING" : ".*:.*:\(.*\)"`
-		echo "$FILE_NAME:$LINE_NO:$MESSAGE"
+		echo "$BISON_YY:$LINE_NO:$MESSAGE"
 	done
 }
 

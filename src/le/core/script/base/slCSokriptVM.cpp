@@ -1,4 +1,4 @@
-
+#include <vector>
 #include "slCSokriptInstruction.hp"
 #include "slCSokriptVM.hp"
 
@@ -8,48 +8,103 @@ namespace sokira
 	{
 
 
+#define REALLOC_COEF 1.5
+//#define LOG_INSTRUCTIONS
+
 template<typename T>
 struct SokriptVMStack
 {
-	inline SokriptVMStack(T* obj, SokriptVMStack* prev) :
-		mObj(obj),
-		mPrev(prev)
+	inline SokriptVMStack() :
+		mSize(0),
+		mBuffer(NULL),
+		mPosition(0)
+#ifdef LOG_INSTRUCTIONS
+		, mTraceRealloc(false)
+#endif
 	{
 
 	}
 
-	T* pop(SokriptVMStack**stack)
+	inline ~SokriptVMStack()
 	{
-		LE_ASSERT(this);
-		*stack = mPrev;
-		T* result = mObj;
-		delete this;
-		return result;
+		if (mBuffer) free(mBuffer);
 	}
 
-	T* mObj;
-	SokriptVMStack* mPrev;
+	void push(T obj)
+	{
+		if (mPosition + 1 >= mSize) reallocate(1);
+		mBuffer[mPosition++] = obj;
+	}
+
+	T pop()
+	{
+		LE_ASSERT(mPosition);
+		return mBuffer[--mPosition];
+	}
+
+	void increase(UInt32 bySize)
+	{
+		if (mPosition + bySize >= mSize) reallocate(bySize);
+
+#ifdef LOG_INSTRUCTIONS
+		UInt32 newPosition = mPosition + bySize;
+		for (; mPosition < newPosition; ++mPosition)
+		{
+			mBuffer[mPosition] = NULL;
+		}
+#else
+		mPosition += bySize;
+#endif
+	}
+
+	void decrease(UInt32 bySize)
+	{
+		mPosition -= bySize;
+	}
+
+	void reallocate(UInt32 bySize)
+	{
+		UInt32 newSize = mSize * REALLOC_COEF + 1;
+		if (newSize < mSize + bySize) newSize = mSize + bySize;
+#ifdef LOG_INSTRUCTIONS
+		if (mTraceRealloc) std::cout << "Reallocating stack. Old size: " << mSize << ", new size: " << newSize << std::endl;
+#endif
+		mSize = newSize;
+
+		mBuffer = (T*)realloc(mBuffer, newSize * sizeof(T));
+	}
+
+	T objectAtIndex(UInt32 pos)
+	{
+		return mBuffer[pos];
+	}
+
+	void setObjectAtIndex(UInt32 pos, T obj)
+	{
+		mBuffer[pos] = obj;
+	}
+
+	UInt32 position()
+	{
+		return mPosition;
+	}
+
+	UInt32 mSize;
+	T* mBuffer;
+	UInt32 mPosition;
+
+#ifdef LOG_INSTRUCTIONS
+	Bool mTraceRealloc;
+#endif
 };
 
-#define STACK_PUSH(name, type, obj)		((void)(name = new SokriptVMStack<type>(obj, name)))
-#define STACK_POP(name)					(name->pop(&name))
 
-#define OBJ_STACK_PUSH(obj) STACK_PUSH(varStack, CObject, obj)
-#define OBJ_STACK_POP()		STACK_POP(varStack)
-
-#define PC_STACK_PUSH(obj)	STACK_PUSH(pcStack, const UInt8, obj)
-#define PC_STACK_POP()		STACK_POP(pcStack)
-
-
-
-CSokriptVM::CSokriptVM() :
-	mNext(NULL),
-	mCurrentArg(NULL)
+CSokriptVM::CSokriptVM()
 {
 
 }
 
-static void printObject(CObject* obj)
+static CObject* printObject(CObject* obj)
 {
 	CString* string = dynamic_cast<CString*> (obj);
 	if (string)
@@ -60,41 +115,25 @@ static void printObject(CObject* obj)
 		LE_ASSERT(number);
 		std::cout << number->valueAsFloat32() << std::endl;
 	}
-//	delete obj;
+	return new CNumber();
 }
 
-CObject* CSokriptVM::assignObject(CString* name, CObject* value)
+static CObject* print1(CObject* obj)
 {
-	CObject*& theSymbol = mSymbols[*name];
-	LE_ASSERT(value);
-	if (theSymbol)
-	{
-		delete theSymbol;
-//		theSymbol = NULL;
-	}
-
-	CString *string = dynamic_cast<CString*>(value);
-	if (string)
-		theSymbol = new CString(*string);
-	else
-	{
-		CNumber* number = dynamic_cast<CNumber*>(value);
-		LE_ASSERT(number);
-		theSymbol = new CNumber(*number);
-	}
-
-//	std::cout << "assignObject(" << *name << ", " << value->description() << "): " << theSymbol->description() << std::endl;
-
-	return theSymbol;
+	std::cout << "print1: ";
+	return printObject(obj);
 }
 
-CObject* CSokriptVM::findObject(CString* name)
+static CObject* print2(CObject* obj)
 {
-	CObject*& theSymbol = mSymbols[*name];
-	if (!theSymbol)
-		theSymbol = new CString();
-//	std::cout << "findObject(" << *name << "): " << theSymbol->description() << std::endl;
-	return theSymbol;
+	std::cout << "print2: ";
+	return printObject(obj);
+}
+
+static CObject* print3(CObject* obj)
+{
+	std::cout << "print3: ";
+	return printObject(obj);
 }
 
 static inline CObject* addObjects(CObject* left, CObject* right)
@@ -346,31 +385,61 @@ static inline CObject* notObject(CObject* object)
 	return new CNumber(!objIsFalse(object));
 }
 
-#if 1
-#define LOG_INSTRUCTION(x) (x)
+
+#ifdef LOG_INSTRUCTIONS
+#define LOG_INSTRUCTION(x) std::cout << "INSTRUCTION: "; (x);
 #else
 #define LOG_INSTRUCTION(x)
 #endif
 
+void dumpVarStack(SokriptVMStack<CObject*>* stack)
+{
+	UInt32 pos = stack->position();
+	for (UInt32 i = 0; i < pos; ++i)
+	{
+		CObject* obj = stack->objectAtIndex(i);
+		std::cout << i << ": ";
+		if (obj)
+			std::cout << obj->description();
+		else
+			std::cout << "NULL";
+		std::cout << std::endl;
+	}
+}
+
 void CSokriptVM::performByteCode(const CData& data)
 {
 	const UInt8* code = static_cast<const UInt8*>(data.data());
-	SokriptVMStack<CObject> *varStack = NULL;
-	SokriptVMStack<const UInt8> *pcStack = NULL;
+	SokriptVMStack<CObject*> varStack;
+	SokriptVMStack<const UInt8*> pcStack;
+	SokriptVMStack<UInt32> stackLineStack;
+
+	std::vector<CString> externFunctions;
+
+	mFunctions[LESTR("print")] = &printObject;
+	mFunctions[LESTR("print1")] = &print1;
+	mFunctions[LESTR("print2")] = &print2;
+	mFunctions[LESTR("print3")] = &print3;
 
 	bool run = true;
-	CObject ** symbols = NULL;
 
-	PC_STACK_PUSH(NULL);
+	pcStack.push(NULL);
+	stackLineStack.push(0);
+
+	UInt32 currentStackLine = 0;
+
+
+#ifdef LOG_INSTRUCTIONS
+	varStack.mTraceRealloc = true;
+#endif
 
 	do
 	{
 		switch (*code)
 		{
 			case eInstructionSetSymbolsCount:
-				LOG_INSTRUCTION(std::cout << "eInstructionSetSymbolsCount");
-				LE_ASSERT(symbols == NULL);
-				symbols = new CObject*[(*(UInt32*)(code + 1)) + 1];
+				LOG_INSTRUCTION(std::cout << "eInstructionSetSymbolsCount: " << *(UInt32*)(code + 1));
+				varStack.increase(*(UInt32*)(code + 1));
 				code += sizeof(UInt32);
 				break;
 
@@ -379,110 +448,109 @@ void CSokriptVM::performByteCode(const CData& data)
 				break;
 
 			case eInstructionPushVar:
-				LOG_INSTRUCTION(std::cout << "eInstructionPushVar");
-				LE_ASSERT(symbols);
-				LE_ASSERT(symbols[(*(UInt32*)(code + 1))]);
-				OBJ_STACK_PUSH(symbols[(*(UInt32*)(code + 1))]);
-				code += sizeof(UInt32);
+				LOG_INSTRUCTION(std::cout << "eInstructionPushVar: " << *(SInt32*)(code + 1) << ", stackLine: " << currentStackLine);
+				varStack.push(varStack.objectAtIndex(currentStackLine + *(SInt32*)(code + 1)));
+				code += sizeof(SInt32);
 				break;
 
 			case eInstructionPushStr:
 				LOG_INSTRUCTION(std::cout << "eInstructionPushStr");
-				OBJ_STACK_PUSH(new CString(CString::__CStringWithLiteral((char*)(code + sizeof(UInt32) + 1))));
+				varStack.push(new CString(CString::__CStringWithLiteral((char*)(code + sizeof(UInt32) + 1))));
+				code += *((UInt32*)(code + 1)) + sizeof(UInt32);
+				break;
+
+			case eInstructionDeclareExternalFunction:
+				LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalFunction: " << (char*)(code + sizeof(UInt32) + 1));
+				externFunctions.push_back(CString::__CStringWithLiteral((char*)(code + sizeof(UInt32) + 1)));
 				code += *((UInt32*)(code + 1)) + sizeof(UInt32);
 				break;
 
 			case eInstructionPushInt:
 				LOG_INSTRUCTION(std::cout << "eInstructionPushInt");
-				OBJ_STACK_PUSH(new CNumber(*((UInt32*)(code + 1))));
+				varStack.push(new CNumber(*((UInt32*)(code + 1))));
 				code += sizeof(UInt32);
 				break;
 
 			case eInstructionPushFloat:
 				LOG_INSTRUCTION(std::cout << "eInstructionPushFloat");
-				OBJ_STACK_PUSH(new CNumber(*((Float32*)(code + 1))));
+				varStack.push(new CNumber(*((Float32*)(code + 1))));
 				code += sizeof(Float32);
 				break;
 
 			case eInstructionDiscard:
 				LOG_INSTRUCTION(std::cout << "eInstructionDiscard");
-				OBJ_STACK_POP();
-				break;
-
-			case eInstructionPrint:
-				LOG_INSTRUCTION(std::cout << "eInstructionPrint" << std::endl);
-				printObject(OBJ_STACK_POP());
-				OBJ_STACK_PUSH(NULL);
+				varStack.pop();
 				break;
 
 			case eInstructionAssign:
 				LOG_INSTRUCTION(std::cout << "eInstructionAssign");
-				OBJ_STACK_PUSH(symbols[(*(UInt32*)(code + 1))] = OBJ_STACK_POP());
-				code += sizeof(UInt32);
+				varStack.setObjectAtIndex(currentStackLine + *(SInt32*)(code + 1), varStack.pop());
+				varStack.push(varStack.objectAtIndex(currentStackLine + *(SInt32*)(code + 1)));
+				code += sizeof(SInt32);
 				break;
 
 			case eInstructionAdd:
 				LOG_INSTRUCTION(std::cout << "eInstructionAdd");
-				OBJ_STACK_PUSH(addObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(addObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionSubstract:
 				LOG_INSTRUCTION(std::cout << "eInstructionSubstract");
-				OBJ_STACK_PUSH(substractObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(substractObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionMultiply:
 				LOG_INSTRUCTION(std::cout << "eInstructionMultiply");
-				OBJ_STACK_PUSH(multiplyObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(multiplyObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionDivide:
 				LOG_INSTRUCTION(std::cout << "eInstructionDivide");
-				OBJ_STACK_PUSH(divideObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(divideObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionNegate:
 				LOG_INSTRUCTION(std::cout << "eInstructionNegate");
-				OBJ_STACK_PUSH(negateObject(OBJ_STACK_POP()));
+				varStack.push(negateObject(varStack.pop()));
 				break;
 
 			case eInstructionEqual:
 				LOG_INSTRUCTION(std::cout << "eInstructionEqual");
-				OBJ_STACK_PUSH(equalObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(equalObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionNotEqual:
 				LOG_INSTRUCTION(std::cout << "eInstructionNotEqual");
-				OBJ_STACK_PUSH(notEqualObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(notEqualObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionGreaterThan:
 				LOG_INSTRUCTION(std::cout << "eInstructionGreaterThan");
-				OBJ_STACK_PUSH(greaterThanObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(greaterThanObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionGreaterEqual:
 				LOG_INSTRUCTION(std::cout << "eInstructionGreaterEqual");
-				OBJ_STACK_PUSH(greaterEqualObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(greaterEqualObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionLessThan:
 				LOG_INSTRUCTION(std::cout << "eInstructionLessThan");
-				OBJ_STACK_PUSH(lessThanObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(lessThanObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionLessEqual:
 				LOG_INSTRUCTION(std::cout << "eInstructionLessEqual");
-				OBJ_STACK_PUSH(lessEqualObjects(OBJ_STACK_POP(), OBJ_STACK_POP()));
+				varStack.push(lessEqualObjects(varStack.pop(), varStack.pop()));
 				break;
 
 			case eInstructionNot:
-				OBJ_STACK_PUSH(notObject(OBJ_STACK_POP()));
+				varStack.push(notObject(varStack.pop()));
 				break;
 
 			case eInstructionJumpIfTrue:
 				LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << (*(SInt32*)(code + 1)));
-				if (objIsFalse(OBJ_STACK_POP())) { code += sizeof(SInt32); break; }// Else continue with next case
+				if (objIsFalse(varStack.pop())) { code += sizeof(SInt32); break; }// Else continue with next case
 
 			case eInstructionJump:
 				LOG_INSTRUCTION(std::cout << "eInstructionJump : " << (*(SInt32*)(code + 1)));
@@ -494,35 +562,49 @@ void CSokriptVM::performByteCode(const CData& data)
 
 			case eInstructionJumpIfFalse:
 				LOG_INSTRUCTION(std::cout << "eInstructionJumpIfFalse");
-				code += (objIsFalse(OBJ_STACK_POP())?(*(UInt32*)(code + 1)):(0)) + sizeof(UInt32);
+				code += (objIsFalse(varStack.pop())?(*(UInt32*)(code + 1)):(0)) + sizeof(UInt32);
 				break;
 
 			case eInstructionReturn:
-				LOG_INSTRUCTION(std::cout << "eInstructionReturn");
-				code = PC_STACK_POP();
-				if (code)
-					OBJ_STACK_PUSH(NULL);
-				else
-					run = false;
-				break;
-
-			case eInstructionStartFunction:
-				LOG_INSTRUCTION(std::cout << "eInstructionStartFunction");
-				symbols[*(UInt32*)(code + 1)] = (CObject*)(code + 1 + sizeof(UInt32) + sizeof(SInt32));
-				code += sizeof(UInt32);
-				break;
+				LOG_INSTRUCTION(std::cout << "eInstructionReturn : " << *(UInt16*)(code + 1));
+				{
+					UInt16 unwindVars = *(UInt16*)(code + 1);
+					code = pcStack.pop();
+					if (code)
+					{
+						CObject* returnValue = varStack.pop();
+						varStack.decrease(unwindVars);
+						currentStackLine = stackLineStack.pop();
+						varStack.push(returnValue);
+					}
+					else
+						run = false;
+					break;
+				}
 
 			case eInstructionCall:
 				LOG_INSTRUCTION(std::cout << "eInstructionCall");
-				PC_STACK_PUSH(code + sizeof(UInt32));
-				code = (UInt8*) symbols[*(UInt32*)(code + 1)];
+				currentStackLine = varStack.position();
+				stackLineStack.push(currentStackLine);
+				pcStack.push(code + sizeof(UInt32));
+				code -= *(UInt32*)(code + 1);
+				break;
+
+			case eInstructionCallExternal:
+				LOG_INSTRUCTION(std::cout << "eInstructionCallExternal: " << *(UInt32*)(code + 1));
+				varStack.push(mFunctions[externFunctions[*(UInt32*)(code + 1)]](varStack.pop()));
+				code += sizeof(UInt32);
 				break;
 
 			default:
 				LOG_INSTRUCTION(std::cout << "Invalid instruction: " << (int) *code);
 				LE_ASSERT_MESSAGE(false, "Invalid instruction!");
 		}
-		LOG_INSTRUCTION(std::cout << std::endl);
+
+#ifdef LOG_INSTRUCTIONS
+		std::cout << std::endl;
+		dumpVarStack(&varStack);
+#endif
 		++code;
 	} while (run);
 }

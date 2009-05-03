@@ -2,12 +2,7 @@
 #define SL_LE_core_script_base_slCSokriptImpl_hp
 
 #include <iosfwd>
-#include <le/core/slCObject.h>
-
-namespace _sokira_le
-{
-	class CSokriptBisonParser;
-}
+#include <le/core/slCData.h>
 
 namespace sokira
 {
@@ -23,21 +18,23 @@ class CSokriptImpl
 		CSokriptImpl();
 		~CSokriptImpl();
 
-		void runFromStream(std::istream& stream);
+		void addFunction(const CString& name, CObject* (*function)(CObject*));
+
+		virtual void runBytecode(const CData& bytecode);
+		virtual void compileFromStream(std::istream& input, std::ostream& output);
 
 	private:
-		typedef ::_sokira_le::CSokriptBisonParser CSokriptBisonParser;
 
 		CSokriptFlexLexer* mLexer;
-		CSokriptBisonParser* mParser;
 
 	public:
+
 		// Lex mediator
 		int lex(void*, void*);
 
 		// Error handlers
 		void parse_error(const void*, const void*);
-		void lex_error(const void*, const void*);
+		void lex_error(const char*, const void*);
 
 		void setInstruction(CSokriptInstruction* instruction);
 
@@ -48,15 +45,11 @@ class CSokriptImpl
 //		CObject* divideObjects(CObject* left, CObject* right);
 //		CObject* negateObject(CObject* obj);
 
-		// 
-//		CObject* assignableObjectByName(char* name);
 
 		// Code generation methods
 		CSokriptInstruction* pushConstantInstruction(CObject* theConstant);
-//		CObject* assign(CObject* assignableObject, CObject* expression);
 
 	private:
-		std::map<CString, CObject*> mVars;
 		CSokriptInstruction* mInstruction;
 };
 

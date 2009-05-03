@@ -2,6 +2,7 @@
 #define SL_LE_core_script_base_slCSokriptInstruction_hp
 
 #include <iosfwd>
+#include <list>
 #include <le/core/slTypes.h>
 
 #define _LE_FOR_INSTRUCTION_LIST(_OP_)	\
@@ -10,7 +11,6 @@
 	_OP_(eInstructionPushInt)			\
 	_OP_(eInstructionPushFloat)			\
 	_OP_(eInstructionDiscard)			\
-	_OP_(eInstructionPrint)				\
 	_OP_(eInstructionAssign)			\
 	_OP_(eInstructionAdd)				\
 	_OP_(eInstructionSubstract)			\
@@ -29,8 +29,11 @@
 	_OP_(eInstructionJumpIfTrue)		\
 	_OP_(eInstructionJumpIfFalse)		\
 	_OP_(eInstructionStartFunction)		\
+	_OP_(eInstructionDeclareExternalFunction)		\
 	_OP_(eInstructionCall)				\
-	_OP_(eInstructionReturn)
+	_OP_(eInstructionCallExternal)		\
+	_OP_(eInstructionReturn)			\
+	_OP_(eInstructionJumpToReturn)	/* This instruction will be replaced with jump, after processing */
 
 #define _LE_DECLARE_INSTRUCTION(instruction) instruction,
 
@@ -52,13 +55,12 @@ enum EInstruction
 class CSokriptInstruction
 {
 	public:
-		CSokriptInstruction(EInstruction instruction, CObject* arg = NULL) :
+		CSokriptInstruction(EInstruction instruction, CObject* arg1 = NULL) :
 			mNext(NULL),
 			mInstruction(instruction),
-			mArg(arg),
 			mProcessed(false)
 		{
-
+			mObjArg1 = arg1;
 		}
 
 		~CSokriptInstruction();
@@ -73,17 +75,30 @@ class CSokriptInstruction
 		UInt32 length() const;
 		UInt32 selfLength() const;
 
-		static CSokriptInstruction* postProcessBytecode(CSokriptInstruction* instruction);
-		static void optimizeByteCode(CSokriptInstruction* instruction);
-		static void dumpBytecodeToStream(CSokriptInstruction* instruction, std::ostream& stream);
+		static CSokriptInstruction* postProcessBytecode(CSokriptInstruction* instruction, std::list<char*>* arguments);
+		static CSokriptInstruction* optimizeByteCode(CSokriptInstruction* instruction);
+		static void dumpBytecodeToStream(const CSokriptInstruction* instruction, std::ostream& stream);
 
-		void showAll(int i = 1);
-		void show(int i = 1);
+		void showAll(int i = 1) const;
+		void show(int i = 1) const;
 
 	public:
 		CSokriptInstruction *mNext;
 		EInstruction mInstruction;
-		CObject* mArg;
+		union  {
+			CObject* mObjArg1;
+			SInt32 mSInt32Arg1;
+			UInt16 mUInt16Arg1;
+			UInt32 mUInt32Arg1;
+		};
+
+		union  {
+			CObject* mObjArg2;
+			SInt32 mSInt32Arg2;
+			UInt16 mUInt16Arg2;
+			UInt32 mUInt32Arg2;
+		};
+
 		Bool mProcessed;
 };
 

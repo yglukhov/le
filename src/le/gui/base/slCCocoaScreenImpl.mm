@@ -25,8 +25,9 @@
 	};
 
 	NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-
 	self = [super initWithFrame: frame pixelFormat: pixelFormat];
+	[pixelFormat release];
+
 	mScreen = screen;
 	mMouseInView = NO;
 	return self;

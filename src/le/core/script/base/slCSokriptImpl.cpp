@@ -7,26 +7,17 @@
 #include "slCSokriptFlexLexer.hp"
 #include "slCSokriptVM.hp"
 
-#if 0
-
-print(2);
-			// INT 
-			// CALL_SOKRIPT_FUNCTION print
-			// PUSH 2
-			// CALL 0
-
-#endif
-
-
 
 namespace sokira
 {
 	namespace le
 	{
 
+typedef ::_sokira_le::CSokriptBisonParser CSokriptBisonParser;
+
+
 CSokriptImpl::CSokriptImpl() :
 	mLexer(NULL),
-	mParser(NULL),
 	mInstruction(NULL)
 {
 
@@ -35,50 +26,47 @@ CSokriptImpl::CSokriptImpl() :
 CSokriptImpl::~CSokriptImpl()
 {
 	delete mLexer;
-	delete mParser;
 }
 
-void CSokriptImpl::runFromStream(std::istream& stream)
+void CSokriptImpl::addFunction(const CString& name, CObject* (*function)(CObject*))
 {
-	mLexer = new CSokriptFlexLexer(&stream);
-	mParser = new CSokriptBisonParser(this);
-//	mParser->set_debug_level(1);
-	mParser->parse();
 
-	// the parser should call our setInstruction and thus fill the mInstruction
+}
+
+void CSokriptImpl::runBytecode(const CData& bytecode)
+{
+	CSokriptVM vm;
+	vm.performByteCode(bytecode);
+}
+
+void CSokriptImpl::compileFromStream(std::istream& input, std::ostream& output)
+{
+	mLexer = new CSokriptFlexLexer(&input);
+	CSokriptBisonParser parser(this);
+//	parser.set_debug_level(1);
+	parser.parse(); // Parser should call our setInstruction upon successful parsing.
+					// setInstruction will fill our mInstruction.
+
+	delete mLexer;
+	mLexer = NULL;
+
 	LE_ASSERT(mInstruction);
-//	std::cout << "Instructions before processing:" << std::endl;
-//	mInstruction->showAll();
-
-	mInstruction = CSokriptInstruction::postProcessBytecode(mInstruction);
-
-	std::cout << "Instructions after processing:" << std::endl;
-	mInstruction->showAll();
 
 	Bool optimize = true;
 
 	if (optimize)
 	{
-		CSokriptInstruction::optimizeByteCode(mInstruction);
+		mInstruction = CSokriptInstruction::optimizeByteCode(mInstruction);
 	}
 
-//	std::ostream
-	std::ofstream f("/tmp/sokript.vm.test");
-	CDataStream data;
-	CSokriptInstruction::dumpBytecodeToStream(mInstruction, data);
-	f.write(data.c_data(), data.size());
-	f.close();
-
-	CSokriptVM vm;
-	
-	vm.performByteCode(CData(data.c_data(), data.size()));
+	CSokriptInstruction::dumpBytecodeToStream(mInstruction, output);
 	delete mInstruction;
 	mInstruction = NULL;
 }
 
 int CSokriptImpl::lex(void* yylval, void* yylloc)
 {
-	return static_cast<CSokriptFlexLexer*> (mLexer)->lex(
+	return mLexer->lex(
 		static_cast<CSokriptBisonParser::semantic_type*>(yylval),
 		static_cast<CSokriptBisonParser::location_type*>(yylloc),
 		this);
@@ -92,9 +80,8 @@ void CSokriptImpl::parse_error(const void* l, const void* s)
 	std::cerr << *location << ": PARSE ERROR: " << *str << std::endl;
 }
 
-void CSokriptImpl::lex_error(const void* s, const void* l)
+void CSokriptImpl::lex_error(const char* str, const void* l)
 {
-	const char* str = static_cast<const char*> (s);
 	const CSokriptBisonParser::location_type* location = static_cast<const CSokriptBisonParser::location_type*>(l);
 	std::cerr << *location << ": LEXER ERROR: " << str << std::endl;
 }
@@ -198,21 +185,6 @@ CObject* CSokriptImpl::addObjects(CObject* left, CObject* right)
 //	return new CNumber(5);
 //}
 
-//CObject* CSokriptImpl::assignableObjectByName(char* name)
-//{
-//	CString nameStr(CString::__CStringNoCopyDeallocWithFree(name));
-//	std::map<CString, CObject*>::iterator it = mVars.find(nameStr);
-//	if (it != mVars.end())
-//	{
-//		return it->second;
-//	}
-//
-////	mVars.insert(std::make_pair(
-//
-////	free(name);
-//	return NULL;
-//}
-
 CSokriptInstruction* CSokriptImpl::pushConstantInstruction(CObject* theConstant)
 {
 	CString* str = dynamic_cast<CString*> (theConstant);
@@ -225,15 +197,6 @@ CSokriptInstruction* CSokriptImpl::pushConstantInstruction(CObject* theConstant)
 
 	return NULL;
 }
-
-//CObject* CSokriptImpl::assign(CObject* assignableObject, CObject* expression)
-//{
-//	std::cout << "Assignable object is:";
-//	if (assignableObject) std::cout << assignableObject->description();
-//	else std::cout << "NULL";
-//	std::cout << std::endl;
-//	return NULL;
-//}
 
 	} // namespace le
 } // namespace sokira

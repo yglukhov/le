@@ -3,10 +3,10 @@
 
 	#define yyterminate() return static_cast<_sokira_le::CSokriptBisonParser::token_type>(YY_NULL)
 
-	#define _LE_LEX_ERROR(string) (_le_sokript->lex_error(static_cast<const void*>(string), static_cast<const void*>(yylloc)))
-	# define YY_USER_ACTION  yylloc->columns(yyleng);
+	#define YY_USER_ACTION  yylloc->columns(yyleng);
 
 	static int yywrap();
+	static void consumeComment();
 %}
 
 
@@ -51,6 +51,8 @@ WSPACE		[ \t]+
 ")"			{ return Token::RPAREN; }
 "{"			{ return Token::LBRACE; }
 "}"			{ return Token::RBRACE; }
+"["			{ return Token::LBRAKET; }
+"]"			{ return Token::RBRAKET; }
 "="			{ return Token::TOKEN_ASSIGN; }
 ";"			{ return Token::SEMICOLON; }
 ","			{ return Token::COMMA; }
@@ -59,9 +61,8 @@ WSPACE		[ \t]+
 "while"		{ return Token::WHILE; }
 "for"		{ return Token::FOR; }
 "do"		{ return Token::DO; }
-"print"		{ return Token::PRINT; }
 "function"	{ return Token::FUNCTION; }
-"var"		{ return Token::VAR; }
+"return"	{ return Token::RETURN; }
 {OCTAL_INT}		{ yylval->intValue = (int)strtol(yytext, NULL, 8); return Token::LITERAL_INT; }
 {DECIMAL_INT}	{ yylval->intValue = atoi(yytext); return Token::LITERAL_INT; }
 {HEX_INT}		{ yylval->intValue = (int)strtol(yytext, NULL, 16); return Token::LITERAL_INT; }
@@ -79,9 +80,21 @@ WSPACE		[ \t]+
 (\r\n|\n)+	{ yylloc->lines(yyleng); yylloc->step(); } // The regex handles both unix and windows line endings.
 {WSPACE}	{ yylloc->step(); }
 "//".*\n	{ yylloc->lines(); yylloc->step(); }
-"/*"		{ /*consumeComment()*/; }
+"/*"		{
+				char c, c1;
+				do
+				{
+					while ((c = yyinput()) != '*' && c != 0);
 
-.			{ _LE_LEX_ERROR("illegal token"); }
+					if ((c1 = yyinput()) != '/' && c != 0)
+						unput(c1);
+					else
+						break;
+				}
+				while (true);
+			}
+
+.			{ _le_sokript->lex_error("illegal token", static_cast<const void*>(yylloc)); }
 
 %%
 

@@ -1,8 +1,6 @@
 #include "slCSokript.h"
 #include "base/slCSokriptImpl.hp"
 
-//#include "base/slCSokriptFlexLexer.hp" // This will also include parser declaration
-
 namespace sokira
 {
 	namespace le
@@ -19,9 +17,19 @@ CSokript::~CSokript()
 	delete mImpl;
 }
 
-void CSokript::runFromStream(std::istream& stream)
+void CSokript::addFunction(const CString& name, CObject* (*function)(CObject*))
 {
-	mImpl->runFromStream(stream);
+	mImpl->addFunction(name, function);
+}
+
+void CSokript::runBytecode(const CData& bytecode)
+{
+	mImpl->runBytecode(bytecode);
+}
+
+void CSokript::compileFromStream(std::istream& input, std::ostream& output)
+{
+	mImpl->compileFromStream(input, output);
 }
 
 	} // namespace le

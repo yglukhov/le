@@ -16,7 +16,10 @@ class CSokript : public CScript
 		CSokript();
 		~CSokript();
 
-		virtual void runFromStream(std::istream& stream);
+		virtual void addFunction(const CString& name, CObject* (*function)(CObject*));
+
+		virtual void runBytecode(const CData& bytecode);
+		virtual void compileFromStream(std::istream& input, std::ostream& output);
 
 	private:
 		CSokriptImpl* mImpl;
