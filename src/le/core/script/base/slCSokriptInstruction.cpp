@@ -11,7 +11,7 @@ namespace sokira
 
 #define _LE_INSTRUCTION_STRING_LIST(instruction) #instruction ,
 
-static char * strings[] =
+static const char * strings[] =
 {
 	"eInstructionNOP",
 	_LE_FOR_INSTRUCTION_LIST(_LE_INSTRUCTION_STRING_LIST)

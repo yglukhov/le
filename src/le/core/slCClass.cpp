@@ -11,24 +11,25 @@ namespace sokira
 
 static inline IClassImpl* stubClassImpl()
 {
-	struct CStubClassImpl : public IClassImpl
+	class CStubClassImpl : public IClassImpl
 	{
-		CStubClassImpl() : IClassImpl("(null)") {}
+		public:
+			CStubClassImpl() : IClassImpl("(null)") {}
 
-		virtual void* create(const std::type_info&) const
-		{
-			return NULL;
-		}
+			virtual void* create(const std::type_info&) const
+			{
+				return NULL;
+			}
 
-		virtual const std::type_info& stdType() const
-		{
-			return typeid(NULL);
-		}
+			virtual const std::type_info& stdType() const
+			{
+				return typeid(NULL);
+			}
 
-		virtual bool isChildOfStdClass(const std::type_info&) const
-		{
-			return false;
-		}
+			virtual bool isChildOfStdClass(const std::type_info&) const
+			{
+				return false;
+			}
 	};
 
 	static CStubClassImpl stub;

@@ -45,7 +45,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 7B145B470F377730004DF6BE /* framework.framework */;
+			remoteGlobalIDString = 7B145B470F377730004DF6BE;
 			remoteInfo = framework;
 		};
 		7B6386D20D4B7879002357F7 /* PBXContainerItemProxy */ = {
@@ -222,7 +222,7 @@
 			children = (
 				B04FFA1E0A161CA400F559ED /* leCore.lib */,
 				B04FFA260A161CA400F559ED /* leGui.lib */,
-				7B145B4F0F37774F004DF6BE /* framework.framework */,
+				7B145B4F0F37774F004DF6BE /* le.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -312,13 +312,12 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7B145B4F0F37774F004DF6BE /* framework.framework */ = {
+		7B145B4F0F37774F004DF6BE /* le.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			name = framework.framework;
-			path = build/Debug/le/lib/framework.framework;
+			path = le.framework;
 			remoteRef = 7B145B4E0F37774F004DF6BE /* PBXContainerItemProxy */;
-			sourceTree = "<group>";
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B04FFA1E0A161CA400F559ED /* leCore.lib */ = {
 			isa = PBXReferenceProxy;

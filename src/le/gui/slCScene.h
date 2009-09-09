@@ -10,6 +10,7 @@ namespace sokira
 	{
 
 class CRenderingContext;
+class CScreen;
 
 class CScene
 {

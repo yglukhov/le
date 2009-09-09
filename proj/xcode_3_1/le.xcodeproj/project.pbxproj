@@ -135,6 +135,10 @@
 		7B5F53580F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
 		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
+		7B6A73831057A4A00062A10D /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
+		7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
+		7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
+		7B6A73861057A4D10062A10D /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA70BD12EB100AA8BD8 /* slCThreadImplWindows.cpp */; };
 		7BB9D1A80F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
 		7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
 		7BB9D1B50F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
@@ -1182,6 +1186,10 @@
 				7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */,
 				7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */,
 				7BC0713C0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */,
+				7B6A73831057A4A00062A10D /* slCApplicationDelegate.cpp in Sources */,
+				7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */,
+				7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */,
+				7B6A73861057A4D10062A10D /* slCThreadImplWindows.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
