@@ -24,7 +24,6 @@
 			buildPhases = (
 			);
 			dependencies = (
-				7B184DD21057A63F0036D467 /* PBXTargetDependency */,
 				7B184DD41057A65A0036D467 /* PBXTargetDependency */,
 				7B184DD61057A65A0036D467 /* PBXTargetDependency */,
 			);
@@ -66,17 +65,73 @@
 		7B052BF20BD12ECD00AA8BD8 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
 		7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
-		7B145BD50F379483004DF6BE /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
-		7B145BD60F379484004DF6BE /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
-		7B145BDC0F3794D1004DF6BE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145BDB0F3794D1004DF6BE /* Cocoa.framework */; };
 		7B15CE7D0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
 		7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
 		7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
-		7B184DCB1057A61A0036D467 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF8750A15FAEA00F559ED /* leCore.lib */; };
-		7B184DCC1057A61A0036D467 /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF97F0A16167400F559ED /* leGui.lib */; };
-		7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2C7F380F5EAC5000B7A324 /* Python.framework */; };
+		7B184E311057A9080036D467 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
 		7B2C7F400F5EACE600B7A324 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
+		7B419E4D1057BC8100D5A2D1 /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B420BD12EB100AA8BD8 /* slAssert.cpp */; };
+		7B419E4E1057BC8200D5A2D1 /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BC70BD12ECD00AA8BD8 /* slBasicGraphicControllers.cpp */; };
+		7B419E4F1057BC8300D5A2D1 /* slCAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */; };
+		7B419E501057BC8400D5A2D1 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
+		7B419E511057BC8500D5A2D1 /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
+		7B419E521057BC8600D5A2D1 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
+		7B419E531057BC8700D5A2D1 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
+		7B419E541057BC8900D5A2D1 /* slCBasicString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */; };
+		7B419E551057BC8A00D5A2D1 /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
+		7B419E561057BC8B00D5A2D1 /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */; };
+		7B419E571057BC8B00D5A2D1 /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */; };
+		7B419E581057BC8C00D5A2D1 /* slCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B690BD12EB100AA8BD8 /* slCClass.cpp */; };
+		7B419E591057BC8D00D5A2D1 /* slCClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6B0BD12EB100AA8BD8 /* slCClassFactory.cpp */; };
+		7B419E5A1057BC8E00D5A2D1 /* slCClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4F0BD12EB100AA8BD8 /* slCClient.cpp */; };
+		7B419E5B1057BC8F00D5A2D1 /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
+		7B419E5C1057BC9300D5A2D1 /* slCColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6D0BD12EB100AA8BD8 /* slCColor.cpp */; };
+		7B419E5D1057BC9600D5A2D1 /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
+		7B419E5E1057BC9600D5A2D1 /* slCConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B510BD12EB100AA8BD8 /* slCConnection.cpp */; };
+		7B419E5F1057BC9700D5A2D1 /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */; };
+		7B419E601057BC9800D5A2D1 /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
+		7B419E611057BC9900D5A2D1 /* slCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6F0BD12EB100AA8BD8 /* slCData.cpp */; };
+		7B419E621057BC9A00D5A2D1 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
+		7B419E641057BC9D00D5A2D1 /* slCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B710BD12EB100AA8BD8 /* slCDictionary.cpp */; };
+		7B419E661057BCA000D5A2D1 /* slCFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4A0BD12EB100AA8BD8 /* slCFile.cpp */; };
+		7B419E671057BCA100D5A2D1 /* slCFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4C0BD12EB100AA8BD8 /* slCFolder.cpp */; };
+		7B419E681057BCA400D5A2D1 /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
+		7B419E691057BCA600D5A2D1 /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
+		7B419E6A1057BCA700D5A2D1 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
+		7B419E6B1057BCA900D5A2D1 /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
+		7B419E6C1057BCAA00D5A2D1 /* slCLogControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B440BD12EB100AA8BD8 /* slCLogControl.cpp */; };
+		7B419E6D1057BCAB00D5A2D1 /* slCLogEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B460BD12EB100AA8BD8 /* slCLogEntry.cpp */; };
+		7B419E6E1057BCAC00D5A2D1 /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA90BD12EB100AA8BD8 /* slCMutex.cpp */; };
+		7B419E6F1057BCAF00D5A2D1 /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B310BD12EB100AA8BD8 /* slCNotificationCenter.cpp */; };
+		7B419E701057BCB000D5A2D1 /* slCNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B730BD12EB100AA8BD8 /* slCNumber.cpp */; };
+		7B419E711057BCB100D5A2D1 /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B750BD12EB100AA8BD8 /* slCObject.cpp */; };
+		7B419E721057BCB400D5A2D1 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
+		7B419E731057BCB500D5A2D1 /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B330BD12EB100AA8BD8 /* slCRunLoop.cpp */; };
+		7B419E741057BCB700D5A2D1 /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */; };
+		7B419E751057BCB800D5A2D1 /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
+		7B419E761057BCB900D5A2D1 /* slCServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B530BD12EB100AA8BD8 /* slCServer.cpp */; };
+		7B419E771057BCBB00D5A2D1 /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
+		7B419E781057BCBC00D5A2D1 /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
+		7B419E791057BCC100D5A2D1 /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
+		7B419E7A1057BCC500D5A2D1 /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
+		7B419E7B1057BCC600D5A2D1 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
+		7B419E7C1057BCCA00D5A2D1 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
+		7B419E7D1057BCCA00D5A2D1 /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDC0BD12ECD00AA8BD8 /* slCText.cpp */; };
+		7B419E7E1057BCCC00D5A2D1 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
+		7B419E7F1057BCCD00D5A2D1 /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BAB0BD12EB100AA8BD8 /* slCThread.cpp */; };
+		7B419E801057BCCF00D5A2D1 /* slCThreadImplPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA50BD12EB100AA8BD8 /* slCThreadImplPosix.cpp */; };
+		7B419E811057BCD000D5A2D1 /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA70BD12EB100AA8BD8 /* slCThreadImplWindows.cpp */; };
+		7B419E821057BCD000D5A2D1 /* slCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B780BD12EB100AA8BD8 /* slCTime.cpp */; };
+		7B419E841057BCD300D5A2D1 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
+		7B419E851057BCD600D5A2D1 /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
+		7B419E861057BCD600D5A2D1 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
+		7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
+		7B419E881057BCDA00D5A2D1 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
+		7B419E8B1057BD3500D5A2D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145BDB0F3794D1004DF6BE /* Cocoa.framework */; };
+		7B419E8D1057BD3500D5A2D1 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2C7F380F5EAC5000B7A324 /* Python.framework */; };
+		7B419E901057BD6500D5A2D1 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
+		7B41A0301057C2A900D5A2D1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 		7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
 		7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
 		7B5F51450F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
@@ -110,40 +165,26 @@
 			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
 			remoteInfo = leCore;
 		};
-		7B184DCD1057A6300036D467 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCore */;
-			remoteInfo = leCore;
-		};
-		7B184DCF1057A6300036D467 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
-			remoteInfo = leGui;
-		};
-		7B184DD11057A63F0036D467 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7B145B460F377730004DF6BE /* framework */;
-			remoteInfo = framework;
-		};
 		7B184DD31057A65A0036D467 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCore */;
+			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
 			remoteInfo = leCore;
 		};
 		7B184DD51057A65A0036D467 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
+			remoteGlobalIDString = B04FF97E0A16167400F559ED;
 			remoteInfo = leGui;
+		};
+		7B41A0861057C6BB00D5A2D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D /* genSokript */;
+			remoteInfo = genSokript;
 		};
 		7B5F51010F74F30300269E2D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -295,6 +336,7 @@
 		7B2C7F380F5EAC5000B7A324 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		7B2C7F3D0F5EACE600B7A324 /* slCPythonScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCPythonScript.h; sourceTree = "<group>"; };
 		7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCPythonScript.cpp; sourceTree = "<group>"; };
+		7B419EAE1057BFAC00D5A2D1 /* copyHeaders.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copyHeaders.sh; sourceTree = "<group>"; };
 		7B46EDEB0F3B65DC000E00CB /* slCBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCBundle.h; sourceTree = "<group>"; };
 		7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCBundle.cpp; sourceTree = "<group>"; };
 		7B46EDF30F3B701B000E00CB /* slCCommandLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCCommandLine.h; sourceTree = "<group>"; };
@@ -325,7 +367,7 @@
 		7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertionPolicy.h; sourceTree = "<group>"; };
 		7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertionPolicy.cpp; sourceTree = "<group>"; };
 		7BB9D1A60F433E490026D308 /* slCScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScene.h; sourceTree = "<group>"; };
-		7BB9D1A70F433E490026D308 /* slCScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCScene.cpp; sourceTree = "<group>"; };
+		7BB9D1A70F433E490026D308 /* slCScene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = slCScene.cpp; sourceTree = "<group>"; };
 		7BB9D1B30F4340D20026D308 /* slCGuiScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiScene.h; sourceTree = "<group>"; };
 		7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiScene.cpp; sourceTree = "<group>"; };
 		7BC071390F7BE71F009F00D4 /* slCDataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCDataStream.h; sourceTree = "<group>"; };
@@ -352,21 +394,19 @@
 		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
 		B0486609C5B060FA00CC530D /* slGlutPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutPrefix.h; sourceTree = "<group>"; };
 		B048660BC5B0613100CC530D /* slGlutColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutColor.h; sourceTree = "<group>"; };
-		B04FF8750A15FAEA00F559ED /* leCore.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leCore.lib; sourceTree = BUILT_PRODUCTS_DIR; };
-		B04FF97F0A16167400F559ED /* leGui.lib */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = leGui.lib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF8750A15FAEA00F559ED /* libLeCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B04FF97F0A16167400F559ED /* libLeGui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeGui.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7B145B450F377730004DF6BE /* Frameworks */ = {
+		7B419E8A1057BD0600D5A2D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B145BD50F379483004DF6BE /* GLUT.framework in Frameworks */,
-				7B145BD60F379484004DF6BE /* OpenGL.framework in Frameworks */,
-				7B145BDC0F3794D1004DF6BE /* Cocoa.framework in Frameworks */,
-				7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */,
-				7B184DCB1057A61A0036D467 /* leCore.lib in Frameworks */,
-				7B184DCC1057A61A0036D467 /* leGui.lib in Frameworks */,
+				7B419E8B1057BD3500D5A2D1 /* Cocoa.framework in Frameworks */,
+				7B419E8D1057BD3500D5A2D1 /* Python.framework in Frameworks */,
+				7B419E901057BD6500D5A2D1 /* GLUT.framework in Frameworks */,
+				7B41A0301057C2A900D5A2D1 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,8 +439,8 @@
 			isa = PBXGroup;
 			children = (
 				7B145B470F377730004DF6BE /* le.framework */,
-				B04FF8750A15FAEA00F559ED /* leCore.lib */,
-				B04FF97F0A16167400F559ED /* leGui.lib */,
+				B04FF8750A15FAEA00F559ED /* libLeCore.a */,
+				B04FF97F0A16167400F559ED /* libLeGui.a */,
 			);
 			indentWidth = 4;
 			name = products;
@@ -779,6 +819,7 @@
 		7B5F512F0F74F38600269E2D /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				7B419EAE1057BFAC00D5A2D1 /* copyHeaders.sh */,
 				7B5F51300F74F38600269E2D /* genSokript.sh */,
 				7B5F51310F74F38600269E2D /* genSources */,
 			);
@@ -897,15 +938,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B145B4C0F377731004DF6BE /* Build configuration list for PBXNativeTarget "framework" */;
 			buildPhases = (
-				7B145B430F377730004DF6BE /* Resources */,
-				7B145B450F377730004DF6BE /* Frameworks */,
+				7B184E341057A9260036D467 /* Sources */,
+				7B419E8A1057BD0600D5A2D1 /* Frameworks */,
 				7B145BAC0F378D53004DF6BE /* Copy Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7B184DCE1057A6300036D467 /* PBXTargetDependency */,
-				7B184DD01057A6300036D467 /* PBXTargetDependency */,
+				7B41A0871057C6BB00D5A2D1 /* PBXTargetDependency */,
 			);
 			name = framework;
 			productName = framework;
@@ -926,7 +966,7 @@
 			);
 			name = leCore;
 			productName = leCommon;
-			productReference = B04FF8750A15FAEA00F559ED /* leCore.lib */;
+			productReference = B04FF8750A15FAEA00F559ED /* libLeCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		B04FF97E0A16167400F559ED /* leGui */ = {
@@ -944,7 +984,7 @@
 			);
 			name = leGui;
 			productName = leGui;
-			productReference = B04FF97F0A16167400F559ED /* leGui.lib */;
+			productReference = B04FF97F0A16167400F559ED /* libLeGui.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -969,16 +1009,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		7B145B430F377730004DF6BE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		7B145BAC0F378D53004DF6BE /* Copy Headers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -992,7 +1022,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n/bin/sh \"$PROJECT_DIR/copyHeaders.sh\" core \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\n/bin/sh \"$PROJECT_DIR/copyHeaders.sh\" gui \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\nrm -f  \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\nln -s Versions/Current/Headers \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\n\n\n# This script will install the framework to /Library/Frameworks\nrm -rf \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\ncp -r \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+			shellScript = "\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" core \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\" 2>/dev/null\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" gui \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\" 2>/dev/null\nrm -f  \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\nln -s Versions/Current/Headers \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\n\n\n# This script will install the framework to /Library/Frameworks\nrm -rf \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\ncp -R \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
 		};
 		7B1506C20BD23F7A0091AFC8 /* Copy Headers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1006,7 +1036,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n/bin/sh \"$PROJECT_DIR/copyHeaders.sh\" core\n";
+			shellScript = "\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" core\n";
 		};
 		7B15071D0BD24ACF0091AFC8 /* Copy Headers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1020,7 +1050,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n/bin/sh \"$PROJECT_DIR/copyHeaders.sh\" gui\n";
+			shellScript = "\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" gui\n";
 		};
 		7B5F50FA0F74F2B600269E2D /* genSokript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1039,6 +1069,71 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7B184E341057A9260036D467 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B184E311057A9080036D467 /* slCScene.cpp in Sources */,
+				7B419E4D1057BC8100D5A2D1 /* slAssert.cpp in Sources */,
+				7B419E4E1057BC8200D5A2D1 /* slBasicGraphicControllers.cpp in Sources */,
+				7B419E4F1057BC8300D5A2D1 /* slCAny.cpp in Sources */,
+				7B419E501057BC8400D5A2D1 /* slCApplication.cpp in Sources */,
+				7B419E511057BC8500D5A2D1 /* slCApplicationDelegate.cpp in Sources */,
+				7B419E521057BC8600D5A2D1 /* slCAssertionPolicy.cpp in Sources */,
+				7B419E531057BC8700D5A2D1 /* slCAssertControl.cpp in Sources */,
+				7B419E541057BC8900D5A2D1 /* slCBasicString.cpp in Sources */,
+				7B419E551057BC8A00D5A2D1 /* slCBundle.cpp in Sources */,
+				7B419E561057BC8B00D5A2D1 /* slCButton.cpp in Sources */,
+				7B419E571057BC8B00D5A2D1 /* slCButtonDelegate.cpp in Sources */,
+				7B419E581057BC8C00D5A2D1 /* slCClass.cpp in Sources */,
+				7B419E591057BC8D00D5A2D1 /* slCClassFactory.cpp in Sources */,
+				7B419E5A1057BC8E00D5A2D1 /* slCClient.cpp in Sources */,
+				7B419E5B1057BC8F00D5A2D1 /* slCCocoaScreenImpl.mm in Sources */,
+				7B419E5C1057BC9300D5A2D1 /* slCColor.cpp in Sources */,
+				7B419E5D1057BC9600D5A2D1 /* slCCommandLine.cpp in Sources */,
+				7B419E5E1057BC9600D5A2D1 /* slCConnection.cpp in Sources */,
+				7B419E5F1057BC9700D5A2D1 /* slCControl.cpp in Sources */,
+				7B419E601057BC9800D5A2D1 /* slCControlDelegate.cpp in Sources */,
+				7B419E611057BC9900D5A2D1 /* slCData.cpp in Sources */,
+				7B419E621057BC9A00D5A2D1 /* slCDataStream.cpp in Sources */,
+				7B419E641057BC9D00D5A2D1 /* slCDictionary.cpp in Sources */,
+				7B419E661057BCA000D5A2D1 /* slCFile.cpp in Sources */,
+				7B419E671057BCA100D5A2D1 /* slCFolder.cpp in Sources */,
+				7B419E681057BCA400D5A2D1 /* slCGuiApplication.cpp in Sources */,
+				7B419E691057BCA600D5A2D1 /* slCGuiApplicationCocoaImpl.mm in Sources */,
+				7B419E6A1057BCA700D5A2D1 /* slCGuiScene.cpp in Sources */,
+				7B419E6B1057BCA900D5A2D1 /* slCLexer.cpp in Sources */,
+				7B419E6C1057BCAA00D5A2D1 /* slCLogControl.cpp in Sources */,
+				7B419E6D1057BCAB00D5A2D1 /* slCLogEntry.cpp in Sources */,
+				7B419E6E1057BCAC00D5A2D1 /* slCMutex.cpp in Sources */,
+				7B419E6F1057BCAF00D5A2D1 /* slCNotificationCenter.cpp in Sources */,
+				7B419E701057BCB000D5A2D1 /* slCNumber.cpp in Sources */,
+				7B419E711057BCB100D5A2D1 /* slCObject.cpp in Sources */,
+				7B419E721057BCB400D5A2D1 /* slCPythonScript.cpp in Sources */,
+				7B419E731057BCB500D5A2D1 /* slCRunLoop.cpp in Sources */,
+				7B419E741057BCB700D5A2D1 /* slCScreen.cpp in Sources */,
+				7B419E751057BCB800D5A2D1 /* slCScript.cpp in Sources */,
+				7B419E761057BCB900D5A2D1 /* slCServer.cpp in Sources */,
+				7B419E771057BCBB00D5A2D1 /* slCSokript.cpp in Sources */,
+				7B419E781057BCBC00D5A2D1 /* slCSokriptBisonParser.cp in Sources */,
+				7B419E791057BCC100D5A2D1 /* slCSokriptFlexLexer.cp in Sources */,
+				7B419E7A1057BCC500D5A2D1 /* slCSokriptImpl.cpp in Sources */,
+				7B419E7B1057BCC600D5A2D1 /* slCSokriptInstruction.cpp in Sources */,
+				7B419E7C1057BCCA00D5A2D1 /* slCSokriptVM.cpp in Sources */,
+				7B419E7D1057BCCA00D5A2D1 /* slCText.cpp in Sources */,
+				7B419E7E1057BCCC00D5A2D1 /* slCTheme.cpp in Sources */,
+				7B419E7F1057BCCD00D5A2D1 /* slCThread.cpp in Sources */,
+				7B419E801057BCCF00D5A2D1 /* slCThreadImplPosix.cpp in Sources */,
+				7B419E811057BCD000D5A2D1 /* slCThreadImplWindows.cpp in Sources */,
+				7B419E821057BCD000D5A2D1 /* slCTime.cpp in Sources */,
+				7B419E841057BCD300D5A2D1 /* slCTokenizer.cpp in Sources */,
+				7B419E851057BCD600D5A2D1 /* slCURL.cpp in Sources */,
+				7B419E861057BCD600D5A2D1 /* slCWindow.cpp in Sources */,
+				7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */,
+				7B419E881057BCDA00D5A2D1 /* slTypes.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B04FF8720A15FAEA00F559ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1119,21 +1214,6 @@
 			target = B04FF8740A15FAEA00F559ED /* leCore */;
 			targetProxy = 7B15CF4A0F363546002E9DA7 /* PBXContainerItemProxy */;
 		};
-		7B184DCE1057A6300036D467 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B04FF8740A15FAEA00F559ED /* leCore */;
-			targetProxy = 7B184DCD1057A6300036D467 /* PBXContainerItemProxy */;
-		};
-		7B184DD01057A6300036D467 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B04FF97E0A16167400F559ED /* leGui */;
-			targetProxy = 7B184DCF1057A6300036D467 /* PBXContainerItemProxy */;
-		};
-		7B184DD21057A63F0036D467 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7B145B460F377730004DF6BE /* framework */;
-			targetProxy = 7B184DD11057A63F0036D467 /* PBXContainerItemProxy */;
-		};
 		7B184DD41057A65A0036D467 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B04FF8740A15FAEA00F559ED /* leCore */;
@@ -1143,6 +1223,11 @@
 			isa = PBXTargetDependency;
 			target = B04FF97E0A16167400F559ED /* leGui */;
 			targetProxy = 7B184DD51057A65A0036D467 /* PBXContainerItemProxy */;
+		};
+		7B41A0871057C6BB00D5A2D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B5F50FB0F74F2B600269E2D /* genSokript */;
+			targetProxy = 7B41A0861057C6BB00D5A2D1 /* PBXContainerItemProxy */;
 		};
 		7B5F51020F74F30300269E2D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1157,8 +1242,8 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_EXTENSION = lib;
-				EXECUTABLE_PREFIX = le;
+				EXECUTABLE_EXTENSION = a;
+				EXECUTABLE_PREFIX = libLe;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
@@ -1173,7 +1258,6 @@
 					"$(leLibRoot)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
 				leToolsRoot = ../../tools;
@@ -1183,14 +1267,10 @@
 		1DEB923708733DC60010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_EXTENSION = lib;
-				EXECUTABLE_PREFIX = le;
+				EXECUTABLE_EXTENSION = a;
+				EXECUTABLE_PREFIX = libLe;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -1203,7 +1283,6 @@
 					"$(leLibRoot)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
 				leToolsRoot = ../../tools;
@@ -1214,11 +1293,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
+				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				PRODUCT_NAME = le;
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -1230,6 +1313,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = "";
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				PRODUCT_NAME = le;
 			};
 			name = Release;

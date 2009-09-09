@@ -30,6 +30,7 @@ void CGuiTestSuite::testGuiApp()
 	printf("\nRunning gui test...\n");
 
 	::sokira::le::CGuiApplication app;
+	app.setDelegateClass(LESTR("CGuiTestAppDelegate"));
 	app.run(0, NULL);
 #endif
 }

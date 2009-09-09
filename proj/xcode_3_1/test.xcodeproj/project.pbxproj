@@ -21,10 +21,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7B15CEE30F362388002E9DA7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B15CEE20F362388002E9DA7 /* Cocoa.framework */; };
+		7B41A14A1057CA7000D5A2D1 /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
+		7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */; };
 		7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */; };
 		7B6386BA0D4B759F002357F7 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
-		7B6386D90D4B7897002357F7 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
 		7B6387520D4B7965002357F7 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
 		7B6387590D4B796E002357F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63874C0D4B792C002357F7 /* main.cpp */; };
 		7B63875E0D4B79FB002357F7 /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* leGui.lib */; };
@@ -35,9 +35,6 @@
 		7B67DC740D4CBAAF0087F0D6 /* slCGeneralTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */; };
 		7BC3ACD10EE7019F00D13036 /* slCScriptTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACCC0EE7019F00D13036 /* slCScriptTestSuite.cpp */; };
 		7BC3ACD20EE7019F00D13036 /* slCXMLTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACCE0EE7019F00D13036 /* slCXMLTestSuite.cpp */; };
-		7BC71C700F35A5AD00B30C5E /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* leGui.lib */; };
-		7BC71C770F35A5EE00B30C5E /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
-		7BC71C780F35A5EE00B30C5E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +43,13 @@
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7B145B470F377730004DF6BE;
+			remoteInfo = framework;
+		};
+		7B419F621057C06C00D5A2D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B145B460F377730004DF6BE /* framework */;
 			remoteInfo = framework;
 		};
 		7B6386D20D4B7879002357F7 /* PBXContainerItemProxy */ = {
@@ -63,13 +67,6 @@
 			remoteInfo = general;
 		};
 		7B63874F0D4B7965002357F7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF9040A16002000F559ED;
-			remoteInfo = le;
-		};
-		7BC71C730F35A5B900B30C5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 1;
@@ -94,6 +91,9 @@
 
 /* Begin PBXFileReference section */
 		7B15CEE20F362388002E9DA7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		7B184E131057A7EE0036D467 /* le.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = le.framework; path = /Library/Frameworks/le.framework; sourceTree = "<absolute>"; };
+		7B41A14E1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiTestAppDelegate.h; sourceTree = "<group>"; };
+		7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiTestAppDelegate.cpp; sourceTree = "<group>"; };
 		7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiTestSuite.cpp; sourceTree = "<group>"; };
 		7B4E754D0F35026100153E4A /* slCGuiTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiTestSuite.h; sourceTree = "<group>"; };
 		7B6386DE0D4B7897002357F7 /* general */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = general; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,11 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BC71C700F35A5AD00B30C5E /* leGui.lib in Frameworks */,
-				7B6386D90D4B7897002357F7 /* leCore.lib in Frameworks */,
-				7BC71C770F35A5EE00B30C5E /* GLUT.framework in Frameworks */,
-				7BC71C780F35A5EE00B30C5E /* OpenGL.framework in Frameworks */,
-				7B15CEE30F362388002E9DA7 /* Cocoa.framework in Frameworks */,
+				7B41A14A1057CA7000D5A2D1 /* le.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +170,7 @@
 				B0246B3E0A209CC50023C1A6 /* libs */,
 				B04FFA000A161C0900F559ED /* test */,
 				B04FF9EE0A161AD500F559ED /* products */,
+				7B184E131057A7EE0036D467 /* le.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -213,6 +210,8 @@
 				7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */,
 				7BC94C840BEE1C4900F1CB9B /* slCGeneralTestSuite.h */,
 				7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */,
+				7B41A14E1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.h */,
+				7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */,
 			);
 			path = general;
 			sourceTree = "<group>";
@@ -241,7 +240,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				7BC71C740F35A5B900B30C5E /* PBXTargetDependency */,
+				7B419F631057C06C00D5A2D1 /* PBXTargetDependency */,
 			);
 			name = general;
 			productName = variant;
@@ -394,6 +393,7 @@
 				7BC3ACD10EE7019F00D13036 /* slCScriptTestSuite.cpp in Sources */,
 				7BC3ACD20EE7019F00D13036 /* slCXMLTestSuite.cpp in Sources */,
 				7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */,
+				7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +415,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7B419F631057C06C00D5A2D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = framework;
+			targetProxy = 7B419F621057C06C00D5A2D1 /* PBXContainerItemProxy */;
+		};
 		7B6386D30D4B7879002357F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = le;
@@ -429,11 +434,6 @@
 			isa = PBXTargetDependency;
 			name = le;
 			targetProxy = 7B63874F0D4B7965002357F7 /* PBXContainerItemProxy */;
-		};
-		7BC71C740F35A5B900B30C5E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = le;
-			targetProxy = 7BC71C730F35A5B900B30C5E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
