@@ -24,8 +24,9 @@
 			buildPhases = (
 			);
 			dependencies = (
-				B04FF9060A16002900F559ED /* PBXTargetDependency */,
-				B04FF9850A16168500F559ED /* PBXTargetDependency */,
+				7B184DD21057A63F0036D467 /* PBXTargetDependency */,
+				7B184DD41057A65A0036D467 /* PBXTargetDependency */,
+				7B184DD61057A65A0036D467 /* PBXTargetDependency */,
 			);
 			name = le;
 			productName = le;
@@ -65,73 +66,21 @@
 		7B052BF20BD12ECD00AA8BD8 /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
 		7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
-		7B145B520F37785F004DF6BE /* slCConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B510BD12EB100AA8BD8 /* slCConnection.cpp */; };
-		7B145B530F37785F004DF6BE /* slCLogControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B440BD12EB100AA8BD8 /* slCLogControl.cpp */; };
-		7B145B540F37785F004DF6BE /* slCLogEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B460BD12EB100AA8BD8 /* slCLogEntry.cpp */; };
-		7B145B550F37785F004DF6BE /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
-		7B145B560F37785F004DF6BE /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA70BD12EB100AA8BD8 /* slCThreadImplWindows.cpp */; };
-		7B145B570F37785F004DF6BE /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA90BD12EB100AA8BD8 /* slCMutex.cpp */; };
-		7B145B580F37785F004DF6BE /* slCFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4A0BD12EB100AA8BD8 /* slCFile.cpp */; };
-		7B145B590F37785F004DF6BE /* slCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B690BD12EB100AA8BD8 /* slCClass.cpp */; };
-		7B145B5A0F37785F004DF6BE /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
-		7B145B5B0F37785F004DF6BE /* slCAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */; };
-		7B145B5C0F37785F004DF6BE /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BAB0BD12EB100AA8BD8 /* slCThread.cpp */; };
-		7B145B5D0F37785F004DF6BE /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
-		7B145B5E0F37785F004DF6BE /* slCClassFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6B0BD12EB100AA8BD8 /* slCClassFactory.cpp */; };
-		7B145B5F0F37785F004DF6BE /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B330BD12EB100AA8BD8 /* slCRunLoop.cpp */; };
-		7B145B600F37785F004DF6BE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
-		7B145B610F37785F004DF6BE /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
-		7B145B620F37785F004DF6BE /* slCObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B750BD12EB100AA8BD8 /* slCObject.cpp */; };
-		7B145B630F37785F004DF6BE /* slCColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6D0BD12EB100AA8BD8 /* slCColor.cpp */; };
-		7B145B640F37785F004DF6BE /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
-		7B145B650F37785F004DF6BE /* slCFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4C0BD12EB100AA8BD8 /* slCFolder.cpp */; };
-		7B145B660F37785F004DF6BE /* slCNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B730BD12EB100AA8BD8 /* slCNumber.cpp */; };
-		7B145B670F37785F004DF6BE /* slCThreadImplPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA50BD12EB100AA8BD8 /* slCThreadImplPosix.cpp */; };
-		7B145B680F37785F004DF6BE /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B310BD12EB100AA8BD8 /* slCNotificationCenter.cpp */; };
-		7B145B690F37785F004DF6BE /* slCClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B4F0BD12EB100AA8BD8 /* slCClient.cpp */; };
-		7B145B6A0F37785F004DF6BE /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
-		7B145B6B0F37785F004DF6BE /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B420BD12EB100AA8BD8 /* slAssert.cpp */; };
-		7B145B6C0F37785F004DF6BE /* slCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B6F0BD12EB100AA8BD8 /* slCData.cpp */; };
-		7B145B6D0F37785F004DF6BE /* slCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B780BD12EB100AA8BD8 /* slCTime.cpp */; };
-		7B145B6E0F37785F004DF6BE /* slCBasicString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */; };
-		7B145B6F0F37785F004DF6BE /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
-		7B145B700F37785F004DF6BE /* slCServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B530BD12EB100AA8BD8 /* slCServer.cpp */; };
-		7B145B710F37785F004DF6BE /* slCDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B710BD12EB100AA8BD8 /* slCDictionary.cpp */; };
-		7B145BC60F379457004DF6BE /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */; };
-		7B145BC80F379457004DF6BE /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */; };
-		7B145BC90F379457004DF6BE /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */; };
-		7B145BCA0F379457004DF6BE /* slCTheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDE0BD12ECD00AA8BD8 /* slCTheme.cpp */; };
-		7B145BCC0F379457004DF6BE /* slBasicGraphicControllers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BC70BD12ECD00AA8BD8 /* slBasicGraphicControllers.cpp */; };
-		7B145BCD0F379457004DF6BE /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */; };
-		7B145BCE0F379457004DF6BE /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
-		7B145BD00F379457004DF6BE /* slCText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDC0BD12ECD00AA8BD8 /* slCText.cpp */; };
-		7B145BD10F379457004DF6BE /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
-		7B145BD20F379457004DF6BE /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
-		7B145BD30F379457004DF6BE /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
 		7B145BD50F379483004DF6BE /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		7B145BD60F379484004DF6BE /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
-		7B145BD80F37949C004DF6BE /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
-		7B145BD90F37949F004DF6BE /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B145BDC0F3794D1004DF6BE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145BDB0F3794D1004DF6BE /* Cocoa.framework */; };
 		7B15CE7D0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
 		7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
 		7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
+		7B184DCB1057A61A0036D467 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF8750A15FAEA00F559ED /* leCore.lib */; };
+		7B184DCC1057A61A0036D467 /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FF97F0A16167400F559ED /* leGui.lib */; };
 		7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2C7F380F5EAC5000B7A324 /* Python.framework */; };
-		7B2C7F3F0F5EACE600B7A324 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
 		7B2C7F400F5EACE600B7A324 /* slCPythonScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C7F3E0F5EACE600B7A324 /* slCPythonScript.cpp */; };
-		7B46EDED0F3B65DC000E00CB /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
-		7B46EDF50F3B701B000E00CB /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
-		7B46EE030F3B8C34000E00CB /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
-		7B4C2AE30F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
 		7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
-		7B5F50E80F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
 		7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
-		7B5F51430F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
-		7B5F51440F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
 		7B5F51450F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
 		7B5F51460F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
-		7B5F53570F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
 		7B5F53580F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
 		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
@@ -139,11 +88,8 @@
 		7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
 		7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
 		7B6A73861057A4D10062A10D /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA70BD12EB100AA8BD8 /* slCThreadImplWindows.cpp */; };
-		7BB9D1A80F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
 		7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
-		7BB9D1B50F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
 		7BB9D1B60F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
-		7BC0713B0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
 		7BC0713C0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
 		7BC3AC990EE6FEF700D13036 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
 		7BC3ACAD0EE6FF6B00D13036 /* slCAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */; };
@@ -151,7 +97,6 @@
 		7BC3ACDC0EE701CC00D13036 /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
 		7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
 		7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
-		7BE910C80F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
 		7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
@@ -165,12 +110,40 @@
 			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
 			remoteInfo = leCore;
 		};
-		7B5F50FF0F74F2FA00269E2D /* PBXContainerItemProxy */ = {
+		7B184DCD1057A6300036D467 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D;
-			remoteInfo = genSokript;
+			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCore */;
+			remoteInfo = leCore;
+		};
+		7B184DCF1057A6300036D467 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
+			remoteInfo = leGui;
+		};
+		7B184DD11057A63F0036D467 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B145B460F377730004DF6BE /* framework */;
+			remoteInfo = framework;
+		};
+		7B184DD31057A65A0036D467 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF8740A15FAEA00F559ED /* leCore */;
+			remoteInfo = leCore;
+		};
+		7B184DD51057A65A0036D467 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B04FF97E0A16167400F559ED /* leGui */;
+			remoteInfo = leGui;
 		};
 		7B5F51010F74F30300269E2D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -178,20 +151,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D;
 			remoteInfo = genSokript;
-		};
-		B04FF9050A16002900F559ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
-			remoteInfo = leCommon;
-		};
-		B04FF9840A16168500F559ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF97E0A16167400F559ED;
-			remoteInfo = leGui;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -406,6 +365,8 @@
 				7B145BD60F379484004DF6BE /* OpenGL.framework in Frameworks */,
 				7B145BDC0F3794D1004DF6BE /* Cocoa.framework in Frameworks */,
 				7B2C7F390F5EAC5000B7A324 /* Python.framework in Frameworks */,
+				7B184DCB1057A61A0036D467 /* leCore.lib in Frameworks */,
+				7B184DCC1057A61A0036D467 /* leGui.lib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,14 +898,14 @@
 			buildConfigurationList = 7B145B4C0F377731004DF6BE /* Build configuration list for PBXNativeTarget "framework" */;
 			buildPhases = (
 				7B145B430F377730004DF6BE /* Resources */,
-				7B145B440F377730004DF6BE /* Sources */,
 				7B145B450F377730004DF6BE /* Frameworks */,
 				7B145BAC0F378D53004DF6BE /* Copy Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7B5F51000F74F2FA00269E2D /* PBXTargetDependency */,
+				7B184DCE1057A6300036D467 /* PBXTargetDependency */,
+				7B184DD01057A6300036D467 /* PBXTargetDependency */,
 			);
 			name = framework;
 			productName = framework;
@@ -1078,71 +1039,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7B145B440F377730004DF6BE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7B145BC60F379457004DF6BE /* slCScreen.cpp in Sources */,
-				7B145BC80F379457004DF6BE /* slCControl.cpp in Sources */,
-				7B145BC90F379457004DF6BE /* slCButtonDelegate.cpp in Sources */,
-				7B145BCA0F379457004DF6BE /* slCTheme.cpp in Sources */,
-				7B145BCC0F379457004DF6BE /* slBasicGraphicControllers.cpp in Sources */,
-				7B145BCD0F379457004DF6BE /* slCButton.cpp in Sources */,
-				7B145BCE0F379457004DF6BE /* slCControlDelegate.cpp in Sources */,
-				7B145BD00F379457004DF6BE /* slCText.cpp in Sources */,
-				7B145BD10F379457004DF6BE /* slCWindow.cpp in Sources */,
-				7B145BD20F379457004DF6BE /* slTypes.cpp in Sources */,
-				7B145BD30F379457004DF6BE /* slCGuiApplication.cpp in Sources */,
-				7B145B520F37785F004DF6BE /* slCConnection.cpp in Sources */,
-				7B145B530F37785F004DF6BE /* slCLogControl.cpp in Sources */,
-				7B145B540F37785F004DF6BE /* slCLogEntry.cpp in Sources */,
-				7B145B550F37785F004DF6BE /* slCAssertionPolicy.cpp in Sources */,
-				7B145B560F37785F004DF6BE /* slCThreadImplWindows.cpp in Sources */,
-				7B145B570F37785F004DF6BE /* slCMutex.cpp in Sources */,
-				7B145B580F37785F004DF6BE /* slCFile.cpp in Sources */,
-				7B145B590F37785F004DF6BE /* slCClass.cpp in Sources */,
-				7B145B5A0F37785F004DF6BE /* slCXMLParser.cpp in Sources */,
-				7B145B5B0F37785F004DF6BE /* slCAny.cpp in Sources */,
-				7B145B5C0F37785F004DF6BE /* slCThread.cpp in Sources */,
-				7B145B5D0F37785F004DF6BE /* slCApplication.cpp in Sources */,
-				7B145B5E0F37785F004DF6BE /* slCClassFactory.cpp in Sources */,
-				7B145B5F0F37785F004DF6BE /* slCRunLoop.cpp in Sources */,
-				7B145B600F37785F004DF6BE /* slCURL.cpp in Sources */,
-				7B145B610F37785F004DF6BE /* slCScript.cpp in Sources */,
-				7B145B620F37785F004DF6BE /* slCObject.cpp in Sources */,
-				7B145B630F37785F004DF6BE /* slCColor.cpp in Sources */,
-				7B145B640F37785F004DF6BE /* slCTokenizer.cpp in Sources */,
-				7B145B650F37785F004DF6BE /* slCFolder.cpp in Sources */,
-				7B145B660F37785F004DF6BE /* slCNumber.cpp in Sources */,
-				7B145B670F37785F004DF6BE /* slCThreadImplPosix.cpp in Sources */,
-				7B145B680F37785F004DF6BE /* slCNotificationCenter.cpp in Sources */,
-				7B145B690F37785F004DF6BE /* slCClient.cpp in Sources */,
-				7B145B6A0F37785F004DF6BE /* slCAssertControl.cpp in Sources */,
-				7B145B6B0F37785F004DF6BE /* slAssert.cpp in Sources */,
-				7B145B6C0F37785F004DF6BE /* slCData.cpp in Sources */,
-				7B145B6D0F37785F004DF6BE /* slCTime.cpp in Sources */,
-				7B145B6E0F37785F004DF6BE /* slCBasicString.cpp in Sources */,
-				7B145B6F0F37785F004DF6BE /* slCLexer.cpp in Sources */,
-				7B145B700F37785F004DF6BE /* slCServer.cpp in Sources */,
-				7B145B710F37785F004DF6BE /* slCDictionary.cpp in Sources */,
-				7B145BD80F37949C004DF6BE /* slCCocoaScreenImpl.mm in Sources */,
-				7B145BD90F37949F004DF6BE /* slCGuiApplicationCocoaImpl.mm in Sources */,
-				7B46EDED0F3B65DC000E00CB /* slCBundle.cpp in Sources */,
-				7B46EDF50F3B701B000E00CB /* slCCommandLine.cpp in Sources */,
-				7B46EE030F3B8C34000E00CB /* slCApplicationDelegate.cpp in Sources */,
-				7BB9D1A80F433E490026D308 /* slCScene.cpp in Sources */,
-				7BB9D1B50F4340D20026D308 /* slCGuiScene.cpp in Sources */,
-				7B2C7F3F0F5EACE600B7A324 /* slCPythonScript.cpp in Sources */,
-				7B5F50E80F74F1A500269E2D /* slCSokript.cpp in Sources */,
-				7B5F51430F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */,
-				7B5F51440F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */,
-				7B5F53570F752B4900269E2D /* slCSokriptImpl.cpp in Sources */,
-				7B4C2AE30F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */,
-				7BE910C80F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */,
-				7BC0713B0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B04FF8720A15FAEA00F559ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1223,25 +1119,35 @@
 			target = B04FF8740A15FAEA00F559ED /* leCore */;
 			targetProxy = 7B15CF4A0F363546002E9DA7 /* PBXContainerItemProxy */;
 		};
-		7B5F51000F74F2FA00269E2D /* PBXTargetDependency */ = {
+		7B184DCE1057A6300036D467 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7B5F50FB0F74F2B600269E2D /* genSokript */;
-			targetProxy = 7B5F50FF0F74F2FA00269E2D /* PBXContainerItemProxy */;
+			target = B04FF8740A15FAEA00F559ED /* leCore */;
+			targetProxy = 7B184DCD1057A6300036D467 /* PBXContainerItemProxy */;
+		};
+		7B184DD01057A6300036D467 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF97E0A16167400F559ED /* leGui */;
+			targetProxy = 7B184DCF1057A6300036D467 /* PBXContainerItemProxy */;
+		};
+		7B184DD21057A63F0036D467 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B145B460F377730004DF6BE /* framework */;
+			targetProxy = 7B184DD11057A63F0036D467 /* PBXContainerItemProxy */;
+		};
+		7B184DD41057A65A0036D467 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF8740A15FAEA00F559ED /* leCore */;
+			targetProxy = 7B184DD31057A65A0036D467 /* PBXContainerItemProxy */;
+		};
+		7B184DD61057A65A0036D467 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B04FF97E0A16167400F559ED /* leGui */;
+			targetProxy = 7B184DD51057A65A0036D467 /* PBXContainerItemProxy */;
 		};
 		7B5F51020F74F30300269E2D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7B5F50FB0F74F2B600269E2D /* genSokript */;
 			targetProxy = 7B5F51010F74F30300269E2D /* PBXContainerItemProxy */;
-		};
-		B04FF9060A16002900F559ED /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B04FF8740A15FAEA00F559ED /* leCore */;
-			targetProxy = B04FF9050A16002900F559ED /* PBXContainerItemProxy */;
-		};
-		B04FF9850A16168500F559ED /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B04FF97E0A16167400F559ED /* leGui */;
-			targetProxy = B04FF9840A16168500F559ED /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
