@@ -1,7 +1,7 @@
 #if !defined SL_LE_core_slCURL_h
 #define SL_LE_core_slCURL_h
 
-#include "slCObject.h"
+#include "slCString.h"
 
 
 namespace sokira
@@ -30,6 +30,12 @@ class CURL : public CObject
 		CString queryString() const;
 		SInt32 portNumber() const;
 
+		Bool operator == (const CURL& url) const;
+
+		void removeLastPathComponents(UInt32 componentCount = 1);
+
+	private:
+		CString mPath;
 };
 
 	} // namespace le

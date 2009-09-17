@@ -12,14 +12,17 @@ class CBundle
 {
 	public:
 		CBundle();
-		CBundle(const CString& path);
-		CBundle(const CURL& url);
+		CBundle(const CString& executablePath);
+		CBundle(const CURL& executableUrl);
 
 		CURL url() const;
+		CURL contentsUrl() const;
 		CURL infoPlistUrl() const;
 		CURL resourcesUrl() const;
 		CURL executableUrl() const;
 
+	private:
+		CURL mExecutableURL;
 };
 
 	} // namespace le

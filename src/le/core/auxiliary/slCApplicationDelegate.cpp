@@ -7,6 +7,17 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CApplicationDelegate);
 
+CApplicationDelegate::CApplicationDelegate() :
+	mApplication(NULL)
+{
+
+}
+
+CApplication* CApplicationDelegate::application()
+{
+	return mApplication;
+}
+
 void CApplicationDelegate::applicationWillFinishLaunching(CApplication& application)
 {
 
@@ -22,6 +33,10 @@ Bool CApplicationDelegate::applicationShouldTerminateAfterLastWindowClosed(CAppl
 	return false;
 }
 
+void CApplicationDelegate::_setApplication(CApplication* application)
+{
+	mApplication = application;
+}
 
 	} // namespace le
 } // namespace sokira

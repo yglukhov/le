@@ -18,9 +18,18 @@ class CApplicationDelegate : public CObject
 	LE_RTTI_END
 
 	public:
+		CApplicationDelegate();
+		CApplication* application();
+
 		virtual void applicationWillFinishLaunching(CApplication& application);
 		virtual void applicationDidFinishLaunching(CApplication& application);
 		virtual Bool applicationShouldTerminateAfterLastWindowClosed(CApplication& application);
+
+	// private:
+		void _setApplication(CApplication* application);
+
+	private:
+		CApplication* mApplication;
 };
 
 	} // namespace le

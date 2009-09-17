@@ -16,7 +16,7 @@ CApplication::CApplication() :
 static inline Bool loadDelegateFromInfoPlist(CApplication* app)
 {
 	// TODO: Complete this.
-	return false;
+	return app->setDelegateClass("This class name should be loaded from info.plist");
 }
 
 int CApplication::run(int argc, const char * const argv[])
@@ -33,6 +33,8 @@ int CApplication::run(int argc, const char * const argv[])
 			return 1;
 		}
 	}
+
+	mDelegate->_setApplication(this);
 
 	return runApplication();
 }
@@ -74,6 +76,12 @@ CApplicationDelegate* CApplication::delegate()
 {
 	return mDelegate;
 }
+
+CBundle CApplication::mainBundle() const
+{
+	return CBundle(mCommandLine.argumentAtIndex(0));
+}
+
 
 	} // namespace le
 } // namespace sokira

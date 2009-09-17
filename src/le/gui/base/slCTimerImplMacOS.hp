@@ -1,0 +1,37 @@
+#if !defined SL_LE_gui_base_slCTimerImplMacOS_hp
+#define SL_LE_gui_base_slCTimerImplMacOS_hp
+
+#include <CoreFoundation/CoreFoundation.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+static void CFTimerCallback(CFRunLoopTimerRef timer, void *info)
+{
+	static_cast<CTimer*>(info)->__onTimer_private();
+}
+
+class CTimerImpl
+{
+	public:
+		CTimerImpl(UInt32 msInterval, void* parent)
+		{
+			CFRunLoopTimerContext context;
+			context.version = 0;
+			context.info = parent;
+			context.retain = NULL;
+			context.release = NULL;
+			context.copyDescription = NULL;
+			mTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, 0, msInterval, 0, 0, &CFTimerCallback, &context);
+		}
+
+	private:
+		CFRunLoopTimerRef mTimer;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCTimerImplMacOS_hp

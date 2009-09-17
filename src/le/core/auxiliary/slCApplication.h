@@ -23,6 +23,8 @@ class CApplication
 		void setDelegate(CApplicationDelegate& delegate);
 		bool setDelegateClass(const CString& className);
 
+		CBundle mainBundle() const;
+
 	protected:
 		virtual SInt32 runApplication();
 		CApplicationDelegate* delegate();

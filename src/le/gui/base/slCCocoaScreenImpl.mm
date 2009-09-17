@@ -3,6 +3,7 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>
 #import <le/gui/slCScreen.h>
+//#import <le/core/slCString.h>
 #import "slCCocoaScreenImpl.hp"
 
 @interface SokiraLE_OpenGLView : NSOpenGLView
@@ -46,6 +47,28 @@
 	GLenum err = glGetError();
 	if (GL_NO_ERROR != err)
 		std::cout << gluErrorString (err) << std::endl;
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+	NSString* chars = [theEvent charactersIgnoringModifiers];
+	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
+	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
+	mScreen->onKeyDown(characters, ::sokira::le::eCharacterModifierNone);
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+	NSString* chars = [theEvent charactersIgnoringModifiers];
+	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
+	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
+	mScreen->onKeyUp(characters, ::sokira::le::eCharacterModifierNone);
+}
+
+- (void)flagsChanged:(NSEvent *)theEvent
+{
+	std::cout << "flagsChanged:" << std::endl;
+	NSLog(@"%@", theEvent);
 }
 
 - (void) mouseMoved: (NSEvent *) event
@@ -244,8 +267,7 @@ CCocoaScreenImpl::CCocoaScreenImpl(bool fullScreen, const CString& title, const 
 	mFullScreen(fullScreen),
 	mTitle(title),
 	mRect(rect),
-	mWindow(NULL),
-	mView(NULL)
+	mWindow(NULL)
 {
 
 }
@@ -269,7 +291,6 @@ void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplicat
 	[static_cast<NSWindow*>(mWindow) setAcceptsMouseMovedEvents: YES];
 	NSView* view = [[[SokiraLE_OpenGLView alloc] initWithFrame:frame andScreen: screen] autorelease];
 	[static_cast<NSWindow*>(mWindow) setContentView: view];
-	mView = static_cast<void*>(view);
 	[static_cast<NSWindow*>(mWindow) makeKeyAndOrderFront: nil];
 }
 
@@ -281,7 +302,6 @@ void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiA
 	}
 
 	mWindow = NULL;
-	mView = NULL;
 }
 
 void CCocoaScreenImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app)
@@ -291,15 +311,15 @@ void CCocoaScreenImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiAppl
 
 Bool CCocoaScreenImpl::inLiveResize() const
 {
-	LE_ASSERT(mView);
-	return _LE_BOOL_CAST([static_cast<NSView*>(mView) inLiveResize]);
+	return _LE_BOOL_CAST([[static_cast<NSWindow*>(mWindow) contentView] inLiveResize]);
 }
 
 CSize CCocoaScreenImpl::size() const
 {
-	if (mView)
+	id view = [static_cast<NSWindow*>(mWindow) contentView];
+	if (view)
 	{
-		NSRect rect = [static_cast<NSView*>(mView) frame];
+		NSRect rect = [view frame];
 		return CSize(rect.size.width, rect.size.height);
 	}
 	return mRect.size();
@@ -317,8 +337,7 @@ void CCocoaScreenImpl::setSize(const CSize& Size)
 
 void CCocoaScreenImpl::setNeedsRedraw()
 {
-	LE_ASSERT(mView);
-	[static_cast<NSView*>(mView) setNeedsDisplay:YES];
+	[[static_cast<NSWindow*>(mWindow) contentView] setNeedsDisplay:YES];
 }
 
 	} // namespace le

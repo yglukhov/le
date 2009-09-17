@@ -24,10 +24,10 @@
 		7B41A14A1057CA7000D5A2D1 /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
 		7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */; };
 		7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */; };
-		7B6386BA0D4B759F002357F7 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
-		7B6387520D4B7965002357F7 /* leCore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* leCore.lib */; };
+		7B6386BA0D4B759F002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
+		7B6387520D4B7965002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B6387590D4B796E002357F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63874C0D4B792C002357F7 /* main.cpp */; };
-		7B63875E0D4B79FB002357F7 /* leGui.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* leGui.lib */; };
+		7B63875E0D4B79FB002357F7 /* libLeGui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* libLeGui.a */; };
 		7B6387640D4B7BF6002357F7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
 		7B6387650D4B7BF6002357F7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
 		7B67DC700D4CBAAF0087F0D6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FFA040A161C5100F559ED /* main.cpp */; };
@@ -49,7 +49,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 7B145B460F377730004DF6BE /* framework */;
+			remoteGlobalIDString = 7B145B460F377730004DF6BE;
 			remoteInfo = framework;
 		};
 		7B6386D20D4B7879002357F7 /* PBXContainerItemProxy */ = {
@@ -129,8 +129,8 @@
 			files = (
 				7B6387640D4B7BF6002357F7 /* GLUT.framework in Frameworks */,
 				7B6387650D4B7BF6002357F7 /* OpenGL.framework in Frameworks */,
-				7B6387520D4B7965002357F7 /* leCore.lib in Frameworks */,
-				7B63875E0D4B79FB002357F7 /* leGui.lib in Frameworks */,
+				7B6387520D4B7965002357F7 /* libLeCore.a in Frameworks */,
+				7B63875E0D4B79FB002357F7 /* libLeGui.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B6386BA0D4B759F002357F7 /* leCore.lib in Frameworks */,
+				7B6386BA0D4B759F002357F7 /* libLeCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,8 +219,8 @@
 		B04FFA0F0A161CA400F559ED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B04FFA1E0A161CA400F559ED /* leCore.lib */,
-				B04FFA260A161CA400F559ED /* leGui.lib */,
+				B04FFA1E0A161CA400F559ED /* libLeCore.a */,
+				B04FFA260A161CA400F559ED /* libLeGui.a */,
 				7B145B4F0F37774F004DF6BE /* le.framework */,
 			);
 			name = Products;
@@ -318,17 +318,17 @@
 			remoteRef = 7B145B4E0F37774F004DF6BE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B04FFA1E0A161CA400F559ED /* leCore.lib */ = {
+		B04FFA1E0A161CA400F559ED /* libLeCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = leCore.lib;
+			path = libLeCore.a;
 			remoteRef = B04FFA1D0A161CA400F559ED /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B04FFA260A161CA400F559ED /* leGui.lib */ = {
+		B04FFA260A161CA400F559ED /* libLeGui.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = leGui.lib;
+			path = libLeGui.a;
 			remoteRef = B04FFA250A161CA400F559ED /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -492,7 +492,6 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
-				HEADER_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -509,7 +508,6 @@
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				HEADER_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)/le/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

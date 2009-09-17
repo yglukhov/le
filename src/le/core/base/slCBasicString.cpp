@@ -76,14 +76,22 @@ enum EOwnPolicy
 
 struct CBasicString::SStringProxy
 {
-	inline SStringProxy(const NChar* string, EOwnPolicy ownPolicy = eOwnPolicyDefault) :
+	inline SStringProxy(const NChar* string, EOwnPolicy ownPolicy = eOwnPolicyDefault, UInt32 length = 0) :
 		mOwnPolicy(ownPolicy),
 		mRefCount(1),
-		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[std::strlen(string) + 1]):(NULL))
+		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[(length)?(length):(std::strlen(string)) + 1]):(NULL))
 	{
 		if (mString)
 		{
-			slStrCpy(mString, string);
+			if (length)
+			{
+				memcpy(mString, string, length);
+				mString[length] = 0;
+			}
+			else
+			{
+				slStrCpy(mString, string);
+			}
 		}
 		else
 		{
@@ -448,11 +456,27 @@ bool CBasicString::isEmpty() const
 	return mProxy->isEmpty();
 }
 
-EStringEncoding CBasicString::encoding() const
+//EStringEncoding CBasicString::encoding() const
+//{
+//	return eStringEncodingASCII;
+//}
+
+SInt32 CBasicString::find(const CBasicString& string) const
 {
-	return eStringEncodingASCII;
+	char* res = strstr(mProxy->mString, string.mProxy->mString);
+	return (res)?(res - mProxy->mString):(-1);
 }
 
+SInt32 CBasicString::findLast(const CBasicString& string) const
+{
+	size_t res = std::string(mProxy->mString).rfind(string.mProxy->mString);
+	return (res == std::string::npos)?(-1):((SInt32)res);
+}
+
+CBasicString CBasicString::subString(UInt32 from, UInt32 length) const
+{
+	return CBasicString(new SStringProxy(mProxy->mString + from, eOwnPolicyDefault, length));
+}
 
 const NChar* CBasicString::cString(EStringEncoding encoding) const
 {

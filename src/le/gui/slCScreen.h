@@ -11,6 +11,7 @@ namespace sokira
 #define DEFAULT_SCREEN_RECT CRectangle(50, 50, 100, 100)
 
 class CGuiApplication;
+class CRenderingContext;
 class CScene;
 
 class CScreen : public CObject
@@ -51,6 +52,9 @@ class CScreen : public CObject
 		void onMouseIn(const CPoint& point);
 		void onMouseOut(const CPoint& point);
 
+		void onKeyDown(const CString& characters, ECharacterModifiers modifiers);
+		void onKeyUp(const CString& characters, ECharacterModifiers modifiers);
+
 	protected:
 		virtual void onResize();
 
@@ -71,6 +75,7 @@ class CScreen : public CObject
 		CSize mSize;
 		Bool mSizeChanged;
 		EMouseButton mPressedButtons;
+		CRenderingContext* mRenderingContext;
 };
 
 	} // namespace le

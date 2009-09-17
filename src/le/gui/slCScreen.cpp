@@ -13,6 +13,7 @@
 #include <le/core/config/slCompiler.h>
 
 #include <le/gui/slCScene.h>
+#include <le/gui/slCOpenGLRenderingContext.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #include "base/slCCocoaScreenImpl.hp"
@@ -34,7 +35,8 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 //	CWindow(rect),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
 	mSize(rect.size()),
-	mSizeChanged(true)
+	mSizeChanged(true),
+	mRenderingContext(new COpenGLRenderingContext())
 {
 	LE_ENTER_LOG;
 
@@ -63,6 +65,7 @@ CScreen::~CScreen()
 {
 	LE_ENTER_LOG;
 //	clearPointerContainer(mControlsToDelete);
+	delete mRenderingContext;
 }
 
 void CScreen::setNeedsRedraw()
@@ -127,7 +130,7 @@ void CScreen::draw()
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
-		(*it)->draw(NULL);
+		(*it)->draw(mRenderingContext);
 	}
 
 
@@ -264,6 +267,24 @@ void CScreen::onMouseOut(const CPoint& point)
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
 		(*it)->mouseExited(point);
+	}
+}
+
+void CScreen::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
+{
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		if ((*it)->onKeyDown(characters, modifiers)) break;
+	}
+}
+
+void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
+{
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		if ((*it)->onKeyUp(characters, modifiers)) break;
 	}
 }
 

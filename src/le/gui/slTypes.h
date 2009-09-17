@@ -33,9 +33,6 @@ class CPoint
 		bool operator==(const CPoint& point) const;
 		bool operator!=(const CPoint& point) const;
 
-	// Draw
-//		void draw() const;
-
 	// Members
 	private:
 		float mX, mY, mZ;
@@ -110,10 +107,6 @@ class CRectangle : public CPoint2D, public CSize2D
 		CRectangle& operator=(const CRectangle& copy);
 		bool operator==(const CRectangle& rect) const;
 		bool operator!=(const CRectangle& rect) const;
-
-	// Draw
-		void draw() const;
-		void drawWire() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,10 +135,6 @@ class CBox : public CPoint3D, public CSize3D
 		CBox& operator=(const CBox& copy);
 		bool operator==(const CBox& rect) const;
 		bool operator!=(const CBox& rect) const;
-
-	// Draw
-		void draw() const;
-		void drawWire() const;
 };
 
 	} // namespace le

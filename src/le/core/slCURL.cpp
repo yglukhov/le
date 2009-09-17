@@ -8,12 +8,19 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CURL);
 
+#if LE_TARGET_PLATFORM == LE_PLATFORM_UNIX || LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+static const CString cPathSeparator = LESTR("/");
+#else
+// TODO
+#endif
+
 CURL::CURL()
 {
 
 }
 
-CURL::CURL(const CString& string)
+CURL::CURL(const CString& string) :
+	mPath(string)
 {
 
 }
@@ -46,7 +53,7 @@ CString CURL::password() const
 
 CString CURL::path() const
 {
-	return CString();
+	return mPath;
 }
 
 CString CURL::extension() const
@@ -56,7 +63,7 @@ CString CURL::extension() const
 
 CString CURL::lastPathComponent() const
 {
-	return CString();
+	return mPath.subString(mPath.findLast(cPathSeparator) + 1, 0);
 }
 
 CString CURL::queryString() const
@@ -67,6 +74,26 @@ CString CURL::queryString() const
 SInt32 CURL::portNumber() const
 {
 	return 0;
+}
+
+Bool CURL::operator == (const CURL& url) const
+{
+	return mPath == url.mPath;
+}
+
+void CURL::removeLastPathComponents(UInt32 componentCount)
+{
+	for (UInt32 i = 0; i < componentCount; ++i)
+	{
+		SInt32 res = mPath.findLast(cPathSeparator);
+		if (res)
+			mPath = mPath.subString(0, mPath.findLast(cPathSeparator));
+		else
+		{
+			mPath = CString();
+			break;
+		}
+	}
 }
 
 	} // namespace le

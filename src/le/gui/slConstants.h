@@ -20,7 +20,12 @@ enum EButtonState
 {
 	eButtonStateUnknown = 0,
 	eButtonStateDown = LE_SET_BIT(1),
-	eButtonStateUp = LE_SET_BIT(2),
+	eButtonStateUp = LE_SET_BIT(2)
+};
+
+enum ECharacterModifiers
+{
+	eCharacterModifierNone = 0
 };
 
 	} // namespace le

@@ -1,7 +1,5 @@
 #include "slTypes.h"
 
-#include <glut/slGlut.h>
-
 namespace sokira
 {
 	namespace le
@@ -77,17 +75,8 @@ bool CPoint::operator!=(const CPoint& point) const
 	return !(operator==(point));
 }
 
-//#pragma mark -
-
-//void CPoint::draw() const
-//{
-//	glVertex3f(mX, mY, mZ);
-//}
-
-
-//#pragma mark
 ////////////////////////////////////////////////////////////////////////////////
-//#pragma mark -- CSize --
+// CSize
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -268,24 +257,6 @@ bool CRectangle::operator!=(const CRectangle& rect) const
 	return !(operator==(rect));
 }
 
-//#pragma mark -
-
-// Draw
-void CRectangle::draw() const
-{
-	glRectf(x(), y(), x() + width(), y() + height());
-}
-
-void CRectangle::drawWire() const
-{
-	glBegin(GL_LINE_STRIP);
-	 glVertex2f(x(), y());
-	 glVertex2f(x() + width(), y());
-	 glVertex2f(x() + width(), y() + height());
-	 glVertex2f(x(), y() + height());
-	 glVertex2f(x(), y());
-	glEnd();
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //CBox
@@ -374,85 +345,6 @@ bool CBox::operator==(const CBox& rect) const
 bool CBox::operator!=(const CBox& rect) const
 {
 	return !(operator==(rect));
-}
-
-//#pragma mark -
-
-// Draw
-void CBox::draw() const
-{
-	glBegin(GL_QUADS);
-		glVertex3f(x(), y(), z());
-		glVertex3f(x() + width(), y(), z());
-		glVertex3f(x() + width(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z());
-
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x(), y() + height(), z() + depth());
-		glVertex3f(x(), y() + height(), z());
-
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z());
-	glEnd();
-
-	glBegin(GL_QUADS);
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z() + depth());
-		glVertex3f(x(), y() + height(), z() + depth());
-
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z() + depth());
-
-
-		glVertex3f(x(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z());
-	glEnd();
-}
-
-void CBox::drawWire() const
-{
-	glBegin(GL_QUAD_STRIP);
-		glVertex3f(x(), y(), z());
-		glVertex3f(x() + width(), y(), z());
-		glVertex3f(x() + width(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z());
-
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x(), y() + height(), z() + depth());
-		glVertex3f(x(), y() + height(), z());
-
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z());
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x() + width(), y(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z() + depth());
-		glVertex3f(x(), y() + height(), z() + depth());
-
-		glVertex3f(x(), y(), z() + depth());
-		glVertex3f(x(), y(), z());
-		glVertex3f(x(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z() + depth());
-
-
-		glVertex3f(x(), y() + height(), z());
-		glVertex3f(x(), y() + height(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z() + depth());
-		glVertex3f(x() + width(), y() + height(), z());
-	glEnd();
 }
 
 	} // namespace le

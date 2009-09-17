@@ -1,6 +1,5 @@
 #include "slCGuiApplication.h"
 
-#include <glut/slGlut.h>
 
 #include "slCScreen.h"
 #include "slCDialog.h"

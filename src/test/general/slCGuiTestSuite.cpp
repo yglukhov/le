@@ -15,7 +15,7 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_RUNTIME_CLASS(CGuiTestSuite);
+//LE_IMPLEMENT_RUNTIME_CLASS(CGuiTestSuite);
 
 void CGuiTestSuite::testGuiApp()
 {

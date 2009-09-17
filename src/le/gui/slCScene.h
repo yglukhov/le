@@ -25,6 +25,9 @@ class CScene
 		virtual Bool mouseEntered(const CPoint& point);
 		virtual Bool mouseExited(const CPoint& point);
 
+		virtual Bool onKeyDown(const CString& characters, ECharacterModifiers modifiers);
+		virtual Bool onKeyUp(const CString& characters, ECharacterModifiers modifiers);
+
 		virtual void draw(CRenderingContext* context);
 
 		virtual void setNeedsRedraw();

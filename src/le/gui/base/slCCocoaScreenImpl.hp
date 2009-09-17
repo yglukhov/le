@@ -35,7 +35,6 @@ class CCocoaScreenImpl
 		CString mTitle;
 		CRectangle mRect;
 		void* mWindow;
-		void* mView;
 };
 
 	} // namespace le

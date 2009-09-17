@@ -139,6 +139,10 @@
 		7B5F53580F752B4900269E2D /* slCSokriptImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F53560F752B4900269E2D /* slCSokriptImpl.cpp */; };
 		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
+		7B686AE41060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */; };
+		7B686AE51060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */; };
+		7B686AE81060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */; };
+		7B686AE91060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */; };
 		7B6A73831057A4A00062A10D /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
 		7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
 		7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
@@ -153,6 +157,12 @@
 		7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
 		7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
 		7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
+		7BF5AA8A1057D26100A09C15 /* slCRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */; };
+		7BF5AA8B1057D26100A09C15 /* slCRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */; };
+		7BF5AA901057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */; };
+		7BF5AA911057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */; };
+		7BF5AC5E10580F9200A09C15 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
+		7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
 		B04FF9AC0A16175800F559ED /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630C08E56B7F00236593 /* GLUT.framework */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -183,7 +193,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D /* genSokript */;
+			remoteGlobalIDString = 7B5F50FB0F74F2B600269E2D;
 			remoteInfo = genSokript;
 		};
 		7B5F51010F74F30300269E2D /* PBXContainerItemProxy */ = {
@@ -366,6 +376,10 @@
 		7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertControl.cpp; sourceTree = "<group>"; };
 		7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertionPolicy.h; sourceTree = "<group>"; };
 		7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertionPolicy.cpp; sourceTree = "<group>"; };
+		7B686AE21060FFBF0001E7A6 /* slCXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLDocument.h; sourceTree = "<group>"; };
+		7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLDocument.cpp; sourceTree = "<group>"; };
+		7B686AE61060FFCD0001E7A6 /* slCXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLNode.h; sourceTree = "<group>"; };
+		7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLNode.cpp; sourceTree = "<group>"; };
 		7BB9D1A60F433E490026D308 /* slCScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScene.h; sourceTree = "<group>"; };
 		7BB9D1A70F433E490026D308 /* slCScene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = slCScene.cpp; sourceTree = "<group>"; };
 		7BB9D1B30F4340D20026D308 /* slCGuiScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiScene.h; sourceTree = "<group>"; };
@@ -389,11 +403,16 @@
 		7BEAEB010EE7CFC900BD04DE /* slCURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCURL.h; sourceTree = "<group>"; };
 		7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCURL.cpp; sourceTree = "<group>"; };
 		7BEFD8EA0D4A612F0033F625 /* slTSCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTSCommon.h; sourceTree = "<group>"; };
+		7BF5AA881057D26100A09C15 /* slCRenderingContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCRenderingContext.h; sourceTree = "<group>"; };
+		7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCRenderingContext.cpp; sourceTree = "<group>"; };
+		7BF5AA8E1057D61600A09C15 /* slCOpenGLRenderingContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCOpenGLRenderingContext.h; sourceTree = "<group>"; };
+		7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCOpenGLRenderingContext.cpp; sourceTree = "<group>"; };
+		7BF5AC5C10580F9200A09C15 /* slCTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTimer.h; sourceTree = "<group>"; };
+		7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTimer.cpp; sourceTree = "<group>"; };
+		7BF5AC6610582DB200A09C15 /* slCTimerImplMacOS.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCTimerImplMacOS.hp; sourceTree = "<group>"; };
 		B004630C08E56B7F00236593 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
-		B0486609C5B060FA00CC530D /* slGlutPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutPrefix.h; sourceTree = "<group>"; };
-		B048660BC5B0613100CC530D /* slGlutColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slGlutColor.h; sourceTree = "<group>"; };
 		B04FF8750A15FAEA00F559ED /* libLeCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF97F0A16167400F559ED /* libLeGui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeGui.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -495,6 +514,8 @@
 		7B052B2F0BD12E3E00AA8BD8 /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				7BF5AA8E1057D61600A09C15 /* slCOpenGLRenderingContext.h */,
+				7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */,
 				7B15CF340F3630DB002E9DA7 /* auxiliary */,
 				7B15CE7A0F3610B3002E9DA7 /* base */,
 				7B052BC70BD12ECD00AA8BD8 /* slBasicGraphicControllers.cpp */,
@@ -529,6 +550,10 @@
 				7BB9D1A70F433E490026D308 /* slCScene.cpp */,
 				7BB9D1B30F4340D20026D308 /* slCGuiScene.h */,
 				7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */,
+				7BF5AA881057D26100A09C15 /* slCRenderingContext.h */,
+				7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */,
+				7BF5AC5C10580F9200A09C15 /* slCTimer.h */,
+				7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */,
 			);
 			name = gui;
 			path = le/gui;
@@ -774,6 +799,7 @@
 			children = (
 				7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */,
 				7B15CE7C0F3610B3002E9DA7 /* slCCocoaScreenImpl.hp */,
+				7BF5AC6610582DB200A09C15 /* slCTimerImplMacOS.hp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -862,6 +888,10 @@
 			children = (
 				7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */,
 				7BC3AC980EE6FEF700D13036 /* slCXMLParser.h */,
+				7B686AE21060FFBF0001E7A6 /* slCXMLDocument.h */,
+				7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */,
+				7B686AE61060FFCD0001E7A6 /* slCXMLNode.h */,
+				7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */,
 			);
 			path = xml;
 			sourceTree = "<group>";
@@ -903,8 +933,6 @@
 				B004630C08E56B7F00236593 /* GLUT.framework */,
 				B004630D08E56B7F00236593 /* OpenGL.framework */,
 				B01DEF2109F0EDEC00EE27D3 /* slGlut.h */,
-				B0486609C5B060FA00CC530D /* slGlutPrefix.h */,
-				B048660BC5B0613100CC530D /* slGlutColor.h */,
 			);
 			path = glut;
 			sourceTree = "<group>";
@@ -1131,6 +1159,11 @@
 				7B419E861057BCD600D5A2D1 /* slCWindow.cpp in Sources */,
 				7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */,
 				7B419E881057BCDA00D5A2D1 /* slTypes.cpp in Sources */,
+				7BF5AA8A1057D26100A09C15 /* slCRenderingContext.cpp in Sources */,
+				7BF5AA901057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */,
+				7BF5AC5E10580F9200A09C15 /* slCTimer.cpp in Sources */,
+				7B686AE41060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */,
+				7B686AE81060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,6 +1214,8 @@
 				7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */,
 				7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */,
 				7B6A73861057A4D10062A10D /* slCThreadImplWindows.cpp in Sources */,
+				7B686AE51060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */,
+				7B686AE91060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1203,6 +1238,9 @@
 				7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */,
 				7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */,
 				7BB9D1B60F4340D20026D308 /* slCGuiScene.cpp in Sources */,
+				7BF5AA8B1057D26100A09C15 /* slCRenderingContext.cpp in Sources */,
+				7BF5AA911057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */,
+				7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1312,6 +1350,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				PRODUCT_NAME = le;

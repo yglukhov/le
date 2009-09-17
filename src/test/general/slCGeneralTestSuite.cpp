@@ -1,8 +1,8 @@
 #include <le/core/debug/slDebug.h>
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/template/function/slTCBind.h>
-#include <le/core/slCString.h>
 #include <le/core/slCAny.h>
+#include <le/core/auxiliary/slCBundle.h>
 
 #include <le/core/preprocessor/slPPand.h>
 #include <le/core/preprocessor/slPPor.h>
@@ -263,6 +263,68 @@ void CGeneralTestSuite::testStrings()
 	str.clear();
 	str.trimWhitespace();
 	LE_ASSERT(str.isEmpty());
+
+	str = "Bar Hi Foo Hi";
+	CString pattern = "Hi";
+	LE_ASSERT(str.find(pattern) == 4);
+	LE_ASSERT(str.findLast(pattern) == 11);
+	pattern = "Hi not found!";
+	LE_ASSERT(str.find(pattern) == -1);	
+	LE_ASSERT(str.findLast(pattern) == -1);	
+	pattern = "Bar";
+	LE_ASSERT(str.find(pattern) == 0);	
+	LE_ASSERT(str.findLast(pattern) == 0);	
+
+	LE_ASSERT(str.subString(0, 3) == "Bar");
+	LE_ASSERT(str.subString(4, 2) == "Hi");
+	LE_ASSERT(str.subString(11, 2) == "Hi");
+	LE_ASSERT(str.subString(7, 0) == "Foo Hi");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+void CGeneralTestSuite::testUrls()
+{
+	CURL url("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	LE_ASSERT(url.lastPathComponent() == "iTunes");
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes/");
+	LE_ASSERT(url.lastPathComponent().isEmpty());
+	url = CURL("asdf");
+	LE_ASSERT(url.lastPathComponent() == "asdf");
+
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	url.removeLastPathComponents();
+	LE_ASSERT(url.path() == "/Applications/iTunes.app/Contents/MacOS");
+
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	url.removeLastPathComponents(3);
+	LE_ASSERT(url.path() == "/Applications/iTunes.app");
+
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	url.removeLastPathComponents(15);
+	std::cout << "URL: " << url.path() << std::endl;
+	LE_ASSERT(url.path() == "");
+
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	url.removeLastPathComponents(4);
+	std::cout << "URL: " << url.path() << std::endl;
+	LE_ASSERT(url.path() == "/Applications");
+
+	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	url.removeLastPathComponents(5);
+	std::cout << "URL: " << url.path() << std::endl;
+	LE_ASSERT(url.path() == "");
+
+	url = CURL("/");
+	url.removeLastPathComponents();
+	std::cout << "URL: " << url.path() << std::endl;
+	LE_ASSERT(url.path() == "");
+
+	CBundle bundle("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	LE_ASSERT(bundle.resourcesUrl() == CURL("/Applications/iTunes.app/Contents/Resources"));
+	LE_ASSERT(bundle.infoPlistUrl() == CURL("/Applications/iTunes.app/Contents/Info.plist"));
+	LE_ASSERT(bundle.contentsUrl() == CURL("/Applications/iTunes.app/Contents"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -91,7 +91,12 @@ class CBasicString
 
 		UInt32 length() const;
 		bool isEmpty() const;
-		EStringEncoding encoding() const;
+//		EStringEncoding encoding() const;
+
+		SInt32 find(const CBasicString& string) const;
+		SInt32 findLast(const CBasicString& string) const;
+
+		CBasicString subString(UInt32 from, UInt32 length) const;
 
 		const NChar* cString(EStringEncoding encoding = eStringEncodingASCII) const;
 

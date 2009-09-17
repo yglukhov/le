@@ -42,6 +42,16 @@ Bool CScene::mouseExited(const CPoint& point)
 	return false;
 }
 
+Bool CScene::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
+{
+	return false;
+}
+
+Bool CScene::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
+{
+	return false;
+}
+
 void CScene::draw(CRenderingContext* context)
 {
 

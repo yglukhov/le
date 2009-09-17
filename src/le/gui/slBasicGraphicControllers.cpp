@@ -1,9 +1,9 @@
-#include <glut/slGlut.h>
 #include "slBasicGraphicControllers.h"
 #include <le/gui/slCTheme.h>
 #include "slCControl.h"
 #include "slCButton.h"
 #include "slCTitleBar.h"
+#include "slCRenderingContext.h"
 
 LE_DEFINE_LINK_MODULE(_le_slBasicGraphicControllers);
 
@@ -56,8 +56,8 @@ Bool CControlBasicController::performMouse(EMouseButton button, EButtonState sta
 
 void CWindowBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const
 {
-	slSetColor(0.7f, 0.7f, 0.7f);
-	control->absoluteRect().draw();
+	context->setColor(0.7f, 0.7f, 0.7f);
+	context->drawRect(control->absoluteRect());
 
 	const CWindow* wnd = dynamic_cast<const CWindow*>(control);
 
@@ -120,11 +120,11 @@ void CButtonBasicController::draw(const CControl* control, const CTheme* theme, 
 	{
 		if (button->state() == eButtonStateDown)
 		{
-			slSetColor(0.8f, 0.5f, 0.2f);
+			context->setColor(0.8f, 0.5f, 0.2f);
 		}
 		else
 		{
-			slSetColor(0.6f, 0.9f, 0.1f);
+			context->setColor(0.6f, 0.9f, 0.1f);
 		}
 	}
 	else
@@ -132,7 +132,7 @@ void CButtonBasicController::draw(const CControl* control, const CTheme* theme, 
 		LE_IF_LOG(log << "WARNING: control is not a CButton!" << std::endl);
 	}
 
-	control->absoluteRect().draw();
+	context->drawRect(control->absoluteRect());
 }
 /*
 void CDialogBasicController::draw(const CControl* control, const CTheme* theme, CRenderingContext* context) const

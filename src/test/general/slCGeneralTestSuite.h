@@ -21,6 +21,7 @@ class CGeneralTestSuite : public CTestSuite
 			testBinds();
 			testTuples();
 			testStrings();
+			testUrls();
 			testFunctionTraits();
 			testPreprocessor();
 			testAny();
@@ -33,6 +34,7 @@ class CGeneralTestSuite : public CTestSuite
 		void testBinds();
 		void testTuples();
 		void testStrings();
+		void testUrls();
 		void testFunctionTraits();
 		void testPreprocessor();
 		void testAny();
