@@ -41,6 +41,32 @@ void CWindow::removeChild(CControl* child)
 	setNeedsRedraw();
 }
 
+void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
+{
+	theme->drawWindow(this, context);
+	CControlList::const_iterator end = mChildren.end();
+	for (CControlList::const_iterator it = mChildren.begin(); it != end; ++it)
+	{
+		(*it)->draw(theme, context);
+	}
+}
+
+Bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+{
+	if (hitTest(point))
+	{
+		CWindow::CControlList::const_iterator end = mChildren.end();
+		for (CWindow::CControlList::const_iterator it = mChildren.begin(); it != end; ++it)
+		{
+			if ((*it)->onMouse(button, state, point)) return true;
+		}
+
+		return performMouse(button, state, point);
+	}
+
+	return false;
+}
+
 CSize CWindow::size() const
 {
 	LE_ENTER_LOG;

@@ -28,6 +28,11 @@ void CApplicationDelegate::applicationDidFinishLaunching(CApplication& applicati
 
 }
 
+void CApplicationDelegate::applicationWillTerminate(CApplication& application)
+{
+	std::cout << "Application will terminate" << std::endl;
+}
+
 Bool CApplicationDelegate::applicationShouldTerminateAfterLastWindowClosed(CApplication& application)
 {
 	return false;

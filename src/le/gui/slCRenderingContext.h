@@ -2,6 +2,8 @@
 #define SL_LE_gui_slCRenderingContext_h
 
 //#include <le/gui/slConstants.h>
+#include <le/core/geometry/slTCSegment2D.h>
+#include <le/core/geometry/slTCSegment3D.h>
 #include <le/gui/slTypes.h>
 #include <le/core/slTCColor.h>
 
@@ -14,6 +16,8 @@ namespace sokira
 class CRenderingContext
 {
 	public:
+		virtual ~CRenderingContext();
+
 		virtual void setColor(SInt8 r, SInt8 g, SInt8 b);
 		virtual void setColor(SInt8 r, SInt8 g, SInt8 b, SInt8 a);
 		virtual void setColor(const SInt8* vector);
@@ -48,13 +52,17 @@ class CRenderingContext
 		virtual void setColorWithAlpha(const Float64* vector);
 
 		template <typename TComponent>
-		inline void slSetColor(const TCColor<TComponent>& color)
+		inline void setColor(const TCColor<TComponent>& color)
 		{
 			setColor(color.red(), color.green(), color.blue(), color.alpha());
 		}
 
+		virtual void setLineWidth(Float32 width);
+
 		// Geometry
-		virtual void drawLine(const CPoint& a, const CPoint& b);
+		virtual void drawText(const CString& text, const CPoint2D& position);
+		virtual void drawSegment(const CSegment2D& segment);
+		virtual void drawSegment(const CSegment3D& segment);
 		virtual void drawRect(const CRectangle& rect);
 		virtual void drawWireRect(const CRectangle& rect);
 		virtual void drawBox(const CBox& box);

@@ -30,6 +30,11 @@ CGuiApplication::CGuiApplication() :
 
 CGuiApplication::~CGuiApplication()
 {
+	std::cout << "CGuiApplication::~CGuiApplication" << std::endl;
+	for (std::vector<CScreen*>::iterator it = mScreens.begin(); it != mScreens.end(); ++it)
+	{
+		delete *it;
+	}
 	delete ((CGuiApplicationImpl*)mImpl);
 }
 
@@ -105,7 +110,7 @@ void CGuiApplication::addScreen(CScreen* screen)
 	{
 		screen->screenWillBeAddedToApplication(this);
 		screenWillBeAddedToApplication(screen);
-		// Add screen
+		mScreens.push_back(screen);
 		screenWasAddedToApplication(screen);
 		screen->screenWasAddedToApplication(this);
 	}

@@ -13,6 +13,15 @@ CXMLNode::CXMLNode(const CString& name, const std::map<CString, CString>& attrib
 
 }
 
+CXMLNode::~CXMLNode()
+{
+	for (CXMLNodeArray::iterator it = mChildren.begin(); it != mChildren.end(); ++it)
+	{
+		delete *it;
+	}
+}
+
+
 CString CXMLNode::name() const
 {
 	return mName;

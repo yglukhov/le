@@ -30,6 +30,11 @@ CXMLDocument::CXMLDocument(const CURL& url) :
 	}
 }
 
+CXMLDocument::~CXMLDocument()
+{
+	delete mRootNode;
+}
+
 CXMLNode* CXMLDocument::rootNode()
 {
 	return mRootNode;

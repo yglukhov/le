@@ -30,6 +30,11 @@ static inline IClassImpl* stubClassImpl()
 			{
 				return false;
 			}
+
+			virtual std::vector<CClass> parents() const
+			{
+				return std::vector<CClass>();
+			}
 	};
 
 	static CStubClassImpl stub;
@@ -51,6 +56,11 @@ CBasicString CClass::name() const
 bool CClass::operator == (const CClass rhs)
 {
 	return !std::strcmp(mImpl->mName, rhs.mImpl->mName);
+}
+
+std::vector<CClass> CClass::parents() const
+{
+	return mImpl->parents();
 }
 
 	} // namespace le

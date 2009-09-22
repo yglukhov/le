@@ -15,6 +15,7 @@ class CXMLDocument
 {
 	public:
 		CXMLDocument(const CURL& url);
+		~CXMLDocument();
 
 		CXMLNode* rootNode();
 

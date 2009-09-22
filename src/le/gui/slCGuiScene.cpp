@@ -1,6 +1,7 @@
 #include <le/gui/slCTheme.h>
 #include <le/gui/slCControl.h>
 #include "slCGuiScene.h"
+#include "slCScreen.h"
 
 namespace sokira
 {
@@ -12,36 +13,15 @@ LE_IMPLEMENT_RUNTIME_CLASS(CGuiScene);
 CGuiScene::CGuiScene() :
 	mFirstResponder(NULL)
 {
-
+	setAutoResizing(eAutoResizingFixedMargins);
 }
-
-#define COUT_MOUSE_EVENTS 1
 
 Bool CGuiScene::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
 {
-//#if COUT_MOUSE_EVENTS
-//	std::cout << "CControlBasicController::performMouse: (";
-//	if (button & eMouseButtonLeft)
-//		std::cout << " eMouseButtonLeft";
-//	if (button & eMouseButtonRight)
-//		std::cout << " eMouseButtonRight";
-//	if (button & eMouseButtonMiddle)
-//		std::cout << " eMouseButtonMiddle";
-//
-//	std::cout << " ), (";
-//
-//	if (state == eButtonStateUp)
-//		std::cout << " eButtonStateUp";
-//	if (state == eButtonStateDown)
-//		std::cout << " eButtonStateDown";
-//
-//	std::cout << " ), (" << point.x() << ", " << point.y() << ")" << std::endl;
-//#endif
+	if (mFirstResponder && mFirstResponder->onMouse(button, state, point))
+		return true;
 
-	if (mFirstResponder && mTheme.onMouse(button, state, point, mFirstResponder))
-		return true;		
-
-	return mTheme.onMouse(button, state, point, this);
+	return CWindow::onMouse(button, state, point);
 }
 
 Bool CGuiScene::mouseEntered(const CPoint& point)
@@ -60,7 +40,7 @@ void CGuiScene::draw(CRenderingContext* context)
 	CControlList::const_iterator end = theChildren.end();
 	for(CControlList::const_iterator it = theChildren.begin(); it != end; ++it)
 	{
-		mTheme.drawControl(*it, context);
+		(*it)->draw(&mTheme, context);
 	}
 }
 
@@ -93,6 +73,18 @@ Bool CGuiScene::isChildFirstResponder(const CControl* child) const
 {
 	return child == mFirstResponder;
 }
+
+void CGuiScene::setScreen(CScreen* screen)
+{
+	CScene::setScreen(screen);
+	setSize(screen->size()); // Resize to fit the screen
+}
+
+Bool CGuiScene::hitTest(const CPoint& point) const
+{
+	return true;
+}
+
 
 	} // namespace le
 } // namespace sokira

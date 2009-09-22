@@ -23,6 +23,9 @@ class CApplicationDelegate : public CObject
 
 		virtual void applicationWillFinishLaunching(CApplication& application);
 		virtual void applicationDidFinishLaunching(CApplication& application);
+
+		virtual void applicationWillTerminate(CApplication& application);
+
 		virtual Bool applicationShouldTerminateAfterLastWindowClosed(CApplication& application);
 
 	// private:

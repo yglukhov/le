@@ -12,7 +12,7 @@
 
 #include <le/core/config/slCompiler.h>
 
-#include <le/gui/slCScene.h>
+#include <le/gui/slCGuiScene.h>
 #include <le/gui/slCOpenGLRenderingContext.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
@@ -31,12 +31,12 @@ LE_IMPLEMENT_RUNTIME_CLASS(CScreen);
 typedef std::map<int, CScreen*> CScreenMap;
 static CScreenMap	_screenMap;
 
-CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
+CScreen::CScreen(bool fullscreen, const CString& title, const CRectangle& rect) :
 //	CWindow(rect),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
 	mSize(rect.size()),
 	mSizeChanged(true),
-	mRenderingContext(new COpenGLRenderingContext())
+	mRenderingContext(NULL)
 {
 	LE_ENTER_LOG;
 
@@ -64,17 +64,20 @@ CScreen::CScreen(bool fullscreen, const char* title, const CRectangle& rect) :
 CScreen::~CScreen()
 {
 	LE_ENTER_LOG;
+//	std::cout << "CScreen::~CScreen" << std::endl;
 //	clearPointerContainer(mControlsToDelete);
+	for (CSceneList::iterator it = mScenes.begin(); it != mScenes.end(); ++it)
+		delete *it;
 	delete mRenderingContext;
+	delete static_cast<CScreenImpl*>(mImpl);
 }
 
 void CScreen::setNeedsRedraw()
 {
 	LE_ENTER_LOG;
 
-	return static_cast<CScreenImpl*>(mImpl)->setNeedsRedraw();
-	
-	
+	if (mImpl) static_cast<CScreenImpl*>(mImpl)->setNeedsRedraw();
+
 //	glutSetWindow(mWindow);
 //	glutPostRedisplay();
 }
@@ -117,6 +120,8 @@ void CScreen::draw()
 		onResize();
 		mSizeChanged = false;
 	}
+
+	LE_ASSERT(mRenderingContext);
 
 //	std::cout << "CScreen::draw()" << std::endl;
 
@@ -233,13 +238,20 @@ void CScreen::addScene(CScene* scene, UInt32 order)
 
 void CScreen::_prepareOpenGL()
 {
+	mRenderingContext = new COpenGLRenderingContext();
 	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
 }
 
 void CScreen::_screenWasResized()
 {
-	mSize = static_cast<CScreenImpl*>(mImpl)->size();
+//	mSize = static_cast<CScreenImpl*>(mImpl)->size();
 	mSizeChanged = true;
+}
+
+void CScreen::_screenWillBeClosed()
+{
+	delete static_cast<CScreenImpl*>(mImpl);
+	mImpl = NULL;
 }
 
 // This event includes mouse up, mouse down and mouse hover.
@@ -291,13 +303,25 @@ void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
 // This method is always called within valid OpenGL context
 void CScreen::onResize()
 {
-	CSize size = static_cast<CScreenImpl*>(mImpl)->size();
-	glViewport(0, 0, (int)size.width(), (int)size.height());
+	CSize prevSize = mSize;
+	mSize = static_cast<CScreenImpl*>(mImpl)->size();
+
+//	std::cout << "CScreen::onResize" << std::endl;
+//	std::cout << "{" << std::endl;
+
+	glViewport(0, 0, (int)mSize.width(), (int)mSize.height());
 	glMatrixMode (GL_PROJECTION); 
 	glLoadIdentity (); 
-	glOrtho(0, (int)size.width(), (int)size.height(), 0, -1, 1);
+	glOrtho(0, (int)mSize.width(), (int)mSize.height(), 0, -1, 1);
 
-//	std::cout << "CScreen::onResize(" << size.width() << "," << size.height() << ")" << std::endl;
+	CSceneList::const_iterator end = mScenes.end();
+	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+	{
+		CGuiScene* scene = dynamic_cast<CGuiScene*> (*it);
+		if (scene) scene->parentResized(prevSize, mSize);
+	}
+
+//	std::cout << "}" << std::endl;
 }
 
 	} // namespace le

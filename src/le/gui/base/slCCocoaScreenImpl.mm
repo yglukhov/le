@@ -255,6 +255,12 @@
 	mScreen->_screenWasResized();
 }
 
+- (void) parentWindowWillClose: (NSNotification*) notification
+{
+	mScreen->_screenWillBeClosed();
+//	std::cout << "parentWindowWillClose!" << std::endl;
+}
+
 @end
 
 
@@ -281,21 +287,25 @@ void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplicat
 {
 	NSRect frame = NSMakeRect(mRect.x(), mRect.y(), mRect.width(), mRect.height());
 
-	mWindow = [[NSWindow alloc]
+	mWindow = (void*)[[NSWindow alloc]
 					initWithContentRect: frame
 					styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
 					backing: NSBackingStoreBuffered
 					defer: NO];
 
-	[static_cast<NSWindow*>(mWindow) setTitle:@"Universe"];
-	[static_cast<NSWindow*>(mWindow) setAcceptsMouseMovedEvents: YES];
+	NSString* title = [NSString stringWithCString: mTitle.cString() encoding: NSASCIIStringEncoding];
+
+	[(NSWindow*)mWindow setTitle: title];
+	[(NSWindow*)mWindow setAcceptsMouseMovedEvents: YES];
 	NSView* view = [[[SokiraLE_OpenGLView alloc] initWithFrame:frame andScreen: screen] autorelease];
-	[static_cast<NSWindow*>(mWindow) setContentView: view];
-	[static_cast<NSWindow*>(mWindow) makeKeyAndOrderFront: nil];
+	[[NSNotificationCenter defaultCenter] addObserver:view selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object:static_cast<NSWindow*>(mWindow)];
+	[(NSWindow*)mWindow setContentView: view];
+	[(NSWindow*)mWindow makeKeyAndOrderFront: nil];
 }
 
 void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app)
 {
+	std::cout << "screenWillBeRemovedFromApplication" << std::endl;
 	if (mWindow)
 	{
 		[static_cast<NSWindow*>(mWindow) release];

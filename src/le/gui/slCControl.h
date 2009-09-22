@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_gui_slCControl_h
+#define SL_LE_gui_slCControl_h
 
 #include "slConstants.h"
 #include "slTypes.h"
@@ -12,7 +13,8 @@ namespace sokira
 
 class CWindow;
 class CControlDelegate;
-//class CTheme;
+class CTheme;
+class CRenderingContext;
 
 enum EAutoResizing
 {
@@ -65,6 +67,8 @@ class CControl : public CObject
 
 		virtual void setNeedsRedraw();
 
+		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
+
 		// Mouse events
 		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
 		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
@@ -80,6 +84,7 @@ class CControl : public CObject
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 
 		// Responder chain functions
 		Bool becomeFirstResponder();
@@ -96,8 +101,12 @@ class CControl : public CObject
 		virtual void moveLastToDraw();
 		void setParent(CWindow* newParent);
 
+		virtual Bool hitTest(const CPoint& point) const;
+		Bool performMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		
+
 	private:
-//		friend class CScreen;
+		friend class CScreen;
 		friend class CWindow;
 		void parentResized(const CSize& fromSize, const CSize& toSize);
 //		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
@@ -115,3 +124,5 @@ class CControl : public CObject
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_gui_slCControl_h

@@ -16,6 +16,7 @@ class CScene
 {
 	public:
 		CScene();
+		virtual ~CScene();
 
 		// Mouse events
 		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
@@ -32,9 +33,11 @@ class CScene
 
 		virtual void setNeedsRedraw();
 
+	protected:
+		virtual void setScreen(CScreen* screen);
+
 	private:
 		friend class CScreen;
-		void setScreen(CScreen* screen);
 		CScreen* mScreen;
 };
 

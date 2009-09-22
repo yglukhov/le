@@ -44,17 +44,23 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-//	std::cout << "applicationWillTerminate" << std::endl;
+	std::cout << "applicationWillTerminate" << std::endl;
+	mDelegate->applicationWillTerminate(*mApp);
 }
 
 - (void)applicationWillBecomeActive:(NSNotification *)aNotification
 {
+	std::cout << "applicationWillBecomeActive" << std::endl;
+}
 
+- (void)applicationWillResignActive:(NSNotification *)aNotification
+{
+	std::cout << "applicationWillResignActive" << std::endl;
 }
 
 - (void)applicationDidResignActive:(NSNotification *)aNotification
 {
-
+	std::cout << "applicationDidResignActive" << std::endl;
 }
 
 - (void)applicationWillHide:(NSNotification *)aNotification
@@ -166,8 +172,10 @@ SInt32 CGuiApplicationCocoaImpl::run(CApplicationDelegate* delegate, CApplicatio
 {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     NSApplication *app = [NSApplication sharedApplication];
-	[app setDelegate:[[SokiraLE_AppDelegate alloc] initWithDelegate: delegate andApplication: application]];
-	
+	id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate andApplication: application];
+	[app setDelegate: appDelegate];
+//	[appDelegate release];
+//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 //	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
 //	[app setApplicationIconImage: myImage];
 
@@ -175,6 +183,7 @@ SInt32 CGuiApplicationCocoaImpl::run(CApplicationDelegate* delegate, CApplicatio
 //	[[NSMenu alloc] initWithTitle:@"MyApp"];
 //		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
     [app run];
+	std::cout << "[app run] exited" << std::endl;
 	[pool release];
 
 	return 0;

@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_gui_slCWindow_h
+#define SL_LE_gui_slCWindow_h
 
 #include <le/core/config/slPrefix.h>
 #include "slCControl.h"
@@ -28,6 +29,8 @@ class CWindow : public CControl
 		virtual void addChild(CControl* child);
 		virtual void removeChild(CControl* child);
 
+		virtual void draw(const CTheme*, CRenderingContext* constext) const;
+
 //		virtual void moveLastToDraw();
 
 		// Mouse events
@@ -43,6 +46,7 @@ class CWindow : public CControl
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 
 
 		typedef std::list<CControl*> CControlList;
@@ -68,3 +72,5 @@ class CWindow : public CControl
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_gui_slCWindow_h

@@ -37,9 +37,12 @@ class CGuiScene : public CScene, public CWindow
 
 		virtual void setNeedsRedraw();
 
+		virtual Bool hitTest(const CPoint& point) const;
+
 	protected:
 		virtual Bool childBecomesFirstResponder(CControl* child, CWindow* parent);
 		virtual Bool isChildFirstResponder(const CControl* child) const;
+		virtual void setScreen(CScreen* screen);
 
 	private:
 		CControl* mFirstResponder;

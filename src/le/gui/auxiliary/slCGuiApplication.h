@@ -1,6 +1,7 @@
 #if !defined SL_LE_gui_auxiliary_slCGuiApplication_h
 #define SL_LE_gui_auxiliary_slCGuiApplication_h
 
+#include <vector>
 #include <le/core/auxiliary/slCApplication.h>
 
 namespace sokira
@@ -25,6 +26,7 @@ class CGuiApplication : public CApplication
 
 	private:
 		void* mImpl;
+		std::vector<CScreen*> mScreens;
 };
 
 	} // namespace le

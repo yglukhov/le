@@ -1,3 +1,4 @@
+#include "slCTheme.h"
 #include "slCButton.h"
 #include "slCScreen.h"
 
@@ -46,6 +47,17 @@ CButton::CButton(const CRectangle& rect) :
 //	return false;
 //}
 
+void CButton::setText(const CString& text)
+{
+	mText = text;
+}
+
+CString CButton::text() const
+{
+	return mText;
+}
+
+
 Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
 {
 //	std::cout << "Button down!" << std::endl;
@@ -89,6 +101,12 @@ void CButton::controlDidResignFirstResponder()
 {
 //	std::cout << "Button did resign first responder!" << std::endl;
 }
+
+void CButton::draw(const CTheme* theme, CRenderingContext* context) const
+{
+	theme->drawButton(this, context);
+}
+
 
 EButtonState CButton::state() const
 {

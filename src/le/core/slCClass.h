@@ -5,6 +5,7 @@
 // Includes
 #include <typeinfo>
 #include <set>
+#include <vector>
 #include "base/slCBasicString.h"
 #include "base/slTCSelector.h"
 #include "slTCPointer.h"
@@ -183,6 +184,8 @@ class CClass
 		template <class TCastTo>
 		TCPointer<TCastTo> create() const;
 
+		std::vector<CClass> parents() const;
+		
 	// Private:
 		CClass(IClassImpl* impl);
 
@@ -224,6 +227,7 @@ class IClassImpl
 		virtual void* create(const std::type_info& type) const = 0;
 		virtual const std::type_info& stdType() const = 0;
 		virtual bool isChildOfStdClass(const std::type_info& type) const = 0;
+		virtual std::vector<CClass> parents() const = 0;
 
 	protected:
 		IClassImpl(const char*);
@@ -336,6 +340,26 @@ struct TSChildOf<_SNullType>
 };
 
 
+template <class TListNode>
+struct TSForTypeListParentFind
+{
+	static void addParent(std::vector<CClass>& res)
+	{
+		res.push_back(TListNode::Head::staticClass());
+		TSForTypeListParentFind<typename TListNode::Tail>::addParent(res);
+	}
+};
+
+template <>
+struct TSForTypeListParentFind<_SNullType>
+{
+	static void addParent(std::vector<CClass>& res)
+	{
+
+	}
+};
+
+
 template <class T>
 class TCClassImpl : public IClassImpl
 {
@@ -361,6 +385,13 @@ class TCClassImpl : public IClassImpl
 		virtual const std::type_info& stdType() const
 		{
 			return typeid(T);
+		}
+
+		virtual std::vector<CClass> parents() const
+		{
+			std::vector<CClass> result;
+			TSForTypeListParentFind<typename T::leParents::_headNode>::addParent(result);
+			return result;
 		}
 };
 

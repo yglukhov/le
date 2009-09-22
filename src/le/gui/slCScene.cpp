@@ -12,6 +12,11 @@ CScene::CScene() :
 
 }
 
+CScene::~CScene()
+{
+
+}
+
 Bool CScene::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
 {
 	return false;

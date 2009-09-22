@@ -1,5 +1,6 @@
 #pragma once
 
+#include <le/core/geometry/slTCPoint2D.h>
 #include "slTypes.h"
 
 namespace sokira

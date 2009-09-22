@@ -1,5 +1,6 @@
 #pragma once
 
+#include <le/core/slCString.h>
 #include "slTypes.h"
 #include "slCWindow.h"
 
@@ -19,7 +20,7 @@ class CScreen : public CObject
 	LE_DECLARE_RUNTIME_CLASS(CScreen);
 
 	public:
-		CScreen(bool fullscreen = true, const char* title = NULL,
+		CScreen(bool fullscreen = true, const CString& title = CString(),
 				  const CRectangle& rect = DEFAULT_SCREEN_RECT);
 		~CScreen();
 
@@ -43,6 +44,7 @@ class CScreen : public CObject
 
 		// Do not call these functions directly.
 		void _screenWasResized();
+		void _screenWillBeClosed();
 		void _prepareOpenGL();
 
 		void onMouse(EMouseButton button, EButtonState state, const CPoint& point);

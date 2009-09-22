@@ -11,6 +11,9 @@ namespace sokira
 class COpenGLRenderingContext : public CRenderingContext
 {
 	public:
+		COpenGLRenderingContext();
+		~COpenGLRenderingContext();
+
 		virtual void setColor(SInt8 r, SInt8 g, SInt8 b);
 		virtual void setColor(SInt8 r, SInt8 g, SInt8 b, SInt8 a);
 		virtual void setColor(const SInt8* vector);
@@ -44,12 +47,20 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual void setColor(const Float64* vector);
 		virtual void setColorWithAlpha(const Float64* vector);
 
+		virtual void setLineWidth(Float32 width);
+
 		// Geometry
-		virtual void drawLine(const CPoint& a, const CPoint& b);
+		virtual void drawText(const CString& text, const CPoint2D& position);
+		virtual void drawSegment(const CSegment2D& segment);
+		virtual void drawSegment(const CSegment3D& segment);
 		virtual void drawRect(const CRectangle& rect);
 		virtual void drawWireRect(const CRectangle& rect);
 		virtual void drawBox(const CBox& box);
 		virtual void drawWireBox(const CBox& box);
+
+	private:
+		UInt32 makeFont();
+		UInt32 mFontOffset;
 };
 		
 	} // namespace le

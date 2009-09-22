@@ -17,6 +17,7 @@ class CXMLNode
 {
 	public:
 		CXMLNode(const CString& name, const std::map<CString, CString>& attributes, CXMLNode* parentNode);
+		~CXMLNode();
 		CString name() const;
 
 		CXMLNode* parent();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <le/core/slCString.h>
 #include "slCControl.h"
 #include "slCControlDelegate.h"
 
@@ -18,6 +19,9 @@ class CButton: public CControl//, public CControlDelegate
 
 		EButtonState state() const;
 
+		void setText(const CString& text);
+		CString text() const;
+
 	protected:
 
 //		virtual bool canSetFocus();
@@ -35,10 +39,14 @@ class CButton: public CControl//, public CControlDelegate
 		virtual void controlDidBecomeFirstResponder();
 		virtual void controlDidResignFirstResponder();
 
+
+		virtual void draw(const CTheme* theme, CRenderingContext* constext) const;
+
 //		virtual bool onMouseMove(int x, int y);
 
 //		virtual bool onKeyPressed(unsigned char inKey);		
 	private:
+		CString mText;
 		EButtonState mState;
 };
 

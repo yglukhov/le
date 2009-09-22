@@ -20,7 +20,7 @@ class CDelegator
 		CDelegator(T2* del1, T* del2, CControl* sender) :
 			mDel1(dynamic_cast<T*>(del1)), mDel2(del2), mSender(sender)
 		{
-		
+
 		}
 
 		template<class ARG>
@@ -56,7 +56,6 @@ class CDelegator
 		CControl* mSender;
 };
 
-//static CControl* _firstResponder = NULL;
 
 CControl::CControl() :
 	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f)
@@ -73,9 +72,6 @@ CControl::CControl(const CRectangle& rect) :
 CControl::~CControl()
 {
 	LE_ENTER_LOG;
-
-//	if(_firstResponder == this)
-//		_firstResponder = NULL;
 }
 
 void CControl::destroy()
@@ -84,8 +80,6 @@ void CControl::destroy()
 
 	if(mParent)
 		mParent->removeChild(this);
-
-//	CScreen::instance()->addControlToDelete(this);
 }
 
 CRectangle CControl::absoluteRect() const
@@ -120,31 +114,144 @@ void CControl::setSize(const CSize& Size)
 	}
 }
 
+static void logAutoresizingMask(std::ostream& ostream, UInt32 mask)
+{
+	if ((mask & eAutoResizingFixedMargins) == eAutoResizingFixedMargins)
+	{
+		std::cout << "eAutoResizingFixedMargins | ";
+	}
+	else
+	{
+		if ((mask & eAutoResizingFixedTopLeft) == eAutoResizingFixedTopLeft)
+		{
+			std::cout << "eAutoResizingFixedTopLeft | ";
+		}
+		else
+		{
+			if (mask & eAutoResizingFixedTop)
+				std::cout << "eAutoResizingFixedTop | ";
+			if (mask & eAutoResizingFixedLeft)
+				std::cout << "eAutoResizingFixedLeft | ";
+		}
+		if (mask & eAutoResizingFixedRight)
+			std::cout << "eAutoResizingFixedRight | ";
+		if (mask & eAutoResizingFixedBottom)
+			std::cout << "eAutoResizingFixedBottom | ";
+	}
+
+	if ((mask & eAutoResizingFixedSize) == eAutoResizingFixedSize)
+	{
+		std::cout << "eAutoResizingFixedSize | ";
+	}
+	else
+	{
+		if (mask & eAutoResizingFixedWidth)
+			std::cout << "eAutoResizingFixedWidth | ";
+		if (mask & eAutoResizingFixedHeight)
+			std::cout << "eAutoResizingFixedHeight | ";
+	}
+
+}
+
 void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 {
 	LE_ENTER_LOG;
 
+	Bool bLog = false;
+
+	if (objectClass().name() == "CMainMenu")
+	{
+		bLog = true;
+	}
+
 	float deltaWidth = toSize.width() - fromSize.width();
 	float deltaHeight = toSize.height() - fromSize.height();
 
+	CPoint2D pos = relativePosition();
 	CSize newSize(mRect.size());
 
-	if((mAutoResizingMask & eAutoResizingFixedRight) && !(mAutoResizingMask & eAutoResizingFixedLeft))
+//	float leftRatio = fromSize.width() / rect.x();
+//	float widthRatio = fromSize.width() / rect.width();
+//	float rightRatio = fromSize.width() / (fromSize.width() - rect.width() - rect.x());
+//
+//	float newLeftRatio = 1.0f;
+//	float newWidthRatio = 1.0f;
+//	float newRightRatio = 1.0f;
+if (bLog)
+{
+	std::cout << "parentResized(CSize(" << fromSize.width() << ", " << fromSize.height() << "), CSize(" << toSize.width() << ", " << toSize.height() << "))" << std::endl;
+	std::cout << "mask: ";
+	logAutoresizingMask(std::cout, mAutoResizingMask);
+	std::cout << std::endl;
+}
+
+	if (fromSize.width() > 0)
 	{
-		mRect.x(mRect.x() + deltaWidth);
-	}
-	else if(mAutoResizingMask & eAutoResizingFixedRight)
-	{
-		newSize.width(mRect.width() + deltaWidth);
+		if ((mAutoResizingMask & eAutoResizingFixedLeft) && (mAutoResizingMask & eAutoResizingFixedWidth))
+		{	// l + w
+			
+		}
+		else if ((mAutoResizingMask & eAutoResizingFixedLeft) && (mAutoResizingMask & eAutoResizingFixedRight))
+		{ // l + r
+			newSize.width(newSize.width() + deltaWidth);
+		}
+		else if ((mAutoResizingMask & eAutoResizingFixedWidth) && (mAutoResizingMask & eAutoResizingFixedRight))
+		{ // w + r
+			mRect.x(mRect.x() + deltaWidth);
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedLeft)
+		{ // l
+			newSize.width(toSize.width() / (fromSize.width() / mRect.width()));
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedWidth)
+		{ // w
+			Float32 oldLeftRatio = pos.x() ? (fromSize.width() - mRect.width()) / pos.x() : 2.0f;
+			Float32 newLeft = (toSize.width() - mRect.width()) / oldLeftRatio;
+			mRect.x(mRect.x() + newLeft - pos.x());
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedRight)
+		{ // r
+		
+		}
+		else
+		{ // 0
+
+		}
 	}
 
-	if((mAutoResizingMask & eAutoResizingFixedBottom) && !(mAutoResizingMask & eAutoResizingFixedTop))
+
+	if (fromSize.height() > 0)
 	{
-		mRect.y(mRect.y() + deltaHeight);
-	}
-	else if(mAutoResizingMask & eAutoResizingFixedBottom)
-	{
-		newSize.height(mRect.height() + deltaHeight);
+		if ((mAutoResizingMask & eAutoResizingFixedTop) && (mAutoResizingMask & eAutoResizingFixedHeight))
+		{	// l + w
+			
+		}
+		else if ((mAutoResizingMask & eAutoResizingFixedTop) && (mAutoResizingMask & eAutoResizingFixedBottom))
+		{ // l + r
+			newSize.height(newSize.height() + deltaHeight);
+		}
+		else if ((mAutoResizingMask & eAutoResizingFixedHeight) && (mAutoResizingMask & eAutoResizingFixedBottom))
+		{ // w + r
+			mRect.x(mRect.x() + deltaHeight);
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedTop)
+		{ // l
+			newSize.height(toSize.height() / (fromSize.height() / mRect.height()));
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedHeight)
+		{ // w
+			Float32 oldTopRatio = pos.y() ? (fromSize.height() - mRect.height()) / pos.y() : 2.0f;
+			Float32 newTop = (toSize.height() - mRect.height()) / oldTopRatio;
+			mRect.y(mRect.y() + newTop - pos.y());
+		}
+		else if (mAutoResizingMask & eAutoResizingFixedBottom)
+		{ // r
+		
+		}
+		else
+		{ // 0
+
+		}
 	}
 
 	setSize(newSize);
@@ -190,8 +297,6 @@ void CControl::setRelativePosition(const CPoint& point)
 	CPoint parentPosition = (mParent)?(mParent->absolutePosition()):(CPoint());
 	mRect.position(CPoint(parentPosition.x() + point.x(), parentPosition.y() + point.y()));
 	if (mDelegate) mDelegate->onMove(this);
-//
-//	CScreen::instance()->invalidate();
 }
 
 void CControl::delegate(CControlDelegate* Delegate)
@@ -218,45 +323,6 @@ void CControl::borderWidth(float width)
 	mBorderWidth = width;
 }
 
-//bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
-//{
-//	LE_ENTER_LOG;
-//
-//	CPoint absPos = absolutePosition();
-//	CPoint relPoint(point.x() - absPos.x(), point.y() - absPos.y());
-//	CDelegator<CControlDelegate> delegator(this, mDelegate, this);
-//
-//	switch(button)
-//	{
-//		case eMouseButtonLeft:
-//		{
-//			std::cout << "CControl::onMouse" << std::endl;
-//			if(state == eButtonStateDown)
-//				setFocus();
-//			return (state == eButtonStateUp)?delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftUp, relPoint):
-//														delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseLeftDown, relPoint);
-//		}
-//		case eMouseButtonMiddle:
-//		{
-//			std::cout << "CControl::onMouse" << std::endl;
-//			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleUp, relPoint)):
-//														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMiddleDown, relPoint));
-//		}
-//		case eMouseButtonRight:
-//		{
-//			std::cout << "CControl::onMouse" << std::endl;
-//			return (state == eButtonStateUp)?(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightUp, relPoint)):
-//														(delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseRightDown, relPoint));
-//		}
-//		default:
-//		{
-//			return delegator.callMethod1<const CPoint&>(&CControlDelegate::onMouseMove, relPoint);
-//		}
-//	}
-//	
-//	return false;
-//}
-
 Bool CControl::onMouseDown(EMouseButton button, const CPoint& point)
 {
 	return false;
@@ -281,6 +347,32 @@ Bool CControl::onMouseIn(const CPoint& point)
 {
 	return false;
 }
+
+Bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+{
+	return (hitTest(point))?(performMouse(button, state, point)):(false);
+}
+
+Bool CControl::hitTest(const CPoint& point) const
+{
+	return isFirstResponder() || absoluteRect().pointInRect(point);
+}
+
+Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoint& point)
+{
+	switch (state)
+	{
+		case eButtonStateDown:
+			becomeFirstResponder();
+			return onMouseDown(button, point);
+		case eButtonStateUp:
+			return onMouseUp(button, point);
+		default: ;
+	}
+
+	return onMouseHover(point);
+}
+
 
 //Bool CControl::mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme)
 //{
@@ -366,6 +458,12 @@ void CControl::setParent(CWindow* newParent)
 void CControl::setNeedsRedraw()
 {
 	if (mParent) mParent->setNeedsRedraw();
+}
+
+void CControl::draw(const CTheme* theme, CRenderingContext* context) const
+{
+//	std::cout << "CControl::draw" << std::endl;
+	theme->drawControl(this, context);
 }
 
 Bool CControl::becomeFirstResponder()

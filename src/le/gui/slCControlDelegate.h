@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le/core/config/slPrefix.h>
+#include <le/core/geometry/slTCPoint2D.h>
 
 namespace sokira
 {
@@ -8,7 +9,7 @@ namespace sokira
 	{
 
 class CControl;
-class CPoint;
+//class CPoint;
 class CSize;
 class CNotification;
 class CTitleBar;

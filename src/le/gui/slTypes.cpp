@@ -9,7 +9,7 @@ namespace sokira
 //#pragma mark -- CPoint --
 ////////////////////////////////////////////////////////////////////////////////
 
-CPoint::CPoint(float x, float y, float z) :
+/*CPoint::CPoint(float x, float y, float z) :
 	mX(x), mY(y), mZ(z)
 {
 
@@ -73,7 +73,7 @@ bool CPoint::operator==(const CPoint& point) const
 bool CPoint::operator!=(const CPoint& point) const
 {
 	return !(operator==(point));
-}
+}*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // CSize

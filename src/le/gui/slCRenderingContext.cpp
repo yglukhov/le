@@ -1,18 +1,11 @@
-/*
- *  slCRenderingContext.cpp
- *  le
- *
- *  Created by Yuriy Glukhov on 9/9/09.
- *  Copyright 2009 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "slCRenderingContext.h"
 
 namespace sokira
 {
 	namespace le
 	{		
+
+CRenderingContext::~CRenderingContext() { }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Set color functions
@@ -49,9 +42,14 @@ void CRenderingContext::setColor(Float64 r, Float64 g, Float64 b, Float64 a) { }
 void CRenderingContext::setColor(const Float64* vector) { }
 void CRenderingContext::setColorWithAlpha(const Float64* vector) { }
 
+void CRenderingContext::setLineWidth(Float32 width) { }
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Geometry
-void CRenderingContext::drawLine(const CPoint& a, const CPoint& b) { }
+void CRenderingContext::drawText(const CString& text, const CPoint2D& position) { }
+void CRenderingContext::drawSegment(const CSegment2D& segment) { }
+void CRenderingContext::drawSegment(const CSegment3D& segment) { }
 void CRenderingContext::drawRect(const CRectangle& rect) { }
 void CRenderingContext::drawWireRect(const CRectangle& rect) { }
 void CRenderingContext::drawBox(const CBox& box) { }
