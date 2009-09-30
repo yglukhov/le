@@ -1,0 +1,38 @@
+#if !defined SL_LE_gui_base_slCOpenGLTextureImpl_hp
+#define SL_LE_gui_base_slCOpenGLTextureImpl_hp
+
+#include "slCTextureImpl.hp"
+
+namespace sokira
+{
+	namespace le
+	{
+
+class COpenGLTextureImpl : public CTextureImpl
+{
+	public:
+		COpenGLTextureImpl(UInt32 texture, const CSize2D& size) :
+			mTexture(texture),
+			mSize(size)
+		{
+
+		}
+
+		~COpenGLTextureImpl()
+		{
+			if (mTexture) glDeleteTextures(1, &mTexture);
+		}
+
+		virtual CSize2D size() const
+		{
+			return mSize;
+		}
+
+		UInt32 mTexture;
+		CSize2D mSize;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCOpenGLTextureImpl_hp

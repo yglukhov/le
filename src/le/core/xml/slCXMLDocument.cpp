@@ -42,6 +42,7 @@ CXMLNode* CXMLDocument::rootNode()
 
 void CXMLDocument::onStartTag(CXMLParser* parser, CString name, CXMLParser::TArrtibutes attributes)
 {
+//	std::cout << "onStartTag: " << name << std::endl;
 	CXMLNode* newNode = new CXMLNode(name, attributes, mCurrentNode);
 	if (mCurrentNode)
 	{

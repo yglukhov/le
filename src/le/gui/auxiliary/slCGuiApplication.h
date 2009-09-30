@@ -19,6 +19,8 @@ class CGuiApplication : public CApplication
 
 		void addScreen(CScreen* screen);
 
+		virtual void quit();
+
 	protected:
 		virtual SInt32 runApplication();
 		virtual void screenWillBeAddedToApplication(CScreen* screen);

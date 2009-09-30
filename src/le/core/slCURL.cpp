@@ -96,5 +96,16 @@ void CURL::removeLastPathComponents(UInt32 componentCount)
 	}
 }
 
+void CURL::appendPathComponent(const CString& component)
+{
+	mPath += "/";
+	mPath += component;
+}
+
+std::ostream& operator << (std::ostream& stream, const CURL& url)
+{
+	return stream << url.path();
+}
+
 	} // namespace le
 } // namespace sokira

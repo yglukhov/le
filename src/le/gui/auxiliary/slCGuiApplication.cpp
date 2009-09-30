@@ -101,7 +101,7 @@ CGuiApplication::~CGuiApplication()
 //static void onResize(int x, int y)
 //{
 ////	CAutoreleasePool autoreleasePool;
-//	CScreen::instance()->setSize(CSize((float)x, (float)y));
+//	CScreen::instance()->setSize(CSize2D((float)x, (float)y));
 //}
 
 void CGuiApplication::addScreen(CScreen* screen)
@@ -114,6 +114,11 @@ void CGuiApplication::addScreen(CScreen* screen)
 		screenWasAddedToApplication(screen);
 		screen->screenWasAddedToApplication(this);
 	}
+}
+
+void CGuiApplication::quit()
+{
+	static_cast<CGuiApplicationImpl*>(mImpl)->quit();
 }
 
 void CGuiApplication::screenWillBeAddedToApplication(CScreen* screen)

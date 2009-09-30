@@ -13,6 +13,7 @@ class CURL : public CObject
 {
 	LE_RTTI_BEGIN
 		LE_RTTI_SELF(CURL)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
 	LE_RTTI_END
 
 	public:
@@ -33,10 +34,14 @@ class CURL : public CObject
 		Bool operator == (const CURL& url) const;
 
 		void removeLastPathComponents(UInt32 componentCount = 1);
+		void appendPathComponent(const CString& component);
 
 	private:
 		CString mPath;
 };
+
+std::ostream& operator << (std::ostream& stream, const CURL& url);
+
 
 	} // namespace le
 } // namespace sokira

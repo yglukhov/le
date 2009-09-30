@@ -25,6 +25,8 @@ class CXMLNode
 		CXMLNodeArray childrenWithName(const CString& name);
 		CXMLNode* firstChildWithName(const CString& name);
 
+		UInt32 childrenCount() const;
+
 		Bool hasAttribute(const CString& name) const;
 		CString attribute(const CString& name) const;
 

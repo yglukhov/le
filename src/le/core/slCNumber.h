@@ -63,6 +63,20 @@ class CNumber : public CObject, CNumberBase
 		const CNumber& operator*=(const CNumber& value);
 		const CNumber& operator/=(const CNumber& value);
 
+		void setBigEndianValue(UInt32);
+		void setBigEndianValue(UInt64);
+		void setBigEndianValue(UInt16);
+		void setBigEndianValue(SInt64);
+		void setBigEndianValue(SInt32);
+		void setBigEndianValue(SInt16);
+
+		void setLittleEndianValue(UInt64);
+		void setLittleEndianValue(UInt32);
+		void setLittleEndianValue(UInt16);
+		void setLittleEndianValue(SInt64);
+		void setLittleEndianValue(SInt32);
+		void setLittleEndianValue(SInt16);
+
 		template <typename T>
 		inline T valueAs() const { return valueAs(TSTypeToType<T>()); }
 
@@ -120,6 +134,49 @@ class CNumber : public CObject, CNumberBase
 
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
+
+		// Endian conversion
+		static UInt64 hostToBigEndian(UInt64 value);
+		static UInt32 hostToBigEndian(UInt32 value);
+		static UInt16 hostToBigEndian(UInt16 value);
+		static SInt64 hostToBigEndian(SInt64 value);
+		static SInt32 hostToBigEndian(SInt32 value);
+		static SInt16 hostToBigEndian(SInt16 value);
+
+		static UInt64 hostToLittleEndian(UInt64 value);
+		static UInt32 hostToLittleEndian(UInt32 value);
+		static UInt16 hostToLittleEndian(UInt16 value);
+		static SInt64 hostToLittleEndian(SInt64 value);
+		static SInt32 hostToLittleEndian(SInt32 value);
+		static SInt16 hostToLittleEndian(SInt16 value);
+
+		static UInt64 bigEndianToHost(UInt64 value);
+		static UInt32 bigEndianToHost(UInt32 value);
+		static UInt16 bigEndianToHost(UInt16 value);
+		static SInt64 bigEndianToHost(SInt64 value);
+		static SInt32 bigEndianToHost(SInt32 value);
+		static SInt16 bigEndianToHost(SInt16 value);
+
+		static UInt64 littleEndianToHost(UInt64 value);
+		static UInt32 littleEndianToHost(UInt32 value);
+		static UInt16 littleEndianToHost(UInt16 value);
+		static SInt64 littleEndianToHost(SInt64 value);
+		static SInt32 littleEndianToHost(SInt32 value);
+		static SInt16 littleEndianToHost(SInt16 value);
+
+		static UInt64 littleEndianToBigEndian(UInt64 value);
+		static UInt32 littleEndianToBigEndian(UInt32 value);
+		static UInt16 littleEndianToBigEndian(UInt16 value);
+		static SInt64 littleEndianToBigEndian(SInt64 value);
+		static SInt32 littleEndianToBigEndian(SInt32 value);
+		static SInt16 littleEndianToBigEndian(SInt16 value);
+
+		static UInt64 bigEndianToLittleEndian(UInt64 value);
+		static UInt32 bigEndianToLittleEndian(UInt32 value);
+		static UInt16 bigEndianToLittleEndian(UInt16 value);
+		static SInt64 bigEndianToLittleEndian(SInt64 value);
+		static SInt32 bigEndianToLittleEndian(SInt32 value);
+		static SInt16 bigEndianToLittleEndian(SInt16 value);
 
 	private:
 		SInt8 valueAs(TSTypeToType<SInt8>) const;

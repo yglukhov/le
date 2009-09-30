@@ -27,6 +27,8 @@ class CGuiApplicationCocoaImpl
 
 		}
 
+		void quit();
+
 	private:
 	//	void* mImpl;
 };

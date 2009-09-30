@@ -82,14 +82,14 @@ void CScreen::setNeedsRedraw()
 //	glutPostRedisplay();
 }
 
-CSize CScreen::size() const
+CSize2D CScreen::size() const
 {
 	LE_ENTER_LOG;
 //	return mRect.size();
 	return static_cast<CScreenImpl*>(mImpl)->size();
 }
 
-void CScreen::setSize(const CSize& size)
+void CScreen::setSize(const CSize2D& size)
 {
 	LE_ENTER_LOG;
 
@@ -108,6 +108,8 @@ void CScreen::setSize(const CSize& size)
 void CScreen::draw()
 {
 	LE_ENTER_LOG;
+
+	std::cout << "CScreen::draw: " << title() << std::endl;
 
 	// Handle live resize
 	if (!mSizeChanged)
@@ -139,7 +141,7 @@ void CScreen::draw()
 	}
 
 
-//	CSize Size = CScreen::size();
+//	CSize2D Size = CScreen::size();
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
@@ -195,6 +197,11 @@ CPoint CScreen::relativePosition() const // TODO: ...
 	return CPoint(0, 0);
 }
 
+CString CScreen::title() const
+{
+	return static_cast<CScreenImpl*>(mImpl)->title();
+}
+
 void CScreen::color(const CColor& Color)
 {
 	LE_ENTER_LOG;
@@ -239,7 +246,7 @@ void CScreen::addScene(CScene* scene, UInt32 order)
 void CScreen::_prepareOpenGL()
 {
 	mRenderingContext = new COpenGLRenderingContext();
-	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
+//	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
 }
 
 void CScreen::_screenWasResized()
@@ -257,6 +264,7 @@ void CScreen::_screenWillBeClosed()
 // This event includes mouse up, mouse down and mouse hover.
 void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
 {
+	std::cout << "CScreen::onMouse: " << title() << std::endl;
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
@@ -303,10 +311,10 @@ void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
 // This method is always called within valid OpenGL context
 void CScreen::onResize()
 {
-	CSize prevSize = mSize;
+	CSize2D prevSize = mSize;
 	mSize = static_cast<CScreenImpl*>(mImpl)->size();
 
-//	std::cout << "CScreen::onResize" << std::endl;
+	std::cout << "CScreen::onResize: " << title() << std::endl;
 //	std::cout << "{" << std::endl;
 
 	glViewport(0, 0, (int)mSize.width(), (int)mSize.height());
@@ -322,6 +330,7 @@ void CScreen::onResize()
 	}
 
 //	std::cout << "}" << std::endl;
+	setNeedsRedraw();
 }
 
 	} // namespace le

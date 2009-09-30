@@ -46,6 +46,13 @@
 #define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_UNIX
 #endif
 
+#ifdef __ppc__
+#define LE_ENDIAN LE_ENDIAN_BIG
+#else
+#define LE_ENDIAN LE_ENDIAN_LITTLE
+#endif
+
+
 #endif // defined __GNUC__
 
 #endif // not defined SL_LE_core_config_base_slGCC_h

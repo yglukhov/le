@@ -1,4 +1,7 @@
+#include <le/core/base/slCImageImpl.hp>
+
 #include "slCRenderingContext.h"
+#include "slCTexture.h"
 
 namespace sokira
 {
@@ -43,6 +46,18 @@ void CRenderingContext::setColor(const Float64* vector) { }
 void CRenderingContext::setColorWithAlpha(const Float64* vector) { }
 
 void CRenderingContext::setLineWidth(Float32 width) { }
+void CRenderingContext::setTexture(const CTexture& texture)
+{
+	if (texture.mImageImpl && !texture.mImpl)
+	{
+		texture.mImpl = createTextureImpl(&texture, texture.mImageImpl);
+		texture.mImageImpl->release();
+		texture.mImageImpl = NULL;
+	}
+	if (texture.mImpl) setTextureImpl(texture.mImpl);
+}
+
+void CRenderingContext::unsetTexture() { }
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +69,10 @@ void CRenderingContext::drawRect(const CRectangle& rect) { }
 void CRenderingContext::drawWireRect(const CRectangle& rect) { }
 void CRenderingContext::drawBox(const CBox& box) { }
 void CRenderingContext::drawWireBox(const CBox& box) { }
+CTextureImpl* CRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl) { return NULL; }
+void CRenderingContext::setTextureImpl(const CTextureImpl* textureImpl) { }
+
+
 
 	} // namespace le
 } // namespace sokira

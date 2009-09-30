@@ -58,13 +58,13 @@ class CDelegator
 
 
 CControl::CControl() :
-	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f)
+	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f), mVisible(true)
 {
 	LE_ENTER_LOG;
 }
 
 CControl::CControl(const CRectangle& rect) :
-	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f), mRect(rect)
+	mParent(NULL), mDelegate(NULL), mAutoResizingMask(eAutoResizingFixedTopLeft), mBorderWidth(1.0f), mVisible(true), mRect(rect)
 {
 	LE_ENTER_LOG;
 }
@@ -94,13 +94,13 @@ CRectangle CControl::relativeRect() const
 	return CRectangle(relativePosition(), size());
 }
 
-CSize CControl::size() const
+CSize2D CControl::size() const
 {
 	LE_ENTER_LOG;
 	return mRect.size();
 }
 
-void CControl::setSize(const CSize& Size)
+void CControl::setSize(const CSize2D& Size)
 {
 	LE_ENTER_LOG;
 
@@ -153,7 +153,7 @@ static void logAutoresizingMask(std::ostream& ostream, UInt32 mask)
 
 }
 
-void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
+void CControl::parentResized(const CSize2D& fromSize, const CSize2D& toSize)
 {
 	LE_ENTER_LOG;
 
@@ -168,7 +168,8 @@ void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 	float deltaHeight = toSize.height() - fromSize.height();
 
 	CPoint2D pos = relativePosition();
-	CSize newSize(mRect.size());
+	CSize2D newSize(mRect.size());
+	CPoint2D newPos = mRect.position();
 
 //	float leftRatio = fromSize.width() / rect.x();
 //	float widthRatio = fromSize.width() / rect.width();
@@ -179,7 +180,7 @@ void CControl::parentResized(const CSize& fromSize, const CSize& toSize)
 //	float newRightRatio = 1.0f;
 if (bLog)
 {
-	std::cout << "parentResized(CSize(" << fromSize.width() << ", " << fromSize.height() << "), CSize(" << toSize.width() << ", " << toSize.height() << "))" << std::endl;
+	std::cout << "parentResized(CSize2D(" << fromSize.width() << ", " << fromSize.height() << "), CSize2D(" << toSize.width() << ", " << toSize.height() << "))" << std::endl;
 	std::cout << "mask: ";
 	logAutoresizingMask(std::cout, mAutoResizingMask);
 	std::cout << std::endl;
@@ -193,21 +194,21 @@ if (bLog)
 		}
 		else if ((mAutoResizingMask & eAutoResizingFixedLeft) && (mAutoResizingMask & eAutoResizingFixedRight))
 		{ // l + r
-			newSize.width(newSize.width() + deltaWidth);
+			newSize.setWidth(newSize.width() + deltaWidth);
 		}
 		else if ((mAutoResizingMask & eAutoResizingFixedWidth) && (mAutoResizingMask & eAutoResizingFixedRight))
 		{ // w + r
-			mRect.x(mRect.x() + deltaWidth);
+			newPos.x(mRect.x() + deltaWidth);
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedLeft)
 		{ // l
-			newSize.width(toSize.width() / (fromSize.width() / mRect.width()));
+			newSize.setWidth(toSize.width() / (fromSize.width() / mRect.width()));
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedWidth)
 		{ // w
 			Float32 oldLeftRatio = pos.x() ? (fromSize.width() - mRect.width()) / pos.x() : 2.0f;
 			Float32 newLeft = (toSize.width() - mRect.width()) / oldLeftRatio;
-			mRect.x(mRect.x() + newLeft - pos.x());
+			newPos.x(mRect.x() + newLeft - pos.x());
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedRight)
 		{ // r
@@ -228,21 +229,21 @@ if (bLog)
 		}
 		else if ((mAutoResizingMask & eAutoResizingFixedTop) && (mAutoResizingMask & eAutoResizingFixedBottom))
 		{ // l + r
-			newSize.height(newSize.height() + deltaHeight);
+			newSize.setHeight(newSize.height() + deltaHeight);
 		}
 		else if ((mAutoResizingMask & eAutoResizingFixedHeight) && (mAutoResizingMask & eAutoResizingFixedBottom))
 		{ // w + r
-			mRect.x(mRect.x() + deltaHeight);
+			newPos.x(mRect.x() + deltaHeight);
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedTop)
 		{ // l
-			newSize.height(toSize.height() / (fromSize.height() / mRect.height()));
+			newSize.setHeight(toSize.height() / (fromSize.height() / mRect.height()));
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedHeight)
 		{ // w
 			Float32 oldTopRatio = pos.y() ? (fromSize.height() - mRect.height()) / pos.y() : 2.0f;
 			Float32 newTop = (toSize.height() - mRect.height()) / oldTopRatio;
-			mRect.y(mRect.y() + newTop - pos.y());
+			newPos.y(mRect.y() + newTop - pos.y());
 		}
 		else if (mAutoResizingMask & eAutoResizingFixedBottom)
 		{ // r
@@ -254,6 +255,7 @@ if (bLog)
 		}
 	}
 
+	setAbsolutePosition(newPos);
 	setSize(newSize);
 }
 
@@ -355,7 +357,7 @@ Bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint& po
 
 Bool CControl::hitTest(const CPoint& point) const
 {
-	return isFirstResponder() || absoluteRect().pointInRect(point);
+	return isVisible() && (isFirstResponder() || absoluteRect().pointInRect(point));
 }
 
 Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoint& point)
@@ -437,6 +439,16 @@ CWindow* CControl::parent() const
 	return mParent;
 }
 
+void CControl::setVisible(Bool visible)
+{
+	mVisible = visible;
+}
+
+Bool CControl::isVisible() const
+{
+	return mVisible;
+}
+
 void CControl::setParent(CWindow* newParent)
 {
 	LE_ENTER_LOG;
@@ -463,7 +475,8 @@ void CControl::setNeedsRedraw()
 void CControl::draw(const CTheme* theme, CRenderingContext* context) const
 {
 //	std::cout << "CControl::draw" << std::endl;
-	theme->drawControl(this, context);
+	if (isVisible())
+		theme->drawControl(this, context);
 }
 
 Bool CControl::becomeFirstResponder()

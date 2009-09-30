@@ -192,7 +192,13 @@ class A
 			return mFunctor(a);
 		}
 
+		void voidFunc()
+		{
+			mTestValue = 5;
+		}
+
 		TCFunction<int, TSTypeList<int> > mFunctor;
+		UInt32 mTestValue;
 };
 
 void CGeneralTestSuite::testBinds()
@@ -213,6 +219,11 @@ void CGeneralTestSuite::testBinds()
 
 	objA.mFunctor = bind(testFunc, 5, bindTo(0));
 	LE_ASSERT(func3() == 8);
+
+	objA.mTestValue = 0;
+	TCFunction<> func4 = bind(&A::voidFunc, &objA);
+	func4();
+	LE_ASSERT(objA.mTestValue == 5);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

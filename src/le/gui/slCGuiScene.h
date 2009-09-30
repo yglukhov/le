@@ -11,9 +11,6 @@ namespace sokira
 	namespace le
 	{
 
-class CControl;
-class CTheme;
-
 class CGuiScene : public CScene, public CWindow
 {
 	LE_RTTI_BEGIN

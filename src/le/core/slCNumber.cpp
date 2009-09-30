@@ -7,6 +7,33 @@
 #define lround(x) (x)
 #define llroundf(x) (x)
 #define llround(x) (x)
+
+////////////////////////////////////////////////////////////////////////////////
+// Endian swapping
+
+#define LE_SwapInt16(type, x) \
+	((type)((((type)(x) & 0xff00) >> 8) | \
+	(((type)(x) & 0x00ff) << 8)))
+
+#define LE_SwapInt32(type, x) \
+    ((type)((((type)(x) & 0xff000000) >> 24) | \
+                (((type)(x) & 0x00ff0000) >>  8) | \
+                (((type)(x) & 0x0000ff00) <<  8) | \
+                (((type)(x) & 0x000000ff) << 24)))
+
+#define LE_SwapInt64(type, x) \
+    ((type)((((type)(x) & 0xff00000000000000ULL) >> 56) | \
+                (((type)(x) & 0x00ff000000000000ULL) >> 40) | \
+                (((type)(x) & 0x0000ff0000000000ULL) >> 24) | \
+                (((type)(x) & 0x000000ff00000000ULL) >>  8) | \
+                (((type)(x) & 0x00000000ff000000ULL) <<  8) | \
+                (((type)(x) & 0x0000000000ff0000ULL) << 24) | \
+                (((type)(x) & 0x000000000000ff00ULL) << 40) | \
+                (((type)(x) & 0x00000000000000ffULL) << 56)))
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 namespace sokira
 {
 	namespace le
@@ -297,6 +324,79 @@ const CNumber& CNumber::operator/=(const CNumber& value)
 	return *this = this->valueAsFloat32() / rval;
 }
 
+void CNumber::setBigEndianValue(UInt64 value)
+{
+	mFormat = eFormatUInt64;
+	mData.valUInt64 = bigEndianToHost(value);
+}
+
+void CNumber::setBigEndianValue(UInt32 value)
+{
+	mFormat = eFormatUInt32;
+	mData.valUInt32 = bigEndianToHost(value);
+}
+
+void CNumber::setBigEndianValue(UInt16 value)
+{
+	mFormat = eFormatUInt16;
+	mData.valUInt16 = bigEndianToHost(value);
+}
+
+void CNumber::setBigEndianValue(SInt64 value)
+{
+	mFormat = eFormatSInt64;
+	mData.valSInt64 = bigEndianToHost(value);
+}
+
+void CNumber::setBigEndianValue(SInt32 value)
+{
+	mFormat = eFormatSInt32;
+	mData.valSInt32 = bigEndianToHost(value);
+}
+
+void CNumber::setBigEndianValue(SInt16 value)
+{
+	mFormat = eFormatSInt16;
+	mData.valSInt16 = bigEndianToHost(value);
+}
+
+
+void CNumber::setLittleEndianValue(UInt64 value)
+{
+	mFormat = eFormatUInt64;
+	mData.valUInt64 = littleEndianToHost(value);
+}
+
+void CNumber::setLittleEndianValue(UInt32 value)
+{
+	mFormat = eFormatUInt32;
+	mData.valUInt32 = littleEndianToHost(value);
+}
+
+void CNumber::setLittleEndianValue(UInt16 value)
+{
+	mFormat = eFormatUInt16;
+	mData.valUInt16 = littleEndianToHost(value);
+}
+
+void CNumber::setLittleEndianValue(SInt64 value)
+{
+	mFormat = eFormatSInt64;
+	mData.valSInt64 = littleEndianToHost(value);
+}
+
+void CNumber::setLittleEndianValue(SInt32 value)
+{
+	mFormat = eFormatSInt32;
+	mData.valSInt32 = littleEndianToHost(value);
+}
+
+void CNumber::setLittleEndianValue(SInt16 value)
+{
+	mFormat = eFormatSInt16;
+	mData.valSInt16 = littleEndianToHost(value);
+}
+
 void CNumber::serialize(CDictionary& toDictionary) const
 {
 	toDictionary.rootValue(valueAsString());
@@ -306,6 +406,234 @@ void CNumber::deserialize(const CDictionary& fromDictionary)
 {
 	operator=(fromDictionary.rootValue());
 }
+
+template <typename T>
+inline T __hostToBigEndian(T value)
+{
+#if LE_ENDIAN == LE_ENDIAN_BIG
+	return value;
+#else
+	return CNumber::littleEndianToBigEndian(value);
+#endif
+}
+
+template <typename T>
+inline T __bigEndianToHost(T value)
+{
+#if LE_ENDIAN == LE_ENDIAN_BIG
+	return value;
+#else
+	return CNumber::bigEndianToLittleEndian(value);
+#endif
+}
+
+template <typename T>
+inline T __hostToLittleEndian(T value)
+{
+#if LE_ENDIAN == LE_ENDIAN_BIG
+	return CNumber::bigEndianToLittleEndian(value);
+#else
+	return value;
+#endif
+}
+
+template <typename T>
+inline T __littleEndianToHost(T value)
+{
+#if LE_ENDIAN == LE_ENDIAN_BIG
+	return CNumber::littleEndianToBigEndian(value);
+#else
+	return value;
+#endif
+}
+
+UInt64 CNumber::hostToBigEndian(UInt64 value)
+{
+	return __hostToBigEndian(value);
+}
+
+UInt32 CNumber::hostToBigEndian(UInt32 value)
+{
+	return __hostToBigEndian(value);
+
+}
+
+UInt16 CNumber::hostToBigEndian(UInt16 value)
+{
+	return __hostToBigEndian(value);
+
+}
+
+SInt64 CNumber::hostToBigEndian(SInt64 value)
+{
+	return __hostToBigEndian(value);
+}
+
+SInt32 CNumber::hostToBigEndian(SInt32 value)
+{
+	return __hostToBigEndian(value);
+}
+
+SInt16 CNumber::hostToBigEndian(SInt16 value)
+{
+	return __hostToBigEndian(value);
+}
+
+
+UInt64 CNumber::hostToLittleEndian(UInt64 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+UInt32 CNumber::hostToLittleEndian(UInt32 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+UInt16 CNumber::hostToLittleEndian(UInt16 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+SInt64 CNumber::hostToLittleEndian(SInt64 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+SInt32 CNumber::hostToLittleEndian(SInt32 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+SInt16 CNumber::hostToLittleEndian(SInt16 value)
+{
+	return __hostToLittleEndian(value);
+}
+
+
+UInt64 CNumber::bigEndianToHost(UInt64 value)
+{
+	return __bigEndianToHost(value);
+}
+
+UInt32 CNumber::bigEndianToHost(UInt32 value)
+{
+	return __bigEndianToHost(value);
+}
+
+UInt16 CNumber::bigEndianToHost(UInt16 value)
+{
+	return __bigEndianToHost(value);
+}
+
+SInt64 CNumber::bigEndianToHost(SInt64 value)
+{
+	return __bigEndianToHost(value);
+}
+
+SInt32 CNumber::bigEndianToHost(SInt32 value)
+{
+	return __bigEndianToHost(value);
+}
+
+SInt16 CNumber::bigEndianToHost(SInt16 value)
+{
+	return __bigEndianToHost(value);
+}
+
+
+UInt64 CNumber::littleEndianToHost(UInt64 value)
+{
+	return __littleEndianToHost(value);
+}
+
+UInt32 CNumber::littleEndianToHost(UInt32 value)
+{
+	return __littleEndianToHost(value);
+}
+
+UInt16 CNumber::littleEndianToHost(UInt16 value)
+{
+	return __littleEndianToHost(value);
+}
+
+SInt32 CNumber::littleEndianToHost(SInt32 value)
+{
+	return __littleEndianToHost(value);
+}
+
+SInt64 CNumber::littleEndianToHost(SInt64 value)
+{
+	return __littleEndianToHost(value);
+}
+
+SInt16 CNumber::littleEndianToHost(SInt16 value)
+{
+	return __littleEndianToHost(value);
+}
+
+
+UInt64 CNumber::littleEndianToBigEndian(UInt64 value)
+{
+	return LE_SwapInt64(UInt64, value);
+}
+
+UInt32 CNumber::littleEndianToBigEndian(UInt32 value)
+{
+	return LE_SwapInt32(UInt32, value);
+}
+
+UInt16 CNumber::littleEndianToBigEndian(UInt16 value)
+{
+	return LE_SwapInt16(UInt16, value);
+}
+
+SInt64 CNumber::littleEndianToBigEndian(SInt64 value)
+{
+	return LE_SwapInt64(SInt64, value);
+}
+
+SInt32 CNumber::littleEndianToBigEndian(SInt32 value)
+{
+	return LE_SwapInt32(SInt32, value);
+}
+
+SInt16 CNumber::littleEndianToBigEndian(SInt16 value)
+{
+	return LE_SwapInt16(SInt16, value);
+}
+
+UInt64 CNumber::bigEndianToLittleEndian(UInt64 value)
+{
+	return LE_SwapInt64(UInt64, value);
+}
+
+UInt32 CNumber::bigEndianToLittleEndian(UInt32 value)
+{
+	return LE_SwapInt32(UInt32, value);
+}
+
+UInt16 CNumber::bigEndianToLittleEndian(UInt16 value)
+{
+	return LE_SwapInt16(UInt16, value);
+}
+
+SInt64 CNumber::bigEndianToLittleEndian(SInt64 value)
+{
+	return LE_SwapInt64(SInt64, value);
+}
+
+SInt32 CNumber::bigEndianToLittleEndian(SInt32 value)
+{
+	return LE_SwapInt32(SInt32, value);
+}
+
+SInt16 CNumber::bigEndianToLittleEndian(SInt16 value)
+{
+	return LE_SwapInt16(SInt16, value);
+}
+
+
 
 SInt8 CNumber::valueAs(TSTypeToType<SInt8>) const
 {

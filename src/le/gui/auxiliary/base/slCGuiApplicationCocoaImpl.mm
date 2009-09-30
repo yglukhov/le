@@ -179,14 +179,18 @@ SInt32 CGuiApplicationCocoaImpl::run(CApplicationDelegate* delegate, CApplicatio
 //	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
 //	[app setApplicationIconImage: myImage];
 
-	
+
 //	[[NSMenu alloc] initWithTitle:@"MyApp"];
 //		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
     [app run];
-	std::cout << "[app run] exited" << std::endl;
 	[pool release];
 
 	return 0;
+}
+
+void CGuiApplicationCocoaImpl::quit()
+{
+	[[NSApplication sharedApplication] stop: nil];
 }
 
 	} // namespace le

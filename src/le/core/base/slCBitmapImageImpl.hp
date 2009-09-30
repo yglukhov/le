@@ -1,0 +1,30 @@
+#if !defined SL_LE_core_base_slCBitmapImageImpl_hp
+#define SL_LE_core_base_slCBitmapImageImpl_hp
+
+#include <stdio.h>
+#include <le/core/geometry/slTCSize2D.h>
+#include "slCImageImpl.hp"
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CBitmapImageImpl : public CImageImpl
+{
+	public:
+		CBitmapImageImpl(FILE* file);
+		~CBitmapImageImpl();
+
+		virtual const UInt8* pixelData() const;
+		virtual CSize2D size() const;
+
+	private:
+		CSize2D mSize;
+		UInt8* mPixelData;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_base_slCBitmapImageImpl_hp

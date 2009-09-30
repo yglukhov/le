@@ -62,6 +62,11 @@ CXMLNode* CXMLNode::firstChildWithName(const CString& name)
 	return NULL;
 }
 
+UInt32 CXMLNode::childrenCount() const
+{
+	return mChildren.size();
+}
+
 Bool CXMLNode::hasAttribute(const CString& name) const
 {
 	return mAttributes.find(name) != mAttributes.end();

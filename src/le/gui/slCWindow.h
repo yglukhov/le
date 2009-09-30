@@ -20,8 +20,8 @@ class CWindow : public CControl
 		CWindow(const CRectangle& rect);
 		~CWindow();
 
-		CSize size() const;
-		virtual void setSize(const CSize& Size);
+		CSize2D size() const;
+		virtual void setSize(const CSize2D& Size);
 
 		virtual void setRelativePosition(const CPoint& Position);
 		virtual void setAbsolutePosition(const CPoint& Position);
@@ -64,7 +64,7 @@ class CWindow : public CControl
 		virtual Bool isChildFirstResponder(const CControl* child) const;
 
 	private:
-		void moveChildren(const CSize& delta);
+		void moveChildren(const CSize2D& delta);
 
 //		friend class CScreen;
 //		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);

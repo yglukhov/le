@@ -80,13 +80,13 @@ bool CPoint::operator!=(const CPoint& point) const
 ////////////////////////////////////////////////////////////////////////////////
 
 
-CSize::CSize(float width, float height, float depth) :
+CSize3D::CSize3D(float width, float height, float depth) :
 	mWidth(width), mHeight(height), mDepth(depth)
 {
 
 }
 
-CSize::CSize(const CSize& copy) :
+CSize3D::CSize3D(const CSize3D& copy) :
 	mWidth(copy.mWidth), mHeight(copy.mHeight), mDepth(copy.mDepth)
 {
 	
@@ -95,32 +95,32 @@ CSize::CSize(const CSize& copy) :
 //#pragma mark -
 
 // Attributes
-float CSize::width() const
+float CSize3D::width() const
 {
 	return mWidth;
 }
 
-void CSize::width(float Width)
+void CSize3D::width(float Width)
 {
 	mWidth = Width;
 }
 
-float CSize::height() const
+float CSize3D::height() const
 {
 	return mHeight;
 }
 
-void CSize::height(float Height)
+void CSize3D::height(float Height)
 {
 	mHeight = Height;
 }
 
-float CSize::depth() const
+float CSize3D::depth() const
 {
 	return mDepth;
 }
 
-void CSize::depth(float depth)
+void CSize3D::depth(float depth)
 {
 	mDepth = depth;
 }
@@ -128,7 +128,7 @@ void CSize::depth(float depth)
 //#pragma mark -
 
 // Operators
-CSize& CSize::operator=(const CSize& copy)
+CSize3D& CSize3D::operator=(const CSize3D& copy)
 {
 	mWidth = copy.mWidth;
 	mHeight = copy.mHeight;
@@ -137,12 +137,12 @@ CSize& CSize::operator=(const CSize& copy)
 	return *this;
 }
 
-bool CSize::operator==(const CSize& size) const
+bool CSize3D::operator==(const CSize3D& size) const
 {
 	return ((mWidth == size.mWidth) && (mHeight == size.mHeight));
 }
 
-bool CSize::operator!=(const CSize& size) const
+bool CSize3D::operator!=(const CSize3D& size) const
 {
 	return !(operator==(size));
 }
@@ -261,7 +261,6 @@ bool CRectangle::operator!=(const CRectangle& rect) const
 ////////////////////////////////////////////////////////////////////////////////
 //CBox
 ////////////////////////////////////////////////////////////////////////////////
-
 CBox::CBox(float x, float y, float z, float width, float height, float depth) :
 	CPoint3D(x, y, z), CSize3D(width, height, depth)
 {

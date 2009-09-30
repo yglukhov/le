@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le/core/slCString.h>
+#include <le/core/template/function/slTCFunction.h>
 #include "slCControl.h"
 #include "slCControlDelegate.h"
 
@@ -22,6 +23,9 @@ class CButton: public CControl//, public CControlDelegate
 		void setText(const CString& text);
 		CString text() const;
 
+		typedef TCFunction<> TOnClick;
+		void setOnClick(TOnClick& onClick);
+
 	protected:
 
 //		virtual bool canSetFocus();
@@ -33,8 +37,6 @@ class CButton: public CControl//, public CControlDelegate
 
 		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
 		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
-
-		virtual void onClick();
 
 		virtual void controlDidBecomeFirstResponder();
 		virtual void controlDidResignFirstResponder();
@@ -48,6 +50,7 @@ class CButton: public CControl//, public CControlDelegate
 	private:
 		CString mText;
 		EButtonState mState;
+		TOnClick mOnClick;
 };
 
 

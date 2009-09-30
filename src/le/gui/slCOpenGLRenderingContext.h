@@ -49,6 +49,8 @@ class COpenGLRenderingContext : public CRenderingContext
 
 		virtual void setLineWidth(Float32 width);
 
+		virtual void unsetTexture();
+
 		// Geometry
 		virtual void drawText(const CString& text, const CPoint2D& position);
 		virtual void drawSegment(const CSegment2D& segment);
@@ -57,6 +59,10 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual void drawWireRect(const CRectangle& rect);
 		virtual void drawBox(const CBox& box);
 		virtual void drawWireBox(const CBox& box);
+
+	protected:
+		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);
+		virtual void setTextureImpl(const CTextureImpl* textureImpl);
 
 	private:
 		UInt32 makeFont();

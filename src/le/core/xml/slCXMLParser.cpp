@@ -164,6 +164,7 @@ Bool CXMLParser::parse()
 	while (!isEOF())
 	{
 		WChar c = nextChar();
+//		std::cout << (char)c;
 
 		if (c == '<')
 		{

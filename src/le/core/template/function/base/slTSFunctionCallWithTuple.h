@@ -67,7 +67,7 @@ struct TSMemberFunctionCallWithTuple<T, R, 0>
 	template <typename FuncType, class TList>
 	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)
 	{
-		return (toMutablePointer(tuple.template value<0>())->*func)();
+		return (tuple.template value<0>()->*func)();
 	}
 };
 

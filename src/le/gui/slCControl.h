@@ -45,8 +45,8 @@ class CControl : public CObject
 		CRectangle absoluteRect() const;
 		CRectangle relativeRect() const;
 
-		CSize size() const;
-		virtual void setSize(const CSize& Size);
+		CSize2D size() const;
+		virtual void setSize(const CSize2D& Size);
 
 		virtual CPoint relativePosition() const;
 		virtual void setRelativePosition(const CPoint& point);
@@ -64,6 +64,9 @@ class CControl : public CObject
 		void borderWidth(float width);
 
 		CWindow* parent() const;
+
+		void setVisible(Bool visible = true);
+		Bool isVisible() const;
 
 		virtual void setNeedsRedraw();
 
@@ -103,12 +106,12 @@ class CControl : public CObject
 
 		virtual Bool hitTest(const CPoint& point) const;
 		Bool performMouse(EMouseButton button, EButtonState state, const CPoint& point);
-		
+
 
 	private:
 		friend class CScreen;
 		friend class CWindow;
-		void parentResized(const CSize& fromSize, const CSize& toSize);
+		void parentResized(const CSize2D& fromSize, const CSize2D& toSize);
 //		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
 //		virtual bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 		friend void onKey(unsigned char, int, int);
@@ -117,7 +120,8 @@ class CControl : public CObject
 		CWindow* mParent;
 		CControlDelegate* mDelegate;
 		unsigned mAutoResizingMask;
-		float mBorderWidth;
+		Float32 mBorderWidth;
+		Bool mVisible;
 		CRectangle mRect;	// Absolute ccords, if mParent != NULL, else relative.
 };
 

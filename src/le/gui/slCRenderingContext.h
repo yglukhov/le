@@ -12,7 +12,11 @@ namespace sokira
 {
 	namespace le
 	{
-		
+
+class CTexture;
+class CTextureImpl;
+class CImageImpl;
+
 class CRenderingContext
 {
 	public:
@@ -59,6 +63,9 @@ class CRenderingContext
 
 		virtual void setLineWidth(Float32 width);
 
+		void setTexture(const CTexture& texture);
+		virtual void unsetTexture();
+
 		// Geometry
 		virtual void drawText(const CString& text, const CPoint2D& position);
 		virtual void drawSegment(const CSegment2D& segment);
@@ -67,6 +74,10 @@ class CRenderingContext
 		virtual void drawWireRect(const CRectangle& rect);
 		virtual void drawBox(const CBox& box);
 		virtual void drawWireBox(const CBox& box);
+
+	protected:
+		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);
+		virtual void setTextureImpl(const CTextureImpl* textureImpl);
 };
 
 	} // namespace le

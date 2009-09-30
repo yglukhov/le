@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_slCString_h
+#define SL_LE_core_slCString_h
 
 #include "base/slCBasicString.h"
 #include <le/core/slCObject.h>
@@ -32,3 +33,5 @@ class CString : public CObject, public CBasicString
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_slCString_h

@@ -3,6 +3,7 @@
 
 #include <le/core/slCColor.h>
 #include <le/core/geometry/slTCPoint3D.h>
+#include <le/core/geometry/slTCSize2D.h>
 
 namespace sokira
 {
@@ -42,15 +43,19 @@ class CPoint
 typedef CPoint CPoint2D;
 typedef CPoint CPoint3D;
 */
+
+typedef CPoint2D CPoint;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // CSize
 ////////////////////////////////////////////////////////////////////////////////
-class CSize
+class CSize3D
 {
 	// Construction
 	public:
-		CSize(float width = 0.0, float height = 0.0, float depth = 0.0);
-		CSize(const CSize& copy);
+		CSize3D(float width = 0.0, float height = 0.0, float depth = 0.0);
+		CSize3D(const CSize3D& copy);
 
 	// Attributes
 		float width() const;
@@ -63,17 +68,17 @@ class CSize
 		void depth(float depth);
 
 	// Operators
-		CSize& operator=(const CSize& copy);
-		bool operator==(const CSize& size) const;
-		bool operator!=(const CSize& size) const;
+		CSize3D& operator=(const CSize3D& copy);
+		bool operator==(const CSize3D& size) const;
+		bool operator!=(const CSize3D& size) const;
 
 	// Members
 	private:
 		float mWidth, mHeight, mDepth;
 };
 
-typedef CSize CSize2D;
-typedef CSize CSize3D;
+//typedef CSize CSize2D;
+//typedef CSize CSize3D;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CRectangle
@@ -126,7 +131,7 @@ class CBox : public CPoint3D, public CSize3D
 		bool pointInBox(const CPoint3D& point) const;
 
 		CSize3D size() const;
-		void size(const CSize2D& Size);
+		void size(const CSize3D& Size);
 
 		CPoint3D position() const;
 		void position(const CPoint3D& point);

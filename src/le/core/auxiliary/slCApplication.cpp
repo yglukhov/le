@@ -39,6 +39,11 @@ int CApplication::run(int argc, const char * const argv[])
 	return runApplication();
 }
 
+void CApplication::quit()
+{
+	// Subclasses have to override this function so that runApplication() will return upon this call 
+}
+
 CCommandLine CApplication::commandLine() const
 {
 	return mCommandLine;

@@ -43,11 +43,14 @@ void CWindow::removeChild(CControl* child)
 
 void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
 {
-	theme->drawWindow(this, context);
-	CControlList::const_iterator end = mChildren.end();
-	for (CControlList::const_iterator it = mChildren.begin(); it != end; ++it)
+	if (isVisible())
 	{
-		(*it)->draw(theme, context);
+		theme->drawWindow(this, context);
+		CControlList::const_iterator end = mChildren.end();
+		for (CControlList::const_iterator it = mChildren.begin(); it != end; ++it)
+		{
+			(*it)->draw(theme, context);
+		}
 	}
 }
 
@@ -67,17 +70,17 @@ Bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint& poi
 	return false;
 }
 
-CSize CWindow::size() const
+CSize2D CWindow::size() const
 {
 	LE_ENTER_LOG;
 	return CControl::size();
 }
 
-void CWindow::setSize(const CSize& size)
+void CWindow::setSize(const CSize2D& size)
 {
 	LE_ENTER_LOG;
 
-	CSize prevSize = mRect.size();
+	CSize2D prevSize = mRect.size();
 	CControl::setSize(size);
 
 	CControlList::iterator end = mChildren.end();
@@ -93,7 +96,7 @@ void CWindow::setAbsolutePosition(const CPoint& position)
 
 	CPoint prevPos = mRect.position();
 	CControl::setAbsolutePosition(position);
-	moveChildren(CSize(position.x() - prevPos.x(), position.y() - prevPos.y()));
+	moveChildren(CSize2D(position.x() - prevPos.x(), position.y() - prevPos.y()));
 }
 
 void CWindow::setRelativePosition(const CPoint& position)
@@ -103,10 +106,10 @@ void CWindow::setRelativePosition(const CPoint& position)
 	CPoint prevPos = mRect.position();
 	CControl::setRelativePosition(position);
 	CPoint newPos = mRect.position();
-	moveChildren(CSize(newPos.x() - prevPos.x(), newPos.y() - prevPos.y()));
+	moveChildren(CSize2D(newPos.x() - prevPos.x(), newPos.y() - prevPos.y()));
 }
 
-void CWindow::moveChildren(const CSize& delta)
+void CWindow::moveChildren(const CSize2D& delta)
 {
 	CControlList::iterator end = mChildren.end();
 	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)

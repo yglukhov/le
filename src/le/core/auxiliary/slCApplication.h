@@ -18,6 +18,8 @@ class CApplication
 		CApplication();
 
 		int run(int argc, const char * const argv[]);
+		virtual void quit();
+
 		CCommandLine commandLine() const;
 
 		void setDelegate(CApplicationDelegate& delegate);

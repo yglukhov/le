@@ -384,7 +384,15 @@ void CBasicString::append(WChar c, EStringEncoding)
 	} u;
 	u.c = c;
 	// TODO: complete this to correctly handle endians
-	append(u.s[0]);
+//	std::cout << (char)c;
+	append((char)c);
+//#if LE_ENDIANS == LE_ENDIANS_LITTLE
+////	std::cout << "CBasicString::append(" << u.s[0] << ")" << std::endl;
+//	append(u.s[0]);
+//#else
+////	std::cout << "CBasicString::append(" << u.s[1] << ")" << std::endl;
+//	append(u.s[1]);
+//#endif
 }
 
 void CBasicString::append(const NChar* cString, EStringEncoding /* encoding*/)

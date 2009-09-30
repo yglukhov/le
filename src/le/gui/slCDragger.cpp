@@ -30,7 +30,7 @@ void CDragger::drag(const CPoint& point)
 	float y = point.y() - mDragPoint.y() - pRect.y();
 
 	// limits, where the child can be placed
-	CSize mySize = mControl->size();
+	CSize2D mySize = mControl->size();
 	float width = pRect.width() - mySize.width();
 	float height = pRect.height() - mySize.height();
 

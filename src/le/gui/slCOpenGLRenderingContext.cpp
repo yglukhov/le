@@ -1,5 +1,7 @@
 #include <glut/slGlut.h>
 #include <le/core/slCString.h>
+#include <le/core/base/slCImageImpl.hp>
+#include <le/gui/base/slCOpenGLTextureImpl.hp>
 #include "slCOpenGLRenderingContext.h"
 
 namespace sokira
@@ -15,6 +17,7 @@ COpenGLRenderingContext::COpenGLRenderingContext() :
 
 COpenGLRenderingContext::~COpenGLRenderingContext()
 {
+	if (mFontOffset) glDeleteLists(mFontOffset, 128);
 	std::cout << "~COpenGLRenderingContext" << std::endl;
 }
 
@@ -193,12 +196,10 @@ void COpenGLRenderingContext::setLineWidth(Float32 width)
 void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& position)
 {
 	glRasterPos2f(position.x(), position.y());
-//	std::cout << "Drawing text: " << text << ", fontOffset: " << mFontOffset << std::endl;
-	glPushAttrib (GL_LIST_BIT);
+	glPushAttrib(GL_LIST_BIT);
 	glListBase(mFontOffset);
-//	std::cout << "Drawing: F" << std::endl;
 	glCallLists(text.length(), GL_UNSIGNED_BYTE, (GLubyte *) text.cString());
-	glPopAttrib ();
+	glPopAttrib();
 }
 
 void COpenGLRenderingContext::drawSegment(const CSegment2D& segment)
@@ -241,30 +242,29 @@ void COpenGLRenderingContext::drawBox(const CBox& box)
 		glVertex3f(box.x() + box.width(), box.y(), box.z());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		
+
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		
+
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z());
 	glEnd();
-	
+
 	glBegin(GL_QUADS);
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		
+
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		
-		
+
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
@@ -279,36 +279,65 @@ void COpenGLRenderingContext::drawWireBox(const CBox& box)
 		glVertex3f(box.x() + box.width(), box.y(), box.z());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		
+
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		
+
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z());
 	glEnd();
-	
+
 	glBegin(GL_QUAD_STRIP);
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		
+
 		glVertex3f(box.x(), box.y(), box.z() + box.depth());
 		glVertex3f(box.x(), box.y(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		
-		
+
 		glVertex3f(box.x(), box.y() + box.height(), box.z());
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
 	glEnd();
 }
+
+CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl)
+{
+	GLuint result;
+	glGenTextures(1, &result);
+	glBindTexture(GL_TEXTURE_2D, result);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+
+	CSize2D size = imageImpl->size();
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.width(), size.height(),
+		0, GL_RGBA, GL_UNSIGNED_BYTE, imageImpl->pixelData());
+	return new COpenGLTextureImpl(result, size);
+}
+
+void COpenGLRenderingContext::setTextureImpl(const CTextureImpl* textureImpl)
+{
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glBindTexture(GL_TEXTURE_2D, dynamic_cast<const COpenGLTextureImpl*>(textureImpl)->mTexture);
+}
+
+void COpenGLRenderingContext::unsetTexture()
+{
+	glDisable(GL_TEXTURE_2D);
+}
+
 
 UInt32 COpenGLRenderingContext::makeFont()
 {

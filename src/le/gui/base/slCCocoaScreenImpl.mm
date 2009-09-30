@@ -147,6 +147,7 @@
 
 - (void) mouseDown: (NSEvent*) event
 {
+//	std::cout << "mouseDown" << std::endl;
 	[self anyMouseDown: event button: ::sokira::le::eMouseButtonLeft];
 }
 
@@ -223,6 +224,13 @@
 	// ensure strings are created
 //	[self createHelpString];
 //	[self createMessageString];
+
+//	glEnable(GL_ALPHA_TEST);
+   glEnable(GL_BLEND); 
+   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); 
+
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 	LE_ASSERT(mScreen);
 	mScreen->_prepareOpenGL();
@@ -324,18 +332,18 @@ Bool CCocoaScreenImpl::inLiveResize() const
 	return _LE_BOOL_CAST([[static_cast<NSWindow*>(mWindow) contentView] inLiveResize]);
 }
 
-CSize CCocoaScreenImpl::size() const
+CSize2D CCocoaScreenImpl::size() const
 {
 	id view = [static_cast<NSWindow*>(mWindow) contentView];
 	if (view)
 	{
 		NSRect rect = [view frame];
-		return CSize(rect.size.width, rect.size.height);
+		return CSize2D(rect.size.width, rect.size.height);
 	}
 	return mRect.size();
 }
 
-void CCocoaScreenImpl::setSize(const CSize& Size)
+void CCocoaScreenImpl::setSize(const CSize2D& Size)
 {
 	if (mWindow)
 	{
@@ -349,6 +357,12 @@ void CCocoaScreenImpl::setNeedsRedraw()
 {
 	[[static_cast<NSWindow*>(mWindow) contentView] setNeedsDisplay:YES];
 }
+
+CString CCocoaScreenImpl::title() const
+{
+	return mTitle;
+}
+
 
 	} // namespace le
 } // namespace sokira

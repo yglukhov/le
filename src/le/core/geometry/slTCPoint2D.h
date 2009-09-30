@@ -70,7 +70,6 @@ class TCPoint2D
 };
 
 typedef TCPoint2D<Float32> CPoint2D;
-typedef CPoint2D CPoint;
 
 	} // namespace le
 } // namespace sokira

@@ -1,0 +1,21 @@
+#if !defined SL_LE_gui_base_slCTextureImpl_hp
+#define SL_LE_gui_base_slCTextureImpl_hp
+
+#include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/geometry/slTCSize2D.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CTextureImpl : public CSimpleRefCountable
+{
+	public:
+		virtual CSize2D size() const = 0;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCTextureImpl_hp

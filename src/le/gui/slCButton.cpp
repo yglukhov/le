@@ -57,10 +57,14 @@ CString CButton::text() const
 	return mText;
 }
 
+void CButton::setOnClick(TOnClick& onClick)
+{
+	mOnClick = onClick;
+}
+
 
 Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
 {
-//	std::cout << "Button down!" << std::endl;
 	if (button == eMouseButtonLeft)
 	{
 		mState = eButtonStateDown;
@@ -72,24 +76,15 @@ Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
 
 Bool CButton::onMouseUp(EMouseButton button, const CPoint& point)
 {
-//	std::cout << "Button up!" << std::endl;
 	if (button == eMouseButtonLeft && mState == eButtonStateDown)
 	{
 		mState = eButtonStateUp;
 		resignFirstResponder();
-		if (absoluteRect().pointInRect(point))
-		{
-			onClick();
-		}
+		if (absoluteRect().pointInRect(point) && mOnClick) mOnClick();
 		setNeedsRedraw();
 		return true;
 	}
 	return false;
-}
-
-void CButton::onClick()
-{
-	std::cout << "Click!" << std::endl;
 }
 
 void CButton::controlDidBecomeFirstResponder()

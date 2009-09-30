@@ -26,13 +26,15 @@ class CScreen : public CObject
 
 		virtual void draw();
 
-		CSize size() const;
-		virtual void setSize(const CSize& Size);
+		CSize2D size() const;
+		virtual void setSize(const CSize2D& Size);
 
 		virtual void setAbsolutePosition(const CPoint& point);
 		virtual CPoint absolutePosition() const;
 
 		virtual CPoint relativePosition() const;
+
+		CString title() const;
 
 		void color(const CColor& Color);
 
@@ -74,7 +76,7 @@ class CScreen : public CObject
 
 //		CControlList mControlsToDelete;
 		void* mImpl;
-		CSize mSize;
+		CSize2D mSize;
 		Bool mSizeChanged;
 		EMouseButton mPressedButtons;
 		CRenderingContext* mRenderingContext;

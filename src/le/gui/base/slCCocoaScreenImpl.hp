@@ -25,10 +25,12 @@ class CCocoaScreenImpl
 
 		Bool inLiveResize() const;
 
-		CSize size() const;
-		void setSize(const CSize& size);
+		CSize2D size() const;
+		void setSize(const CSize2D& size);
 
 		void setNeedsRedraw();
+
+		CString title() const;
 
 	private:
 		Bool mFullScreen;
