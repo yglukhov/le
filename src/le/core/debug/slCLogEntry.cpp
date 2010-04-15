@@ -24,6 +24,7 @@ CLogEntry::CLogEntry(const NChar* func, UInt32 severity, SInt32 mode) :
 	{
 		*this << mFunc << '\n' << '{' << std::endl;
 		mLogControl->increaseWhiteSpace();
+		flush();
 	}
 }
 
@@ -33,6 +34,7 @@ CLogEntry::~CLogEntry()
 	{
 		mLogControl->decreaseWhiteSpace();
 		*this << '}' << std::endl;
+		flush();
 	}
 
 	mLogControl->currentEntry(mPrevEntry);

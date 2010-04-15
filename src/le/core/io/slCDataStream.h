@@ -341,15 +341,7 @@ namespace sokira
 	{
 
 typedef ::utl::omemstream CDataStream;
-//
-//class CDataStream : 
-//{
-//	public:
-//	//	virtual void addFunction(const CString& signature, function);
-//		virtual void addClass(const CClass& theClass);
-//	//	virtual void addInstance(const CString& name, instance);
-//		virtual void runFromStream(std::istream& stream);
-//};
+typedef ::utl::imemstream CInputDataStream;
 
 	} // namespace le
 } // namespace sokira

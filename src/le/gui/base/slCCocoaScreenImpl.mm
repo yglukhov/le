@@ -10,6 +10,7 @@
 {
 	::sokira::le::CScreen* mScreen;
 	BOOL mMouseInView;
+	BOOL mViewDidResize;
 }
 @end
 
@@ -31,6 +32,7 @@
 
 	mScreen = screen;
 	mMouseInView = NO;
+	mViewDidResize = YES;
 	return self;
 }
 
@@ -38,11 +40,23 @@
 {
 	LE_ASSERT(mScreen);
 
+	BOOL liveResize = [self inLiveResize];
+	if (!mViewDidResize)
+	{
+		mViewDidResize = liveResize;
+	}
+
+	if (mViewDidResize)
+	{
+		mScreen->onResize();
+		mViewDidResize = NO;
+	}
+
 	mScreen->draw();
-	if ([self inLiveResize])
-		glFlush();
-	else
-		[[self openGLContext] flushBuffer];
+//	if ([self inLiveResize])
+//		glFlush();
+//	else
+	[[self openGLContext] flushBuffer];
 //[[self openGLContext] 
 	GLenum err = glGetError();
 	if (GL_NO_ERROR != err)
@@ -91,7 +105,7 @@
 			if (point.y > size.height) point.y = size.height;
 
 			LE_ASSERT(mScreen);
-			mScreen->onMouseOut(::sokira::le::CPoint(point.x, point.y));
+			mScreen->onMouseOut(::sokira::le::CPoint2D(point.x, point.y));
 		}
 	}
 	else
@@ -101,12 +115,12 @@
 		if (!mMouseInView)
 		{
 			mMouseInView = YES;
-			mScreen->onMouseIn(::sokira::le::CPoint(point.x, point.y));
+			mScreen->onMouseIn(::sokira::le::CPoint2D(point.x, point.y));
 		}
 
 		// On Mouse Hover
 		mScreen->onMouse(::sokira::le::eMouseButtonUnknown, ::sokira::le::eButtonStateUnknown,
-			::sokira::le::CPoint(point.x, point.y));
+			::sokira::le::CPoint2D(point.x, point.y));
 
 //		mScreen->onMouseHover(::sokira::le::CPoint(point.x, point.y));
 	}
@@ -121,7 +135,7 @@
 
 	LE_ASSERT(mScreen);
 	mScreen->onMouse(button, ::sokira::le::eButtonStateDown,
-			::sokira::le::CPoint(point.x, point.y));
+			::sokira::le::CPoint2D(point.x, point.y));
 //
 //	mScreen->onMouseDown(button, ::sokira::le::CPoint(point.x, point.y));
 }
@@ -141,7 +155,7 @@
 
 	LE_ASSERT(mScreen);
 	mScreen->onMouse(button, ::sokira::le::eButtonStateUp,
-			::sokira::le::CPoint(point.x, point.y));
+			::sokira::le::CPoint2D(point.x, point.y));
 //	mScreen->onMouseUp(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
@@ -253,14 +267,16 @@
 
 - (void)viewWillStartLiveResize
 {
-	LE_ASSERT(mScreen);
-	mScreen->_screenWasResized();
+//	LE_ASSERT(mScreen);
+//	mScreen->_screenWasResized();
+	mViewDidResize = YES;
 }
 
 - (void)viewDidEndLiveResize
 {
-	LE_ASSERT(mScreen);
-	mScreen->_screenWasResized();
+//	LE_ASSERT(mScreen);
+//	mScreen->_screenWasResized();
+	mViewDidResize = YES;
 }
 
 - (void) parentWindowWillClose: (NSNotification*) notification
@@ -343,14 +359,14 @@ CSize2D CCocoaScreenImpl::size() const
 	return mRect.size();
 }
 
-void CCocoaScreenImpl::setSize(const CSize2D& Size)
+void CCocoaScreenImpl::setSize(const CSize2D& size)
 {
 	if (mWindow)
 	{
-		[static_cast<NSWindow*>(mWindow) setContentSize:NSMakeSize(Size.width(), Size.height())];
+		[static_cast<NSWindow*>(mWindow) setContentSize:NSMakeSize(size.width(), size.height())];
 	}
 
-	mRect.size(Size);
+	mRect.setSize(size);
 }
 
 void CCocoaScreenImpl::setNeedsRedraw()

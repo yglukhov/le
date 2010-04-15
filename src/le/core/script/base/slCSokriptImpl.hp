@@ -20,8 +20,8 @@ class CSokriptImpl
 
 		void addFunction(const CString& name, CObject* (*function)(CObject*));
 
-		virtual void runBytecode(const CData& bytecode);
-		virtual void compileFromStream(std::istream& input, std::ostream& output);
+		void runBytecode(const CData& bytecode);
+		void compileFromStream(std::istream& input, std::ostream& output);
 
 	private:
 

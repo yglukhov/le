@@ -1,0 +1,136 @@
+#if !defined SL_LE_sound_slCSourceImpl_hp
+#define SL_LE_sound_slCSourceImpl_hp
+
+#include <OpenAL/al.h>
+#include <vorbis/vorbisfile.h>
+#include <le/core/strategies/slCSimpleRefCountable.h>
+
+#define LE_OGG_BUFFER_SIZE   32768     // 32 KB buffers
+
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CSourceImpl : public CSimpleRefCountable
+{
+	public:
+		CSourceImpl() :
+			mBuffer(0),
+			mSource(0)
+		{
+			// Avoid vorbis warnings. Symbols below are defined but not used...
+			(void)OV_CALLBACKS_DEFAULT;
+			(void)OV_CALLBACKS_NOCLOSE;
+			(void)OV_CALLBACKS_STREAMONLY;
+			(void)OV_CALLBACKS_STREAMONLY_NOCLOSE;
+		}
+
+		~CSourceImpl()
+		{
+			if (mSource) alDeleteSources(1, &mSource);
+			if (mBuffer) alDeleteBuffers(1, &mBuffer);
+		}
+
+		Bool loadFromURL(const CURL& url)
+		{
+			alGenBuffers(1, &mBuffer);
+			alGenSources(1, &mSource);
+			alSource3f(mSource, AL_POSITION, 0.0f, 0.0f, 0.0f);
+
+			// Open for binary reading
+			FILE *f = fopen(url.path().cString(), "rb");
+			if (f == NULL)
+			{
+				std::cout << "Could not open file!" << std::endl;
+			}
+			OggVorbis_File oggFile;
+			int res = ov_open(f, &oggFile, NULL, 0);
+			if (res)
+			{
+				std::cout << "VORBIS ERROR: " << res << std::endl;
+			}
+			// Get some information about the OGG file
+			vorbis_info *pInfo = ov_info(&oggFile, -1);
+			ALenum format; // The sound data format
+
+
+			if (pInfo == NULL) return false;
+
+			// Check the number of channels... always use 16-bit samples
+			if (pInfo->channels == 1)
+				format = AL_FORMAT_MONO16;
+			else
+				format = AL_FORMAT_STEREO16;
+			// end if
+
+			ALsizei freq;               // The frequency of the sound data
+
+			// The frequency of the sampling rate
+			freq = pInfo->rate;
+			std::vector < char > buffer; // The sound buffer data from file
+
+			int endian = LE_ENDIAN == LE_ENDIAN_BIG;             // 0 for Little-Endian, 1 for Big-Endian
+			int bitStream;
+			long bytes;
+			char array[LE_OGG_BUFFER_SIZE];    // Local fixed size array
+
+			do
+			{
+				// Read up to a buffer's worth of decoded sound data
+				bytes = ov_read(&oggFile, array, LE_OGG_BUFFER_SIZE, endian, 2, 1, &bitStream);
+				// Append to end of buffer
+				buffer.insert(buffer.end(), array, array + bytes);
+			} while (bytes > 0);
+			ov_clear(&oggFile);
+
+			// Upload sound data to buffer
+			alBufferData(mBuffer, format, &buffer[0], static_cast < ALsizei > (buffer.size()), freq);
+
+			// Attach sound buffer to source
+			alSourcei(mSource, AL_BUFFER, mBuffer);
+
+			return true;
+		}
+
+		void setPosition()
+		{
+		
+		}
+
+		void setVolume()
+		{
+		
+		}
+
+		void play()
+		{
+			std::cout << "Playing source!" << std::endl;
+			alSourcePlay(mSource);
+			if(alGetError() != AL_NO_ERROR) 
+			{
+				std::cout << "Could not play source" << std::endl;
+			  //  exit(1);
+			}
+		}
+
+		void pause()
+		{
+		
+		}
+
+		void stop()
+		{
+		
+		}
+
+	ALuint mBuffer;            // The OpenAL sound buffer ID
+	ALuint mSource;            // The OpenAL sound source
+
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_sound_slCSourceImpl_hp

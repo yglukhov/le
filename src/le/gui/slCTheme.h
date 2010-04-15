@@ -13,6 +13,7 @@ class CControl;
 class CWindow;
 class CButton;
 class CStaticText;
+class CScrollBar;
 class CRenderingContext;
 
 class CTheme
@@ -28,6 +29,7 @@ class CTheme
 		void drawButton(const CButton* button, CRenderingContext* context) const;
 		void drawWindow(const CWindow* window, CRenderingContext* context) const;
 		void drawStaticText(const CStaticText* text, CRenderingContext* context) const;
+		void drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* context) const;
 };
 
 	} // namespace le

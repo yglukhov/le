@@ -7,7 +7,7 @@ namespace sokira
 {
 	namespace le
 	{
-		
+
 class COpenGLRenderingContext : public CRenderingContext
 {
 	public:
@@ -50,6 +50,9 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual void setLineWidth(Float32 width);
 
 		virtual void unsetTexture();
+
+		virtual void pushClippingRect(const CRectangle& rect);
+		virtual void popClippingRect();
 
 		// Geometry
 		virtual void drawText(const CString& text, const CPoint2D& position);

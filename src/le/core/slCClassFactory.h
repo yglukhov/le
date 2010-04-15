@@ -19,7 +19,7 @@ class CClassFactory
 		{
 			LE_ENTER_LOG;
 
-			IClassImpl* classImpl = _classWithName(className);
+			base::IClassImpl* classImpl = _classWithName(className);
 			if (classImpl)
 				return CClass(classImpl).create<THierarchyRoot>();
 
@@ -34,12 +34,12 @@ class CClassFactory
 
 		class iterator// : public std::set<IClassImpl*>::iterator
 		{
-				typedef std::set<IClassImpl*>::iterator parent;
+				typedef std::set<base::IClassImpl*>::iterator parent;
 			public:
 				class IPredicate
 				{
 					public:
-						virtual bool operator () (IClassImpl*) const
+						virtual bool operator () (base::IClassImpl*) const
 						{
 							return true;
 						}
@@ -138,9 +138,9 @@ class CClassFactory
 				}
 
 			private:
-				std::set<IClassImpl*>::iterator mIt;
-				std::set<IClassImpl*>::iterator mBegin;
-				std::set<IClassImpl*>::iterator mEnd;
+				std::set<base::IClassImpl*>::iterator mIt;
+				std::set<base::IClassImpl*>::iterator mBegin;
+				std::set<base::IClassImpl*>::iterator mEnd;
 				CClass mClass;
 				TCPointer<IPredicate> mPredicate;
 		};
@@ -161,11 +161,11 @@ class CClassFactory
 		iterator end();
 
 
-		void registerClass(IClassImpl* theClass);
+		void registerClass(base::IClassImpl* theClass);
 	private:
-		typedef std::set<IClassImpl*> CClassSet;
+		typedef std::set<base::IClassImpl*> CClassSet;
 		CClassSet mClassSet;
-		IClassImpl* _classWithName(const CBasicString& name);
+		base::IClassImpl* _classWithName(const CBasicString& name);
 		iterator _beginForChildsOfStd(const std::type_info& name);
 };
 

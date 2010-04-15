@@ -30,7 +30,12 @@ class TCPoint2D
 			return mX;
 		}
 
-		void x(T X)
+//		void x(T X)
+//		{
+//			mX = X;
+//		}
+
+		void setX(T X)
 		{
 			mX = X;
 		}
@@ -40,7 +45,7 @@ class TCPoint2D
 			return mY;
 		}
 
-		void y(T Y)
+		void setY(T Y)
 		{
 			mY = Y;
 		}

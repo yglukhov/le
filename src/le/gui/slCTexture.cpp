@@ -52,7 +52,7 @@ void CTexture::setImage(const CImage& image)
 
 CSize2D CTexture::size() const
 {
-	return (mImpl)?(mImpl->size()):((mImageImpl)?(mImageImpl->size()):(CSize2D()));
+	return (mImpl)?(mImpl->size()):((mImageImpl)?(mImageImpl->frameAtIndex(0).size()):(CSize2D()));
 }
 
 	} // namespace le

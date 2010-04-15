@@ -1,0 +1,39 @@
+#if !defined SL_LE_core_base_slCImageFrameImpl_hp
+#define SL_LE_core_base_slCImageFrameImpl_hp
+
+#include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/geometry/slTCSize2D.h>
+#include <le/core/slCImageFrame.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CImageFrameImpl : public CSimpleRefCountable
+{
+	public:
+		CImageFrameImpl(const CSize2D& size, EPixelFormat format, UInt8* data, UInt32 duration) :
+			mSize(size),
+			mData(data),
+			mFormat(format),
+			mDuration(duration)
+		{
+
+		}
+
+		virtual ~CImageFrameImpl()
+		{
+			delete [] mData;
+		}
+
+		CSize2D mSize;
+		UInt8* mData;
+		EPixelFormat mFormat;
+		UInt32 mDuration;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_base_slCImageFrameImpl_hp

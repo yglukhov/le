@@ -1,0 +1,22 @@
+#if !defined SL_LE_core_base_slCJpegImageImpl_hp
+#define SL_LE_core_base_slCJpegImageImpl_hp
+
+#include <stdio.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CImageImpl;
+
+class CJpegImageImpl
+{
+	public:
+		static void loadFromFileToImageImpl(FILE* file, CImageImpl* image);
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_base_slCJpegImageImpl_hp

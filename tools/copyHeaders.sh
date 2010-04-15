@@ -18,6 +18,8 @@ find -E "$LE_LIBRARY_NAME"			\
 		-or							\
 		-regex ".*/CVS(/.*)?"		\
 		-or							\
+		-regex ".*/base\.base(/.*)?"	\
+		-or							\
 		-type d						\
 		-or							\
 		\(							\
@@ -33,4 +35,4 @@ find -E "$LE_LIBRARY_NAME"			\
 			\)						\
 		\)							\
 	\)								\
-	| cpio -p -du "$DESTINATION_DIR"
+	| cpio -p -du "$DESTINATION_DIR" 2>/dev/null

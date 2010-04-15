@@ -7,23 +7,103 @@
 
 	#define _sokira_lelex(val, loc) mSokript->lex(static_cast<void*>(val), static_cast<void*>(loc))
 
-	inline ::sokira::le::CSokriptInstruction* newInstruction(::sokira::le::EInstruction instruction, ::sokira::le::CObject* arg = NULL)
+	using namespace ::sokira::le;
+
+	static inline CSokriptInstruction* newInstruction(EInstruction instruction, CObject* arg = NULL)
 	{
-		return new ::sokira::le::CSokriptInstruction(instruction, arg);
+		return new CSokriptInstruction(instruction, arg);
 	}
 
-	static ::sokira::le::CSokriptInstruction* createIfThenElseInstruction(
-			::sokira::le::CSokriptInstruction* expression,
-			::sokira::le::CSokriptInstruction* ifPart,
-			::sokira::le::CSokriptInstruction* elsePart);
+	static CSokriptInstruction* createIfThenElseInstruction(
+			CSokriptInstruction* expression,
+			CSokriptInstruction* ifPart,
+			CSokriptInstruction* elsePart)
+	{
+		if (elsePart)
+		{
+			CSokriptInstruction* secondJump = newInstruction(eInstructionJump);
+			secondJump->mSInt32Arg1 = elsePart->length();
 
-	static ::sokira::le::CSokriptInstruction* createLoopInstruction(
-			::sokira::le::CSokriptInstruction* expression,
-			::sokira::le::CSokriptInstruction* loopPart);
+			if (!ifPart) ifPart = newInstruction(eInstructionNOP);
 
-	static inline ::sokira::le::CSokriptInstruction* createFunctionDefinition(
+			CSokriptInstruction* firstJump = newInstruction(eInstructionJumpIfFalse);
+
+			ifPart->addInstruction(secondJump);
+			firstJump->mSInt32Arg1 = ifPart->length();
+			ifPart->addInstruction(elsePart);
+			firstJump->addInstruction(ifPart);
+			expression->addInstruction(firstJump);
+			return expression;
+		}
+
+		// else
+
+		if (ifPart)
+		{
+			CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
+			jump->mUInt32Arg1 = ifPart->length();
+			jump->addInstruction(ifPart);
+			expression->addInstruction(jump);
+		}
+		else
+			expression->addInstruction(newInstruction(eInstructionDiscard));
+
+		return expression;
+	}
+
+
+	static CSokriptInstruction* createLoopInstruction(
+			CSokriptInstruction* expression,
+			CSokriptInstruction* loopPart)
+	{
+		if (loopPart)
+		{
+			CSokriptInstruction* jumpBack = newInstruction(eInstructionJump);
+			CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
+			jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
+			jump->addInstruction(loopPart);
+			expression->addInstruction(jump);
+			jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+			jump->addInstruction(jumpBack);
+		}
+		else
+		{
+			CSokriptInstruction* jumpBack = newInstruction(eInstructionJumpIfTrue);
+			jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+			expression->addInstruction(jumpBack);
+		}
+
+		return expression;
+	}
+
+
+	static inline CSokriptInstruction* createFunctionDefinition(
 			char* name, std::list<char*>* args,
-			::sokira::le::CSokriptInstruction* instruction);
+			CSokriptInstruction* instruction)
+	{
+		CSokriptInstruction* returnInstruction = newInstruction(eInstructionReturn);
+		returnInstruction->mUInt16Arg1 = args->size();
+
+		CSokriptInstruction* pushResult = newInstruction(eInstructionPushFloat, new CNumber());
+		pushResult->addInstruction(returnInstruction);
+
+		if (instruction)
+			instruction->addInstruction(pushResult);
+		else
+			instruction = pushResult;
+
+		instruction = CSokriptInstruction::postProcessBytecode(instruction, args);
+
+		CSokriptInstruction* functionStart = newInstruction(eInstructionStartFunction, new CString(
+					CString::__CStringNoCopyDeallocWithFree(name)
+										));
+
+		functionStart->mUInt32Arg2 = instruction->length();
+		functionStart->addInstruction(instruction);
+
+		return functionStart;
+	}
+
 
 %}
 
@@ -299,91 +379,6 @@ simple_string_literal
 	;
 
 %%
-
-using namespace ::sokira::le;
-
-CSokriptInstruction* createIfThenElseInstruction(CSokriptInstruction* expression,
-				CSokriptInstruction* ifPart, CSokriptInstruction* elsePart)
-{
-	if (elsePart)
-	{
-		CSokriptInstruction* secondJump = newInstruction(eInstructionJump);
-		secondJump->mSInt32Arg1 = elsePart->length();
-
-		if (!ifPart) ifPart = newInstruction(eInstructionNOP);
-
-		CSokriptInstruction* firstJump = newInstruction(eInstructionJumpIfFalse);
-
-		ifPart->addInstruction(secondJump);
-		firstJump->mSInt32Arg1 = ifPart->length();
-		ifPart->addInstruction(elsePart);
-		firstJump->addInstruction(ifPart);
-		expression->addInstruction(firstJump);
-		return expression;
-	}
-
-	// else
-
-	if (ifPart)
-	{
-		CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
-		jump->mUInt32Arg1 = ifPart->length();
-		jump->addInstruction(ifPart);
-		expression->addInstruction(jump);
-	}
-	else
-		expression->addInstruction(newInstruction(eInstructionDiscard));
-
-	return expression;
-}
-
-CSokriptInstruction* createLoopInstruction(CSokriptInstruction* expression,
-					CSokriptInstruction* loopPart)
-{
-	if (loopPart)
-	{
-		CSokriptInstruction* jumpBack = newInstruction(eInstructionJump);
-		CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
-		jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
-		jump->addInstruction(loopPart);
-		expression->addInstruction(jump);
-		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-		jump->addInstruction(jumpBack);
-	}
-	else
-	{
-		CSokriptInstruction* jumpBack = newInstruction(eInstructionJumpIfTrue);
-		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-		expression->addInstruction(jumpBack);
-	}
-
-	return expression;
-}
-
-CSokriptInstruction* createFunctionDefinition(char* name, std::list<char*>* args, CSokriptInstruction* instruction)
-{
-	CSokriptInstruction* returnInstruction = newInstruction(eInstructionReturn);
-	returnInstruction->mUInt16Arg1 = args->size();
-
-	CSokriptInstruction* pushResult = newInstruction(eInstructionPushFloat, new CNumber());
-	pushResult->addInstruction(returnInstruction);
-
-	if (instruction)
-		instruction->addInstruction(pushResult);
-	else
-		instruction = pushResult;
-
-	instruction = CSokriptInstruction::postProcessBytecode(instruction, args);
-
-	CSokriptInstruction* functionStart = newInstruction(eInstructionStartFunction, new CString(
-				CString::__CStringNoCopyDeallocWithFree(name)
-									));
-
-	functionStart->mUInt32Arg2 = instruction->length();
-	functionStart->addInstruction(instruction);
-
-	return functionStart;
-}
 
 void _sokira_le::CSokriptBisonParser::error(const CSokriptBisonParser::location_type& l,
 											const std::string& m)

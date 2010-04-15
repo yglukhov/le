@@ -60,11 +60,7 @@ void CDictionary::append(const CDictionary& dictionary, bool overwriteExistingVa
 {
 	for (CDictConstIterator it = dictionary.mData.begin(); it != dictionary.mData.end(); ++it)
 	{
-		if (overwriteExistingValues)
-		{
-			mData[it->first] = it->second;
-		}
-		else if(!valueExists(it->first))
+		if (overwriteExistingValues || !valueExists(it->first))
 		{
 			mData[it->first] = it->second;
 		}
@@ -112,7 +108,7 @@ CString CDictionary::rootValue() const
 CObject::Ptr CDictionary::_valueForKey(const CString& key, TSTypeToType<CObject::Ptr>) const
 {
 	CDictConstIterator it = mData.find(key);
-	if(it != mData.end())
+	if (it != mData.end())
 	{
 		CObject::Ptr newObj = CClassFactory::defaultInstance()->create<CObject>(it->second.attributeForKey(cTypeAttributeKey));
 		if (newObj)

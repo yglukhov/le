@@ -2,26 +2,19 @@
 #define SL_LE_core_base_slCBitmapImageImpl_hp
 
 #include <stdio.h>
-#include <le/core/geometry/slTCSize2D.h>
-#include "slCImageImpl.hp"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CBitmapImageImpl : public CImageImpl
+class CImageImpl;
+
+class CBitmapImageImpl
 {
 	public:
-		CBitmapImageImpl(FILE* file);
-		~CBitmapImageImpl();
 
-		virtual const UInt8* pixelData() const;
-		virtual CSize2D size() const;
-
-	private:
-		CSize2D mSize;
-		UInt8* mPixelData;
+		static void loadFromFileToImageImpl(FILE* file, CImageImpl* image);
 };
 
 	} // namespace le

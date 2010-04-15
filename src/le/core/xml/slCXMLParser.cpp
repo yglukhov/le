@@ -57,6 +57,13 @@ Bool CXMLParser::isWEOF()
 
 WChar CXMLParser::nextChar()
 {
+	if (mPushBackChar)
+	{
+		WChar res = mPushBackChar;
+		mPushBackChar = 0;
+		return res;
+	}
+
 	WChar c = (this->*mNextChar)();
 	if (c == '\n')
 	{
@@ -144,17 +151,19 @@ Bool CXMLParser::parse()
 {
 	enum
 	{
-		eStateData = 0,
-		eStateStartTagName = LE_SET_BIT(0),
-		eStateEndTagName = LE_SET_BIT(1),
-		eStateAttrName = LE_SET_BIT(2),
-		eStateAttrValue = LE_SET_BIT(3)
+		eStateInTag = LE_SET_BIT(0),
+		eStateInStartTag = LE_SET_BIT(1),
+		eStateInEndTag = LE_SET_BIT(2),
+		eStateInTagName = LE_SET_BIT(3),
+		eStateInAttrName = LE_SET_BIT(4),
+		eStateInAttrValue = LE_SET_BIT(5)
 	};
 
-	UInt32 state = eStateData;
+	UInt32 state = 0;
 
 	mLine = 1;
 	mColumn = 0;
+	mPushBackChar = 0;
 
 	CString str; // Here we store tag name or data
 	CString attrName;
@@ -164,93 +173,118 @@ Bool CXMLParser::parse()
 	while (!isEOF())
 	{
 		WChar c = nextChar();
-//		std::cout << (char)c;
 
-		if (c == '<')
+		if (!state)
 		{
-			if (state != eStateData) onError("unexpected token \"<\"");
-
-			onData(str);
-			str.clear();
-			state = eStateStartTagName;
-			continue;
-		}
-		else if (c == '>')
-		{
-			if (state & eStateStartTagName)
+			if (c == '<')
 			{
-				if (!attrName.isEmpty())
-				{
-					attrs[attrName] = attrValue;
-					attrName.clear();
-					attrValue.clear();
-				}
-				onStartTag(str, attrs);
-				attrs.clear();
-			}
-
-			if (state & eStateEndTagName)
-			{
-				onEndTag(str);
-			}
-
-			str.clear();
-			state = eStateData;
-		}
-		else if (c == '/')
-		{
-			if (state & eStateStartTagName)
-			{
-				if (str.isEmpty())
-					state = eStateEndTagName;
-				else
-					state |= eStateEndTagName;
+				onData(str);
+				str.clear();
+				state = eStateInTag;
 			}
 			else
 				str.append(c);
 		}
-		else if (state & (eStateEndTagName) && CString::isWhitespace(c))
+		else if (state & eStateInTagName)
 		{
-		//	if (!str.isEmpty()) str.append(c);
-		}
-		else if (state & (eStateStartTagName) && CString::isWhitespace(c))
-		{
-			if (!str.isEmpty())
-				state |= eStateAttrName;
-		}
-		else if (state & eStateAttrName)
-		{
-			if (CString::isWhitespace(c))
+			if (CString::isWhitespace(c) || c == '>' || c == '/')
 			{
-				attrs[attrName] = attrValue;
-				attrName.clear();
+				state &= ~eStateInTagName;
+				mPushBackChar = c;
 			}
-			else if (c == '=')
+			else
+				str.append(c);
+		}
+		else if (state & eStateInAttrName)
+		{
+			if (CString::isWhitespace(c) || c == '=' || c == '>')
 			{
-				state &= ~eStateAttrName;
-				state |= eStateAttrValue;
+				state &= ~eStateInAttrName;
+				mPushBackChar = c;
 			}
 			else
 				attrName.append(c);
 		}
-		else if (state & eStateAttrValue)
+		else if (state & eStateInAttrValue)
 		{
-			if (CString::isWhitespace(c) || c == '\"')
+			bool charIsSpecial = CString::isWhitespace(c) || (c == '>');
+			if (c == '"' && attrValue.hasPrefix("\""))
 			{
-				if (!attrValue.isEmpty())
-				{
-					attrs[attrName] = attrValue;
-					attrName.clear();
-					attrValue.clear();
-					state &= ~eStateAttrName;
-					state |= eStateAttrValue;
-				}
+				attrValue.erase(0, 1);
+				state &= ~eStateInAttrValue;
+				attrs[attrName] = attrValue;
+				attrName.clear();
+				attrValue.clear();
+			}
+			else if (charIsSpecial && !attrValue.hasPrefix("\""))
+			{
+				state &= ~eStateInAttrValue;
+				attrs[attrName] = attrValue;
+				attrName.clear();
+				attrValue.clear();
 			}
 			else
 				attrValue.append(c);
 		}
-		else
-			str.append(c);
+		else if (state & eStateInStartTag)
+		{
+			if (c == '>')
+			{
+				onStartTag(str, attrs);
+				str.clear();
+				attrs.clear();
+				state &= ~(eStateInStartTag | eStateInTag);
+			}
+			else if (c == '=')
+			{
+				if (attrName.isEmpty())
+				{
+					onError("unexpected token \"=\"");
+				}
+				else
+				{
+					state |= eStateInAttrValue;
+				}
+			}
+			else if (c == '/')
+			{
+				onStartTag(str, attrs);
+				attrs.clear();
+				state &= ~eStateInStartTag;
+				state |= eStateInEndTag;
+			}
+			else if (!CString::isWhitespace(c))
+			{
+				attrName.append(c);
+				state |= eStateInAttrName;
+			}
+		}
+		else if (state & eStateInEndTag)
+		{
+			if (c == '>')
+			{
+				onEndTag(str);
+				str.clear();
+				state &= ~(eStateInTag | eStateInEndTag);
+			}
+		}
+		else if (state & eStateInTag)
+		{
+			if (c == '/')
+			{
+				if (str.isEmpty())
+				{
+					state |= eStateInEndTag | eStateInTagName;
+				}
+				else
+					onError("unexpected token \"/\"");
+			}
+			else if (!CString::isWhitespace(c))
+			{
+				state |= eStateInStartTag | eStateInTagName;
+				str.append(c);
+			}
+		}
 	}
 	return true;
 }

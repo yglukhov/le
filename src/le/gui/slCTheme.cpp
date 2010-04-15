@@ -3,6 +3,7 @@
 #include "slCWindow.h"
 #include "slCButton.h"
 #include "slCStaticText.h"
+#include "slCScrollBar.h"
 #include "slCRenderingContext.h"
 
 
@@ -41,8 +42,8 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 	context->drawRect(button->absoluteRect());
 	context->setColor(0.0f, 0.0f, 0.0f);
 	CPoint2D pos = button->absolutePosition();
-	pos.x(pos.x() + 20);
-	pos.y(pos.y() + 25);
+	pos.setX(pos.x() + 20);
+	pos.setX(pos.y() + 25);
 	
 	context->drawText(button->text(), pos);
 }
@@ -50,11 +51,29 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 void CTheme::drawStaticText(const CStaticText* text, CRenderingContext* context) const
 {
 	CPoint2D pos = text->absolutePosition();
-	pos.y(pos.y() + 13);
+	pos.setY(pos.y() + 13);
 	context->setColor(0, 0, 0);
 	context->drawText(text->text(), pos);
 }
 
+void CTheme::drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* context) const
+{
+	CRectangle rect = scrollBar->absoluteRect();
+	context->setColor(0.8f, 0.5f, 0.2f);
+	context->drawRect(rect);
+
+	context->setColor(0.6f, 0.9f, 0.1f);
+	if (scrollBar->isHorizontal())
+	{
+		context->drawRect(CRectangle(rect.x(), rect.y(), rect.height(), rect.height()));
+		context->drawRect(CRectangle(rect.x() + rect.width() - rect.height(), rect.y(), rect.height(), rect.height()));
+	}
+	else
+	{
+		context->drawRect(CRectangle(rect.x(), rect.y(), rect.width(), rect.width()));
+		context->drawRect(CRectangle(rect.x(), rect.y() + rect.height() - rect.width(), rect.width(), rect.width()));
+	}
+}
 
 	} // namespace le
 } // namespace sokira

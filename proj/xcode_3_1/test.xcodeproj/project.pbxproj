@@ -26,15 +26,16 @@
 		7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */; };
 		7B6386BA0D4B759F002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B6387520D4B7965002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
-		7B6387590D4B796E002357F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63874C0D4B792C002357F7 /* main.cpp */; };
 		7B63875E0D4B79FB002357F7 /* libLeGui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* libLeGui.a */; };
 		7B6387640D4B7BF6002357F7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB10A16266B00F559ED /* GLUT.framework */; };
 		7B6387650D4B7BF6002357F7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFAB20A16266B00F559ED /* OpenGL.framework */; };
+		7B6663CA1172F9E500489544 /* slCGeometryTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6663C91172F9E500489544 /* slCGeometryTestSuite.cpp */; };
 		7B67DC700D4CBAAF0087F0D6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B04FFA040A161C5100F559ED /* main.cpp */; };
 		7B67DC720D4CBAAF0087F0D6 /* slCTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */; };
 		7B67DC740D4CBAAF0087F0D6 /* slCGeneralTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */; };
 		7BC3ACD10EE7019F00D13036 /* slCScriptTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACCC0EE7019F00D13036 /* slCScriptTestSuite.cpp */; };
 		7BC3ACD20EE7019F00D13036 /* slCXMLTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACCE0EE7019F00D13036 /* slCXMLTestSuite.cpp */; };
+		7BCCDCFD10CBE0AC00FEF722 /* slCReflectionTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BCCDCFC10CBE0AC00FEF722 /* slCReflectionTestSuite.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7B145B460F377730004DF6BE;
 			remoteInfo = framework;
+		};
+		7B594F8E1078D1680083BEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B04FFA0E0A161CA400F559ED /* le.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7B768FF41076A30700DAF20B;
+			remoteInfo = leSound;
 		};
 		7B6386D20D4B7879002357F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -97,14 +105,17 @@
 		7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiTestSuite.cpp; sourceTree = "<group>"; };
 		7B4E754D0F35026100153E4A /* slCGuiTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiTestSuite.h; sourceTree = "<group>"; };
 		7B6386DE0D4B7897002357F7 /* general */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = general; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B63874C0D4B792C002357F7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7B6387570D4B7965002357F7 /* gui */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gui; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B6663C81172F9E500489544 /* slCGeometryTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGeometryTestSuite.h; sourceTree = "<group>"; };
+		7B6663C91172F9E500489544 /* slCGeometryTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGeometryTestSuite.cpp; sourceTree = "<group>"; };
 		7BC3ACCC0EE7019F00D13036 /* slCScriptTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCScriptTestSuite.cpp; sourceTree = "<group>"; };
 		7BC3ACCD0EE7019F00D13036 /* slCScriptTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScriptTestSuite.h; sourceTree = "<group>"; };
 		7BC3ACCE0EE7019F00D13036 /* slCXMLTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLTestSuite.cpp; sourceTree = "<group>"; };
 		7BC3ACCF0EE7019F00D13036 /* slCXMLTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLTestSuite.h; sourceTree = "<group>"; };
 		7BC94C840BEE1C4900F1CB9B /* slCGeneralTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGeneralTestSuite.h; sourceTree = "<group>"; };
 		7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGeneralTestSuite.cpp; sourceTree = "<group>"; };
+		7BCCDCFB10CBE0AC00FEF722 /* slCReflectionTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCReflectionTestSuite.h; sourceTree = "<group>"; };
+		7BCCDCFC10CBE0AC00FEF722 /* slCReflectionTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCReflectionTestSuite.cpp; sourceTree = "<group>"; };
 		7BD73AE80BEE12C500EA8396 /* slCTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTestSuite.h; sourceTree = "<group>"; };
 		7BD73AE90BEE12C500EA8396 /* slCTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTestSuite.cpp; sourceTree = "<group>"; };
 		B009ADE80A3B0F0F008D03AD /* TEMPLATE */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TEMPLATE; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,14 +156,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7B63874A0D4B7913002357F7 /* gui */ = {
-			isa = PBXGroup;
-			children = (
-				7B63874C0D4B792C002357F7 /* main.cpp */,
-			);
-			path = gui;
-			sourceTree = "<group>";
-		};
 		B0246B3E0A209CC50023C1A6 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,7 +191,6 @@
 			isa = PBXGroup;
 			children = (
 				B04FFA010A161C3000F559ED /* general */,
-				7B63874A0D4B7913002357F7 /* gui */,
 			);
 			indentWidth = 4;
 			name = test;
@@ -212,6 +214,10 @@
 				7BC94C850BEE1C4900F1CB9B /* slCGeneralTestSuite.cpp */,
 				7B41A14E1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.h */,
 				7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */,
+				7BCCDCFB10CBE0AC00FEF722 /* slCReflectionTestSuite.h */,
+				7BCCDCFC10CBE0AC00FEF722 /* slCReflectionTestSuite.cpp */,
+				7B6663C81172F9E500489544 /* slCGeometryTestSuite.h */,
+				7B6663C91172F9E500489544 /* slCGeometryTestSuite.cpp */,
 			);
 			path = general;
 			sourceTree = "<group>";
@@ -221,6 +227,7 @@
 			children = (
 				B04FFA1E0A161CA400F559ED /* libLeCore.a */,
 				B04FFA260A161CA400F559ED /* libLeGui.a */,
+				7B594F8F1078D1680083BEE4 /* libLeSound.a */,
 				7B145B4F0F37774F004DF6BE /* le.framework */,
 			);
 			name = Products;
@@ -318,6 +325,13 @@
 			remoteRef = 7B145B4E0F37774F004DF6BE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7B594F8F1078D1680083BEE4 /* libLeSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLeSound.a;
+			remoteRef = 7B594F8E1078D1680083BEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B04FFA1E0A161CA400F559ED /* libLeCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -394,6 +408,8 @@
 				7BC3ACD20EE7019F00D13036 /* slCXMLTestSuite.cpp in Sources */,
 				7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */,
 				7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */,
+				7BCCDCFD10CBE0AC00FEF722 /* slCReflectionTestSuite.cpp in Sources */,
+				7B6663CA1172F9E500489544 /* slCGeometryTestSuite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +417,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B6387590D4B796E002357F7 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

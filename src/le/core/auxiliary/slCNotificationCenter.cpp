@@ -66,7 +66,7 @@ bool CNotificationCenter::observerExists(CObject* observer)
 }
 
 CNotification::CNotification(CObject* sender, ENotification notif, void* data) :
-	mSender(sender), mNotification(notif), mData(data)
+	mData(data), mSender(sender), mNotification(notif)
 {
 
 }

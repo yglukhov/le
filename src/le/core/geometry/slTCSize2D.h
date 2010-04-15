@@ -44,6 +44,11 @@ class TCSize2D
 			mHeight = height;
 		}
 
+		T area() const
+		{
+			return mWidth * mHeight;
+		}
+
 		T aspectRatio() const
 		{
 			return mWidth / mHeight;
@@ -67,7 +72,6 @@ class TCSize2D
 };
 
 typedef TCSize2D<Float32> CSize2D;
-//typedef CPoint2D CPoint;
 
 	} // namespace le
 } // namespace sokira

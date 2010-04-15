@@ -13,7 +13,7 @@ namespace sokira
 	{
 
 template <typename TComponent = Float32>
-class TCColor : public _CColorBase
+class TCColor : public sokira::le::base::CColorBase
 {
 	public:
 

@@ -8,7 +8,6 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CStaticText);
 
-
 CStaticText::CStaticText()
 {
 

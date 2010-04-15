@@ -36,6 +36,8 @@ namespace sokira
 class CScript
 {
 	public:
+		virtual ~CScript();
+
 		virtual void addFunction(const CString& name, CObject* (*function)(CObject*));
 		virtual void addClass(const CClass& theClass);
 	//	virtual void addInstance(const CString& name, instance);

@@ -59,6 +59,9 @@ void CRenderingContext::setTexture(const CTexture& texture)
 
 void CRenderingContext::unsetTexture() { }
 
+void CRenderingContext::pushClippingRect(const CRectangle& rect) { }
+void CRenderingContext::popClippingRect() { }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Geometry

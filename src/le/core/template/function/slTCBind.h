@@ -157,7 +157,7 @@ _LE_DEFINE_bind(11)
 _LE_DEFINE_bind(12)
 
 
-#undef _LE_DEFINE_TCBind
+#undef _LE_DEFINE_bind
 #undef _le_typenameB
 #undef _le_rawB
 #undef _le_paramB

@@ -77,6 +77,7 @@ int CLogControl::sync()
 			if (it->first <= mCurrentEntry->severity())
 			{
 				*(it->second) << mWhiteSpace << mBuffer;
+				it->second->flush();
 			}
 		}
 	}

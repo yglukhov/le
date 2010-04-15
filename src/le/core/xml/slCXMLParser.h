@@ -64,6 +64,7 @@ class CXMLParser
 		TOnEndTag mOnEndTag;
 		TOnData mOnData;
 		TOnError mOnError;
+		WChar mPushBackChar;
 };
 
 	} // namespace le

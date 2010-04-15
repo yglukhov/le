@@ -23,18 +23,18 @@ class CGuiScene : public CScene, public CWindow
 		CGuiScene();
 
 		// Mouse events
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
-//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point);
-//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point);
-//		virtual Bool mouseHovered(const CPoint& point);
-		virtual Bool mouseEntered(const CPoint& point);
-		virtual Bool mouseExited(const CPoint& point);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
+//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint2D& point);
+//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint2D& point);
+//		virtual Bool mouseHovered(const CPoint2D& point);
+		virtual Bool mouseEntered(const CPoint2D& point);
+		virtual Bool mouseExited(const CPoint2D& point);
 
 		virtual void draw(CRenderingContext* context);
 
 		virtual void setNeedsRedraw();
 
-		virtual Bool hitTest(const CPoint& point) const;
+		virtual Bool hitTest(const CPoint2D& point) const;
 
 	protected:
 		virtual Bool childBecomesFirstResponder(CControl* child, CWindow* parent);

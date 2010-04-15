@@ -2,9 +2,8 @@
 #define SL_LE_gui_slCControl_h
 
 #include "slConstants.h"
-#include "slTypes.h"
 #include <le/core/slCObject.h>
-//#include "slCFace.h"
+#include <le/core/geometry/slTCRectangle.h>
 
 namespace sokira
 {
@@ -40,7 +39,7 @@ class CControl : public CObject
 		CControl(const CRectangle& rect);
 		virtual ~CControl();
 
-		void destroy();
+//		void destroy();
 
 		CRectangle absoluteRect() const;
 		CRectangle relativeRect() const;
@@ -48,11 +47,11 @@ class CControl : public CObject
 		CSize2D size() const;
 		virtual void setSize(const CSize2D& Size);
 
-		virtual CPoint relativePosition() const;
-		virtual void setRelativePosition(const CPoint& point);
+		CPoint2D relativePosition() const;
+		void setRelativePosition(const CPoint2D& point);
 
-		virtual CPoint absolutePosition() const;
-		virtual void setAbsolutePosition(const CPoint& point);
+		CPoint2D absolutePosition() const;
+		virtual void setAbsolutePosition(const CPoint2D& point);
 
 		void delegate(CControlDelegate* Delegate);
 		CControlDelegate* delegate();
@@ -73,13 +72,13 @@ class CControl : public CObject
 		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
 
 		// Mouse events
-		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
-		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
+		virtual Bool onMouseDown(EMouseButton button, const CPoint2D& point);
+		virtual Bool onMouseUp(EMouseButton button, const CPoint2D& point);
 //		virtual Bool onMouseClick(EMouseButton button, const CPoint& point);
 //		virtual Bool onMouseMultipleClick(EMouseButton button, const CPoint& point);
-		virtual Bool onMouseHover(const CPoint& point);
-		virtual Bool onMouseOut(const CPoint& point);
-		virtual Bool onMouseIn(const CPoint& point);
+		virtual Bool onMouseHover(const CPoint2D& point);
+		virtual Bool onMouseOut(const CPoint2D& point);
+		virtual Bool onMouseIn(const CPoint2D& point);
 
 		// Low level mouse events. Do not override.
 //		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme);
@@ -87,7 +86,7 @@ class CControl : public CObject
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
 
 		// Responder chain functions
 		Bool becomeFirstResponder();
@@ -99,21 +98,20 @@ class CControl : public CObject
 		virtual Bool controlCanResignFirstResponder();
 		virtual void controlDidResignFirstResponder();
 
+
+		// Remove control from parent and delete it.
+		void close();
+
 	protected:
 
-		virtual void moveLastToDraw();
-		void setParent(CWindow* newParent);
+		void setParent(CWindow* parent);
 
-		virtual Bool hitTest(const CPoint& point) const;
-		Bool performMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		virtual Bool hitTest(const CPoint2D& point) const;
+		Bool performMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
 
 
 	private:
-		friend class CScreen;
 		friend class CWindow;
-		void parentResized(const CSize2D& fromSize, const CSize2D& toSize);
-//		virtual void parentMoved(const CPoint& fromPos, const CPoint& toPos);
-//		virtual bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 		friend void onKey(unsigned char, int, int);
 		bool onKey(unsigned char inkey, int px, int py);
 

@@ -22,7 +22,7 @@ enum EStringEncoding
 	eStringEncodingUTF16BENoBOM,
 	eStringEncodingUTF16LE,
 	eStringEncodingUTF16LENoBOM,
-#ifdef LITTLE_ENDIAN
+#if (LE_ENDIAN == LE_ENDIAN_LITTLE)
 	eStringEncodingUTF16 = eStringEncodingUTF16LE,
 	eStringEncodingUTF16NoBOM = eStringEncodingUTF16LENoBOM
 #else
@@ -85,16 +85,16 @@ class CBasicString
 		void clear();
 		// Erase characters from string. If toPos is equal to 0, then the
 		// characters are erased to the end of the string.
-		void erase(UInt32 fromPos, UInt32 toPos = 0);
+		void erase(UInt32 fromPos, UInt32 length = 0);
 
 		void trimWhitespace();
 
 		UInt32 length() const;
 		bool isEmpty() const;
-//		EStringEncoding encoding() const;
 
 		SInt32 find(const CBasicString& string) const;
 		SInt32 findLast(const CBasicString& string) const;
+		Bool hasPrefix(const CBasicString& prefix) const;
 
 		CBasicString subString(UInt32 from, UInt32 length) const;
 
@@ -111,7 +111,7 @@ class CBasicString
 		}
 
 
-		static Bool isWhitespace(NChar c);
+		 static Bool isWhitespace(NChar c);
 		static Bool isWhitespace(WChar c);
 	// PRIVATE:
 		static CBasicString __CStringWithLiteral(const NChar*);

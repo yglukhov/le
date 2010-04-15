@@ -15,6 +15,8 @@ namespace sokira
 {
 	namespace le
 	{
+		namespace base
+		{
 
 struct _TSStubDeclarator
 {};
@@ -99,7 +101,7 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
 	typedef T result;
 };
 
-#define LE_DECLARE_RUNTIME_CLASS(name)		\
+#define LE_DECLARE_RUNTIME_CLASS(name)	\
 	LE_RTTI_BEGIN						\
 		LE_RTTI_SINGLE_PUBLIC_PARENT	\
 		LE_RTTI_SELF(name)				\
@@ -110,67 +112,86 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
 	typedef ::sokira::le::TSTypeList<>::PushBack<
 
 #define LE_RTTI_SELF(name)	\
-	::sokira::le::_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
+	::sokira::le::base::_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
 	typedef name __LE_temp_Self; \
 	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
 
 #define LE_RTTI_PUBLIC_PARENT(name)		\
-	::sokira::le::TSPublicParentDeclarator<name> >::result::PushBack<
+	::sokira::le::base::TSPublicParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PRIVATE_PARENT(name)	\
-	::sokira::le::TSPrivateParentDeclarator<name> >::result::PushBack<
+	::sokira::le::base::TSPrivateParentDeclarator<name> >::result::PushBack<
 
 #define LE_RTTI_PROTECTED_PARENT(name)	\
-	::sokira::le::TSProtectedParentDeclarator<name> >::result::PushBack<
+	::sokira::le::base::TSProtectedParentDeclarator<name> >::result::PushBack<
 
-struct _SSelectorDeclarator {};
+struct _SSelectorDeclarator
+{
+	protected:
+		template <typename SelType>
+		static inline ISelector *_selector(SelType sel, const char* name)
+		{
+			return new TCSelector<SelType>(sel, name);
+		}
+};
+
+#define _LE_NOTHING
 
 #define LE_RTTI_SELECTOR_WITH_NAME(sel, name)							\
-	_TSStubDeclarator>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
-	struct _TSSel_##sel##_##name##_declarator : public _SSelectorDeclarator \
+	_LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, _LE_NOTHING)
+
+#define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
+
+#define _LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, type)	\
+	::sokira::le::base::_TSStubDeclarator>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
+	struct _TSSel_##sel##_##name##_declarator : public ::sokira::le::base::_SSelectorDeclarator \
 	{																	\
 		static inline ISelector *selector()								\
 		{																\
-			return _selector(&__LE_temp_Self::sel);						\
-		}																\
-	private:															\
-		template <typename SelType>										\
-		static inline ISelector *_selector(SelType sel)					\
-		{																\
-			return new TCSelector<SelType>(sel, #name);					\
+			return _selector(type &__LE_temp_Self::sel, #name);			\
 		}																\
 	};																	\
 	typedef _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break::PushBack<_TSSel_##sel##_##name##_declarator>::result::PushBack<
 
-#define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
+
+
+#define LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, ret, args) \
+	_LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, (ret (__LE_temp_Self::*) args))
+
+
+#define LE_RTTI_SELECTOR_WITH_TYPE(sel, ret, args) \
+	LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, sel, ret, args)
+
 
 #define LE_RTTI_SINGLE_PUBLIC_PARENT LE_RTTI_PUBLIC_PARENT(leSelf)
 #define LE_RTTI_SINGLE_PRIVATE_PARENT LE_RTTI_PRIVATE_PARENT(leSelf)
 #define LE_RTTI_SINGLE_PROTECTED_PARENT LE_RTTI_PROTECTED_PARENT(leSelf)
 
 
-#define LE_RTTI_END ::sokira::le::_TSStubDeclarator>::result \
+#define LE_RTTI_END ::sokira::le::base::_TSStubDeclarator>::result \
 	_le_RTTI_INFO; \
-	template<typename> friend  class ::sokira::le::TCClassImpl;	\
+	template<typename> friend  class ::sokira::le::base::TCClassImpl;	\
 	protected:		\
 	typedef __LE_temp_Self leSelf;					\
 	public:	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSParentCollector>	leParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSPublicParentCollector> lePublicParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSPrivateParentCollector> lePrivateParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::TSProtectedParentCollector> leProtectedParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector>	leParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPublicParentCollector> lePublicParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPrivateParentCollector> lePrivateParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSProtectedParentCollector> leProtectedParents;	\
 	typedef leParents::TypeAtNonStrict<0>::result leFirstParent;	\
 	typedef lePublicParents::TypeAtNonStrict<0>::result leFirstPublicParent;	\
 	typedef lePrivateParents::TypeAtNonStrict<0>::result leFirstPrivateParent;	\
 	typedef leProtectedParents::TypeAtNonStrict<0>::result leFirstProtectedParent;	\
 		static ::sokira::le::CClass staticClass();				\
 		virtual ::sokira::le::CClass objectClass() const;			\
-		typedef ::sokira::le::TCPointer<leSelf> Ptr;				\
+		typedef ::sokira::le::TCPointer<leSelf> Ptr;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declaraions
 class IClassImpl;
+
+} // namespace base
 
 ////////////////////////////////////////////////////////////////////////////////
 // class CClass
@@ -185,13 +206,13 @@ class CClass
 		TCPointer<TCastTo> create() const;
 
 		std::vector<CClass> parents() const;
-		
+
 	// Private:
-		CClass(IClassImpl* impl);
+		CClass(base::IClassImpl* impl);
 
 		inline const std::type_info& stdType() const;
 	private:
-		IClassImpl* mImpl;
+		base::IClassImpl* mImpl;
 };
 
 
@@ -199,7 +220,7 @@ class CClass
 // RTTI implementation
 ////////////////////////////////////////////////////////////////////////////////
 #define LE_IMPLEMENT_RUNTIME_CLASS(Class)									\
-	static ::sokira::le::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
+	static ::sokira::le::base::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
 	_LE_IMPLEMENT_RUNTIME_CLASS(Class);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,6 +239,11 @@ class CClass
 
 class ISelector;
 
+struct SByNameFinder;
+
+			namespace base
+			{
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,7 +257,7 @@ class IClassImpl
 
 	protected:
 		IClassImpl(const char*);
-		~IClassImpl()
+		virtual ~IClassImpl()
 		{
 			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
 			{
@@ -264,8 +290,8 @@ class IClassImpl
 			mSelectors.insert(T::selector());
 		}
 
-		friend class CClass;
-		friend struct SByNameFinder;
+		friend class ::sokira::le::CClass;
+		friend struct ::sokira::le::SByNameFinder;
 };
 
 template <>
@@ -280,6 +306,8 @@ inline void IClassImpl::processDeclarator<_SNullType>()
 
 }
 
+			} // namespace base
+
 template <class TCastTo>
 TCPointer<TCastTo> CClass::create() const
 {
@@ -290,6 +318,9 @@ const std::type_info& CClass::stdType() const
 {
 	return mImpl->stdType();
 }
+
+		namespace base
+		{
 
 template <class TListNode, class T>
 struct TSForTypeListParentCreate
@@ -395,6 +426,7 @@ class TCClassImpl : public IClassImpl
 		}
 };
 
+		} // namespace base
 	} // namespace le
 } // namespace sokira
 

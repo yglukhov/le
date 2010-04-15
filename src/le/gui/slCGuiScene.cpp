@@ -13,10 +13,10 @@ LE_IMPLEMENT_RUNTIME_CLASS(CGuiScene);
 CGuiScene::CGuiScene() :
 	mFirstResponder(NULL)
 {
-	setAutoResizing(eAutoResizingFixedMargins);
+
 }
 
-Bool CGuiScene::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+Bool CGuiScene::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
 {
 	if (mFirstResponder && mFirstResponder->onMouse(button, state, point))
 		return true;
@@ -24,12 +24,12 @@ Bool CGuiScene::onMouse(EMouseButton button, EButtonState state, const CPoint& p
 	return CWindow::onMouse(button, state, point);
 }
 
-Bool CGuiScene::mouseEntered(const CPoint& point)
+Bool CGuiScene::mouseEntered(const CPoint2D& point)
 {
 	return false;
 }
 
-Bool CGuiScene::mouseExited(const CPoint& point)
+Bool CGuiScene::mouseExited(const CPoint2D& point)
 {
 	return false;
 }
@@ -80,7 +80,7 @@ void CGuiScene::setScreen(CScreen* screen)
 	setSize(screen->size()); // Resize to fit the screen
 }
 
-Bool CGuiScene::hitTest(const CPoint& point) const
+Bool CGuiScene::hitTest(const CPoint2D& point) const
 {
 	return true;
 }

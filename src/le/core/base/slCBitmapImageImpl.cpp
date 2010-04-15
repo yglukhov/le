@@ -1,12 +1,19 @@
 #include <iostream>
 #include <string.h> // For memcpy
 #include <le/core/slCNumber.h>
+#include "slCImageImpl.hp"
 #include "slCBitmapImageImpl.hp"
+
+//#include <le/core/slCImage.h>
+#include "slCImageFrameImpl.hp"
 
 namespace sokira
 {
 	namespace le
 	{
+
+
+#define LE_BMP_BITS_PER_PIXEL 32
 
 typedef UInt16 WORD;
 typedef UInt32 DWORD;
@@ -48,7 +55,7 @@ typedef struct tagRGBQUAD {
   BYTE    rgbReserved; 
 } RGBQUAD;
 
-CBitmapImageImpl::CBitmapImageImpl(FILE* file)
+void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 {
 //	std::cout << "loading bitmap" << std::endl;
 	BITMAPFILEHEADER bmfh;
@@ -61,8 +68,8 @@ CBitmapImageImpl::CBitmapImageImpl(FILE* file)
 	bmih.biHeight = CNumber::littleEndianToHost(bmih.biHeight);
 	bmih.biBitCount = CNumber::littleEndianToHost(bmih.biBitCount);
 
-	mSize = CSize2D(bmih.biWidth, std::abs(bmih.biHeight));
-	UInt32 destBytesPerPixel = 4;
+	CSize2D size = CSize2D(bmih.biWidth, std::abs(bmih.biHeight));
+	UInt32 destBytesPerPixel = LE_BMP_BITS_PER_PIXEL / 8;
 
 	RGBQUAD* palette = NULL;
 
@@ -76,11 +83,11 @@ CBitmapImageImpl::CBitmapImageImpl(FILE* file)
 	}
 	delete [] palette; // TODO handle this!
 
-	mPixelData = new UInt8[(UInt32)(mSize.width() * mSize.height() * destBytesPerPixel)];
+	UInt8* pixelData = new UInt8[(UInt32)size.area() * destBytesPerPixel];
 
 	SInt32 scanStep = 1;
 	SInt32 i = 0;
-	SInt32 last = mSize.height();
+	SInt32 last = size.height();
 
 	if (bmih.biHeight > 0)
 	{
@@ -137,7 +144,7 @@ CBitmapImageImpl::CBitmapImageImpl(FILE* file)
 //				dump = true; 
 //			}
 
-			UInt8* destPixel = mPixelData + (i * bmih.biWidth + j) * destBytesPerPixel;
+			UInt8* destPixel = pixelData + (i * bmih.biWidth + j) * destBytesPerPixel;
 			if (destBytesPerPixel == 3)
 			{
 				*(destPixel) = r;
@@ -154,21 +161,7 @@ CBitmapImageImpl::CBitmapImageImpl(FILE* file)
 		}
 		fread(&color, padWidth, 1, file); // Omit padding
 	}
-}
-
-CBitmapImageImpl::~CBitmapImageImpl()
-{
-	delete [] mPixelData;
-}
-
-const UInt8* CBitmapImageImpl::pixelData() const
-{
-	return mPixelData;
-}
-
-CSize2D CBitmapImageImpl::size() const
-{
-	return mSize;
+	image->insertFrame(0, CImageFrame(new CImageFrameImpl(size, (EPixelFormat)LE_BMP_BITS_PER_PIXEL, pixelData, 0)));
 }
 
 	} // namespace le

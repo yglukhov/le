@@ -1,6 +1,7 @@
 #include <iostream>
-#include <strstream>
 
+#include <le/core/slCString.h>
+#include <le/core/io/slCDataStream.h>
 #include <le/core/script/slCTokenizer.h>
 #include "slCScriptTestSuite.h"
 
@@ -14,7 +15,8 @@ LE_IMPLEMENT_RUNTIME_CLASS(CScriptTestSuite);
 void CScriptTestSuite::testTokenizer()
 {
 	CTokenizer tokenizer;
-	std::istrstream stream("sdfg; 1234+1234  ;    a+=b");
+	CString string = LESTR("sdfg; 1234+1234  ;    a+=b");
+	CInputDataStream stream(string.cString(), string.length());
 	tokenizer.setInputStream(&stream);
 	const char* map[] = {
 		"eTokenTypeUnknown",

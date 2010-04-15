@@ -35,7 +35,7 @@ CScreen::CScreen(bool fullscreen, const CString& title, const CRectangle& rect) 
 //	CWindow(rect),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
 	mSize(rect.size()),
-	mSizeChanged(true),
+//	mSizeChanged(true),
 	mRenderingContext(NULL)
 {
 	LE_ENTER_LOG;
@@ -109,26 +109,12 @@ void CScreen::draw()
 {
 	LE_ENTER_LOG;
 
-	std::cout << "CScreen::draw: " << title() << std::endl;
-
-	// Handle live resize
-	if (!mSizeChanged)
-	{
-		mSizeChanged = static_cast<CScreenImpl*>(mImpl)->inLiveResize();
-	}
-
-	if (mSizeChanged)
-	{
-		onResize();
-		mSizeChanged = false;
-	}
-
 	LE_ASSERT(mRenderingContext);
 
 //	std::cout << "CScreen::draw()" << std::endl;
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+//	glMatrixMode(GL_MODELVIEW);
+//	glLoadIdentity();
 
 //	CRenderingContext* context = NULL; //static_cast<CScreenImpl*>(mImpl)->renderingContext();
 //	context->clear();
@@ -175,7 +161,7 @@ void CScreen::draw()
 //	}
 //}
 
-void CScreen::setAbsolutePosition(const CPoint& point)
+void CScreen::setAbsolutePosition(const CPoint2D& point)
 {
 	LE_ENTER_LOG;
 
@@ -185,16 +171,16 @@ void CScreen::setAbsolutePosition(const CPoint& point)
 //	glutPositionWindow((int)point.x(), (int)point.y());
 }
 
-CPoint CScreen::absolutePosition() const
+CPoint2D CScreen::absolutePosition() const
 {
 	LE_ENTER_LOG;
-	return CPoint(0, 0);
+	return CPoint2D(0, 0);
 }
 
-CPoint CScreen::relativePosition() const // TODO: ...
+CPoint2D CScreen::relativePosition() const // TODO: ...
 {
 	LE_ENTER_LOG;
-	return CPoint(0, 0);
+	return CPoint2D(0, 0);
 }
 
 CString CScreen::title() const
@@ -249,12 +235,6 @@ void CScreen::_prepareOpenGL()
 //	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
 }
 
-void CScreen::_screenWasResized()
-{
-//	mSize = static_cast<CScreenImpl*>(mImpl)->size();
-	mSizeChanged = true;
-}
-
 void CScreen::_screenWillBeClosed()
 {
 	delete static_cast<CScreenImpl*>(mImpl);
@@ -262,9 +242,9 @@ void CScreen::_screenWillBeClosed()
 }
 
 // This event includes mouse up, mouse down and mouse hover.
-void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
 {
-	std::cout << "CScreen::onMouse: " << title() << std::endl;
+//	std::cout << "CScreen::onMouse: " << title() << std::endl;
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
@@ -272,7 +252,7 @@ void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint& poi
 	}
 }
 
-void CScreen::onMouseIn(const CPoint& point)
+void CScreen::onMouseIn(const CPoint2D& point)
 {
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
@@ -281,7 +261,7 @@ void CScreen::onMouseIn(const CPoint& point)
 	}
 }
 
-void CScreen::onMouseOut(const CPoint& point)
+void CScreen::onMouseOut(const CPoint2D& point)
 {
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
@@ -311,26 +291,26 @@ void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
 // This method is always called within valid OpenGL context
 void CScreen::onResize()
 {
-	CSize2D prevSize = mSize;
 	mSize = static_cast<CScreenImpl*>(mImpl)->size();
 
-	std::cout << "CScreen::onResize: " << title() << std::endl;
+//	std::cout << "CScreen::onResize: " << mSize.width() << ", " << mSize.height() << std::endl;
 //	std::cout << "{" << std::endl;
 
 	glViewport(0, 0, (int)mSize.width(), (int)mSize.height());
-	glMatrixMode (GL_PROJECTION); 
-	glLoadIdentity (); 
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	glOrtho(0, (int)mSize.width(), (int)mSize.height(), 0, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
 
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
 		CGuiScene* scene = dynamic_cast<CGuiScene*> (*it);
-		if (scene) scene->parentResized(prevSize, mSize);
+		if (scene) scene->setSize(mSize);
 	}
 
 //	std::cout << "}" << std::endl;
-	setNeedsRedraw();
+//	setNeedsRedraw();
 }
 
 	} // namespace le

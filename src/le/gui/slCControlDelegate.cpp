@@ -8,59 +8,59 @@ namespace sokira
 
 //////////////////////////////////////////////////////////////////////////
 // Mouse Events
-bool CControlDelegate::onMouseMove(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseMove(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseIn(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseIn(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseOut(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseOut(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseLeftUp(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseLeftUp(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseRightUp(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseRightUp(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
 
-bool CControlDelegate::onMouseMiddleUp(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseMiddleUp(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseLeftDown(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseLeftDown(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseRightDown(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseRightDown(const CPoint2D& point, CControl* sender)
 {
 	return false;
 }
 
-bool CControlDelegate::onMouseMiddleDown(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseMiddleDown(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
 
-bool CControlDelegate::onMouseClick(const CPoint& point, CControl* sender)
+bool CControlDelegate::onMouseClick(const CPoint2D& point, CControl* sender)
 {
 	return true;
 }
 
-bool CControlDelegate::onMouseMultipleClick(const CPoint& point, unsigned clicks, CControl* sender)
+bool CControlDelegate::onMouseMultipleClick(const CPoint2D& point, unsigned clicks, CControl* sender)
 {
 	return true;
 }

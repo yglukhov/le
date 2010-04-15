@@ -1,7 +1,7 @@
 #if !defined SL_LE_core_auxiliary_slCCommandLine_h
 #define SL_LE_core_auxiliary_slCCommandLine_h
 
-#include <le/core/slCURL.h>
+#include <le/core/slCString.h>
 
 namespace sokira
 {

@@ -63,7 +63,7 @@ void CButton::setOnClick(TOnClick& onClick)
 }
 
 
-Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
+Bool CButton::onMouseDown(EMouseButton button, const CPoint2D& point)
 {
 	if (button == eMouseButtonLeft)
 	{
@@ -74,13 +74,14 @@ Bool CButton::onMouseDown(EMouseButton button, const CPoint& point)
 	return false;
 }
 
-Bool CButton::onMouseUp(EMouseButton button, const CPoint& point)
+Bool CButton::onMouseUp(EMouseButton button, const CPoint2D& point)
 {
+	LE_ENTER_LOG;
 	if (button == eMouseButtonLeft && mState == eButtonStateDown)
 	{
 		mState = eButtonStateUp;
 		resignFirstResponder();
-		if (absoluteRect().pointInRect(point) && mOnClick) mOnClick();
+		if (absoluteRect().containsPoint(point) && mOnClick) { LE_IF_LOG(log << "CLICK!!!" << std::endl); mOnClick(); }
 		setNeedsRedraw();
 		return true;
 	}

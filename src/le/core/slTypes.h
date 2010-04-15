@@ -1,7 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  PROJECT: le					DOCTYPE: public c/c++ header, doxygen source.
 //
-/// \file   common/types/slBasic.h			Declarations of basic types.
+/// \file
+/// Declarations of basic types.
 ///
 /// Contains declarations of basic types.
 /// Basic types are defined to guarantee their size, independent from platform

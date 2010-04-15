@@ -11,16 +11,20 @@ namespace sokira
 class COpenGLTextureImpl : public CTextureImpl
 {
 	public:
-		COpenGLTextureImpl(UInt32 texture, const CSize2D& size) :
-			mTexture(texture),
-			mSize(size)
+		COpenGLTextureImpl(UInt32* textures, UInt32 frameCount, const CSize2D& size) :
+			mCurTextureTime(),
+			i(0),
+			mTextures(textures),
+			mSize(size),
+			mFrameCount(frameCount)
 		{
 
 		}
 
 		~COpenGLTextureImpl()
 		{
-			if (mTexture) glDeleteTextures(1, &mTexture);
+			glDeleteTextures(mFrameCount, mTextures);
+			delete [] mTextures;
 		}
 
 		virtual CSize2D size() const
@@ -28,8 +32,11 @@ class COpenGLTextureImpl : public CTextureImpl
 			return mSize;
 		}
 
-		UInt32 mTexture;
+		mutable clock_t mCurTextureTime;
+		mutable UInt32 i;
+		UInt32* mTextures;
 		CSize2D mSize;
+		UInt32 mFrameCount;
 };
 
 	} // namespace le

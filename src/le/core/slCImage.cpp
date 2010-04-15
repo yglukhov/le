@@ -3,6 +3,9 @@
 #include "slCImage.h"
 #include "slCNumber.h"
 #include "base/slCBitmapImageImpl.hp"
+#include "base/slCGifImageImpl.hp"
+#include "base/slCJpegImageImpl.hp"
+#include "base/slCImageImpl.hp"
 
 namespace sokira
 {
@@ -36,39 +39,94 @@ CImage::~CImage()
 
 Bool CImage::loadFromURL(const CURL& url)
 {
-//	std::cout << "Loading image: " << url.path() << std::endl;
+//	std::cout << "Loading image: " << url << std::endl;
 	if (mImpl) mImpl->release();
 
-	FILE* file = fopen(url.path().cString(), "r");
+	FILE* file = fopen(url.path().cString(), "rb");
 	if (file)
 	{
 		UInt16 type;
 		fread(&type, sizeof(type), 1, file);
 		type = CNumber::littleEndianToHost(type);
+
+//		std::cout << "Type: " << type << std::endl;
+
 		switch (type)
 		{
 			case 19778: // 'BM' - Windows BMP image
-				mImpl = new CBitmapImageImpl(file);
+				mImpl = new CImageImpl();
+				CBitmapImageImpl::loadFromFileToImageImpl(file, mImpl);
 				break;
-			default:
+			case 18759: // 'GI' - GIF image
+				mImpl = new CImageImpl();
+				CGifImageImpl::loadFromFileToImageImpl(file, mImpl);
+				break;
+			case 55551: // FF D8 - JPEG image
+				mImpl = new CImageImpl();
+				CJpegImageImpl::loadFromFileToImageImpl(file, mImpl);
 				break;
 		}
 		fclose(file);
-		return _LE_BOOL_CAST(mImpl);
 	}
-	return false;
+	return _LE_BOOL_CAST(mImpl);
 }
 
-const UInt8* CImage::pixelData() const
+UInt32 CImage::frameCount() const
 {
-	return (mImpl)?(mImpl->pixelData()):(NULL);
+	return (mImpl)?(mImpl->frameCount()):(0);
 }
 
-CSize2D CImage::size() const
+CImageFrame CImage::frameAtIndex(UInt32 index) const
 {
-	return (mImpl)?(mImpl->size()):(CSize2D());
+	return (mImpl)?(mImpl->frameAtIndex(index)):(CImageFrame());
 }
 
+void CImage::insertFrame(UInt32 position, const CImageFrame& frame)
+{
+	if (mImpl) mImpl->insertFrame(position, frame);
+}
+
+
+//UInt32 CImage::frameCount() const
+//{
+//	return (mImpl)?(mImpl->frameCount()):(0);
+//}
+//
+//CImageFrame frameAtIndex(UInt32 frame) const
+//{
+//	return (mImpl)?(mImpl->frameAtIndex(
+//}
+//
+//UInt32 CImage::currentFrame() const
+//{
+//	return (mImpl)?(mImpl->currentFrame()):(0);
+//}
+//
+//void CImage::setCurrentFrame(UInt32 frame)
+//{
+//	if (mImpl) mImpl->setCurrentFrame(frame);
+//}
+//
+//EPixelFormat CImage::pixelFormat() const
+//{
+//	return (mImpl)?(mImpl->pixelFormat()):(ePixelFormatRGB);
+//}
+//
+//const UInt8* CImage::pixelData() const
+//{
+//	return (mImpl)?(mImpl->pixelData()):(NULL);
+//}
+//
+//CSize2D CImage::size() const
+//{
+//	return (mImpl)?(mImpl->size()):(CSize2D());
+//}
+//
+//UInt32 CImage::duration()
+//{
+//	return (mImpl)?(mImpl->duration()):(0);
+//}
+//
 CImageImpl* CImage::_impl() const
 {
 	return mImpl;

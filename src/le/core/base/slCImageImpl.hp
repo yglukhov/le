@@ -1,8 +1,10 @@
 #if !defined SL_LE_core_base_slCImageImpl_hp
 #define SL_LE_core_base_slCImageImpl_hp
 
+#include <vector>
 #include <le/core/strategies/slCSimpleRefCountable.h>
 #include <le/core/geometry/slTCSize2D.h>
+#include <le/core/slCImageFrame.h>
 
 namespace sokira
 {
@@ -12,10 +14,23 @@ namespace sokira
 class CImageImpl : public CSimpleRefCountable
 {
 	public:
-		virtual ~CImageImpl() {};
+		UInt32 frameCount() const
+		{
+			return mFrames.size();
+		}
 
-		virtual const UInt8* pixelData() const = 0;
-		virtual CSize2D size() const = 0;
+		CImageFrame frameAtIndex(UInt32 index) const
+		{		
+			return (index <= mFrames.size())?(mFrames[index]):(CImageFrame());
+		}
+
+		void insertFrame(UInt32 position, const CImageFrame& frame)
+		{
+			mFrames.insert(mFrames.begin() + position, frame);
+		}
+
+	private:
+		std::vector<CImageFrame> mFrames;
 };
 
 	} // namespace le

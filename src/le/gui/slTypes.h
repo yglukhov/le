@@ -1,51 +1,12 @@
 #if !defined SL_LE_gui_slTypes_h
 #define SL_LE_gui_slTypes_h
 
-#include <le/core/slCColor.h>
 #include <le/core/geometry/slTCPoint3D.h>
-#include <le/core/geometry/slTCSize2D.h>
 
 namespace sokira
 {
 	namespace le
 	{
-/*
-////////////////////////////////////////////////////////////////////////////////
-// CPoint
-////////////////////////////////////////////////////////////////////////////////
-class CPoint
-{
-	// Construction
-	public:
-		CPoint(float x = 0.0, float y = 0.0, float z = 0.0);
-		CPoint(const CPoint& copy);
-
-	// Attributes
-		float x() const;
-		void x(float X);
-
-		float y() const;
-		void y(float Y);
-
-		float z() const;
-		void z(float Z);
-		
-	// Operators
-		CPoint& operator=(const CPoint& copy);
-		bool operator==(const CPoint& point) const;
-		bool operator!=(const CPoint& point) const;
-
-	// Members
-	private:
-		float mX, mY, mZ;
-};
-
-typedef CPoint CPoint2D;
-typedef CPoint CPoint3D;
-*/
-
-typedef CPoint2D CPoint;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // CSize
@@ -77,44 +38,6 @@ class CSize3D
 		float mWidth, mHeight, mDepth;
 };
 
-//typedef CSize CSize2D;
-//typedef CSize CSize3D;
-
-////////////////////////////////////////////////////////////////////////////////
-// CRectangle
-////////////////////////////////////////////////////////////////////////////////
-class CRectangle : public CPoint2D, public CSize2D
-{
-	// Construction
-	public:
-		CRectangle(float x = 0.0, float y = 0.0, float width = 0.0, float height = 0.0);
-		CRectangle(const CPoint2D& position, float width = 0.0, float height = 0.0);
-		CRectangle(const CPoint2D& position, const CSize2D& size);
-		CRectangle(float x, float y, const CSize2D& size);
-		CRectangle(const CRectangle& copy);
-
-	// Attributes
-
-		CPoint2D topLeft() const;
-		CPoint2D topRight() const;
-		CPoint2D bottomLeft() const;
-		CPoint2D bottomRight() const;
-
-		bool pointInRect(const CPoint2D& point) const;
-
-		CSize2D size() const;
-		void size(const CSize2D& Size);
-
-		CPoint2D position() const;
-		void position(const CPoint2D& point);
-		void position(float x, float y);
-
-	// Operators
-		CRectangle& operator=(const CRectangle& copy);
-		bool operator==(const CRectangle& rect) const;
-		bool operator!=(const CRectangle& rect) const;
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 // CBox
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,8 +62,8 @@ class CBox : public CPoint3D, public CSize3D
 
 	// Operators
 		CBox& operator=(const CBox& copy);
-		bool operator==(const CBox& rect) const;
-		bool operator!=(const CBox& rect) const;
+		bool operator==(const CBox& box) const;
+		bool operator!=(const CBox& box) const;
 };
 
 	} // namespace le

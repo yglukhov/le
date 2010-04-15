@@ -20,11 +20,9 @@ class CWindow : public CControl
 		CWindow(const CRectangle& rect);
 		~CWindow();
 
-		CSize2D size() const;
 		virtual void setSize(const CSize2D& Size);
 
-		virtual void setRelativePosition(const CPoint& Position);
-		virtual void setAbsolutePosition(const CPoint& Position);
+		virtual void setAbsolutePosition(const CPoint2D& Position);
 
 		virtual void addChild(CControl* child);
 		virtual void removeChild(CControl* child);
@@ -46,7 +44,7 @@ class CWindow : public CControl
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
 
 
 		typedef std::list<CControl*> CControlList;
@@ -62,12 +60,6 @@ class CWindow : public CControl
 		CControlList mChildren;
 		virtual Bool childBecomesFirstResponder(CControl* child, CWindow* parent);
 		virtual Bool isChildFirstResponder(const CControl* child) const;
-
-	private:
-		void moveChildren(const CSize2D& delta);
-
-//		friend class CScreen;
-//		bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
 };
 
 	} // namespace le

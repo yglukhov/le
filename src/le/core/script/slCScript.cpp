@@ -6,6 +6,11 @@ namespace sokira
 	namespace le
 	{
 
+CScript::~CScript()
+{
+
+}
+
 void CScript::addFunction(const CString& name, CObject* (*function)(CObject*))
 {
 

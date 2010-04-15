@@ -314,22 +314,22 @@ void CGeneralTestSuite::testUrls()
 
 	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
 	url.removeLastPathComponents(15);
-	std::cout << "URL: " << url.path() << std::endl;
+//	std::cout << "URL: " << url.path() << std::endl;
 	LE_ASSERT(url.path() == "");
 
 	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
 	url.removeLastPathComponents(4);
-	std::cout << "URL: " << url.path() << std::endl;
+//	std::cout << "URL: " << url.path() << std::endl;
 	LE_ASSERT(url.path() == "/Applications");
 
 	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
 	url.removeLastPathComponents(5);
-	std::cout << "URL: " << url.path() << std::endl;
+//	std::cout << "URL: " << url.path() << std::endl;
 	LE_ASSERT(url.path() == "");
 
 	url = CURL("/");
 	url.removeLastPathComponents();
-	std::cout << "URL: " << url.path() << std::endl;
+//	std::cout << "URL: " << url.path() << std::endl;
 	LE_ASSERT(url.path() == "");
 
 	CBundle bundle("/Applications/iTunes.app/Contents/MacOS/iTunes");

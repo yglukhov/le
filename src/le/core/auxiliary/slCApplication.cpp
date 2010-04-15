@@ -1,6 +1,7 @@
 #include <le/core/slCClassFactory.h>
 #include "slCApplication.h"
 #include "slCApplicationDelegate.h"
+#include "slCBundle.h"
 
 namespace sokira
 {
@@ -9,6 +10,11 @@ namespace sokira
 
 CApplication::CApplication() :
 	mDelegate(NULL)
+{
+
+}
+
+CApplication::~CApplication()
 {
 
 }
@@ -47,6 +53,11 @@ void CApplication::quit()
 CCommandLine CApplication::commandLine() const
 {
 	return mCommandLine;
+}
+
+CPreferences* CApplication::preferences()
+{
+	return &mPreferences;
 }
 
 void CApplication::setDelegate(CApplicationDelegate& delegate)

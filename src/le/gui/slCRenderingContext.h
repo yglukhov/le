@@ -2,10 +2,12 @@
 #define SL_LE_gui_slCRenderingContext_h
 
 //#include <le/gui/slConstants.h>
+#include <le/core/slCString.h>
 #include <le/core/geometry/slTCSegment2D.h>
 #include <le/core/geometry/slTCSegment3D.h>
-#include <le/gui/slTypes.h>
+#include <le/core/geometry/slTCRectangle.h>
 #include <le/core/slTCColor.h>
+#include <le/gui/slTypes.h>
 
 
 namespace sokira
@@ -65,6 +67,9 @@ class CRenderingContext
 
 		void setTexture(const CTexture& texture);
 		virtual void unsetTexture();
+
+		virtual void pushClippingRect(const CRectangle& rect);
+		virtual void popClippingRect();
 
 		// Geometry
 		virtual void drawText(const CString& text, const CPoint2D& position);

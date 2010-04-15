@@ -17,7 +17,7 @@ CScene::~CScene()
 
 }
 
-Bool CScene::onMouse(EMouseButton button, EButtonState state, const CPoint& point)
+Bool CScene::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
 {
 	return false;
 }
@@ -37,12 +37,12 @@ Bool CScene::onMouse(EMouseButton button, EButtonState state, const CPoint& poin
 //	return false;
 //}
 
-Bool CScene::mouseEntered(const CPoint& point)
+Bool CScene::mouseEntered(const CPoint2D& point)
 {
 	return false;
 }
 
-Bool CScene::mouseExited(const CPoint& point)
+Bool CScene::mouseExited(const CPoint2D& point)
 {
 	return false;
 }

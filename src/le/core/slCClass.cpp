@@ -9,12 +9,12 @@ namespace sokira
 
 // IClassImpl::IClassImpl(const char* typeName); - implemented in slCClassFactory.cpp
 
-static inline IClassImpl* stubClassImpl()
+static inline base::IClassImpl* stubClassImpl()
 {
-	class CStubClassImpl : public IClassImpl
+	class CStubClassImpl : public base::IClassImpl
 	{
 		public:
-			CStubClassImpl() : IClassImpl("(null)") {}
+			CStubClassImpl() : base::IClassImpl("(null)") {}
 
 			virtual void* create(const std::type_info&) const
 			{
@@ -42,7 +42,7 @@ static inline IClassImpl* stubClassImpl()
 }
 
 
-CClass::CClass(IClassImpl* impl) :
+CClass::CClass(base::IClassImpl* impl) :
 	mImpl((impl)?(impl):(stubClassImpl()))
 {
 

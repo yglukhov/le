@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le/core/slCString.h>
+#include <le/core/slCColor.h>
 #include "slTypes.h"
 #include "slCWindow.h"
 
@@ -29,10 +30,10 @@ class CScreen : public CObject
 		CSize2D size() const;
 		virtual void setSize(const CSize2D& Size);
 
-		virtual void setAbsolutePosition(const CPoint& point);
-		virtual CPoint absolutePosition() const;
+		virtual void setAbsolutePosition(const CPoint2D& point);
+		virtual CPoint2D absolutePosition() const;
 
-		virtual CPoint relativePosition() const;
+		virtual CPoint2D relativePosition() const;
 
 		CString title() const;
 
@@ -45,22 +46,22 @@ class CScreen : public CObject
 		void addScene(CScene* scene, UInt32 order);
 
 		// Do not call these functions directly.
-		void _screenWasResized();
+//		void _screenWasResized();
 		void _screenWillBeClosed();
 		void _prepareOpenGL();
 
-		void onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		void onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
 //		void onMouseDown(EMouseButton button, const CPoint& point);
 //		void onMouseUp(EMouseButton button, const CPoint& point);
 //		void onMouseHover(const CPoint& point);
-		void onMouseIn(const CPoint& point);
-		void onMouseOut(const CPoint& point);
+		void onMouseIn(const CPoint2D& point);
+		void onMouseOut(const CPoint2D& point);
 
 		void onKeyDown(const CString& characters, ECharacterModifiers modifiers);
 		void onKeyUp(const CString& characters, ECharacterModifiers modifiers);
 
+		void onResize();
 	protected:
-		virtual void onResize();
 
 	private:
 		friend class CGuiApplication;
@@ -77,7 +78,6 @@ class CScreen : public CObject
 //		CControlList mControlsToDelete;
 		void* mImpl;
 		CSize2D mSize;
-		Bool mSizeChanged;
 		EMouseButton mPressedButtons;
 		CRenderingContext* mRenderingContext;
 };

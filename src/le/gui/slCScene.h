@@ -1,8 +1,9 @@
 #if !defined SL_LE_gui_slCScene_h
 #define SL_LE_gui_slCScene_h
 
+#include <le/core/slCString.h>
+#include <le/core/geometry/slTCPoint2D.h>
 #include <le/gui/slConstants.h>
-#include <le/gui/slTypes.h>
 
 namespace sokira
 {
@@ -19,12 +20,12 @@ class CScene
 		virtual ~CScene();
 
 		// Mouse events
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint& point);
+		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
 //		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point);
 //		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point);
 //		virtual Bool mouseHovered(const CPoint& point);
-		virtual Bool mouseEntered(const CPoint& point);
-		virtual Bool mouseExited(const CPoint& point);
+		virtual Bool mouseEntered(const CPoint2D& point);
+		virtual Bool mouseExited(const CPoint2D& point);
 
 		virtual Bool onKeyDown(const CString& characters, ECharacterModifiers modifiers);
 		virtual Bool onKeyUp(const CString& characters, ECharacterModifiers modifiers);

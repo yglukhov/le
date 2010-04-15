@@ -309,28 +309,69 @@ void COpenGLRenderingContext::drawWireBox(const CBox& box)
 	glEnd();
 }
 
-CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl)
+CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* image)
 {
-	GLuint result;
-	glGenTextures(1, &result);
-	glBindTexture(GL_TEXTURE_2D, result);
+	if (image->frameCount() == 0)
+	{
+		std::cout << "FRAME_COUNT 0 in COpenGLRenderingContext::createTextureImpl!!" << std::endl;
+		return NULL;
+	}
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	GLuint* result = new GLuint[image->frameCount()];
+	glGenTextures(image->frameCount(), result);
 
-	CSize2D size = imageImpl->size();
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.width(), size.height(),
-		0, GL_RGBA, GL_UNSIGNED_BYTE, imageImpl->pixelData());
-	return new COpenGLTextureImpl(result, size);
+	CSize2D size;
+	for (UInt32 i = 0; i < image->frameCount(); ++i)
+	{
+		CImageFrame frame = image->frameAtIndex(i);
+
+		GLenum format = 0;
+		switch (frame.pixelFormat())
+		{
+			case ePixelFormatRGBA:
+				format = GL_RGBA;
+				break;
+			case ePixelFormatRGB:
+				format = GL_RGB;
+				break;
+			default:
+				continue;
+		}
+
+//		GLuint result;
+//		glGenTextures(1, &result);
+		glBindTexture(GL_TEXTURE_2D, result[i]);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+
+		size = frame.size();
+		glTexImage2D(GL_TEXTURE_2D, 0, format, size.width(), size.height(),
+			0, format, GL_UNSIGNED_BYTE, frame.pixelData());
+	}
+	return new COpenGLTextureImpl(result, image->frameCount(), size);
 }
 
 void COpenGLRenderingContext::setTextureImpl(const CTextureImpl* textureImpl)
 {
+	const COpenGLTextureImpl* tex = dynamic_cast<const COpenGLTextureImpl*>(textureImpl);
+	clock_t curTime = clock();
+//	time(&curTime);
+//	std::cout << "CLOCK: " << curTime << std::endl;
+	clock_t timeDiff = curTime - tex->mCurTextureTime;
+//	std::cout << "timediff: " << std::dec << (int)timeDiff << std::endl;
+//	std::cout << "time dif in secs: " << (double)timeDiff / (double)CLOCKS_PER_SEC << std::endl;
+	if ((double)timeDiff / (double)CLOCKS_PER_SEC * (double)100 > 1)
+	{
+		++tex->i;
+		if (tex->mFrameCount <= tex->i) tex->i = 0;
+		tex->mCurTextureTime = curTime;
+	}
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glBindTexture(GL_TEXTURE_2D, dynamic_cast<const COpenGLTextureImpl*>(textureImpl)->mTexture);
+	glBindTexture(GL_TEXTURE_2D, tex->mTextures[tex->i]);
 }
 
 void COpenGLRenderingContext::unsetTexture()
@@ -338,6 +379,33 @@ void COpenGLRenderingContext::unsetTexture()
 	glDisable(GL_TEXTURE_2D);
 }
 
+void COpenGLRenderingContext::pushClippingRect(const CRectangle& rect)
+{
+	GLfloat vp[4];
+	glGetFloatv(GL_VIEWPORT, vp);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushAttrib(GL_VIEWPORT_BIT);
+	glPushMatrix();
+
+//	CRectangle rect = absoluteRect();
+
+//			CRectangle clipSize(rect.width() - LE_SCROLL_BAR_WIDTH, rect.height() - LE_SCROLL_BAR_WIDTH);
+//	rect.width(rect.width() - LE_SCROLL_BAR_WIDTH);
+//	rect.height(rect.height() - LE_SCROLL_BAR_WIDTH);
+//	context->pushClippingRect(rect);
+
+	glViewport(rect.x(), vp[3] - (rect.y() + rect.height()), rect.width(), rect.height());
+	glLoadIdentity();
+	glOrtho(rect.x(), rect.x() + rect.width(), rect.y() + rect.height(), rect.y(), -1, 1);
+}
+
+void COpenGLRenderingContext::popClippingRect()
+{
+	glPopMatrix();
+	glPopAttrib();
+	glMatrixMode(GL_MODELVIEW);
+}
 
 UInt32 COpenGLRenderingContext::makeFont()
 {

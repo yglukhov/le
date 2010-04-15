@@ -8,7 +8,7 @@ namespace sokira
 	namespace le
 	{
 
-IClassImpl::IClassImpl(const char* typeName) :
+base::IClassImpl::IClassImpl(const char* typeName) :
 	mName(typeName)
 {
 	LE_ENTER_LOG_SILENT;
@@ -16,7 +16,7 @@ IClassImpl::IClassImpl(const char* typeName) :
 	CClassFactory::defaultInstance()->registerClass(this);
 }
 
-void CClassFactory::registerClass(IClassImpl* theClass)
+void CClassFactory::registerClass(base::IClassImpl* theClass)
 {
 	mClassSet.insert(theClass);
 }
@@ -40,7 +40,7 @@ struct SByNameFinder
 
 	}
 
-	bool operator()(IClassImpl* impl) const
+	bool operator()(base::IClassImpl* impl) const
 	{
 		return (mName == impl->mName);
 	}
@@ -48,7 +48,7 @@ struct SByNameFinder
 	CBasicString mName;
 };
 
-IClassImpl* CClassFactory::_classWithName(const CBasicString& name)
+base::IClassImpl* CClassFactory::_classWithName(const CBasicString& name)
 {
 	CClassSet::iterator end = mClassSet.end();
 	CClassSet::iterator it = std::find_if(mClassSet.begin(), end, SByNameFinder(name));
@@ -69,7 +69,7 @@ struct SByParentFinder : public CClassFactory::iterator::IPredicate
 
 	}
 
-	virtual bool operator () (IClassImpl* impl) const
+	virtual bool operator () (base::IClassImpl* impl) const
 	{
 		return impl->isChildOfStdClass(mType);
 	}

@@ -6,7 +6,6 @@
 	#define YY_USER_ACTION  yylloc->columns(yyleng);
 
 	static int yywrap();
-	static void consumeComment();
 %}
 
 

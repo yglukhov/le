@@ -377,12 +377,12 @@ void CBasicString::append(NChar c, EStringEncoding encoding)
 
 void CBasicString::append(WChar c, EStringEncoding)
 {
-	union
-	{
-		WChar c;
-		char s[2];
-	} u;
-	u.c = c;
+//	union
+//	{
+//		WChar c;
+//		char s[2];
+//	} u;
+//	u.c = c;
 	// TODO: complete this to correctly handle endians
 //	std::cout << (char)c;
 	append((char)c);
@@ -426,9 +426,23 @@ void CBasicString::clear()
 
 // Erase characters from string. If toPos is equal to 0, then the
 // characters are erased to the end of the string.
-void CBasicString::erase(UInt32 /*fromPos*/, UInt32 /*toPos*/)
+void CBasicString::erase(UInt32 fromPos, UInt32 length)
 {
-	// TODO: complete
+	UInt32 len = mProxy->length();
+	if (fromPos >= len) return;
+	if (length >= len - fromPos || length == 0) length = len - fromPos;
+	if (fromPos == 0 && length == len)
+	{
+		clear();
+	}
+	else
+	{
+		NChar* newStr = new NChar[len - length + 1];
+		memcpy(newStr, mProxy->mString, fromPos);
+		memcpy(newStr + fromPos, mProxy->mString + fromPos + length, len - fromPos - length + 1);
+		mProxy->release();
+		mProxy = new SStringProxy(newStr, eOwnPolicyDealloc);
+	}
 }
 
 void CBasicString::trimWhitespace()
@@ -464,11 +478,6 @@ bool CBasicString::isEmpty() const
 	return mProxy->isEmpty();
 }
 
-//EStringEncoding CBasicString::encoding() const
-//{
-//	return eStringEncodingASCII;
-//}
-
 SInt32 CBasicString::find(const CBasicString& string) const
 {
 	char* res = strstr(mProxy->mString, string.mProxy->mString);
@@ -479,6 +488,11 @@ SInt32 CBasicString::findLast(const CBasicString& string) const
 {
 	size_t res = std::string(mProxy->mString).rfind(string.mProxy->mString);
 	return (res == std::string::npos)?(-1):((SInt32)res);
+}
+
+Bool CBasicString::hasPrefix(const CBasicString& string) const
+{
+	return !find(string);
 }
 
 CBasicString CBasicString::subString(UInt32 from, UInt32 length) const
