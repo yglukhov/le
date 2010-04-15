@@ -163,12 +163,12 @@
 		7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
 		7B76900D1076A42A00DAF20B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 		7B7690101076A43800DAF20B /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
-		7B7690271076A50300DAF20B /* slCSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B7690261076A50300DAF20B /* slCSource.cpp */; };
 		7B7690281076A50300DAF20B /* slCSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B7690261076A50300DAF20B /* slCSource.cpp */; };
-		7B76902B1076A52800DAF20B /* slCSoundContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902A1076A52800DAF20B /* slCSoundContext.cpp */; };
 		7B76902C1076A52800DAF20B /* slCSoundContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902A1076A52800DAF20B /* slCSoundContext.cpp */; };
-		7B76902F1076A53A00DAF20B /* slCListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902E1076A53A00DAF20B /* slCListener.cpp */; };
 		7B7690301076A53A00DAF20B /* slCListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902E1076A53A00DAF20B /* slCListener.cpp */; };
+		7B7786CC11774E07002348E9 /* slCSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B7690261076A50300DAF20B /* slCSource.cpp */; };
+		7B7786CD11774E08002348E9 /* slCSoundContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902A1076A52800DAF20B /* slCSoundContext.cpp */; };
+		7B7786CE11774E08002348E9 /* slCListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B76902E1076A53A00DAF20B /* slCListener.cpp */; };
 		7B93B3F51175C5DC0089A9FF /* libgif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B93B3E91175C5BA0089A9FF /* libgif.a */; };
 		7BB9D1A90F433E490026D308 /* slCScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1A70F433E490026D308 /* slCScene.cpp */; };
 		7BB9D1B60F4340D20026D308 /* slCGuiScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9D1B40F4340D20026D308 /* slCGuiScene.cpp */; };
@@ -225,13 +225,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7B768FDA1076A30700DAF20B;
 			remoteInfo = leSound;
-		};
-		7B768FDC1076A30700DAF20B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B04FF8740A15FAEA00F559ED;
-			remoteInfo = leCore;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1261,7 +1254,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				7B768FDB1076A30700DAF20B /* PBXTargetDependency */,
 			);
 			name = leSound;
 			productName = leGui;
@@ -1467,15 +1459,15 @@
 				7B7690091076A40300DAF20B /* slCOpenGLRenderingContext.cpp in Sources */,
 				7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */,
 				7B7690101076A43800DAF20B /* slCControlDelegate.cpp in Sources */,
-				7B7690271076A50300DAF20B /* slCSource.cpp in Sources */,
-				7B76902B1076A52800DAF20B /* slCSoundContext.cpp in Sources */,
-				7B76902F1076A53A00DAF20B /* slCListener.cpp in Sources */,
 				7B5950E31078F6D50083BEE4 /* slCGifImageImpl.cpp in Sources */,
 				7BFAC812107B837500BF07DF /* slCImageFrame.cpp in Sources */,
 				7BFF4105107D3D650007FFC0 /* slCPreferences.mm in Sources */,
 				7B75EBAB10808F810073DE2F /* slCScrollView.cpp in Sources */,
 				7B75EBAF108092250073DE2F /* slCScrollBar.cpp in Sources */,
 				7B3215BC10874237000E62E8 /* slCJpegImageImpl.cpp in Sources */,
+				7B7786CC11774E07002348E9 /* slCSource.cpp in Sources */,
+				7B7786CD11774E08002348E9 /* slCSoundContext.cpp in Sources */,
+				7B7786CE11774E08002348E9 /* slCListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1601,11 +1593,6 @@
 			target = 7B768FDA1076A30700DAF20B /* leSound */;
 			targetProxy = 7B75CF5610778B0900F93924 /* PBXContainerItemProxy */;
 		};
-		7B768FDB1076A30700DAF20B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B04FF8740A15FAEA00F559ED /* leCore */;
-			targetProxy = 7B768FDC1076A30700DAF20B /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1685,15 +1672,9 @@
 					"$(leLibRoot)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../libs/vorbis/macos\"";
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"$(leLibRoot)/jpeg/macos/libjpeg.a",
-					"-lc",
 				);
 				PRODUCT_NAME = le;
 				SKIP_INSTALL = NO;
@@ -1715,15 +1696,9 @@
 					"$(leLibRoot)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../libs/vorbis/macos\"";
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"$(leLibRoot)/jpeg/macos/libjpeg.a",
-					"-lc",
 				);
 				PRODUCT_NAME = le;
 			};
