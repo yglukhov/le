@@ -2,7 +2,7 @@
 #define SL_LE_sound_slCSourceImpl_hp
 
 #include <OpenAL/al.h>
-#include <vorbis/vorbisfile.h>
+#include <vorbis/include/vorbis/vorbisfile.h>
 #include <le/core/strategies/slCSimpleRefCountable.h>
 
 #define LE_OGG_BUFFER_SIZE   32768     // 32 KB buffers
