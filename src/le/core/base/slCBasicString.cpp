@@ -79,7 +79,7 @@ struct CBasicString::SStringProxy
 	inline SStringProxy(const NChar* string, EOwnPolicy ownPolicy = eOwnPolicyDefault, UInt32 length = 0) :
 		mOwnPolicy(ownPolicy),
 		mRefCount(1),
-		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[(length)?(length):(std::strlen(string)) + 1]):(NULL))
+		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[((length)?(length):(std::strlen(string))) + 1]):(NULL))
 	{
 		if (mString)
 		{
