@@ -29,8 +29,12 @@ CDictionary::CDictionary(const CString& rootKey) :
 CDictionary CDictionary::createFromStream(std::istream& stream)
 {
 	CXMLDictionaryParser parser;
-	parser.parseStream(stream);
-	return parser.dictionary();
+	if (stream)
+	{
+		parser.parseStream(stream);
+		return parser.dictionary();
+	}
+	return CDictionary();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
