@@ -19,6 +19,11 @@ CTheme::CTheme()
 
 }
 
+CTheme::~CTheme()
+{
+
+}
+
 void CTheme::drawControl(const CControl* control, CRenderingContext* context) const
 {
 

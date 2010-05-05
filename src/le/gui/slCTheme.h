@@ -24,6 +24,7 @@ class CTheme
 
 	public:
 		CTheme();
+		virtual ~CTheme();
 
 		void drawControl(const CControl* control, CRenderingContext* context) const;
 		void drawButton(const CButton* button, CRenderingContext* context) const;
