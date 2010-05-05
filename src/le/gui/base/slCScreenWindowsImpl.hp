@@ -1,0 +1,54 @@
+#if !defined SL_LE_gui_base_slCScreenWindowsImpl_hp
+#define SL_LE_gui_base_slCScreenWindowsImpl_hp
+
+#include <windows.h>
+#include <le/core/slCString.h>
+#include <le/gui/slTypes.h>
+#include <le/core/geometry/slTCRectangle.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CGuiApplication;
+class CScreen;
+
+class CScreenWindowsImpl
+{
+	public:
+		CScreenWindowsImpl(bool fullScreen, const CString& title, const CRectangle& rect);
+
+		void screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app);
+		void screenWasAddedToApplication(CScreen* screen, CGuiApplication* app);
+
+		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+		void screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+
+		Bool inLiveResize() const;
+
+		CSize2D size() const;
+		void setSize(const CSize2D& size);
+
+		void setNeedsRedraw();
+
+		CString title() const;
+
+		LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	private:
+		void onMouseButton(EMouseButton button, EButtonState state, LPARAM coords);
+
+		CScreen* mScreen;
+		Bool mFullScreen;
+		CString mTitle;
+		CRectangle mRect;
+		HWND mWindow;
+		Bool mWindowDidResize;
+		Bool mMouseInWindow;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCScreenWindowsImpl_hp

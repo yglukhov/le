@@ -1,20 +1,19 @@
 #include "slCGuiApplication.h"
 
 
-#include "slCScreen.h"
-#include "slCDialog.h"
-//#include "slCFace.h"
-#include "slTypes.h"
-#include "slConstants.h"
-#include "slCControlDelegate.h"
+#include <le/gui/slCScreen.h>
+#include <le/gui/slTypes.h>
+#include <le/gui/slConstants.h>
+#include <le/gui/slCControlDelegate.h>
 #include <le/core/auxiliary/slCNotificationCenter.h>
 #include <le/core/debug/slDebug.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #include "base/slCGuiApplicationCocoaImpl.hp"
 #define CGuiApplicationImpl CGuiApplicationCocoaImpl
-#else
-#error Complete this
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+#include "base/slCGuiApplicationWindowsImpl.hp"
+#define CGuiApplicationImpl CGuiApplicationWindowsImpl
 #endif
 
 namespace sokira

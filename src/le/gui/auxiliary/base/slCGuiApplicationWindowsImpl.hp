@@ -1,0 +1,40 @@
+#if !defined SL_LE_gui_auxiliary_base_slCGuiApplicationWindowsImpl_hp
+#define SL_LE_gui_auxiliary_base_slCGuiApplicationWindowsImpl_hp
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CApplication;
+class CApplicationDelegate;
+class CScreen;
+
+class CGuiApplicationWindowsImpl
+{
+	public:
+		virtual SInt32 run(CApplicationDelegate* delegate, CApplication* app);
+
+//		void applicationWillFinishLaunching();
+
+		void screenWillBeAddedToApplication(CScreen* screen)
+		{
+
+		}
+
+		void screenWasAddedToApplication(CScreen* screen)
+		{
+
+		}
+
+		void quit();
+
+	private:
+	//	void* mImpl;
+};
+
+	} // namespace le
+} // namespace sokira
+
+
+#endif // not defined SL_LE_gui_auxiliary_base_slCGuiApplicationWindowsImpl_hp

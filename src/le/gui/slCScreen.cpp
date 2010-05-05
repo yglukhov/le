@@ -18,6 +18,9 @@
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #include "base/slCCocoaScreenImpl.hp"
 #define CScreenImpl CCocoaScreenImpl
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+#include "base/slCScreenWindowsImpl.hp"
+#define CScreenImpl CScreenWindowsImpl
 #endif
 
 namespace sokira
@@ -119,7 +122,14 @@ void CScreen::draw()
 //	CRenderingContext* context = NULL; //static_cast<CScreenImpl*>(mImpl)->renderingContext();
 //	context->clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+/*
+	glColor3f(1, 0, 0);
+	glBegin(GL_TRIANGLES);
+	glVertex2f(0,0);
+	glVertex2f(50, 0);
+	glVertex2f(0, 50);
+	glEnd();
+*/
 	CSceneList::const_iterator end = mScenes.end();
 	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 	{
@@ -232,7 +242,6 @@ void CScreen::addScene(CScene* scene, UInt32 order)
 void CScreen::_prepareOpenGL()
 {
 	mRenderingContext = new COpenGLRenderingContext();
-//	std::cout << "CScreen::_prepareOpenGL()" << std::endl;
 }
 
 void CScreen::_screenWillBeClosed()

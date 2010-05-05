@@ -52,6 +52,68 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="OpenGL32.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
+				DataExecutionPrevention="0"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(SolutionDir)..\..\libs\glut\win32\glut*.dll&quot; &quot;$(testOutputDir)&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\properties\testRelease.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
@@ -152,67 +214,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
-			ConfigurationType="1"
-			InheritedPropertySheets="..\properties\testRelease.vsprops"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
-				DataExecutionPrevention="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(SolutionDir)..\..\libs\glut\win32\glut*.dll&quot; &quot;$(testOutputDir)&quot;"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|STANDARDSDK_500 (ARMV4I)"
 			OutputDirectory="$(testOutputDir)"
 			IntermediateDirectory="$(slIntDir)"
@@ -302,6 +303,22 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\test\general\slCGeneralTestSuite.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\test\general\slCGeometryTestSuite.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\test\general\slCGeometryTestSuite.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\test\general\slCGuiTestAppDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\test\general\slCGuiTestAppDelegate.h"
 				>
 			</File>
 			<File

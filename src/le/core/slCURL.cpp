@@ -10,8 +10,8 @@ LE_IMPLEMENT_RUNTIME_CLASS(CURL);
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_UNIX || LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 static const CString cPathSeparator = LESTR("/");
-#else
-// TODO
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+static const CString cPathSeparator = LESTR("/");
 #endif
 
 CURL::CURL()

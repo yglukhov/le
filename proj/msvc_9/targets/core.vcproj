@@ -73,6 +73,60 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\properties\leRelease.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				DisableLanguageExtensions="false"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\leCore.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|STANDARDSDK_500 (ARMV4I)"
 			OutputDirectory="$(leLibOutputDir)"
 			IntermediateDirectory="$(slIntDir)"
@@ -141,60 +195,6 @@
 				AdditionalFiles=""
 			/>
 			<DebuggerTool
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\properties\leRelease.vsprops"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				DisableLanguageExtensions="false"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\leCore.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -284,14 +284,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\core\slCAutoreleasePool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\core\slCAutoreleasePool.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\le\core\slCClass.cpp"
 				>
 			</File>
@@ -332,6 +324,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\le\core\slCImage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCImage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCImageFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCImageFrame.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\le\core\slCNumber.cpp"
 				>
 			</File>
@@ -360,6 +368,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\le\core\slCURL.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\core\slCURL.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\le\core\slTCColor.h"
 				>
 			</File>
@@ -375,6 +391,38 @@
 				Name="auxiliary"
 				>
 				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCApplication.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCApplication.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCApplicationDelegate.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCApplicationDelegate.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCBundle.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCBundle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCCommandLine.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCCommandLine.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\le\core\auxiliary\slCNotificationCenter.cpp"
 					>
 				</File>
@@ -383,11 +431,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCPreferences.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCPreferences.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\le\core\auxiliary\slCRunLoop.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\auxiliary\slCRunLoop.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCWorkspace.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\auxiliary\slCWorkspace.h"
 					>
 				</File>
 				<File
@@ -408,6 +472,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\base\slCNumberBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCXMLDictionaryParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCXMLDictionaryParser.hp"
 					>
 				</File>
 				<File
@@ -520,6 +592,14 @@
 				>
 				<File
 					RelativePath="..\..\..\src\le\core\strategies\slCNonCopyable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\strategies\slCSimpleRefCountable.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\strategies\slCSimpleRefCountable.h"
 					>
 				</File>
 			</Filter>

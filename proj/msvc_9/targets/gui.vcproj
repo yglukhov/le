@@ -40,6 +40,60 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				DisableLanguageExtensions="false"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\leGui.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\properties\leRelease.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -143,59 +197,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\properties\leRelease.vsprops"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\leGui.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="echo .cpp&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .cp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .c&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .hp&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;echo .svn&gt;&gt;_le_tmp_file.tmp&#x0D;&#x0A;xcopy &quot;$(slSrcRoot)/le/$(InputName)&quot; &quot;$(leHeaderOutputDir)/$(SolutionName)/$(InputName)&quot; /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp&#x0D;&#x0A;del _le_tmp_file.tmp&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|STANDARDSDK_500 (ARMV4I)"
 			OutputDirectory="$(leLibOutputDir)"
 			IntermediateDirectory="$(slIntDir)"
@@ -274,22 +275,6 @@
 			Name="src"
 			>
 			<File
-				RelativePath="..\..\..\src\le\gui\slBasicGraphicControllers.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slBasicGraphicControllers.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCApplication.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCApplication.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\le\gui\slCButton.cpp"
 				>
 			</File>
@@ -322,31 +307,39 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCDialog.cpp"
+				RelativePath="..\..\..\src\le\gui\slCGuiScene.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCDragger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCDragger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCFace.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCFace.h"
+				RelativePath="..\..\..\src\le\gui\slCGuiScene.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\src\le\gui\slConstants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCOpenGLRenderingContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCOpenGLRenderingContext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCRenderingContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCRenderingContext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCScene.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCScene.h"
 				>
 			</File>
 			<File
@@ -358,11 +351,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCText.cpp"
+				RelativePath="..\..\..\src\le\gui\slCScrollBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCText.h"
+				RelativePath="..\..\..\src\le\gui\slCScrollBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCScrollView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCScrollView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCStaticText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCStaticText.h"
 				>
 			</File>
 			<File
@@ -371,14 +380,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\le\gui\slCTheme.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCTitleBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCTitleBar.h"
 				>
 			</File>
 			<File
@@ -401,6 +402,42 @@
 				RelativePath="..\..\..\src\le\gui\slTypes.h"
 				>
 			</File>
+			<Filter
+				Name="auxiliary"
+				>
+				<File
+					RelativePath="..\..\..\src\le\gui\auxiliary\slCGuiApplication.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\gui\auxiliary\slCGuiApplication.h"
+					>
+				</File>
+				<Filter
+					Name="base"
+					>
+					<File
+						RelativePath="..\..\..\src\le\gui\auxiliary\base\slCGuiApplicationWindowsImpl.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\le\gui\auxiliary\base\slCGuiApplicationWindowsImpl.hp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="base"
+				>
+				<File
+					RelativePath="..\..\..\src\le\gui\base\slCScreenWindowsImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\gui\base\slCScreenWindowsImpl.hp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

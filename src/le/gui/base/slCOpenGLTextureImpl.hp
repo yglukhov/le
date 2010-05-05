@@ -1,6 +1,7 @@
 #if !defined SL_LE_gui_base_slCOpenGLTextureImpl_hp
 #define SL_LE_gui_base_slCOpenGLTextureImpl_hp
 
+#include "time.h"
 #include "slCTextureImpl.hp"
 
 namespace sokira

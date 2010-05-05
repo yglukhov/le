@@ -12,6 +12,12 @@ namespace sokira
 COpenGLRenderingContext::COpenGLRenderingContext() :
 	mFontOffset(0)
 {
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); 
+
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
 	mFontOffset = makeFont();
 }
 
@@ -220,6 +226,7 @@ void COpenGLRenderingContext::drawSegment(const CSegment3D& segment)
 
 void COpenGLRenderingContext::drawRect(const CRectangle& rect)
 {
+//	std::cout << "Drawing rect(" << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << ")" << std::endl;
 	glRectf(rect.x(), rect.y(), rect.x() + rect.width(), rect.y() + rect.height());
 }
 
@@ -233,7 +240,6 @@ void COpenGLRenderingContext::drawWireRect(const CRectangle& rect)
 		glVertex2f(rect.x(), rect.y());
 	glEnd();	
 }
-
 
 void COpenGLRenderingContext::drawBox(const CBox& box)
 {
