@@ -13,7 +13,7 @@ class CScreen;
 class CGuiApplicationCocoaImpl
 {
 	public:
-		virtual SInt32 run(CApplicationDelegate* delegate, CApplication* app);
+		SInt32 run(CApplicationDelegate* delegate, CApplication* app);
 
 //		void applicationWillFinishLaunching();
 
