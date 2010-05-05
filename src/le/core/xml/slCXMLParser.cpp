@@ -137,7 +137,7 @@ void CXMLParser::onData(CString data)
 {
 	if (mOnData)
 	{
-		if (mFlags & eOptionTrimWhitespace) data.trimWhitespace();
+		if (trimsWhitespace()) data.trimWhitespace();
 		if (!data.isEmpty()) mOnData(this, data);
 	}
 }
