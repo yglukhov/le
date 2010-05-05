@@ -1,12 +1,3 @@
-/*
- *  CXMLDictionaryParser.cpp
- *  le
- *
- *  Created by Yuriy Glukhov on 5/5/10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include <le/core/template/function/slTCBind.h>
 #include <le/core/slCDictionary.h>
 #include "slCXMLDictionaryParser.hp"
