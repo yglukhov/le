@@ -10,7 +10,7 @@ namespace sokira
 	namespace le
 	{
 
-#define DEFAULT_SCREEN_RECT CRectangle(50, 50, 100, 100)
+#define DEFAULT_SCREEN_RECT CRectangle(50, 50, 200, 200)
 
 class CGuiApplication;
 class CRenderingContext;
