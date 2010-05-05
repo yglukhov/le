@@ -2,6 +2,7 @@
 #define SL_LE_glut_slGlut_h
 
 #ifdef _WIN32
+#	include <windows.h>
 #	ifdef _WIN32_WCE
 #		include "es/inc/glutes.h"
 #	else
