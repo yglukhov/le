@@ -332,8 +332,6 @@
 		7B052BAD0BD12EB200AA8BD8 /* slTCThreadSingletone.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCThreadSingletone.h; sourceTree = "<group>"; };
 		7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButton.cpp; sourceTree = "<group>"; };
 		7B052BCC0BD12ECD00AA8BD8 /* slCButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButton.h; sourceTree = "<group>"; };
-		7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCButtonDelegate.cpp; sourceTree = "<group>"; };
-		7B052BCE0BD12ECD00AA8BD8 /* slCButtonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCButtonDelegate.h; sourceTree = "<group>"; };
 		7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControl.cpp; sourceTree = "<group>"; };
 		7B052BD00BD12ECD00AA8BD8 /* slCControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCControl.h; sourceTree = "<group>"; };
 		7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCControlDelegate.cpp; sourceTree = "<group>"; };
@@ -620,8 +618,6 @@
 				7B15CE7A0F3610B3002E9DA7 /* base */,
 				7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */,
 				7B052BCC0BD12ECD00AA8BD8 /* slCButton.h */,
-				7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */,
-				7B052BCE0BD12ECD00AA8BD8 /* slCButtonDelegate.h */,
 				7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */,
 				7B052BD00BD12ECD00AA8BD8 /* slCControl.h */,
 				7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */,
