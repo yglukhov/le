@@ -212,40 +212,6 @@
 
 - (void) prepareOpenGL
 {
-//	long swapInt = 1;
-
-//	[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; // set to vbl sync
-
-	// init GL stuff here
-//	glEnable(GL_DEPTH_TEST);
-
-//	glShadeModel(GL_SMOOTH);    
-//	glEnable(GL_CULL_FACE);
-//	glFrontFace(GL_CCW);
-//	glPolygonOffset (1.0f, 1.0f);
-
-//	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-//	[self resetCamera];
-//	shapeSize = 7.0f; // max radius of of objects
-
-	// init fonts for use with strings
-//	NSFont * font =[NSFont fontWithName:@"Helvetica" size:12.0];
-//	stanStringAttrib = [[NSMutableDictionary dictionary] retain];
-//	[stanStringAttrib setObject:font forKey:NSFontAttributeName];
-//	[stanStringAttrib setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-//	[font release];
-	
-	// ensure strings are created
-//	[self createHelpString];
-//	[self createMessageString];
-
-//	glEnable(GL_ALPHA_TEST);
-   glEnable(GL_BLEND); 
-   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); 
-
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
 	LE_ASSERT(mScreen);
 	mScreen->_prepareOpenGL();
 }
