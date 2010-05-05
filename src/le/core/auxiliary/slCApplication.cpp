@@ -9,14 +9,15 @@ namespace sokira
 	{
 
 CApplication::CApplication() :
-	mDelegate(NULL)
+	mDelegate(NULL),
+	mPreferences(NULL)
 {
 
 }
 
 CApplication::~CApplication()
 {
-
+	delete mPreferences;
 }
 
 static inline Bool loadDelegateFromInfoPlist(CApplication* app)
@@ -57,7 +58,8 @@ CCommandLine CApplication::commandLine() const
 
 CPreferences* CApplication::preferences()
 {
-	return &mPreferences;
+	if (!mPreferences) mPreferences = new CPreferences(mainBundle().identifier());
+	return mPreferences;
 }
 
 void CApplication::setDelegate(CApplicationDelegate& delegate)

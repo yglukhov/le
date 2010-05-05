@@ -12,6 +12,7 @@ namespace sokira
 	{
 
 class CApplicationDelegate;
+class CPreferences;
 class CBundle;
 
 class CApplication
@@ -42,7 +43,7 @@ class CApplication
 		CApplicationDelegate* mDelegate;
 		Bool mOwnDelegate;
 		CCommandLine mCommandLine;
-		CPreferences mPreferences;
+		CPreferences* mPreferences;
 };
 
 	} // namespace le

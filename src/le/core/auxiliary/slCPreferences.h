@@ -15,8 +15,13 @@ namespace sokira
 class CPreferences : public CDictionary
 {
 	public:
-		CPreferences();
+		CPreferences(const CString& domain);
+		~CPreferences();
 		void flush() const;
+
+	private:
+		const NChar* filePath() const;
+		CString mDomain;
 };
 
 	} // namespace le

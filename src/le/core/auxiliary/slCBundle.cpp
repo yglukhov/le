@@ -37,17 +37,26 @@ CURL CBundle::contentsUrl() const
 
 CURL CBundle::infoPlistUrl() const
 {
-	return CURL(contentsUrl().path() + "/Info.plist");
+	CURL result = contentsUrl();
+	result.appendPathComponent("Info.plist");
+	return result;
 }
 
 CURL CBundle::resourcesUrl() const
 {
-	return CURL(contentsUrl().path() + "/Resources");
+	CURL result = contentsUrl();
+	result.appendPathComponent("Resources");
+	return result;
 }
 
 CURL CBundle::executableUrl() const
 {
 	return mExecutableURL;
+}
+
+CString CBundle::identifier() const
+{
+	return LESTR("org.7lifes.le.app");
 }
 
 	} // namespace le

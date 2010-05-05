@@ -21,6 +21,8 @@ class CBundle
 		CURL resourcesUrl() const;
 		CURL executableUrl() const;
 
+		CString identifier() const;
+
 	private:
 		CURL mExecutableURL;
 };

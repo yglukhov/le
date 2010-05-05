@@ -7,31 +7,30 @@ namespace sokira
 	namespace le
 	{
 
-static inline const char* preferencesFilePath()
+CPreferences::CPreferences(const CString& domain) :
+	CDictionary("preferences"),
+	mDomain(domain)
 {
-	return CWorkspace().userPreferencesURL().path().cString();
+	std::ifstream stream(filePath());
+	append(CDictionary::createFromStream(stream));
 }
 
-CPreferences::CPreferences() :
-	CDictionary("preferences")
+CPreferences::~CPreferences()
 {
-//	NSAutoreleasePool * pool = [NSAutoreleasePool new];
-//	NSArray * libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//	NSLog(@"%@", libraries);
-//	NSString * str = [libraries objectAtIndex:0];
-//	NChar* cStr = new NChar[[str length]];
-//	[str getCString:cStr maxLength: [str length] encoding: NSASCIIStringEncoding];
-//	[pool release];
-//	CString path = CString::__CStringNoCopyDeallocWithDelete(cStr);
-
-	std::ifstream stream(preferencesFilePath());
-	append(CDictionary::createFromStream(stream));
+	flush();
 }
 
 void CPreferences::flush() const
 {
-	std::ofstream stream(preferencesFilePath());
+	std::ofstream stream(filePath());
 	dump(stream);
+}
+
+const NChar* CPreferences::filePath() const
+{
+	CURL url = CWorkspace().userPreferencesURL();
+	url.appendPathComponent(mDomain);
+	return url.path().cString();
 }
 
 	} // namespace le
