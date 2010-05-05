@@ -12,7 +12,6 @@ namespace sokira
 	{
 
 class CApplicationDelegate;
-class CPreferences;
 class CBundle;
 
 class CApplication
