@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_slCDictionary_h
+#define SL_LE_core_slCDictionary_h
 
 #include <map>
 
@@ -17,14 +18,15 @@ class CDictionary : public CObject
 
 	public:
 		CDictionary(const CString& rootKey = LESTR("dict"));
+		static CDictionary createFromStream(std::istream& stream);
 
 		////////////////////////////////////////////////////////////////////////
 		// Root modifiers
 		////////////////////////////////////////////////////////////////////////
-		void rootKey(const CString& key);
+		void setRootKey(const CString& key);
 		CString rootKey() const;
 
-		void rootValue(const CString& value);
+		void setRootValue(const CString& value);
 		CString rootValue() const;
 
 		////////////////////////////////////////////////////////////////////////
@@ -156,3 +158,5 @@ class CDictionary : public CObject
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_slCDictionary_h

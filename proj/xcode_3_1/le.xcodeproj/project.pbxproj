@@ -57,7 +57,6 @@
 		7B052BC50BD12EB200AA8BD8 /* slCMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA90BD12EB100AA8BD8 /* slCMutex.cpp */; };
 		7B052BC60BD12EB200AA8BD8 /* slCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BAB0BD12EB100AA8BD8 /* slCThread.cpp */; };
 		7B052BE90BD12ECD00AA8BD8 /* slCButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCB0BD12ECD00AA8BD8 /* slCButton.cpp */; };
-		7B052BEA0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCD0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp */; };
 		7B052BEB0BD12ECD00AA8BD8 /* slCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BCF0BD12ECD00AA8BD8 /* slCControl.cpp */; };
 		7B052BEC0BD12ECD00AA8BD8 /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
 		7B052BF00BD12ECD00AA8BD8 /* slCScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BDA0BD12ECD00AA8BD8 /* slCScreen.cpp */; };
@@ -128,6 +127,8 @@
 		7B4CE5CB106F5C0F003E20F5 /* slCBitmapImageImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4CE5C9106F5C0F003E20F5 /* slCBitmapImageImpl.cpp */; };
 		7B5950E31078F6D50083BEE4 /* slCGifImageImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5950E21078F6D50083BEE4 /* slCGifImageImpl.cpp */; };
 		7B5950E41078F6D50083BEE4 /* slCGifImageImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5950E21078F6D50083BEE4 /* slCGifImageImpl.cpp */; };
+		7B5DAD90119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5DAD8F119194A300B49733 /* slCXMLDictionaryParser.cpp */; };
+		7B5DAD91119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5DAD8F119194A300B49733 /* slCXMLDictionaryParser.cpp */; };
 		7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
 		7B5F51450F74F5AB00269E2D /* slCSokriptBisonParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51410F74F5AB00269E2D /* slCSokriptBisonParser.cp */; };
 		7B5F51460F74F5AB00269E2D /* slCSokriptFlexLexer.cp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F51420F74F5AB00269E2D /* slCSokriptFlexLexer.cp */; };
@@ -404,6 +405,8 @@
 		7B5544FA1170657900E4DF08 /* slTCRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCRectangle.h; sourceTree = "<group>"; };
 		7B5950E11078F6D50083BEE4 /* slCGifImageImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCGifImageImpl.hp; sourceTree = "<group>"; };
 		7B5950E21078F6D50083BEE4 /* slCGifImageImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGifImageImpl.cpp; sourceTree = "<group>"; };
+		7B5DAD8E119194A300B49733 /* slCXMLDictionaryParser.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCXMLDictionaryParser.hp; sourceTree = "<group>"; };
+		7B5DAD8F119194A300B49733 /* slCXMLDictionaryParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLDictionaryParser.cpp; sourceTree = "<group>"; };
 		7B5F50E60F74F1A500269E2D /* slCSokript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokript.cpp; sourceTree = "<group>"; };
 		7B5F50E70F74F1A500269E2D /* slCSokript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCSokript.h; sourceTree = "<group>"; };
 		7B5F50EB0F74F1B000269E2D /* slCSokriptBisonParser.yy */ = {isa = PBXFileReference; explicitFileType = sourcecode.yacc; fileEncoding = 4; path = slCSokriptBisonParser.yy; sourceTree = "<group>"; };
@@ -694,6 +697,8 @@
 				7BFAC813107B861D00BF07DF /* slCImageFrameImpl.hp */,
 				7B3215BA10874237000E62E8 /* slCJpegImageImpl.hp */,
 				7B3215BB10874237000E62E8 /* slCJpegImageImpl.cpp */,
+				7B5DAD8E119194A300B49733 /* slCXMLDictionaryParser.hp */,
+				7B5DAD8F119194A300B49733 /* slCXMLDictionaryParser.cpp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1468,6 +1473,7 @@
 				7B7786CC11774E07002348E9 /* slCSource.cpp in Sources */,
 				7B7786CD11774E08002348E9 /* slCSoundContext.cpp in Sources */,
 				7B7786CE11774E08002348E9 /* slCListener.cpp in Sources */,
+				7B5DAD91119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1537,6 +1543,7 @@
 				7BFAC811107B837500BF07DF /* slCImageFrame.cpp in Sources */,
 				7BFF4106107D3D650007FFC0 /* slCPreferences.mm in Sources */,
 				7B3215BD10874237000E62E8 /* slCJpegImageImpl.cpp in Sources */,
+				7B5DAD90119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1545,7 +1552,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B052BE90BD12ECD00AA8BD8 /* slCButton.cpp in Sources */,
-				7B052BEA0BD12ECD00AA8BD8 /* slCButtonDelegate.cpp in Sources */,
 				7B052BEB0BD12ECD00AA8BD8 /* slCControl.cpp in Sources */,
 				7B052BEC0BD12ECD00AA8BD8 /* slCControlDelegate.cpp in Sources */,
 				7B052BF00BD12ECD00AA8BD8 /* slCScreen.cpp in Sources */,

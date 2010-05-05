@@ -17,11 +17,13 @@ class CXMLTestSuite : public CTestSuite
 		{
 			testXMLParser();
 	//		testXMLParser2();
+			testDictionaries();
 		}
 
 	private:
 		void testXMLParser();
 		void testXMLParser2();
+		void testDictionaries();
 
 		void onStartTag(CXMLParser*, CString tagName, CXMLParser::TArrtibutes);
 		void onEndTag(CXMLParser*, CString tagName);

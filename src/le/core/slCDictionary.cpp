@@ -1,5 +1,6 @@
 #include "slCDictionary.h"
 #include "slCClassFactory.h"
+#include "base/slCXMLDictionaryParser.hp"
 
 namespace sokira
 {
@@ -23,6 +24,13 @@ CDictionary::CDictionary(const CString& rootKey) :
 	mRootKey(rootKey)
 {
 
+}
+
+CDictionary CDictionary::createFromStream(std::istream& stream)
+{
+	CXMLDictionaryParser parser;
+	parser.parseStream(stream);
+	return parser.dictionary();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,11 +66,18 @@ UInt32 CDictionary::valueCount() const
 
 void CDictionary::append(const CDictionary& dictionary, bool overwriteExistingValues)
 {
-	for (CDictConstIterator it = dictionary.mData.begin(); it != dictionary.mData.end(); ++it)
+	if (dictionary.mData.empty() && !dictionary.mRootValue.isEmpty())
 	{
-		if (overwriteExistingValues || !valueExists(it->first))
+		setRootValue(dictionary.mRootValue);
+	}
+	else
+	{
+		for (CDictConstIterator it = dictionary.mData.begin(); it != dictionary.mData.end(); ++it)
 		{
-			mData[it->first] = it->second;
+			if (overwriteExistingValues || !valueExists(it->first))
+			{
+				mData[it->first] = it->second;
+			}
 		}
 	}
 }
@@ -70,7 +85,7 @@ void CDictionary::append(const CDictionary& dictionary, bool overwriteExistingVa
 ////////////////////////////////////////////////////////////////////////
 // Root modifiers
 ////////////////////////////////////////////////////////////////////////
-void CDictionary::rootKey(const CString& key)
+void CDictionary::setRootKey(const CString& key)
 {
 	mRootKey = key;
 }
@@ -80,7 +95,7 @@ CString CDictionary::rootKey() const
 	return mRootKey;
 }
 
-void CDictionary::rootValue(const CString& value)
+void CDictionary::setRootValue(const CString& value)
 {
 	mData.clear();
 	// Try to parse value and split it to key-value structure.

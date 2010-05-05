@@ -128,5 +128,21 @@ void CXMLTestSuite::testXMLParser2()
 //	std::cout << buf;
 }
 
+void CXMLTestSuite::testDictionaries()
+{
+	CDictionary dict("test");
+	dict.valueForKey(CString("someTestKey"), CString("1234"));
+	dict.valueForKey(CString("someOtherTestKey"), CString("4321"));
+	dict.dump(std::cout);
+	std::cout << std::endl;
+
+	CDataStream dataStream;
+	dict.dump(dataStream);
+	CInputDataStream inputStream(dataStream.c_data(), dataStream.size());
+	CDictionary newDict = CDictionary::createFromStream(inputStream);
+	newDict.dump(std::cout);
+	std::cout << std::endl;
+}
+
 	} // namespace le
 } // namespace sokira

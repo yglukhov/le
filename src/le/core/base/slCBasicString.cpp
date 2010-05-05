@@ -544,7 +544,7 @@ CString::CString(const CDictionary& fromDictionary) :
 
 void CString::serialize(CDictionary& toDictionary) const
 {
-	toDictionary.rootValue(*this);
+	toDictionary.setRootValue(*this);
 }
 
 void CString::deserialize(const CDictionary& fromDictionary)

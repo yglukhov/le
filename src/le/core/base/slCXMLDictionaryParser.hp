@@ -1,0 +1,32 @@
+#if !defined SL_LE_core_base_slCXMLDictionaryParser_hp
+#define SL_LE_core_base_slCXMLDictionaryParser_hp
+
+#include <list>
+#include <le/core/xml/slCXMLParser.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CXMLDictionaryParser
+{
+	public:
+		~CXMLDictionaryParser();
+
+		void parseStream(std::istream& stream);
+		CDictionary dictionary();
+
+	private:
+		void onStartTag(CXMLParser* parser, CString name, CXMLParser::TArrtibutes attributes);
+		void onEndTag(CXMLParser*, CString tagName);
+		void onData(CXMLParser* parser, CString data);
+		void onError(CXMLParser* parser, CString error);
+
+		std::list<CDictionary*> mDictStack;
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_base_slCXMLDictionaryParser_hp

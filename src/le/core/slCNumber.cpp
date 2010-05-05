@@ -399,7 +399,7 @@ void CNumber::setLittleEndianValue(SInt16 value)
 
 void CNumber::serialize(CDictionary& toDictionary) const
 {
-	toDictionary.rootValue(valueAsString());
+	toDictionary.setRootValue(valueAsString());
 }
 
 void CNumber::deserialize(const CDictionary& fromDictionary)
