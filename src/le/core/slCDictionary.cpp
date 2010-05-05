@@ -124,7 +124,7 @@ CString CDictionary::rootValue() const
 ////////////////////////////////////////////////////////////////////////////////
 // Value accessors
 ////////////////////////////////////////////////////////////////////////////////
-CObject::Ptr CDictionary::_valueForKey(const CString& key, TSTypeToType<CObject::Ptr>) const
+CObject::Ptr CDictionary::_valueForKey(const CString& key, CObject::Ptr defaultValue) const
 {
 	CDictConstIterator it = mData.find(key);
 	if (it != mData.end())
@@ -136,161 +136,161 @@ CObject::Ptr CDictionary::_valueForKey(const CString& key, TSTypeToType<CObject:
 		}
 		return newObj;
 	}
-	return NULL;
+	return defaultValue;
 }
 
-CString CDictionary::_valueForKey(const CString& key, TSTypeToType<CString>) const
+CString CDictionary::_valueForKey(const CString& key, const CString& defaultValue) const
 {
 	CDictConstIterator it = mData.find(key);
-	return (it == mData.end())?(CString()):(CString(it->second));
+	return (it == mData.end())? defaultValue : CString(it->second);
 }
 
-CNumber CDictionary::_valueForKey(const CString& key, TSTypeToType<CNumber>) const
+CNumber CDictionary::_valueForKey(const CString& key, const CNumber& defaultValue) const
 {
 	CDictConstIterator it = mData.find(key);
-	return (it == mData.end())?(CNumber()):(CNumber(it->second));
+	return (it == mData.end())? defaultValue : CNumber(it->second);
 }
 
-CTime CDictionary::_valueForKey(const CString& key, TSTypeToType<CTime>) const
+CTime CDictionary::_valueForKey(const CString& key, const CTime& defaultValue) const
 {
-	CObject::Ptr theObj = valueForKey<CObject::Ptr>(key);
+	CObject::Ptr theObj = valueAsObjectForKey(key);
 	CTime* result = dynamic_cast<CTime*>(theObj.get());
-	return (result)?(*result):(CTime());
+	return result ? *result : defaultValue;
 }
 
-CData CDictionary::_valueForKey(const CString& key, TSTypeToType<CData>) const
+CData CDictionary::_valueForKey(const CString& key, const CData& defaultValue) const
 {
-	CObject::Ptr theObj = valueForKey<CObject::Ptr>(key);
+	CObject::Ptr theObj = valueAsObjectForKey(key);
 	CData* result = dynamic_cast<CData*>(theObj.get());
-	return (result)?(*result):(CData());
+	return result ? *result : defaultValue;
 }
 
-UInt8 CDictionary::_valueForKey(const CString& key, TSTypeToType<UInt8>) const
+UInt8 CDictionary::_valueForKey(const CString& key, UInt8 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<UInt8>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<UInt8>();
 }
 
-UInt16 CDictionary::_valueForKey(const CString& key, TSTypeToType<UInt16>) const
+UInt16 CDictionary::_valueForKey(const CString& key, UInt16 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<UInt16>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<UInt16>();
 }
 
-UInt32 CDictionary::_valueForKey(const CString& key, TSTypeToType<UInt32>) const
+UInt32 CDictionary::_valueForKey(const CString& key, UInt32 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<UInt32>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<UInt32>();
 }
 
-UInt64 CDictionary::_valueForKey(const CString& key, TSTypeToType<UInt64>) const
+UInt64 CDictionary::_valueForKey(const CString& key, UInt64 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<UInt64>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<UInt64>();
 }
 
-SInt8 CDictionary::_valueForKey(const CString& key, TSTypeToType<SInt8>) const
+SInt8 CDictionary::_valueForKey(const CString& key, SInt8 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<SInt8>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<SInt8>();
 }
 
-SInt16 CDictionary::_valueForKey(const CString& key, TSTypeToType<SInt16>) const
+SInt16 CDictionary::_valueForKey(const CString& key, SInt16 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<SInt16>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<SInt16>();
 }
 
-SInt32 CDictionary::_valueForKey(const CString& key, TSTypeToType<SInt32>) const
+SInt32 CDictionary::_valueForKey(const CString& key, SInt32 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<SInt32>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<SInt32>();
 }
 
-SInt64 CDictionary::_valueForKey(const CString& key, TSTypeToType<SInt64>) const
+SInt64 CDictionary::_valueForKey(const CString& key, SInt64 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<SInt64>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<SInt64>();
 }
 
-Float32 CDictionary::_valueForKey(const CString& key, TSTypeToType<Float32>) const
+Float32 CDictionary::_valueForKey(const CString& key, Float32 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<Float32>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<Float32>();
 }
 
-Float64 CDictionary::_valueForKey(const CString& key, TSTypeToType<Float64>) const
+Float64 CDictionary::_valueForKey(const CString& key, Float64 defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<Float64>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<Float64>();
 }
 
-bool CDictionary::_valueForKey(const CString& key, TSTypeToType<bool>) const
+Bool CDictionary::_valueForKey(const CString& key, Bool defaultValue) const
 {
-	return valueAsNumberForKey(key).valueAs<bool>();
+	return valueAsNumberForKey(key, defaultValue).valueAs<Bool>();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Value setters
 ////////////////////////////////////////////////////////////////////////////////
-void CDictionary::valueForKey(const CString& key, const CObject& value)
+void CDictionary::setValueForKey(const CString& key, const CObject& value)
 {
 	mRootValue.clear();
 	CDictionary newDict(key);
-	newDict.attributeForKey(cTypeAttributeKey, value.objectClass().name());
+	newDict.setAttributeForKey(cTypeAttributeKey, value.objectClass().name());
 	value.serialize(newDict);
 	mData[key] = newDict;
 }
 
-void CDictionary::valueForKey(const CString& key, const CObject::Ptr value)
+void CDictionary::setValueForKey(const CString& key, const CObject::Ptr value)
 {
 	// TODO: Complete linkage
-	CDictionary::valueForKey(key, *value);
+	CDictionary::setValueForKey(key, *value);
 }
 
-void CDictionary::valueForKey(const CString& key, UInt8 value)
+void CDictionary::setValueForKey(const CString& key, UInt8 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, UInt16 value)
+void CDictionary::setValueForKey(const CString& key, UInt16 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, UInt32 value)
+void CDictionary::setValueForKey(const CString& key, UInt32 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, UInt64 value)
+void CDictionary::setValueForKey(const CString& key, UInt64 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, SInt8 value)
+void CDictionary::setValueForKey(const CString& key, SInt8 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, SInt16 value)
+void CDictionary::setValueForKey(const CString& key, SInt16 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, SInt32 value)
+void CDictionary::setValueForKey(const CString& key, SInt32 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, SInt64 value)
+void CDictionary::setValueForKey(const CString& key, SInt64 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, Float32 value)
+void CDictionary::setValueForKey(const CString& key, Float32 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, Float64 value)
+void CDictionary::setValueForKey(const CString& key, Float64 value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
-void CDictionary::valueForKey(const CString& key, bool value)
+void CDictionary::setValueForKey(const CString& key, bool value)
 {
-	CDictionary::valueForKey(key, CNumber(value));
+	CDictionary::setValueForKey(key, CNumber(value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,7 +302,7 @@ CString CDictionary::attributeForKey(const CString& key) const
 	return (it == mAttributes.end())?(CString()):(it->second);
 }
 
-void CDictionary::attributeForKey(const CString& key, const CString& attribute)
+void CDictionary::setAttributeForKey(const CString& key, const CString& attribute)
 {
 	mAttributes[key] = attribute;
 }
@@ -366,7 +366,7 @@ void CDictionary::serialize(CDictionary& toDictionary) const
 {
 	// Saving attributes
 	for (std::map<CString, CString>::const_iterator it = mAttributes.begin(); it != mAttributes.end(); ++it)
-		toDictionary.attributeForKey(it->first, it->second);
+		toDictionary.setAttributeForKey(it->first, it->second);
 
 	toDictionary.append(*this);
 }

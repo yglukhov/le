@@ -154,10 +154,10 @@ void CTime::timeWithCurrentTime()
 
 void CTime::serialize(CDictionary& toDictionary) const
 {
-	toDictionary.valueForKey(cMillisecondsKey, milliseconds());
-	toDictionary.valueForKey(cSecondsKey, seconds());
-	toDictionary.valueForKey(cMinutesKey, minutes());
-	toDictionary.valueForKey(cHoursKey, hours());
+	toDictionary.setValueForKey(cMillisecondsKey, milliseconds());
+	toDictionary.setValueForKey(cSecondsKey, seconds());
+	toDictionary.setValueForKey(cMinutesKey, minutes());
+	toDictionary.setValueForKey(cHoursKey, hours());
 }
 
 void CTime::deserialize(const CDictionary& fromDictionary)

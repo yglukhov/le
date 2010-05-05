@@ -16,10 +16,10 @@ static const CString cAlphaKey = LESTR("a");
 
 void CColor::serialize(CDictionary& toDictionary) const
 {
-	toDictionary.valueForKey(cRedKey, redAs<UInt8>());
-	toDictionary.valueForKey(cGreenKey, greenAs<UInt8>());
-	toDictionary.valueForKey(cBlueKey, blueAs<UInt8>());
-	toDictionary.valueForKey(cAlphaKey, alphaAs<UInt8>());
+	toDictionary.setValueForKey(cRedKey, redAs<UInt8>());
+	toDictionary.setValueForKey(cGreenKey, greenAs<UInt8>());
+	toDictionary.setValueForKey(cBlueKey, blueAs<UInt8>());
+	toDictionary.setValueForKey(cAlphaKey, alphaAs<UInt8>());
 }
 
 void CColor::deserialize(const CDictionary& fromDictionary)

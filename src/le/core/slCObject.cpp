@@ -23,8 +23,8 @@ CString CObject::description() const
 	CDictionary dict(LESTR("object"));
 	serialize(dict);
 	CString addressStr = CString::createWithFormat("%p", (const void*)this);
-	dict.attributeForKey(LESTR("type"), objectClass().name());
-	dict.attributeForKey(LESTR("address"), addressStr);
+	dict.setAttributeForKey(LESTR("type"), objectClass().name());
+	dict.setAttributeForKey(LESTR("address"), addressStr);
 	return dict.toString();
 }
 

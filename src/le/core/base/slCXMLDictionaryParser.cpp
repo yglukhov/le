@@ -50,7 +50,7 @@ void CXMLDictionaryParser::onStartTag(CXMLParser*, CString name, CXMLParser::TAr
 {
 	CDictionary* newDict = new CDictionary(name);
 	for (CXMLParser::TArrtibutes::iterator it = attributes.begin(); it != attributes.end(); ++it)
-		newDict->attributeForKey(it->first, it->second);
+		newDict->setAttributeForKey(it->first, it->second);
 
 	mDictStack.push_back(newDict);
 }
@@ -66,7 +66,7 @@ void CXMLDictionaryParser::onEndTag(CXMLParser*, CString tagName)
 	}
 	else
 	{
-		mDictStack.back()->valueForKey(dict->rootKey(), *dict);
+		mDictStack.back()->setValueForKey(dict->rootKey(), *dict);
 		delete dict;
 	}
 }
