@@ -326,6 +326,19 @@ CString CDictionary::toString() const
 	return result;
 }
 
+void CDictionary::dump(std::ostream& stream) const
+{
+	stream << '<' << mRootKey;
+
+	std::map<CString, CString>::const_iterator it = mAttributes.begin();
+	for(; it != mAttributes.end(); ++it)
+	{
+		stream << ' ' << it->first << "=\"" << it->second << '\"';
+	}
+
+	stream << '>' << rootValue() << "</" << mRootKey << '>';
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serialization

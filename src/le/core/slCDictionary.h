@@ -121,7 +121,7 @@ class CDictionary : public CObject
 	//	const CDictionary
 
 		CString toString() const;
-
+		void dump(std::ostream& stream) const;
 
 		///////////////////////////////////////////////////////////////////////
 		// Serialization
