@@ -1,6 +1,7 @@
 #if !defined SL_LE_core_debug_slAssert_h
 #define SL_LE_core_debug_slAssert_h
 
+#include <le/core/config/slPrefix.h>
 #include <le/core/slTypes.h>
 
 
