@@ -62,14 +62,14 @@ void CXMLTestSuite::testXMLParser()
 
 	CString actualResult;
 
-	CXMLParser::TOnStartTag onStart = bind(onStartTag, bindTo(0), bindTo(1), bindTo(2), &actualResult);
-	parser.setOnStartTag(onStart);
-	CXMLParser::TOnEndTag onEnd = bind(onEndTag, bindTo(0), bindTo(1), &actualResult);
-	parser.setOnEndTag(onEnd);
-	CXMLParser::TOnEndTag onError = bind(onError, bindTo(0), bindTo(1), &actualResult);
-	parser.setOnError(onError);
-	CXMLParser::TOnData onData = bind(onData, bindTo(0), bindTo(1), &actualResult);
-	parser.setOnData(onData);
+	CXMLParser::TOnStartTag onStartTagHandler = bind(onStartTag, bindTo(0), bindTo(1), bindTo(2), &actualResult);
+	parser.setOnStartTag(onStartTagHandler);
+	CXMLParser::TOnEndTag onEndTagHandler = bind(onEndTag, bindTo(0), bindTo(1), &actualResult);
+	parser.setOnEndTag(onEndTagHandler);
+	CXMLParser::TOnError onErrorHandler = bind(onError, bindTo(0), bindTo(1), &actualResult);
+	parser.setOnError(onErrorHandler);
+	CXMLParser::TOnData onDataHandler = bind(onData, bindTo(0), bindTo(1), &actualResult);
+	parser.setOnData(onDataHandler);
 
 	parser.parseStream(stream);
 
