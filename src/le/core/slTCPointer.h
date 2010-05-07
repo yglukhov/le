@@ -213,7 +213,7 @@ void TCPointer<T>::retain()
 	{
 		if (!mRefCount)
 		{
-			mRefCount = new TRefCountType(1);
+			mRefCount = new TRefCountType(0);
 		}
 		++(*mRefCount);
 	}
