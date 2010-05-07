@@ -879,6 +879,22 @@
 				Name="xml"
 				>
 				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLDocument.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLDocument.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLNode.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\xml\slCXMLNode.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\le\core\xml\slCXMLParser.cpp"
 					>
 				</File>
