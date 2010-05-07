@@ -167,7 +167,7 @@ void CXMLTestSuite::testPlistParsing()
 	CInputDataStream inputStream(string.cString(), string.length());
 
 	CDictionary newDict = CDictionary::createFromStream(inputStream);
-	CString expectedResult =LESTR(
+	CString expectedResult = LESTR(
 		"<dict>"
 			"<CFBundleDevelopmentRegion type=\"CString\">English</CFBundleDevelopmentRegion>"
 			"<CFBundleExecutable type=\"CString\">yo</CFBundleExecutable>"
