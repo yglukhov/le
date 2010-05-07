@@ -283,14 +283,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCButtonDelegate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCButtonDelegate.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\le\gui\slCControl.cpp"
 				>
 			</File>
