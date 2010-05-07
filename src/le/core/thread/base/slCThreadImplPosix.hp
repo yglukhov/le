@@ -16,7 +16,7 @@ class CThreadImplPosix : public CThreadImplBase
 								const CString& threadName) :
 			CThreadImplBase(threadProc, threadName)
 		{
-			threadList().push_back(this);
+
 		}
 
 		inline CThreadImplPosix(pthread_t id) :
@@ -25,39 +25,17 @@ class CThreadImplPosix : public CThreadImplBase
 
 		}
 
-		~CThreadImplPosix()
-		{
-			for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != threadList().end(); ++it)
-			{
-				if (*it == this)
-				{
-					threadList().erase(it);
-					return;
-				}
-			}
-		}
-
 		virtual void start();
 
 		static CThreadImplBase* thread();
 
 		static inline void sleep(UInt32 milliSeconds)
 		{
-			::sleep(milliSeconds);
+			::usleep(milliSeconds * 1000); // Microseconds
 		}
-
-	protected:
-		pthread_t mThreadID;
 
 	private:
-	
-		static std::list<CThreadImplPosix*>& threadList()
-		{
-			static std::list<CThreadImplPosix*> mRegisteredThreads;
-			return mRegisteredThreads;
-		}
-
-//		static std::list<CThreadImplPosix*> mRegisteredThreads;
+		pthread_t mThreadID;
 };
 
 

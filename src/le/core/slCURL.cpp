@@ -96,6 +96,11 @@ void CURL::removeLastPathComponents(UInt32 componentCount)
 	}
 }
 
+void CURL::removeLastPathComponent()
+{
+	removeLastPathComponents(1);
+}
+
 void CURL::appendPathComponent(const CString& component)
 {
 	mPath += "/";

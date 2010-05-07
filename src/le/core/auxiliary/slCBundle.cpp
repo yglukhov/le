@@ -1,3 +1,4 @@
+#include <le/core/slCDictionary.h>
 #include "slCBundle.h"
 
 namespace sokira
@@ -5,33 +6,35 @@ namespace sokira
 	namespace le
 	{
 
-CBundle::CBundle()
-{
-
-}
-
-CBundle::CBundle(const CString& executablePath) :
-	mExecutableURL(executablePath)
+CBundle::CBundle() :
+	mInfoDictionary(NULL)
 {
 
 }
 
 CBundle::CBundle(const CURL& executableUrl) :
-	mExecutableURL(executableUrl)
+	mExecutableURL(executableUrl),
+	mInfoDictionary(NULL)
 {
 
 }
 
-
 CURL CBundle::url() const
 {
-	return CURL();
+	CURL result = contentsUrl();
+	result.removeLastPathComponent();
+	return result;
 }
 
 CURL CBundle::contentsUrl() const
 {
 	CURL result = executableUrl();
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	result.removeLastPathComponents(2);
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+	result.removeLastPathComponents(3);
+	result.appendPathComponent("Contents");
+#endif
 	return result;
 }
 
@@ -56,7 +59,14 @@ CURL CBundle::executableUrl() const
 
 CString CBundle::identifier() const
 {
-	return LESTR("org.7lifes.le.app");
+	return infoDictionary().valueAsStringForKey("CFBundleIdentifier");
+}
+
+CDictionary CBundle::infoDictionary() const
+{
+	if (!mInfoDictionary)
+		mInfoDictionary = new CDictionary(CDictionary::createWithContentsOfURL(infoPlistUrl()));
+	return *mInfoDictionary;
 }
 
 	} // namespace le

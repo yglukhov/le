@@ -41,16 +41,6 @@ class CThreadImplBase
 		// Overload this method to start CThreadImplBase::threadProc in a separate thread.
 		virtual void start() = 0;
 
-//		inline void stop()
-//		{
-//			mRunLoop.stop();
-//		}
-
-//		virtual bool isRunning() const
-//		{
-//			return !mRunLoop.isStopped();
-//		}
-
 		inline CString name() const
 		{
 			return mName;
@@ -104,7 +94,6 @@ class CThreadImplBase
 		}
 
 		UInt32 mRefCount;
-//		CRunLoop mRunLoop;
 		CString mName;
 		std::map<CString, std::pair<void*, void(*)(void*)> > mSingletones;
 		TCFunction<> mThreadProc;

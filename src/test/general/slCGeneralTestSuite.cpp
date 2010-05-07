@@ -305,7 +305,7 @@ void CGeneralTestSuite::testUrls()
 	LE_ASSERT(url.lastPathComponent() == "asdf");
 
 	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
-	url.removeLastPathComponents();
+	url.removeLastPathComponent();
 	LE_ASSERT(url.path() == "/Applications/iTunes.app/Contents/MacOS");
 
 	url = CURL("/Applications/iTunes.app/Contents/MacOS/iTunes");
@@ -328,11 +328,11 @@ void CGeneralTestSuite::testUrls()
 	LE_ASSERT(url.path() == "");
 
 	url = CURL("/");
-	url.removeLastPathComponents();
+	url.removeLastPathComponent();
 //	std::cout << "URL: " << url.path() << std::endl;
 	LE_ASSERT(url.path() == "");
 
-	CBundle bundle("/Applications/iTunes.app/Contents/MacOS/iTunes");
+	CBundle bundle(CURL("/Applications/iTunes.app/Contents/MacOS/iTunes"));
 	LE_ASSERT(bundle.resourcesUrl() == CURL("/Applications/iTunes.app/Contents/Resources"));
 	LE_ASSERT(bundle.infoPlistUrl() == CURL("/Applications/iTunes.app/Contents/Info.plist"));
 	LE_ASSERT(bundle.contentsUrl() == CURL("/Applications/iTunes.app/Contents"));

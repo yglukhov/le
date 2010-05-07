@@ -12,6 +12,8 @@ namespace sokira
 	namespace le
 	{
 
+class CURL;
+
 class CDictionary : public CObject
 {
 	LE_DECLARE_RUNTIME_CLASS(CDictionary);
@@ -19,6 +21,7 @@ class CDictionary : public CObject
 	public:
 		CDictionary(const CString& rootKey = LESTR("dict"));
 		static CDictionary createFromStream(std::istream& stream);
+		static CDictionary createWithContentsOfURL(const CURL& url);
 
 		////////////////////////////////////////////////////////////////////////
 		// Root modifiers

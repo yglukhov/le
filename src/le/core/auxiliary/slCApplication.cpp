@@ -20,12 +20,6 @@ CApplication::~CApplication()
 	delete mPreferences;
 }
 
-static inline Bool loadDelegateFromInfoPlist(CApplication* app)
-{
-	// TODO: Complete this.
-	return app->setDelegateClass("This class name should be loaded from info.plist");
-}
-
 int CApplication::run(int argc, const char * const argv[])
 {
 	mCommandLine.setArguments(argc, argv);
@@ -34,11 +28,9 @@ int CApplication::run(int argc, const char * const argv[])
 	// not set until now.
 	if (!mDelegate)
 	{
-		if (!loadDelegateFromInfoPlist(this))
-		{
-			std::cerr << "Application delegate could not be loaded" << std::endl;
-			return 1;
-		}
+		CString delegateClass = mainBundle().infoDictionary().valueAsStringForKey("SLAppDelegateClass");
+		setDelegateClass(delegateClass);
+		if (!mDelegate) return 1;
 	}
 
 	mDelegate->_setApplication(this);

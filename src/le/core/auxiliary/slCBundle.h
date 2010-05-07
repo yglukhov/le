@@ -12,7 +12,6 @@ class CBundle
 {
 	public:
 		CBundle();
-		CBundle(const CString& executablePath);
 		CBundle(const CURL& executableUrl);
 
 		CURL url() const;
@@ -22,9 +21,11 @@ class CBundle
 		CURL executableUrl() const;
 
 		CString identifier() const;
+		CDictionary infoDictionary() const;
 
 	private:
 		CURL mExecutableURL;
+		mutable CDictionary* mInfoDictionary;
 };
 
 	} // namespace le

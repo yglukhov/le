@@ -315,6 +315,30 @@ void COpenGLRenderingContext::drawWireBox(const CBox& box)
 	glEnd();
 }
 
+void COpenGLRenderingContext::drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect)
+{
+	glBegin(GL_QUADS);
+		CRenderingContext::setColor(fromColor);
+		glVertex2f(rect.x(), rect.y() + rect.height());
+		glVertex2f(rect.x(), rect.y());
+		CRenderingContext::setColor(toColor);
+		glVertex2f(rect.x() + rect.width(), rect.y());
+		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
+	glEnd();	
+}
+
+void COpenGLRenderingContext::drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect)
+{
+	glBegin(GL_QUADS);
+		CRenderingContext::setColor(fromColor);
+		glVertex2f(rect.x(), rect.y());
+		glVertex2f(rect.x() + rect.width(), rect.y());
+		CRenderingContext::setColor(toColor);
+		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
+		glVertex2f(rect.x(), rect.y() + rect.height());
+	glEnd();	
+}
+
 CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* image)
 {
 	if (image->frameCount() == 0)

@@ -30,11 +30,6 @@ class TCPoint2D
 			return mX;
 		}
 
-//		void x(T X)
-//		{
-//			mX = X;
-//		}
-
 		void setX(T X)
 		{
 			mX = X;
@@ -48,6 +43,12 @@ class TCPoint2D
 		void setY(T Y)
 		{
 			mY = Y;
+		}
+
+		void offset(T byX, T byY)
+		{
+			mX += byX;
+			mY += byY;
 		}
 
 		T distanceFromPoint(const TCPoint2D& point) const

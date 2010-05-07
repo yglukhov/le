@@ -12,10 +12,12 @@ class CThreadImplMain : public CThreadImpl
 		inline CThreadImplMain(TThreadID id) :
 			CThreadImpl(id)
 		{
+
 		}
 
 		virtual void start()
 		{
+
 		}
 
 		virtual bool isRunning() const

@@ -7,6 +7,8 @@ namespace sokira
 	namespace le
 	{
 
+static CString cDict = LESTR("dict");
+
 CXMLDictionaryParser::~CXMLDictionaryParser()
 {
 	while (!mDictStack.empty())
@@ -18,6 +20,9 @@ CXMLDictionaryParser::~CXMLDictionaryParser()
 
 void CXMLDictionaryParser::parseStream(std::istream& stream)
 {
+	mIsPlist = false;
+	mKey = cDict;
+
 	CXMLParser parser;
 	parser.setTrimsWhitespace();
 
@@ -34,37 +39,85 @@ void CXMLDictionaryParser::parseStream(std::istream& stream)
 
 CDictionary CXMLDictionaryParser::dictionary()
 {
-	return CDictionary(*mDictStack.front());
+	if (!mDictStack.empty())
+	{
+		return CDictionary(*mDictStack.front());
+	}
+	return CDictionary();
 }
 
 void CXMLDictionaryParser::onStartTag(CXMLParser*, CString name, CXMLParser::TArrtibutes attributes)
 {
-	CDictionary* newDict = new CDictionary(name);
-	for (CXMLParser::TArrtibutes::iterator it = attributes.begin(); it != attributes.end(); ++it)
-		newDict->setAttributeForKey(it->first, it->second);
-
-	mDictStack.push_back(newDict);
-}
-
-void CXMLDictionaryParser::onEndTag(CXMLParser*, CString tagName)
-{
-	CDictionary* dict = mDictStack.back();
-	mDictStack.pop_back();
-
-	if (mDictStack.empty())
+	if (name == "?xml") return;
+	if (name == "!DOCTYPE" && attributes.find("plist") != attributes.end())
 	{
-		mDictStack.push_back(dict);
+		mIsPlist = true;
+		return;
+	}
+
+	if (mIsPlist)
+	{
+		mLastTag = name;
+		if (name == cDict)
+		{
+			CDictionary* newDict = new CDictionary(mKey);
+			mDictStack.push_back(newDict);
+		}
+		else if (name == "true")
+		{
+			mDictStack.back()->setValueForKey(mKey, true);
+		}
+		else if (name == "false")
+		{
+			mDictStack.back()->setValueForKey(mKey, false);
+		}
 	}
 	else
 	{
-		mDictStack.back()->setValueForKey(dict->rootKey(), *dict);
-		delete dict;
+		CDictionary* newDict = new CDictionary(name);
+		for (CXMLParser::TArrtibutes::iterator it = attributes.begin(); it != attributes.end(); ++it)
+			newDict->setAttributeForKey(it->first, it->second);
+
+		mDictStack.push_back(newDict);
+	}
+}
+
+void CXMLDictionaryParser::onEndTag(CXMLParser*, CString name)
+{
+	if (!mIsPlist || (mIsPlist && (name == cDict)))
+	{
+		CDictionary* dict = mDictStack.back();
+		mDictStack.pop_back();
+
+		if (mDictStack.empty())
+		{
+			mDictStack.push_back(dict);
+		}
+		else
+		{
+			mDictStack.back()->setValueForKey(dict->rootKey(), *dict);
+			delete dict;
+		}
 	}
 }
 
 void CXMLDictionaryParser::onData(CXMLParser* parser, CString data)
 {
-	mDictStack.back()->setRootValue(data);
+	if (mIsPlist)
+	{
+		if (mLastTag == "key")
+		{
+			mKey = data;
+		}
+		else if (mLastTag == "string" || mLastTag == "real" || mLastTag == "integer")
+		{
+			mDictStack.back()->setValueForKey(mKey, data);
+		}
+	}
+	else
+	{
+		mDictStack.back()->setRootValue(data);
+	}
 }
 
 void CXMLDictionaryParser::onError(CXMLParser* parser, CString error)

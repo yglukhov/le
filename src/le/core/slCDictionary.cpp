@@ -1,4 +1,6 @@
+#include <fstream>
 #include "slCDictionary.h"
+#include "slCURL.h"
 #include "slCClassFactory.h"
 #include "base/slCXMLDictionaryParser.hp"
 
@@ -28,13 +30,19 @@ CDictionary::CDictionary(const CString& rootKey) :
 
 CDictionary CDictionary::createFromStream(std::istream& stream)
 {
-	CXMLDictionaryParser parser;
 	if (stream)
 	{
+		CXMLDictionaryParser parser;
 		parser.parseStream(stream);
 		return parser.dictionary();
 	}
 	return CDictionary();
+}
+
+CDictionary CDictionary::createWithContentsOfURL(const CURL& url)
+{
+	std::ifstream stream(url.path().cString());
+	return CDictionary::createFromStream(stream);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,7 @@ class CXMLDocument
 {
 	public:
 		CXMLDocument(const CURL& url);
+		CXMLDocument(std::istream& stream);
 		~CXMLDocument();
 
 		CXMLNode* rootNode();
@@ -26,6 +27,8 @@ class CXMLDocument
 		void onEndTag(CXMLParser*, CString tagName);
 		void onData(CXMLParser* parser, CString data);
 		void onError(CXMLParser* parser, CString error);
+
+		void initWithStream(std::istream& stream);
 
 		CXMLNode* mRootNode;
 		CXMLNode* mCurrentNode;

@@ -230,6 +230,12 @@ Bool CXMLParser::parse()
 		{
 			if (c == '>')
 			{
+				if (!attrName.isEmpty())
+				{
+					attrs[attrName] = CString();
+					attrName.clear();
+				}
+
 				onStartTag(str, attrs);
 				str.clear();
 				attrs.clear();
@@ -255,6 +261,12 @@ Bool CXMLParser::parse()
 			}
 			else if (!CString::isWhitespace(c))
 			{
+				if (!attrName.isEmpty())
+				{
+					attrs[attrName] = CString();
+					attrName.clear();
+				}
+
 				attrName.append(c);
 				state |= eStateInAttrName;
 			}

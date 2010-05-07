@@ -14,6 +14,18 @@ CXMLDocument::CXMLDocument(const CURL& url) :
 	mCurrentNode(NULL)
 {
 	std::ifstream stream(url.path().cString());
+	initWithStream(stream);
+}
+
+CXMLDocument::CXMLDocument(std::istream& stream) :
+	mRootNode(NULL),
+	mCurrentNode(NULL)
+{
+	initWithStream(stream);
+}
+
+void CXMLDocument::initWithStream(std::istream& stream)
+{
 	if (stream)
 	{
 		CXMLParser parser;

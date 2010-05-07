@@ -6,7 +6,7 @@
 #include <le/core/geometry/slTCSegment2D.h>
 #include <le/core/geometry/slTCSegment3D.h>
 #include <le/core/geometry/slTCRectangle.h>
-#include <le/core/slTCColor.h>
+#include <le/core/slCColor.h>
 #include <le/gui/slTypes.h>
 
 
@@ -79,6 +79,9 @@ class CRenderingContext
 		virtual void drawWireRect(const CRectangle& rect);
 		virtual void drawBox(const CBox& box);
 		virtual void drawWireBox(const CBox& box);
+
+		virtual void drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
+		virtual void drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
 
 	protected:
 		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);

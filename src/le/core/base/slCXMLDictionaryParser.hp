@@ -24,6 +24,10 @@ class CXMLDictionaryParser
 		void onError(CXMLParser* parser, CString error);
 
 		std::list<CDictionary*> mDictStack;
+
+		CString mKey;
+		CString mLastTag;
+		Bool mIsPlist;
 };
 
 	} // namespace le

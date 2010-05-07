@@ -33,7 +33,8 @@ class CURL : public CObject
 
 		Bool operator == (const CURL& url) const;
 
-		void removeLastPathComponents(UInt32 componentCount = 1);
+		void removeLastPathComponents(UInt32 componentCount);
+		void removeLastPathComponent();
 		void appendPathComponent(const CString& component);
 
 	private:

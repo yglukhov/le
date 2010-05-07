@@ -10,9 +10,17 @@ namespace sokira
 	namespace le
 	{
 
+static inline pthread_key_t threadKey()
+{
+	static pthread_key_t result = NULL;
+	if (!result) pthread_key_create(&result, NULL);
+	return result;
+}
+
 inline static void* posixThreadProc(void* thread)
 {
-	CThreadImplBase::threadProc(static_cast<CThreadImplPosix*>(thread));
+	pthread_setspecific(threadKey(), thread);
+	CThreadImplPosix::threadProc(static_cast<CThreadImplPosix*>(thread));
 	return NULL;
 }
 
@@ -24,24 +32,16 @@ void CThreadImplPosix::start()
 
 CThreadImplBase* CThreadImplPosix::thread()
 {
-	pthread_t threadToFind = pthread_self();
-	if(!threadList().empty())
+	void* result = pthread_getspecific(threadKey());
+
+	if (!result)
 	{
-		std::list<CThreadImplPosix*>::iterator end = threadList().end();
-		for (std::list<CThreadImplPosix*>::iterator it = threadList().begin(); it != end; ++it)
-		{
-			if (pthread_equal((*it)->mThreadID, threadToFind))
-			{
-				return (*it);
-			}
-		}
+		// This is a main thread and we need to create a new ThreadImpl for it
+		result = new CThreadImplMain(pthread_self());
+		pthread_setspecific(threadKey(), result);
 	}
 
-	// Assume that the current thread is a main thread.
-	CThreadImplPosix* mainThread = new CThreadImplMain(threadToFind);
-	threadList().push_back(mainThread);
-
-	return mainThread;
+	return static_cast<CThreadImplBase*> (result);
 }
 
 	} // namespace le

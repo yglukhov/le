@@ -72,6 +72,9 @@ void CRenderingContext::drawRect(const CRectangle& rect) { }
 void CRenderingContext::drawWireRect(const CRectangle& rect) { }
 void CRenderingContext::drawBox(const CBox& box) { }
 void CRenderingContext::drawWireBox(const CBox& box) { }
+void CRenderingContext::drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect) { }
+void CRenderingContext::drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect) { }
+
 CTextureImpl* CRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl) { return NULL; }
 void CRenderingContext::setTextureImpl(const CTextureImpl* textureImpl) { }
 
