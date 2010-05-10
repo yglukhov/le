@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <le/core/strategies/slCSimpleRefCountable.h>
-#include <le/core/geometry/slTCSize2D.h>
 #include <le/core/slCImageFrame.h>
 
 namespace sokira
