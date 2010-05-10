@@ -45,11 +45,11 @@ CSize2D CImageFrame::size() const
 	return (mImpl)?(mImpl->mSize):(CSize2D());
 }
 
+// Duration of a frame in milliseconds;
 UInt32 CImageFrame::duration() const
 {
 	return (mImpl)?(mImpl->mDuration):(0);
 }
- // Duration of a frame in milliseconds;
 
 const CImageFrame& CImageFrame::operator = (const CImageFrame& frame)
 {
