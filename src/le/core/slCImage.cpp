@@ -40,7 +40,11 @@ CImage::~CImage()
 Bool CImage::loadFromURL(const CURL& url)
 {
 //	std::cout << "Loading image: " << url << std::endl;
-	if (mImpl) mImpl->release();
+	if (mImpl)
+	{
+		mImpl->release();
+		mImpl = NULL;
+	}
 
 	FILE* file = fopen(url.path().cString(), "rb");
 	if (file)
@@ -127,6 +131,15 @@ void CImage::insertFrame(UInt32 position, const CImageFrame& frame)
 //	return (mImpl)?(mImpl->duration()):(0);
 //}
 //
+
+const CImage& CImage::operator = (const CImage& copy)
+{
+	if (mImpl) mImpl->release();
+	mImpl = copy.mImpl;
+	if (mImpl) mImpl->retain();
+	return *this;
+}
+
 CImageImpl* CImage::_impl() const
 {
 	return mImpl;

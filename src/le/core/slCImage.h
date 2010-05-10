@@ -43,6 +43,8 @@ class CImage : public CObject
 //		CSize2D size() const;
 //		UInt32 duration(); // duration of a frame in milliseconds
 
+		const CImage& operator = (const CImage& copy);
+
 		CImageImpl* _impl() const;
 
 	private:
