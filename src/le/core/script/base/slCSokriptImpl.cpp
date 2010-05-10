@@ -180,7 +180,7 @@ CObject* CSokriptImpl::addObjects(CObject* left, CObject* right)
 //		*number = - number->valueAsFloat32();
 //		return number;
 //	}
-//	
+//
 //	delete obj;
 //	return new CNumber(5);
 //}

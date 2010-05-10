@@ -202,7 +202,7 @@ ALC_API ALCboolean      ALC_APIENTRY alcCloseDevice( ALCdevice *device );
 ALC_API ALCenum         ALC_APIENTRY alcGetError( ALCdevice *device );
 
 
-/* 
+/*
  * Extension support.
  * Query for the presence of an extension, and obtain any appropriate
  * function pointers and enum values.
@@ -315,13 +315,13 @@ ALfloat	listenerOri[]={0.0,0.0,1.0, 0.0,1.0,0.0};
 	{
 		std::cout << "Could not open device" << std::endl;
 	}
-	
+
 	ALCcontext * context = alcCreateContext(device, NULL);
 	if (!context)
 	{
 		std::cout << "Could not create context" << std::endl;
 	}
-	
+
 	alcMakeContextCurrent(context);
 
     alGetError(); // clear any error messages
@@ -329,7 +329,7 @@ ALfloat	listenerOri[]={0.0,0.0,1.0, 0.0,1.0,0.0};
     alListenerfv(AL_VELOCITY,listenerVel);
     alListenerfv(AL_ORIENTATION,listenerOri);
 
-    if(alGetError() != AL_NO_ERROR) 
+    if(alGetError() != AL_NO_ERROR)
     {
 		std::cout << "Could not create context" << std::endl;
 //        printf("- Error creating buffers !!\n");

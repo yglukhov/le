@@ -39,7 +39,7 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 
 		TPoint topRight() const
 		{
-			return TPoint(TSelf::x() + TSelf::width(), TSelf::y()); 
+			return TPoint(TSelf::x() + TSelf::width(), TSelf::y());
 		}
 
 		TPoint bottomLeft() const

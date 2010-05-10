@@ -32,7 +32,7 @@ class TCPoint3D : public TCPoint2D<T>
 		{
 			mZ = Z;
 		}
-		
+
 	// Operators
 //		CPoint& operator=(const CPoint& copy);
 //		bool operator==(const CPoint& point) const;

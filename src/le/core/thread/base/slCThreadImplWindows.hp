@@ -45,7 +45,7 @@ class CThreadImplWindows : public CThreadImplBase
 		{
 			::Sleep(milliSeconds);
 		}
-	
+
 	protected:
 		DWORD mThreadID;
 	private:

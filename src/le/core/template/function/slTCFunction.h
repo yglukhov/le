@@ -20,7 +20,7 @@ class TCFunction
 		TCFunction(const TCFunction& func) :
 			mFunc(func.mFunc)
 		{
-		
+
 		}
 
 		template <typename FuncType>

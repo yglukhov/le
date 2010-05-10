@@ -131,7 +131,7 @@ class basic_membuf
         case std::ios_base::end:
           if((which & std::ios_base::in && which & std::ios_base::out) ||
             which & std::ios_base::out)
-          {  
+          {
             pos = int_type(this->egptr() - this->pbase()) + pos;
           }
           else

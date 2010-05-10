@@ -19,7 +19,7 @@ class CImageImpl : public CSimpleRefCountable
 		}
 
 		CImageFrame frameAtIndex(UInt32 index) const
-		{		
+		{
 			return (index <= mFrames.size())?(mFrames[index]):(CImageFrame());
 		}
 

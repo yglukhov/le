@@ -44,7 +44,7 @@ CTime::CTime(UInt32 minutes, UInt32 seconds, UInt32 milliseconds) :
 {
 
 }
-	
+
 CTime::CTime(UInt32 hours, UInt32 minutes, UInt32 seconds, UInt32 milliseconds) :
 	mData(	hours * MILLISECONDS_IN_HOUR +
 			minutes * MILLISECONDS_IN_MINUTE +

@@ -74,7 +74,7 @@ class COpenGLRenderingContext : public CRenderingContext
 		UInt32 makeFont();
 		UInt32 mFontOffset;
 };
-		
+
 	} // namespace le
 } // namespace sokira
 

@@ -171,7 +171,7 @@ class TCColor : public sokira::le::base::CColorBase
 			return operator == <TComponent>(color);
 		}
 
-		template <typename T> 
+		template <typename T>
 		bool operator == (const TCColor<T>& color)
 		{
 			return ((mR == color.redAs<TComponent>()) &&

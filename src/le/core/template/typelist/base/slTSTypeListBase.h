@@ -150,8 +150,8 @@ struct _TSTypeListFindIf<_TSTypeListNode<U, V>, TPredicate>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Erase
-template <class TListNode, class TTypeToErase> struct _TSTypeListErase; 
- 
+template <class TListNode, class TTypeToErase> struct _TSTypeListErase;
+
 template <class TTypeToErase>
 struct _TSTypeListErase<_SNullType, TTypeToErase>
 {
@@ -162,7 +162,7 @@ template <class TTypeToErase, class Tail>
 struct _TSTypeListErase<_TSTypeListNode<TTypeToErase, Tail>, TTypeToErase>
 {
 	typedef Tail _result;
-}; 
+};
 
 template <class Head, class Tail, class TTypeToErase>
 struct _TSTypeListErase<_TSTypeListNode<Head, Tail>, TTypeToErase>

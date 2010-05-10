@@ -15,7 +15,7 @@ class CCommandLine
 		CCommandLine(int argc, const char * const argv[]);
 
 		void setArguments(int argc, const char * const argv[]);
-		
+
 		UInt32 argumentCount() const;
 		CString argumentAtIndex(UInt32 index) const;
 		CString executableName() const; // Same as argumentAtIndex(0)

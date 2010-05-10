@@ -158,7 +158,7 @@ void CWindow::setSize(const CSize2D& toSize)
 		{
 			if ((autoResizingMask & eAutoResizingFixedLeft) && (autoResizingMask & eAutoResizingFixedWidth))
 			{	// l + w
-				
+
 			}
 			else if ((autoResizingMask & eAutoResizingFixedLeft) && (autoResizingMask & eAutoResizingFixedRight))
 			{ // l + r
@@ -180,7 +180,7 @@ void CWindow::setSize(const CSize2D& toSize)
 			}
 			else if (autoResizingMask & eAutoResizingFixedRight)
 			{ // r
-			
+
 			}
 			else
 			{ // 0
@@ -193,7 +193,7 @@ void CWindow::setSize(const CSize2D& toSize)
 		{
 			if ((autoResizingMask & eAutoResizingFixedTop) && (autoResizingMask & eAutoResizingFixedHeight))
 			{	// l + w
-				
+
 			}
 			else if ((autoResizingMask & eAutoResizingFixedTop) && (autoResizingMask & eAutoResizingFixedBottom))
 			{ // l + r
@@ -215,7 +215,7 @@ void CWindow::setSize(const CSize2D& toSize)
 			}
 			else if (autoResizingMask & eAutoResizingFixedBottom)
 			{ // r
-			
+
 			}
 			else
 			{ // 0

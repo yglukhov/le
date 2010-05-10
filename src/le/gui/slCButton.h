@@ -46,7 +46,7 @@ class CButton: public CControl//, public CControlDelegate
 
 //		virtual bool onMouseMove(int x, int y);
 
-//		virtual bool onKeyPressed(unsigned char inKey);		
+//		virtual bool onKeyPressed(unsigned char inKey);
 	private:
 		CString mText;
 		EButtonState mState;

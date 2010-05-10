@@ -19,7 +19,7 @@ class TCSegment3D
 			mA(a),
 			mB(b)
 		{
-		
+
 		}
 
 

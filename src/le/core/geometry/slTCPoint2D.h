@@ -19,7 +19,7 @@ class TCPoint2D
 			mX(x),
 			mY(y)
 		{
-		
+
 		}
 
 //		TCPoint2D(const TCPoint2D& copy);

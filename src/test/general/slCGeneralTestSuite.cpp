@@ -280,11 +280,11 @@ void CGeneralTestSuite::testStrings()
 	LE_ASSERT(str.find(pattern) == 4);
 	LE_ASSERT(str.findLast(pattern) == 11);
 	pattern = "Hi not found!";
-	LE_ASSERT(str.find(pattern) == -1);	
-	LE_ASSERT(str.findLast(pattern) == -1);	
+	LE_ASSERT(str.find(pattern) == -1);
+	LE_ASSERT(str.findLast(pattern) == -1);
 	pattern = "Bar";
-	LE_ASSERT(str.find(pattern) == 0);	
-	LE_ASSERT(str.findLast(pattern) == 0);	
+	LE_ASSERT(str.find(pattern) == 0);
+	LE_ASSERT(str.findLast(pattern) == 0);
 
 	LE_ASSERT(str.subString(0, 3) == "Bar");
 	LE_ASSERT(str.subString(4, 2) == "Hi");

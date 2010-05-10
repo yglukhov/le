@@ -19,7 +19,7 @@ CSize3D::CSize3D(float width, float height, float depth) :
 CSize3D::CSize3D(const CSize3D& copy) :
 	mWidth(copy.mWidth), mHeight(copy.mHeight), mDepth(copy.mDepth)
 {
-	
+
 }
 
 //#pragma mark -
@@ -121,7 +121,7 @@ bool CSize3D::operator!=(const CSize3D& size) const
 //
 //CPoint2D CRectangle::topRight() const
 //{
-//	return CPoint2D(x() + width(), y()); 
+//	return CPoint2D(x() + width(), y());
 //}
 //
 //CPoint2D CRectangle::bottomLeft() const

@@ -17,7 +17,7 @@ class CDialog: public CWindow
 		CDialog();
 		CDialog(const CRectangle& rect);
 
-		virtual void addChild(CControl* child); 		
+		virtual void addChild(CControl* child);
 		virtual void removeChild(CControl* child);
 
 		void title(const char* titleString);

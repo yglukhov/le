@@ -21,7 +21,7 @@ class TCSegment2D
 			mA(a),
 			mB(b)
 		{
-		
+
 		}
 
 

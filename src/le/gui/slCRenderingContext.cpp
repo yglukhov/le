@@ -6,7 +6,7 @@
 namespace sokira
 {
 	namespace le
-	{		
+	{
 
 CRenderingContext::~CRenderingContext() { }
 

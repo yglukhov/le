@@ -18,7 +18,7 @@ class TCSize2D
 			mWidth(width),
 			mHeight(height)
 		{
-		
+
 		}
 
 //		TCSize2D(const TCSize2D& copy);

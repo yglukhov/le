@@ -96,19 +96,19 @@ class CSourceImpl : public CSimpleRefCountable
 
 		void setPosition()
 		{
-		
+
 		}
 
 		void setVolume()
 		{
-		
+
 		}
 
 		void play()
 		{
 			std::cout << "Playing source!" << std::endl;
 			alSourcePlay(mSource);
-			if(alGetError() != AL_NO_ERROR) 
+			if(alGetError() != AL_NO_ERROR)
 			{
 				std::cout << "Could not play source" << std::endl;
 			  //  exit(1);
@@ -117,12 +117,12 @@ class CSourceImpl : public CSimpleRefCountable
 
 		void pause()
 		{
-		
+
 		}
 
 		void stop()
 		{
-		
+
 		}
 
 	ALuint mBuffer;            // The OpenAL sound buffer ID

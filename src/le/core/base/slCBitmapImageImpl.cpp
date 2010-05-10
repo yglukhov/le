@@ -23,36 +23,36 @@ typedef UInt8 BYTE;
 
 //File information header
 //provides general information about the file
-typedef struct tagBITMAPFILEHEADER { 
+typedef struct tagBITMAPFILEHEADER {
 //  WORD    bfType; // this field should already have been read by CImage container
-  DWORD   bfSize; 
-  WORD    bfReserved1; 
-  WORD    bfReserved2; 
-  DWORD   bfOffBits; 
+  DWORD   bfSize;
+  WORD    bfReserved1;
+  WORD    bfReserved2;
+  DWORD   bfOffBits;
 } BITMAPFILEHEADER, *PBITMAPFILEHEADER;
 
 //Bitmap information header
 //provides information specific to the image data
 typedef struct tagBITMAPINFOHEADER{
-  DWORD  biSize; 
-  LONG   biWidth; 
-  LONG   biHeight; 
-  WORD   biPlanes; 
-  WORD   biBitCount; 
-  DWORD  biCompression; 
-  DWORD  biSizeImage; 
-  LONG   biXPelsPerMeter; 
-  LONG   biYPelsPerMeter; 
-  DWORD  biClrUsed; 
-  DWORD  biClrImportant; 
+  DWORD  biSize;
+  LONG   biWidth;
+  LONG   biHeight;
+  WORD   biPlanes;
+  WORD   biBitCount;
+  DWORD  biCompression;
+  DWORD  biSizeImage;
+  LONG   biXPelsPerMeter;
+  LONG   biYPelsPerMeter;
+  DWORD  biClrUsed;
+  DWORD  biClrImportant;
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
 
 //Colour palette
 typedef struct tagRGBQUAD {
-  BYTE    rgbBlue; 
-  BYTE    rgbGreen; 
-  BYTE    rgbRed; 
-  BYTE    rgbReserved; 
+  BYTE    rgbBlue;
+  BYTE    rgbGreen;
+  BYTE    rgbRed;
+  BYTE    rgbReserved;
 } RGBQUAD;
 
 void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
@@ -141,7 +141,7 @@ void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 //			if (!dump)
 //			{
 //				std::cout << "R: " << std::hex << (UInt32)r << ", G: " << (UInt32)g << ", B: " << (UInt32)b << ", A: " << (UInt32)a << std::endl;
-//				dump = true; 
+//				dump = true;
 //			}
 
 			UInt8* destPixel = pixelData + (i * bmih.biWidth + j) * destBytesPerPixel;

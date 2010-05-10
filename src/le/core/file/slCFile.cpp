@@ -20,7 +20,7 @@ CFile* CFile::createWithPath(const CString& filePath, unsigned openFlags)
 		{
 			return result;
 		}
-	
+
 		delete result;
 	}
 

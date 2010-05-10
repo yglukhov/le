@@ -12,8 +12,8 @@ namespace sokira
 COpenGLRenderingContext::COpenGLRenderingContext() :
 	mFontOffset(0)
 {
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_LINE_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -238,7 +238,7 @@ void COpenGLRenderingContext::drawWireRect(const CRectangle& rect)
 		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
 		glVertex2f(rect.x(), rect.y() + rect.height());
 		glVertex2f(rect.x(), rect.y());
-	glEnd();	
+	glEnd();
 }
 
 void COpenGLRenderingContext::drawBox(const CBox& box)
@@ -275,7 +275,7 @@ void COpenGLRenderingContext::drawBox(const CBox& box)
 		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
 		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
-	glEnd();	
+	glEnd();
 }
 
 void COpenGLRenderingContext::drawWireBox(const CBox& box)
@@ -324,7 +324,7 @@ void COpenGLRenderingContext::drawHorizontalGradient(const CColor& fromColor, co
 		CRenderingContext::setColor(toColor);
 		glVertex2f(rect.x() + rect.width(), rect.y());
 		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
-	glEnd();	
+	glEnd();
 }
 
 void COpenGLRenderingContext::drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect)
@@ -336,7 +336,7 @@ void COpenGLRenderingContext::drawVerticalGradient(const CColor& fromColor, cons
 		CRenderingContext::setColor(toColor);
 		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
 		glVertex2f(rect.x(), rect.y() + rect.height());
-	glEnd();	
+	glEnd();
 }
 
 CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* image)

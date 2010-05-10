@@ -78,7 +78,7 @@ class CNotificationCenter
 			{
 
 			}
-			
+
 			bool operator < (const SMapKey& rhs) const
 			{
 				return (observer < rhs.observer) || (sender < rhs.sender) || (notification < rhs.notification);
@@ -98,7 +98,7 @@ class CNotificationCenter
 		struct SNotificationData;
 		typedef std::list<SNotificationData*> CNotificationList;
 		CNotificationList mNotificationList;
-		
+
 		friend struct observer_equals;
 		friend struct concrete_observer;
 		friend struct other_observers;
