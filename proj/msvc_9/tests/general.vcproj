@@ -76,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(SolutionDir)..\..\libs\glut\win32\glut*.dll&quot; &quot;$(testOutputDir)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(SolutionDir)..\..\libs\glut\win32\glut*.dll&quot; &quot;$(testOutputDir)&quot;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
