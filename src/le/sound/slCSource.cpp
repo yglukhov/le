@@ -22,7 +22,7 @@ CSource::CSource(const CSource& source) :
 CSource::CSource(CSourceImpl* impl) :
 	mImpl(impl)
 {
-	if (mImpl) mImpl->retain();
+
 }
 
 CSource::~CSource()
