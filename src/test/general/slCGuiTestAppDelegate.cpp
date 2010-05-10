@@ -3,7 +3,6 @@
 #include <le/gui/slCScreen.h>
 #include <le/gui/slCGuiScene.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
-//#include <le/gui/slCDialog.h>
 #include <le/gui/slCButton.h>
 #include "slCGuiTestAppDelegate.h"
 
