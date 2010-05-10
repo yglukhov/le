@@ -1,19 +1,19 @@
-#pragma once
+#if !defined SL_LE_core_auxiliary_slCRunloop_hp
+#define SL_LE_core_auxiliary_slCRunloop_hp
 
 #include <list>
 #include <le/core/slTypes.h>
 #include <le/core/thread/slCMutex.h>
 #include <le/core/template/function/slTCFunction.h>
+#include "slCTimer.h"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CRunLoopSource;
 class CRunLoopImpl;
 class CEvent;
-class CRunLoop;
 
 /*! Another enum, with inline docs */
 enum EEventMask
@@ -35,20 +35,20 @@ class CRunLoop
 		/// Stop the run loop.
 		void stop();
 
-		/// Is the run loop stopped.
-		bool isStopped() const;
-
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
 		CEvent nextEventMatchingMask(EEventMask mask);
 
+		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc);
+
 	private:
 		friend class CThread;
 		CRunLoop();
-		CMutex mQueueMutex;
-		bool mStopped;
+		~CRunLoop();
 		CRunLoopImpl* mImpl;
 };
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_auxiliary_slCRunloop_hp

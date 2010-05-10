@@ -1,46 +1,42 @@
 #include "slCRunLoop.h"
 
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#include "base/slCRunloopImplMac.hp"
+#elif  LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+#include "base/slCRunloopImplWin.hp"
+#else
+#error No implementation
+#endif
+
 namespace sokira
 {
 	namespace le
 	{
 
 CRunLoop::CRunLoop() :
-	mStopped(true)
+	mImpl(new CRunLoopImpl())
 {
 
+}
+
+CRunLoop::~CRunLoop()
+{
+	delete mImpl;
 }
 
 void CRunLoop::run()
 {
-//	do
-//	{
-//		{
-//			CMutexLock locker(mQueueMutex);
-//			if(!mEventQueue.empty())
-//			{
-//				mEventQueue.front()();
-//				mEventQueue.pop_front();
-//				continue;
-//			}
-//		}
-//
-//		if (!mSources)
-//		{
-//			stop();
-//		}
-//	} while(!isStopped());
-	mStopped = false;
+	mImpl->run();
 }
 
 void CRunLoop::stop()
 {
-	mStopped = true;
+	mImpl->stop();
 }
 
-bool CRunLoop::isStopped() const
+CTimer CRunLoop::scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
 {
-	return mStopped;
+	return mImpl->scheduledTimerWithInterval(msInterval, timerFunc);
 }
 
 	} // namespace le

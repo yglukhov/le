@@ -1,0 +1,57 @@
+#if !defined SL_LE_core_auxiliary_base_slCRunloopImplMac_hp
+#define SL_LE_core_auxiliary_base_slCRunloopImplMac_hp
+
+#include <CoreFoundation/CoreFoundation.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CRunLoopImpl
+{
+	public:
+		/// Start the run loop.
+		void run()
+		{
+			CFRunLoopRun();
+		}
+
+		/// Stop the run loop.
+		void stop()
+		{
+			CFRunLoopStop(CFRunLoopGetCurrent());
+		}
+
+		/// Get next event. Can be used in a loop.
+		/// @param mask some param
+		CEvent nextEventMatchingMask(EEventMask mask);
+
+		static void timerProc(CFRunLoopTimerRef timer, void *info)
+		{
+			(*(TCFunction<>*)info)();
+		}
+
+		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
+		{
+			CTimer result;
+			CFRunLoopTimerContext context;
+			context.version = 0;
+			context.info = new TCFunction<>(timerFunc);
+			context.retain = NULL;
+			context.release = NULL;
+			context.copyDescription = NULL;
+
+			CFRunLoopTimerRef timer = CFRunLoopTimerCreate(kCFAllocatorDefault,
+				0, (CFTimeInterval) msInterval / 1000, 0, 0,
+				&CRunLoopImpl::timerProc, &context);
+			result.mTimerRef = (UInt64) timer;
+			CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopDefaultMode);
+			return result;
+		}
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_auxiliary_base_slCRunloopImplMac_hp

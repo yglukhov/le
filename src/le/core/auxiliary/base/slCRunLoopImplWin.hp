@@ -1,0 +1,39 @@
+#if !defined SL_LE_core_auxiliary_base_slCRunloopImplWin_hp
+#define SL_LE_core_auxiliary_base_slCRunloopImplWin_hp
+
+#include <windows.h>
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CRunLoopImpl
+{
+	public:
+		/// Start the run loop.
+		void run()
+		{
+
+		}
+
+		/// Stop the run loop.
+		void stop()
+		{
+
+		}
+
+		/// Get next event. Can be used in a loop.
+		/// @param mask some param
+		CEvent nextEventMatchingMask(EEventMask mask);
+
+		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
+		{
+			return CTimer();
+		}
+};
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_auxiliary_base_slCRunloopImplWin_hp
