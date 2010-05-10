@@ -40,7 +40,7 @@ class TCPointer
 
 		// Reset the pointer to other value without killing the object.
 		// Returns the pointer to previosly referenced object.
-		T* reset(T* toValue = NULL);
+//		T* reset(T* toValue = NULL);
 
 
 		//////////////////////////////////////////////////////////////////////////
@@ -79,31 +79,37 @@ class TCPointer
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
-TCPointer<T>::TCPointer() : mObj(NULL)
-	, mRefCount(NULL)
+TCPointer<T>::TCPointer() :
+	mObj(NULL),
+	mRefCount(NULL)
 {
 
 }
 
 template <typename T>
-TCPointer<T>::TCPointer(T* obj) : mObj(obj)
-	, mRefCount(NULL)
+TCPointer<T>::TCPointer(T* obj) :
+	mObj(obj),
+	mRefCount(NULL)
 {
 	retain();
 }
 
 template <typename T>
-TCPointer<T>::TCPointer(const TCPointer& copy) : mObj(copy.mObj)
-	, mRefCount(copy.mRefCount)
+TCPointer<T>::TCPointer(const TCPointer& copy) :
+	mObj(copy.mObj),
+	mRefCount(copy.mRefCount)
 {
+	LE_ASSERT(mRefCount);
 	retain();
 }
 
 template <typename T>
 template <typename CastedFrom>
-TCPointer<T>::TCPointer(const TCPointer<CastedFrom>& copy) : mObj(copy.mObj)
-	, mRefCount(copy.mRefCount)
+TCPointer<T>::TCPointer(const TCPointer<CastedFrom>& copy) :
+	mObj(copy.mObj),
+	mRefCount(copy.mRefCount)
 {
+	LE_ASSERT(mRefCount);
 	retain();
 }
 
@@ -198,13 +204,13 @@ const T* TCPointer<T>::operator->() const
 }
 
 
-template <typename T>
-T* TCPointer<T>::reset(T* toValue)
-{
-	T* retValue = mObj;
-	operator=(toValue);
-	return retValue;
-}
+//template <typename T>
+//T* TCPointer<T>::reset(T* toValue)
+//{
+//	T* retValue = mObj;
+//	operator=(toValue);
+//	return retValue;
+//}
 
 template <typename T>
 void TCPointer<T>::retain()
