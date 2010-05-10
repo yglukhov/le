@@ -7,8 +7,7 @@ namespace sokira
 	{
 
 CThread::CThread(const CThread& copy) :
-	mImpl(copy.mImpl->retain()),
-	mIsRunning(false)
+	mImpl(copy.mImpl->retain())
 {
 
 }
@@ -16,8 +15,7 @@ CThread::CThread(const CThread& copy) :
 CThread::CThread(const TCFunction<>& threadProc,
 				 const CString& threadName,
 				 bool startImmediately) :
-	mImpl(new CThreadImpl(threadProc, threadName)),
-	mIsRunning(false)
+	mImpl(new CThreadImpl(threadProc, threadName))
 {
 	if (startImmediately)
 	{
@@ -50,11 +48,7 @@ const CThread& CThread::operator = (const CThread& copy)
 
 void CThread::start()
 {
-	if (!mIsRunning)
-	{
-		mImpl->start();
-		mIsRunning = true;
-	}
+	mImpl->start();
 }
 
 //void CThread::stop()
@@ -74,7 +68,7 @@ CString CThread::name() const
 
 CRunLoop& CThread::runLoop()
 {
-	return mRunLoop;
+	return mImpl->mRunLoop;
 }
 
 void CThread::sleep(UInt32 milliSeconds)

@@ -1,8 +1,9 @@
-#pragma once
+#if !defined SL_LE_core_thread_base_slCThreadImplBase_hp
+#define SL_LE_core_thread_base_slCThreadImplBase_hp
 
 
 #include <le/core/template/function/slTCFunction.h>
-//#include <le/core/auxiliary/slCRunLoop.h>
+#include <le/core/auxiliary/slCRunLoop.h>
 #include <le/core/slCString.h>
 
 namespace sokira
@@ -86,6 +87,8 @@ class CThreadImplBase
 			return mSingletones[stdTypeName].first;
 		}
 
+		CRunLoop mRunLoop;
+
 	private:
 
 		inline void _threadProc()
@@ -101,3 +104,5 @@ class CThreadImplBase
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_thread_base_slCThreadImplBase_hp

@@ -42,7 +42,7 @@ class CRunLoop
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc);
 
 	private:
-		friend class CThread;
+		friend class CThreadImplBase;
 		CRunLoop();
 		~CRunLoop();
 		CRunLoopImpl* mImpl;

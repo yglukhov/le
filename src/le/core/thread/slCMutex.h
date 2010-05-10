@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_thread_slCMutex_h
+#define SL_LE_core_thread_slCMutex_h
 
 #include <le/core/strategies/slCNonCopyable.h>
 
@@ -41,3 +42,5 @@ class CMutexLock : CNonCopyable
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_thread_slCMutex_h

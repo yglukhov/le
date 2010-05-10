@@ -1,4 +1,6 @@
-#pragma once
+#if !defined SL_LE_core_thread_slCThread_h
+#define SL_LE_core_thread_slCThread_h
+
 
 #include <typeinfo>
 #include <le/core/template/function/slTCFunction.h>
@@ -56,10 +58,10 @@ class CThread
 		void* _singletone(const char* stdTypeName, void*(*)(), void (*)(void*));
 
 		CThreadImplBase* mImpl;
-		bool mIsRunning;
-		CRunLoop mRunLoop;
 };
 
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_thread_slCThread_h
