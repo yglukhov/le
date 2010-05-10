@@ -10,17 +10,54 @@ namespace sokira
 
 class CRunLoopImpl
 {
+	typedef std::map<UINT_PTR, TCFunction<> > TTimerFuncsMap;
+
 	public:
 		/// Start the run loop.
 		void run()
 		{
+			MSG msg;
+			BOOL result;
 
+			while (result = GetMessage(&msg, NULL, 0, 0))
+			{
+				if (result == -1)
+				{
+					std::cout << "Run loop error: " << GetLastError() << std::endl;
+				}
+				else
+				{
+					//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
+					//if (it != messageNames.end())
+					//{
+					//	std::cout << it->second << std::endl;
+					//}
+					//else
+					//{
+					//	std::cout << "Message: " << msg.message << std::endl;
+					//}
+
+					if (msg.message == WM_TIMER && msg.hwnd == NULL)
+					{
+						TTimerFuncsMap::iterator it = mTimerFuncs.find((UINT_PTR)msg.wParam);
+						if (it != mTimerFuncs.end())
+						{
+							it->second();
+						}
+					}
+					else
+					{
+						TranslateMessage(&msg);
+						DispatchMessage(&msg);
+					}
+				}
+			}
 		}
 
 		/// Stop the run loop.
 		void stop()
 		{
-
+			PostQuitMessage(0);
 		}
 
 		/// Get next event. Can be used in a loop.
@@ -29,8 +66,22 @@ class CRunLoopImpl
 
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
 		{
-			return CTimer();
+			UINT_PTR newTimer = SetTimer(NULL, NULL, msInterval, NULL);
+			CTimer result;
+			result.mTimerRef = (UInt64)newTimer;
+			if (newTimer)
+			{
+				mTimerFuncs.insert(std::make_pair(newTimer, timerFunc));
+			}
+			else
+			{
+				std::cout << "Error: could not create timer" << std::endl; 
+			}
+			return result;
 		}
+
+		private:
+			TTimerFuncsMap mTimerFuncs;
 };
 
 	} // namespace le

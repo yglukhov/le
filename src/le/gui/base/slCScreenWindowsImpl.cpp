@@ -73,14 +73,20 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return 0;								// Jump Back
 
 		case WM_PAINT:
-			if (mWindowDidResize)
 			{
-				mScreen->onResize();
-				mWindowDidResize = false;
-			}
+				PAINTSTRUCT ps;
 
-			mScreen->draw();
-			SwapBuffers(GetDC(mWindow));
+				HDC dc = BeginPaint(mWindow, &ps);
+				if (mWindowDidResize)
+				{
+					mScreen->onResize();
+					mWindowDidResize = false;
+				}
+
+				mScreen->draw();
+				SwapBuffers(dc);
+				EndPaint(mWindow, &ps);
+			}
 			return 0;
 
 		case WM_KEYDOWN:
@@ -182,8 +188,6 @@ void CScreenWindowsImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplic
 {
 	mScreen = screen;
 
-	std::cout << "hi " << std::endl;
-
 	HINSTANCE inst = GetModuleHandle(NULL);
 	if (windowClassRefCount == 0)
 	{
@@ -222,11 +226,7 @@ void CScreenWindowsImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplic
 		NULL);
 
 	if (!mWindow)
-	{
-		std::cout << "success!" << std::endl;
-	}
-	else
-		std::cout << "error: " << GetLastError() << std::endl;
+		std::cout << "Error creating window: " << GetLastError() << std::endl;
 
 	// Adjust client rect to mRect
 	RECT newRect;

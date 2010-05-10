@@ -1,6 +1,7 @@
 #include <windows.h>
 
 #include <le/core/auxiliary/slCApplicationDelegate.h>
+#include <le/core/thread/slCThread.h>
 #include "slCGuiApplicationWindowsImpl.hp"
 
 namespace sokira
@@ -10,8 +11,6 @@ namespace sokira
 
 SInt32 CGuiApplicationWindowsImpl::run(CApplicationDelegate* delegate, CApplication* application)
 {
-	MSG msg;
-
 	std::map<DWORD, std::string> messageNames;
 #define LE_ADD_MESSAGE_NAME(name) messageNames[name] = #name
 	LE_ADD_MESSAGE_NAME(WM_CLOSE);
@@ -26,21 +25,25 @@ SInt32 CGuiApplicationWindowsImpl::run(CApplicationDelegate* delegate, CApplicat
 	delegate->applicationDidFinishLaunching(*application);
 	std::cout << "Starting application runloop" << std::endl;
 
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
-		//if (it != messageNames.end())
-		//{
-		//	std::cout << it->second << std::endl;
-		//}
-		//else
-		//{
-		//	std::cout << "Message: " << msg.message << std::endl;
-		//}
+	CThread::thread().runLoop().run();
 
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+	//MSG msg;
+
+	//while (GetMessage(&msg, NULL, 0, 0))
+	//{
+	//	//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
+	//	//if (it != messageNames.end())
+	//	//{
+	//	//	std::cout << it->second << std::endl;
+	//	//}
+	//	//else
+	//	//{
+	//	//	std::cout << "Message: " << msg.message << std::endl;
+	//	//}
+
+	//	TranslateMessage(&msg);
+	//	DispatchMessage(&msg);
+	//}
 
 	std::cout << "Exited application runloop" << std::endl;
 

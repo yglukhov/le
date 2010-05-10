@@ -458,6 +458,14 @@
 					RelativePath="..\..\..\src\le\core\auxiliary\slStdExtensions.h"
 					>
 				</File>
+				<Filter
+					Name="base"
+					>
+					<File
+						RelativePath="..\..\..\src\le\core\auxiliary\base\slCRunLoopImplWin.hp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="base"

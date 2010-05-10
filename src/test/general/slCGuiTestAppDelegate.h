@@ -8,7 +8,7 @@ namespace sokira
 	namespace le
 	{
 		
-		class CGuiTestAppDelegate : public le::CApplicationDelegate
+		class CGuiTestAppDelegate : public CApplicationDelegate
 		{
 			LE_RTTI_BEGIN
 			LE_RTTI_SELF(CGuiTestAppDelegate)
@@ -16,8 +16,9 @@ namespace sokira
 			LE_RTTI_END
 			
 		public:
-			virtual void applicationDidFinishLaunching(le::CApplication& application);
-			virtual le::Bool applicationShouldTerminateAfterLastWindowClosed(le::CApplication& application);
+			void onTimer();
+			virtual void applicationDidFinishLaunching(CApplication& application);
+			virtual Bool applicationShouldTerminateAfterLastWindowClosed(CApplication& application);
 		};
 		
 	}
