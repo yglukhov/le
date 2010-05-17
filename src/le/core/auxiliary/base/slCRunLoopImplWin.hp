@@ -64,12 +64,41 @@ class CRunLoopImpl
 		{
 			switch (message)
 			{
-				case WM_MOUSELEFTUP:
-					return 
-					break;
-				default:
-					break;
+				case WM_LBUTTONDOWN:
+				case WM_RBUTTONDOWN:
+				case WM_MBUTTONDOWN:
+					return eEventTypeMouseDown;
+
+				case WM_LBUTTONUP:
+				case WM_RBUTTONUP:
+				case WM_MBUTTONUP:
+					return eEventTypeMouseUp;
+
+				case WM_MOUSEMOVE:
+					return eEventTypeMouseMove;
 			}
+
+			return eEventTypeUnknown;
+		}
+
+		static inline EMouseButton mouseButtonForMessage(UINT message)
+		{
+			switch (message)
+			{
+				case WM_LBUTTONDOWN:
+				case WM_LBUTTONUP:
+					return eMouseButtonLeft;
+
+				case WM_RBUTTONDOWN:
+				case WM_RBUTTONUP:
+					return eMouseButtonRight;
+
+				case WM_MBUTTONDOWN:
+				case WM_MBUTTONUP:
+					return eMouseButtonMiddle;
+			}
+
+			return eMouseButtonUnknown;
 		}
 
 		/// Get next event. Can be used in a loop.
@@ -78,6 +107,7 @@ class CRunLoopImpl
 		{
 			MSG msg;
 			BOOL result;
+			CEvent event;
 
 			while (result = GetMessage(&msg, NULL, 0, 0))
 			{
@@ -109,7 +139,22 @@ class CRunLoopImpl
 					{
 						EEventType type = eventTypeFromMessage(msg.message);
 
-						if (!(type & mask))
+						if (type & mask)
+						{
+							if (type & (eEventTypeMouseDown | eEventTypeMouseUp | eEventTypeMouseMove))
+							{
+								POINTS point = MAKEPOINTS(msg.lParam);
+								event = CEvent(type, CPoint2D(point.x, point.y),(type == eEventTypeMouseDown) ? eButtonStateDown : ((type == eEventTypeMouseUp) ? eButtonStateUp : eButtonStateUnknown), mouseButtonForMessage(msg.message));
+							}
+							else if (type & (eEventTypeKeyDown | eEventTypeKeyUp))
+							{
+								event = CEvent(type, 0, (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
+							}
+							
+				
+							break;
+						}
+						else
 						{
 							TranslateMessage(&msg);
 							DispatchMessage(&msg);
@@ -117,6 +162,8 @@ class CRunLoopImpl
 					}
 				}
 			}
+
+			return event;
 		}
 
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)

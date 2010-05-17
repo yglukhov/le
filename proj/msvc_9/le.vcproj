@@ -40,6 +40,26 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="10"
+			InheritedPropertySheets=".\properties\leRelease.vsprops"
+			CharacterSet="0"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|STANDARDSDK_500 (ARMV4I)"
 			OutputDirectory="$(SolutionDir)STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
 			IntermediateDirectory="STANDARDSDK_500 (ARMV4I)\$(ConfigurationName)"
@@ -72,26 +92,6 @@
 				AdditionalFiles=""
 			/>
 			<DebuggerTool
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			ConfigurationType="10"
-			InheritedPropertySheets=".\properties\leRelease.vsprops"
-			CharacterSet="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -141,14 +141,6 @@
 				>
 				<File
 					RelativePath="..\..\libs\glut\slGlut.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\libs\glut\slGlutColor.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\libs\glut\slGlutPrefix.h"
 					>
 				</File>
 			</Filter>
