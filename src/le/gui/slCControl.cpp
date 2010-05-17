@@ -224,7 +224,7 @@ Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoin
 	switch (state)
 	{
 		case eButtonStateDown:
-			becomeFirstResponder();
+//			becomeFirstResponder();
 			return onMouseDown(button, point);
 		case eButtonStateUp:
 			return onMouseUp(button, point);

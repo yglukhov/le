@@ -143,6 +143,8 @@
 		7B686AE51060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */; };
 		7B686AE81060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */; };
 		7B686AE91060FFCD0001E7A6 /* slCXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */; };
+		7B69E79711A17D89001AF88F /* slCRunLoopImplMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B69E79611A17D89001AF88F /* slCRunLoopImplMac.mm */; };
+		7B69E79811A17D89001AF88F /* slCRunLoopImplMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B69E79611A17D89001AF88F /* slCRunLoopImplMac.mm */; };
 		7B6A73831057A4A00062A10D /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
 		7B6A73841057A4A10062A10D /* slCCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDF40F3B701B000E00CB /* slCCommandLine.cpp */; };
 		7B6A73851057A4A20062A10D /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
@@ -444,6 +446,7 @@
 		7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLDocument.cpp; sourceTree = "<group>"; };
 		7B686AE61060FFCD0001E7A6 /* slCXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLNode.h; sourceTree = "<group>"; };
 		7B686AE71060FFCD0001E7A6 /* slCXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCXMLNode.cpp; sourceTree = "<group>"; };
+		7B69E79611A17D89001AF88F /* slCRunLoopImplMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = slCRunLoopImplMac.mm; sourceTree = "<group>"; };
 		7B75CE78107774FA00F93924 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 		7B75CF441077891200F93924 /* slCSourceImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSourceImpl.hp; sourceTree = "<group>"; };
 		7B75EBA910808F810073DE2F /* slCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScrollView.h; sourceTree = "<group>"; };
@@ -1076,6 +1079,7 @@
 			children = (
 				7B61FFA71196F81F00DE6B99 /* slCRunloopImplMac.hp */,
 				7B6100151197018100DE6B99 /* slCRunLoopImplWin.hp */,
+				7B69E79611A17D89001AF88F /* slCRunLoopImplMac.mm */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1496,6 +1500,7 @@
 				7B5DAD91119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */,
 				7B5DAE211191AB6500B49733 /* slCWorkspace.cpp in Sources */,
 				7B61FF9A1196F42400DE6B99 /* slCTimer.cpp in Sources */,
+				7B69E79711A17D89001AF88F /* slCRunLoopImplMac.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1568,6 +1573,7 @@
 				7B5DAD90119194A300B49733 /* slCXMLDictionaryParser.cpp in Sources */,
 				7B5DAE221191AB6500B49733 /* slCWorkspace.cpp in Sources */,
 				7B61FF9B1196F42400DE6B99 /* slCTimer.cpp in Sources */,
+				7B69E79811A17D89001AF88F /* slCRunLoopImplMac.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

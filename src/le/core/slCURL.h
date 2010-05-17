@@ -39,6 +39,7 @@ class CURL : public CObject
 
 	private:
 		CString mPath;
+		CString mPathSeparator;
 };
 
 std::ostream& operator << (std::ostream& stream, const CURL& url);

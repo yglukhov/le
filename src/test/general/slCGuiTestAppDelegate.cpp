@@ -45,8 +45,8 @@ namespace sokira
 
 			dynamic_cast<CGuiApplication&>(application).addScreen(screen);
 
-			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);
-			CThread::thread().runLoop().scheduledTimerWithInterval(2000, timerFunc);
+//			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);
+//			CThread::thread().runLoop().scheduledTimerWithInterval(2000, timerFunc);
 		}
 
 		Bool CGuiTestAppDelegate::applicationShouldTerminateAfterLastWindowClosed(CApplication& application)

@@ -1,5 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
+#include <le/core/thread/slCThread.h>
 #include <le/core/auxiliary/slCApplicationDelegate.h>
 #include "slCGuiApplicationCocoaImpl.hp"
 
@@ -182,7 +183,9 @@ SInt32 CGuiApplicationCocoaImpl::run(CApplicationDelegate* delegate, CApplicatio
 
 //	[[NSMenu alloc] initWithTitle:@"MyApp"];
 //		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
-    [app run];
+	[app run];
+
+//	CThread::thread().runLoop().run();
 	[pool release];
 
 	return 0;

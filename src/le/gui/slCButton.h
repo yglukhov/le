@@ -36,10 +36,10 @@ class CButton: public CControl//, public CControlDelegate
 //		virtual bool onMouseLeftUp(const CPoint& point, CControl* sender);
 
 		virtual Bool onMouseDown(EMouseButton button, const CPoint2D& point);
-		virtual Bool onMouseUp(EMouseButton button, const CPoint2D& point);
+//		virtual Bool onMouseUp(EMouseButton button, const CPoint2D& point);
 
-		virtual void controlDidBecomeFirstResponder();
-		virtual void controlDidResignFirstResponder();
+//		virtual void controlDidBecomeFirstResponder();
+//		virtual void controlDidResignFirstResponder();
 
 
 		virtual void draw(const CTheme* theme, CRenderingContext* constext) const;

@@ -8,6 +8,8 @@ namespace sokira
 	namespace le
 	{
 
+CEvent nextEventMatchingMask(UInt32 mask);
+
 class CRunLoopImpl
 {
 	public:
@@ -25,7 +27,10 @@ class CRunLoopImpl
 
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
-		CEvent nextEventMatchingMask(EEventMask mask);
+		CEvent nextEventMatchingMask(UInt32 mask)
+		{
+			return ::sokira::le::nextEventMatchingMask(mask);
+		}
 
 		static void timerProc(CFRunLoopTimerRef timer, void *info)
 		{

@@ -5,6 +5,7 @@
 #include <le/core/slTypes.h>
 #include <le/core/thread/slCMutex.h>
 #include <le/core/template/function/slTCFunction.h>
+#include <le/core/geometry/slTCPoint2D.h>
 #include "slCTimer.h"
 
 namespace sokira
@@ -16,10 +17,42 @@ class CRunLoopImpl;
 class CEvent;
 
 /*! Another enum, with inline docs */
-enum EEventMask
+enum EEventType
 {
-	eEventMaskMouse, /*!< value 1 */
-	eEventMaskKeyboard /*!< value 2 */
+	eEventTypeUnknown = 0,
+	eEventTypeMouseDown = LE_SET_BIT(1),
+	eEventTypeMouseUp = LE_SET_BIT(2),
+	eEventTypeMouseMove = LE_SET_BIT(3),
+	eEventTypeKeyDown = LE_SET_BIT(4),
+	eEventTypeKeyUp = LE_SET_BIT(5),
+	eEventTypeAll = 0xFFFFFFFF
+};
+
+class CEvent
+{
+	public:
+		CEvent();
+		CEvent(EEventType type, WChar keyCode, EButtonState state);
+		CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EMouseButton button);
+
+		CPoint2D mouseLocation() const;
+		EButtonState buttonState() const;
+		EMouseButton mouseButton() const;
+
+		EEventType type() const;
+
+		Bool isMouseEvent() const;
+		Bool isKeyboardEvent() const;
+
+	private:
+		CPoint2D mLocation;
+		EEventType mType;
+		union
+		{
+			EMouseButton mMouseButton;
+			WChar mKeyCode;
+		};
+		EButtonState mButtonState;
 };
 
 class CRunLoop
@@ -37,7 +70,7 @@ class CRunLoop
 
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
-		CEvent nextEventMatchingMask(EEventMask mask);
+		CEvent nextEventMatchingType(UInt32 mask);
 
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc);
 

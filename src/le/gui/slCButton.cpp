@@ -1,3 +1,4 @@
+#include <le/core/thread/slCThread.h>
 #include "slCTheme.h"
 #include "slCButton.h"
 #include "slCScreen.h"
@@ -69,34 +70,53 @@ Bool CButton::onMouseDown(EMouseButton button, const CPoint2D& point)
 	{
 		mState = eButtonStateDown;
 		setNeedsRedraw();
+
+		CRunLoop& runLoop = CThread::thread().runLoop();
+
+		while (true)
+		{
+			CEvent event = runLoop.nextEventMatchingType(eEventTypeMouseUp | eEventTypeMouseMove);
+			if (event.type() == eEventTypeMouseUp && event.mouseButton() == eMouseButtonLeft)
+			{
+				mState = eButtonStateUp;
+				setNeedsRedraw();
+				if (mOnClick) mOnClick();
+				break;
+			}
+			else if (event.type() == eEventTypeMouseMove)
+			{
+				
+			}
+		}
+
 		return true;
 	}
 	return false;
 }
 
-Bool CButton::onMouseUp(EMouseButton button, const CPoint2D& point)
-{
-	LE_ENTER_LOG;
-	if (button == eMouseButtonLeft && mState == eButtonStateDown)
-	{
-		mState = eButtonStateUp;
-		resignFirstResponder();
-		if (absoluteRect().containsPoint(point) && mOnClick) { LE_IF_LOG(log << "CLICK!!!" << std::endl); mOnClick(); }
-		setNeedsRedraw();
-		return true;
-	}
-	return false;
-}
+//Bool CButton::onMouseUp(EMouseButton button, const CPoint2D& point)
+//{
+//	LE_ENTER_LOG;
+//	if (button == eMouseButtonLeft && mState == eButtonStateDown)
+//	{
+//		mState = eButtonStateUp;
+//		resignFirstResponder();
+//		if (absoluteRect().containsPoint(point) && mOnClick) { LE_IF_LOG(log << "CLICK!!!" << std::endl); mOnClick(); }
+//		setNeedsRedraw();
+//		return true;
+//	}
+//	return false;
+//}
 
-void CButton::controlDidBecomeFirstResponder()
-{
-//	std::cout << "Button did become first responder!" << std::endl;
-}
-
-void CButton::controlDidResignFirstResponder()
-{
-//	std::cout << "Button did resign first responder!" << std::endl;
-}
+//void CButton::controlDidBecomeFirstResponder()
+//{
+////	std::cout << "Button did become first responder!" << std::endl;
+//}
+//
+//void CButton::controlDidResignFirstResponder()
+//{
+////	std::cout << "Button did resign first responder!" << std::endl;
+//}
 
 void CButton::draw(const CTheme* theme, CRenderingContext* context) const
 {

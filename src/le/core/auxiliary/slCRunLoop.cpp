@@ -13,6 +13,59 @@ namespace sokira
 	namespace le
 	{
 
+CEvent::CEvent()
+{
+
+}
+
+CEvent::CEvent(EEventType type, WChar keyCode, EButtonState state) :
+	mType(type),
+	mKeyCode(keyCode),
+	mButtonState(state)
+{
+
+}
+
+CEvent::CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EMouseButton button) :
+	mLocation(mouseLocation),
+	mType(type),
+	mMouseButton(button),
+	mButtonState(state)
+{
+
+}
+
+CPoint2D CEvent::mouseLocation() const
+{
+	return mLocation;
+}
+
+EButtonState CEvent::buttonState() const
+{
+	return mButtonState;
+}
+
+EMouseButton CEvent::mouseButton() const
+{
+	return mMouseButton;
+}
+
+EEventType CEvent::type() const
+{
+	return mType;
+}
+
+Bool CEvent::isMouseEvent() const
+{
+	return _LE_BOOL_CAST(type() & (eEventTypeMouseDown | eEventTypeMouseUp | eEventTypeMouseMove));
+}
+
+Bool CEvent::isKeyboardEvent() const
+{
+	return _LE_BOOL_CAST(type() & (eEventTypeKeyDown | eEventTypeKeyUp));
+}
+
+
 CRunLoop::CRunLoop() :
 	mImpl(new CRunLoopImpl())
 {
@@ -32,6 +85,11 @@ void CRunLoop::run()
 void CRunLoop::stop()
 {
 	mImpl->stop();
+}
+
+CEvent CRunLoop::nextEventMatchingType(UInt32 mask)
+{
+	return mImpl->nextEventMatchingMask(mask);
 }
 
 CTimer CRunLoop::scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)

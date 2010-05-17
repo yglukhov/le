@@ -60,9 +60,64 @@ class CRunLoopImpl
 			PostQuitMessage(0);
 		}
 
+		static inline EEventType eventTypeFromMessage(UINT message)
+		{
+			switch (message)
+			{
+				case WM_MOUSELEFTUP:
+					return 
+					break;
+				default:
+					break;
+			}
+		}
+
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
-		CEvent nextEventMatchingMask(EEventMask mask);
+		CEvent nextEventMatchingMask(UInt32 mask)
+		{
+			MSG msg;
+			BOOL result;
+
+			while (result = GetMessage(&msg, NULL, 0, 0))
+			{
+				if (result == -1)
+				{
+					std::cout << "Run loop error: " << GetLastError() << std::endl;
+				}
+				else
+				{
+					//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
+					//if (it != messageNames.end())
+					//{
+					//	std::cout << it->second << std::endl;
+					//}
+					//else
+					//{
+					//	std::cout << "Message: " << msg.message << std::endl;
+					//}
+
+					if (msg.message == WM_TIMER && msg.hwnd == NULL)
+					{
+						TTimerFuncsMap::iterator it = mTimerFuncs.find((UINT_PTR)msg.wParam);
+						if (it != mTimerFuncs.end())
+						{
+							it->second();
+						}
+					}
+					else
+					{
+						EEventType type = eventTypeFromMessage(msg.message);
+
+						if (!(type & mask))
+						{
+							TranslateMessage(&msg);
+							DispatchMessage(&msg);
+						}
+					}
+				}
+			}
+		}
 
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
 		{
