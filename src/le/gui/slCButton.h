@@ -28,25 +28,9 @@ class CButton: public CControl//, public CControlDelegate
 
 	protected:
 
-//		virtual bool canSetFocus();
-//		virtual void onSetFocus();
-//		virtual void onLooseFocus();
-
-//		virtual bool onMouseLeftDown(const CPoint& point, CControl* sender);
-//		virtual bool onMouseLeftUp(const CPoint& point, CControl* sender);
-
-		virtual Bool onMouseDown(EMouseButton button, const CPoint2D& point);
-//		virtual Bool onMouseUp(EMouseButton button, const CPoint2D& point);
-
-//		virtual void controlDidBecomeFirstResponder();
-//		virtual void controlDidResignFirstResponder();
-
-
+		virtual Bool onMouseDown(EKeyCode button, const CPoint2D& point);
 		virtual void draw(const CTheme* theme, CRenderingContext* constext) const;
 
-//		virtual bool onMouseMove(int x, int y);
-
-//		virtual bool onKeyPressed(unsigned char inKey);
 	private:
 		CString mText;
 		EButtonState mState;

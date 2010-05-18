@@ -181,12 +181,12 @@ void CControl::borderWidth(float width)
 	mBorderWidth = width;
 }
 
-Bool CControl::onMouseDown(EMouseButton button, const CPoint2D& point)
+Bool CControl::onMouseDown(EKeyCode button, const CPoint2D& point)
 {
 	return false;
 }
 
-Bool CControl::onMouseUp(EMouseButton button, const CPoint2D& point)
+Bool CControl::onMouseUp(EKeyCode button, const CPoint2D& point)
 {
 	return false;
 }
@@ -206,7 +206,7 @@ Bool CControl::onMouseIn(const CPoint2D& point)
 	return false;
 }
 
-Bool CControl::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
+Bool CControl::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
 	return hitTest(point) && performMouse(button, state, point);
@@ -218,7 +218,7 @@ Bool CControl::hitTest(const CPoint2D& point) const
 	return isVisible() && (isFirstResponder() || absoluteRect().containsPoint(point));
 }
 
-Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
+Bool CControl::performMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
 	switch (state)
@@ -235,12 +235,12 @@ Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoin
 }
 
 
-//Bool CControl::mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme)
+//Bool CControl::mouseButtonPressed(EKeyCode button, const CPoint& point, const CTheme* theme)
 //{
 //	return onMouseDown(button, point);
 //}
 //
-//Bool CControl::mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme)
+//Bool CControl::mouseButtonReleased(EKeyCode button, const CPoint& point, const CTheme* theme)
 //{
 //	return onMouseUp(button, point);
 //}
@@ -260,13 +260,24 @@ Bool CControl::performMouse(EMouseButton button, EButtonState state, const CPoin
 //	return onMouseOut(point);
 //}
 
-bool CControl::onKey(unsigned char inkey, int px, int py)
+Bool CControl::onKeyDown(EKeyCode keyCode)
 {
-	LE_ENTER_LOG;
-
-	return CDelegator<CControlDelegate>(this, mDelegate, this).
-				callMethod1<int>(&CControlDelegate::onKeyDown, inkey);
+	return false;
 }
+
+Bool CControl::onKeyUp(EKeyCode keyCode)
+{
+	return false;
+}
+//
+//
+//bool CControl::onKey(unsigned char inkey, int px, int py)
+//{
+//	LE_ENTER_LOG;
+//
+//	return CDelegator<CControlDelegate>(this, mDelegate, this).
+//				callMethod1<int>(&CControlDelegate::onKeyDown, inkey);
+//}
 
 void CControl::setAutoResizing(unsigned mask)
 {

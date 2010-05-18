@@ -22,6 +22,7 @@ class CButton;
 class CControlDelegate
 {
 	public:
+		virtual ~CControlDelegate() {}
 		//////////////////////////////////////////////////////////////////////////
 		// Mouse Events
 		virtual bool onMouseMove(const CPoint2D& point, CControl* sender);

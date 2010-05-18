@@ -2,6 +2,7 @@
 #define SL_LE_core_auxiliary_base_slCRunloopImplMac_hp
 
 #include <CoreFoundation/CoreFoundation.h>
+#include <Carbon/Carbon.h>
 
 namespace sokira
 {
@@ -53,6 +54,139 @@ class CRunLoopImpl
 			result.mTimerRef = (UInt64) timer;
 			CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopDefaultMode);
 			return result;
+		}
+
+		static inline EKeyCode keyCodeFromSystemCode(int code)
+		{
+			switch (code)
+			{
+				case kVK_ANSI_A                    : return eKeyCodeAnsiA;
+				case kVK_ANSI_S                    : return eKeyCodeAnsiS;
+				case kVK_ANSI_D                    : return eKeyCodeAnsiD;
+				case kVK_ANSI_F                    : return eKeyCodeAnsiF;
+				case kVK_ANSI_H                    : return eKeyCodeAnsiH;
+				case kVK_ANSI_G                    : return eKeyCodeAnsiG;
+				case kVK_ANSI_Z                    : return eKeyCodeAnsiZ;
+				case kVK_ANSI_X                    : return eKeyCodeAnsiX;
+				case kVK_ANSI_C                    : return eKeyCodeAnsiC;
+				case kVK_ANSI_V                    : return eKeyCodeAnsiV;
+				case kVK_ANSI_B                    : return eKeyCodeAnsiB;
+				case kVK_ANSI_Q                    : return eKeyCodeAnsiQ;
+				case kVK_ANSI_W                    : return eKeyCodeAnsiW;
+				case kVK_ANSI_E                    : return eKeyCodeAnsiE;
+				case kVK_ANSI_R                    : return eKeyCodeAnsiR;
+				case kVK_ANSI_Y                    : return eKeyCodeAnsiY;
+				case kVK_ANSI_T                    : return eKeyCodeAnsiT;
+				case kVK_ANSI_1                    : return eKeyCodeAnsi1;
+				case kVK_ANSI_2                    : return eKeyCodeAnsi2;
+				case kVK_ANSI_3                    : return eKeyCodeAnsi3;
+				case kVK_ANSI_4                    : return eKeyCodeAnsi4;
+				case kVK_ANSI_6                    : return eKeyCodeAnsi6;
+				case kVK_ANSI_5                    : return eKeyCodeAnsi5;
+				case kVK_ANSI_Equal                : return eKeyCodeAnsiEqual;
+				case kVK_ANSI_9                    : return eKeyCodeAnsi9;
+				case kVK_ANSI_7                    : return eKeyCodeAnsi7;
+				case kVK_ANSI_Minus                : return eKeyCodeAnsiMinus;
+				case kVK_ANSI_8                    : return eKeyCodeAnsi8;
+				case kVK_ANSI_0                    : return eKeyCodeAnsi0;
+				case kVK_ANSI_RightBracket         : return eKeyCodeAnsiRightBracket;
+				case kVK_ANSI_O                    : return eKeyCodeAnsiO;
+				case kVK_ANSI_U                    : return eKeyCodeAnsiU;
+				case kVK_ANSI_LeftBracket          : return eKeyCodeAnsiLeftBracket;
+				case kVK_ANSI_I                    : return eKeyCodeAnsiI;
+				case kVK_ANSI_P                    : return eKeyCodeAnsiP;
+				case kVK_ANSI_L                    : return eKeyCodeAnsiL;
+				case kVK_ANSI_J                    : return eKeyCodeAnsiJ;
+				case kVK_ANSI_Quote                : return eKeyCodeAnsiQuote;
+				case kVK_ANSI_K                    : return eKeyCodeAnsiK;
+				case kVK_ANSI_Semicolon            : return eKeyCodeAnsiSemicolon;
+				case kVK_ANSI_Backslash            : return eKeyCodeAnsiBackslash;
+				case kVK_ANSI_Comma                : return eKeyCodeAnsiComma;
+				case kVK_ANSI_Slash                : return eKeyCodeAnsiSlash;
+				case kVK_ANSI_N                    : return eKeyCodeAnsiN;
+				case kVK_ANSI_M                    : return eKeyCodeAnsiM;
+				case kVK_ANSI_Period               : return eKeyCodeAnsiPeriod;
+				case kVK_ANSI_Grave                : return eKeyCodeAnsiGrave;
+				case kVK_ANSI_KeypadDecimal        : return eKeyCodeAnsiKeypadDecimal;
+				case kVK_ANSI_KeypadMultiply       : return eKeyCodeAnsiKeypadMultiply;
+				case kVK_ANSI_KeypadPlus           : return eKeyCodeAnsiKeypadPlus;
+				case kVK_ANSI_KeypadClear          : return eKeyCodeAnsiKeypadClear;
+				case kVK_ANSI_KeypadDivide         : return eKeyCodeAnsiKeypadDivide;
+				case kVK_ANSI_KeypadEnter          : return eKeyCodeAnsiKeypadEnter;
+				case kVK_ANSI_KeypadMinus          : return eKeyCodeAnsiKeypadMinus;
+				case kVK_ANSI_KeypadEquals         : return eKeyCodeAnsiKeypadEquals;
+				case kVK_ANSI_Keypad0              : return eKeyCodeAnsiKeypad0;
+				case kVK_ANSI_Keypad1              : return eKeyCodeAnsiKeypad1;
+				case kVK_ANSI_Keypad2              : return eKeyCodeAnsiKeypad2;
+				case kVK_ANSI_Keypad3              : return eKeyCodeAnsiKeypad3;
+				case kVK_ANSI_Keypad4              : return eKeyCodeAnsiKeypad4;
+				case kVK_ANSI_Keypad5              : return eKeyCodeAnsiKeypad5;
+				case kVK_ANSI_Keypad6              : return eKeyCodeAnsiKeypad6;
+				case kVK_ANSI_Keypad7              : return eKeyCodeAnsiKeypad7;
+				case kVK_ANSI_Keypad8              : return eKeyCodeAnsiKeypad8;
+				case kVK_ANSI_Keypad9              : return eKeyCodeAnsiKeypad9;
+
+				// keycodes for keys that are independent of keyboard layout
+				case kVK_Return                    : return eKeyCodeReturn;
+				case kVK_Tab                       : return eKeyCodeTab;
+				case kVK_Space                     : return eKeyCodeSpace;
+				case kVK_Delete                    : return eKeyCodeDelete;
+				case kVK_Escape                    : return eKeyCodeEscape;
+				case kVK_Command                   : return eKeyCodeCommand;
+				case kVK_Shift                     : return eKeyCodeShift;
+				case kVK_CapsLock                  : return eKeyCodeCapsLock;
+				case kVK_Option                    : return eKeyCodeOption;
+				case kVK_Control                   : return eKeyCodeControl;
+				case kVK_RightShift                : return eKeyCodeRightShift;
+				case kVK_RightOption               : return eKeyCodeRightOption;
+				case kVK_RightControl              : return eKeyCodeRightControl;
+				case kVK_Function                  : return eKeyCodeFunction;
+				case kVK_F17                       : return eKeyCodeF17;
+				case kVK_VolumeUp                  : return eKeyCodeVolumeUp;
+				case kVK_VolumeDown                : return eKeyCodeVolumeDown;
+				case kVK_Mute                      : return eKeyCodeMute;
+				case kVK_F18                       : return eKeyCodeF18;
+				case kVK_F19                       : return eKeyCodeF19;
+				case kVK_F20                       : return eKeyCodeF20;
+				case kVK_F5                        : return eKeyCodeF5;
+				case kVK_F6                        : return eKeyCodeF6;
+				case kVK_F7                        : return eKeyCodeF7;
+				case kVK_F3                        : return eKeyCodeF3;
+				case kVK_F8                        : return eKeyCodeF8;
+				case kVK_F9                        : return eKeyCodeF9;
+				case kVK_F11                       : return eKeyCodeF11;
+				case kVK_F13                       : return eKeyCodeF13;
+				case kVK_F16                       : return eKeyCodeF16;
+				case kVK_F14                       : return eKeyCodeF14;
+				case kVK_F10                       : return eKeyCodeF10;
+				case kVK_F12                       : return eKeyCodeF12;
+				case kVK_F15                       : return eKeyCodeF15;
+				case kVK_Help                      : return eKeyCodeHelp;
+				case kVK_Home                      : return eKeyCodeHome;
+				case kVK_PageUp                    : return eKeyCodePageUp;
+				case kVK_ForwardDelete             : return eKeyCodeForwardDelete;
+				case kVK_F4                        : return eKeyCodeF4;
+				case kVK_End                       : return eKeyCodeEnd;
+				case kVK_F2                        : return eKeyCodeF2;
+				case kVK_PageDown                  : return eKeyCodePageDown;
+				case kVK_F1                        : return eKeyCodeF1;
+				case kVK_LeftArrow                 : return eKeyCodeLeftArrow;
+				case kVK_RightArrow                : return eKeyCodeRightArrow;
+				case kVK_DownArrow                 : return eKeyCodeDownArrow;
+				case kVK_UpArrow                   : return eKeyCodeUpArrow;
+
+				// ISO keyboards only
+				case kVK_ISO_Section               : return eKeyCodeIsoSection;
+	
+				// JIS keyboards only
+				case kVK_JIS_Yen                   : return eKeyCodeJisYen;
+				case kVK_JIS_Underscore            : return eKeyCodeJisUnderscore;
+				case kVK_JIS_KeypadComma           : return eKeyCodeJisKeypadComma;
+				case kVK_JIS_Eisu                  : return eKeyCodeJisEisu;
+				case kVK_JIS_Kana                  : return eKeyCodeJisKana;
+			}
+
+			return eKeyCodeUnknown;
 		}
 };
 

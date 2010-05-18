@@ -1,7 +1,6 @@
 #include <le/core/thread/slCThread.h>
 #include <le/core/template/function/slTCBind.h>
 #include <le/gui/slCScreen.h>
-#include <le/gui/slCGuiScene.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
 #include <le/gui/slCButton.h>
 #include "slCGuiTestAppDelegate.h"
@@ -38,11 +37,13 @@ namespace sokira
 			//	face->addChild(dlg2);
 			dlg2->addChild(button);
 
-			CGuiScene* scene = new CGuiScene();
-			scene->addChild(dlg2);
+//			CGuiScene* scene = new CGuiScene();
+//			scene->addChild(dlg2);
 
-			screen->addScene(scene, 0);
+//			screen->addScene(scene, 0);
 
+//			screen->contentView()->addChild(dlg2);
+			screen->addChild(dlg2);
 			dynamic_cast<CGuiApplication&>(application).addScreen(screen);
 
 //			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);

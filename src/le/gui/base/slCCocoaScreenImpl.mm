@@ -3,6 +3,8 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>
 #import <le/gui/slCScreen.h>
+#import <le/core/auxiliary/slCRunloop.h>
+#import <le/core/auxiliary/base/slCRunloopImplMac.hp>
 //#import <le/core/slCString.h>
 #import "slCCocoaScreenImpl.hp"
 
@@ -53,11 +55,7 @@
 	}
 
 	mScreen->draw();
-//	if ([self inLiveResize])
-//		glFlush();
-//	else
 	[[self openGLContext] flushBuffer];
-//[[self openGLContext] 
 	GLenum err = glGetError();
 	if (GL_NO_ERROR != err)
 		std::cout << gluErrorString (err) << std::endl;
@@ -65,18 +63,22 @@
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-	NSString* chars = [theEvent charactersIgnoringModifiers];
-	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
-	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
-	mScreen->onKeyDown(characters, ::sokira::le::eCharacterModifierNone);
+//	NSString* chars = [theEvent charactersIgnoringModifiers];
+//	NSLog(@"keydown: %@", [theEvent characters]);
+//	NSLog(@"nomodif: %@", chars);
+//	NSLog(@"keycode: %d", (int)[theEvent keyCode]);
+
+//	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
+//	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
+	mScreen->onKeyDown(::sokira::le::CRunLoopImpl::keyCodeFromSystemCode([theEvent keyCode]));
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-	NSString* chars = [theEvent charactersIgnoringModifiers];
-	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
-	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
-	mScreen->onKeyUp(characters, ::sokira::le::eCharacterModifierNone);
+//	NSString* chars = [theEvent charactersIgnoringModifiers];
+//	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
+//	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
+	mScreen->onKeyUp(::sokira::le::CRunLoopImpl::keyCodeFromSystemCode([theEvent keyCode]));
 }
 
 - (void)flagsChanged:(NSEvent *)theEvent
@@ -119,14 +121,14 @@
 		}
 
 		// On Mouse Hover
-		mScreen->onMouse(::sokira::le::eMouseButtonUnknown, ::sokira::le::eButtonStateUnknown,
+		mScreen->onMouse(::sokira::le::eKeyCodeUnknown, ::sokira::le::eButtonStateUnknown,
 			::sokira::le::CPoint2D(point.x, point.y));
 
 //		mScreen->onMouseHover(::sokira::le::CPoint(point.x, point.y));
 	}
 }
 
-- (void) anyMouseDown: (NSEvent*) event button: (::sokira::le::EMouseButton) button
+- (void) anyMouseDown: (NSEvent*) event button: (::sokira::le::EKeyCode) button
 {
 	NSPoint point = [event locationInWindow];
 
@@ -140,7 +142,7 @@
 //	mScreen->onMouseDown(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
-- (void) anyMouseUp: (NSEvent*) event button: (::sokira::le::EMouseButton) button
+- (void) anyMouseUp: (NSEvent*) event button: (::sokira::le::EKeyCode) button
 {
 	NSPoint point = [event locationInWindow];
 	NSSize size = [self frame].size;
@@ -161,13 +163,12 @@
 
 - (void) mouseDown: (NSEvent*) event
 {
-//	std::cout << "mouseDown" << std::endl;
-	[self anyMouseDown: event button: ::sokira::le::eMouseButtonLeft];
+	[self anyMouseDown: event button: ::sokira::le::eKeyCodeMouseButtonPrimary];
 }
 
 - (void) mouseUp: (NSEvent*) event
 {
-	[self anyMouseUp: event button: ::sokira::le::eMouseButtonLeft];
+	[self anyMouseUp: event button: ::sokira::le::eKeyCodeMouseButtonPrimary];
 }
 
 - (void)mouseDragged:(NSEvent *)event
@@ -177,12 +178,12 @@
 
 - (void) rightMouseDown: (NSEvent*) event
 {
-	[self anyMouseDown: event button: ::sokira::le::eMouseButtonRight];
+	[self anyMouseDown: event button: ::sokira::le::eKeyCodeMouseButtonSecondary];
 }
 
 - (void) rightMouseUp: (NSEvent*) event
 {
-	[self anyMouseUp: event button: ::sokira::le::eMouseButtonRight];
+	[self anyMouseUp: event button: ::sokira::le::eKeyCodeMouseButtonSecondary];
 }
 
 - (void) rightMouseDragged: (NSEvent*) event
@@ -192,12 +193,12 @@
 
 - (void) otherMouseDown: (NSEvent*) event
 {
-	[self anyMouseDown: event button: ::sokira::le::eMouseButtonMiddle];
+	[self anyMouseDown: event button: ::sokira::le::eKeyCodeMouseButtonOther];
 }
 
 - (void) otherMouseUp: (NSEvent*) event
 {
-	[self anyMouseUp: event button: ::sokira::le::eMouseButtonMiddle];
+	[self anyMouseUp: event button: ::sokira::le::eKeyCodeMouseButtonOther];
 }
 
 - (void) otherMouseDragged: (NSEvent*) event

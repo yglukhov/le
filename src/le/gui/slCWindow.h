@@ -27,24 +27,26 @@ class CWindow : public CControl
 		virtual void addChild(CControl* child);
 		virtual void removeChild(CControl* child);
 
-		virtual void draw(const CTheme*, CRenderingContext* constext) const;
+		virtual void draw(const CTheme*, CRenderingContext* context) const;
 
 //		virtual void moveLastToDraw();
 
 		// Mouse events
-//		virtual Bool onMouseDown(EMouseButton button, const CPoint& point);
-//		virtual Bool onMouseUp(EMouseButton button, const CPoint& point);
+//		virtual Bool onMouseDown(EKeyCode button, const CPoint& point);
+//		virtual Bool onMouseUp(EKeyCode button, const CPoint& point);
 //		virtual Bool onMouseHover(const CPoint& point);
 //		virtual Bool onMouseOut(const CPoint& point);
 //		virtual Bool onMouseIn(const CPoint& point);
 
 		// Low level mouse events. Do not override.
-//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme);
-//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonPressed(EKeyCode button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonReleased(EKeyCode button, const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
+		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
+		virtual Bool onKeyDown(EKeyCode keyCode);
+		virtual Bool onKeyUp(EKeyCode keyCode);
 
 
 		typedef std::list<CControl*> CControlList;

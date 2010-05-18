@@ -48,9 +48,9 @@ void CScrollBar::setOnPositionChanged(TOnPositionChanged& function)
 	mOnPositionChanged = function;
 }
 
-Bool CScrollBar::onMouseDown(EMouseButton button, const CPoint2D& point)
+Bool CScrollBar::onMouseDown(EKeyCode button, const CPoint2D& point)
 {
-	if (button == eMouseButtonLeft)
+	if (button == eKeyCodeMouseButtonPrimary)
 	{
 		if (isHorizontal())
 		{

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <le/core/auxiliary/slCRunLoop.h>
+#import "slCRunloopImplMac.hp"
 
 namespace sokira
 {
@@ -55,27 +56,27 @@ CEvent nextEventMatchingMask(UInt32 type)
 	switch ([event type])
 	{
 		case NSLeftMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eMouseButtonLeft);
+			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonPrimary);
 			break;
 
 		case NSRightMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eMouseButtonRight);
+			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonSecondary);
 			break;
 
 		case NSOtherMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eMouseButtonMiddle);
+			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonOther);
 			break;
 
 		case NSLeftMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eMouseButtonLeft);
+			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonPrimary);
 			break;
 
 		case NSRightMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eMouseButtonRight);
+			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonSecondary);
 			break;
 
 		case NSOtherMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eMouseButtonMiddle);
+			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonOther);
 			break;
 
 		case NSMouseMoved:
@@ -84,15 +85,15 @@ CEvent nextEventMatchingMask(UInt32 type)
 		case NSOtherMouseDragged:
 		case NSMouseEntered:
 		case NSMouseExited:
-			result = CEvent(eEventTypeMouseMove, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUnknown, eMouseButtonUnknown);
+			result = CEvent(eEventTypeMouseMove, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUnknown, eKeyCodeUnknown);
 			break;
 
 		case NSKeyDown:
-			result = CEvent(eEventTypeKeyDown, 0, eButtonStateDown);
+			result = CEvent(eEventTypeKeyDown, CRunLoopImpl::keyCodeFromSystemCode([event keyCode]), eButtonStateDown);
 			break;
 
 		case NSKeyUp:
-			result = CEvent(eEventTypeKeyDown, 0, eButtonStateUp);
+			result = CEvent(eEventTypeKeyDown, CRunLoopImpl::keyCodeFromSystemCode([event keyCode]), eButtonStateUp);
 			break;
 
 		default:

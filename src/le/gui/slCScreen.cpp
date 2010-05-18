@@ -6,13 +6,10 @@
 #include <iostream>
 
 #include "slCScreen.h"
-#include "slCDragger.h"
 #include <le/core/debug/slDebug.h>
-//#include <le/core/auxiliary/slStdExtensions.h>
 
 #include <le/core/config/slCompiler.h>
 
-#include <le/gui/slCGuiScene.h>
 #include <le/gui/slCOpenGLRenderingContext.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
@@ -31,46 +28,17 @@ namespace sokira
 LE_IMPLEMENT_RUNTIME_CLASS(CScreen);
 
 
-typedef std::map<int, CScreen*> CScreenMap;
-static CScreenMap	_screenMap;
-
 CScreen::CScreen(bool fullscreen, const CString& title, const CRectangle& rect) :
-//	CWindow(rect),
+	CWindow(CRectangle(CPoint2D(), rect.size())),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
-	mSize(rect.size()),
-//	mSizeChanged(true),
 	mRenderingContext(NULL)
 {
 	LE_ENTER_LOG;
-
-//	static_cast<CScreenImpl*>(mImpl)->setParent(this);
-//	new CScreenImpl(fullscreen);
-
-//	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // non-stereo for main window
-//
-//	glutInitWindowPosition((int)rect.x(), (int)rect.y());
-//	glutInitWindowSize((int)rect.width(), (int)rect.height());
-//	mWindow = glutCreateWindow(title);
-//
-//	if(fullscreen)
-//	{
-//		glutFullScreen();
-//	}
-//
-//	_screenMap[mWindow] = this;
-//
-//	// Initing params
-//	glClearColor(0.4, 0.4, 0.4, 0.0); // Background color
-//	glEnable(GL_DEPTH_TEST);
 }
 
 CScreen::~CScreen()
 {
 	LE_ENTER_LOG;
-//	std::cout << "CScreen::~CScreen" << std::endl;
-//	clearPointerContainer(mControlsToDelete);
-	for (CSceneList::iterator it = mScenes.begin(); it != mScenes.end(); ++it)
-		delete *it;
 	delete mRenderingContext;
 	delete static_cast<CScreenImpl*>(mImpl);
 }
@@ -80,9 +48,6 @@ void CScreen::setNeedsRedraw()
 	LE_ENTER_LOG;
 
 	if (mImpl) static_cast<CScreenImpl*>(mImpl)->setNeedsRedraw();
-
-//	glutSetWindow(mWindow);
-//	glutPostRedisplay();
 }
 
 CSize2D CScreen::size() const
@@ -104,8 +69,7 @@ void CScreen::setSize(const CSize2D& size)
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
 	static_cast<CScreenImpl*>(mImpl)->setSize(size);
-
-//	CWindow::setSize(size);
+	CWindow::setSize(size);
 }
 
 void CScreen::draw()
@@ -130,12 +94,15 @@ void CScreen::draw()
 	glVertex2f(0, 50);
 	glEnd();
 */
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		(*it)->draw(mRenderingContext);
-	}
+	CWindow::draw(&mTheme, mRenderingContext);
 
+//	CSceneList::const_iterator end = mScenes.end();
+//	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+//	{
+//		(*it)->draw(mRenderingContext);
+//	}
+
+//	mContentView->draw(&mTheme, mRenderingContext);
 
 //	CSize2D Size = CScreen::size();
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
@@ -159,17 +126,6 @@ void CScreen::draw()
 //	drawChilds();
 //	glutSwapBuffers();
 }
-
-//void CScreen::drawChilds()
-//{
-//	LE_ENTER_LOG;
-//
-//	CFaceList::const_iterator end = mChilds.end();
-//	for(CFaceList::const_iterator it = mChilds.begin(); it != end; ++it)
-//	{
-//		(*it)->draw();
-//	}
-//}
 
 void CScreen::setAbsolutePosition(const CPoint2D& point)
 {
@@ -204,11 +160,11 @@ void CScreen::color(const CColor& Color)
 	glClearColor(Color.red(), Color.green(), Color.blue(), 0.0);
 }
 
-void CScreen::addControlToDelete(CControl* control)
-{
-	LE_ENTER_LOG;
-//	mControlsToDelete.push_back(control);
-}
+//void CScreen::addControlToDelete(CControl* control)
+//{
+//	LE_ENTER_LOG;
+////	mControlsToDelete.push_back(control);
+//}
 
 void CScreen::screenWillBeAddedToApplication(CGuiApplication* app)
 {
@@ -230,15 +186,6 @@ void CScreen::screenWasRemovedFromApplication(CGuiApplication* app)
 	static_cast<CScreenImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
 }
 
-void CScreen::addScene(CScene* scene, UInt32 order)
-{
-	if (scene)
-	{
-		mScenes.push_back(scene);
-		scene->setScreen(this);
-	}
-}
-
 void CScreen::_prepareOpenGL()
 {
 	mRenderingContext = new COpenGLRenderingContext();
@@ -250,73 +197,89 @@ void CScreen::_screenWillBeClosed()
 	mImpl = NULL;
 }
 
+//CWindow* CScreen::contentView()
+//{
+//	return mContentView;
+//}
+
 // This event includes mouse up, mouse down and mouse hover.
-void CScreen::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
-{
-//	std::cout << "CScreen::onMouse: " << title() << std::endl;
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		(*it)->onMouse(button, state, point);
-	}
-}
+//Bool CScreen::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
+//{
+////	std::cout << "CScreen::onMouse: " << title() << std::endl;
+////	CSceneList::const_iterator end = mScenes.end();
+////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+////	{
+////		(*it)->onMouse(button, state, point);
+////	}
+////	mContentView->onMouse(button, state, point);
+//	std::cout << "Screen::onMouse" << std::endl;
+//	return CWindow::onMouse(button, state, point);
+//}
+//
+//void CScreen::onMouseIn(const CPoint2D& point)
+//{
+//	mContentView->onMouseIn(point);
+////	CSceneList::const_iterator end = mScenes.end();
+////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+////	{
+////		(*it)->mouseEntered(point);
+////	}
+//}
+//
+//void CScreen::onMouseOut(const CPoint2D& point)
+//{
+//	mContentView->onMouseOut(point);
+////	CSceneList::const_iterator end = mScenes.end();
+////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+////	{
+////		(*it)->mouseExited(point);
+////	}
+//}
 
-void CScreen::onMouseIn(const CPoint2D& point)
-{
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		(*it)->mouseEntered(point);
-	}
-}
+//void CScreen::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
+//{
+////	mContentView->onKeyDown(characters, modifiers);
+////	CSceneList::const_iterator end = mScenes.end();
+////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+////	{
+////		if ((*it)->onKeyDown(characters, modifiers)) break;
+////	}
+//}
 
-void CScreen::onMouseOut(const CPoint2D& point)
-{
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		(*it)->mouseExited(point);
-	}
-}
-
-void CScreen::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
-{
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		if ((*it)->onKeyDown(characters, modifiers)) break;
-	}
-}
-
-void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
-{
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		if ((*it)->onKeyUp(characters, modifiers)) break;
-	}
-}
+//void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
+//{
+////	mContentView->onKeyUp(characters, modifiers);
+////	CSceneList::const_iterator end = mScenes.end();
+////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+////	{
+////		if ((*it)->onKeyUp(characters, modifiers)) break;
+////	}
+//}
 
 // This method is always called within valid OpenGL context
 void CScreen::onResize()
 {
-	mSize = static_cast<CScreenImpl*>(mImpl)->size();
+	CSize2D size = static_cast<CScreenImpl*>(mImpl)->size();
 
 //	std::cout << "CScreen::onResize: " << mSize.width() << ", " << mSize.height() << std::endl;
 //	std::cout << "{" << std::endl;
 
-	glViewport(0, 0, (int)mSize.width(), (int)mSize.height());
+	glViewport(0, 0, (int)size.width(), (int)size.height());
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, (int)mSize.width(), (int)mSize.height(), 0, -1, 1);
+	glOrtho(0, (int)size.width(), (int)size.height(), 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
-	CSceneList::const_iterator end = mScenes.end();
-	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-	{
-		CGuiScene* scene = dynamic_cast<CGuiScene*> (*it);
-		if (scene) scene->setSize(mSize);
-	}
+	CWindow::setSize(size);
+
+//	mContentView->setSize(mSize);
+
+//	CSceneList::const_iterator end = mScenes.end();
+//	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
+//	{
+//		CGuiScene* scene = dynamic_cast<CGuiScene*> (*it);
+//		if (scene) scene->setSize(mSize);
+//	}
 
 //	std::cout << "}" << std::endl;
 //	setNeedsRedraw();

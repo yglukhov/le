@@ -29,7 +29,7 @@ class CScrollBar : public CControl
 		Float32 position() const;
 		void setOnPositionChanged(TOnPositionChanged& function);
 
-		virtual Bool onMouseDown(EMouseButton button, const CPoint2D& point);
+		virtual Bool onMouseDown(EKeyCode button, const CPoint2D& point);
 
 		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
 

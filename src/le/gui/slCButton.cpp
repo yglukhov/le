@@ -24,30 +24,6 @@ CButton::CButton(const CRectangle& rect) :
 
 }
 
-//void CButton::onSetFocus()
-//{
-//
-//}
-//
-//void CButton::onLooseFocus()
-//{
-//
-//}
-
-//bool CButton::onMouseLeftDown(const CPoint& point, CControl* sender)
-//{
-//	mState = eButtonStateDown;
-//	return true;
-//}
-//
-//bool CButton::onMouseLeftUp(const CPoint& point, CControl* sender)
-//{
-//	std::cout << "Button pressed!" << std::endl;
-//	mState = eButtonStateUp;
-//	setNeedsRedraw();
-//	return false;
-//}
-
 void CButton::setText(const CString& text)
 {
 	mText = text;
@@ -64,9 +40,9 @@ void CButton::setOnClick(TOnClick& onClick)
 }
 
 
-Bool CButton::onMouseDown(EMouseButton button, const CPoint2D& point)
+Bool CButton::onMouseDown(EKeyCode button, const CPoint2D& point)
 {
-	if (button == eMouseButtonLeft)
+	if (button == eKeyCodeMouseButtonPrimary)
 	{
 		mState = eButtonStateDown;
 		setNeedsRedraw();
@@ -76,7 +52,7 @@ Bool CButton::onMouseDown(EMouseButton button, const CPoint2D& point)
 		while (true)
 		{
 			CEvent event = runLoop.nextEventMatchingType(eEventTypeMouseUp | eEventTypeMouseMove);
-			if (event.type() == eEventTypeMouseUp && event.mouseButton() == eMouseButtonLeft)
+			if (event.type() == eEventTypeMouseUp && event.mouseButton() == eKeyCodeMouseButtonPrimary)
 			{
 				mState = eButtonStateUp;
 				setNeedsRedraw();
@@ -93,30 +69,6 @@ Bool CButton::onMouseDown(EMouseButton button, const CPoint2D& point)
 	}
 	return false;
 }
-
-//Bool CButton::onMouseUp(EMouseButton button, const CPoint2D& point)
-//{
-//	LE_ENTER_LOG;
-//	if (button == eMouseButtonLeft && mState == eButtonStateDown)
-//	{
-//		mState = eButtonStateUp;
-//		resignFirstResponder();
-//		if (absoluteRect().containsPoint(point) && mOnClick) { LE_IF_LOG(log << "CLICK!!!" << std::endl); mOnClick(); }
-//		setNeedsRedraw();
-//		return true;
-//	}
-//	return false;
-//}
-
-//void CButton::controlDidBecomeFirstResponder()
-//{
-////	std::cout << "Button did become first responder!" << std::endl;
-//}
-//
-//void CButton::controlDidResignFirstResponder()
-//{
-////	std::cout << "Button did resign first responder!" << std::endl;
-//}
 
 void CButton::draw(const CTheme* theme, CRenderingContext* context) const
 {

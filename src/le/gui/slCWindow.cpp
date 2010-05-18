@@ -55,11 +55,20 @@ void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
 	}
 }
 
-Bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint2D& point)
+Bool CWindow::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
+//	std::cout << "onMouse(" << button << ", " << state << ", (" << point.x() << ", " << point.y() << "))" << std::endl; 
+//	if (button == eKeyCodeMouseButtonPrimary) std::cout << "eKeyCodeMouseButtonPrimary" << std::endl;
+//	if (button == eKeyCodeMouseButtonSecondary) std::cout << "eKeyCodeMouseButtonSecondary" << std::endl;
+//	if (button == eKeyCodeMouseButtonOther) std::cout << "eKeyCodeMouseButtonOther" << std::endl;
+//	if (button == eKeyCodeUnknown) std::cout << "eKeyCodeUnknown" << std::endl;
+//	if (state == eButtonStateUp) std::cout << "eButtonStateUp" << std::endl;
+//	if (state == eButtonStateDown) std::cout << "eButtonStateDown" << std::endl;
+//	if (state == eButtonStateUnknown) std::cout << "eButtonStateUnknown" << std::endl;
 	if (hitTest(point))
 	{
+//		std::cout << "hitTest!" << std::endl;
 		CControlList children = mChildren;
 		CControlList::iterator end = children.end();
 		for (CControlList::iterator it = children.begin(); it != end; ++it)
@@ -71,6 +80,28 @@ Bool CWindow::onMouse(EMouseButton button, EButtonState state, const CPoint2D& p
 	}
 
 	return false;
+}
+
+Bool CWindow::onKeyDown(EKeyCode keyCode)
+{
+	CControlList children = mChildren;
+	for (CControlList::reverse_iterator it = children.rbegin(); it != children.rend(); ++it)
+	{
+		if ((*it)->isVisible() && (*it)->onKeyDown(keyCode)) return true;
+	}
+
+	return CControl::onKeyDown(keyCode);
+}
+
+Bool CWindow::onKeyUp(EKeyCode keyCode)
+{
+	CControlList children = mChildren;
+	for (CControlList::reverse_iterator it = children.rbegin(); it != children.rend(); ++it)
+	{
+		if ((*it)->isVisible() && (*it)->onKeyUp(keyCode)) return true;
+	}
+
+	return CControl::onKeyUp(keyCode);
 }
 
 //#define _LOG_AUTORESIZING

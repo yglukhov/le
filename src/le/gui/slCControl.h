@@ -72,21 +72,24 @@ class CControl : public CObject
 		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
 
 		// Mouse events
-		virtual Bool onMouseDown(EMouseButton button, const CPoint2D& point);
-		virtual Bool onMouseUp(EMouseButton button, const CPoint2D& point);
-//		virtual Bool onMouseClick(EMouseButton button, const CPoint& point);
-//		virtual Bool onMouseMultipleClick(EMouseButton button, const CPoint& point);
+		virtual Bool onMouseDown(EKeyCode button, const CPoint2D& point);
+		virtual Bool onMouseUp(EKeyCode button, const CPoint2D& point);
+//		virtual Bool onMouseClick(EKeyCode button, const CPoint& point);
+//		virtual Bool onMouseMultipleClick(EKeyCode button, const CPoint& point);
 		virtual Bool onMouseHover(const CPoint2D& point);
 		virtual Bool onMouseOut(const CPoint2D& point);
 		virtual Bool onMouseIn(const CPoint2D& point);
 
 		// Low level mouse events. Do not override.
-//		virtual Bool mouseButtonPressed(EMouseButton button, const CPoint& point, const CTheme* theme);
-//		virtual Bool mouseButtonReleased(EMouseButton button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonPressed(EKeyCode button, const CPoint& point, const CTheme* theme);
+//		virtual Bool mouseButtonReleased(EKeyCode button, const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseHovered(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseExited(const CPoint& point, const CTheme* theme);
 //		virtual Bool mouseEntered(const CPoint& point, const CTheme* theme);
-		virtual Bool onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
+		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
+
+		virtual Bool onKeyDown(EKeyCode keyCode);
+		virtual Bool onKeyUp(EKeyCode keyCode);
 
 		// Responder chain functions
 		Bool becomeFirstResponder();
@@ -107,13 +110,13 @@ class CControl : public CObject
 		void setParent(CWindow* parent);
 
 		virtual Bool hitTest(const CPoint2D& point) const;
-		Bool performMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
+		Bool performMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
 
 
 	private:
 		friend class CWindow;
-		friend void onKey(unsigned char, int, int);
-		bool onKey(unsigned char inkey, int px, int py);
+//		friend void onKey(unsigned char, int, int);
+//		bool onKey(unsigned char inkey, int px, int py);
 
 		CWindow* mParent;
 		CControlDelegate* mDelegate;

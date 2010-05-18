@@ -81,24 +81,24 @@ class CRunLoopImpl
 			return eEventTypeUnknown;
 		}
 
-		static inline EMouseButton mouseButtonForMessage(UINT message)
+		static inline EKeyCode mouseButtonForMessage(UINT message)
 		{
 			switch (message)
 			{
 				case WM_LBUTTONDOWN:
 				case WM_LBUTTONUP:
-					return eMouseButtonLeft;
+					return eKeyCodeMouseButtonPrimary;
 
 				case WM_RBUTTONDOWN:
 				case WM_RBUTTONUP:
-					return eMouseButtonRight;
+					return eKeyCodeMouseButtonSecondary;
 
 				case WM_MBUTTONDOWN:
 				case WM_MBUTTONUP:
-					return eMouseButtonMiddle;
+					return eKeyCodeMouseButtonOther;
 			}
 
-			return eMouseButtonUnknown;
+			return eKeyCodeUnknown;
 		}
 
 		/// Get next event. Can be used in a loop.
@@ -117,16 +117,6 @@ class CRunLoopImpl
 				}
 				else
 				{
-					//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
-					//if (it != messageNames.end())
-					//{
-					//	std::cout << it->second << std::endl;
-					//}
-					//else
-					//{
-					//	std::cout << "Message: " << msg.message << std::endl;
-					//}
-
 					if (msg.message == WM_TIMER && msg.hwnd == NULL)
 					{
 						TTimerFuncsMap::iterator it = mTimerFuncs.find((UINT_PTR)msg.wParam);
@@ -150,8 +140,7 @@ class CRunLoopImpl
 							{
 								event = CEvent(type, 0, (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
 							}
-							
-				
+
 							break;
 						}
 						else

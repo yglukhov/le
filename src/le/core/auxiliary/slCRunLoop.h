@@ -32,12 +32,13 @@ class CEvent
 {
 	public:
 		CEvent();
-		CEvent(EEventType type, WChar keyCode, EButtonState state);
-		CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EMouseButton button);
+		CEvent(EEventType type, EKeyCode keyCode, EButtonState state);
+		CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EKeyCode button);
 
 		CPoint2D mouseLocation() const;
 		EButtonState buttonState() const;
-		EMouseButton mouseButton() const;
+		EKeyCode mouseButton() const;
+		EKeyCode keyCode() const;
 
 		EEventType type() const;
 
@@ -47,11 +48,7 @@ class CEvent
 	private:
 		CPoint2D mLocation;
 		EEventType mType;
-		union
-		{
-			EMouseButton mMouseButton;
-			WChar mKeyCode;
-		};
+		EKeyCode mKeyCode;
 		EButtonState mButtonState;
 };
 

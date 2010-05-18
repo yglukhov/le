@@ -18,7 +18,7 @@ CEvent::CEvent()
 
 }
 
-CEvent::CEvent(EEventType type, WChar keyCode, EButtonState state) :
+CEvent::CEvent(EEventType type, EKeyCode keyCode, EButtonState state) :
 	mType(type),
 	mKeyCode(keyCode),
 	mButtonState(state)
@@ -26,10 +26,10 @@ CEvent::CEvent(EEventType type, WChar keyCode, EButtonState state) :
 
 }
 
-CEvent::CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EMouseButton button) :
+CEvent::CEvent(EEventType type, const CPoint2D& mouseLocation, EButtonState state, EKeyCode button) :
 	mLocation(mouseLocation),
 	mType(type),
-	mMouseButton(button),
+	mKeyCode(button),
 	mButtonState(state)
 {
 
@@ -45,9 +45,14 @@ EButtonState CEvent::buttonState() const
 	return mButtonState;
 }
 
-EMouseButton CEvent::mouseButton() const
+EKeyCode CEvent::mouseButton() const
 {
-	return mMouseButton;
+	return mKeyCode;
+}
+
+EKeyCode CEvent::keyCode() const
+{
+	return mKeyCode;
 }
 
 EEventType CEvent::type() const

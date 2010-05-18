@@ -4,6 +4,7 @@
 #include <le/core/slCColor.h>
 #include "slTypes.h"
 #include "slCWindow.h"
+#include "slCTheme.h"
 
 namespace sokira
 {
@@ -16,7 +17,7 @@ class CGuiApplication;
 class CRenderingContext;
 class CScene;
 
-class CScreen : public CObject
+class CScreen : public CWindow
 {
 	LE_DECLARE_RUNTIME_CLASS(CScreen);
 
@@ -40,25 +41,28 @@ class CScreen : public CObject
 		void color(const CColor& Color);
 
 		virtual void setNeedsRedraw();
+		virtual Bool hitTest(const CPoint2D& point) const { return true; }
 
-		void addControlToDelete(CControl* control);
+//		void addControlToDelete(CControl* control);
 
-		void addScene(CScene* scene, UInt32 order);
+//		void addScene(CScene* scene, UInt32 order);
 
 		// Do not call these functions directly.
 //		void _screenWasResized();
 		void _screenWillBeClosed();
 		void _prepareOpenGL();
 
-		void onMouse(EMouseButton button, EButtonState state, const CPoint2D& point);
-//		void onMouseDown(EMouseButton button, const CPoint& point);
-//		void onMouseUp(EMouseButton button, const CPoint& point);
-//		void onMouseHover(const CPoint& point);
-		void onMouseIn(const CPoint2D& point);
-		void onMouseOut(const CPoint2D& point);
+		CWindow* contentView();
 
-		void onKeyDown(const CString& characters, ECharacterModifiers modifiers);
-		void onKeyUp(const CString& characters, ECharacterModifiers modifiers);
+//		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
+//		void onMouseDown(EKeyCode button, const CPoint& point);
+//		void onMouseUp(EKeyCode button, const CPoint& point);
+//		void onMouseHover(const CPoint& point);
+//		virtual Bool onMouseIn(const CPoint2D& point);
+//		virtual Bool onMouseOut(const CPoint2D& point);
+
+//		void onKeyDown(const CString& characters, ECharacterModifiers modifiers);
+//		void onKeyUp(const CString& characters, ECharacterModifiers modifiers);
 
 		void onResize();
 	protected:
@@ -72,13 +76,11 @@ class CScreen : public CObject
 		void screenWillBeRemovedFromApplication(CGuiApplication* app);
 		void screenWasRemovedFromApplication(CGuiApplication* app);
 
-		typedef std::list<CScene*> CSceneList;
-		CSceneList mScenes;
+//		CWindow* mContentView;
+		CTheme mTheme;
 
-//		CControlList mControlsToDelete;
 		void* mImpl;
-		CSize2D mSize;
-		EMouseButton mPressedButtons;
+//		CSize2D mSize;
 		CRenderingContext* mRenderingContext;
 };
 
