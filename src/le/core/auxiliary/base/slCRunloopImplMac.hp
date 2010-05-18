@@ -109,11 +109,11 @@ class CRunLoopImpl
 				case kVK_ANSI_Grave                : return eKeyCodeAnsiGrave;
 				case kVK_ANSI_KeypadDecimal        : return eKeyCodeAnsiKeypadDecimal;
 				case kVK_ANSI_KeypadMultiply       : return eKeyCodeAnsiKeypadMultiply;
-				case kVK_ANSI_KeypadPlus           : return eKeyCodeAnsiKeypadPlus;
+				case kVK_ANSI_KeypadPlus           : return eKeyCodeAnsiKeypadAdd;
 				case kVK_ANSI_KeypadClear          : return eKeyCodeAnsiKeypadClear;
 				case kVK_ANSI_KeypadDivide         : return eKeyCodeAnsiKeypadDivide;
 				case kVK_ANSI_KeypadEnter          : return eKeyCodeAnsiKeypadEnter;
-				case kVK_ANSI_KeypadMinus          : return eKeyCodeAnsiKeypadMinus;
+				case kVK_ANSI_KeypadMinus          : return eKeyCodeAnsiKeypadSubtract;
 				case kVK_ANSI_KeypadEquals         : return eKeyCodeAnsiKeypadEquals;
 				case kVK_ANSI_Keypad0              : return eKeyCodeAnsiKeypad0;
 				case kVK_ANSI_Keypad1              : return eKeyCodeAnsiKeypad1;
