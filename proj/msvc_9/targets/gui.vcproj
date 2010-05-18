@@ -299,14 +299,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCGuiScene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCGuiScene.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\le\gui\slConstants.h"
 				>
 			</File>
@@ -324,14 +316,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\le\gui\slCRenderingContext.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScene.h"
 				>
 			</File>
 			<File

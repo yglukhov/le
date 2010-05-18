@@ -1,4 +1,6 @@
 #include <le/gui/slCScreen.h>
+#include <le/core/auxiliary/slCRunLoop.h>
+#include <le/core/auxiliary/base/slCRunLoopImplWin.hp>
 #include "slCScreenWindowsImpl.hp"
 
 
@@ -97,11 +99,7 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				if (!param.extended)
 				{
-					char chars[2];
-					chars[0] = (char)wParam;
-					chars[1] = 0;
-					CString characters(chars);
-					mScreen->onKeyDown(characters, eCharacterModifierNone);
+					mScreen->onKeyDown(CRunLoopImpl::keyCodeFromSystemCode(wParam));
 				}
 			}
 			return 0;
@@ -113,32 +111,28 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			param.param = lParam;
 			if (!param.extended)
 			{
-				char chars[2];
-				chars[0] = (char)wParam;
-				chars[1] = 0;
-				CString characters(chars);
-				mScreen->onKeyUp(characters, eCharacterModifierNone);
+				mScreen->onKeyUp(CRunLoopImpl::keyCodeFromSystemCode(wParam));
 			}
 			return 0;
 		}
 
 		case WM_LBUTTONDOWN:
-			onMouseButton(eMouseButtonLeft, eButtonStateDown, lParam);
+			onMouseButton(eKeyCodeMouseButtonPrimary, eButtonStateDown, lParam);
 			return 0;
 		case WM_LBUTTONUP:
-			onMouseButton(eMouseButtonLeft, eButtonStateUp, lParam);
+			onMouseButton(eKeyCodeMouseButtonPrimary, eButtonStateUp, lParam);
 			return 0;
 		case WM_RBUTTONDOWN:
-			onMouseButton(eMouseButtonRight, eButtonStateDown, lParam);
+			onMouseButton(eKeyCodeMouseButtonSecondary, eButtonStateDown, lParam);
 			return 0;
 		case WM_RBUTTONUP:
-			onMouseButton(eMouseButtonRight, eButtonStateUp, lParam);
+			onMouseButton(eKeyCodeMouseButtonSecondary, eButtonStateUp, lParam);
 			return 0;
 		case WM_MBUTTONDOWN:
-			onMouseButton(eMouseButtonMiddle, eButtonStateDown, lParam);
+			onMouseButton(eKeyCodeMouseButtonOther, eButtonStateDown, lParam);
 			return 0;
 		case WM_MBUTTONUP:
-			onMouseButton(eMouseButtonMiddle, eButtonStateUp, lParam);
+			onMouseButton(eKeyCodeMouseButtonOther, eButtonStateUp, lParam);
 			return 0;
 
 		case WM_MOUSEMOVE:
@@ -156,7 +150,7 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
-				onMouseButton(eMouseButtonUnknown, eButtonStateUnknown, lParam);
+				onMouseButton(eKeyCodeUnknown, eButtonStateUnknown, lParam);
 			}
 			return 0;
 
@@ -178,7 +172,7 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(mWindow, uMsg, wParam, lParam);
 }
 
-void CScreenWindowsImpl::onMouseButton(EMouseButton button, EButtonState state, LPARAM coords)
+void CScreenWindowsImpl::onMouseButton(EKeyCode button, EButtonState state, LPARAM coords)
 {
 	POINTS point = MAKEPOINTS(coords);
 	mScreen->onMouse(button, state, CPoint2D(point.x, point.y));

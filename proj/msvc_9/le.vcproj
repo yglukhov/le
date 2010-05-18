@@ -144,18 +144,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="tinyxml"
-				>
-				<File
-					RelativePath="..\..\libs\tinyxml\tinystr.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\libs\tinyxml\tinyxml.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="doc"

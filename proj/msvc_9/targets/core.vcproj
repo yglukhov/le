@@ -911,6 +911,34 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="geometry"
+				>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCPoint2D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCPoint3D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCRectangle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCSegment2D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCSegment3D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\geometry\slTCSize2D.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

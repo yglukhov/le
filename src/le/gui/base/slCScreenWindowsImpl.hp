@@ -37,7 +37,7 @@ class CScreenWindowsImpl
 		LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	private:
-		void onMouseButton(EMouseButton button, EButtonState state, LPARAM coords);
+		void onMouseButton(EKeyCode button, EButtonState state, LPARAM coords);
 
 		CScreen* mScreen;
 		Bool mFullScreen;

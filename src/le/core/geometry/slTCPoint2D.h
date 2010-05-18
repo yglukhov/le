@@ -62,7 +62,7 @@ class TCPoint2D
 //		CPoint& operator=(const CPoint& copy);
 		Bool operator == (const TCPoint2D& point) const
 		{
-			return !(*this == point);
+			return mX == point.mX && mY == point.mY;
 		}
 
 		Bool operator != (const TCPoint2D& point) const

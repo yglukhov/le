@@ -101,6 +101,82 @@ class CRunLoopImpl
 			return eKeyCodeUnknown;
 		}
 
+		static inline EKeyCode keyCodeFromSystemCode(int code)
+		{
+			switch(code)
+			{
+				case 0x30: return eKeyCodeAnsi0;
+				case 0x31: return eKeyCodeAnsi1;
+				case 0x32: return eKeyCodeAnsi2;
+				case 0x33: return eKeyCodeAnsi3;
+				case 0x34: return eKeyCodeAnsi4;
+				case 0x35: return eKeyCodeAnsi5;
+				case 0x36: return eKeyCodeAnsi6;
+				case 0x37: return eKeyCodeAnsi7;
+				case 0x38: return eKeyCodeAnsi8;
+				case 0x39: return eKeyCodeAnsi9;
+
+				case 0x41: return eKeyCodeAnsiA;
+				case 0x42: return eKeyCodeAnsiB;
+				case 0x43: return eKeyCodeAnsiC;
+				case 0x44: return eKeyCodeAnsiD;
+				case 0x45: return eKeyCodeAnsiE;
+				case 0x46: return eKeyCodeAnsiF;
+				case 0x47: return eKeyCodeAnsiG;
+				case 0x48: return eKeyCodeAnsiH;
+				case 0x49: return eKeyCodeAnsiI;
+				case 0x4A: return eKeyCodeAnsiJ;
+				case 0x4B: return eKeyCodeAnsiK;
+				case 0x4C: return eKeyCodeAnsiL;
+				case 0x4D: return eKeyCodeAnsiM;
+				case 0x4E: return eKeyCodeAnsiN;
+				case 0x4F: return eKeyCodeAnsiO;
+				case 0x50: return eKeyCodeAnsiP;
+				case 0x51: return eKeyCodeAnsiQ;
+				case 0x52: return eKeyCodeAnsiR;
+				case 0x53: return eKeyCodeAnsiS;
+				case 0x54: return eKeyCodeAnsiT;
+				case 0x55: return eKeyCodeAnsiU;
+				case 0x56: return eKeyCodeAnsiV;
+				case 0x57: return eKeyCodeAnsiW;
+				case 0x58: return eKeyCodeAnsiX;
+				case 0x59: return eKeyCodeAnsiY;
+				case 0x5A: return eKeyCodeAnsiZ;
+
+				case VK_SPACE: return eKeyCodeSpace;
+				case VK_ESCAPE: return eKeyCodeEscape;
+				case VK_PRIOR: return eKeyCodePageUp;
+				case VK_NEXT: return eKeyCodePageDown;
+				case VK_END: return eKeyCodeEnd;
+				case VK_HOME: return eKeyCodeHome;
+
+				case VK_LEFT: return eKeyCodeLeftArrow;
+				case VK_RIGHT: return eKeyCodeRightArrow;
+				case VK_UP: return eKeyCodeUpArrow;
+				case VK_DOWN: return eKeyCodeDownArrow;
+
+				case VK_NUMPAD0: return eKeyCodeAnsiKeypad0;
+				case VK_NUMPAD1: return eKeyCodeAnsiKeypad1;
+				case VK_NUMPAD2: return eKeyCodeAnsiKeypad2;
+				case VK_NUMPAD3: return eKeyCodeAnsiKeypad3;
+				case VK_NUMPAD4: return eKeyCodeAnsiKeypad4;
+				case VK_NUMPAD5: return eKeyCodeAnsiKeypad5;
+				case VK_NUMPAD6: return eKeyCodeAnsiKeypad6;
+				case VK_NUMPAD7: return eKeyCodeAnsiKeypad7;
+				case VK_NUMPAD8: return eKeyCodeAnsiKeypad8;
+				case VK_NUMPAD9: return eKeyCodeAnsiKeypad9;
+
+				case VK_MULTIPLY: return eKeyCodeAnsiKeypadMultiply;
+				case VK_ADD: return eKeyCodeAnsiKeypadAdd;
+				case VK_DIVIDE: return eKeyCodeAnsiKeypadDivide;
+				case VK_SUBTRACT: return eKeyCodeAnsiKeypadSubtract;
+				case VK_DECIMAL: return eKeyCodeAnsiKeypadDecimal;
+				case VK_SEPARATOR: return eKeyCodeAnsiKeypadEquals;
+			}
+
+			return eKeyCodeUnknown;
+		}
+
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
 		CEvent nextEventMatchingMask(UInt32 mask)
@@ -138,7 +214,7 @@ class CRunLoopImpl
 							}
 							else if (type & (eEventTypeKeyDown | eEventTypeKeyUp))
 							{
-								event = CEvent(type, 0, (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
+								event = CEvent(type, keyCodeFromSystemCode(msg.wParam), (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
 							}
 
 							break;

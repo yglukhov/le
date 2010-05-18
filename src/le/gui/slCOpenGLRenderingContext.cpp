@@ -378,7 +378,7 @@ CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
 		size = frame.size();
-		glTexImage2D(GL_TEXTURE_2D, 0, format, size.width(), size.height(),
+		glTexImage2D(GL_TEXTURE_2D, 0, format, (GLsizei)size.width(), (GLsizei)size.height(),
 			0, format, GL_UNSIGNED_BYTE, frame.pixelData());
 	}
 	return new COpenGLTextureImpl(result, image->frameCount(), size);
