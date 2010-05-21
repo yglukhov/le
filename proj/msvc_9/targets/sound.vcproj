@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="le.gui"
-	ProjectGUID="{39BCA7B3-D02D-4AD5-96FA-2460C6BF6006}"
+	Name="le.sound"
+	ProjectGUID="{8031531C-3400-45A5-8095-E3BFDF8D4664}"
 	RootNamespace="gui"
 	TargetFrameworkVersion="131072"
 	>
@@ -40,6 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;$(slLibsRoot)/vorbis/include&quot;"
 				DisableLanguageExtensions="false"
 			/>
 			<Tool
@@ -53,8 +54,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="OpenGL32.lib"
-				OutputFile="$(OutDir)\leGui.lib"
+				AdditionalDependencies="&quot;$(slLibsRoot)\al\windows\OpenAL32.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libvorbis_static.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libvorbisfile_static.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libogg_static.lib&quot;"
+				OutputFile="$(OutDir)\leSound.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -95,7 +96,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				DisableLanguageExtensions="false"
+				AdditionalIncludeDirectories="&quot;$(slLibsRoot)/vorbis/include&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -108,8 +109,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="OpenGL32.lib"
-				OutputFile="$(OutDir)\leGui.lib"
+				AdditionalDependencies="&quot;$(slLibsRoot)\al\windows\OpenAL32.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libvorbis_static.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libvorbisfile_static.lib&quot; &quot;$(slLibsRoot)\vorbis\windows\libogg_static.lib&quot;"
+				OutputFile="$(OutDir)\leSound.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -278,142 +279,34 @@
 			Name="src"
 			>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCButton.cpp"
+				RelativePath="..\..\..\src\le\sound\slCListener.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCButton.h"
+				RelativePath="..\..\..\src\le\sound\slCListener.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCControl.cpp"
+				RelativePath="..\..\..\src\le\sound\slCSoundContext.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCControl.h"
+				RelativePath="..\..\..\src\le\sound\slCSoundContext.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCControlDelegate.cpp"
+				RelativePath="..\..\..\src\le\sound\slCSource.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\le\gui\slCControlDelegate.h"
+				RelativePath="..\..\..\src\le\sound\slCSource.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slConstants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCOpenGLRenderingContext.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCOpenGLRenderingContext.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCRenderingContext.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCRenderingContext.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScreen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScreen.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScrollBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScrollBar.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScrollView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCScrollView.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCStaticText.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCStaticText.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCTheme.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCTheme.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slCWindow.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slTCGraphicControllerClass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\le\gui\slTypes.h"
-				>
-			</File>
-			<Filter
-				Name="auxiliary"
-				>
-				<File
-					RelativePath="..\..\..\src\le\gui\auxiliary\slCGuiApplication.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\le\gui\auxiliary\slCGuiApplication.h"
-					>
-				</File>
-				<Filter
-					Name="base"
-					>
-					<File
-						RelativePath="..\..\..\src\le\gui\auxiliary\base\slCGuiApplicationWindowsImpl.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\..\src\le\gui\auxiliary\base\slCGuiApplicationWindowsImpl.hp"
-						>
-					</File>
-				</Filter>
-			</Filter>
 			<Filter
 				Name="base"
 				>
 				<File
-					RelativePath="..\..\..\src\le\gui\base\slCScreenWindowsImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\le\gui\base\slCScreenWindowsImpl.hp"
+					RelativePath="..\..\..\src\le\sound\base\slCSourceImpl.hp"
 					>
 				</File>
 			</Filter>

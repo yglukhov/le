@@ -53,6 +53,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="&quot;$(slLibsRoot)/jpeg/windows/libjpeg.lib&quot; &quot;$(slLibsRoot)/gif/windows/giflib.lib&quot;"
 				OutputFile="$(OutDir)\leCore.lib"
 			/>
 			<Tool
@@ -107,6 +108,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="&quot;$(slLibsRoot)/jpeg/windows/libjpeg.lib&quot; &quot;$(slLibsRoot)/gif/windows/giflib.lib&quot;"
 				OutputFile="$(OutDir)\leCore.lib"
 			/>
 			<Tool
@@ -476,6 +478,38 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\le\core\base\slCBasicString.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCBitmapImageImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCBitmapImageImpl.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCGifImageImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCGifImageImpl.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCImageFrameImpl.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCImageImpl.hp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCJpegImageImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\le\core\base\slCJpegImageImpl.hp"
 					>
 				</File>
 				<File

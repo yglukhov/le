@@ -7,6 +7,7 @@
 
 #if LE_TARGET_PLATFORM != LE_PLATFORM_WINDOWS_CE
 #pragma comment(lib, "leGui")
+#pragma comment(lib, "leSound")
 #include <le/gui/auxiliary/slCGuiApplication.h>
 #endif
 

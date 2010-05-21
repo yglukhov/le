@@ -54,4 +54,6 @@
 
 #define LE_ENDIAN LE_ENDIAN_LITTLE
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #endif // defined _MSC_VER

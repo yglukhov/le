@@ -1,7 +1,8 @@
 #if !defined SL_LE_sound_slCSourceImpl_hp
 #define SL_LE_sound_slCSourceImpl_hp
 
-#include <OpenAL/al.h>
+#include <al/include/al.h>
+
 #include <vorbis/include/vorbis/vorbisfile.h>
 #include <le/core/strategies/slCSimpleRefCountable.h>
 

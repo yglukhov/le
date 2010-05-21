@@ -52,7 +52,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenGL32.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
