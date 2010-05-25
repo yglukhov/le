@@ -14,44 +14,9 @@ class CRunLoopImpl
 
 	public:
 		/// Start the run loop.
-		void run()
+		inline void run()
 		{
-			MSG msg;
-			BOOL result;
-
-			while (result = GetMessage(&msg, NULL, 0, 0))
-			{
-				if (result == -1)
-				{
-					std::cout << "Run loop error: " << GetLastError() << std::endl;
-				}
-				else
-				{
-					//std::map<DWORD, std::string>::iterator it = messageNames.find(msg.message);
-					//if (it != messageNames.end())
-					//{
-					//	std::cout << it->second << std::endl;
-					//}
-					//else
-					//{
-					//	std::cout << "Message: " << msg.message << std::endl;
-					//}
-
-					if (msg.message == WM_TIMER && msg.hwnd == NULL)
-					{
-						TTimerFuncsMap::iterator it = mTimerFuncs.find((UINT_PTR)msg.wParam);
-						if (it != mTimerFuncs.end())
-						{
-							it->second();
-						}
-					}
-					else
-					{
-						TranslateMessage(&msg);
-						DispatchMessage(&msg);
-					}
-				}
-			}
+			nextEventMatchingMask(eEventTypeUnknown);
 		}
 
 		/// Stop the run loop.
@@ -204,25 +169,31 @@ class CRunLoopImpl
 					}
 					else
 					{
-						EEventType type = eventTypeFromMessage(msg.message);
-
-						if (type & mask)
+						if (mask)
 						{
-							if (type & (eEventTypeMouseDown | eEventTypeMouseUp | eEventTypeMouseMove))
-							{
-								POINTS point = MAKEPOINTS(msg.lParam);
-								event = CEvent(type, CPoint2D(point.x, point.y),(type == eEventTypeMouseDown) ? eButtonStateDown : ((type == eEventTypeMouseUp) ? eButtonStateUp : eButtonStateUnknown), mouseButtonForMessage(msg.message));
-							}
-							else if (type & (eEventTypeKeyDown | eEventTypeKeyUp))
-							{
-								event = CEvent(type, keyCodeFromSystemCode(msg.wParam), (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
-							}
+							EEventType type = eventTypeFromMessage(msg.message);
 
-							break;
+							if (type & mask)
+							{
+								if (type & (eEventTypeMouseDown | eEventTypeMouseUp | eEventTypeMouseMove))
+								{
+									POINTS point = MAKEPOINTS(msg.lParam);
+									event = CEvent(type, CPoint2D(point.x, point.y),(type == eEventTypeMouseDown) ? eButtonStateDown : ((type == eEventTypeMouseUp) ? eButtonStateUp : eButtonStateUnknown), mouseButtonForMessage(msg.message));
+								}
+								else if (type & (eEventTypeKeyDown | eEventTypeKeyUp))
+								{
+									event = CEvent(type, keyCodeFromSystemCode(msg.wParam), (msg.message == WM_KEYDOWN) ? eButtonStateDown : eButtonStateUp);
+								}
+
+								break;
+							}
+							else
+							{
+								DispatchMessage(&msg);
+							}
 						}
 						else
 						{
-							TranslateMessage(&msg);
 							DispatchMessage(&msg);
 						}
 					}
