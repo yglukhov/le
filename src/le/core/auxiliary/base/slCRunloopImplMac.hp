@@ -177,7 +177,7 @@ class CRunLoopImpl
 
 				// ISO keyboards only
 				case kVK_ISO_Section               : return eKeyCodeIsoSection;
-	
+
 				// JIS keyboards only
 				case kVK_JIS_Yen                   : return eKeyCodeJisYen;
 				case kVK_JIS_Underscore            : return eKeyCodeJisUnderscore;
