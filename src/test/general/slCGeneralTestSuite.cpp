@@ -256,6 +256,9 @@ void CGeneralTestSuite::testStrings()
 	str = CString::createWithFormat("%d", a);
 	LE_ASSERT(str == "10");
 
+	str = CString::createWithFormat("%f", (double) 1.0);
+	LE_ASSERT(str == "1.000000");
+
 	str = "\t\n  test";
 	str.trimWhitespace();
 	LE_ASSERT(str == "test");

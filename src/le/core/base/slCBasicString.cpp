@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
-//#include <stdarg.h>
-//#include <stdio.h>
+#include <stdarg.h>
 
 #include "slCBasicString.h"
 #include <le/core/debug/slAssert.h>
@@ -9,7 +8,15 @@
 #include <le/core/slCDictionary.h>
 
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
-#include "vasprintf.cp"
+
+static inline int vasprintf(char** buffer, const char* format, va_list args)
+{
+	int count = _vscprintf(format, args) + 1;
+	*buffer = (char*)malloc(count);
+	vsprintf(*buffer, format, args);
+	return count;
+}
+
 #endif
 
 namespace sokira
