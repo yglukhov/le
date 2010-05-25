@@ -76,6 +76,11 @@ void CThread::sleep(UInt32 milliSeconds)
 	CThreadImpl::sleep(milliSeconds);
 }
 
+UInt32 CThread::milliSeconds()
+{
+	return CThreadImpl::milliSeconds();
+}
+
 void* CThread::_singletone(const char* stdTypeName, void*(*creator)(), void (*deleter)(void*))
 {
 	return mImpl->singletone(stdTypeName, creator, deleter);

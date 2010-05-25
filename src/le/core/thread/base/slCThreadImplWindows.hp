@@ -46,6 +46,11 @@ class CThreadImplWindows : public CThreadImplBase
 			::Sleep(milliSeconds);
 		}
 
+		static inline UInt32 milliSeconds()
+		{
+			return (UInt32)GetTickCount();
+		}
+
 	protected:
 		DWORD mThreadID;
 	private:

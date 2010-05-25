@@ -30,6 +30,7 @@ class CThread
 		CRunLoop& runLoop();
 
 		static void sleep(UInt32 milliSeconds);
+		static UInt32 milliSeconds();
 
 		const CThread& operator = (const CThread& copy);
 
