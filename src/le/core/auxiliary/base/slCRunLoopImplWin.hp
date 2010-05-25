@@ -145,6 +145,7 @@ class CRunLoopImpl
 
 				case VK_SPACE: return eKeyCodeSpace;
 				case VK_ESCAPE: return eKeyCodeEscape;
+				case VK_TAB: return eKeyCodeTab;
 				case VK_PRIOR: return eKeyCodePageUp;
 				case VK_NEXT: return eKeyCodePageDown;
 				case VK_END: return eKeyCodeEnd;
