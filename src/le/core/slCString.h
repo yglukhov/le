@@ -27,6 +27,8 @@ class CString : public CObject, public CBasicString
 		inline CString(const WChar* uniString, UInt32 length, EStringEncoding encoding) :
 			CBasicString(uniString, length, encoding) {}
 
+		const CString& operator = (NChar character) { CBasicString::operator = (character); return *this; }
+
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
 };

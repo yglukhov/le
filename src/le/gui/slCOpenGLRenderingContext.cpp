@@ -13,7 +13,7 @@ COpenGLRenderingContext::COpenGLRenderingContext() :
 	mFontOffset(0)
 {
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_LINE_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -368,14 +368,12 @@ CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture
 				continue;
 		}
 
-//		GLuint result;
-//		glGenTextures(1, &result);
 		glBindTexture(GL_TEXTURE_2D, result[i]);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		size = frame.size();
 		glTexImage2D(GL_TEXTURE_2D, 0, format, (GLsizei)size.width(), (GLsizei)size.height(),
@@ -665,6 +663,42 @@ UInt32 COpenGLRenderingContext::makeFont()
 	return fontOffset;
 }
 
+Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const
+{
+	const GLubyte *extensions = NULL;
+	const GLubyte *start;
+
+	GLubyte *where, *terminator;
+	/* Extension names should not have spaces. */
+
+	where = (GLubyte *) strchr(extension, ' ');
+
+	if (where || *extension == '\0') return false;
+
+	extensions = glGetString(GL_EXTENSIONS);
+
+	/* It takes a bit of care to be fool-proof about parsing the
+	OpenGL extensions string. Don't be fooled by sub-strings,
+	etc. */
+
+	start = extensions;
+
+	for (;;)
+	{
+		where = (GLubyte *) strstr((const char *) start, extension);
+		if (!where) break;
+
+		terminator = where + strlen(extension);
+
+		if (where == start || *(where - 1) == ' ')
+		{
+			if (*terminator == ' ' || *terminator == '\0') return true;
+		}
+		start = terminator;
+	}
+
+	return false;
+}
 
 	} // namespace le
 } // namespace sokira

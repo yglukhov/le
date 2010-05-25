@@ -52,7 +52,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
 			<Tool
@@ -113,7 +112,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\libs\glut\win32&quot;"
 				DataExecutionPrevention="0"
 			/>
 			<Tool

@@ -7,6 +7,11 @@
 #include "slCImageImpl.hp"
 #include "slCImageFrameImpl.hp"
 
+#if LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+#include <jpeg/include/jconfig_win.h>
+#define JCONFIG_INCLUDED
+#endif
+
 #include <jpeg/include/jpeglib.h>
 
 
@@ -43,7 +48,10 @@ void CJpegImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 		info.do_fancy_upsampling = FALSE;
 	#endif
 
-		jpeg_start_decompress(&info);    //decompress the file
+		if (!jpeg_start_decompress(&info))    //decompress the file
+		{
+			std::cout << "JPEG: could not start decompression" << std::endl;
+		}
 
 		//set the x and y
 		CSize2D size(info.output_width, info.output_height);

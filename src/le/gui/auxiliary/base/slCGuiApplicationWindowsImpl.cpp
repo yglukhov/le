@@ -52,7 +52,7 @@ SInt32 CGuiApplicationWindowsImpl::run(CApplicationDelegate* delegate, CApplicat
 
 void CGuiApplicationWindowsImpl::quit()
 {
-
+	PostQuitMessage(0);
 }
 
 	} // namespace le

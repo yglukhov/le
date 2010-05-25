@@ -32,7 +32,7 @@ CURL CBundle::contentsUrl() const
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	result.removeLastPathComponents(2);
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
-	result.removeLastPathComponents(3);
+	result.removeLastPathComponent();
 	result.appendPathComponent("Contents");
 #endif
 	return result;

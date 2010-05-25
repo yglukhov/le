@@ -48,6 +48,7 @@ class CBasicString
 		static CBasicString createWithFormat(const NChar *format, va_list argList);
 		static CBasicString createWithFormat(const CBasicString &format, va_list argList);
 
+		const CBasicString& operator = (NChar character);
 		const CBasicString& operator = (const NChar* cString);
 		const CBasicString& operator = (const CBasicString& copy);
 
@@ -81,6 +82,8 @@ class CBasicString
 		void append(const WChar* uniString, UInt32 length,
 						EStringEncoding encoding = eStringEncodingASCII);
 		void append(const CBasicString& string);
+
+		WChar characterAtIndex(UInt32 index) const;
 
 		void clear();
 		// Erase characters from string. If toPos is equal to 0, then the

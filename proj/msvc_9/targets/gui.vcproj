@@ -354,6 +354,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\le\gui\slCTexture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\le\gui\slCTexture.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\le\gui\slCTheme.cpp"
 				>
 			</File>
@@ -408,6 +416,10 @@
 			<Filter
 				Name="base"
 				>
+				<File
+					RelativePath="..\..\..\src\le\gui\base\slCOpenGLTextureImpl.hp"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\le\gui\base\slCScreenWindowsImpl.cpp"
 					>

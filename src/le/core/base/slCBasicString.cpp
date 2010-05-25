@@ -271,6 +271,16 @@ CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list 
 	return createWithFormat(format.cString(), argList);
 }
 
+const CBasicString& CBasicString::operator = (NChar character)
+{
+	mProxy->release();
+	NChar* str = new NChar[2];
+	*str = character;
+	str[1] = 0;
+	mProxy = new SStringProxy(str, eOwnPolicyDealloc);
+	return *this;
+}
+
 const CBasicString& CBasicString::operator = (const NChar* cString)
 {
 	if (mProxy->mString != cString)
@@ -367,6 +377,10 @@ Bool CBasicString::operator >= (const CBasicString& string) const
 	return (compare(string) >= 0);
 }
 
+WChar CBasicString::characterAtIndex(UInt32 index) const
+{
+	return mProxy->mString[index];
+}
 
 void CBasicString::append(NChar c, EStringEncoding encoding)
 {

@@ -13,6 +13,10 @@
 		ProgramDataBaseFileName="$(IntDir)\le_$(ProjectName).pdb"
 	/>
 	<Tool
+		Name="VCLibrarianTool"
+		IgnoreAllDefaultLibraries="true"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		LinkLibraryDependencies="false"
 		GenerateDebugInformation="true"

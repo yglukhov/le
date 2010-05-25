@@ -8,12 +8,6 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CURL);
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_UNIX || LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
-static const CString cPathSeparator = LESTR("/");
-#elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
-static const CString cPathSeparator = LESTR("/");
-#endif
-
 CURL::CURL()
 {
 
@@ -22,7 +16,19 @@ CURL::CURL()
 CURL::CURL(const CString& string) :
 	mPath(string)
 {
+	char char1 = (char)string.characterAtIndex(1);
+	char char2 = (char)string.characterAtIndex(2);
 
+	if (string.length() > 2 && char1 == ':' && char2 == '\\')
+	{
+		// Windows file path
+		mPathSeparator = (NChar)'\\';
+	}
+	else
+	{
+		// Other path
+		mPathSeparator = '/';
+	}
 }
 
 
@@ -63,7 +69,7 @@ CString CURL::extension() const
 
 CString CURL::lastPathComponent() const
 {
-	return mPath.subString(mPath.findLast(cPathSeparator) + 1, 0);
+	return mPath.subString(mPath.findLast(mPathSeparator) + 1, 0);
 }
 
 CString CURL::queryString() const
@@ -85,9 +91,9 @@ void CURL::removeLastPathComponents(UInt32 componentCount)
 {
 	for (UInt32 i = 0; i < componentCount; ++i)
 	{
-		SInt32 res = mPath.findLast(cPathSeparator);
+		SInt32 res = mPath.findLast(mPathSeparator);
 		if (res)
-			mPath = mPath.subString(0, mPath.findLast(cPathSeparator));
+			mPath = mPath.subString(0, mPath.findLast(mPathSeparator));
 		else
 		{
 			mPath = CString();
@@ -103,7 +109,7 @@ void CURL::removeLastPathComponent()
 
 void CURL::appendPathComponent(const CString& component)
 {
-	mPath += "/";
+	mPath += mPathSeparator;
 	mPath += component;
 }
 
