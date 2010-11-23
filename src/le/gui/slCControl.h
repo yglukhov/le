@@ -10,7 +10,7 @@ namespace sokira
 	namespace le
 	{
 
-class CWindow;
+class CView;
 class CControlDelegate;
 class CTheme;
 class CRenderingContext;
@@ -62,7 +62,7 @@ class CControl : public CObject
 		float borderWidth() const;
 		void borderWidth(float width);
 
-		CWindow* parent() const;
+		CView* parent() const;
 
 		void setVisible(Bool visible = true);
 		Bool isVisible() const;
@@ -107,18 +107,18 @@ class CControl : public CObject
 
 	protected:
 
-		void setParent(CWindow* parent);
+		void setParent(CView* parent);
 
 		virtual Bool hitTest(const CPoint2D& point) const;
 		Bool performMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
 
 
 	private:
-		friend class CWindow;
+		friend class CView;
 //		friend void onKey(unsigned char, int, int);
 //		bool onKey(unsigned char inkey, int px, int py);
 
-		CWindow* mParent;
+		CView* mParent;
 		CControlDelegate* mDelegate;
 		unsigned mAutoResizingMask;
 		Float32 mBorderWidth;

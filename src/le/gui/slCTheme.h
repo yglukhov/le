@@ -10,7 +10,7 @@ namespace sokira
 	{
 
 class CControl;
-class CWindow;
+class CView;
 class CButton;
 class CStaticText;
 class CScrollBar;
@@ -28,7 +28,7 @@ class CTheme
 
 		void drawControl(const CControl* control, CRenderingContext* context) const;
 		void drawButton(const CButton* button, CRenderingContext* context) const;
-		void drawWindow(const CWindow* window, CRenderingContext* context) const;
+		void drawWindow(const CView* window, CRenderingContext* context) const;
 		void drawStaticText(const CStaticText* text, CRenderingContext* context) const;
 		void drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* context) const;
 };

@@ -1,6 +1,6 @@
 #include "slCDragger.h"
 #include "slCControl.h"
-#include "slCWindow.h"
+#include "slCView.h"
 
 namespace sokira
 {

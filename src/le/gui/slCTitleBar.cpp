@@ -33,7 +33,7 @@ CTitleBar::CTitleBar() :
 	setAutoResizing(eAutoResizingFixedTopLeft | eAutoResizingFixedRight);
 }
 
-CTitleBar::CTitleBar(CWindow* Parent) :
+CTitleBar::CTitleBar(CView* Parent) :
 	CDragger(Parent, this),
 	mCloseButton(new CButton())
 {

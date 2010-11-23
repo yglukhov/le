@@ -19,7 +19,7 @@ CScrollView::CScrollView() :
 }
 
 CScrollView::CScrollView(const CRectangle& rect) :
-	CWindow(rect),
+	CView(rect),
 	mContent(NULL)
 {
 //	mHorizontalScrollBar.setParent(this);
@@ -59,7 +59,7 @@ void CScrollView::draw(const CTheme* theme, CRenderingContext* context) const
 	if (isVisible())
 	{
 		if (mContent) mContent->setVisible(false);
-		CWindow::draw(theme, context);
+		CView::draw(theme, context);
 		if (mContent)
 		{
 			mContent->setVisible();

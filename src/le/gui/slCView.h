@@ -1,5 +1,5 @@
-#if !defined SL_LE_gui_slCWindow_h
-#define SL_LE_gui_slCWindow_h
+#if !defined SL_LE_gui_slCView_h
+#define SL_LE_gui_slCView_h
 
 #include <le/core/config/slPrefix.h>
 #include "slCControl.h"
@@ -10,15 +10,15 @@ namespace sokira
 	namespace le
 	{
 
-class CWindow : public CControl
+class CView : public CControl
 {
-	LE_DECLARE_RUNTIME_CLASS(CWindow);
+	LE_DECLARE_RUNTIME_CLASS(CView);
 
 	// Creation
 	public:
-		CWindow() {}
-		CWindow(const CRectangle& rect);
-		~CWindow();
+		CView() {}
+		CView(const CRectangle& rect);
+		~CView();
 
 		virtual void setSize(const CSize2D& Size);
 
@@ -60,11 +60,11 @@ class CWindow : public CControl
 
 		friend class CControl;
 		CControlList mChildren;
-		virtual Bool childBecomesFirstResponder(CControl* child, CWindow* parent);
+		virtual Bool childBecomesFirstResponder(CControl* child, CView* parent);
 		virtual Bool isChildFirstResponder(const CControl* child) const;
 };
 
 	} // namespace le
 } // namespace sokira
 
-#endif // not defined SL_LE_gui_slCWindow_h
+#endif // not defined SL_LE_gui_slCView_h

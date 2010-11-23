@@ -1,4 +1,4 @@
-#include "slCWindow.h"
+#include "slCView.h"
 #include "slCScreen.h"
 #include <le/core/auxiliary/slStdExtensions.h>
 #include "slCTheme.h"
@@ -8,20 +8,20 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_RUNTIME_CLASS(CWindow);
+LE_IMPLEMENT_RUNTIME_CLASS(CView);
 
-CWindow::CWindow(const CRectangle& rect) : CControl(rect)
+CView::CView(const CRectangle& rect) : CControl(rect)
 {
 	LE_ENTER_LOG;
 }
 
-CWindow::~CWindow()
+CView::~CView()
 {
 	LE_ENTER_LOG;
 	clearPointerContainer(mChildren);
 }
 
-void CWindow::addChild(CControl* child)
+void CView::addChild(CControl* child)
 {
 	LE_ENTER_LOG;
 
@@ -33,7 +33,7 @@ void CWindow::addChild(CControl* child)
 	}
 }
 
-void CWindow::removeChild(CControl* child)
+void CView::removeChild(CControl* child)
 {
 	LE_ENTER_LOG;
 
@@ -41,7 +41,7 @@ void CWindow::removeChild(CControl* child)
 	setNeedsRedraw();
 }
 
-void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
+void CView::draw(const CTheme* theme, CRenderingContext* context) const
 {
 	LE_ENTER_LOG;
 	if (isVisible())
@@ -55,7 +55,7 @@ void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
 	}
 }
 
-Bool CWindow::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
+Bool CView::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
 //	std::cout << "onMouse(" << button << ", " << state << ", (" << point.x() << ", " << point.y() << "))" << std::endl; 
@@ -82,7 +82,7 @@ Bool CWindow::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point
 	return false;
 }
 
-Bool CWindow::onKeyDown(EKeyCode keyCode)
+Bool CView::onKeyDown(EKeyCode keyCode)
 {
 	CControlList children = mChildren;
 	for (CControlList::reverse_iterator it = children.rbegin(); it != children.rend(); ++it)
@@ -93,7 +93,7 @@ Bool CWindow::onKeyDown(EKeyCode keyCode)
 	return CControl::onKeyDown(keyCode);
 }
 
-Bool CWindow::onKeyUp(EKeyCode keyCode)
+Bool CView::onKeyUp(EKeyCode keyCode)
 {
 	CControlList children = mChildren;
 	for (CControlList::reverse_iterator it = children.rbegin(); it != children.rend(); ++it)
@@ -147,7 +147,7 @@ static void logAutoresizingMask(std::ostream& ostream, UInt32 mask)
 }
 #endif
 
-void CWindow::setSize(const CSize2D& toSize)
+void CView::setSize(const CSize2D& toSize)
 {
 	LE_ENTER_LOG;
 
@@ -259,7 +259,7 @@ void CWindow::setSize(const CSize2D& toSize)
 	}
 }
 
-void CWindow::setAbsolutePosition(const CPoint2D& position)
+void CView::setAbsolutePosition(const CPoint2D& position)
 {
 	LE_ENTER_LOG;
 
@@ -277,7 +277,7 @@ void CWindow::setAbsolutePosition(const CPoint2D& position)
 	}
 }
 
-Bool CWindow::childBecomesFirstResponder(CControl* child, CWindow* parent)
+Bool CView::childBecomesFirstResponder(CControl* child, CView* parent)
 {
 	if (mParent)
 	{
@@ -294,7 +294,7 @@ Bool CWindow::childBecomesFirstResponder(CControl* child, CWindow* parent)
 	return false;
 }
 
-Bool CWindow::isChildFirstResponder(const CControl* child) const
+Bool CView::isChildFirstResponder(const CControl* child) const
 {
 	return mParent && mParent->isChildFirstResponder(child);
 }

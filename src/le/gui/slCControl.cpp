@@ -291,7 +291,7 @@ unsigned CControl::autoResizing() const
 	return mAutoResizingMask;
 }
 
-CWindow* CControl::parent() const
+CView* CControl::parent() const
 {
 	LE_ENTER_LOG;
 	return mParent;
@@ -308,7 +308,7 @@ Bool CControl::isVisible() const
 	return mVisible;
 }
 
-void CControl::setParent(CWindow* newParent)
+void CControl::setParent(CView* newParent)
 {
 	LE_ENTER_LOG;
 

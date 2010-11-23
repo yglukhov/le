@@ -1,6 +1,6 @@
 #pragma once
 
-#include "slCWindow.h"
+#include "slCView.h"
 
 namespace sokira
 {
@@ -9,7 +9,7 @@ namespace sokira
 
 class CTitleBar;
 
-class CDialog: public CWindow
+class CDialog: public CView
 {
 	LE_DECLARE_RUNTIME_CLASS(CDialog);
 
@@ -23,7 +23,7 @@ class CDialog: public CWindow
 		void title(const char* titleString);
 
 	protected:
-		CWindow* mWorkWindow;
+		CView* mWorkWindow;
 		CTitleBar* mTitleBar;
 };
 

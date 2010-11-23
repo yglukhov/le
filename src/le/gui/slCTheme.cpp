@@ -1,6 +1,6 @@
 #include "slCTheme.h"
 #include <le/core/debug/slDebug.h>
-#include "slCWindow.h"
+#include "slCView.h"
 #include "slCButton.h"
 #include "slCStaticText.h"
 #include "slCScrollBar.h"
@@ -29,7 +29,7 @@ void CTheme::drawControl(const CControl* control, CRenderingContext* context) co
 
 }
 
-void CTheme::drawWindow(const CWindow* window, CRenderingContext* context) const
+void CTheme::drawWindow(const CView* window, CRenderingContext* context) const
 {
 	CRectangle rect = window->absoluteRect();
 	CRectangle tempRect = rect;

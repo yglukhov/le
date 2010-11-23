@@ -29,7 +29,7 @@ LE_IMPLEMENT_RUNTIME_CLASS(CScreen);
 
 
 CScreen::CScreen(bool fullscreen, const CString& title, const CRectangle& rect) :
-	CWindow(CRectangle(CPoint2D(), rect.size())),
+	CView(CRectangle(CPoint2D(), rect.size())),
 	mImpl(new CScreenImpl(fullscreen, title, rect)),
 	mRenderingContext(NULL)
 {
@@ -69,7 +69,7 @@ void CScreen::setSize(const CSize2D& size)
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
 	static_cast<CScreenImpl*>(mImpl)->setSize(size);
-	CWindow::setSize(size);
+	CView::setSize(size);
 }
 
 void CScreen::draw()
@@ -94,7 +94,7 @@ void CScreen::draw()
 	glVertex2f(0, 50);
 	glEnd();
 */
-	CWindow::draw(&mTheme, mRenderingContext);
+	CView::draw(&mTheme, mRenderingContext);
 
 //	CSceneList::const_iterator end = mScenes.end();
 //	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
@@ -197,7 +197,7 @@ void CScreen::_screenWillBeClosed()
 	mImpl = NULL;
 }
 
-//CWindow* CScreen::contentView()
+//CView* CScreen::contentView()
 //{
 //	return mContentView;
 //}
@@ -213,7 +213,7 @@ void CScreen::_screenWillBeClosed()
 ////	}
 ////	mContentView->onMouse(button, state, point);
 //	std::cout << "Screen::onMouse" << std::endl;
-//	return CWindow::onMouse(button, state, point);
+//	return CView::onMouse(button, state, point);
 //}
 //
 //void CScreen::onMouseIn(const CPoint2D& point)
@@ -270,7 +270,7 @@ void CScreen::onResize()
 	glOrtho(0, (int)size.width(), (int)size.height(), 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
-	CWindow::setSize(size);
+	CView::setSize(size);
 
 //	mContentView->setSize(mSize);
 

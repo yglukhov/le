@@ -4,7 +4,7 @@
 #include <le/core/slCColor.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
 #include "slTypes.h"
-#include "slCWindow.h"
+#include "slCView.h"
 #include "slCTheme.h"
 
 namespace sokira
@@ -17,7 +17,7 @@ namespace sokira
 class CRenderingContext;
 class CScene;
 
-class CScreen : public CWindow
+class CScreen : public CView
 {
 	LE_DECLARE_RUNTIME_CLASS(CScreen);
 
@@ -52,7 +52,7 @@ class CScreen : public CWindow
 		void _screenWillBeClosed();
 		void _prepareOpenGL();
 
-		CWindow* contentView();
+		CView* contentView();
 
 //		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
 //		void onMouseDown(EKeyCode button, const CPoint& point);
@@ -78,7 +78,7 @@ class CScreen : public CWindow
 		void screenWillBeRemovedFromApplication(CGuiApplication* app);
 		void screenWasRemovedFromApplication(CGuiApplication* app);
 
-//		CWindow* mContentView;
+//		CView* mContentView;
 		CTheme mTheme;
 
 		void* mImpl;

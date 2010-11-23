@@ -2,7 +2,7 @@
 #define SL_LE_gui_slCScrollView_h
 
 //#include <le/core/slCString.h>
-#include "slCWindow.h"
+#include "slCView.h"
 
 namespace sokira
 {
@@ -11,7 +11,7 @@ namespace sokira
 
 class CScrollBar;
 
-class CScrollView : public CWindow
+class CScrollView : public CView
 {
 	LE_RTTI_BEGIN
 		LE_RTTI_SELF(CScrollView)

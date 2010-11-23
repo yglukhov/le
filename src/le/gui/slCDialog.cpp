@@ -16,21 +16,21 @@ CDialog::CDialog()
 }
 
 CDialog::CDialog(const CRectangle& rect) :
-	CWindow(rect), mTitleBar(new CTitleBar(this))
+	CView(rect), mTitleBar(new CTitleBar(this))
 {
 	LE_ENTER_LOG;
 
 	float border = borderWidth();
 
 	// Create work area
-	mWorkWindow = new CWindow(
+	mWorkWindow = new CView(
 		CRectangle(border, border*2 + mTitleBar->size().height(),
 					  rect.width() - border*2, rect.height() - border*3 - mTitleBar->size().height()));
 	mWorkWindow->setAutoResizing(eAutoResizingFixedMargins);
-	CWindow::addChild(mWorkWindow);
+	CView::addChild(mWorkWindow);
 
 	// Add title bar
-	CWindow::addChild(mTitleBar);
+	CView::addChild(mTitleBar);
 }
 
 void CDialog::addChild(CControl* child)
