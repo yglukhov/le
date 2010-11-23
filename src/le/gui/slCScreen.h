@@ -2,6 +2,7 @@
 
 #include <le/core/slCString.h>
 #include <le/core/slCColor.h>
+#include <le/gui/auxiliary/slCGuiApplication.h>
 #include "slTypes.h"
 #include "slCWindow.h"
 #include "slCTheme.h"
@@ -13,7 +14,6 @@ namespace sokira
 
 #define DEFAULT_SCREEN_RECT CRectangle(50, 50, 200, 200)
 
-class CGuiApplication;
 class CRenderingContext;
 class CScene;
 
@@ -70,7 +70,7 @@ class CScreen : public CWindow
 		CRenderingContext* renderingContext();
 
 	private:
-		friend class CGuiApplication;
+		friend class CGuiCocoaApplication;
 
 		void screenWillBeAddedToApplication(CGuiApplication* app);
 		void screenWasAddedToApplication(CGuiApplication* app);

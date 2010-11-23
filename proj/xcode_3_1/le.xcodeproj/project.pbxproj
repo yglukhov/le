@@ -34,6 +34,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7B00156C129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B00156B129BED7C009886A4 /* slCGuiCocoaApplication.mm */; };
+		7B00156D129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B00156B129BED7C009886A4 /* slCGuiCocoaApplication.mm */; };
+		7B001570129BED93009886A4 /* slCGuiWindowsApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B00156F129BED93009886A4 /* slCGuiWindowsApplication.cpp */; };
+		7B001574129BEDAF009886A4 /* slCGuiX11Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B001573129BEDAF009886A4 /* slCGuiX11Application.cpp */; };
+		7B001575129BEDAF009886A4 /* slCGuiX11Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B001573129BEDAF009886A4 /* slCGuiX11Application.cpp */; };
 		7B052BAE0BD12EB200AA8BD8 /* slCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B310BD12EB100AA8BD8 /* slCNotificationCenter.cpp */; };
 		7B052BAF0BD12EB200AA8BD8 /* slCRunLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B330BD12EB100AA8BD8 /* slCRunLoop.cpp */; };
 		7B052BB00BD12EB200AA8BD8 /* slCBasicString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */; };
@@ -64,8 +69,6 @@
 		7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
 		7B15CE7D0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
-		7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
-		7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
 		7B1ABE691071FCF8003F102E /* slCSimpleRefCountable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1ABE681071FCF8003F102E /* slCSimpleRefCountable.cpp */; };
 		7B1ABE6A1071FCF8003F102E /* slCSimpleRefCountable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1ABE681071FCF8003F102E /* slCSimpleRefCountable.cpp */; };
@@ -163,8 +166,6 @@
 		7B7690011076A3FC00DAF20B /* slCWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE20BD12ECD00AA8BD8 /* slCWindow.cpp */; };
 		7B7690021076A3FD00DAF20B /* slTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */; };
 		7B7690031076A3FE00DAF20B /* slCCocoaScreenImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm */; };
-		7B7690041076A3FF00DAF20B /* slCGuiApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */; };
-		7B7690051076A40000DAF20B /* slCGuiApplicationCocoaImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */; };
 		7B7690081076A40200DAF20B /* slCRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */; };
 		7B7690091076A40300DAF20B /* slCOpenGLRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */; };
 		7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
@@ -236,6 +237,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B00156A129BED7B009886A4 /* slCGuiCocoaApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiCocoaApplication.h; sourceTree = "<group>"; };
+		7B00156B129BED7C009886A4 /* slCGuiCocoaApplication.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = slCGuiCocoaApplication.mm; sourceTree = "<group>"; };
+		7B00156E129BED93009886A4 /* slCGuiWindowsApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiWindowsApplication.h; sourceTree = "<group>"; };
+		7B00156F129BED93009886A4 /* slCGuiWindowsApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiWindowsApplication.cpp; sourceTree = "<group>"; };
+		7B001572129BEDAF009886A4 /* slCGuiX11Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiX11Application.h; sourceTree = "<group>"; };
+		7B001573129BEDAF009886A4 /* slCGuiX11Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiX11Application.cpp; sourceTree = "<group>"; };
 		7B052B310BD12EB100AA8BD8 /* slCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCNotificationCenter.cpp; sourceTree = "<group>"; };
 		7B052B320BD12EB100AA8BD8 /* slCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCNotificationCenter.h; sourceTree = "<group>"; };
 		7B052B330BD12EB100AA8BD8 /* slCRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCRunLoop.cpp; sourceTree = "<group>"; };
@@ -362,10 +369,7 @@
 		7B15CE7C0F3610B3002E9DA7 /* slCCocoaScreenImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCCocoaScreenImpl.hp; sourceTree = "<group>"; };
 		7B15CF210F362F55002E9DA7 /* slCApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCApplication.h; sourceTree = "<group>"; };
 		7B15CF220F362F55002E9DA7 /* slCApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCApplication.cpp; sourceTree = "<group>"; };
-		7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiApplication.cpp; sourceTree = "<group>"; };
 		7B15CF360F3630F3002E9DA7 /* slCGuiApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiApplication.h; sourceTree = "<group>"; };
-		7B15CF430F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCGuiApplicationCocoaImpl.hp; sourceTree = "<group>"; };
-		7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = slCGuiApplicationCocoaImpl.mm; sourceTree = "<group>"; };
 		7B183BB5107281DE00652373 /* slCTextureImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCTextureImpl.hp; sourceTree = "<group>"; };
 		7B1ABE671071FCF8003F102E /* slCSimpleRefCountable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCSimpleRefCountable.h; sourceTree = "<group>"; };
 		7B1ABE681071FCF8003F102E /* slCSimpleRefCountable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSimpleRefCountable.cpp; sourceTree = "<group>"; };
@@ -946,20 +950,15 @@
 		7B15CF340F3630DB002E9DA7 /* auxiliary */ = {
 			isa = PBXGroup;
 			children = (
-				7B15CF420F36329D002E9DA7 /* base */,
-				7B15CF350F3630F3002E9DA7 /* slCGuiApplication.cpp */,
 				7B15CF360F3630F3002E9DA7 /* slCGuiApplication.h */,
+				7B00156A129BED7B009886A4 /* slCGuiCocoaApplication.h */,
+				7B00156B129BED7C009886A4 /* slCGuiCocoaApplication.mm */,
+				7B00156E129BED93009886A4 /* slCGuiWindowsApplication.h */,
+				7B00156F129BED93009886A4 /* slCGuiWindowsApplication.cpp */,
+				7B001572129BEDAF009886A4 /* slCGuiX11Application.h */,
+				7B001573129BEDAF009886A4 /* slCGuiX11Application.cpp */,
 			);
 			path = auxiliary;
-			sourceTree = "<group>";
-		};
-		7B15CF420F36329D002E9DA7 /* base */ = {
-			isa = PBXGroup;
-			children = (
-				7B15CF430F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.hp */,
-				7B15CF440F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm */,
-			);
-			path = base;
 			sourceTree = "<group>";
 		};
 		7B3E00FC117741E9005ECE2D /* vorbis */ = {
@@ -1490,8 +1489,6 @@
 				7B7690011076A3FC00DAF20B /* slCWindow.cpp in Sources */,
 				7B7690021076A3FD00DAF20B /* slTypes.cpp in Sources */,
 				7B7690031076A3FE00DAF20B /* slCCocoaScreenImpl.mm in Sources */,
-				7B7690041076A3FF00DAF20B /* slCGuiApplication.cpp in Sources */,
-				7B7690051076A40000DAF20B /* slCGuiApplicationCocoaImpl.mm in Sources */,
 				7B7690081076A40200DAF20B /* slCRenderingContext.cpp in Sources */,
 				7B7690091076A40300DAF20B /* slCOpenGLRenderingContext.cpp in Sources */,
 				7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */,
@@ -1511,6 +1508,8 @@
 				7B69E79711A17D89001AF88F /* slCRunLoopImplMac.mm in Sources */,
 				7B6C997E11D3777B00DA1327 /* slCAnimation.cpp in Sources */,
 				7B7FD21C11D8C8D3001DC819 /* slCGradient.cpp in Sources */,
+				7B00156C129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */,
+				7B001575129BEDAF009886A4 /* slCGuiX11Application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1601,13 +1600,14 @@
 				7B052BF40BD12ECD00AA8BD8 /* slCWindow.cpp in Sources */,
 				7B052BF50BD12ECD00AA8BD8 /* slTypes.cpp in Sources */,
 				7B15CE7D0F3610B3002E9DA7 /* slCCocoaScreenImpl.mm in Sources */,
-				7B15CF370F3630F3002E9DA7 /* slCGuiApplication.cpp in Sources */,
-				7B15CF450F3632CB002E9DA7 /* slCGuiApplicationCocoaImpl.mm in Sources */,
 				7BF5AA8B1057D26100A09C15 /* slCRenderingContext.cpp in Sources */,
 				7BF5AA911057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */,
 				7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */,
 				7B75EBAC10808F810073DE2F /* slCScrollView.cpp in Sources */,
 				7B75EBB0108092250073DE2F /* slCScrollBar.cpp in Sources */,
+				7B00156D129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */,
+				7B001570129BED93009886A4 /* slCGuiWindowsApplication.cpp in Sources */,
+				7B001574129BEDAF009886A4 /* slCGuiX11Application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

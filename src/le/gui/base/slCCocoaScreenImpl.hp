@@ -3,13 +3,13 @@
 
 #include <le/core/slCString.h>
 #include <le/gui/slTypes.h>
+#include <le/gui/auxiliary/slCGuiCocoaApplication.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CGuiApplication;
 class CScreen;
 
 class CCocoaScreenImpl
@@ -17,11 +17,11 @@ class CCocoaScreenImpl
 	public:
 		CCocoaScreenImpl(bool fullScreen, const CString& title, const CRectangle& rect);
 
-		void screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app);
-		void screenWasAddedToApplication(CScreen* screen, CGuiApplication* app);
+		void screenWillBeAddedToApplication(CScreen* screen, CGuiCocoaApplication* app);
+		void screenWasAddedToApplication(CScreen* screen, CGuiCocoaApplication* app);
 
-		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app);
-		void screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app);
+		void screenWasRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app);
 
 		Bool inLiveResize() const;
 

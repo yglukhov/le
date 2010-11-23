@@ -2,19 +2,20 @@
 
 #include <le/core/thread/slCThread.h>
 #include <le/core/auxiliary/slCApplicationDelegate.h>
-#include "slCGuiApplicationCocoaImpl.hp"
+#include <le/gui/slCScreen.h>
+#include "slCGuiCocoaApplication.h"
 
 @interface SokiraLE_AppDelegate : NSObject
 {
 	::sokira::le::CApplicationDelegate* mDelegate;
-	::sokira::le::CApplication* mApp;
+	::sokira::le::CGuiCocoaApplication* mApp;
 }
 
 @end
 
 @implementation SokiraLE_AppDelegate
 
-- (id)initWithDelegate:(::sokira::le::CApplicationDelegate *)delegate andApplication:(::sokira::le::CApplication *)app
+- (id)initWithDelegate:(::sokira::le::CApplicationDelegate *)delegate andApplication:(::sokira::le::CGuiCocoaApplication *)app
 {
 	id theobj = [self init];
 	mDelegate = delegate;
@@ -66,32 +67,32 @@
 
 - (void)applicationWillHide:(NSNotification *)aNotification
 {
-
+	
 }
 
 - (void)applicationDidHide:(NSNotification *)aNotification
 {
-
+	
 }
 
 - (void)applicationWillUnhide:(NSNotification *)aNotification
 {
-
+	
 }
 
 - (void)applicationDidUnhide:(NSNotification *)aNotification
 {
-
+	
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
 {
-
+	
 }
 
 - (void)applicationDidUpdate:(NSNotification *)aNotification
 {
-
+	
 }
 
 //- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
@@ -168,33 +169,40 @@ namespace sokira
 {
 	namespace le
 	{
+		SInt32 CGuiCocoaApplication::runApplication()
+		{
+			NSAutoreleasePool *pool = [NSAutoreleasePool new];
+			NSApplication *app = [NSApplication sharedApplication];
+			id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate() andApplication: this];
+			[app setDelegate: appDelegate];
+			//	[appDelegate release];
+			//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+			//	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
+			//	[app setApplicationIconImage: myImage];
 
-SInt32 CGuiApplicationCocoaImpl::run(CApplicationDelegate* delegate, CApplication* application)
-{
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    NSApplication *app = [NSApplication sharedApplication];
-	id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate andApplication: application];
-	[app setDelegate: appDelegate];
-//	[appDelegate release];
-//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-//	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
-//	[app setApplicationIconImage: myImage];
+			//	[[NSMenu alloc] initWithTitle:@"MyApp"];
+			//		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
+			[app run];
 
+			//	CThread::thread().runLoop().run();
+			[pool release];
 
-//	[[NSMenu alloc] initWithTitle:@"MyApp"];
-//		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
-	[app run];
+			return 0;
+		}
 
-//	CThread::thread().runLoop().run();
-	[pool release];
+		void CGuiCocoaApplication::addScreen(CScreen* screen)
+		{
+			if (screen)
+			{
+				screen->screenWillBeAddedToApplication(this);
+				mScreens.push_back(screen);
+				screen->screenWasAddedToApplication(this);
+			}
+		}
 
-	return 0;
-}
-
-void CGuiApplicationCocoaImpl::quit()
-{
-	[[NSApplication sharedApplication] stop: nil];
-}
-
+		void CGuiCocoaApplication::quit()
+		{
+			[[NSApplication sharedApplication] stop: nil];
+		}
 	} // namespace le
 } // namespace sokira

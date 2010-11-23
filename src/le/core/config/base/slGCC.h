@@ -40,7 +40,6 @@
                                + LE_COMPILER_VERSION_MINOR * 100 \
                                + LE_COMPILER_VERSION_BUG)
 
-
 #ifdef __MACH__
 #define LE_TARGET_PLATFORM LE_PLATFORM_MACOSX
 #define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_UNIX

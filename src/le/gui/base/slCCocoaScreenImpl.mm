@@ -269,12 +269,12 @@ CCocoaScreenImpl::CCocoaScreenImpl(bool fullScreen, const CString& title, const 
 
 }
 
-void CCocoaScreenImpl::screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app)
+void CCocoaScreenImpl::screenWillBeAddedToApplication(CScreen* screen, CGuiCocoaApplication* app)
 {
 
 }
 
-void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplication* app)
+void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiCocoaApplication* app)
 {
 	NSRect frame = NSMakeRect(mRect.x(), mRect.y(), mRect.width(), mRect.height());
 
@@ -294,7 +294,7 @@ void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplicat
 	[(NSWindow*)mWindow makeKeyAndOrderFront: nil];
 }
 
-void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app)
+void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app)
 {
 	std::cout << "screenWillBeRemovedFromApplication" << std::endl;
 	if (mWindow)
@@ -305,7 +305,7 @@ void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiA
 	mWindow = NULL;
 }
 
-void CCocoaScreenImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app)
+void CCocoaScreenImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app)
 {
 
 }
