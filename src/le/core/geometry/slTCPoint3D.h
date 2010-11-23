@@ -43,6 +43,12 @@ class TCPoint3D : public TCPoint2D<T>
 		T mZ;
 };
 
+template <typename T>
+std::ostream& operator << (std::ostream& stream, const TCPoint3D<T>& point)
+{
+	return stream << '{' << point.x() << ", " << point.y() << ", " << point.z() << '}';
+}
+
 typedef TCPoint3D<Float32> CPoint3D;
 
 	} // namespace le

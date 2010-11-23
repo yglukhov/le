@@ -4,6 +4,8 @@
 #include <vector>
 #include <le/core/auxiliary/slCApplication.h>
 
+
+
 namespace sokira
 {
 	namespace le

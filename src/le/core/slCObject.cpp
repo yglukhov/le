@@ -1,3 +1,4 @@
+#include "slCObject.h"
 #include <le/core/slCDictionary.h>
 
 namespace sokira
@@ -15,7 +16,7 @@ CObject::CObject() :
 
 CObject::~CObject()
 {
-
+	LE_ASSERT(mRefCount <= 1);
 }
 
 CString CObject::description() const
@@ -38,12 +39,12 @@ void CObject::deserialize(const CDictionary& fromDictionary)
 
 }
 
-void CObject::retain()
+void CObject::retain() const
 {
 	++mRefCount;
 }
 
-void CObject::release()
+void CObject::release() const
 {
 	--mRefCount;
 	if (!mRefCount)

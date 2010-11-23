@@ -42,6 +42,25 @@ struct CColorBase::_convert<UInt8, Float32>
 	}
 };
 
+template <>
+struct CColorBase::_convert<Float32, int>
+{
+	static inline Float32 convert(int component)
+	{
+		return static_cast<Float32>(component)/(255.0f);
+	}
+};
+
+template <>
+struct CColorBase::_convert<int, Float32>
+{
+	static inline int convert(Float32 component)
+	{
+		return static_cast<int>(component * 255.0f);
+	}
+};
+
+
 		} // namespace base
 	} // namespace le
 } // namespace sokira

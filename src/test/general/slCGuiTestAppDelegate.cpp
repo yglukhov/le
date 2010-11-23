@@ -3,6 +3,7 @@
 #include <le/gui/slCScreen.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
 #include <le/gui/slCButton.h>
+#include <le/gui/slCRenderingContext.h>
 #include "slCGuiTestAppDelegate.h"
 
 
@@ -13,6 +14,40 @@ namespace sokira
 
 		LE_IMPLEMENT_RUNTIME_CLASS(CGuiTestAppDelegate);
 
+class CTestScreen : public CScreen
+{
+	public:
+		virtual void draw()
+		{
+			CScreen::draw();
+
+			CPolygon poly;
+			poly.addPoint(CPoint2D(0, 0));
+			poly.addPoint(CPoint2D(100, 0));
+			poly.addPoint(CPoint2D(0, 100));
+//			LE_ASSERT(poly.containsPoint(CPoint2D(0.3, 0.3)));
+//			LE_ASSERT(!poly.containsPoint(CPoint2D(1, 1)));
+//			LE_ASSERT(poly.isConvex());
+			poly.addPoint(CPoint2D(20, 20));
+
+//			if (poly.isCounterClockWise()) poly.reverse();
+//
+//			poly.reverse();
+
+//			renderingContext()->drawConvexPolygon(poly);
+//			LE_ASSERT(!poly.isConvex());
+
+			std::vector<CPolygon> decomposedPolys = poly.decomposeToTriangles();
+//			LE_ASSERT(decomposedPolys.size() == 2);
+			for (std::vector<CPolygon>::iterator it = decomposedPolys.begin(); it != decomposedPolys.end(); ++it)
+			{
+				if (it->isCounterClockWise()) it->reverse();
+				renderingContext()->drawConvexPolygon(poly);
+				std::cout << "Decomposed poly: " << *it << std::endl;
+			}
+		}
+};
+
 
 		void CGuiTestAppDelegate::onTimer()
 		{
@@ -22,7 +57,7 @@ namespace sokira
 
 		void CGuiTestAppDelegate::applicationDidFinishLaunching(CApplication& application)
 		{
-			CScreen* screen = new CScreen(false);
+			CScreen* screen = new CTestScreen();
 
 			//	CDialog::Ptr dlg1 = new CDialog(CRectangle(10, 15, 30, 30));
 			//	dlg1.retain();
@@ -43,7 +78,7 @@ namespace sokira
 //			screen->addScene(scene, 0);
 
 //			screen->contentView()->addChild(dlg2);
-			screen->addChild(dlg2);
+//			screen->addChild(dlg2);
 			dynamic_cast<CGuiApplication&>(application).addScreen(screen);
 
 //			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);

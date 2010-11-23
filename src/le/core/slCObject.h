@@ -10,7 +10,12 @@ namespace sokira
 
 class CDictionary;
 class CString;
-class CSelectorInvocation;
+class CSelectorInvocation
+{
+	public:
+//		CSelectorInvocation(CObject* obj, 
+
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // CObject
@@ -37,11 +42,11 @@ class CObject
 //		static CAny performStaticSelector(const CString& name, TCArray<CAny>& arguments);
 
 		// Memory manadgement
-		void retain();
-		void release();
+		void retain() const;
+		void release() const;
 
 	private:
-		UInt32 mRefCount;
+		mutable UInt32 mRefCount;
 };
 
 	} // namespace le

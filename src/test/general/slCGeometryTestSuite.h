@@ -16,10 +16,12 @@ class CGeometryTestSuite : public CTestSuite
 		virtual void runTest()
 		{
 			testRectangles();
+			testPolygons();
 		}
 
 	private:
 		void testRectangles();
+		void testPolygons();
 };
 
 	} // namespace le

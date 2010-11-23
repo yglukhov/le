@@ -67,6 +67,8 @@ class CScreen : public CWindow
 		void onResize();
 	protected:
 
+		CRenderingContext* renderingContext();
+
 	private:
 		friend class CGuiApplication;
 

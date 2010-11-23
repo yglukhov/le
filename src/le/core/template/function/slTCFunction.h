@@ -1,4 +1,5 @@
-#pragma once
+#if !defined SL_LE_core_template_function_slTCFunction_h
+#define SL_LE_core_template_function_slTCFunction_h
 
 #include <le/core/slTCPointer.h>
 #include "base/slTCFreeFunction.h"
@@ -76,3 +77,5 @@ class TCFunction
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_template_function_slTCFunction_h

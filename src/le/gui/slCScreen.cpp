@@ -85,7 +85,7 @@ void CScreen::draw()
 
 //	CRenderingContext* context = NULL; //static_cast<CScreenImpl*>(mImpl)->renderingContext();
 //	context->clear();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 /*
 	glColor3f(1, 0, 0);
 	glBegin(GL_TRIANGLES);
@@ -283,6 +283,11 @@ void CScreen::onResize()
 
 //	std::cout << "}" << std::endl;
 //	setNeedsRedraw();
+}
+
+CRenderingContext* CScreen::renderingContext()
+{
+	return mRenderingContext;
 }
 
 	} // namespace le

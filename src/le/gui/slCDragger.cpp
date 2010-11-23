@@ -7,8 +7,6 @@ namespace sokira
 	namespace le
 	{
 
-static CDragger* _currentDragger = NULL;
-
 CDragger::CDragger(CControl* controlToDrag, CControl* dragHandler) :
 	mControl(controlToDrag), mHandler(dragHandler)
 {
@@ -60,11 +58,6 @@ void CDragger::drag(const CPoint& point)
 void CDragger::endDrag()
 {
 	_currentDragger = NULL;
-}
-
-CDragger* CDragger::currentDragger()
-{
-	return _currentDragger;
 }
 
 CControl* CDragger::handler()

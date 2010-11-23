@@ -28,6 +28,13 @@ class CColor : public CObject, public TCColor<>
 
 		}
 
+		template <typename T>
+		inline CColor(const TCColor<T>& color) :
+			TCColor<>(color)
+		{
+
+		}
+
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
 };

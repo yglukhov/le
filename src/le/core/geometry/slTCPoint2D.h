@@ -2,6 +2,7 @@
 #define SL_LE_core_geometry_slTCPoint2D_h
 
 #include <math.h>
+#include <iostream>
 #include <le/core/slTypes.h>
 
 
@@ -70,10 +71,26 @@ class TCPoint2D
 			return mX != point.mX || mY != point.mY;
 		}
 
+		TCPoint2D operator - (const TCPoint2D& lhs) const
+		{
+			return TCPoint2D(x() - lhs.x(), y() - lhs.y());
+		}
+
+		TCPoint2D operator + (const TCPoint2D& lhs) const
+		{
+			return TCPoint2D(x() + lhs.x(), y() + lhs.y());
+		}
+
 	// Members
 	private:
 		T mX, mY;
 };
+
+template <typename T>
+std::ostream& operator << (std::ostream& stream, const TCPoint2D<T>& point)
+{
+	return stream << '{' << point.x() << ", " << point.y() << '}';
+}
 
 typedef TCPoint2D<Float32> CPoint2D;
 

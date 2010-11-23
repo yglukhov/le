@@ -23,16 +23,17 @@ class TCColor : public sokira::le::base::CColorBase
 
 		}
 
-		inline TCColor(UInt8 red, UInt8 green = 0, UInt8 blue = 0, UInt8 alpha = 0) :
-			mR(toComponent(red)),
-			mG(toComponent(green)),
-			mB(toComponent(blue)),
-			mA(toComponent(alpha))
+		inline TCColor(TComponent red, TComponent green = 0, TComponent blue = 0, TComponent alpha = 0) :
+			mR(red),
+			mG(green),
+			mB(blue),
+			mA(alpha)
 		{
 
 		}
 
-		inline TCColor(Float32 red, Float32 green = 0.0f, Float32 blue = 0.0f, Float32 alpha = 0.0f) :
+		template <typename T>
+		inline TCColor(T red, T green = 0, T blue = 0, T alpha = 0) :
 			mR(toComponent(red)),
 			mG(toComponent(green)),
 			mB(toComponent(blue)),
