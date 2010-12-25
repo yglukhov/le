@@ -1,7 +1,7 @@
-#include <le/gui/slCScreen.h>
+#include <le/gui/slCWindow.h>
 #include <le/core/auxiliary/slCRunLoop.h>
 #include <le/core/auxiliary/base/slCRunLoopImplWin.hp>
-#include "slCScreenWindowsImpl.hp"
+#include "slCWindowsWindowImpl.hp"
 
 
 namespace sokira
@@ -11,7 +11,7 @@ namespace sokira
 
 static UInt32 windowClassRefCount = 0;
 
-CScreenWindowsImpl::CScreenWindowsImpl(bool fullScreen, const CString& title, const CRectangle& rect) :
+CWindowsWindowImpl::CWindowsWindowImpl(bool fullScreen, const CString& title, const CRectangle& rect) :
 	mFullScreen(fullScreen),
 	mTitle(title),
 	mRect(rect),
@@ -22,14 +22,14 @@ CScreenWindowsImpl::CScreenWindowsImpl(bool fullScreen, const CString& title, co
 
 }
 
-void CScreenWindowsImpl::screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app)
+void CWindowsWindowImpl::screenWillBeAddedToApplication(CWindow* screen, CGuiApplication* app)
 {
 
 }
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CScreenWindowsImpl* impl = (CScreenWindowsImpl*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	CWindowsWindowImpl* impl = (CWindowsWindowImpl*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	if (impl)
 	{
 		return impl->wndProc(uMsg, wParam, lParam);
@@ -38,7 +38,7 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CWindowsWindowImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	union KeyParam
 	{
@@ -172,13 +172,13 @@ LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(mWindow, uMsg, wParam, lParam);
 }
 
-void CScreenWindowsImpl::onMouseButton(EKeyCode button, EButtonState state, LPARAM coords)
+void CWindowsWindowImpl::onMouseButton(EKeyCode button, EButtonState state, LPARAM coords)
 {
 	POINTS point = MAKEPOINTS(coords);
 	mScreen->onMouse(button, state, CPoint2D(point.x, point.y));
 }
 
-void CScreenWindowsImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplication* app)
+void CWindowsWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiApplication* app)
 {
 	mScreen = screen;
 
@@ -288,7 +288,7 @@ void CScreenWindowsImpl::screenWasAddedToApplication(CScreen* screen, CGuiApplic
 	}
 }
 
-void CScreenWindowsImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app)
+void CWindowsWindowImpl::screenWillBeRemovedFromApplication(CWindow* screen, CGuiApplication* app)
 {
 	DestroyWindow(mWindow);
 	mWindow = NULL;
@@ -300,17 +300,17 @@ void CScreenWindowsImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGu
 	}
 }
 
-void CScreenWindowsImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app)
+void CWindowsWindowImpl::screenWasRemovedFromApplication(CWindow* screen, CGuiApplication* app)
 {
 
 }
 
-Bool CScreenWindowsImpl::inLiveResize() const
+Bool CWindowsWindowImpl::inLiveResize() const
 {
 	return mWindowDidResize;
 }
 
-CSize2D CScreenWindowsImpl::size() const
+CSize2D CWindowsWindowImpl::size() const
 {
 	if (mWindow)
 	{
@@ -322,7 +322,7 @@ CSize2D CScreenWindowsImpl::size() const
 	return mRect.size();
 }
 
-void CScreenWindowsImpl::setSize(const CSize2D& size)
+void CWindowsWindowImpl::setSize(const CSize2D& size)
 {
 	if (mWindow)
 	{
@@ -332,12 +332,12 @@ void CScreenWindowsImpl::setSize(const CSize2D& size)
 	mRect.setSize(size);
 }
 
-void CScreenWindowsImpl::setNeedsRedraw()
+void CWindowsWindowImpl::setNeedsRedraw()
 {
 	InvalidateRect(mWindow, NULL, FALSE);
 }
 
-CString CScreenWindowsImpl::title() const
+CString CWindowsWindowImpl::title() const
 {
 	return mTitle;
 }

@@ -1,6 +1,7 @@
 #if !defined SL_LE_core_geometry_slTCSize2D_h
 #define SL_LE_core_geometry_slTCSize2D_h
 
+#include <iostream>
 #include <le/core/slTypes.h>
 
 
@@ -70,6 +71,14 @@ class TCSize2D
 	private:
 		T mWidth, mHeight;
 };
+
+
+		
+template <typename T>
+std::ostream& operator << (std::ostream& stream, const TCSize2D<T>& size)
+{
+	return stream << '{' << size.width() << ", " << size.height() << '}';
+}
 
 typedef TCSize2D<Float32> CSize2D;
 

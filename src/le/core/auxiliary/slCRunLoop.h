@@ -14,7 +14,7 @@ namespace sokira
 	{
 
 class CRunLoopImpl;
-class CEvent;
+class CWindow;
 
 /*! Another enum, with inline docs */
 enum EEventType
@@ -68,6 +68,7 @@ class CRunLoop
 		/// Get next event. Can be used in a loop.
 		/// @param mask some param
 		CEvent nextEventMatchingType(UInt32 mask);
+		void postEvent(const CEvent& event);
 
 		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc);
 

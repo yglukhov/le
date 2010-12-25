@@ -103,5 +103,21 @@ CEvent nextEventMatchingMask(UInt32 type)
 	return result;
 }
 
+void postEvent(const CEvent& event)
+{
+	union
+	{
+		struct
+		{
+			NSInteger data1;
+			NSInteger data2;
+		};
+		CEvent* pEvent;
+	} u;
+	u.pEvent = new CEvent(event);
+	[NSApp postEvent: [NSEvent otherEventWithType: NSApplicationDefined location: NSZeroPoint modifierFlags: 0 timestamp: 0 windowNumber: 0 context: 0 subtype: 0 data1: u.data1 data2: u.data2] atStart: NO];
+//	[NSApp postEvent:  atStart:<#(BOOL)flag#>
+}
+		
 	} // namespace le
 } // namespace sokira

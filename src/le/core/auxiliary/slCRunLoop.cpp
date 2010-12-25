@@ -1,7 +1,7 @@
 #include "slCRunLoop.h"
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
-#include "base/slCRunloopImplMac.hp"
+#include "base/slCRunLoopImplMac.hp"
 #elif  LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 #include "base/slCRunloopImplWin.hp"
 #else
@@ -95,6 +95,11 @@ void CRunLoop::stop()
 CEvent CRunLoop::nextEventMatchingType(UInt32 mask)
 {
 	return mImpl->nextEventMatchingMask(mask);
+}
+
+void CRunLoop::postEvent(const CEvent& event)
+{
+//	mImpl->postEvent(event);
 }
 
 CTimer CRunLoop::scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)

@@ -10,18 +10,18 @@ namespace sokira
 	namespace le
 	{
 
-class CScreen;
+class CWindow;
 
-class CCocoaScreenImpl
+class CCocoaWindowImpl
 {
 	public:
-		CCocoaScreenImpl(bool fullScreen, const CString& title, const CRectangle& rect);
+		CCocoaWindowImpl(bool fullScreen, const CString& title, const CRectangle& rect);
 
-		void screenWillBeAddedToApplication(CScreen* screen, CGuiCocoaApplication* app);
-		void screenWasAddedToApplication(CScreen* screen, CGuiCocoaApplication* app);
+		void screenWillBeAddedToApplication(CWindow* screen, CGuiCocoaApplication* app);
+		void screenWasAddedToApplication(CWindow* screen, CGuiCocoaApplication* app);
 
-		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app);
-		void screenWasRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app);
+		void screenWillBeRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app);
+		void screenWasRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app);
 
 		Bool inLiveResize() const;
 

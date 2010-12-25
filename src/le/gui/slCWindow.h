@@ -17,14 +17,14 @@ namespace sokira
 class CRenderingContext;
 class CScene;
 
-class CScreen : public CView
+class CWindow : public CView
 {
-	LE_DECLARE_RUNTIME_CLASS(CScreen);
+	LE_DECLARE_RUNTIME_CLASS(CWindow);
 
 	public:
-		CScreen(bool fullscreen = true, const CString& title = CString(),
+		CWindow(bool fullscreen = true, const CString& title = CString(),
 				  const CRectangle& rect = DEFAULT_SCREEN_RECT);
-		~CScreen();
+		~CWindow();
 
 		virtual void draw();
 

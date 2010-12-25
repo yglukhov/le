@@ -2,6 +2,7 @@
 #define SL_LE_core_slCObject_h
 
 #include <le/core/slCClass.h>
+#include <le/core/strategies/slCSimpleRefCountable.h>
 
 namespace sokira
 {
@@ -20,7 +21,7 @@ class CSelectorInvocation
 ////////////////////////////////////////////////////////////////////////////////
 // CObject
 ////////////////////////////////////////////////////////////////////////////////
-class CObject
+class CObject : public CSimpleRefCountable
 {
 	LE_RTTI_BEGIN
 		LE_RTTI_SELF(CObject)
@@ -29,8 +30,8 @@ class CObject
 	LE_RTTI_END
 
 	public:
-		CObject();
-		virtual ~CObject();
+//		CObject();
+//		virtual ~CObject();
 
 		CString description() const;
 		virtual void serialize(CDictionary& toDictionary) const;
@@ -40,13 +41,6 @@ class CObject
 //		CAny performSelector(const CString& name, TCArray<CAny>& arguments);
 //		CAny performConstSelector(const CString& name, TCArray<CAny>& arguments) const;
 //		static CAny performStaticSelector(const CString& name, TCArray<CAny>& arguments);
-
-		// Memory manadgement
-		void retain() const;
-		void release() const;
-
-	private:
-		mutable UInt32 mRefCount;
 };
 
 	} // namespace le

@@ -1,0 +1,107 @@
+#if !defined SL_LE_core_auxiliary_base_slCRunloopImplX11_hp
+#define SL_LE_core_auxiliary_base_slCRunloopImplX11_hp
+
+#include <X11/Xlib.h>
+// The header above has defined a nasty Bool macro. Get rid of it.
+#undef Bool
+
+#include <le/gui/slCWindow.h>
+
+namespace sokira
+{
+	namespace le
+	{
+		
+class CRunLoopImpl
+{
+	public:
+		CRunLoopImpl() :
+			mDisplay(NULL)
+		{
+			
+		}
+
+		inline CWindow* windowFromEvent(XEvent* xEvent)
+		{
+			Atom property = XInternAtom(xEvent->xany.display, "_LE_WINDOW_PTR", false);
+			CWindow* result = NULL;
+			XGetWindowProperty(mDisplay, xEvent->xany.window, property, 0, sizeof(result) / 4,
+							   false, AnyPropertyType, NULL, NULL, NULL, NULL, (unsigned char**)&result);
+			return result;
+		}
+	
+		void dispatchEvent(XEvent* xEvent)
+		{
+			CWindow* window = windowFromEvent(xEvent);
+
+			switch (xEvent->type)
+			{
+				case Expose :
+					if ( xEvent->xexpose.count != 0 )
+						break;
+					
+					break;
+					
+				case KeyPress :
+					printf("KeyPress\n");
+			//		running = false;
+					break;
+					
+				case ConfigureNotify:
+					break;
+					
+				case ButtonPress:
+					break;
+					
+				case MotionNotify:
+					break;
+				case ClientMessage:
+					printf("ClientMessage\n");
+//					running = false;
+					break;
+				default:
+					printf("enent: %d\n", xEvent->type);
+			}
+		}
+
+		/// Start the run loop.
+		void run()
+		{
+			XEvent report;
+			bool running = true;
+			while (running)
+			{
+				XNextEvent(mDisplay, &report);
+				dispatchEvent(&report);
+			}
+		}
+
+		/// Stop the run loop.
+		void stop()
+		{
+
+		}
+
+		/// Get next event. Can be used in a loop.
+		/// @param mask some param
+		CEvent nextEventMatchingMask(UInt32 mask)
+		{
+			CEvent event;
+			return event;
+		}
+
+		CTimer scheduledTimerWithInterval(UInt32 msInterval, TCFunction<> timerFunc)
+		{
+			CTimer result;
+			return result;
+		}
+
+	private:
+		Atom mWindowPropertyLEWindow;
+		Display* mDisplay;
+};
+		
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_core_auxiliary_base_slCRunloopImplX11_hp

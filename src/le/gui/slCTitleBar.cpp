@@ -2,7 +2,7 @@
 #include "slCTitleBar.h"
 #include "slCButton.h"
 #include "slCText.h"
-#include "slCScreen.h"
+#include "slCWindow.h"
 
 namespace sokira
 {

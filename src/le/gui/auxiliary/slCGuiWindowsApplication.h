@@ -8,19 +8,19 @@ namespace sokira
 	namespace le
 	{
 
-class CScreen;
+class CWindow;
 
 class CGuiWindowsApplication : public CApplication
 {
 	public:
-		void addScreen(CScreen* screen);
+		void addScreen(CWindow* screen);
 		virtual void quit();
 
 	protected:
 		virtual SInt32 runApplication();
 
 	private:
-		std::vector<CScreen*> mScreens;
+		std::vector<CWindow*> mScreens;
 };
 		
 	} // namespace le

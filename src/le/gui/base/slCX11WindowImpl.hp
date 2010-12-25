@@ -1,0 +1,58 @@
+#if !defined SL_LE_gui_base_slCX11WindowImpl_hp
+#define SL_LE_gui_base_slCX11WindowImpl_hp
+
+#include <X11/Xlib.h>
+// The header above has defined a nasty Bool macro. Get rid of it.
+#undef Bool
+
+
+#include <le/core/slCString.h>
+#include <le/gui/slTypes.h>
+#include <le/core/geometry/slTCRectangle.h>
+#include <le/gui/auxiliary/slCGuiApplication.h>
+
+namespace sokira
+{
+	namespace le
+	{
+		class CWindow;
+
+		class CX11WindowImpl
+		{
+		public:
+			CX11WindowImpl(bool fullScreen, const CString& title, const CRectangle& rect);
+
+			void screenWillBeAddedToApplication(CWindow* screen, CGuiApplication* app);
+			void screenWasAddedToApplication(CWindow* screen, CGuiApplication* app);
+
+			void screenWillBeRemovedFromApplication(CWindow* screen, CGuiApplication* app);
+			void screenWasRemovedFromApplication(CWindow* screen, CGuiApplication* app);
+
+			Bool inLiveResize() const;
+
+			CSize2D size() const;
+			void setSize(const CSize2D& size);
+
+			void setNeedsRedraw();
+
+			CString title() const;
+
+			CEvent eventWithXEvent(XEvent* xEvent);
+			void onSocket();
+		private:
+//			void onMouseButton(EKeyCode button, EButtonState state, LPARAM coords);
+
+			CWindow* mScreen;
+			Bool mFullScreen;
+			CString mTitle;
+			CRectangle mRect;
+			Bool mWindowDidResize;
+			Bool mMouseInWindow;
+			Window* mWindow;
+			Display* mDisplay;
+		};
+		
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCX11WindowImpl_hp

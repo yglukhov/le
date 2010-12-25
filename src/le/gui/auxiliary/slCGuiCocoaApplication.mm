@@ -2,7 +2,7 @@
 
 #include <le/core/thread/slCThread.h>
 #include <le/core/auxiliary/slCApplicationDelegate.h>
-#include <le/gui/slCScreen.h>
+#include <le/gui/slCWindow.h>
 #include "slCGuiCocoaApplication.h"
 
 @interface SokiraLE_AppDelegate : NSObject
@@ -169,40 +169,47 @@ namespace sokira
 {
 	namespace le
 	{
-		SInt32 CGuiCocoaApplication::runApplication()
-		{
-			NSAutoreleasePool *pool = [NSAutoreleasePool new];
-			NSApplication *app = [NSApplication sharedApplication];
-			id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate() andApplication: this];
-			[app setDelegate: appDelegate];
-			//	[appDelegate release];
-			//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-			//	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
-			//	[app setApplicationIconImage: myImage];
 
-			//	[[NSMenu alloc] initWithTitle:@"MyApp"];
-			//		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
-			[app run];
+CGuiCocoaApplication::~CGuiCocoaApplication()
+{
+	// Release mScreens
+}
 
-			//	CThread::thread().runLoop().run();
-			[pool release];
+SInt32 CGuiCocoaApplication::runApplication()
+{
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	NSApplication *app = [NSApplication sharedApplication];
+	id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate() andApplication: this];
+	[app setDelegate: appDelegate];
+	//	[appDelegate release];
+	//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+	//	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
+	//	[app setApplicationIconImage: myImage];
 
-			return 0;
-		}
+	//	[[NSMenu alloc] initWithTitle:@"MyApp"];
+	//		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
+	[app run];
 
-		void CGuiCocoaApplication::addScreen(CScreen* screen)
-		{
-			if (screen)
-			{
-				screen->screenWillBeAddedToApplication(this);
-				mScreens.push_back(screen);
-				screen->screenWasAddedToApplication(this);
-			}
-		}
+	//	CThread::thread().runLoop().run();
+	[pool release];
 
-		void CGuiCocoaApplication::quit()
-		{
-			[[NSApplication sharedApplication] stop: nil];
-		}
+	return 0;
+}
+
+void CGuiCocoaApplication::addScreen(CWindow* screen)
+{
+	if (screen)
+	{
+		screen->screenWillBeAddedToApplication(this);
+		mScreens.push_back(screen);
+		screen->screenWasAddedToApplication(this);
+	}
+}
+
+void CGuiCocoaApplication::quit()
+{
+	[[NSApplication sharedApplication] stop: nil];
+}
+
 	} // namespace le
 } // namespace sokira

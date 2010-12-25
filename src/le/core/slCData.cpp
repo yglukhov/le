@@ -83,12 +83,19 @@ void CData::append(const CData& data)
 
 void CData::append(const void* data, DataLength len)
 {
-	void* newData = malloc(length() + len);
-	*(static_cast<DataLength*>(newData)) = length() + len;
-	memcpy((char*)newData + sizeof(DataLength), mData, length());
-	memcpy((char*)newData + length() + sizeof(DataLength), data, len);
-	if (mData) free(mData);
-	mData = newData;
+	DataLength newLength = length() + len;
+	void* newData = realloc(mData, newLength + sizeof(DataLength));
+	if (newData)
+	{
+		mData = newData;
+		memcpy((char*)mData + length() + sizeof(DataLength), data, len);
+		*(static_cast<DataLength*>(mData)) = newLength;
+	}
+	else if (mData)
+	{
+		std::cout << "ERROR CData out of memory!" << std::endl;
+		free(mData);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

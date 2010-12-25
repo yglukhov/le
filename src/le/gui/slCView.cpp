@@ -1,5 +1,5 @@
 #include "slCView.h"
-#include "slCScreen.h"
+#include "slCWindow.h"
 #include <le/core/auxiliary/slStdExtensions.h>
 #include "slCTheme.h"
 

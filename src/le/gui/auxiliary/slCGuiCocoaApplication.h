@@ -9,13 +9,15 @@ namespace sokira
 	namespace le
 	{
 
-class CScreen;
+class CWindow;
 
 class CGuiCocoaApplication : public CApplication
 {
 	public:
+		virtual ~CGuiCocoaApplication();
+
 		//		void applicationWillFinishLaunching();
-		void addScreen(CScreen* screen);
+		void addScreen(CWindow* screen);
 
 		virtual void quit();
 
@@ -23,7 +25,7 @@ class CGuiCocoaApplication : public CApplication
 		virtual SInt32 runApplication();
 
 	private:
-		std::vector<CScreen*> mScreens;
+		std::vector<CWindow*> mScreens;
 };
 
 	} // namespace le

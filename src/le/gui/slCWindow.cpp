@@ -5,7 +5,7 @@
 #include <map>
 #include <iostream>
 
-#include "slCScreen.h"
+#include "slCWindow.h"
 #include <le/core/debug/slDebug.h>
 
 #include <le/core/config/slCompiler.h>
@@ -13,11 +13,11 @@
 #include <le/gui/slCOpenGLRenderingContext.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
-#include "base/slCCocoaScreenImpl.hp"
-#define CScreenImpl CCocoaScreenImpl
+#include "base/slCCocoaWindowImpl.hp"
+#define CWindowImpl CCocoaWindowImpl
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
-#include "base/slCScreenWindowsImpl.hp"
-#define CScreenImpl CScreenWindowsImpl
+#include "base/slCWindowsWindowImpl.hp"
+#define CWindowImpl CWindowsWindowImpl
 #endif
 
 namespace sokira
@@ -25,39 +25,39 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_RUNTIME_CLASS(CScreen);
+LE_IMPLEMENT_RUNTIME_CLASS(CWindow);
 
 
-CScreen::CScreen(bool fullscreen, const CString& title, const CRectangle& rect) :
+CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) :
 	CView(CRectangle(CPoint2D(), rect.size())),
-	mImpl(new CScreenImpl(fullscreen, title, rect)),
+	mImpl(new CWindowImpl(fullscreen, title, rect)),
 	mRenderingContext(NULL)
 {
 	LE_ENTER_LOG;
 }
 
-CScreen::~CScreen()
+CWindow::~CWindow()
 {
 	LE_ENTER_LOG;
 	delete mRenderingContext;
-	delete static_cast<CScreenImpl*>(mImpl);
+	delete static_cast<CWindowImpl*>(mImpl);
 }
 
-void CScreen::setNeedsRedraw()
+void CWindow::setNeedsRedraw()
 {
 	LE_ENTER_LOG;
 
-	if (mImpl) static_cast<CScreenImpl*>(mImpl)->setNeedsRedraw();
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->setNeedsRedraw();
 }
 
-CSize2D CScreen::size() const
+CSize2D CWindow::size() const
 {
 	LE_ENTER_LOG;
 //	return mRect.size();
-	return static_cast<CScreenImpl*>(mImpl)->size();
+	return static_cast<CWindowImpl*>(mImpl)->size();
 }
 
-void CScreen::setSize(const CSize2D& size)
+void CWindow::setSize(const CSize2D& size)
 {
 	LE_ENTER_LOG;
 
@@ -68,22 +68,22 @@ void CScreen::setSize(const CSize2D& size)
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
-	static_cast<CScreenImpl*>(mImpl)->setSize(size);
+	static_cast<CWindowImpl*>(mImpl)->setSize(size);
 	CView::setSize(size);
 }
 
-void CScreen::draw()
+void CWindow::draw()
 {
 	LE_ENTER_LOG;
 
 	LE_ASSERT(mRenderingContext);
 
-//	std::cout << "CScreen::draw()" << std::endl;
+//	std::cout << "CWindow::draw()" << std::endl;
 
 //	glMatrixMode(GL_MODELVIEW);
 //	glLoadIdentity();
 
-//	CRenderingContext* context = NULL; //static_cast<CScreenImpl*>(mImpl)->renderingContext();
+//	CRenderingContext* context = NULL; //static_cast<CWindowImpl*>(mImpl)->renderingContext();
 //	context->clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 /*
@@ -104,7 +104,7 @@ void CScreen::draw()
 
 //	mContentView->draw(&mTheme, mRenderingContext);
 
-//	CSize2D Size = CScreen::size();
+//	CSize2D Size = CWindow::size();
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
@@ -127,7 +127,7 @@ void CScreen::draw()
 //	glutSwapBuffers();
 }
 
-void CScreen::setAbsolutePosition(const CPoint2D& point)
+void CWindow::setAbsolutePosition(const CPoint2D& point)
 {
 	LE_ENTER_LOG;
 
@@ -137,75 +137,75 @@ void CScreen::setAbsolutePosition(const CPoint2D& point)
 //	glutPositionWindow((int)point.x(), (int)point.y());
 }
 
-CPoint2D CScreen::absolutePosition() const
+CPoint2D CWindow::absolutePosition() const
 {
 	LE_ENTER_LOG;
 	return CPoint2D(0, 0);
 }
 
-CPoint2D CScreen::relativePosition() const // TODO: ...
+CPoint2D CWindow::relativePosition() const // TODO: ...
 {
 	LE_ENTER_LOG;
 	return CPoint2D(0, 0);
 }
 
-CString CScreen::title() const
+CString CWindow::title() const
 {
-	return static_cast<CScreenImpl*>(mImpl)->title();
+	return static_cast<CWindowImpl*>(mImpl)->title();
 }
 
-void CScreen::color(const CColor& Color)
+void CWindow::color(const CColor& Color)
 {
 	LE_ENTER_LOG;
 	glClearColor(Color.red(), Color.green(), Color.blue(), 0.0);
 }
 
-//void CScreen::addControlToDelete(CControl* control)
+//void CWindow::addControlToDelete(CControl* control)
 //{
 //	LE_ENTER_LOG;
 ////	mControlsToDelete.push_back(control);
 //}
 
-void CScreen::screenWillBeAddedToApplication(CGuiApplication* app)
+void CWindow::screenWillBeAddedToApplication(CGuiApplication* app)
 {
-	static_cast<CScreenImpl*>(mImpl)->screenWillBeAddedToApplication(this, app);
+	static_cast<CWindowImpl*>(mImpl)->screenWillBeAddedToApplication(this, app);
 }
 
-void CScreen::screenWasAddedToApplication(CGuiApplication* app)
+void CWindow::screenWasAddedToApplication(CGuiApplication* app)
 {
-	static_cast<CScreenImpl*>(mImpl)->screenWasAddedToApplication(this, app);
+	static_cast<CWindowImpl*>(mImpl)->screenWasAddedToApplication(this, app);
 }
 
-void CScreen::screenWillBeRemovedFromApplication(CGuiApplication* app)
+void CWindow::screenWillBeRemovedFromApplication(CGuiApplication* app)
 {
-	static_cast<CScreenImpl*>(mImpl)->screenWillBeRemovedFromApplication(this, app);
+	static_cast<CWindowImpl*>(mImpl)->screenWillBeRemovedFromApplication(this, app);
 }
 
-void CScreen::screenWasRemovedFromApplication(CGuiApplication* app)
+void CWindow::screenWasRemovedFromApplication(CGuiApplication* app)
 {
-	static_cast<CScreenImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
+	static_cast<CWindowImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
 }
 
-void CScreen::_prepareOpenGL()
+void CWindow::_prepareOpenGL()
 {
 	mRenderingContext = new COpenGLRenderingContext();
 }
 
-void CScreen::_screenWillBeClosed()
+void CWindow::_screenWillBeClosed()
 {
-	delete static_cast<CScreenImpl*>(mImpl);
+	delete static_cast<CWindowImpl*>(mImpl);
 	mImpl = NULL;
 }
 
-//CView* CScreen::contentView()
+//CView* CWindow::contentView()
 //{
 //	return mContentView;
 //}
 
 // This event includes mouse up, mouse down and mouse hover.
-//Bool CScreen::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
+//Bool CWindow::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 //{
-////	std::cout << "CScreen::onMouse: " << title() << std::endl;
+////	std::cout << "CWindow::onMouse: " << title() << std::endl;
 ////	CSceneList::const_iterator end = mScenes.end();
 ////	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
 ////	{
@@ -216,7 +216,7 @@ void CScreen::_screenWillBeClosed()
 //	return CView::onMouse(button, state, point);
 //}
 //
-//void CScreen::onMouseIn(const CPoint2D& point)
+//void CWindow::onMouseIn(const CPoint2D& point)
 //{
 //	mContentView->onMouseIn(point);
 ////	CSceneList::const_iterator end = mScenes.end();
@@ -226,7 +226,7 @@ void CScreen::_screenWillBeClosed()
 ////	}
 //}
 //
-//void CScreen::onMouseOut(const CPoint2D& point)
+//void CWindow::onMouseOut(const CPoint2D& point)
 //{
 //	mContentView->onMouseOut(point);
 ////	CSceneList::const_iterator end = mScenes.end();
@@ -236,7 +236,7 @@ void CScreen::_screenWillBeClosed()
 ////	}
 //}
 
-//void CScreen::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
+//void CWindow::onKeyDown(const CString& characters, ECharacterModifiers modifiers)
 //{
 ////	mContentView->onKeyDown(characters, modifiers);
 ////	CSceneList::const_iterator end = mScenes.end();
@@ -246,7 +246,7 @@ void CScreen::_screenWillBeClosed()
 ////	}
 //}
 
-//void CScreen::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
+//void CWindow::onKeyUp(const CString& characters, ECharacterModifiers modifiers)
 //{
 ////	mContentView->onKeyUp(characters, modifiers);
 ////	CSceneList::const_iterator end = mScenes.end();
@@ -257,11 +257,11 @@ void CScreen::_screenWillBeClosed()
 //}
 
 // This method is always called within valid OpenGL context
-void CScreen::onResize()
+void CWindow::onResize()
 {
-	CSize2D size = static_cast<CScreenImpl*>(mImpl)->size();
+	CSize2D size = static_cast<CWindowImpl*>(mImpl)->size();
 
-//	std::cout << "CScreen::onResize: " << mSize.width() << ", " << mSize.height() << std::endl;
+//	std::cout << "CWindow::onResize: " << mSize.width() << ", " << mSize.height() << std::endl;
 //	std::cout << "{" << std::endl;
 
 	glViewport(0, 0, (int)size.width(), (int)size.height());
@@ -285,7 +285,7 @@ void CScreen::onResize()
 //	setNeedsRedraw();
 }
 
-CRenderingContext* CScreen::renderingContext()
+CRenderingContext* CWindow::renderingContext()
 {
 	return mRenderingContext;
 }

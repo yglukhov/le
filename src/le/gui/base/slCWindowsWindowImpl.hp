@@ -12,12 +12,12 @@ namespace sokira
 	{
 
 class CGuiApplication;
-class CScreen;
+class CWindow;
 
-class CScreenWindowsImpl
+class CWindowsWindowImpl
 {
 	public:
-		CScreenWindowsImpl(bool fullScreen, const CString& title, const CRectangle& rect);
+		CWindowsWindowImpl(bool fullScreen, const CString& title, const CRectangle& rect);
 
 		void screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app);
 		void screenWasAddedToApplication(CScreen* screen, CGuiApplication* app);
@@ -34,12 +34,12 @@ class CScreenWindowsImpl
 
 		CString title() const;
 
-		LRESULT CScreenWindowsImpl::wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
+		LRESULT wndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	private:
 		void onMouseButton(EKeyCode button, EButtonState state, LPARAM coords);
 
-		CScreen* mScreen;
+		CWindow* mScreen;
 		Bool mFullScreen;
 		CString mTitle;
 		CRectangle mRect;

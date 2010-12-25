@@ -1,7 +1,7 @@
 #include "slCDialog.h"
 #include "slCTitleBar.h"
 #include <le/core/debug/slDebug.h>
-#include "slCScreen.h"
+#include "slCWindow.h"
 
 namespace sokira
 {

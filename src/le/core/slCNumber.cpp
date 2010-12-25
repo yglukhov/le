@@ -839,16 +839,16 @@ Bool CNumber::valueAs(TSTypeToType<Bool>) const
 {
 	switch (mFormat)
 	{
-		case eFormatUInt8: return (mData.valUInt8)?(true):(false);
-		case eFormatUInt16: return (mData.valUInt16)?(true):(false);
-		case eFormatUInt32: return (mData.valUInt32)?(true):(false);
-		case eFormatUInt64: return (mData.valUInt64)?(true):(false);
-		case eFormatSInt8: return (mData.valSInt8)?(true):(false);
-		case eFormatSInt16: return (mData.valSInt16)?(true):(false);
-		case eFormatSInt32: return (mData.valSInt32)?(true):(false);
-		case eFormatSInt64: return (mData.valSInt64)?(true):(false);
-		case eFormatFloat32: return (mData.valFloat32)?(true):(false);
-		case eFormatFloat64: return (mData.valFloat64)?(true):(false);
+		case eFormatUInt8: return _LE_BOOL_CAST(mData.valUInt8);
+		case eFormatUInt16: return _LE_BOOL_CAST(mData.valUInt16);
+		case eFormatUInt32: return _LE_BOOL_CAST(mData.valUInt32);
+		case eFormatUInt64: return _LE_BOOL_CAST(mData.valUInt64);
+		case eFormatSInt8: return _LE_BOOL_CAST(mData.valSInt8);
+		case eFormatSInt16: return _LE_BOOL_CAST(mData.valSInt16);
+		case eFormatSInt32: return _LE_BOOL_CAST(mData.valSInt32);
+		case eFormatSInt64: return _LE_BOOL_CAST(mData.valSInt64);
+		case eFormatFloat32: return _LE_BOOL_CAST(mData.valFloat32);
+		case eFormatFloat64: return _LE_BOOL_CAST(mData.valFloat64);
 		case eFormatBool: return mData.valBool;
 		default:;
 	}
@@ -859,17 +859,17 @@ CString CNumber::valueAs(TSTypeToType<CString>) const
 {
 	switch (mFormat)
 	{
-		case eFormatUInt8: return CString::createWithFormat("%d", mData.valUInt8);
-		case eFormatUInt16: return CString::createWithFormat("%d", mData.valUInt16);
-		case eFormatUInt32: return CString::createWithFormat("%d", mData.valUInt32);
-		case eFormatUInt64: return CString::createWithFormat("%d", mData.valUInt64);
-		case eFormatSInt8: return CString::createWithFormat("%d", mData.valSInt8);
-		case eFormatSInt16: return CString::createWithFormat("%d", mData.valSInt16);
-		case eFormatSInt32: return CString::createWithFormat("%d", mData.valSInt32);
-		case eFormatSInt64: return CString::createWithFormat("%d", mData.valSInt64);
-		case eFormatFloat32: return CString::createWithFormat("%f", mData.valFloat32);
-		case eFormatFloat64: return CString::createWithFormat("%f", mData.valFloat64);
-		case eFormatBool: return CString::createWithFormat("%d", mData.valBool);
+		case eFormatUInt8: return CString::createWithFormat("%d", (int)mData.valUInt8);
+		case eFormatUInt16: return CString::createWithFormat("%d", (int)mData.valUInt16);
+		case eFormatUInt32: return CString::createWithFormat("%u", (unsigned)mData.valUInt32);
+		case eFormatUInt64: return CString::createWithFormat("%llu", mData.valUInt64);
+		case eFormatSInt8: return CString::createWithFormat("%d", (int)mData.valSInt8);
+		case eFormatSInt16: return CString::createWithFormat("%d", (int)mData.valSInt16);
+		case eFormatSInt32: return CString::createWithFormat("%d", (int)mData.valSInt32);
+		case eFormatSInt64: return CString::createWithFormat("%lld", mData.valSInt64);
+		case eFormatFloat32: return CString::createWithFormat("%f", (double)mData.valFloat32);
+		case eFormatFloat64: return CString::createWithFormat("%f", (double)mData.valFloat64);
+		case eFormatBool: return CString::createWithFormat("%d", (int)mData.valBool);
 		default: ;
 	}
 	std::cout << "ERROR!" << std::endl;

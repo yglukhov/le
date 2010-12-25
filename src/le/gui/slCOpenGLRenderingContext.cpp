@@ -1,9 +1,18 @@
+
+#define LE_USE_FREETYPE
+
+#ifdef LE_USE_FREETYPE
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#endif
+
 #include <glut/slGlut.h>
 #include <le/core/slCString.h>
 #include <le/core/base/slCImageImpl.hp>
 #include <le/gui/base/slCOpenGLTextureImpl.hp>
 #include "slCOpenGLRenderingContext.h"
 #include <le/core/slCGradient.h>
+
 
 namespace sokira
 {
@@ -358,7 +367,117 @@ void COpenGLRenderingContext::popClippingRect()
 	glMatrixMode(GL_MODELVIEW);
 }
 
-UInt32 COpenGLRenderingContext::makeFont()
+
+#ifdef LE_USE_FREETYPE
+
+static void createGlyph(FT_Face face, UInt32 offset, UInt32 character)
+{
+	if (FT_Load_Char(face, character, FT_LOAD_RENDER | FT_LOAD_MONOCHROME))
+	{
+		std::cout << "ERROR LOADING CHAR" << std::endl;
+	}
+
+	FT_GlyphSlot slot = face->glyph;
+	FT_Bitmap* bitmap = &slot->bitmap;
+
+	int widthInBytes = bitmap->width / 8;
+	if (bitmap->width % 8)
+	{
+		++widthInBytes;
+	}
+
+	GLubyte* data = (GLubyte*)malloc(widthInBytes * bitmap->rows);
+	for (int iDest = 0, iSrc = bitmap->rows - 1; iDest < bitmap->rows; ++iDest, --iSrc)
+	{
+		memcpy(data + iDest * widthInBytes, bitmap->buffer + iSrc * bitmap->pitch, widthInBytes);
+	}
+
+	glNewList(offset + character, GL_COMPILE);
+	glBitmap(bitmap->width, bitmap->rows, - slot->bitmap_left, bitmap->rows - slot->bitmap_top, slot->advance.x / 64, slot->advance.y / 64, data);
+	glEndList();
+	free(data);
+}
+
+static void createGlyphRange(FT_Face face, UInt32 offset, UInt32 character, UInt32 length)
+{
+	for (UInt32 i = 0, j = character; i < length; ++i, ++j)
+	{
+		createGlyph(face, offset, j);
+	}
+}
+
+static void createGlyphsInString(FT_Face face, UInt32 offset, const CString& string)
+{
+	for (UInt32 i = 0; i < string.length(); ++i)
+	{
+		createGlyph(face, offset, string.characterAtIndex(i));
+	}
+}
+
+static UInt32 createFreeTypeFont()
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	FT_Library freeType;
+	FT_Init_FreeType(&freeType);
+	FT_Face face;
+
+	if (FT_New_Face(freeType, "/System/Library/Fonts/LucidaGrande.ttc", 1, &face))
+	{
+		std::cout << "ERROR LOADING FACE" << std::endl;
+	}
+
+	if (FT_Set_Char_Size(face, 16 * 64, 0, 72, 72))
+	{
+		std::cout << "ERROR SETTING SIZE" << std::endl;
+	}
+	//	if (FT_Set_Pixel_Sizes(face, 8, 13))
+	//	{
+	//		std::cout << "ERROR SETTING SIZE" << std::endl;
+	//	}
+
+//	if (FT_Load_Char(face, 'A', FT_LOAD_RENDER | FT_LOAD_MONOCHROME))
+//	{
+//		std::cout << "ERROR LOADING CHAR" << std::endl;
+//	}
+//	
+//	FT_GlyphSlot slot = face->glyph;
+//	FT_Bitmap* bitmap = &slot->bitmap;
+//	
+//	std::cout << "Bitmap rows: " << bitmap->rows << " width: " << bitmap->width << std::endl;
+//	
+//	for (int i = 0; i < bitmap->rows; ++i)
+//	{
+//		for (int j = 0; j < bitmap->width; ++j)
+//		{
+//			UInt32 byteIndex = j/8;
+//			UInt8 thisByte = *(bitmap->buffer + i * bitmap->pitch + byteIndex);
+//			if (thisByte & (1 << (7 - (j % 8))))
+//			{
+//				std::cout << "1";
+//			}
+//			else
+//			{
+//				std::cout << " ";
+//			}
+//		}
+//		std::cout << std::endl;
+//	}
+
+	UInt32 fontOffset = glGenLists (128);
+	createGlyphRange(face, fontOffset, 'A', 26);
+	createGlyphRange(face, fontOffset, 'a', 26);
+	createGlyphRange(face, fontOffset, '0', 10);
+	createGlyphsInString(face, fontOffset, " .:;\\/|{}()[]!@#$%^&*-+=?<>'\"~");
+
+	FT_Done_Face(face);
+	FT_Done_FreeType(freeType);
+
+	return fontOffset;
+}
+#endif // LE_USE_FREETYPE
+
+static UInt32 createInlineFont()
 {
 	GLuint i, j;
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -398,153 +517,6 @@ UInt32 COpenGLRenderingContext::makeFont()
 		{0x00, 0x00, 0xff, 0xc0, 0xc0, 0x60, 0x30, 0x7e, 0x0c, 0x06, 0x03, 0x03, 0xff}
 	};
 
-
-/*
-00000000
-00000000
-00111100
-01100110
-11000011
-11000011
-11000011
-11000011
-11000011
-11000011
-11000011
-01100110
-00111100
-
-00000000
-00000000
-00111100
-00011000
-00011000
-00011000
-00011000
-00011000
-00011000
-00011000
-00011000
-00111000
-00011000
-
-00000000
-00000000
-11111111 FF
-11000000
-01100000
-00110000
-00011000
-00001100
-00000110
-00000011
-11000011
-01100110
-00111100 3C
-
-00000000
-00000000
-00111100 3C
-01100110 66
-11000011 C3
-00000011 03
-00000110 06
-00011100 1C
-00000110 06
-00000011 03
-11000011 C3
-01100110 66
-00111100 3C
-
-00000000
-00000000
-00000110 06
-00000110 06
-11111111 FF
-11000110 C6
-01100110 66
-01100110 66
-00110110 36
-00110110 36
-00011110 1E
-00001110 0E
-00000110 06
-
-00000000
-00000000
-00111100 3C
-01100110 66
-11000011 C3
-00000011 03
-00000011 03
-00000011 03
-11100110 E6
-11111100 FC
-11000000 C0
-11000000 C0
-11111110 FE
-
-00000000
-00000000
-00111100 3C
-01100110 66
-11000011 C3
-11000011 C3
-11000011 C3
-11000011 C3
-11100110 E6
-11011100 DC
-11000000 C0
-01100011 63
-00111110 3E
-
-
-00000000
-00000000
-01100000 60
-01100000 60
-00110000 30
-00110000 30
-00011000 18
-00111100 3C
-00011000 18
-00001100 0C
-00000110 06
-00000011 03
-11111111 FF
-
-00000000
-00000000
-00111100 3C
-01100110 66
-11000011 C3
-11000011 C3
-01100110 66
-00111100 3C
-01100110 66
-11000011 C3
-11000011 C3
-01100110 66
-00111100 3C
-
-00000000
-00000000
-00111100 3C
-01100110 66
-11000011 C3
-00000011 03
-00000011 03
-00111111 3F
-01100111 67
-11000011 C3
-11000011 C3
-01100110 66
-00111100 3C
-
-
-
-*/
-
 	GLubyte digits[][13] = {
 		{0x00, 0x00, 0x3C, 0x66, 0xc3, 0xc3, 0xc3, 0xc3, 0xc3, 0xc3, 0xc3, 0x66, 0x3C},
 		{0x00, 0x00, 0x3C, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x38, 0x18},
@@ -558,10 +530,15 @@ UInt32 COpenGLRenderingContext::makeFont()
 		{0x00, 0x00, 0x3C, 0x66, 0xC3, 0x03, 0x03, 0x3F, 0x67, 0xC3, 0xC3, 0x66, 0x3C}
 	};
 
-
-
 	UInt32 fontOffset = glGenLists (128);
 	for (i = 0,j = 'A'; i < 26; i++,j++)
+	{
+		glNewList(fontOffset + j, GL_COMPILE);
+		glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[i]);
+		glEndList();
+	}
+
+	for (i = 0,j = 'a'; i < 26; i++,j++)
 	{
 		glNewList(fontOffset + j, GL_COMPILE);
 		glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[i]);
@@ -584,6 +561,15 @@ UInt32 COpenGLRenderingContext::makeFont()
 	glEndList();
 
 	return fontOffset;
+}
+		
+UInt32 COpenGLRenderingContext::makeFont()
+{
+#ifdef LE_USE_FREETYPE
+	return createFreeTypeFont();
+#else
+	return createInlineFont();
+#endif
 }
 
 Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const

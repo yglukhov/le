@@ -1,7 +1,7 @@
 #include <le/core/thread/slCThread.h>
 #include "slCTheme.h"
 #include "slCButton.h"
-#include "slCScreen.h"
+#include "slCWindow.h"
 
 namespace sokira
 {

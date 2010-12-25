@@ -2,15 +2,15 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>
-#import <le/gui/slCScreen.h>
+#import <le/gui/slCWindow.h>
 #import <le/core/auxiliary/slCRunloop.h>
 #import <le/core/auxiliary/base/slCRunloopImplMac.hp>
 //#import <le/core/slCString.h>
-#import "slCCocoaScreenImpl.hp"
+#import "slCCocoaWindowImpl.hp"
 
 @interface SokiraLE_OpenGLView : NSOpenGLView
 {
-	::sokira::le::CScreen* mScreen;
+	::sokira::le::CWindow* mScreen;
 	BOOL mMouseInView;
 	BOOL mViewDidResize;
 }
@@ -18,7 +18,7 @@
 
 @implementation SokiraLE_OpenGLView
 
-- (id) initWithFrame: (NSRect) frame andScreen: (::sokira::le::CScreen*) screen
+- (id) initWithScreen: (::sokira::le::CWindow*) screen
 {
 	NSOpenGLPixelFormatAttribute attributes [] =
 	{
@@ -29,7 +29,7 @@
 	};
 
 	NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-	self = [super initWithFrame: frame pixelFormat: pixelFormat];
+	self = [super initWithFrame: NSZeroRect pixelFormat: pixelFormat];
 	[pixelFormat release];
 
 	mScreen = screen;
@@ -260,7 +260,7 @@ namespace sokira
 	namespace le
 	{
 
-CCocoaScreenImpl::CCocoaScreenImpl(bool fullScreen, const CString& title, const CRectangle& rect) :
+CCocoaWindowImpl::CCocoaWindowImpl(bool fullScreen, const CString& title, const CRectangle& rect) :
 	mFullScreen(fullScreen),
 	mTitle(title),
 	mRect(rect),
@@ -269,12 +269,12 @@ CCocoaScreenImpl::CCocoaScreenImpl(bool fullScreen, const CString& title, const 
 
 }
 
-void CCocoaScreenImpl::screenWillBeAddedToApplication(CScreen* screen, CGuiCocoaApplication* app)
+void CCocoaWindowImpl::screenWillBeAddedToApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
 
 }
 
-void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiCocoaApplication* app)
+void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
 	NSRect frame = NSMakeRect(mRect.x(), mRect.y(), mRect.width(), mRect.height());
 
@@ -288,60 +288,61 @@ void CCocoaScreenImpl::screenWasAddedToApplication(CScreen* screen, CGuiCocoaApp
 
 	[(NSWindow*)mWindow setTitle: title];
 	[(NSWindow*)mWindow setAcceptsMouseMovedEvents: YES];
-	NSView* view = [[[SokiraLE_OpenGLView alloc] initWithFrame:frame andScreen: screen] autorelease];
+	NSView* view = [[SokiraLE_OpenGLView alloc] initWithScreen: screen];
 	[[NSNotificationCenter defaultCenter] addObserver:view selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object:static_cast<NSWindow*>(mWindow)];
 	[(NSWindow*)mWindow setContentView: view];
+	[view release];
 	[(NSWindow*)mWindow makeKeyAndOrderFront: nil];
 }
 
-void CCocoaScreenImpl::screenWillBeRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app)
+void CCocoaWindowImpl::screenWillBeRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
 	std::cout << "screenWillBeRemovedFromApplication" << std::endl;
 	if (mWindow)
 	{
-		[static_cast<NSWindow*>(mWindow) release];
+		[(NSWindow*)mWindow release];
 	}
 
 	mWindow = NULL;
 }
 
-void CCocoaScreenImpl::screenWasRemovedFromApplication(CScreen* screen, CGuiCocoaApplication* app)
+void CCocoaWindowImpl::screenWasRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
 
 }
 
-Bool CCocoaScreenImpl::inLiveResize() const
+Bool CCocoaWindowImpl::inLiveResize() const
 {
-	return _LE_BOOL_CAST([[static_cast<NSWindow*>(mWindow) contentView] inLiveResize]);
+	return _LE_BOOL_CAST([[(NSWindow*)mWindow contentView] inLiveResize]);
 }
 
-CSize2D CCocoaScreenImpl::size() const
+CSize2D CCocoaWindowImpl::size() const
 {
 	id view = [static_cast<NSWindow*>(mWindow) contentView];
 	if (view)
 	{
-		NSRect rect = [view frame];
-		return CSize2D(rect.size.width, rect.size.height);
+		NSSize result = [view frame].size;
+		return CSize2D(result.width, result.height);
 	}
 	return mRect.size();
 }
 
-void CCocoaScreenImpl::setSize(const CSize2D& size)
+void CCocoaWindowImpl::setSize(const CSize2D& size)
 {
 	if (mWindow)
 	{
-		[static_cast<NSWindow*>(mWindow) setContentSize:NSMakeSize(size.width(), size.height())];
+		[(NSWindow*)mWindow setContentSize: NSMakeSize(size.width(), size.height())];
 	}
 
 	mRect.setSize(size);
 }
 
-void CCocoaScreenImpl::setNeedsRedraw()
+void CCocoaWindowImpl::setNeedsRedraw()
 {
-	[[static_cast<NSWindow*>(mWindow) contentView] setNeedsDisplay:YES];
+	[[(NSWindow*)mWindow contentView] setNeedsDisplay: YES];
 }
 
-CString CCocoaScreenImpl::title() const
+CString CCocoaWindowImpl::title() const
 {
 	return mTitle;
 }

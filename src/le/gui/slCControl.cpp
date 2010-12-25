@@ -1,7 +1,7 @@
 #include "slCControl.h"
 
 #include <le/core/debug/slDebug.h>
-#include "slCScreen.h"
+#include "slCWindow.h"
 #include "slCControlDelegate.h"
 #include "slCTheme.h"
 
@@ -11,50 +11,6 @@ namespace sokira
 	{
 
 LE_IMPLEMENT_RUNTIME_CLASS(CControl);
-
-template <class T>
-class CDelegator
-{
-	public:
-		template <class T2>
-		CDelegator(T2* del1, T* del2, CControl* sender) :
-			mDel1(dynamic_cast<T*>(del1)), mDel2(del2), mSender(sender)
-		{
-
-		}
-
-		template<class ARG>
-		void callMethod0(void (T::*func)(ARG, CControl*), ARG arg)
-		{
-			if(mDel1)(mDel1->*func)(arg, mSender);
-			if(mDel2)(mDel2->*func)(arg, mSender);
-		}
-
-		template<class ARG>
-		bool callMethod1(bool (T::*func)(ARG, CControl*), ARG arg)
-		{
-			bool result = false;
-			if(mDel1)
-				result = (mDel1->*func)(arg, mSender);
-			if(mDel2)
-				result = (mDel2->*func)(arg, mSender) || result;
-			return result;
-		}
-
-		bool callMethod2(bool (T::*func)(CControl*))
-		{
-			bool result = false;
-			if(mDel1)
-				result = (mDel1->*func)(mSender);
-			if(mDel2)
-				result = (mDel2->*func)(mSender) || result;
-			return result;
-		}
-
-	private:
-		T* mDel1, *mDel2;
-		CControl* mSender;
-};
 
 
 CControl::CControl() :
@@ -269,15 +225,6 @@ Bool CControl::onKeyUp(EKeyCode keyCode)
 {
 	return false;
 }
-//
-//
-//bool CControl::onKey(unsigned char inkey, int px, int py)
-//{
-//	LE_ENTER_LOG;
-//
-//	return CDelegator<CControlDelegate>(this, mDelegate, this).
-//				callMethod1<int>(&CControlDelegate::onKeyDown, inkey);
-//}
 
 void CControl::setAutoResizing(unsigned mask)
 {

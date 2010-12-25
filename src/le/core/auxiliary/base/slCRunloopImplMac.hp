@@ -10,6 +10,7 @@ namespace sokira
 	{
 
 CEvent nextEventMatchingMask(UInt32 mask);
+void postEvent(const CEvent& event);
 
 class CRunLoopImpl
 {
@@ -31,6 +32,11 @@ class CRunLoopImpl
 		CEvent nextEventMatchingMask(UInt32 mask)
 		{
 			return ::sokira::le::nextEventMatchingMask(mask);
+		}
+
+		void postEvent(const CEvent& event)
+		{
+			::sokira::le::postEvent(event);
 		}
 
 		static void timerProc(CFRunLoopTimerRef timer, void *info)

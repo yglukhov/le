@@ -31,6 +31,36 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 			TPoint(x, y), TSize(size) { }
 
 	// Attributes
+		T minX() const
+		{
+			return TSelf::x();
+		}
+
+		T minY() const
+		{
+			return TSelf::y();
+		}
+
+		T midX() const
+		{
+			return TSelf::x() + TSelf::width() / 2;
+		}
+
+		T midY() const
+		{
+			return TSelf::y() + TSelf::height() / 2;
+		}
+
+		T maxX() const
+		{
+			return TSelf::x() + TSelf::width();
+		}
+
+		T maxY() const
+		{
+			return TSelf::y() + TSelf::height();
+		}
+
 
 		TPoint topLeft() const
 		{
@@ -39,30 +69,35 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 
 		TPoint topRight() const
 		{
-			return TPoint(TSelf::x() + TSelf::width(), TSelf::y());
+			return TPoint(TSelf::maxX(), TSelf::minY());
 		}
 
 		TPoint bottomLeft() const
 		{
-			return TPoint(TSelf::x(), TSelf::y() + TSelf::height());
+			return TPoint(TSelf::minX(), TSelf::maxY());
 		}
 
 		TPoint bottomRight() const
 		{
-			return TPoint(TSelf::x() + TSelf::width(), TSelf::y() + TSelf::height());
+			return TPoint(TSelf::maxX(), TSelf::maxY());
+		}
+
+		TPoint center() const
+		{
+			return TPoint(TSelf::midX(), TSelf::midY());
 		}
 
 		bool containsPoint(const TPoint& point) const
 		{
-			return (point.x() >= TSelf::x() && (point.x() <= TSelf::x() + TSelf::width()) &&
-					 point.y() >= TSelf::y() && (point.y() <= TSelf::y() + TSelf::height()));
+			return (point.x() >= TSelf::minX() && point.x() <= TSelf::maxX() &&
+					 point.y() >= TSelf::minY() && point.y() <= TSelf::maxY());
 		}
 
 		bool containsRect(const TCRectangle& rect) const
 		{
 			return rect.x() >= TSelf::x() && rect.y() >= TSelf::y() &&
-					rect.x() + rect.width() <= TSelf::x() + TSelf::width() &&
-					rect.y() + rect.height() <= TSelf::y() + TSelf::height();
+					rect.maxX() <= TSelf::maxX() &&
+					rect.maxY() <= TSelf::maxY();
 		}
 
 		bool intersectsRect(const TCRectangle& rect) const
@@ -81,6 +116,22 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 					(xb1 >= xa1 && xb1 <= xa2) || (xb2 >= xa1 && xb2 <= xa2)) &&
 				   ((ya1 >= yb1 && ya1 <= yb2) || (ya2 >= yb1 && ya2 <= yb2) || // Y intersection
 					(yb1 >= ya1 && yb1 <= ya2) || (yb2 >= ya1 && yb2 <= ya2));
+		}
+
+		void extendToPoint(const TPoint& point)
+		{
+			if (TSelf::x() > point.x()) TSelf::setX(point.x());
+			if (TSelf::y() > point.y()) TSelf::setY(point.y());
+			if (TSelf::maxX() < point.x()) TSelf::setWidth(point.x() - TSelf::minX());
+			if (TSelf::maxY() < point.y()) TSelf::setHeight(point.y() - TSelf::minY());
+		}
+
+		void extendToRect(const TCRectangle& rect)
+		{
+			if (TSelf::x() > rect.x()) TSelf::setX(rect.x());
+			if (TSelf::y() > rect.y()) TSelf::setY(rect.y());
+			if (TSelf::maxX() < rect.maxX()) TSelf::setWidth(rect.maxX() - TSelf::minX());
+			if (TSelf::maxY() < rect.maxY()) TSelf::setHeight(rect.maxY() - TSelf::minY());
 		}
 
 		TSize size() const
@@ -127,6 +178,12 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 			return !operator=(rect);
 		}
 };
+
+template <typename T>
+std::ostream& operator << (std::ostream& stream, const TCRectangle<T>& rect)
+{
+	return stream << '{' << rect.position() << ", " << rect.size() << '}';
+}
 
 typedef TCRectangle<Float32> CRectangle;
 
