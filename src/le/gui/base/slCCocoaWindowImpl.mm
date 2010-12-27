@@ -1,7 +1,6 @@
+#import <ApplicationServices/ApplicationServices.h>
 #import <Cocoa/Cocoa.h>
-#import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
-#import <OpenGL/glu.h>
+#import <le/gui/slOpenGL.h>
 #import <le/gui/slCWindow.h>
 #import <le/core/auxiliary/slCRunloop.h>
 #import <le/core/auxiliary/base/slCRunloopImplMac.hp>
@@ -58,7 +57,7 @@
 	[[self openGLContext] flushBuffer];
 	GLenum err = glGetError();
 	if (GL_NO_ERROR != err)
-		std::cout << gluErrorString (err) << std::endl;
+		std::cout << "ERROR in OpenGL: " << gluErrorString(err) << std::endl;
 }
 
 - (void)keyDown:(NSEvent *)theEvent
@@ -286,13 +285,13 @@ void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApp
 
 	NSString* title = [NSString stringWithCString: mTitle.cString() encoding: NSASCIIStringEncoding];
 
-	[(NSWindow*)mWindow setTitle: title];
-	[(NSWindow*)mWindow setAcceptsMouseMovedEvents: YES];
-	NSView* view = [[SokiraLE_OpenGLView alloc] initWithScreen: screen];
-	[[NSNotificationCenter defaultCenter] addObserver:view selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object:static_cast<NSWindow*>(mWindow)];
-	[(NSWindow*)mWindow setContentView: view];
+	[(id)mWindow setTitle: title];
+	[(id)mWindow setAcceptsMouseMovedEvents: YES];
+	id view = [[SokiraLE_OpenGLView alloc] initWithScreen: screen];
+	[[NSNotificationCenter defaultCenter] addObserver:view selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object: (id) mWindow];
+	[(id)mWindow setContentView: view];
 	[view release];
-	[(NSWindow*)mWindow makeKeyAndOrderFront: nil];
+	[(id)mWindow makeKeyAndOrderFront: nil];
 }
 
 void CCocoaWindowImpl::screenWillBeRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app)

@@ -1,9 +1,7 @@
-#include <glut/slGlut.h>
-//#include <OpenGL/OpenGL.h>
-//#include <OpenGLES/ES1/gl.h>
-
 #include <map>
 #include <iostream>
+
+#include <le/gui/slOpenGL.h>
 
 #include "slCWindow.h"
 #include <le/core/debug/slDebug.h>
@@ -12,7 +10,7 @@
 
 #include <le/gui/slCOpenGLRenderingContext.h>
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #include "base/slCCocoaWindowImpl.hp"
 #define CWindowImpl CCocoaWindowImpl
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS

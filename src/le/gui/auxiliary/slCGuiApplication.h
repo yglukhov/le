@@ -3,7 +3,7 @@
 
 #include <le/core/config/slCompiler.h>
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #include "slCGuiCocoaApplication.h"
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 #include "slCGuiWindowsApplication.h"
@@ -13,7 +13,7 @@ namespace sokira
 {
 	namespace le
 	{
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 		typedef CGuiCocoaApplication CGuiApplication;
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 		typedef CGuiWindowsApplication CGuiApplication;

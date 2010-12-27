@@ -2,7 +2,12 @@
 #define SL_LE_core_auxiliary_base_slCRunloopImplMac_hp
 
 #include <CoreFoundation/CoreFoundation.h>
+
+#include <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #include <Carbon/Carbon.h>
+#endif
 
 namespace sokira
 {
@@ -64,6 +69,7 @@ class CRunLoopImpl
 
 		static inline EKeyCode keyCodeFromSystemCode(int code)
 		{
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 			switch (code)
 			{
 				case kVK_ANSI_A                    : return eKeyCodeAnsiA;
@@ -191,7 +197,7 @@ class CRunLoopImpl
 				case kVK_JIS_Eisu                  : return eKeyCodeJisEisu;
 				case kVK_JIS_Kana                  : return eKeyCodeJisKana;
 			}
-
+#endif
 			return eKeyCodeUnknown;
 		}
 };

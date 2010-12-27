@@ -1,6 +1,6 @@
 #include "slCRunLoop.h"
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #include "base/slCRunLoopImplMac.hp"
 #elif  LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 #include "base/slCRunloopImplWin.hp"

@@ -6,7 +6,16 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #import <Cocoa/Cocoa.h>
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+#import <UIKit/UIKit.h>
+#else
+#error No target platform defined
+#endif
+
 #import <le/core/auxiliary/slCRunLoop.h>
 #import "slCRunloopImplMac.hp"
 
@@ -15,15 +24,19 @@ namespace sokira
 	namespace le
 	{
 
-static inline CPoint2D NSPointToCPoint(const NSPoint& point)
+		
+template <typename TPoint>
+static inline CPoint2D CocoaPointToCPoint(const TPoint& point)
 {
 	return CPoint2D(point.x, point.y);
 }
 
 CEvent nextEventMatchingMask(UInt32 type)
 {
-	NSUInteger cocoaMask = 0;
+	CEvent result;
 
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+	NSUInteger cocoaMask = 0;
 	if (type & eEventTypeMouseDown)
 	{
 		cocoaMask |= NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask;
@@ -51,32 +64,30 @@ CEvent nextEventMatchingMask(UInt32 type)
 
 	NSEvent* event = [NSApp nextEventMatchingMask: cocoaMask untilDate: [NSDate distantFuture] inMode: NSDefaultRunLoopMode dequeue: YES];
 
-	CEvent result;
-
 	switch ([event type])
 	{
 		case NSLeftMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonPrimary);
+			result = CEvent(eEventTypeMouseDown, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonPrimary);
 			break;
 
 		case NSRightMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonSecondary);
+			result = CEvent(eEventTypeMouseDown, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonSecondary);
 			break;
 
 		case NSOtherMouseDown:
-			result = CEvent(eEventTypeMouseDown, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonOther);
+			result = CEvent(eEventTypeMouseDown, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateDown, eKeyCodeMouseButtonOther);
 			break;
 
 		case NSLeftMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonPrimary);
+			result = CEvent(eEventTypeMouseUp, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonPrimary);
 			break;
 
 		case NSRightMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonSecondary);
+			result = CEvent(eEventTypeMouseUp, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonSecondary);
 			break;
 
 		case NSOtherMouseUp:
-			result = CEvent(eEventTypeMouseUp, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonOther);
+			result = CEvent(eEventTypeMouseUp, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateUp, eKeyCodeMouseButtonOther);
 			break;
 
 		case NSMouseMoved:
@@ -85,7 +96,7 @@ CEvent nextEventMatchingMask(UInt32 type)
 		case NSOtherMouseDragged:
 		case NSMouseEntered:
 		case NSMouseExited:
-			result = CEvent(eEventTypeMouseMove, NSPointToCPoint([NSEvent mouseLocation]), eButtonStateUnknown, eKeyCodeUnknown);
+			result = CEvent(eEventTypeMouseMove, CocoaPointToCPoint([NSEvent mouseLocation]), eButtonStateUnknown, eKeyCodeUnknown);
 			break;
 
 		case NSKeyDown:
@@ -100,6 +111,7 @@ CEvent nextEventMatchingMask(UInt32 type)
 			LE_ASSERT(false);
 	}
 
+#endif
 	return result;
 }
 
@@ -115,7 +127,9 @@ void postEvent(const CEvent& event)
 		CEvent* pEvent;
 	} u;
 	u.pEvent = new CEvent(event);
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	[NSApp postEvent: [NSEvent otherEventWithType: NSApplicationDefined location: NSZeroPoint modifierFlags: 0 timestamp: 0 windowNumber: 0 context: 0 subtype: 0 data1: u.data1 data2: u.data2] atStart: NO];
+#endif
 //	[NSApp postEvent:  atStart:<#(BOOL)flag#>
 }
 		
