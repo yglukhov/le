@@ -18,6 +18,9 @@ namespace sokira
 {
 	namespace le
 	{
+
+class CURL;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Class:
 //		CData
@@ -49,6 +52,8 @@ class CData : public CObject
 		CData(const CData& data);
 		~CData();
 
+		static CData createWithContentsOfURL(const CURL& url);
+
 		DataLength length() const;
 		void crop(DataLength toLength);
 
@@ -66,6 +71,7 @@ class CData : public CObject
 		void compress(ECompressionMethod method);
 		void decompress();
 
+		void writeToURL(const CURL& url) const;
 	private:
 		void* mData;
 };

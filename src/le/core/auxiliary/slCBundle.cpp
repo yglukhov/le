@@ -31,6 +31,8 @@ CURL CBundle::contentsUrl() const
 	CURL result = executableUrl();
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	result.removeLastPathComponents(2);
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	result.removeLastPathComponent();
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 	result.removeLastPathComponent();
 	result.appendPathComponent("Contents");
@@ -48,7 +50,9 @@ CURL CBundle::infoPlistUrl() const
 CURL CBundle::resourcesUrl() const
 {
 	CURL result = contentsUrl();
+#if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	result.appendPathComponent("Resources");
+#endif
 	return result;
 }
 

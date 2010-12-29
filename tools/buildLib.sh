@@ -6,28 +6,104 @@ ARCH_FLAGS="-arch ppc -arch i386 -arch x86_64"
 
 cd "$(dirname "$0")"
 LIBS_DIR=$(pwd)/../libs
-cd -
+cd - > /dev/null
 
-buildLibJpeg()
+if [ $# -ne 2 ]
+then
+	echo "USAGE:"
+	echo "$0 codename rootDir"
+	echo "codename is one of the following: jpeg, gif, ogg, vorbis, freetype"
+	echo "rootDir is the directory of the library source distribution where 'configure' file resides"
+	exit 1
+fi
+
+LIBRARY_NAME=$1
+LIBRARY_SRC_ROOT=$2
+SRC_PRODUCT_PATH=
+DEST_PRODUCT_PATH=
+ADDITIONAL_CONFIGURE_FLAGS=
+ADDITIONAL_MAC_CONFIGURE_FLAGS=
+ADDITIONAL_IOS_CONFIGURE_FLAGS=
+
+performBuild()
 {
-	cd "$1";
-	export CFLAGS="-mmacosx-version-min=$MACOS_MIN_VERSION $ARCH_FLAGS"
-	export LDFLAGS="$ARCH_FLAGS"
-	./configure --disable-dependency-tracking
+	if [ \! "$DEST_PRODUCT_PATH" ]
+	then
+		DEST_PRODUCT_PATH=$LIBRARY_NAME
+	fi
+
+	SHARED_CONFIGURE_FLAGS="--enable-static=yes --enable-shared=no"
+
+	./configure --disable-dependency-tracking $SHARED_CONFIGURE_FLAGS $ADDITIONAL_CONFIGURE_FLAGS $ADDITIONAL_MAC_CONFIGURE_FLAGS "CFLAGS=-mmacosx-version-min=$MACOS_MIN_VERSION $ARCH_FLAGS" "LDFLAGS=$ARCH_FLAGS"
 	make clean
 	make
-	cp .libs/libgif.a "$LIBS_DIR/gif/$PLATFORM/"
-}
+	mkdir -p "$LIBS_DIR/$DEST_PRODUCT_PATH/macos"
+	cp $SRC_PRODUCT_PATH "$LIBS_DIR/$DEST_PRODUCT_PATH/macos/"
 
-buildLibGif()
-{
-	cd "$1";
-	export CFLAGS="-mmacosx-version-min=$MACOS_MIN_VERSION $ARCH_FLAGS"
-	export LDFLAGS="$ARCH_FLAGS"
-	./configure --disable-dependency-tracking
+	IOS_VERSION=4.0
+	PLATFORM_PATH="/Developer/Platforms/iPhoneSimulator.platform"
+	SDK_ROOT="$PLATFORM_PATH/Developer/SDKs/iPhoneSimulator$IOS_VERSION.sdk"
+
+	./configure --prefix=/usr/local/iphone --host=arm-apple-darwin $SHARED_CONFIGURE_FLAGS $ADDITIONAL_CONFIGURE_FLAGS $ADDITIONAL_IOS_CONFIGURE_FLAGS CC=$PLATFORM_PATH/Developer/usr/bin/gcc-4.0 CFLAGS="-arch i686 -pipe -mdynamic-no-pic -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden -miphoneos-version-min=$IOS_VERSION -I$SDK_ROOT/usr/include/ -isysroot $SDK_ROOT" CPP=$PLATFORM_PATH/Developer/usr/bin/cpp AR=$PLATFORM_PATH/Developer/usr/bin/ar LDFLAGS="-arch i686 -isysroot $SDK_ROOT -Wl,-dead_strip -miphoneos-version-min=$IOS_VERSION"
 	make clean
 	make
-	cp lib/.libs/libgif.a "$LIBS_DIR/gif/$PLATFORM/"
+
+	mkdir -p "$LIBS_DIR/$DEST_PRODUCT_PATH/ios"
+	cp $SRC_PRODUCT_PATH "$LIBS_DIR/$DEST_PRODUCT_PATH/ios/"
 }
 
-buildLibGif "$1"
+buildLib_jpeg()
+{
+	SRC_PRODUCT_PATH=.libs/libjpeg.a
+	performBuild
+}
+
+buildLib_gif()
+{
+	SRC_PRODUCT_PATH=lib/.libs/libgif.a
+	performBuild
+}
+
+buildLib_freetype()
+{
+	SRC_PRODUCT_PATH=objs/.libs/libfreetype.a
+	performBuild
+}
+
+buildLib_ogg()
+{
+	SRC_PRODUCT_PATH=src/.libs/libogg.a
+	DEST_PRODUCT_PATH=vorbis
+	performBuild
+}
+
+buildLib_vorbis()
+{
+	if [ \! -d "$LIBS_DIR/vorbis/include/ogg" ]
+	then
+		echo "Ogg headers not found in '$LIBS_DIR/vorbis/include/ogg'"
+		exit 1
+	fi
+
+	if [ \! -f "$LIBS_DIR/vorbis/macos/libogg.a" ]
+	then
+		echo "Ogg library not found in '$LIBS_DIR/vorbis/macos/libogg.a'"
+		exit 1
+	fi
+
+	if [ \! -f "$LIBS_DIR/vorbis/ios/libogg.a" ]
+	then
+		echo "Ogg library not found in '$LIBS_DIR/vorbis/ios/libogg.a'"
+		exit 1
+	fi
+
+	ADDITIONAL_CONFIGURE_FLAGS="--with-ogg-includes=$LIBS_DIR/vorbis/include"
+	ADDITIONAL_MAC_CONFIGURE_FLAGS="--with-ogg-libraries=$LIBS_DIR/vorbis/macos"
+	ADDITIONAL_IOS_CONFIGURE_FLAGS="--with-ogg-libraries=$LIBS_DIR/vorbis/ios"
+	export "SRC_PRODUCT_PATH=lib/.libs/libvorbis.a lib/.libs/libvorbisfile.a lib/.libs/libvorbisenc.a"
+	performBuild
+}
+
+cd "$LIBRARY_SRC_ROOT";
+
+buildLib_$LIBRARY_NAME

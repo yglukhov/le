@@ -48,6 +48,8 @@ class CBasicString
 		static CBasicString createWithFormat(const NChar *format, va_list argList);
 		static CBasicString createWithFormat(const CBasicString &format, va_list argList);
 
+		static CBasicString createWithCharacterRange(NChar startChar, UInt32 rangeLength);
+
 		const CBasicString& operator = (NChar character);
 		const CBasicString& operator = (const NChar* cString);
 		const CBasicString& operator = (const CBasicString& copy);

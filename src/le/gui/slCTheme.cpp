@@ -82,6 +82,7 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 	context->setLineWidth(1.0f);
 	context->drawWireRect(rect);
 
+//	std::cout << "drawButton" << std::endl;
 	context->setColor(0.0f, 0.0f, 0.0f);
 	rect.offset(20, 25);
 	context->drawText(button->text(), rect.position());

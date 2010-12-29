@@ -1,16 +1,22 @@
 #include <le/core/config/slCompiler.h>
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #define LE_USE_FREETYPE
 #endif
 
 #ifdef LE_USE_FREETYPE
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_OUTLINE_H
 #endif
+
+#include <unistd.h>
+#include <fcntl.h>
 
 #include <le/gui/slOpenGL.h>
 #include <le/core/slCString.h>
+#include <le/core/slCData.h>
+#include <le/core/slCURL.h>
 #include <le/core/base/slCImageImpl.hp>
 #include <le/gui/base/slCOpenGLTextureImpl.hp>
 #include "slCOpenGLRenderingContext.h"
@@ -25,18 +31,23 @@ namespace sokira
 COpenGLRenderingContext::COpenGLRenderingContext() :
 	mFontOffset(0)
 {
+	std::cout << "Creating COpenGLRenderingContext" << std::endl;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glEnable(GL_LINE_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+
 	mFontOffset = makeFont();
 }
 
 COpenGLRenderingContext::~COpenGLRenderingContext()
 {
+#if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	if (mFontOffset) glDeleteLists(mFontOffset, 128);
+#endif
 	std::cout << "~COpenGLRenderingContext" << std::endl;
 }
 
@@ -60,13 +71,51 @@ void COpenGLRenderingContext::setLineWidth(Float32 width)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Geometry
+static GLuint fontTexture;
+static Float32* fontTextureCoords; // 128 * 4 * 4
+
 void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& position)
 {
+#ifdef LE_USE_FREETYPE
+	glEnable(GL_TEXTURE_2D);
+	
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBindTexture(GL_TEXTURE_2D, fontTexture);
+
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	UInt32 length = text.length();
+	Float32 xOffset = 0.0f;
+	for (UInt32 i = 0; i < length; ++i)
+	{
+		NChar character = text.characterAtIndex(i);
+
+		GLfloat* texCoords = fontTextureCoords + character * 8;
+
+		GLfloat width = (texCoords[2] - texCoords[0]) * 1024;
+
+		GLfloat vertexes[] = {
+			position.x() + xOffset, position.y(),
+			position.x() + xOffset + width, position.y(),
+			position.x() + xOffset + width, position.y() + 16,
+			position.x() + xOffset, position.y() + 16
+		};
+
+		xOffset += width;
+		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+		glVertexPointer(2, GL_FLOAT, 0, vertexes);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	}
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_TEXTURE_2D);
+#else
 	glRasterPos2f(position.x(), position.y());
 	glPushAttrib(GL_LIST_BIT);
 	glListBase(mFontOffset);
 	glCallLists(text.length(), GL_UNSIGNED_BYTE, (GLubyte *) text.cString());
 	glPopAttrib();
+#endif	
 }
 
 void COpenGLRenderingContext::drawSegment(const CSegment2D& segment)
@@ -78,121 +127,122 @@ void COpenGLRenderingContext::drawSegment(const CSegment2D& segment)
 
 void COpenGLRenderingContext::drawSegment(const CSegment3D& segment)
 {
-	glBegin(GL_LINES);
-		glVertex3f(segment.a().x(), segment.a().y(), segment.a().z());
-		glVertex3f(segment.b().x(), segment.b().y(), segment.b().z());
-	glEnd();
+	GLfloat vertexes[] = { segment.a().x(), segment.a().y(), segment.a().z(), segment.b().x(), segment.b().y(), segment.b().z() };
+	glVertexPointer(3, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_LINES, 0, 2);
 }
 
 void COpenGLRenderingContext::drawConvexPolygon(const CPolygon& poly)
 {
 	const std::vector<CPoint2D>& points = poly.points();
 
-	glBegin(GL_POLYGON);
-		for (std::vector<CPoint2D>::const_iterator it = points.begin(); it != points.end(); ++it)
-		{
-			glVertex2f(it->x(), it->y());
-		}
-	glEnd();
+	GLfloat* vertexes = new GLfloat[points.size() * 2];
+	GLfloat* iVertex = vertexes;
+	for (std::vector<CPoint2D>::const_iterator it = points.begin(); it != points.end(); ++it)
+	{
+		*iVertex = it->x();
+		++iVertex;
+		*iVertex = it->y();
+		++iVertex;
+	}
+
+	glVertexPointer(2, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, points.size());
+	delete [] vertexes;
 }
 
 void COpenGLRenderingContext::drawRect(const CRectangle& rect)
 {
-	glBegin(GL_QUADS);
-		processFillForPoint(mFillMethod, CPoint2D(rect.x(), rect.y() + rect.height()));
-		glVertex2f(rect.x(), rect.y() + rect.height());
-		processFillForPoint(mFillMethod, CPoint2D(rect.x(), rect.y()));
-		glVertex2f(rect.x(), rect.y());
-		processFillForPoint(mFillMethod, CPoint2D(rect.x() + rect.width(), rect.y()));
-		glVertex2f(rect.x() + rect.width(), rect.y());
-		processFillForPoint(mFillMethod, CPoint2D(rect.x() + rect.width(), rect.y() + rect.height()));
-		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
-	glEnd();
+	GLfloat vertexes[] = { rect.minX(), rect.maxY(),
+							rect.minX(), rect.minY(),
+							rect.maxX(), rect.minY(),
+							rect.maxX(), rect.maxY() };
+	glVertexPointer(2, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
 void COpenGLRenderingContext::drawWireRect(const CRectangle& rect)
 {
-	glBegin(GL_LINE_STRIP);
-		glVertex2f(rect.x(), rect.y());
-		glVertex2f(rect.x() + rect.width(), rect.y());
-		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
-		glVertex2f(rect.x(), rect.y() + rect.height());
-		glVertex2f(rect.x(), rect.y());
-	glEnd();
+	GLfloat vertexes[] = { rect.minX(), rect.maxY(),
+		rect.minX(), rect.minY(),
+		rect.maxX(), rect.minY(),
+		rect.maxX(), rect.maxY() };
+	glVertexPointer(2, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
 
 void COpenGLRenderingContext::drawBox(const CBox& box)
 {
-	glBegin(GL_QUADS);
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x() + box.width(), box.y(), box.z());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z());
-	glEnd();
-
-	glBegin(GL_QUADS);
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
-	glEnd();
+//	glBegin(GL_QUADS);
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z());
+//	glEnd();
+//
+//	glBegin(GL_QUADS);
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
+//	glEnd();
 }
 
 void COpenGLRenderingContext::drawWireBox(const CBox& box)
 {
-	glBegin(GL_QUAD_STRIP);
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x() + box.width(), box.y(), box.z());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z());
-	glEnd();
-
-	glBegin(GL_QUAD_STRIP);
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-
-		glVertex3f(box.x(), box.y(), box.z() + box.depth());
-		glVertex3f(box.x(), box.y(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-
-		glVertex3f(box.x(), box.y() + box.height(), box.z());
-		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
-		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
-	glEnd();
+//	glBegin(GL_QUAD_STRIP);
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z());
+//	glEnd();
+//
+//	glBegin(GL_QUAD_STRIP);
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//
+//		glVertex3f(box.x(), box.y(), box.z() + box.depth());
+//		glVertex3f(box.x(), box.y(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//
+//		glVertex3f(box.x(), box.y() + box.height(), box.z());
+//		glVertex3f(box.x(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z() + box.depth());
+//		glVertex3f(box.x() + box.width(), box.y() + box.height(), box.z());
+//	glEnd();
 }
 
 void COpenGLRenderingContext::drawRoundedRect(const CRectangle& rect,
@@ -201,76 +251,106 @@ void COpenGLRenderingContext::drawRoundedRect(const CRectangle& rect,
 	Float32 bottomLeftXRadius, Float32 bottomLeftYRadius,
 	Float32 bottomRightXRadius, Float32 bottomRightYRadius)
 {
-	glBegin(GL_TRIANGLE_FAN);
-		Float32 startAngle = M_PI;
-		Float32 endAngle = M_PI / 2;
-
-		Float32 step = (startAngle - endAngle) / ((topLeftXRadius + topLeftYRadius) / 4);
-		for (Float32 i = startAngle; i >= endAngle; i -= step)
-		{
-			Float32 x = rect.x() + topLeftXRadius + topLeftXRadius * cosf(i);
-			Float32 y = rect.y() + topLeftYRadius - topLeftYRadius * sinf(i);
-			processFillForPoint(mFillMethod, CPoint2D(x, y));
-			glVertex2f(x, y);
-		}
-
-		startAngle = endAngle;
-		endAngle -= M_PI/2;
-		step = (startAngle - endAngle) / ((topRightXRadius + topRightYRadius) / 4);
-		for (Float32 i = startAngle; i >= endAngle; i -= step)
-		{
-			Float32 x = rect.x() + rect.width() - topRightXRadius + topRightXRadius * cosf(i);
-			Float32 y = rect.y() + topRightYRadius - topRightYRadius * sinf(i);
-			processFillForPoint(mFillMethod, CPoint2D(x, y));
-			glVertex2f(x, y);
-		}
-
-		startAngle = endAngle;
-		endAngle -= M_PI/2;
-		step = (startAngle - endAngle) / ((bottomRightXRadius + bottomRightYRadius) / 4);
-		for (Float32 i = startAngle; i >= endAngle; i -= step)
-		{
-			Float32 x = rect.x() + rect.width() - bottomRightXRadius + bottomRightXRadius * cosf(i);
-			Float32 y = rect.y() + rect.height() - bottomRightYRadius - bottomRightYRadius * sinf(i);
-			processFillForPoint(mFillMethod, CPoint2D(x, y));
-			glVertex2f(x, y);
-		}
-
-		startAngle = endAngle;
-		endAngle -= M_PI/2;
-		step = (startAngle - endAngle) / ((bottomLeftXRadius + bottomLeftYRadius) / 4);
-		for (Float32 i = startAngle; i >= endAngle; i -= step)
-		{
-			Float32 x = rect.x() + bottomLeftXRadius + bottomLeftXRadius * cosf(i);
-			Float32 y = rect.y() + rect.height() - bottomLeftYRadius - bottomLeftYRadius * sinf(i);
-			processFillForPoint(mFillMethod, CPoint2D(x, y));
-			glVertex2f(x, y);
-		}
-	glEnd();
+//	glBegin(GL_TRIANGLE_FAN);
+//		Float32 startAngle = M_PI;
+//		Float32 endAngle = M_PI / 2;
+//
+//		Float32 step = (startAngle - endAngle) / ((topLeftXRadius + topLeftYRadius) / 4);
+//		for (Float32 i = startAngle; i >= endAngle; i -= step)
+//		{
+//			Float32 x = rect.x() + topLeftXRadius + topLeftXRadius * cosf(i);
+//			Float32 y = rect.y() + topLeftYRadius - topLeftYRadius * sinf(i);
+//			processFillForPoint(mFillMethod, CPoint2D(x, y));
+//			glVertex2f(x, y);
+//		}
+//
+//		startAngle = endAngle;
+//		endAngle -= M_PI/2;
+//		step = (startAngle - endAngle) / ((topRightXRadius + topRightYRadius) / 4);
+//		for (Float32 i = startAngle; i >= endAngle; i -= step)
+//		{
+//			Float32 x = rect.x() + rect.width() - topRightXRadius + topRightXRadius * cosf(i);
+//			Float32 y = rect.y() + topRightYRadius - topRightYRadius * sinf(i);
+//			processFillForPoint(mFillMethod, CPoint2D(x, y));
+//			glVertex2f(x, y);
+//		}
+//
+//		startAngle = endAngle;
+//		endAngle -= M_PI/2;
+//		step = (startAngle - endAngle) / ((bottomRightXRadius + bottomRightYRadius) / 4);
+//		for (Float32 i = startAngle; i >= endAngle; i -= step)
+//		{
+//			Float32 x = rect.x() + rect.width() - bottomRightXRadius + bottomRightXRadius * cosf(i);
+//			Float32 y = rect.y() + rect.height() - bottomRightYRadius - bottomRightYRadius * sinf(i);
+//			processFillForPoint(mFillMethod, CPoint2D(x, y));
+//			glVertex2f(x, y);
+//		}
+//
+//		startAngle = endAngle;
+//		endAngle -= M_PI/2;
+//		step = (startAngle - endAngle) / ((bottomLeftXRadius + bottomLeftYRadius) / 4);
+//		for (Float32 i = startAngle; i >= endAngle; i -= step)
+//		{
+//			Float32 x = rect.x() + bottomLeftXRadius + bottomLeftXRadius * cosf(i);
+//			Float32 y = rect.y() + rect.height() - bottomLeftYRadius - bottomLeftYRadius * sinf(i);
+//			processFillForPoint(mFillMethod, CPoint2D(x, y));
+//			glVertex2f(x, y);
+//		}
+//	glEnd();
 }
 
 void COpenGLRenderingContext::drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect)
 {
-	glBegin(GL_QUADS);
-		glColor4f(fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha());
-		glVertex2f(rect.x(), rect.y() + rect.height());
-		glVertex2f(rect.x(), rect.y());
-		glColor4f(toColor.red(), toColor.green(), toColor.blue(), toColor.alpha());
-		glVertex2f(rect.x() + rect.width(), rect.y());
-		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
-	glEnd();
+	GLfloat colors[] = {
+		fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha(),
+		fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha(),
+		toColor.red(), toColor.green(), toColor.blue(), toColor.alpha(),
+		toColor.red(), toColor.green(), toColor.blue(), toColor.alpha() };
+	GLfloat vertexes[] = {
+		rect.x(), rect.y() + rect.height(),
+		rect.x(), rect.y(),
+		rect.x() + rect.width(), rect.y(),
+		rect.x() + rect.width(), rect.y() + rect.height() };
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glColorPointer(4, GL_FLOAT, 0, colors);
+	glVertexPointer(2, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void COpenGLRenderingContext::drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect)
 {
-	glBegin(GL_QUADS);
-		glColor4f(fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha());
-		glVertex2f(rect.x(), rect.y());
-		glVertex2f(rect.x() + rect.width(), rect.y());
-		glColor4f(toColor.red(), toColor.green(), toColor.blue(), toColor.alpha());
-		glVertex2f(rect.x() + rect.width(), rect.y() + rect.height());
-		glVertex2f(rect.x(), rect.y() + rect.height());
-	glEnd();
+	GLfloat colors[] = {
+		fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha(),
+		fromColor.red(), fromColor.green(), fromColor.blue(), fromColor.alpha(),
+		toColor.red(), toColor.green(), toColor.blue(), toColor.alpha(),
+		toColor.red(), toColor.green(), toColor.blue(), toColor.alpha() };
+	GLfloat vertexes[] = {
+		rect.x(), rect.y(),
+		rect.x() + rect.width(), rect.y(),
+		rect.x() + rect.width(), rect.y() + rect.height(),
+		rect.x(), rect.y() + rect.height() };
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glColorPointer(4, GL_FLOAT, 0, colors);
+	glVertexPointer(2, GL_FLOAT, 0, vertexes);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void COpenGLRenderingContext::setFillMethod(const CFillMethod* fillMethod)
+{
+	if (fillMethod)
+	{
+		if (fillMethod->isSolid())
+		{
+			CColor color = fillMethod->colorAtPoint(CPoint2D());
+			glColor4f(color.red(), color.green(), color.blue(), color.alpha());
+			fillMethod = NULL;
+		}
+	}
+	CRenderingContext::setFillMethod(fillMethod);
 }
 
 CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* image)
@@ -343,6 +423,7 @@ void COpenGLRenderingContext::unsetTexture()
 
 void COpenGLRenderingContext::pushClippingRect(const CRectangle& rect)
 {
+#if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	GLfloat vp[4];
 	glGetFloatv(GL_VIEWPORT, vp);
 
@@ -360,71 +441,45 @@ void COpenGLRenderingContext::pushClippingRect(const CRectangle& rect)
 	glViewport(rect.x(), vp[3] - (rect.y() + rect.height()), rect.width(), rect.height());
 	glLoadIdentity();
 	glOrtho(rect.x(), rect.x() + rect.width(), rect.y() + rect.height(), rect.y(), -1, 1);
+#endif
 }
 
 void COpenGLRenderingContext::popClippingRect()
 {
+#if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	glPopMatrix();
 	glPopAttrib();
 	glMatrixMode(GL_MODELVIEW);
+#endif
 }
 
 
 #ifdef LE_USE_FREETYPE
 
-static void createGlyph(FT_Face face, UInt32 offset, UInt32 character)
-{
-	if (FT_Load_Char(face, character, FT_LOAD_RENDER | FT_LOAD_MONOCHROME))
-	{
-		std::cout << "ERROR LOADING CHAR" << std::endl;
-	}
-
-	FT_GlyphSlot slot = face->glyph;
-	FT_Bitmap* bitmap = &slot->bitmap;
-
-	int widthInBytes = bitmap->width / 8;
-	if (bitmap->width % 8)
-	{
-		++widthInBytes;
-	}
-
-	GLubyte* data = (GLubyte*)malloc(widthInBytes * bitmap->rows);
-	for (int iDest = 0, iSrc = bitmap->rows - 1; iDest < bitmap->rows; ++iDest, --iSrc)
-	{
-		memcpy(data + iDest * widthInBytes, bitmap->buffer + iSrc * bitmap->pitch, widthInBytes);
-	}
-
-	glNewList(offset + character, GL_COMPILE);
-	glBitmap(bitmap->width, bitmap->rows, - slot->bitmap_left, bitmap->rows - slot->bitmap_top, slot->advance.x / 64, slot->advance.y / 64, data);
-	glEndList();
-	free(data);
-}
-
-static void createGlyphRange(FT_Face face, UInt32 offset, UInt32 character, UInt32 length)
-{
-	for (UInt32 i = 0, j = character; i < length; ++i, ++j)
-	{
-		createGlyph(face, offset, j);
-	}
-}
-
-static void createGlyphsInString(FT_Face face, UInt32 offset, const CString& string)
-{
-	for (UInt32 i = 0; i < string.length(); ++i)
-	{
-		createGlyph(face, offset, string.characterAtIndex(i));
-	}
-}
+static UInt32 totalFontWidth = 0;
+static UInt32 fontHeight;
 
 static UInt32 createFreeTypeFont()
 {
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	totalFontWidth = 1024;
+	fontHeight = 16;
+	UInt32 componentCount = 2;
+	GLbyte* fontTextureData = new GLbyte[totalFontWidth * fontHeight * componentCount];
+	memset(fontTextureData, 0, totalFontWidth * fontHeight * componentCount);
+	fontTextureCoords = new GLfloat[128 * 8];
+	UInt32 currentXOffset = 0;
+
+	CString characters = CString::createWithCharacterRange('A', 26);
+	characters += CString::createWithCharacterRange('a', 26);
+	characters += CString::createWithCharacterRange('0', 10);
+	characters += " .:;\\/|{}()[]!@#$%^&*-+=?<>'\"~";
 
 	FT_Library freeType;
 	FT_Init_FreeType(&freeType);
 	FT_Face face;
 
-	if (FT_New_Face(freeType, "/System/Library/Fonts/LucidaGrande.ttc", 1, &face))
+	CData fontData = CData::createWithContentsOfURL(CURL("/System/Library/Fonts/LucidaGrande.ttc"));
+	if (FT_New_Memory_Face(freeType, (const FT_Byte*)fontData.data(), fontData.length(), 1, &face))
 	{
 		std::cout << "ERROR LOADING FACE" << std::endl;
 	}
@@ -433,56 +488,90 @@ static UInt32 createFreeTypeFont()
 	{
 		std::cout << "ERROR SETTING SIZE" << std::endl;
 	}
-	//	if (FT_Set_Pixel_Sizes(face, 8, 13))
-	//	{
-	//		std::cout << "ERROR SETTING SIZE" << std::endl;
-	//	}
 
-//	if (FT_Load_Char(face, 'A', FT_LOAD_RENDER | FT_LOAD_MONOCHROME))
+//	if (FT_Set_Pixel_Sizes(face, 8, 13))
 //	{
-//		std::cout << "ERROR LOADING CHAR" << std::endl;
-//	}
-//	
-//	FT_GlyphSlot slot = face->glyph;
-//	FT_Bitmap* bitmap = &slot->bitmap;
-//	
-//	std::cout << "Bitmap rows: " << bitmap->rows << " width: " << bitmap->width << std::endl;
-//	
-//	for (int i = 0; i < bitmap->rows; ++i)
-//	{
-//		for (int j = 0; j < bitmap->width; ++j)
-//		{
-//			UInt32 byteIndex = j/8;
-//			UInt8 thisByte = *(bitmap->buffer + i * bitmap->pitch + byteIndex);
-//			if (thisByte & (1 << (7 - (j % 8))))
-//			{
-//				std::cout << "1";
-//			}
-//			else
-//			{
-//				std::cout << " ";
-//			}
-//		}
-//		std::cout << std::endl;
+//		std::cout << "ERROR SETTING SIZE" << std::endl;
 //	}
 
-	UInt32 fontOffset = glGenLists (128);
-	createGlyphRange(face, fontOffset, 'A', 26);
-	createGlyphRange(face, fontOffset, 'a', 26);
-	createGlyphRange(face, fontOffset, '0', 10);
-	createGlyphsInString(face, fontOffset, " .:;\\/|{}()[]!@#$%^&*-+=?<>'\"~");
+	UInt32 length = characters.length();
+
+	for (UInt32 i = 0; i < length; ++i)
+	{
+		FT_ULong character = characters.characterAtIndex(i);
+		if (FT_Load_Char(face, character, FT_LOAD_RENDER))
+		{
+			std::cout << "ERROR LOADING CHAR" << std::endl;
+		}
+
+		FT_GlyphSlot slot = face->glyph;
+		FT_Bitmap* bitmap = &slot->bitmap;
+
+//		std::cout << (char) character << ": " << bitmap->rows << " : " << slot->bitmap_top << std::endl;
+		
+		for (int y = 0; y < bitmap->rows; ++y)
+		{
+			for (int x = 0; x < bitmap->width; ++x)
+			{
+				UInt8 pixel = *(bitmap->buffer + y * bitmap->pitch + x);
+
+				// Compute destination pixel coordinate
+				int destX = currentXOffset + x;
+				int destY = 12 - slot->bitmap_top + y;
+
+				// Write pixel to dest xy
+				UInt16* destPixel = (UInt16*)fontTextureData + destY * totalFontWidth + destX;
+				*((UInt8*)destPixel) = pixel;
+				*((UInt8*)destPixel + 1) = pixel;
+			}
+		}
+
+		UInt32 glyphWidth = slot->advance.x / 64;
+
+		*(fontTextureCoords + character * 8 + 0) = (Float32)currentXOffset / totalFontWidth;
+		*(fontTextureCoords + character * 8 + 1) = 0;
+
+		*(fontTextureCoords + character * 8 + 2) = (Float32)(currentXOffset + glyphWidth) / totalFontWidth;
+		*(fontTextureCoords + character * 8 + 3) = 0;
+
+		*(fontTextureCoords + character * 8 + 4) = (Float32)(currentXOffset + glyphWidth) / totalFontWidth;
+		*(fontTextureCoords + character * 8 + 5) = 1.0f;
+
+		*(fontTextureCoords + character * 8 + 6) = (Float32)currentXOffset / totalFontWidth;
+		*(fontTextureCoords + character * 8 + 7) = 1.0f;
+
+		currentXOffset += glyphWidth;
+		if (currentXOffset > totalFontWidth)
+		{
+			std::cout << "ERROR!! Total font widths exceeded." << std::endl;
+		}
+	}
+
+	glGenTextures(1, &fontTexture);
+	glBindTexture(GL_TEXTURE_2D, fontTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, totalFontWidth, fontHeight,
+				 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, fontTextureData);
+
+	delete [] fontTextureData;
 
 	FT_Done_Face(face);
 	FT_Done_FreeType(freeType);
 
-	return fontOffset;
+	return 0;
 }
 #endif // LE_USE_FREETYPE
 
 static UInt32 createInlineFont()
 {
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	return 0;
+#else
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
+	
 	GLubyte letters[][13] = {
 		{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, 
 		{0x00, 0x00, 0x18, 0x18, 0x00, 0x00, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18}, 
@@ -589,6 +678,7 @@ static UInt32 createInlineFont()
 	}
 
 	return fontOffset;
+#endif
 }
 		
 UInt32 COpenGLRenderingContext::makeFont()

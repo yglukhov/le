@@ -278,6 +278,16 @@ CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list 
 	return createWithFormat(format.cString(), argList);
 }
 
+CBasicString CBasicString::createWithCharacterRange(NChar startChar, UInt32 rangeLength)
+{
+	char* buffer = new char[rangeLength];
+	for (UInt32 i = 0; i < rangeLength; ++i)
+	{
+		buffer[i] = startChar + i;
+	}
+	return CBasicString(new SStringProxy(buffer, eOwnPolicyDealloc));
+}
+
 const CBasicString& CBasicString::operator = (NChar character)
 {
 	mProxy->release();

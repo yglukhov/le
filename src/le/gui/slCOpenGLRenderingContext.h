@@ -40,6 +40,8 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual void drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
 		virtual void drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
 
+		virtual void setFillMethod(const CFillMethod* fillMethod);
+
 		Bool isExtensionSupported(const char* extensionName) const;
 
 	protected:

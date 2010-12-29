@@ -44,5 +44,10 @@ CString CCommandLine::executableName() const
 	return argumentAtIndex(0);
 }
 
+const char * const * CCommandLine::argv() const
+{
+	return mArgs;
+}
+
 	} // namespace le
 } // namespace sokira

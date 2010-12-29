@@ -35,9 +35,10 @@ class CApplication
 
 		CBundle mainBundle() const;
 
+		CApplicationDelegate* delegate();
+
 	protected:
 		virtual SInt32 runApplication();
-		CApplicationDelegate* delegate();
 
 	private:
 		CApplicationDelegate* mDelegate;

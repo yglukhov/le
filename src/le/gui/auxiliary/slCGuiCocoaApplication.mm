@@ -1,9 +1,17 @@
+#include <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 #import <Cocoa/Cocoa.h>
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+#import <UIKit/UIKit.h>
+#endif
 
 #include <le/core/thread/slCThread.h>
 #include <le/core/auxiliary/slCApplicationDelegate.h>
 #include <le/gui/slCWindow.h>
 #include "slCGuiCocoaApplication.h"
+
+static ::sokira::le::CGuiCocoaApplication* gGuiApplication;
 
 @interface SokiraLE_AppDelegate : NSObject
 {
@@ -15,12 +23,24 @@
 
 @implementation SokiraLE_AppDelegate
 
+- (id) init
+{
+	if (self = [super init])
+	{
+		mApp = gGuiApplication;
+		mDelegate = mApp->delegate();
+	}
+	return self;
+}
+
 - (id)initWithDelegate:(::sokira::le::CApplicationDelegate *)delegate andApplication:(::sokira::le::CGuiCocoaApplication *)app
 {
-	id theobj = [self init];
-	mDelegate = delegate;
-	mApp = app;
-	return theobj;
+	if (self = [super init])
+	{
+		mDelegate = delegate;
+		mApp = app;
+	}
+	return self;
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -33,6 +53,13 @@
 	mDelegate->applicationDidFinishLaunching(*mApp);
 }
 
+- (BOOL)application:(id)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	mDelegate->applicationDidFinishLaunching(*mApp);
+	return NO;
+}
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
 	[sender stop: self];
@@ -43,6 +70,7 @@
 {
 	return mDelegate->applicationShouldTerminateAfterLastWindowClosed(*mApp);
 }
+#endif
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
@@ -178,22 +206,21 @@ CGuiCocoaApplication::~CGuiCocoaApplication()
 SInt32 CGuiCocoaApplication::runApplication()
 {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	NSApplication *app = [NSApplication sharedApplication];
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+	id app = [NSApplication sharedApplication];
 	id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate() andApplication: this];
 	[app setDelegate: appDelegate];
-	//	[appDelegate release];
-	//	[[NSNotificationCenter defaultCenter] addObserver:appDelegate selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-	//	NSImage* myImage = [NSImage imageNamed: @"NSFollowLinkFreestandingTemplate"]; // Get the original icon
-	//	[app setApplicationIconImage: myImage];
-
-	//	[[NSMenu alloc] initWithTitle:@"MyApp"];
-	//		[NSApp setMenu:[[NSMenu alloc] initWithTitle:@"MyApp"]];
 	[app run];
+	SInt32 result = 0;
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	gGuiApplication = this;
+	SInt32 result = UIApplicationMain(commandLine().argumentCount(), (char**)commandLine().argv(), nil, @"SokiraLE_AppDelegate");
+#endif
 
-	//	CThread::thread().runLoop().run();
 	[pool release];
 
-	return 0;
+	std::cout << "EXITING!!!" << std::endl;
+	return result;
 }
 
 void CGuiCocoaApplication::addScreen(CWindow* screen)
@@ -208,7 +235,11 @@ void CGuiCocoaApplication::addScreen(CWindow* screen)
 
 void CGuiCocoaApplication::quit()
 {
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	[[NSApplication sharedApplication] stop: nil];
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+//	[[UIApplication sharedApplication] stop: nil];
+#endif
 }
 
 	} // namespace le

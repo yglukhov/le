@@ -120,6 +120,7 @@
 		7B419E851057BCD600D5A2D1 /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
 		7B419E8B1057BD3500D5A2D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145BDB0F3794D1004DF6BE /* Cocoa.framework */; };
+		7B447A9512CA26EB00EEA3DA /* slCStaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4AF638106E6B84002EED8A /* slCStaticText.cpp */; };
 		7B4AF639106E6B84002EED8A /* slCStaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4AF638106E6B84002EED8A /* slCStaticText.cpp */; };
 		7B4C2AE40F78EBA1008CF4B6 /* slCSokriptInstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */; };
 		7B4CE5BC106F5953003E20F5 /* slCImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4CE5BB106F5953003E20F5 /* slCImage.cpp */; };
@@ -364,7 +365,7 @@
 		7B052BE30BD12ECD00AA8BD8 /* slCView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCView.h; sourceTree = "<group>"; };
 		7B052BE50BD12ECD00AA8BD8 /* slTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slTypes.cpp; sourceTree = "<group>"; };
 		7B052BE60BD12ECD00AA8BD8 /* slTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTypes.h; sourceTree = "<group>"; };
-		7B145B470F377730004DF6BE /* le.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = le.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B145B470F377730004DF6BE /* le */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = folder; path = le; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B145B490F377730004DF6BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B145BDB0F3794D1004DF6BE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		7B15CE7B0F3610B3002E9DA7 /* slCCocoaWindowImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = slCCocoaWindowImpl.mm; sourceTree = "<group>"; };
@@ -602,7 +603,6 @@
 		7BFF4103107D3D650007FFC0 /* slCPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCPreferences.h; sourceTree = "<group>"; };
 		7BFF4104107D3D650007FFC0 /* slCPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCPreferences.cpp; sourceTree = "<group>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		B01DEF2109F0EDEC00EE27D3 /* slGlut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = slGlut.h; path = ../../libs/glut/slGlut.h; sourceTree = SOURCE_ROOT; };
 		B04FF8750A15FAEA00F559ED /* libLeCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04FF97F0A16167400F559ED /* libLeGui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLeGui.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -659,7 +659,7 @@
 		1AB674ADFE9D54B511CA2CBB /* products */ = {
 			isa = PBXGroup;
 			children = (
-				7B145B470F377730004DF6BE /* le.framework */,
+				7B145B470F377730004DF6BE /* le */,
 				B04FF8750A15FAEA00F559ED /* libLeCore.a */,
 				B04FF97F0A16167400F559ED /* libLeGui.a */,
 				7B768FF41076A30700DAF20B /* libLeSound.a */,
@@ -1450,8 +1450,8 @@
 				7B6536D312A2F8B700EC5ABA /* libX11.dylib */,
 				7B145BDB0F3794D1004DF6BE /* Cocoa.framework */,
 				7B75CE78107774FA00F93924 /* OpenAL.framework */,
+				B004630D08E56B7F00236593 /* OpenGL.framework */,
 				7B8DAFC312C261A30056CDC7 /* freetype */,
-				B01DEF2009F0EDD800EE27D3 /* glut */,
 				7B93B3E51175C5BA0089A9FF /* gif */,
 				7B93B3EB1175C5BA0089A9FF /* jpeg */,
 				7B3E00FC117741E9005ECE2D /* vorbis */,
@@ -1461,15 +1461,6 @@
 			path = ../../libs;
 			sourceTree = SOURCE_ROOT;
 			tabWidth = 4;
-		};
-		B01DEF2009F0EDD800EE27D3 /* glut */ = {
-			isa = PBXGroup;
-			children = (
-				B004630D08E56B7F00236593 /* OpenGL.framework */,
-				B01DEF2109F0EDEC00EE27D3 /* slGlut.h */,
-			);
-			path = glut;
-			sourceTree = "<group>";
 		};
 		B04FF9A10A1616E700F559ED /* src */ = {
 			isa = PBXGroup;
@@ -1502,9 +1493,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B145B4C0F377731004DF6BE /* Build configuration list for PBXNativeTarget "framework" */;
 			buildPhases = (
+				7B145BAC0F378D53004DF6BE /* Copy Headers */,
 				7B184E341057A9260036D467 /* Sources */,
 				7B419E8A1057BD0600D5A2D1 /* Frameworks */,
-				7B145BAC0F378D53004DF6BE /* Copy Headers */,
+				7B2A434912CA80BA0047740B /* Install */,
 			);
 			buildRules = (
 			);
@@ -1513,7 +1505,7 @@
 			);
 			name = framework;
 			productName = framework;
-			productReference = 7B145B470F377730004DF6BE /* le.framework */;
+			productReference = 7B145B470F377730004DF6BE /* le */;
 			productType = "com.apple.product-type.framework";
 		};
 		7B768FDA1076A30700DAF20B /* leSound */ = {
@@ -1610,7 +1602,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#exit 0\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" core \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" gui \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" sound \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\nrm -f  \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\nln -s Versions/Current/Headers \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\n\n\n# This script will install the framework to /Library/Frameworks\nrm -rf \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\ncp -R \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+			shellScript = "#exit 0\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" core \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" gui \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" sound \"$CONFIGURATION_BUILD_DIR/$PUBLIC_HEADERS_FOLDER_PATH\"\nrm -f  \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\nln -s Versions/Current/Headers \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Headers\"\n";
 		};
 		7B1506C20BD23F7A0091AFC8 /* Copy Headers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1639,6 +1631,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\n/bin/sh \"$leToolsRoot/copyHeaders.sh\" gui\n";
+		};
+		7B2A434912CA80BA0047740B /* Install */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Install;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\n# This script will install the framework to /Library/Frameworks\nrm -rf \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\ncp -R \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"/Library/Frameworks/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
 		};
 		7B5F50FA0F74F2B600269E2D /* genSokript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1850,6 +1856,7 @@
 				7B00156D129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */,
 				7B001570129BED93009886A4 /* slCGuiWindowsApplication.cpp in Sources */,
 				7BBB3AA812B14374006B66DD /* slCX11WindowImpl.cpp in Sources */,
+				7B447A9512CA26EB00EEA3DA /* slCStaticText.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1887,6 +1894,7 @@
 		1DEB923608733DC60010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_EXTENSION = a;
@@ -1904,7 +1912,7 @@
 					"$(leSrcRoot)",
 					"$(leLibRoot)",
 				);
-				LIBRARY_SEARCH_PATHS = "$(leLibRoot)/**";
+				LIBRARY_SEARCH_PATHS = "$(leLibRoot)/*/macos";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wall";
@@ -1917,6 +1925,7 @@
 		1DEB923708733DC60010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/le/lib";
@@ -1936,7 +1945,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(leLibRoot)/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = iphoneos;
 				leLibRoot = ../../libs;
 				leSrcRoot = ../../src;
 				leToolsRoot = ../../tools;
@@ -1960,12 +1969,12 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(leLibRoot)/jpeg/macos",
+					"$(leLibRoot)/gif/macos",
+					"$(leLibRoot)/freetype/macos",
+					"$(leLibRoot)/vorbis/macos",
+					"$(SDKROOT)/usr/X11/lib",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/X11/lib\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../libs/freetype/macos\"";
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"$(leLibRoot)/jpeg/macos/libjpeg.a",
@@ -1991,9 +2000,11 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(leLibRoot)/jpeg/macos",
+					"$(leLibRoot)/gif/macos",
+					"$(leLibRoot)/freetype/macos",
+					"$(leLibRoot)/vorbis/macos",
+					"$(SDKROOT)/usr/X11/lib",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/X11/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../libs/freetype/macos\"";
@@ -2081,6 +2092,11 @@
 		B04FF99F0A1616E000F559ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(leSrcRoot)",
+					"$(leLibRoot)",
+					"$(leLibRoot)/freetype/include",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -2093,6 +2109,11 @@
 		B04FF9A00A1616E000F559ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(leSrcRoot)",
+					"$(leLibRoot)",
+					"$(leLibRoot)/freetype/include",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",

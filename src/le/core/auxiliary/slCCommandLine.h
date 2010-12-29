@@ -20,6 +20,8 @@ class CCommandLine
 		CString argumentAtIndex(UInt32 index) const;
 		CString executableName() const; // Same as argumentAtIndex(0)
 
+		const char * const * argv() const;
+
 	private:
 		UInt32 mCount;
 		const char * const * mArgs;

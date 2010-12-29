@@ -30,7 +30,11 @@ int CApplication::run(int argc, const char * const argv[])
 	{
 		CString delegateClass = mainBundle().infoDictionary().valueAsStringForKey("SLAppDelegateClass");
 		setDelegateClass(delegateClass);
-		if (!mDelegate) return 1;
+		if (!mDelegate)
+		{
+			std::cout << "Could not create delegate of class \"" << delegateClass << "\"" << std::endl;
+			return 1;
+		}
 	}
 
 	mDelegate->_setApplication(this);

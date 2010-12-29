@@ -20,9 +20,9 @@ namespace sokira
 		{
 			if (screen)
 			{
-				screen->screenWillBeAddedToApplication(this);
+//				screen->screenWillBeAddedToApplication(this);
 				mScreens.push_back(screen);
-				screen->screenWasAddedToApplication(this);
+//				screen->screenWasAddedToApplication(this);
 			}
 		}
 

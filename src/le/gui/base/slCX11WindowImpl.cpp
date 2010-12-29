@@ -1,3 +1,8 @@
+#include <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+
+
 #include <CoreFoundation/CoreFoundation.h>
 #include <le/gui/slCWindow.h>
 #include <le/core/auxiliary/slCRunLoop.h>
@@ -144,3 +149,5 @@ CString CX11WindowImpl::title() const
 		
 	} // namespace le
 } // namespace sokira
+
+#endif

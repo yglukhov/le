@@ -1,5 +1,4 @@
-#import <ApplicationServices/ApplicationServices.h>
-#import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
 #import <le/gui/slOpenGL.h>
 #import <le/gui/slCWindow.h>
 #import <le/core/auxiliary/slCRunloop.h>
@@ -7,6 +6,16 @@
 //#import <le/core/slCString.h>
 #import "slCCocoaWindowImpl.hp"
 
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#import <Cocoa/Cocoa.h>
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+#import <UIKit/UIKit.h>
+#import <OpenGLES/EAGL.h>
+#else
+#error Target platform not defined
+#endif
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 @interface SokiraLE_OpenGLView : NSOpenGLView
 {
 	::sokira::le::CWindow* mScreen;
@@ -252,6 +261,145 @@
 }
 
 @end
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+@interface SokiraLE_OpenGLView : UIWindow
+{
+	::sokira::le::CWindow* mScreen;
+	EAGLContext* context;
+	BOOL mMouseInView;
+	BOOL mViewDidResize;
+
+	// The pixel dimensions of the CAEAGLLayer.
+	GLint framebufferWidth;
+	GLint framebufferHeight;
+
+	// The OpenGL ES names for the framebuffer and renderbuffer used to render to this view.
+	GLuint defaultFramebuffer, colorRenderbuffer;
+}
+@end
+
+@implementation SokiraLE_OpenGLView
+
++ (Class)layerClass
+{
+    return [CAEAGLLayer class];
+}
+
+- (id) initWithScreen: (::sokira::le::CWindow*) screen
+{
+	if (self = [super initWithFrame: [[UIScreen mainScreen] bounds]])
+	{
+		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+
+		if (!context)
+		{
+			context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		}
+
+		mScreen = screen;
+		mMouseInView = NO;
+		mViewDidResize = YES;
+		[(id)self.layer setDrawableProperties: [NSDictionary dictionaryWithObjectsAndKeys:
+												[NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
+												kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
+												nil]];
+		[EAGLContext setCurrentContext: context];
+		mScreen->_prepareOpenGL();
+	}
+	return self;
+}
+
+- (void)createFramebuffer
+{
+	if (context && !defaultFramebuffer)
+	{
+		[EAGLContext setCurrentContext:context];
+		
+		// Create default framebuffer object.
+		glGenFramebuffers(1, &defaultFramebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
+		
+		// Create color render buffer and allocate backing store.
+		glGenRenderbuffers(1, &colorRenderbuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+		[context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+		glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &framebufferWidth);
+		glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &framebufferHeight);
+		
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
+		
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+	}
+}
+
+- (void) deleteFramebuffer
+{
+	if (context)
+	{
+		[EAGLContext setCurrentContext:context];
+
+		if (defaultFramebuffer)
+		{
+			glDeleteFramebuffers(1, &defaultFramebuffer);
+			defaultFramebuffer = 0;
+		}
+
+		if (colorRenderbuffer)
+		{
+			glDeleteRenderbuffers(1, &colorRenderbuffer);
+			colorRenderbuffer = 0;
+		}
+	}
+}
+
+- (void) setFramebuffer
+{
+    if (context)
+    {
+		[EAGLContext setCurrentContext:context];
+
+		if (!defaultFramebuffer)
+			[self createFramebuffer];
+
+		glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
+
+		glViewport(0, 0, framebufferWidth, framebufferHeight);
+    }
+}
+
+- (void) presentFramebuffer
+{
+	if (context)
+	{
+		[EAGLContext setCurrentContext:context];
+		glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+		[context presentRenderbuffer:GL_RENDERBUFFER];
+	}
+}
+
+- (void) drawFrame
+{
+	[self setFramebuffer];
+
+	if (mViewDidResize)
+	{
+		mScreen->onResize();
+		mViewDidResize = NO;
+	}
+
+	mScreen->draw();
+	[self presentFramebuffer];
+}
+
+- (void) dealloc
+{
+	[context release];
+	[super dealloc];
+}
+
+@end
+#endif
 
 
 namespace sokira
@@ -275,6 +423,7 @@ void CCocoaWindowImpl::screenWillBeAddedToApplication(CWindow* screen, CGuiCocoa
 
 void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	NSRect frame = NSMakeRect(mRect.x(), mRect.y(), mRect.width(), mRect.height());
 
 	mWindow = (void*)[[NSWindow alloc]
@@ -292,6 +441,12 @@ void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApp
 	[(id)mWindow setContentView: view];
 	[view release];
 	[(id)mWindow makeKeyAndOrderFront: nil];
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	mWindow = (void*)[[SokiraLE_OpenGLView alloc] initWithScreen: screen];
+	[(id)mWindow makeKeyAndVisible];
+	CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget: (id) mWindow selector: @selector(drawFrame)];
+	[displayLink addToRunLoop: [NSRunLoop currentRunLoop] forMode: NSDefaultRunLoopMode];
+#endif
 }
 
 void CCocoaWindowImpl::screenWillBeRemovedFromApplication(CWindow* screen, CGuiCocoaApplication* app)
@@ -299,7 +454,7 @@ void CCocoaWindowImpl::screenWillBeRemovedFromApplication(CWindow* screen, CGuiC
 	std::cout << "screenWillBeRemovedFromApplication" << std::endl;
 	if (mWindow)
 	{
-		[(NSWindow*)mWindow release];
+		[(id)mWindow release];
 	}
 
 	mWindow = NULL;
@@ -312,33 +467,47 @@ void CCocoaWindowImpl::screenWasRemovedFromApplication(CWindow* screen, CGuiCoco
 
 Bool CCocoaWindowImpl::inLiveResize() const
 {
-	return _LE_BOOL_CAST([[(NSWindow*)mWindow contentView] inLiveResize]);
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+	return _LE_BOOL_CAST([[(id)mWindow contentView] inLiveResize]);
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	return false;
+#endif
 }
 
 CSize2D CCocoaWindowImpl::size() const
 {
-	id view = [static_cast<NSWindow*>(mWindow) contentView];
-	if (view)
+	if (mWindow)
 	{
-		NSSize result = [view frame].size;
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+		NSSize result = [(NSView*)[(id)mWindow contentView] frame].size;
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+		CGSize result = [(id)mWindow frame].size;
+#endif
 		return CSize2D(result.width, result.height);
 	}
+
 	return mRect.size();
 }
 
 void CCocoaWindowImpl::setSize(const CSize2D& size)
 {
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
 	if (mWindow)
 	{
-		[(NSWindow*)mWindow setContentSize: NSMakeSize(size.width(), size.height())];
+		[(id)mWindow setContentSize: NSMakeSize(size.width(), size.height())];
 	}
+#endif
 
 	mRect.setSize(size);
 }
 
 void CCocoaWindowImpl::setNeedsRedraw()
 {
-	[[(NSWindow*)mWindow contentView] setNeedsDisplay: YES];
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+	[[(id)mWindow contentView] setNeedsDisplay: YES];
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+//	[(id)mWindow setNeedsDisplay];
+#endif
 }
 
 CString CCocoaWindowImpl::title() const

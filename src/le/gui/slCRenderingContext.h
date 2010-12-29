@@ -60,7 +60,7 @@ class CRenderingContext
 //		virtual void setColor(const Float64* vector);
 //		virtual void setColorWithAlpha(const Float64* vector);
 
-		void setFillMethod(const CFillMethod* fillMethod);
+		virtual void setFillMethod(const CFillMethod* fillMethod);
 		void setColor(const CColor& color);
 
 		template <typename TComponent>
