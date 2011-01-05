@@ -5,18 +5,18 @@
 #include <le/core/template/function/slTCFunction.h>
 #include <le/core/auxiliary/slCRunLoop.h>
 #include <le/core/slCString.h>
+#include <le/core/strategies/slCSimpleRefCountable.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CThreadImplBase
+class CThreadImplBase : public CSimpleRefCountable
 {
 	public:
 		inline CThreadImplBase(const TCFunction<>& threadProc,
 							   const CString& threadName) :
-			mRefCount(1),
 			mName(threadName),
 			mThreadProc(threadProc)
 		{
@@ -24,7 +24,6 @@ class CThreadImplBase
 		}
 
 		inline CThreadImplBase() :
-			mRefCount(1),
 			mName(LESTR("main"))
 		{
 
@@ -45,21 +44,6 @@ class CThreadImplBase
 		inline CString name() const
 		{
 			return mName;
-		}
-
-		inline CThreadImplBase* retain()
-		{
-			++mRefCount;
-			return this;
-		}
-
-		inline void release()
-		{
-			--mRefCount;
-			if (!mRefCount)
-			{
-				delete this;
-			}
 		}
 
 		// The thread impl must call this proc
@@ -96,7 +80,6 @@ class CThreadImplBase
 			if (mThreadProc) mThreadProc();
 		}
 
-		UInt32 mRefCount;
 		CString mName;
 		std::map<CString, std::pair<void*, void(*)(void*)> > mSingletones;
 		TCFunction<> mThreadProc;

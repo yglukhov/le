@@ -10,7 +10,7 @@ namespace sokira
 class CMutexImpl
 {
 	public:
-		inline CMutexImpl(bool recursive = false)
+		inline CMutexImpl()
 		{
 			InitializeCriticalSection(&mMutex);
 		}
@@ -20,18 +20,56 @@ class CMutexImpl
 			DeleteCriticalSection(&mMutex);
 		}
 
-		inline void lock()
+		virtual void lock()
 		{
 			EnterCriticalSection(&mMutex);
 		}
 
-		inline void unlock()
+		virtual void unlock()
 		{
 			LeaveCriticalSection(&mMutex);
 		}
 
 	private:
 		CRITICAL_SECTION mMutex;
+};
+
+class CRecursiveMutexImpl : public CMutexImpl
+{
+	public:
+		inline CRecursiveMutexImpl() :
+			mThreadID(0),
+			mEntries(0)
+		{
+
+		}
+
+		virtual void lock()
+		{
+			DWORD curThread = GetCurrentThreadId();
+
+			if (curThread != mThreadID)
+			{
+				CMutexImpl::lock();
+				mThreadID = curThread;
+			}
+
+			++mEntries;
+		}
+
+		virtual void unlock()
+		{
+			--mEntries;
+			if (!mEntries)
+			{
+				mThreadID = 0;
+				CMutexImpl::unlock();
+			}
+		}
+
+	private:
+		DWORD mThreadID;
+		UInt32 mEntries;
 };
 
 	} // namespace le

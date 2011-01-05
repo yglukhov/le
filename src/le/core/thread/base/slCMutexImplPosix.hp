@@ -7,7 +7,6 @@ namespace sokira
 	namespace le
 	{
 
-
 class CMutexImpl
 {
 	public:
@@ -50,6 +49,11 @@ class CMutexImpl
 		pthread_mutex_t mMutex;
 };
 
+class CRecursiveMutexImpl : public CMutexImpl
+{
+	public:
+		inline CRecursiveMutexImpl() : CMutexImpl(true) { }
+};
 
 	} // namespace le
 } // namespace sokira

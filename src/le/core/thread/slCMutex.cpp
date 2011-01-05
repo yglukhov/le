@@ -7,7 +7,7 @@ namespace sokira
 	{
 
 CMutex::CMutex(bool recursive) :
-	mImpl(new CMutexImpl(recursive))
+	mImpl(recursive ? (new CRecursiveMutexImpl()) : (new CMutexImpl()))
 {
 
 }

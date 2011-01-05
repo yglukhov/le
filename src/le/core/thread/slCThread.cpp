@@ -7,9 +7,9 @@ namespace sokira
 	{
 
 CThread::CThread(const CThread& copy) :
-	mImpl(copy.mImpl->retain())
+	mImpl(copy.mImpl)
 {
-
+	mImpl->retain();
 }
 
 CThread::CThread(const TCFunction<>& threadProc,
@@ -24,9 +24,9 @@ CThread::CThread(const TCFunction<>& threadProc,
 }
 
 CThread::CThread(CThreadImplBase* impl) :
-	mImpl(impl->retain())
+	mImpl(impl)
 {
-
+	mImpl->retain();
 }
 
 CThread::~CThread()
@@ -42,7 +42,8 @@ CThread CThread::thread()
 const CThread& CThread::operator = (const CThread& copy)
 {
 	mImpl->release();
-	mImpl = copy.mImpl->retain();
+	mImpl = copy.mImpl;
+	mImpl->retain();
 	return *this;
 }
 
