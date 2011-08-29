@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <le/core/debug/slAssert.h>
-#include "slTCPoint2D.h"
+#include "slTCSegment2D.h"
 
 namespace sokira
 {
@@ -23,6 +23,29 @@ class TCPolygon
 	}
 
 	public:
+		static TCPolygon createByWideningSegment(const TCSegment2D<T>& segment, T width)
+		{
+			TCPolygon result;
+			T length = segment.length();
+			Float32 cosinus = segment.horizontalLength() / length;
+			Float32 sinus = segment.verticalLength() / length;
+			result.addPoint(TPoint(segment.b().x() + width * sinus, segment.b().y() - width * cosinus));
+			result.addPoint(TPoint(segment.b().x() - width * sinus, segment.b().y() + width * cosinus));
+			result.addPoint(TPoint(segment.a().x() - width * sinus, segment.a().y() + width * cosinus));
+			result.addPoint(TPoint(segment.a().x() + width * sinus, segment.a().y() - width * cosinus));
+			return result;
+		}
+
+		static TCPolygon createWithRect(const TCRectangle<T>& rect)
+		{
+			TCPolygon result;
+			result.addPoint(rect.topLeft());
+			result.addPoint(rect.topRight());
+			result.addPoint(rect.bottomRight());
+			result.addPoint(rect.bottomLeft());
+			return result;
+		}
+
 		void addPoint(const TPoint& point)
 		{
 			mPoints.push_back(point);

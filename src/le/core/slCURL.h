@@ -31,6 +31,8 @@ class CURL : public CObject
 		CString queryString() const;
 		SInt32 portNumber() const;
 
+		Bool isEmpty() const;
+
 		Bool operator == (const CURL& url) const;
 
 		void removeLastPathComponents(UInt32 componentCount);

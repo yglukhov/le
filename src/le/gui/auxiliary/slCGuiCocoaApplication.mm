@@ -25,7 +25,7 @@ static ::sokira::le::CGuiCocoaApplication* gGuiApplication;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		mApp = gGuiApplication;
 		mDelegate = mApp->delegate();
@@ -35,7 +35,7 @@ static ::sokira::le::CGuiCocoaApplication* gGuiApplication;
 
 - (id)initWithDelegate:(::sokira::le::CApplicationDelegate *)delegate andApplication:(::sokira::le::CGuiCocoaApplication *)app
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		mDelegate = delegate;
 		mApp = app;
@@ -223,13 +223,27 @@ SInt32 CGuiCocoaApplication::runApplication()
 	return result;
 }
 
-void CGuiCocoaApplication::addScreen(CWindow* screen)
+void CGuiCocoaApplication::addWindow(CWindow* window)
 {
-	if (screen)
+	if (window)
 	{
-		screen->screenWillBeAddedToApplication(this);
-		mScreens.push_back(screen);
-		screen->screenWasAddedToApplication(this);
+		window->screenWillBeAddedToApplication(this);
+		mScreens.push_back(window);
+		window->screenWasAddedToApplication(this);
+	}
+}
+
+void CGuiCocoaApplication::removeWindow(CWindow* window)
+{
+	if (window)
+	{
+		window->screenWillBeRemovedFromApplication(this);
+		std::vector<CWindow*>::iterator it = std::find(mScreens.begin(), mScreens.end(), window);
+		if (it != mScreens.end())
+		{
+			mScreens.erase(it);
+		}
+		window->screenWasRemovedFromApplication(this);
 	}
 }
 
@@ -240,6 +254,11 @@ void CGuiCocoaApplication::quit()
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 //	[[UIApplication sharedApplication] stop: nil];
 #endif
+}
+
+Bool CGuiCocoaApplication::canQuit() const
+{
+	return (LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX);
 }
 
 	} // namespace le

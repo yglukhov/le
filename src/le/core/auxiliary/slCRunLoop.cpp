@@ -13,7 +13,8 @@ namespace sokira
 	namespace le
 	{
 
-CEvent::CEvent()
+CEvent::CEvent() :
+	mType(eEventTypeUnknown)
 {
 
 }

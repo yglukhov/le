@@ -2,7 +2,13 @@
 
 PLATFORM=macos
 MACOS_MIN_VERSION=10.5
-ARCH_FLAGS="-arch ppc -arch i386 -arch x86_64"
+
+if /usr/bin/defaults read /System/Library/CoreServices/SystemVersion ProductVersion | grep 10.7 > /dev/null
+then
+	ARCH_FLAGS="-arch i386 -arch x86_64"
+else
+	ARCH_FLAGS="-arch ppc -arch i386 -arch x86_64"
+fi
 
 cd "$(dirname "$0")"
 LIBS_DIR=$(pwd)/../libs

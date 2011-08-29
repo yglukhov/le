@@ -2,14 +2,14 @@
 #define SL_LE_gui_slCStaticText_h
 
 #include <le/core/slCString.h>
-#include "slCControl.h"
+#include "slCView.h"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CStaticText : public CControl
+class CStaticText : public CView
 {
 	LE_RTTI_BEGIN
 		LE_RTTI_SELF(CStaticText)

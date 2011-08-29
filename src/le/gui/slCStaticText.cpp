@@ -20,7 +20,7 @@ CStaticText::CStaticText(const CString& text) :
 }
 
 CStaticText::CStaticText(const CString& text, const CRectangle& rect) :
-	CControl(rect),
+	CView(rect),
 	mText(text)
 {
 

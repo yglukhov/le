@@ -11,7 +11,7 @@ namespace sokira
 {
 	namespace le
 	{
-		
+
 class CRunLoopImpl
 {
 	public:
@@ -29,7 +29,7 @@ class CRunLoopImpl
 							   false, AnyPropertyType, NULL, NULL, NULL, NULL, (unsigned char**)&result);
 			return result;
 		}
-	
+
 		void dispatchEvent(XEvent* xEvent)
 		{
 			CWindow* window = windowFromEvent(xEvent);

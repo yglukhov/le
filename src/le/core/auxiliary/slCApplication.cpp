@@ -8,6 +8,8 @@ namespace sokira
 	namespace le
 	{
 
+static CApplication* gCurrentApplication = NULL;
+
 CApplication::CApplication() :
 	mDelegate(NULL),
 	mPreferences(NULL)
@@ -20,8 +22,16 @@ CApplication::~CApplication()
 	delete mPreferences;
 }
 
+CApplication* CApplication::currentApplication()
+{
+	return gCurrentApplication;
+}
+
 int CApplication::run(int argc, const char * const argv[])
 {
+	CApplication* prevApplication = gCurrentApplication;
+	gCurrentApplication = this;
+
 	mCommandLine.setArguments(argc, argv);
 
 	// Verify the delegate. Create one from Info.plist file, if the delegate is
@@ -39,12 +49,19 @@ int CApplication::run(int argc, const char * const argv[])
 
 	mDelegate->_setApplication(this);
 
-	return runApplication();
+	int result = runApplication();
+	gCurrentApplication = prevApplication;
+	return result;
 }
 
 void CApplication::quit()
 {
 	// Subclasses have to override this function so that runApplication() will return upon this call
+}
+
+Bool CApplication::canQuit() const
+{
+	return true;
 }
 
 CCommandLine CApplication::commandLine() const

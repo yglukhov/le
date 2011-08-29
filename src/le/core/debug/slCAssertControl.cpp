@@ -24,7 +24,7 @@ CAssertControl::CAssertControl() :
 
 CAssertControl::~CAssertControl()
 {
-	delete mPolicy;
+	mPolicy->release();
 }
 
 
@@ -35,8 +35,16 @@ CAssertionPolicy *CAssertControl::assertionPolicy() const
 
 void CAssertControl::setAssertionPolicy(CAssertionPolicy *policy)
 {
-	delete mPolicy;
+	mPolicy->release();
 	mPolicy = policy;
+	if (mPolicy)
+	{
+		mPolicy->retain();
+	}
+	else
+	{
+		mPolicy = new CAssertionPolicy();
+	}
 }
 
 	} // namespace le

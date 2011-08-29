@@ -19,7 +19,7 @@ CLogControl::CLogControl() :
 		logFileName += " - " + threadName;
 	}
 
-	logFileName += LESTR(".runlog");
+	logFileName += LESTR(".log");
 
 	attachToFile(logFileName, 0);
 }
@@ -49,7 +49,7 @@ void CLogControl::attachToStream(std::ostream* theStream, UInt32 severity)
 	*theStream << "S.O.K.I.R.A. labs.\nLog started: [TODO: here must be current time]\n---------------------\n\n" << std::endl;
 }
 
-void CLogControl::currentEntry(CLogEntry* entry)
+void CLogControl::setCurrentEntry(CLogEntry* entry)
 {
 	mCurrentEntry = entry;
 }
@@ -99,6 +99,12 @@ int CLogControl::sync()
 ///////////////////////////////////////////////////////////////////////////
 int CLogControl::overflow(int c)
 {
+	if (mRespectEntries)
+	{
+		LE_ASSERT(mCurrentEntry);
+		mCurrentEntry->enterLog();
+	}
+
 	// Add the character to our buffer. Don't add EOFs.
 	if (c != EOF)
 		mBuffer += char(c);

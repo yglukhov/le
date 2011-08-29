@@ -17,9 +17,11 @@ class CGuiCocoaApplication : public CApplication
 		virtual ~CGuiCocoaApplication();
 
 		//		void applicationWillFinishLaunching();
-		void addScreen(CWindow* screen);
+		void addWindow(CWindow* window);
+		void removeWindow(CWindow* window);
 
 		virtual void quit();
+		virtual Bool canQuit() const;
 
 	protected:
 		virtual SInt32 runApplication();

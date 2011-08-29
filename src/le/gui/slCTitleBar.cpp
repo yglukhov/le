@@ -1,3 +1,4 @@
+#if 0
 
 #include "slCTitleBar.h"
 #include "slCButton.h"
@@ -94,3 +95,5 @@ const CText& CTitleBar::captionText() const
 
 	} // namespace le
 } // namespace sokira
+
+#endif

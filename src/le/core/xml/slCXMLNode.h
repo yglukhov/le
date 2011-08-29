@@ -30,8 +30,9 @@ class CXMLNode
 		Bool hasAttribute(const CString& name) const;
 		CString attribute(const CString& name) const;
 
-		void addChild(CXMLNode* child);
+		CDictionary dictionaryWithAttributes() const;
 
+		void addChild(CXMLNode* child);
 
 		void dump(std::ostream& stream);
 

@@ -82,6 +82,11 @@ SInt32 CURL::portNumber() const
 	return 0;
 }
 
+Bool CURL::isEmpty() const
+{
+	return mPath.isEmpty();
+}
+
 Bool CURL::operator == (const CURL& url) const
 {
 	return mPath == url.mPath;

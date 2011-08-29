@@ -70,9 +70,22 @@ void CWindow::setSize(const CSize2D& size)
 	CView::setSize(size);
 }
 
+static void recursiveDrawView(CView* view, CTheme* theme, CRenderingContext* context)
+{
+	if (view->isVisible())
+	{
+		view->draw(theme, context);
+		const CView::CControlList& subviews = view->children();
+		for (CView::CControlList::const_iterator it = subviews.begin(); it != subviews.end(); ++it)
+		{
+			recursiveDrawView(*it, theme, context);
+		}
+	}
+}
+
 void CWindow::draw()
 {
-	LE_ENTER_LOG;
+//	LE_ENTER_LOG;
 
 	LE_ASSERT(mRenderingContext);
 
@@ -92,7 +105,8 @@ void CWindow::draw()
 	glVertex2f(0, 50);
 	glEnd();
 */
-	CView::draw(&mTheme, mRenderingContext);
+	recursiveDrawView(this, &mTheme, mRenderingContext);
+//	CView::draw(&mTheme, mRenderingContext);
 
 //	CSceneList::const_iterator end = mScenes.end();
 //	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
@@ -158,6 +172,11 @@ void CWindow::color(const CColor& Color)
 	glClearColor(Color.red(), Color.green(), Color.blue(), 0.0);
 }
 
+CWindow* CWindow::window() const
+{
+	return const_cast<CWindow*>(this);
+}
+
 //void CWindow::addControlToDelete(CControl* control)
 //{
 //	LE_ENTER_LOG;
@@ -195,10 +214,6 @@ void CWindow::_screenWillBeClosed()
 	mImpl = NULL;
 }
 
-//CView* CWindow::contentView()
-//{
-//	return mContentView;
-//}
 
 // This event includes mouse up, mouse down and mouse hover.
 //Bool CWindow::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)

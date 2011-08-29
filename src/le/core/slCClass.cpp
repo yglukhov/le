@@ -63,5 +63,22 @@ std::vector<CClass> CClass::parents() const
 	return mImpl->parents();
 }
 
+std::set<ISelector*> CClass::selectors() const
+{
+	std::set<ISelector*> result = mImpl->mSelectors;
+	std::vector<CClass> theParents = parents();
+	for (std::vector<CClass>::iterator it = theParents.begin(); it != theParents.end(); ++it)
+	{
+		std::set<ISelector*> tmp = it->selectors();
+		result.insert(tmp.begin(), tmp.end());
+	}
+	return result;
+}
+
+std::set<ISelector*> CClass::ownSelectors() const
+{
+	return mImpl->mSelectors;
+}
+
 	} // namespace le
 } // namespace sokira

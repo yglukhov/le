@@ -38,7 +38,7 @@ CScrollView::CScrollView(const CRectangle& rect) :
 	addChild(scrollBar);
 }
 
-void CScrollView::setContent(CControl* content)
+void CScrollView::setContent(CView* content)
 {
 	if (mContent)
 	{
@@ -49,7 +49,7 @@ void CScrollView::setContent(CControl* content)
 	addChild(mContent);
 }
 
-CControl* CScrollView::content() const
+CView* CScrollView::content() const
 {
 	return mContent;
 }

@@ -2,6 +2,7 @@
 
 #include <set>
 #include "slCClass.h"
+#include <le/core/strategies/slCSimpleRefCountable.h>
 #include <le/core/debug/slDebug.h>
 
 namespace sokira
@@ -36,14 +37,13 @@ class CClassFactory
 		{
 				typedef std::set<base::IClassImpl*>::iterator parent;
 			public:
-				class IPredicate
+				class IPredicate : public CSimpleRefCountable
 				{
 					public:
 						virtual bool operator () (base::IClassImpl*) const
 						{
 							return true;
 						}
-						virtual ~IPredicate() {}
 				};
 
 				iterator(parent it, parent begin, parent end, IPredicate* pred) :

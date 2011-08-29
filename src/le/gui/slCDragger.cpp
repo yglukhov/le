@@ -1,3 +1,5 @@
+#if 0
+
 #include "slCDragger.h"
 #include "slCControl.h"
 #include "slCView.h"
@@ -67,3 +69,5 @@ CControl* CDragger::handler()
 
 	} // namespace le
 } // namespace sokira
+
+#endif

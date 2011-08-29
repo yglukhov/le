@@ -111,6 +111,16 @@ CEvent nextEventMatchingMask(UInt32 type)
 			LE_ASSERT(false);
 	}
 
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+
+//	++mNestedLoopCounter;
+//	BOOL handled = NO;
+//	while (!handled)
+//	{
+//		CFRunLoopRun();
+//	}
+//
+//	--mNestedLoopCounter;
 #endif
 	return result;
 }

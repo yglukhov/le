@@ -15,29 +15,58 @@ CLogEntry::CLogEntry(const NChar* func, UInt32 severity, SInt32 mode) :
 	mFunc(func),
 	mSeverity(severity),
 	mMode(mode),
+	mEntered(false),
 	mLogControl(CLogControl::instance()),
 	mPrevEntry(mLogControl->currentEntry())
 {
-	mLogControl->currentEntry(this);
+	mLogControl->setCurrentEntry(this);
 
-	if(mMode != LE_LOG_MODE_SILENT)
+	if (!mFunc) mFunc = "_ unknown function name _";
+
+	if (mMode == LE_LOG_MODE_NORMAL)
 	{
-		*this << mFunc << '\n' << '{' << std::endl;
-		mLogControl->increaseWhiteSpace();
-		flush();
+		if (mPrevEntry) mPrevEntry->enterLog();
+		mLogControl->mRespectEntries = false;
+		*this << mFunc << '\n';
+		mLogControl->mRespectEntries = true;
+	}
+}
+
+void CLogEntry::enterLog()
+{
+	if (!mEntered)
+	{
+		mEntered = true;
+
+		if (mPrevEntry) mPrevEntry->enterLog();
+		mLogControl->mRespectEntries = false;
+		if (mMode != LE_LOG_MODE_SILENT)
+		{
+			if (mMode == LE_LOG_MODE_QUIET)
+			{
+				*this << mFunc << '\n';
+			}
+			*this << '{' << std::endl;
+			mLogControl->increaseWhiteSpace();
+			flush();
+		}
+
+		mLogControl->mRespectEntries = true;
 	}
 }
 
 CLogEntry::~CLogEntry()
 {
-	if(mMode != LE_LOG_MODE_SILENT)
+	if (mEntered && mMode != LE_LOG_MODE_SILENT)
 	{
+		mLogControl->mRespectEntries = false;
 		mLogControl->decreaseWhiteSpace();
 		*this << '}' << std::endl;
 		flush();
+		mLogControl->mRespectEntries = true;
 	}
 
-	mLogControl->currentEntry(mPrevEntry);
+	mLogControl->setCurrentEntry(mPrevEntry);
 }
 
 

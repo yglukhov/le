@@ -14,7 +14,7 @@ namespace sokira
 
 void _le_assert(bool expression, const char* strExression, unsigned line, const char* file, const CObject* object, const char* message)
 {
-	if(!expression)
+	if (!expression)
 	{
 		CAssertControl::instance()->assertionPolicy()->performAssert(strExression, line, file, object, message);
 	}

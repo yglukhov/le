@@ -1,5 +1,8 @@
 #include <le/gui/slCWindow.h>
 #include <le/core/auxiliary/slCRunLoop.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
+
 #include <le/core/auxiliary/base/slCRunLoopImplWin.hp>
 #include "slCWindowsWindowImpl.hp"
 
@@ -344,3 +347,5 @@ CString CWindowsWindowImpl::title() const
 
 	} // namespace le
 } // namespace sokira
+
+#endif

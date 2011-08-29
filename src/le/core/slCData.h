@@ -71,6 +71,9 @@ class CData : public CObject
 		void compress(ECompressionMethod method);
 		void decompress();
 
+		Bool operator == (const CData& rhs) const;
+		Bool operator != (const CData& rhs) const { return !(*this == rhs); }
+
 		void writeToURL(const CURL& url) const;
 	private:
 		void* mData;

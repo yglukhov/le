@@ -24,6 +24,12 @@ class TCSegment2D
 
 		}
 
+		TCSegment2D(T ax, T ay, T bx, T by) :
+			mA(ax, ay),
+			mB(bx, by)
+		{
+
+		}
 
 	// Attributes
 		TPoint a() const
@@ -46,11 +52,32 @@ class TCSegment2D
 			mB = b;
 		}
 
+		void scale(Float32 k)
+		{
+			mB.setX(horizontalLength() * k + mA.x());
+			mB.setY(verticalLength() * k + mA.y());
+		}
+
+		T horizontalLength() const
+		{
+			return mB.x() - mA.x();
+		}
+
+		T verticalLength() const
+		{
+			return mB.y() - mA.y();
+		}
+
 		T length() const
 		{
-			T a = mB.x() - mA.x();
-			T b = mB.y() - mA.y();
+			T a = horizontalLength();
+			T b = verticalLength();
 			return std::sqrt(a * a + b * b);
+		}
+
+		void setLength(T newLength)
+		{
+			scale(newLength / length());
 		}
 
 		Bool intersectsWith(const TCSegment2D& segment) const
@@ -75,6 +102,30 @@ class TCSegment2D
 				y >= std::min(y3, y4) && y <= std::max(y3, y4);
 		}
 
+		Float32 tangent() const
+		{
+			return verticalLength() / horizontalLength();
+		}
+
+		Float32 angleInRadians() const
+		{
+			Float32 result = std::atan(tangent());
+			if (mB.x() < mA.x()) result += M_PI;
+			return result;
+		}
+
+		Float32 angleInDegrees() const
+		{
+			return radiansToDegrees(angleInRadians());
+		}
+
+		void invert()
+		{
+			TPoint tmp = mA;
+			mA = mB;
+			mB = tmp;
+		}
+
 	// Operators
 //		CPoint& operator=(const CPoint& copy);
 		Bool operator == (const TCSegment2D& segment) const
@@ -87,6 +138,14 @@ class TCSegment2D
 	private:
 		TPoint mA, mB;
 };
+
+
+template <typename T>
+std::ostream& operator << (std::ostream& stream, const TCSegment2D<T>& segment)
+{
+	return stream << '{' << segment.a() << ", " << segment.b() << '}';
+}
+
 
 typedef TCSegment2D<Float32> CSegment2D;
 

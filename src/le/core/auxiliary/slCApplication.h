@@ -24,8 +24,11 @@ class CApplication
 		CApplication();
 		virtual ~CApplication();
 
+		static CApplication* currentApplication();
+
 		int run(int argc, const char * const argv[]);
 		virtual void quit();
+		virtual Bool canQuit() const;
 
 		CCommandLine commandLine() const;
 		CPreferences* preferences();

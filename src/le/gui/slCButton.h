@@ -2,15 +2,16 @@
 
 #include <le/core/slCString.h>
 #include <le/core/template/function/slTCFunction.h>
-#include "slCControl.h"
-#include "slCControlDelegate.h"
+#include "slCView.h"
+//#include "slCControl.h"
+//#include "slCControlDelegate.h"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CButton: public CControl//, public CControlDelegate
+class CButton: public CView//, public CControlDelegate
 {
 	LE_DECLARE_RUNTIME_CLASS(CButton);
 

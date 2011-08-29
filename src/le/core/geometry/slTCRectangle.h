@@ -1,7 +1,7 @@
 #if !defined SL_LE_core_geometry_slTCRectangle_h
 #define SL_LE_core_geometry_slTCRectangle_h
 
-#include "slTCPoint2D.h"
+#include "slTCSegment2D.h"
 #include "slTCSize2D.h"
 
 namespace sokira
@@ -87,6 +87,27 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 			return TPoint(TSelf::midX(), TSelf::midY());
 		}
 
+		TCSegment2D<T> leftSide() const
+		{
+			return TCSegment2D<T>(TSelf::bottomLeft(), TSelf::topLeft());
+		}
+
+		TCSegment2D<T> topSide() const
+		{
+			return TCSegment2D<T>(TSelf::topLeft(), TSelf::topRight());
+		}
+
+		TCSegment2D<T> rightSide() const
+		{
+			return TCSegment2D<T>(TSelf::topRight(), TSelf::bottomRight());
+		}
+
+		TCSegment2D<T> bottomSide() const
+		{
+			return TCSegment2D<T>(TSelf::bottomRight(), TSelf::bottomLeft());
+		}
+
+
 		bool containsPoint(const TPoint& point) const
 		{
 			return (point.x() >= TSelf::minX() && point.x() <= TSelf::maxX() &&
@@ -116,6 +137,29 @@ class TCRectangle : public TCPoint2D<T>, public TCSize2D<T>
 					(xb1 >= xa1 && xb1 <= xa2) || (xb2 >= xa1 && xb2 <= xa2)) &&
 				   ((ya1 >= yb1 && ya1 <= yb2) || (ya2 >= yb1 && ya2 <= yb2) || // Y intersection
 					(yb1 >= ya1 && yb1 <= ya2) || (yb2 >= ya1 && yb2 <= ya2));
+		}
+
+		bool intersectsSegment(const TCSegment2D<T>& segment) const
+		{
+			if ((segment.a().x() < TSelf::minX() && segment.b().x() < TSelf::minX()) || 
+				(segment.a().x() > TSelf::maxX() && segment.b().x() > TSelf::maxX()) ||
+				(segment.a().y() < TSelf::minY() && segment.b().y() < TSelf::maxY()) ||
+				(segment.a().y() > TSelf::maxY() && segment.b().y() > TSelf::maxY()))
+			{
+				return false;
+			}
+
+			if ((segment.a().x() >= TSelf::minX() && segment.b().x() <= TSelf::maxX()) ||
+				(segment.a().y() >= TSelf::minY() && segment.b().y() <= TSelf::maxY()) ||
+				containsPoint(segment.a()) || containsPoint(segment.b()))
+			{
+				return true;
+			}
+
+			return segment.intersectsWith(TSelf::leftSide()) ||
+				segment.intersectsWith(TSelf::topSide()) ||
+				segment.intersectsWith(TSelf::rightSide()) ||
+				segment.intersectsWith(TSelf::bottomSide());
 		}
 
 		void extendToPoint(const TPoint& point)

@@ -107,7 +107,7 @@ class CSourceImpl : public CSimpleRefCountable
 
 		void play()
 		{
-			std::cout << "Playing source!" << std::endl;
+//			std::cout << "Playing source!" << std::endl;
 			alSourcePlay(mSource);
 			if(alGetError() != AL_NO_ERROR)
 			{

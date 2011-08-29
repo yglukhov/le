@@ -16,13 +16,34 @@
 #endif
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+@interface SokiraLE_Window : NSWindow
+{
+
+}
+
+@end
+
+@implementation SokiraLE_Window
+
+- (BOOL) canBecomeKeyWindow
+{
+	return YES;
+}
+
+@end
+
+
+
 @interface SokiraLE_OpenGLView : NSOpenGLView
 {
 	::sokira::le::CWindow* mScreen;
 	BOOL mMouseInView;
 	BOOL mViewDidResize;
+	UInt32 mIdentifier;
 }
 @end
+
+static NSOpenGLContext* gOpenGLContext = nil;
 
 @implementation SokiraLE_OpenGLView
 
@@ -38,11 +59,27 @@
 
 	NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
 	self = [super initWithFrame: NSZeroRect pixelFormat: pixelFormat];
+
+	if (gOpenGLContext)
+	{
+		NSOpenGLContext* newContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat shareContext: gOpenGLContext];
+		[self setOpenGLContext: newContext];
+		[newContext setView: self];
+		[newContext release];
+	}
+	else
+	{
+		gOpenGLContext = [self openGLContext];
+	}
+
 	[pixelFormat release];
 
 	mScreen = screen;
 	mMouseInView = NO;
 	mViewDidResize = YES;
+	static UInt32 idCounter = 1;
+	mIdentifier = idCounter;
+	++idCounter;
 	return self;
 }
 
@@ -86,6 +123,7 @@
 //	NSString* chars = [theEvent charactersIgnoringModifiers];
 //	const char * str = [chars cStringUsingEncoding: NSNonLossyASCIIStringEncoding];
 //	::sokira::le::CString characters = (str)?(str):(::sokira::le::CString());
+	NSLog(@"keyUp: %@", theEvent);
 	mScreen->onKeyUp(::sokira::le::CRunLoopImpl::keyCodeFromSystemCode([theEvent keyCode]));
 }
 
@@ -131,8 +169,6 @@
 		// On Mouse Hover
 		mScreen->onMouse(::sokira::le::eKeyCodeUnknown, ::sokira::le::eButtonStateUnknown,
 			::sokira::le::CPoint2D(point.x, point.y));
-
-//		mScreen->onMouseHover(::sokira::le::CPoint(point.x, point.y));
 	}
 }
 
@@ -146,8 +182,6 @@
 	LE_ASSERT(mScreen);
 	mScreen->onMouse(button, ::sokira::le::eButtonStateDown,
 			::sokira::le::CPoint2D(point.x, point.y));
-//
-//	mScreen->onMouseDown(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
 - (void) anyMouseUp: (NSEvent*) event button: (::sokira::le::EKeyCode) button
@@ -166,7 +200,6 @@
 	LE_ASSERT(mScreen);
 	mScreen->onMouse(button, ::sokira::le::eButtonStateUp,
 			::sokira::le::CPoint2D(point.x, point.y));
-//	mScreen->onMouseUp(button, ::sokira::le::CPoint(point.x, point.y));
 }
 
 - (void) mouseDown: (NSEvent*) event
@@ -309,6 +342,40 @@
 	return self;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	UITouch* touch = [touches anyObject];
+	if (touch)
+	{
+		CGPoint point = [touch locationInView: self];
+		LE_ASSERT(mScreen);
+		mScreen->onMouse(::sokira::le::eKeyCodeMouseButtonPrimary, ::sokira::le::eButtonStateDown,
+			::sokira::le::CPoint2D(point.x, point.y));
+	}
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	UITouch* touch = [touches anyObject];
+	if (touch)
+	{
+		CGPoint point = [touch locationInView: self];
+		LE_ASSERT(mScreen);
+		mScreen->onMouse(::sokira::le::eKeyCodeMouseButtonPrimary, ::sokira::le::eButtonStateUp,
+			::sokira::le::CPoint2D(point.x, point.y));
+	}
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
 - (void)createFramebuffer
 {
 	if (context && !defaultFramebuffer)
@@ -424,13 +491,35 @@ void CCocoaWindowImpl::screenWillBeAddedToApplication(CWindow* screen, CGuiCocoa
 void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApplication* app)
 {
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+
+	NSUInteger styleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask;
+	if (mFullScreen)
+	{
+		styleMask = NSBorderlessWindowMask;
+//		frame = [[NSScreen mainScreen] frame];
+//		mRect.setX(frame.origin.x);
+//		mRect.setY(frame.origin.y);
+//		mRect.setWidth(frame.size.width);
+//		mRect.setHeight(frame.size.height);
+	
+		mRect = CRectangle(0, 0, 1024, 768);
+	}
+
 	NSRect frame = NSMakeRect(mRect.x(), mRect.y(), mRect.width(), mRect.height());
 
-	mWindow = (void*)[[NSWindow alloc]
+	mWindow = (void*)[[SokiraLE_Window alloc]
 					initWithContentRect: frame
-					styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+					styleMask: styleMask
 					backing: NSBackingStoreBuffered
-					defer: NO];
+					defer: YES];
+
+	if (mFullScreen)
+	{
+//		[(id)mWindow setLevel:NSMainMenuWindowLevel+1];
+	}
+
+	[(id)mWindow setOpaque: YES];
+	
 
 	NSString* title = [NSString stringWithCString: mTitle.cString() encoding: NSASCIIStringEncoding];
 
@@ -439,6 +528,7 @@ void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApp
 	id view = [[SokiraLE_OpenGLView alloc] initWithScreen: screen];
 	[[NSNotificationCenter defaultCenter] addObserver:view selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object: (id) mWindow];
 	[(id)mWindow setContentView: view];
+//	[(id)mWindow makeFirstResponder: view];
 	[view release];
 	[(id)mWindow makeKeyAndOrderFront: nil];
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS

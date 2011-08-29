@@ -2,14 +2,14 @@
 #define SL_LE_gui_slCScrollBar_h
 
 #include <le/core/template/function/slTCFunction.h>
-#include "slCControl.h"
+#include "slCView.h"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CScrollBar : public CControl
+class CScrollBar : public CView
 {
 	LE_RTTI_BEGIN
 		LE_RTTI_SELF(CScrollBar)

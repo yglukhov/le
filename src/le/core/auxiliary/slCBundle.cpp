@@ -1,5 +1,6 @@
 #include <le/core/slCDictionary.h>
 #include "slCBundle.h"
+#include "slCFileManager.h"
 
 namespace sokira
 {
@@ -22,7 +23,9 @@ CBundle::CBundle(const CURL& executableUrl) :
 CURL CBundle::url() const
 {
 	CURL result = contentsUrl();
+#if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	result.removeLastPathComponent();
+#endif
 	return result;
 }
 
@@ -59,6 +62,74 @@ CURL CBundle::resourcesUrl() const
 CURL CBundle::executableUrl() const
 {
 	return mExecutableURL;
+}
+
+CURL CBundle::URLForResource(const CString& name, const CString& type) const
+{
+	CURL url = resourcesUrl();
+
+	CString localization = LESTR("English.lproj"); // TODO: Aquire localization properly
+
+	CString fileName = name;
+	if (type.length())
+	{
+		fileName += ".";
+		fileName += type;
+	}
+
+	CURL tempUrl = url;
+	tempUrl.appendPathComponent(localization);
+	tempUrl.appendPathComponent(fileName);
+
+	CFileManager fileManager;
+	if (fileManager.fileExists(tempUrl))
+	{
+		return tempUrl;
+	}
+
+	tempUrl = url;
+	tempUrl.appendPathComponent(fileName);
+
+	if (fileManager.fileExists(tempUrl))
+	{
+		return tempUrl;
+	}
+
+	return CURL();
+}
+
+CURL CBundle::URLForImageResource(const CString& name) const
+{
+	CURL result = URLForResource(name, LESTR("jpg"));
+	if (result.isEmpty())
+	{
+		result = URLForResource(name, LESTR("jpeg"));
+		if (result.isEmpty())
+		{
+			result = URLForResource(name, LESTR("gif"));
+			if (result.isEmpty())
+			{
+				result = URLForResource(name, LESTR("bmp"));
+			}
+		}
+	}
+
+	return result;
+}
+
+CURL CBundle::URLForSoundResource(const CString& name) const
+{
+	CURL result = URLForResource(name, LESTR("ogg"));
+	if (result.isEmpty())
+	{
+		result = URLForResource(name, LESTR("mp3"));
+		if (result.isEmpty())
+		{
+			result = URLForResource(name, LESTR("wav"));
+		}
+	}
+
+	return result;
 }
 
 CString CBundle::identifier() const

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <le/core/preprocessor/slPPrepeat_from_0.h>
+#include <le/core/strategies/slCSimpleRefCountable.h>
 
 namespace sokira
 {
@@ -30,22 +31,11 @@ class TIFunction :
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-// _CFunctionInterfaceBase needed just for virtual destructor.
-class _CFunctionInterfaceBase
-{
-	public:
-		virtual ~_CFunctionInterfaceBase()
-		{
-			// no op
-		}
-};
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // TIFunctionBase specialization. Limitations are equal to LE_PP_IFUNCTION_LIMIT
 template <typename RetType, class TList>
-class TIFunctionBase<RetType, TList, 0> : public _CFunctionInterfaceBase
+class TIFunctionBase<RetType, TList, 0> : public CSimpleRefCountable
 {
 	public: virtual RetType operator()() const = 0;
 };
@@ -54,7 +44,7 @@ class TIFunctionBase<RetType, TList, 0> : public _CFunctionInterfaceBase
 
 #define _LE_DEFINE_TIFunctionBase(x) \
 template <typename RetType, class TList> \
-class TIFunctionBase<RetType, TList, x + 1> : public _CFunctionInterfaceBase \
+class TIFunctionBase<RetType, TList, x + 1> : public CSimpleRefCountable \
 { \
 	public: virtual RetType operator()(typename TList::template TypeAt<0>::result LE_PP_REPETITION_FROM_0_TO(x, _le_val)) const = 0; \
 };

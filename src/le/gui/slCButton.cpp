@@ -11,14 +11,14 @@ namespace sokira
 LE_IMPLEMENT_RUNTIME_CLASS(CButton);
 
 CButton::CButton() :
-	CControl(CRectangle(0, 0, 10, 10)),
+	CView(CRectangle(0, 0, 10, 10)),
 	mState(eButtonStateUp)
 {
 
 }
 
 CButton::CButton(const CRectangle& rect) :
-	CControl(rect),
+	CView(rect),
 	mState(eButtonStateUp)
 {
 
@@ -52,7 +52,8 @@ Bool CButton::onMouseDown(EKeyCode button, const CPoint2D& point)
 		while (true)
 		{
 			CEvent event = runLoop.nextEventMatchingType(eEventTypeMouseUp | eEventTypeMouseMove);
-			if (event.type() == eEventTypeMouseUp && event.mouseButton() == eKeyCodeMouseButtonPrimary)
+			if (event.type() == eEventTypeUnknown ||
+				(event.type() == eEventTypeMouseUp && event.mouseButton() == eKeyCodeMouseButtonPrimary))
 			{
 				mState = eButtonStateUp;
 				setNeedsRedraw();

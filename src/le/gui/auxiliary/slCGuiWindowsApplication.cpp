@@ -16,12 +16,12 @@ namespace sokira
 			return 0;
 		}
 
-		void CGuiWindowsApplication::addScreen(CWindow* screen)
+		void CGuiWindowsApplication::addWindow(CWindow* window)
 		{
-			if (screen)
+			if (window)
 			{
 //				screen->screenWillBeAddedToApplication(this);
-				mScreens.push_back(screen);
+				mScreens.push_back(window);
 //				screen->screenWasAddedToApplication(this);
 			}
 		}

@@ -7,17 +7,6 @@ namespace sokira
 	{
 
 LE_IMPLEMENT_RUNTIME_CLASS(CObject);
-//
-//CObject::CObject() :
-//	mRefCount(1)
-//{
-//
-//}
-//
-//CObject::~CObject()
-//{
-//	LE_ASSERT(mRefCount <= 1);
-//}
 
 CString CObject::description() const
 {
@@ -38,20 +27,6 @@ void CObject::deserialize(const CDictionary& fromDictionary)
 {
 
 }
-
-//void CObject::retain() const
-//{
-//	++mRefCount;
-//}
-//
-//void CObject::release() const
-//{
-//	--mRefCount;
-//	if (!mRefCount)
-//	{
-//		delete this;
-//	}
-//}
 
 	} // namespace le
 } // namespace sokira

@@ -43,6 +43,8 @@ class CWindow : public CView
 		virtual void setNeedsRedraw();
 		virtual Bool hitTest(const CPoint2D& point) const { return true; }
 
+		virtual CWindow* window() const;
+
 //		void addControlToDelete(CControl* control);
 
 //		void addScene(CScene* scene, UInt32 order);
@@ -51,8 +53,6 @@ class CWindow : public CView
 //		void _screenWasResized();
 		void _screenWillBeClosed();
 		void _prepareOpenGL();
-
-		CView* contentView();
 
 //		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
 //		void onMouseDown(EKeyCode button, const CPoint& point);

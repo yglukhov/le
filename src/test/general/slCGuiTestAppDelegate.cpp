@@ -1,6 +1,6 @@
 #include <le/core/thread/slCThread.h>
 #include <le/core/template/function/slTCBind.h>
-#include <le/gui/slCScreen.h>
+#include <le/gui/slCWindow.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
 #include <le/gui/slCButton.h>
 #include <le/gui/slCRenderingContext.h>
@@ -14,12 +14,12 @@ namespace sokira
 
 		LE_IMPLEMENT_RUNTIME_CLASS(CGuiTestAppDelegate);
 
-class CTestScreen : public CScreen
+class CTestScreen : public CWindow
 {
 	public:
 		virtual void draw()
 		{
-			CScreen::draw();
+			CWindow::draw();
 
 			CPolygon poly;
 			poly.addPoint(CPoint2D(0, 0));
@@ -57,13 +57,13 @@ class CTestScreen : public CScreen
 
 		void CGuiTestAppDelegate::applicationDidFinishLaunching(CApplication& application)
 		{
-			CScreen* screen = new CTestScreen();
+			CWindow* screen = new CTestScreen();
 
 			//	CDialog::Ptr dlg1 = new CDialog(CRectangle(10, 15, 30, 30));
 			//	dlg1.retain();
 			//	dlg1->setAutoResizing(eAutoResizingFixedMargins);
 
-			CWindow* dlg2 = new CWindow(CRectangle(1, 1, 60, 60));
+			CView* dlg2 = new CView(CRectangle(1, 1, 60, 60));
 
 			CButton* button = new CButton(CRectangle(1, 1, 20, 20));
 			button->setText("x");

@@ -39,8 +39,6 @@ class CControl : public CObject
 		CControl(const CRectangle& rect);
 		virtual ~CControl();
 
-//		void destroy();
-
 		CRectangle absoluteRect() const;
 		CRectangle relativeRect() const;
 
@@ -69,8 +67,6 @@ class CControl : public CObject
 
 		virtual void setNeedsRedraw();
 
-		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
-
 		// Mouse events
 		virtual Bool onMouseDown(EKeyCode button, const CPoint2D& point);
 		virtual Bool onMouseUp(EKeyCode button, const CPoint2D& point);
@@ -91,27 +87,14 @@ class CControl : public CObject
 		virtual Bool onKeyDown(EKeyCode keyCode);
 		virtual Bool onKeyUp(EKeyCode keyCode);
 
-		// Responder chain functions
-		Bool becomeFirstResponder();
-		Bool resignFirstResponder(); // Make parent the first responder.
-		Bool isFirstResponder() const;
-
 		virtual Bool controlCanBecomeFirstResponder();
 		virtual void controlDidBecomeFirstResponder();
 		virtual Bool controlCanResignFirstResponder();
 		virtual void controlDidResignFirstResponder();
 
-
-		// Remove control from parent and delete it.
-		void close();
-
 	protected:
-
-		void setParent(CView* parent);
-
-		virtual Bool hitTest(const CPoint2D& point) const;
+		virtual Bool hitTest(const CPoint2D& point) const { return false; }
 		Bool performMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
-
 
 	private:
 		friend class CView;

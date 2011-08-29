@@ -281,10 +281,12 @@ CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list 
 CBasicString CBasicString::createWithCharacterRange(NChar startChar, UInt32 rangeLength)
 {
 	char* buffer = new char[rangeLength];
-	for (UInt32 i = 0; i < rangeLength; ++i)
+	UInt32 i = 0;
+	for (; i < rangeLength; ++i)
 	{
 		buffer[i] = startChar + i;
 	}
+	buffer[i] = 0;
 	return CBasicString(new SStringProxy(buffer, eOwnPolicyDealloc));
 }
 

@@ -20,6 +20,12 @@ void postEvent(const CEvent& event);
 class CRunLoopImpl
 {
 	public:
+		CRunLoopImpl() :
+			mNestedLoopCounter(0)
+		{
+
+		}
+
 		/// Start the run loop.
 		void run()
 		{
@@ -200,6 +206,9 @@ class CRunLoopImpl
 #endif
 			return eKeyCodeUnknown;
 		}
+
+	private:
+		UInt32 mNestedLoopCounter;
 };
 
 	} // namespace le

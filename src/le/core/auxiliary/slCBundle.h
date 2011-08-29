@@ -20,6 +20,10 @@ class CBundle
 		CURL resourcesUrl() const;
 		CURL executableUrl() const;
 
+		CURL URLForResource(const CString& name, const CString& type) const;
+		CURL URLForImageResource(const CString& name) const;
+		CURL URLForSoundResource(const CString& name) const;
+
 		CString identifier() const;
 		CDictionary infoDictionary() const;
 

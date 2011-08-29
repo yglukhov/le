@@ -8,6 +8,14 @@ namespace sokira
 	namespace le
 	{
 
+class TCPointerBaseForNonRefCountable
+{
+	typedef UInt32 TRefCountType;
+
+	private:
+		
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // TCPointer class declaration
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +48,7 @@ class TCPointer
 
 		// Reset the pointer to other value without killing the object.
 		// Returns the pointer to previosly referenced object.
-//		T* reset(T* toValue = NULL);
+		T* reset(T* toValue = NULL);
 
 
 		//////////////////////////////////////////////////////////////////////////
@@ -69,7 +77,6 @@ class TCPointer
 	private:
 		template <typename Any> friend class TCPointer;
 		T* mObj;
-		TRefCountType* mRefCount;
 };
 
 
@@ -80,36 +87,30 @@ class TCPointer
 
 template <typename T>
 TCPointer<T>::TCPointer() :
-	mObj(NULL),
-	mRefCount(NULL)
+	mObj(NULL)
 {
 
 }
 
 template <typename T>
 TCPointer<T>::TCPointer(T* obj) :
-	mObj(obj),
-	mRefCount(NULL)
+	mObj(obj)
 {
 	retain();
 }
 
 template <typename T>
 TCPointer<T>::TCPointer(const TCPointer& copy) :
-	mObj(copy.mObj),
-	mRefCount(copy.mRefCount)
+	mObj(copy.mObj)
 {
-	LE_ASSERT(mRefCount);
 	retain();
 }
 
 template <typename T>
 template <typename CastedFrom>
 TCPointer<T>::TCPointer(const TCPointer<CastedFrom>& copy) :
-	mObj(copy.mObj),
-	mRefCount(copy.mRefCount)
+	mObj(copy.mObj)
 {
-	LE_ASSERT(mRefCount);
 	retain();
 }
 
@@ -122,14 +123,12 @@ TCPointer<T>::~TCPointer()
 template <typename T>
 const TCPointer<T>& TCPointer<T>::operator = (T* copy)
 {
-	if(mObj != copy)
+	if (mObj != copy)
 	{
 		release();
+		mObj = copy;
+		retain();
 	}
-
-	mObj = copy;
-
-	retain();
 
 	return *this;
 }
@@ -144,15 +143,12 @@ template <typename T>
 template <typename CastedFrom>
 const TCPointer<T>& TCPointer<T>::operator = (const TCPointer<CastedFrom>& copy)
 {
-	if(mObj != copy.mObj)
+	if (mObj != copy.mObj)
 	{
 		release();
+		mObj = copy.mObj;
+		retain();
 	}
-
-	mObj = copy.mObj;
-	mRefCount = copy.mRefCount;
-
-	retain();
 
 	return *this;
 }
@@ -204,41 +200,29 @@ const T* TCPointer<T>::operator->() const
 }
 
 
-//template <typename T>
-//T* TCPointer<T>::reset(T* toValue)
-//{
-//	T* retValue = mObj;
-//	operator=(toValue);
-//	return retValue;
-//}
+template <typename T>
+T* TCPointer<T>::reset(T* toValue)
+{
+	T* retValue = mObj;
+	operator=(toValue);
+	return retValue;
+}
 
 template <typename T>
 void TCPointer<T>::retain()
 {
 	if (mObj)
 	{
-		if (!mRefCount)
-		{
-			mRefCount = new TRefCountType(0);
-		}
-		++(*mRefCount);
+		mObj->retain();
 	}
 }
 
 template <typename T>
 void TCPointer<T>::release()
 {
-	if(mObj)
+	if (mObj)
 	{
-		LE_ASSERT(mRefCount != NULL);
-		--(*mRefCount);
-		if (!(*mRefCount))
-		{
-			delete mObj;
-			delete mRefCount;
-		}
-		mObj = NULL;
-		mRefCount = NULL;
+		mObj->release();
 	}
 }
 

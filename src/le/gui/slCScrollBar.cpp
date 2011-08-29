@@ -16,7 +16,7 @@ CScrollBar::CScrollBar() :
 }
 
 CScrollBar::CScrollBar(const CRectangle& rect, Bool horizontal) :
-	CControl(rect),
+	CView(rect),
 	mHorizontal(horizontal),
 	mPosition(0)
 {

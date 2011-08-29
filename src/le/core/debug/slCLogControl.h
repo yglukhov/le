@@ -25,7 +25,7 @@ class CLogControl :
 		void attachToFile(const CString& name, UInt32 minPriority);
 		void attachToScreen(UInt32 minPriority);
 
-		void currentEntry(CLogEntry* entry);
+		void setCurrentEntry(CLogEntry* entry);
 		CLogEntry* currentEntry() const;
 
 		void attachToStream(std::ostream* theStream, UInt32 severity);
@@ -40,11 +40,16 @@ class CLogControl :
 			mWhiteSpace.erase(0, 1);
 		}
 
+	public:
+		Bool mRespectEntries;
+
+
 	protected:
 
 		virtual int sync();
 		virtual int overflow(int c = EOF);
 
+		
 	private:
 		CLogEntry* mCurrentEntry;
 		std::list<std::pair<UInt32, std::ostream*> > mStreams;

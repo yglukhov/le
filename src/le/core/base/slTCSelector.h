@@ -7,7 +7,20 @@ namespace sokira
 
 class ISelector
 {
+	public:
+		ISelector(const char* name) :
+			mName(name)
+		{
+		
+		}
 
+		inline const char* name() const
+		{
+			return mName;
+		}
+
+	private:
+		const char* mName;
 };
 
 template <typename FuncType>
@@ -15,15 +28,14 @@ class TCSelector : public ISelector
 {
 	public:
 		TCSelector(FuncType func, const char* name) :
-			mFunc(func),
-			mName(name)
+			ISelector(name),
+			mFunc(func)
 		{
 
 		}
 
 	private:
 		FuncType mFunc;
-		const char* mName;
 };
 
 	} // namespace le

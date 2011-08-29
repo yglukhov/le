@@ -13,7 +13,9 @@ class CWindow;
 class CGuiWindowsApplication : public CApplication
 {
 	public:
-		void addScreen(CWindow* screen);
+		void addWindow(CWindow* window);
+		void removeWindow(CWindow* window);
+
 		virtual void quit();
 
 	protected:

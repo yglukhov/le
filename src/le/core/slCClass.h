@@ -207,6 +207,9 @@ class CClass
 
 		std::vector<CClass> parents() const;
 
+		std::set<ISelector*> selectors() const;
+		std::set<ISelector*> ownSelectors() const;
+
 	// Private:
 		CClass(base::IClassImpl* impl);
 
@@ -244,6 +247,7 @@ struct SByNameFinder;
 			namespace base
 			{
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 ////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +260,7 @@ class IClassImpl
 		virtual std::vector<CClass> parents() const = 0;
 
 	protected:
-		IClassImpl(const char*);
+	IClassImpl(const char*);
 		virtual ~IClassImpl()
 		{
 			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)

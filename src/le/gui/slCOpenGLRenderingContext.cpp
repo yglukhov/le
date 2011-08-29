@@ -73,12 +73,13 @@ void COpenGLRenderingContext::setLineWidth(Float32 width)
 // Geometry
 static GLuint fontTexture;
 static Float32* fontTextureCoords; // 128 * 4 * 4
+static UInt32 totalFontWidth = 0;
 
 void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& position)
 {
 #ifdef LE_USE_FREETYPE
 	glEnable(GL_TEXTURE_2D);
-	
+
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBindTexture(GL_TEXTURE_2D, fontTexture);
 
@@ -92,7 +93,7 @@ void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& posi
 
 		GLfloat* texCoords = fontTextureCoords + character * 8;
 
-		GLfloat width = (texCoords[2] - texCoords[0]) * 1024;
+		GLfloat width = (texCoords[2] - texCoords[0]) * totalFontWidth;
 
 		GLfloat vertexes[] = {
 			position.x() + xOffset, position.y(),
@@ -456,19 +457,27 @@ void COpenGLRenderingContext::popClippingRect()
 
 #ifdef LE_USE_FREETYPE
 
-static UInt32 totalFontWidth = 0;
-static UInt32 fontHeight;
+static FT_Error ftCreateFace(FT_Library freeType, FT_Face* face, const CData& data, UInt32 fontHeight)
+{
+	if (FT_New_Memory_Face(freeType, (const FT_Byte*)data.data(), data.length(), 1, face))
+	{
+		std::cout << "ERROR LOADING FACE" << std::endl;
+	}
+	
+	if (FT_Set_Char_Size(*face, fontHeight * 64, 0, 72, 72))
+	{
+		std::cout << "ERROR SETTING SIZE" << std::endl;
+	}
+	
+	//	if (FT_Set_Pixel_Sizes(face, 8, 13))
+	//	{
+	//		std::cout << "ERROR SETTING SIZE" << std::endl;
+	//	}
+	return 0;
+}
 
 static UInt32 createFreeTypeFont()
 {
-	totalFontWidth = 1024;
-	fontHeight = 16;
-	UInt32 componentCount = 2;
-	GLbyte* fontTextureData = new GLbyte[totalFontWidth * fontHeight * componentCount];
-	memset(fontTextureData, 0, totalFontWidth * fontHeight * componentCount);
-	fontTextureCoords = new GLfloat[128 * 8];
-	UInt32 currentXOffset = 0;
-
 	CString characters = CString::createWithCharacterRange('A', 26);
 	characters += CString::createWithCharacterRange('a', 26);
 	characters += CString::createWithCharacterRange('0', 10);
@@ -478,37 +487,77 @@ static UInt32 createFreeTypeFont()
 	FT_Init_FreeType(&freeType);
 	FT_Face face;
 
+	UInt32 fontHeight = 16;
+
 	CData fontData = CData::createWithContentsOfURL(CURL("/System/Library/Fonts/LucidaGrande.ttc"));
-	if (FT_New_Memory_Face(freeType, (const FT_Byte*)fontData.data(), fontData.length(), 1, &face))
+
+	if (ftCreateFace(freeType, &face, fontData, fontHeight))
 	{
 		std::cout << "ERROR LOADING FACE" << std::endl;
 	}
 
-	if (FT_Set_Char_Size(face, 16 * 64, 0, 72, 72))
-	{
-		std::cout << "ERROR SETTING SIZE" << std::endl;
-	}
-
-//	if (FT_Set_Pixel_Sizes(face, 8, 13))
-//	{
-//		std::cout << "ERROR SETTING SIZE" << std::endl;
-//	}
-
 	UInt32 length = characters.length();
+	fontTextureCoords = new GLfloat[length * 8];
 
+	// Calculate total font width
+
+	totalFontWidth = 0;
+
+	int maxBitmapTop = 0;
 	for (UInt32 i = 0; i < length; ++i)
 	{
 		FT_ULong character = characters.characterAtIndex(i);
 		if (FT_Load_Char(face, character, FT_LOAD_RENDER))
 		{
-			std::cout << "ERROR LOADING CHAR" << std::endl;
+			std::cout << "ERROR LOADING CHAR: " << (char)character << std::endl;
+		}
+
+		totalFontWidth += face->glyph->advance.x / 64;
+		if (face->glyph->bitmap_top > maxBitmapTop)
+		{
+			maxBitmapTop = face->glyph->bitmap_top;
+		}
+	}
+
+	FT_Done_Face(face);
+	if (ftCreateFace(freeType, &face, fontData, fontHeight))
+	{
+		std::cout << "ERROR LOADING FACE2" << std::endl;
+	}
+	
+	if (totalFontWidth > 1024)
+	{
+		if (totalFontWidth > 2048)
+		{
+			std::cout << "Total font width too big" << std::endl;
+		}
+		else
+		{
+			totalFontWidth = 2048;
+		}
+	}
+	else
+	{
+		totalFontWidth = 1024;
+	}
+
+	UInt32 componentCount = 2;
+	GLbyte* fontTextureData = (GLbyte*)malloc(totalFontWidth * fontHeight * componentCount);
+	memset(fontTextureData, 0, totalFontWidth * fontHeight * componentCount);
+	UInt32 currentXOffset = 0;
+
+	for (UInt32 i = 0; i < length; ++i)
+	{
+		FT_ULong character = characters.characterAtIndex(i);
+		FT_Error err = FT_Load_Char(face, character, FT_LOAD_RENDER);
+		if (err)
+		{
+			std::cout << "ERROR LOADING CHAR \"" << (char)character << "\":" << err << std::endl;
 		}
 
 		FT_GlyphSlot slot = face->glyph;
 		FT_Bitmap* bitmap = &slot->bitmap;
 
-//		std::cout << (char) character << ": " << bitmap->rows << " : " << slot->bitmap_top << std::endl;
-		
 		for (int y = 0; y < bitmap->rows; ++y)
 		{
 			for (int x = 0; x < bitmap->width; ++x)
@@ -517,22 +566,22 @@ static UInt32 createFreeTypeFont()
 
 				// Compute destination pixel coordinate
 				int destX = currentXOffset + x;
-				int destY = 12 - slot->bitmap_top + y;
+				int destY = maxBitmapTop - slot->bitmap_top + y;
 
 				// Write pixel to dest xy
-				UInt16* destPixel = (UInt16*)fontTextureData + destY * totalFontWidth + destX;
-				*((UInt8*)destPixel) = pixel;
-				*((UInt8*)destPixel + 1) = pixel;
+				GLbyte* destPixel = fontTextureData + (destY * totalFontWidth + destX) * componentCount;
+				*(destPixel) = pixel;
+				*(destPixel + 1) = pixel;
 			}
 		}
 
 		UInt32 glyphWidth = slot->advance.x / 64;
 
 		*(fontTextureCoords + character * 8 + 0) = (Float32)currentXOffset / totalFontWidth;
-		*(fontTextureCoords + character * 8 + 1) = 0;
+		*(fontTextureCoords + character * 8 + 1) = 0.0f;
 
 		*(fontTextureCoords + character * 8 + 2) = (Float32)(currentXOffset + glyphWidth) / totalFontWidth;
-		*(fontTextureCoords + character * 8 + 3) = 0;
+		*(fontTextureCoords + character * 8 + 3) = 0.0f;
 
 		*(fontTextureCoords + character * 8 + 4) = (Float32)(currentXOffset + glyphWidth) / totalFontWidth;
 		*(fontTextureCoords + character * 8 + 5) = 1.0f;
@@ -556,14 +605,14 @@ static UInt32 createFreeTypeFont()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, totalFontWidth, fontHeight,
 				 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, fontTextureData);
 
-	delete [] fontTextureData;
+	free(fontTextureData);
 
 	FT_Done_Face(face);
 	FT_Done_FreeType(freeType);
 
 	return 0;
 }
-#endif // LE_USE_FREETYPE
+#else // LE_USE_FREETYPE
 
 static UInt32 createInlineFont()
 {
@@ -680,7 +729,9 @@ static UInt32 createInlineFont()
 	return fontOffset;
 #endif
 }
-		
+
+#endif // LE_USE_FREETYPE
+
 UInt32 COpenGLRenderingContext::makeFont()
 {
 #ifdef LE_USE_FREETYPE

@@ -14,6 +14,7 @@
 
 #define LE_ENDIAN_BIG 1
 #define LE_ENDIAN_LITTLE 2
+#define LE_ENDIAN_PDP 3
 
 #if (!defined LE_FLAG_COMPILER_CONFIGURED) || (!LE_FLAG_COMPILER_CONFIGURED)
 #	include "base/slGCC.h"

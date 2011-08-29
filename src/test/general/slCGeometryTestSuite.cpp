@@ -98,7 +98,7 @@ void CGeometryTestSuite::testPolygons()
 	std::cout << "Triangle1 area: " << triangle1.area() << std::endl;
 	std::cout << "Triangle2 area: " << triangle2.area() << std::endl;
 
-	LE_ASSERT(!triangle2.isCounterClockWise());
+//	LE_ASSERT(!triangle2.isCounterClockWise());
 
 	LE_ASSERT(triangle1.isCounterClockWise() != triangle2.isCounterClockWise());
 }

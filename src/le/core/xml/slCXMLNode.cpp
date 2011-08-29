@@ -1,3 +1,4 @@
+#include <le/core/slCDictionary.h>
 #include "slCXMLNode.h"
 
 namespace sokira
@@ -76,6 +77,17 @@ CString CXMLNode::attribute(const CString& name) const
 {
 	std::map<CString, CString>::const_iterator it = mAttributes.find(name);
 	return (it == mAttributes.end())?(CString()):(it->second);
+}
+
+CDictionary CXMLNode::dictionaryWithAttributes() const
+{
+	std::map<CString, CString>::const_iterator end = mAttributes.end();
+	CDictionary result;
+	for (std::map<CString, CString>::const_iterator it = mAttributes.begin(); it != end; ++it)
+	{
+		result.setValueForKey(it->first, it->second);
+	}
+	return result;
 }
 
 void CXMLNode::addChild(CXMLNode* child)

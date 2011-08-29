@@ -1,3 +1,5 @@
+#if 0
+
 #include "slCDialog.h"
 #include "slCTitleBar.h"
 #include <le/core/debug/slDebug.h>
@@ -57,3 +59,5 @@ void CDialog::title(const char* titleString)
 
 	} // namespace le
 } // namespace sokira
+
+#endif

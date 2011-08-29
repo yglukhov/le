@@ -46,7 +46,7 @@ CData CData::createWithContentsOfURL(const CURL& url)
 		UInt32 bufferSize = 1024;
 		void* buffer = malloc(bufferSize);
 		UInt32 readBytes;
-		while (readBytes = fread(buffer, 1, bufferSize, file))
+		while ((readBytes = fread(buffer, 1, bufferSize, file)))
 		{
 			result.append(buffer, readBytes);
 			if (readBytes < bufferSize)
@@ -151,6 +151,11 @@ void CData::compress(ECompressionMethod method)
 void CData::decompress()
 {
 
+}
+
+Bool CData::operator == (const CData& rhs) const
+{
+	return length() == rhs.length() && !memcmp(data(), rhs.data(), length());
 }
 
 void CData::writeToURL(const CURL& url) const

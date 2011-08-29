@@ -49,10 +49,18 @@
 #define LE_TARGET_PLATFORM_FAMILY LE_PLATFORM_FAMILY_UNIX
 #endif
 
-#ifdef __ppc__
+#ifdef __BYTE_ORDER__
+#	if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#		define LE_ENDIAN LE_ENDIAN_LITTLE
+#	elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#		define LE_ENDIAN LE_ENDIAN_BIG
+#	elif __BYTE_ORDER__ == __ORDER_PDP_ENDIAN__
+#		define LE_ENDIAN LE_ENDIAN_PDP
+#	endif
+#endif
+
+#if !defined(LE_ENDIAN) && defined(__ppc__)
 #define LE_ENDIAN LE_ENDIAN_BIG
-#else
-#define LE_ENDIAN LE_ENDIAN_LITTLE
 #endif
 
 

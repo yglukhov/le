@@ -10,6 +10,8 @@ namespace sokira
 	namespace le
 	{
 
+class CWindow;
+
 class CView : public CControl
 {
 	LE_DECLARE_RUNTIME_CLASS(CView);
@@ -24,10 +26,16 @@ class CView : public CControl
 
 		virtual void setAbsolutePosition(const CPoint2D& Position);
 
-		virtual void addChild(CControl* child);
-		virtual void removeChild(CControl* child);
+		virtual void addChild(CView* child);
+		virtual void removeChild(CView* child);
 
 		virtual void draw(const CTheme*, CRenderingContext* context) const;
+
+		void enterFullScreenMode();
+		void exitFullScreenMode();
+		Bool isInFullScreenMode() const;
+
+		virtual CWindow* window() const;
 
 //		virtual void moveLastToDraw();
 
@@ -49,18 +57,28 @@ class CView : public CControl
 		virtual Bool onKeyUp(EKeyCode keyCode);
 
 
-		typedef std::list<CControl*> CControlList;
+		typedef std::list<CView*> CControlList;
 
 		const CControlList& children() const
 		{
 			return mChildren;
 		}
 
+
+		// Responder chain functions
+		Bool becomeFirstResponder();
+		Bool resignFirstResponder(); // Make parent the first responder.
+		Bool isFirstResponder() const;
+
+
 	protected:
+
+		virtual Bool hitTest(const CPoint2D& point) const;
+
 
 		friend class CControl;
 		CControlList mChildren;
-		virtual Bool childBecomesFirstResponder(CControl* child, CView* parent);
+		virtual Bool childBecomesFirstResponder(CView* child, CView* parent);
 		virtual Bool isChildFirstResponder(const CControl* child) const;
 };
 

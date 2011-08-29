@@ -39,14 +39,6 @@ CControl::~CControl()
 	LE_ENTER_LOG;
 }
 
-//void CControl::destroy()
-//{
-//	LE_ENTER_LOG;
-//
-//	if(mParent)
-//		mParent->removeChild(this);
-//}
-
 CRectangle CControl::absoluteRect() const
 {
 	LE_ENTER_LOG;
@@ -168,12 +160,6 @@ Bool CControl::onMouse(EKeyCode button, EButtonState state, const CPoint2D& poin
 	return hitTest(point) && performMouse(button, state, point);
 }
 
-Bool CControl::hitTest(const CPoint2D& point) const
-{
-	LE_ENTER_LOG;
-	return isVisible() && (isFirstResponder() || absoluteRect().containsPoint(point));
-}
-
 Bool CControl::performMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
@@ -255,60 +241,9 @@ Bool CControl::isVisible() const
 	return mVisible;
 }
 
-void CControl::setParent(CView* newParent)
-{
-	LE_ENTER_LOG;
-
-//	LE_IF_LOG(log << "Old parent: " << mParent << std::endl);
-//	LE_IF_LOG(log << "New parent: " << newParent << std::endl);
-//
-	if (newParent == mParent)
-		return;
-
-	CPoint2D relPos = relativePosition();
-	if (mParent)
-	{
-		mParent->removeChild(this);
-	}
-
-	CPoint2D parentPos = (newParent)?(newParent->absolutePosition()):(CPoint2D());
-	setAbsolutePosition(CPoint2D(parentPos.x() + relPos.x(), parentPos.y() + relPos.y()));
-	mParent = newParent;
-}
-
 void CControl::setNeedsRedraw()
 {
 	if (mParent) mParent->setNeedsRedraw();
-}
-
-void CControl::draw(const CTheme* theme, CRenderingContext* context) const
-{
-	if (isVisible()) theme->drawControl(this, context);
-}
-
-Bool CControl::becomeFirstResponder()
-{
-	LE_ENTER_LOG;
-	if (mParent && controlCanBecomeFirstResponder())
-	{
-		if (mParent->childBecomesFirstResponder(this, NULL))
-		{
-			controlDidBecomeFirstResponder();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-Bool CControl::resignFirstResponder()
-{
-	return isFirstResponder() && mParent && mParent->becomeFirstResponder();
-}
-
-Bool CControl::isFirstResponder() const
-{
-	return mParent && mParent->isChildFirstResponder(this);
 }
 
 Bool CControl::controlCanBecomeFirstResponder()
@@ -329,14 +264,6 @@ Bool CControl::controlCanResignFirstResponder()
 void CControl::controlDidResignFirstResponder()
 {
 
-}
-
-// Remove control from parent and delete it.
-void CControl::close()
-{
-	resignFirstResponder();
-	if (mParent) mParent->removeChild(this);
-	delete this;
 }
 
 

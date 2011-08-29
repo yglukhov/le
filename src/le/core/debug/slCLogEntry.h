@@ -16,7 +16,7 @@ namespace sokira
 #elif defined _MSC_VER
 #define LE_PP_PRETTY_FUNCTION __FUNCSIG__
 #else
-#define LE_PP_PRETTY_FUNCTION "_ unknown function name _"
+#define LE_PP_PRETTY_FUNCTION NULL
 #endif
 
 
@@ -59,10 +59,13 @@ class CLogEntry : public std::ostream
 			return  mSeverity;
 		}
 
+		void enterLog();
+
 	private:
 		const NChar* mFunc;
 		UInt32 mSeverity;
 		SInt32 mMode;
+		Bool mEntered;
 		CLogControl* mLogControl;
 		CLogEntry* mPrevEntry;
 };

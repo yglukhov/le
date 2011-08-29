@@ -21,38 +21,38 @@ CView::~CView()
 	clearPointerContainer(mChildren);
 }
 
-void CView::addChild(CControl* child)
+void CView::addChild(CView* child)
 {
 	LE_ENTER_LOG;
 
-	if (child)
+	if (child && child->mParent != this)
 	{
 		mChildren.push_back(child);
 
-		child->setParent(this);
+		CPoint2D relPos = child->relativePosition();
+		if (child->mParent)
+		{
+			child->mParent->removeChild(child);
+		}
+
+		child->mParent = this;
+		child->setRelativePosition(relPos);
 	}
 }
 
-void CView::removeChild(CControl* child)
+void CView::removeChild(CView* child)
 {
 	LE_ENTER_LOG;
 
 	mChildren.remove(child);
+	child->mParent = NULL;
 	setNeedsRedraw();
 }
 
 void CView::draw(const CTheme* theme, CRenderingContext* context) const
 {
-	LE_ENTER_LOG;
-	if (isVisible())
-	{
-		theme->drawWindow(this, context);
-		CControlList::const_iterator end = mChildren.end();
-		for (CControlList::const_iterator it = mChildren.begin(); it != end; ++it)
-		{
-			(*it)->draw(theme, context);
-		}
-	}
+//	LE_ENTER_LOG;
+	theme->drawWindow(this, context);
 }
 
 Bool CView::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
@@ -95,6 +95,7 @@ Bool CView::onKeyDown(EKeyCode keyCode)
 
 Bool CView::onKeyUp(EKeyCode keyCode)
 {
+	std::cout << objectClass().name() << "::" << "onKeyUp" << std::endl;
 	CControlList children = mChildren;
 	for (CControlList::reverse_iterator it = children.rbegin(); it != children.rend(); ++it)
 	{
@@ -277,13 +278,39 @@ void CView::setAbsolutePosition(const CPoint2D& position)
 	}
 }
 
-Bool CView::childBecomesFirstResponder(CControl* child, CView* parent)
+Bool CView::becomeFirstResponder()
+{
+	LE_ENTER_LOG;
+	if (mParent && controlCanBecomeFirstResponder())
+	{
+		if (mParent->childBecomesFirstResponder(this, NULL))
+		{
+			controlDidBecomeFirstResponder();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+Bool CView::resignFirstResponder()
+{
+	return isFirstResponder() && mParent && mParent->becomeFirstResponder();
+}
+
+Bool CView::isFirstResponder() const
+{
+	return mParent && mParent->isChildFirstResponder(this);
+}
+
+
+Bool CView::childBecomesFirstResponder(CView* child, CView* parent)
 {
 	if (mParent)
 	{
 		if (mParent->childBecomesFirstResponder(child, this))
 		{
-			CControl* controlToMove = (parent)?(parent):(child);
+			CView* controlToMove = (parent)?(parent):(child);
 
 			mChildren.remove(controlToMove);
 			mChildren.push_back(controlToMove);
@@ -299,6 +326,88 @@ Bool CView::isChildFirstResponder(const CControl* child) const
 	return mParent && mParent->isChildFirstResponder(child);
 }
 
+Bool CView::hitTest(const CPoint2D& point) const
+{
+	LE_ENTER_LOG;
+	return isVisible() && (isFirstResponder() || absoluteRect().containsPoint(point));
+}
+
+static CWindow* gFullScreenWindow = NULL;
+static CView* gPreviousParent = NULL;
+
+static void createFullScreenWindow()
+{
+	gFullScreenWindow = new CWindow(true);
+	CGuiApplication* app = (CGuiApplication*)CGuiApplication::currentApplication();
+	app->addWindow(gFullScreenWindow);
+}
+
+void CView::enterFullScreenMode()
+{
+	if (gFullScreenWindow)
+	{
+		const CControlList& children = gFullScreenWindow->children();
+		if (!children.empty())
+		{
+			CView* previousFullScreenView = children.front();
+			gFullScreenWindow->removeChild(previousFullScreenView);
+			if (gPreviousParent)
+			{
+				gPreviousParent->addChild(previousFullScreenView);
+			}
+		}
+	}
+	else
+	{
+		createFullScreenWindow();
+	}
+
+	gPreviousParent = mParent;
+	CWindow* previousWindow = window();
+	gFullScreenWindow->addChild(this);
+//	LE_ASSERT(mParent == gFullScreenWindow);
+//	CGuiApplication* app = (CGuiApplication*)CGuiApplication::currentApplication();
+//	app->removeWindow(previousWindow);
+
+	std::cout << "gone fullscreen" << std::endl;
+}
+
+void CView::exitFullScreenMode()
+{
+	if (isInFullScreenMode())
+	{
+		CGuiApplication* app = (CGuiApplication*)CGuiApplication::currentApplication();
+		app->removeWindow(gFullScreenWindow);
+
+		const CControlList& children = gFullScreenWindow->children();
+		if (!children.empty())
+		{
+			CView* previousFullScreenView = children.front();
+			gFullScreenWindow->removeChild(previousFullScreenView);
+			delete gFullScreenWindow;
+			gFullScreenWindow = NULL;
+			std::cout << "Deleting full screen window" << std::endl;
+			if (gPreviousParent)
+			{
+				gPreviousParent->addChild(this);
+				gPreviousParent = NULL;
+			}
+		}
+	}
+
+	std::cout << "gone window" << std::endl;
+}
+
+Bool CView::isInFullScreenMode() const
+{
+	std::cout << "Is full screen: " << (mParent == gFullScreenWindow) << std::endl;
+	return mParent == gFullScreenWindow;
+}
+
+CWindow* CView::window() const
+{
+	return mParent ? mParent->window() : NULL;
+}
 
 	} // namespace le
 } // namespace sokira

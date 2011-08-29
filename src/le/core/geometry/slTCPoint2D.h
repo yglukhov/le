@@ -1,7 +1,8 @@
 #if !defined SL_LE_core_geometry_slTCPoint2D_h
 #define SL_LE_core_geometry_slTCPoint2D_h
 
-#include <math.h>
+#include <cmath>
+#include <algorithm>
 #include <iostream>
 #include <le/core/slTypes.h>
 
@@ -10,6 +11,19 @@ namespace sokira
 {
 	namespace le
 	{
+
+template <typename T>
+static inline T degreesToRadians(T degrees)
+{
+	return degrees * M_PI / 180;
+}
+
+template <typename T>
+static inline T radiansToDegrees(T radians)
+{
+	return radians * 180 / M_PI;
+}
+
 
 template <typename T>
 class TCPoint2D
@@ -57,6 +71,17 @@ class TCPoint2D
 			T a = mX - point.mX;
 			T b = mY - point.mY;
 			return sqrtf(a*a + b*b);
+		}
+
+		void translateByRadiansAndLength(Float32 angle, T length)
+		{
+			mX += length * std::cos(angle);
+			mY += length * std::sin(angle);
+		}
+
+		void translateByDegreesAndLength(Float32 angle, T length)
+		{
+			translateByRadiansAndLength(degreesToRadians(angle), length);
 		}
 
 	// Operators

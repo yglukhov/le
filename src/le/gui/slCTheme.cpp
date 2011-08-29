@@ -34,14 +34,14 @@ void CTheme::drawWindow(const CView* window, CRenderingContext* context) const
 	CRectangle rect = window->absoluteRect();
 	CRectangle tempRect = rect;
 	tempRect.setHeight(30);
-	CColor color1(0.81f, 0.81f, 0.81f, 1.0f);
-	CColor color2(0.66f, 0.66f, 0.66f, 1.0f);
+	CColor color1(0.81f, 0.81f, 0.81f);
+	CColor color2(0.66f, 0.66f, 0.66f);
 	context->drawVerticalGradient(color1, color2, tempRect);
 
-	context->setColor(0.79f, 0.79f, 0.79f, 1.0f);
+	context->setColor(0.79f, 0.79f, 0.79f);
 	context->drawSegment(CSegment2D(rect.position(), CPoint2D(rect.x() + rect.width() - 1, rect.y())));
 
-	context->setColor(0.89f, 0.89f, 0.89f, 1.0f);
+	context->setColor(0.89f, 0.89f, 0.89f);
 	context->drawSegment(CSegment2D(CPoint2D(rect.x(), rect.y() + 1), CPoint2D(rect.x() + rect.width() - 1, rect.y() + 1)));
 
 	context->setColor(color2);
@@ -61,8 +61,8 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 {
 	CRectangle rect = button->absoluteRect();
 
-	CColor color1(0.66f, 0.66f, 0.66f, 1.0f);
-	CColor color2(0.81f, 0.81f, 0.81f, 1.0f);
+	CColor color1(0.66f, 0.66f, 0.66f);
+	CColor color2(0.81f, 0.81f, 0.81f);
 
 	if (button->state() == eButtonStateDown)
 	{
@@ -78,13 +78,12 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 	tempRect.setY(tempRect.y() + tempRect.height());
 	context->drawVerticalGradient(color2, color1, tempRect);
 
-	context->setColor(0.46f, 0.46f, 0.46f, 1.0f);
+	context->setColor(0.46f, 0.46f, 0.46f);
 	context->setLineWidth(1.0f);
 	context->drawWireRect(rect);
 
-//	std::cout << "drawButton" << std::endl;
+	rect.offset(20, 15);
 	context->setColor(0.0f, 0.0f, 0.0f);
-	rect.offset(20, 25);
 	context->drawText(button->text(), rect.position());
 }
 
