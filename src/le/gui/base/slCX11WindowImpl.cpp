@@ -1,6 +1,6 @@
 #include <le/core/config/slCompiler.h>
 
-#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#if 0
 
 
 #include <CoreFoundation/CoreFoundation.h>

@@ -18,10 +18,10 @@ CView::CView(const CRectangle& rect) : CControl(rect)
 CView::~CView()
 {
 	LE_ENTER_LOG;
-	clearPointerContainer(mChildren);
+//	clearPointerContainer(mChildren);
 }
 
-void CView::addChild(CView* child)
+void CView::addChild(CView::Ptr child)
 {
 	LE_ENTER_LOG;
 
@@ -40,7 +40,7 @@ void CView::addChild(CView* child)
 	}
 }
 
-void CView::removeChild(CView* child)
+void CView::removeChild(CView::Ptr child)
 {
 	LE_ENTER_LOG;
 
@@ -55,10 +55,23 @@ void CView::draw(const CTheme* theme, CRenderingContext* context) const
 	theme->drawWindow(this, context);
 }
 
+void CView::recursiveDraw(const CTheme* theme, CRenderingContext* context) const
+{
+	if (isVisible())
+	{
+		draw(theme, context);
+		const CView::CControlList& subviews = children();
+		for (CView::CControlList::const_iterator it = subviews.begin(); it != subviews.end(); ++it)
+		{
+			(*it)->recursiveDraw(theme, context);
+		}
+	}
+}
+
 Bool CView::onMouse(EKeyCode button, EButtonState state, const CPoint2D& point)
 {
 	LE_ENTER_LOG;
-//	std::cout << "onMouse(" << button << ", " << state << ", (" << point.x() << ", " << point.y() << "))" << std::endl; 
+	//std::cout << "onMouse(" << button << ", " << state << ", " << point << ", " << objectClass().name() << ", " << absoluteRect() << ")" << std::endl;
 //	if (button == eKeyCodeMouseButtonPrimary) std::cout << "eKeyCodeMouseButtonPrimary" << std::endl;
 //	if (button == eKeyCodeMouseButtonSecondary) std::cout << "eKeyCodeMouseButtonSecondary" << std::endl;
 //	if (button == eKeyCodeMouseButtonOther) std::cout << "eKeyCodeMouseButtonOther" << std::endl;
@@ -349,7 +362,7 @@ void CView::enterFullScreenMode()
 		const CControlList& children = gFullScreenWindow->children();
 		if (!children.empty())
 		{
-			CView* previousFullScreenView = children.front();
+			CView::Ptr previousFullScreenView = children.front();
 			gFullScreenWindow->removeChild(previousFullScreenView);
 			if (gPreviousParent)
 			{
@@ -363,7 +376,7 @@ void CView::enterFullScreenMode()
 	}
 
 	gPreviousParent = mParent;
-	CWindow* previousWindow = window();
+//	CWindow* previousWindow = window();
 	gFullScreenWindow->addChild(this);
 //	LE_ASSERT(mParent == gFullScreenWindow);
 //	CGuiApplication* app = (CGuiApplication*)CGuiApplication::currentApplication();

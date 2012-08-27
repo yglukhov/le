@@ -36,68 +36,54 @@ struct TSProtectedParentDeclarator
 //typedef _SNullType Self;
 
 template <class T>
-struct TSParentCollector
-{
-	enum { value = false };
-};
+struct TSParentCollector : public TSFalse
+{ };
 
 template <class T>
-struct TSParentCollector<TSPublicParentDeclarator<T> >
+struct TSParentCollector<TSPublicParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 
 template <class T>
-struct TSParentCollector<TSPrivateParentDeclarator<T> >
+struct TSParentCollector<TSPrivateParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 
 template <class T>
-struct TSParentCollector<TSProtectedParentDeclarator<T> >
+struct TSParentCollector<TSProtectedParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 
 template <class T>
-struct TSPublicParentCollector
-{
-	enum { value = false };
-};
+struct TSPublicParentCollector : public TSFalse
+{ };
 
 template <class T>
-struct TSPublicParentCollector<TSPublicParentDeclarator<T> >
+struct TSPublicParentCollector<TSPublicParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 
 template <class T>
-struct TSPrivateParentCollector
-{
-	enum { value = false };
-};
+struct TSPrivateParentCollector : public TSFalse
+{ };
 
 template <class T>
-struct TSPrivateParentCollector<TSPrivateParentDeclarator<T> >
+struct TSPrivateParentCollector<TSPrivateParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 
 template <class T>
-struct TSProtectedParentCollector
-{
-	enum { value = false };
-};
+struct TSProtectedParentCollector : public TSFalse
+{ };
 
 template <class T>
-struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> >
+struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> > : public TSTrue
 {
-	enum { value = true };
 	typedef T result;
 };
 

@@ -7,8 +7,10 @@
 #include <le/core/debug/slDebug.h>
 
 #include <le/core/config/slCompiler.h>
+#include <le/core/slCClassFactory.h>
+#include <le/core/auxiliary/slCRunLoop.h>
 
-#include <le/gui/slCOpenGLRenderingContext.h>
+#include <le/gui/slCRenderingContext.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #include "base/slCCocoaWindowImpl.hp"
@@ -28,8 +30,10 @@ LE_IMPLEMENT_RUNTIME_CLASS(CWindow);
 
 CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) :
 	CView(CRectangle(CPoint2D(), rect.size())),
-	mImpl(new CWindowImpl(fullscreen, title, rect)),
-	mRenderingContext(NULL)
+	mTitle(title),
+	mFullScreen(fullscreen),
+	mPositionOnScreen(rect.position()),
+	mImpl(NULL)
 {
 	LE_ENTER_LOG;
 }
@@ -37,8 +41,12 @@ CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) 
 CWindow::~CWindow()
 {
 	LE_ENTER_LOG;
-	delete mRenderingContext;
 	delete static_cast<CWindowImpl*>(mImpl);
+}
+
+void* CWindow::createImpl()
+{
+	return static_cast<void*>(new CWindowImpl(mFullScreen, mTitle, CRectangle(mPositionOnScreen, size())));
 }
 
 void CWindow::setNeedsRedraw()
@@ -46,13 +54,6 @@ void CWindow::setNeedsRedraw()
 	LE_ENTER_LOG;
 
 	if (mImpl) static_cast<CWindowImpl*>(mImpl)->setNeedsRedraw();
-}
-
-CSize2D CWindow::size() const
-{
-	LE_ENTER_LOG;
-//	return mRect.size();
-	return static_cast<CWindowImpl*>(mImpl)->size();
 }
 
 void CWindow::setSize(const CSize2D& size)
@@ -66,77 +67,21 @@ void CWindow::setSize(const CSize2D& size)
 //	glViewport(0, 0, (int)Size.width(), (int)Size.height());
 //	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
 
-	static_cast<CWindowImpl*>(mImpl)->setSize(size);
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->setSize(size);
 	CView::setSize(size);
-}
-
-static void recursiveDrawView(CView* view, CTheme* theme, CRenderingContext* context)
-{
-	if (view->isVisible())
-	{
-		view->draw(theme, context);
-		const CView::CControlList& subviews = view->children();
-		for (CView::CControlList::const_iterator it = subviews.begin(); it != subviews.end(); ++it)
-		{
-			recursiveDrawView(*it, theme, context);
-		}
-	}
 }
 
 void CWindow::draw()
 {
-//	LE_ENTER_LOG;
-
 	LE_ASSERT(mRenderingContext);
+	mRenderingContext->beginDrawing();
+	recursiveDraw(&mTheme, mRenderingContext);
+	mRenderingContext->endDrawing();
+}
 
-//	std::cout << "CWindow::draw()" << std::endl;
-
-//	glMatrixMode(GL_MODELVIEW);
-//	glLoadIdentity();
-
-//	CRenderingContext* context = NULL; //static_cast<CWindowImpl*>(mImpl)->renderingContext();
-//	context->clear();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-/*
-	glColor3f(1, 0, 0);
-	glBegin(GL_TRIANGLES);
-	glVertex2f(0,0);
-	glVertex2f(50, 0);
-	glVertex2f(0, 50);
-	glEnd();
-*/
-	recursiveDrawView(this, &mTheme, mRenderingContext);
-//	CView::draw(&mTheme, mRenderingContext);
-
-//	CSceneList::const_iterator end = mScenes.end();
-//	for(CSceneList::const_iterator it = mScenes.begin(); it != end; ++it)
-//	{
-//		(*it)->draw(mRenderingContext);
-//	}
-
-//	mContentView->draw(&mTheme, mRenderingContext);
-
-//	CSize2D Size = CWindow::size();
-//	glViewport(0, 0, (int)Size.width(), (int)Size.height());
-//	glOrtho(0, (int)Size.width(), (int)Size.height(), 0, 0, 1);
-
-//	glClearColor(0, 0, 0.0, 0);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//	glColor3f(1.0f, 0.85f, 0.35f);
-//	glBegin(GL_TRIANGLES);
-//	{
-//		glVertex3f(0.0,  0.0, 0.0);
-//		glVertex3f(0.0, 100.0, 0.0);
-//		glVertex3f(100.0, 0.0, 0.0);
-//	}
-//	glEnd();
-//	drawChilds();
-
-//	glFlush();
-
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//	drawChilds();
-//	glutSwapBuffers();
+void CWindow::draw(const CTheme* theme, CRenderingContext* context) const
+{
+	CView::draw(theme, context);
 }
 
 void CWindow::setAbsolutePosition(const CPoint2D& point)
@@ -163,7 +108,7 @@ CPoint2D CWindow::relativePosition() const // TODO: ...
 
 CString CWindow::title() const
 {
-	return static_cast<CWindowImpl*>(mImpl)->title();
+	return mTitle;
 }
 
 void CWindow::color(const CColor& Color)
@@ -185,27 +130,31 @@ CWindow* CWindow::window() const
 
 void CWindow::screenWillBeAddedToApplication(CGuiApplication* app)
 {
-	static_cast<CWindowImpl*>(mImpl)->screenWillBeAddedToApplication(this, app);
+	if (!mImpl)
+	{
+		mImpl = createImpl();
+	}
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->screenWillBeAddedToApplication(this, app);
 }
 
 void CWindow::screenWasAddedToApplication(CGuiApplication* app)
 {
-	static_cast<CWindowImpl*>(mImpl)->screenWasAddedToApplication(this, app);
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->screenWasAddedToApplication(this, app);
 }
 
 void CWindow::screenWillBeRemovedFromApplication(CGuiApplication* app)
 {
-	static_cast<CWindowImpl*>(mImpl)->screenWillBeRemovedFromApplication(this, app);
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->screenWillBeRemovedFromApplication(this, app);
 }
 
 void CWindow::screenWasRemovedFromApplication(CGuiApplication* app)
 {
-	static_cast<CWindowImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
+	if (mImpl) static_cast<CWindowImpl*>(mImpl)->screenWasRemovedFromApplication(this, app);
 }
 
-void CWindow::_prepareOpenGL()
+void CWindow::prepareRenderingContext()
 {
-	mRenderingContext = new COpenGLRenderingContext();
+	mRenderingContext = CClassFactory::defaultInstance()->create<CRenderingContext>("COpenGLRenderingContext");
 }
 
 void CWindow::_screenWillBeClosed()
@@ -269,6 +218,28 @@ void CWindow::_screenWillBeClosed()
 ////	}
 //}
 
+Bool CWindow::handleEvent(CEvent* event)
+{
+	Bool result = false;
+	if (event->isMouseEvent())
+	{
+		result = onMouse(event->mouseButton(), event->buttonState(), event->mouseLocation());
+	}
+	else if (event->isKeyboardEvent())
+	{
+		if (event->buttonState() == eButtonStateUp)
+		{
+			result = onKeyUp(event->keyCode());
+		}
+		else
+		{
+			result = onKeyDown(event->keyCode());
+		}
+	}
+
+	return result;
+}
+
 // This method is always called within valid OpenGL context
 void CWindow::onResize()
 {
@@ -298,7 +269,7 @@ void CWindow::onResize()
 //	setNeedsRedraw();
 }
 
-CRenderingContext* CWindow::renderingContext()
+CRenderingContext::Ptr CWindow::renderingContext()
 {
 	return mRenderingContext;
 }

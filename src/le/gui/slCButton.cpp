@@ -46,26 +46,18 @@ Bool CButton::onMouseDown(EKeyCode button, const CPoint2D& point)
 	{
 		mState = eButtonStateDown;
 		setNeedsRedraw();
+		return true;
+	}
+	return false;
+}
 
-		CRunLoop& runLoop = CThread::thread().runLoop();
-
-		while (true)
-		{
-			CEvent event = runLoop.nextEventMatchingType(eEventTypeMouseUp | eEventTypeMouseMove);
-			if (event.type() == eEventTypeUnknown ||
-				(event.type() == eEventTypeMouseUp && event.mouseButton() == eKeyCodeMouseButtonPrimary))
-			{
-				mState = eButtonStateUp;
-				setNeedsRedraw();
-				if (mOnClick) mOnClick();
-				break;
-			}
-			else if (event.type() == eEventTypeMouseMove)
-			{
-				
-			}
-		}
-
+Bool CButton::onMouseUp(EKeyCode button, const CPoint2D& point)
+{
+	if (button == eKeyCodeMouseButtonPrimary && mState == eButtonStateDown)
+	{
+		mState = eButtonStateUp;
+		setNeedsRedraw();
+		if (mOnClick) mOnClick();
 		return true;
 	}
 	return false;

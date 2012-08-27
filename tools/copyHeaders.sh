@@ -35,4 +35,4 @@ find -E "$LE_LIBRARY_NAME"			\
 			\)						\
 		\)							\
 	\)								\
-	| cpio -p -du "$DESTINATION_DIR" 2>/dev/null
+	| cpio -p -d "$DESTINATION_DIR" 2>/dev/null

@@ -24,7 +24,7 @@ namespace sokira
 	namespace le
 	{
 
-		
+
 template <typename TPoint>
 static inline CPoint2D CocoaPointToCPoint(const TPoint& point)
 {

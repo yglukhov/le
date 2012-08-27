@@ -251,7 +251,7 @@ enum EKeyCode
 
 	// ISO keyboards only
 	eKeyCodeIsoSection,
-		
+
 	// JIS keyboards only
 	eKeyCodeJisYen,
 	eKeyCodeJisUnderscore,

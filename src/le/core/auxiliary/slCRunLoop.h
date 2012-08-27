@@ -16,7 +16,6 @@ namespace sokira
 class CRunLoopImpl;
 class CWindow;
 
-/*! Another enum, with inline docs */
 enum EEventType
 {
 	eEventTypeUnknown = 0,
@@ -25,6 +24,7 @@ enum EEventType
 	eEventTypeMouseMove = LE_SET_BIT(3),
 	eEventTypeKeyDown = LE_SET_BIT(4),
 	eEventTypeKeyUp = LE_SET_BIT(5),
+	eEventTypeScroll = LE_SET_BIT(6),
 	eEventTypeAll = 0xFFFFFFFF
 };
 
@@ -44,6 +44,10 @@ class CEvent
 
 		Bool isMouseEvent() const;
 		Bool isKeyboardEvent() const;
+
+		Float32 deltaX() const;
+		Float32 deltaY() const;
+		Float32 deltaZ() const;
 
 	private:
 		CPoint2D mLocation;

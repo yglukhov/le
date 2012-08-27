@@ -104,6 +104,7 @@ class CBasicString
 		CBasicString subString(UInt32 from, UInt32 length) const;
 
 		const NChar* cString(EStringEncoding encoding = eStringEncodingASCII) const;
+		const NChar* UTF8String() const;
 
 		const CBasicString operator + (const NChar* nullTerminatedString) const
 		{
@@ -116,7 +117,7 @@ class CBasicString
 		}
 
 
-		 static Bool isWhitespace(NChar c);
+		static Bool isWhitespace(NChar c);
 		static Bool isWhitespace(WChar c);
 	// PRIVATE:
 		static CBasicString __CStringWithLiteral(const NChar*);

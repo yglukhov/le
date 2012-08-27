@@ -65,6 +65,17 @@ class CSokriptInstruction
 
 		~CSokriptInstruction();
 
+		// Creators
+		static CSokriptInstruction* createIfThenElse(CSokriptInstruction* expression,
+													CSokriptInstruction* ifPart,
+													 CSokriptInstruction* elsePart);
+
+		static CSokriptInstruction* createLoop(CSokriptInstruction* expression,
+											   CSokriptInstruction* loopPart);
+
+		static CSokriptInstruction* createFunctionDefinition(char* name, std::list<char*>* args,
+																	CSokriptInstruction* instruction);
+
 		void addInstruction(CSokriptInstruction* instruction)
 		{
 			CSokriptInstruction* i = this;

@@ -3,6 +3,7 @@
 
 #include <le/core/config/slPrefix.h>
 #include "slCControl.h"
+#include "slCEventTracker.h"
 #include <list>
 
 namespace sokira
@@ -26,8 +27,8 @@ class CView : public CControl
 
 		virtual void setAbsolutePosition(const CPoint2D& Position);
 
-		virtual void addChild(CView* child);
-		virtual void removeChild(CView* child);
+		virtual void addChild(CView::Ptr child);
+		virtual void removeChild(CView::Ptr child);
 
 		virtual void draw(const CTheme*, CRenderingContext* context) const;
 
@@ -57,11 +58,17 @@ class CView : public CControl
 		virtual Bool onKeyUp(EKeyCode keyCode);
 
 
-		typedef std::list<CView*> CControlList;
+		typedef std::list<CView::Ptr> CControlList;
+		typedef std::list<CEventTracker::Ptr> CEventTrackerList;
 
 		const CControlList& children() const
 		{
 			return mChildren;
+		}
+
+		const CEventTrackerList& eventTrackers() const
+		{
+			return mEventTrackers;
 		}
 
 
@@ -73,11 +80,14 @@ class CView : public CControl
 
 	protected:
 
+		void recursiveDraw(const CTheme* theme, CRenderingContext* context) const;
+
 		virtual Bool hitTest(const CPoint2D& point) const;
 
 
 		friend class CControl;
 		CControlList mChildren;
+		CEventTrackerList mEventTrackers;
 		virtual Bool childBecomesFirstResponder(CView* child, CView* parent);
 		virtual Bool isChildFirstResponder(const CControl* child) const;
 };

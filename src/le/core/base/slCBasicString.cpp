@@ -538,6 +538,10 @@ const NChar* CBasicString::cString(EStringEncoding encoding) const
 	return mProxy->mString;
 }
 
+const NChar* CBasicString::UTF8String() const
+{
+	return mProxy->mString;
+}
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string)
 {

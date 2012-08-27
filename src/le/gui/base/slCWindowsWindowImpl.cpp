@@ -276,7 +276,7 @@ void CWindowsWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiApplic
 				if (hRC)
 				{
 					wglMakeCurrent(hdc, hRC);
-					mScreen->_prepareOpenGL();
+					mScreen->prepareRenderingContext();
 					ShowWindow(mWindow, SW_SHOW);
 					UpdateWindow(mWindow);
 					result = true;

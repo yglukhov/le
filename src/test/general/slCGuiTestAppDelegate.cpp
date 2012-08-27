@@ -79,7 +79,7 @@ class CTestScreen : public CWindow
 
 //			screen->contentView()->addChild(dlg2);
 //			screen->addChild(dlg2);
-			dynamic_cast<CGuiApplication&>(application).addScreen(screen);
+			dynamic_cast<CGuiApplication&>(application).addWindow(screen);
 
 //			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);
 //			CThread::thread().runLoop().scheduledTimerWithInterval(2000, timerFunc);

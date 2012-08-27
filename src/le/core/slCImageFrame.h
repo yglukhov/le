@@ -3,16 +3,17 @@
 
 #include <le/core/geometry/slTCSize2D.h>
 
-enum EPixelFormat
-{
-	ePixelFormatRGB = 24,
-	ePixelFormatRGBA = 32
-};
-
 namespace sokira
 {
 	namespace le
 	{
+
+enum EPixelFormat
+{
+	ePixelFormatGrayscale = 8,
+	ePixelFormatRGB = 24,
+	ePixelFormatRGBA = 32
+};
 
 class CImageFrameImpl;
 

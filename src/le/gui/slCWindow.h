@@ -3,6 +3,7 @@
 #include <le/core/slCString.h>
 #include <le/core/slCColor.h>
 #include <le/gui/auxiliary/slCGuiApplication.h>
+#include <le/gui/slCRenderingContext.h>
 #include "slTypes.h"
 #include "slCView.h"
 #include "slCTheme.h"
@@ -14,8 +15,7 @@ namespace sokira
 
 #define DEFAULT_SCREEN_RECT CRectangle(50, 50, 200, 200)
 
-class CRenderingContext;
-class CScene;
+class CEvent;
 
 class CWindow : public CView
 {
@@ -27,8 +27,8 @@ class CWindow : public CView
 		~CWindow();
 
 		virtual void draw();
+		virtual void draw(const CTheme*, CRenderingContext* context) const;
 
-		CSize2D size() const;
 		virtual void setSize(const CSize2D& Size);
 
 		virtual void setAbsolutePosition(const CPoint2D& point);
@@ -47,13 +47,12 @@ class CWindow : public CView
 
 //		void addControlToDelete(CControl* control);
 
-//		void addScene(CScene* scene, UInt32 order);
-
 		// Do not call these functions directly.
 //		void _screenWasResized();
 		void _screenWillBeClosed();
-		void _prepareOpenGL();
+		virtual void prepareRenderingContext();
 
+		Bool handleEvent(CEvent* event);
 //		virtual Bool onMouse(EKeyCode button, EButtonState state, const CPoint2D& point);
 //		void onMouseDown(EKeyCode button, const CPoint& point);
 //		void onMouseUp(EKeyCode button, const CPoint& point);
@@ -67,7 +66,8 @@ class CWindow : public CView
 		void onResize();
 	protected:
 
-		CRenderingContext* renderingContext();
+		CRenderingContext::Ptr renderingContext();
+		virtual void* createImpl();
 
 	private:
 		friend class CGuiCocoaApplication;
@@ -80,10 +80,13 @@ class CWindow : public CView
 
 //		CView* mContentView;
 		CTheme mTheme;
+		CString mTitle;
+		Bool mFullScreen;
+		CPoint2D mPositionOnScreen;
 
 		void* mImpl;
 //		CSize2D mSize;
-		CRenderingContext* mRenderingContext;
+		CRenderingContext::Ptr mRenderingContext;
 };
 
 	} // namespace le

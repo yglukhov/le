@@ -1,0 +1,124 @@
+#if !defined SL_LE_gui_base_slCFontGlyphGeneratorFreetype_hp
+#define SL_LE_gui_base_slCFontGlyphGeneratorFreetype_hp
+
+#include <le/core/slCData.h>
+
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+namespace sokira
+{
+	namespace le
+	{
+		
+class CFontGlyphGeneratorFreetype
+{
+	public:
+		CResult getGlyphDataForString(const CFont& font, const CString& string, CImage& image, CFont::CGlyphPositions& glyphPositions) const
+		{
+			FT_Library freeType;
+			FT_Init_FreeType(&freeType);
+			FT_Face face;
+
+			CData fontData = CData::createWithContentsOfURL(CURL("/System/Library/Fonts/LucidaGrande.ttc"));
+
+			if (ftCreateFace(freeType, &face, fontData, font.size()))
+			{
+				std::cout << "ERROR LOADING FACE" << std::endl;
+				return CResult("ERROR LOADING FACE");
+			}
+
+			UInt32 fontHeight = face->ascender + face->descender;
+			UInt32 length = string.length();
+
+			// Calculate total font width
+
+			UInt32 totalFontWidth = 0;
+
+			int maxBitmapTop = 0;
+			for (UInt32 i = 0; i < length; ++i)
+			{
+				FT_ULong character = string.characterAtIndex(i);
+				if (FT_Load_Char(face, character, FT_LOAD_RENDER))
+				{
+					std::cout << "ERROR LOADING CHAR: " << (char)character << std::endl;
+				}
+
+				Float32 advance = face->glyph->advance.x / 64;
+				glyphPositions[character] = std::make_pair(totalFontWidth, advance);
+				totalFontWidth += advance;
+				if (face->glyph->bitmap_top > maxBitmapTop)
+				{
+					maxBitmapTop = face->glyph->bitmap_top;
+				}
+			}
+
+			UInt8* fontTextureData = new UInt8[totalFontWidth * fontHeight];
+			memset(fontTextureData, 0, totalFontWidth * fontHeight);
+			UInt32 currentXOffset = 0;
+
+			for (UInt32 i = 0; i < length; ++i)
+			{
+				FT_ULong character = string.characterAtIndex(i);
+				FT_Error err = FT_Load_Char(face, character, FT_LOAD_RENDER);
+				if (err)
+				{
+					std::cout << "ERROR LOADING CHAR \"" << (char)character << "\":" << err << std::endl;
+				}
+
+				FT_GlyphSlot slot = face->glyph;
+				FT_Bitmap* bitmap = &slot->bitmap;
+
+				for (int y = 0; y < bitmap->rows; ++y)
+				{
+					for (int x = 0; x < bitmap->width; ++x)
+					{
+						UInt8 pixel = *(bitmap->buffer + y * bitmap->pitch + x);
+
+						// Compute destination pixel coordinate
+						int destX = currentXOffset + x;
+						int destY = maxBitmapTop - slot->bitmap_top + y;
+
+						// Write pixel to dest xy
+						UInt8* destPixel = fontTextureData + (destY * totalFontWidth + destX);
+						LE_ASSERT(destPixel < fontTextureData + totalFontWidth * fontHeight);
+						*(destPixel) = pixel;
+					}
+				}
+
+				currentXOffset += slot->advance.x / 64;
+				if (currentXOffset > totalFontWidth)
+				{
+					std::cout << "ERROR!! Total font widths exceeded." << std::endl;
+				}
+			}
+
+			image = CImage::createWithPixelData(CSize2D(totalFontWidth, fontHeight), ePixelFormatGrayscale, fontTextureData);
+
+			FT_Done_Face(face);
+			FT_Done_FreeType(freeType);
+
+			return true;
+		}
+
+		FT_Error ftCreateFace(FT_Library freeType, FT_Face* face, const CData& data, UInt32 fontHeight) const
+		{
+			if (FT_New_Memory_Face(freeType, (const FT_Byte*)data.data(), data.length(), 1, face))
+			{
+				std::cout << "ERROR LOADING FACE" << std::endl;
+			}
+			
+			if (FT_Set_Char_Size(*face, fontHeight * 64, 0, 72, 72))
+			{
+				std::cout << "ERROR SETTING SIZE" << std::endl;
+			}
+			return 0;
+		}
+};
+
+typedef CFontGlyphGeneratorFreetype CFontGlyphGenerator;
+		
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCFontGlyphGeneratorFreetype_hp

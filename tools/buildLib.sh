@@ -30,6 +30,25 @@ DEST_PRODUCT_PATH=
 ADDITIONAL_CONFIGURE_FLAGS=
 ADDITIONAL_MAC_CONFIGURE_FLAGS=
 ADDITIONAL_IOS_CONFIGURE_FLAGS=
+SHARED_CONFIGURE_FLAGS="--enable-static=yes --enable-shared=no"
+
+performBuildIos()
+{
+	IOS_PLATFORM=$1
+	IOS_VERSION=$2
+	PLATFORM_CODE=$3
+	ARCH_FLAGS=$4
+
+	PLATFORM_PATH="/Developer/Platforms/$IOS_PLATFORM.platform"
+	SDK_ROOT="$PLATFORM_PATH/Developer/SDKs/$IOS_PLATFORM$IOS_VERSION.sdk"
+
+	./configure --prefix=/usr/local/iphone --host=arm-apple-darwin $SHARED_CONFIGURE_FLAGS $ADDITIONAL_CONFIGURE_FLAGS $ADDITIONAL_IOS_CONFIGURE_FLAGS CC=$PLATFORM_PATH/Developer/usr/bin/gcc CFLAGS="$ARCH_FLAGS -pipe -mdynamic-no-pic -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden -miphoneos-version-min=$IOS_VERSION -I$SDK_ROOT/usr/include/ -isysroot $SDK_ROOT" CPP=$PLATFORM_PATH/Developer/usr/bin/cpp AR=$PLATFORM_PATH/Developer/usr/bin/ar LDFLAGS="$ARCH_FLAGS -isysroot $SDK_ROOT -Wl,-dead_strip -miphoneos-version-min=$IOS_VERSION"
+	make clean
+	make
+
+	mkdir -p "$LIBS_DIR/$DEST_PRODUCT_PATH/$PLATFORM_CODE"
+	cp $SRC_PRODUCT_PATH "$LIBS_DIR/$DEST_PRODUCT_PATH/$PLATFORM_CODE/"
+}
 
 performBuild()
 {
@@ -38,8 +57,7 @@ performBuild()
 		DEST_PRODUCT_PATH=$LIBRARY_NAME
 	fi
 
-	SHARED_CONFIGURE_FLAGS="--enable-static=yes --enable-shared=no"
-
+	echo build macos
 	./configure --disable-dependency-tracking $SHARED_CONFIGURE_FLAGS $ADDITIONAL_CONFIGURE_FLAGS $ADDITIONAL_MAC_CONFIGURE_FLAGS "CFLAGS=-mmacosx-version-min=$MACOS_MIN_VERSION $ARCH_FLAGS" "LDFLAGS=$ARCH_FLAGS"
 	make clean
 	make
@@ -47,15 +65,12 @@ performBuild()
 	cp $SRC_PRODUCT_PATH "$LIBS_DIR/$DEST_PRODUCT_PATH/macos/"
 
 	IOS_VERSION=4.0
-	PLATFORM_PATH="/Developer/Platforms/iPhoneSimulator.platform"
-	SDK_ROOT="$PLATFORM_PATH/Developer/SDKs/iPhoneSimulator$IOS_VERSION.sdk"
-
-	./configure --prefix=/usr/local/iphone --host=arm-apple-darwin $SHARED_CONFIGURE_FLAGS $ADDITIONAL_CONFIGURE_FLAGS $ADDITIONAL_IOS_CONFIGURE_FLAGS CC=$PLATFORM_PATH/Developer/usr/bin/gcc-4.0 CFLAGS="-arch i686 -pipe -mdynamic-no-pic -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden -miphoneos-version-min=$IOS_VERSION -I$SDK_ROOT/usr/include/ -isysroot $SDK_ROOT" CPP=$PLATFORM_PATH/Developer/usr/bin/cpp AR=$PLATFORM_PATH/Developer/usr/bin/ar LDFLAGS="-arch i686 -isysroot $SDK_ROOT -Wl,-dead_strip -miphoneos-version-min=$IOS_VERSION"
-	make clean
-	make
-
-	mkdir -p "$LIBS_DIR/$DEST_PRODUCT_PATH/ios"
-	cp $SRC_PRODUCT_PATH "$LIBS_DIR/$DEST_PRODUCT_PATH/ios/"
+	ARCH_FLAGS="-arch i386"
+	echo build iosSimulator
+	performBuildIos iPhoneSimulator $IOS_VERSION iosSimulator
+	echo build ios
+	ARCH_FLAGS="-arch armv7"
+	performBuildIos iPhone $IOS_VERSION ios
 }
 
 buildLib_jpeg()

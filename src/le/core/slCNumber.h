@@ -178,6 +178,24 @@ class CNumber : public CObject, CNumberBase
 		static SInt32 bigEndianToLittleEndian(SInt32 value);
 		static SInt16 bigEndianToLittleEndian(SInt16 value);
 
+		template <typename T>
+		static Bool isPowerOf2(T val)
+		{
+			return (val & (val - 1)) == 0;
+		}
+
+		template <typename T>
+		static T nearestHigherPowerOf2(T val)
+		{
+			--val;
+			val |= val >> 1;
+			val |= val >> 2;
+			val |= val >> 4;
+			val |= val >> 8;
+			val |= val >> 16;
+			return ++val;
+		}
+
 	private:
 		SInt8 valueAs(TSTypeToType<SInt8>) const;
 		SInt16 valueAs(TSTypeToType<SInt16>) const;

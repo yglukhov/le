@@ -34,6 +34,7 @@ class ITokenMatch
 {
 	public:
 		virtual ETokenType match(const char* string) const = 0;
+		virtual ~ITokenMatch() {}
 };
 
 struct CToken

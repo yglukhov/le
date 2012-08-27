@@ -5,6 +5,7 @@
 #include "slCStaticText.h"
 #include "slCScrollBar.h"
 #include "slCRenderingContext.h"
+#include "slOpenGL.h"
 
 
 namespace sokira
@@ -71,6 +72,11 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 		color2 = tmp;
 	}
 
+	Float32 radius = 6;
+	context->beginStencil();
+	context->drawRoundedRect(rect, radius);
+	context->endStencil();
+
 	CRectangle tempRect = rect;
 	tempRect.setHeight(rect.height() / 2);
 	context->drawVerticalGradient(color1, color2, tempRect);
@@ -78,13 +84,24 @@ void CTheme::drawButton(const CButton* button, CRenderingContext* context) const
 	tempRect.setY(tempRect.y() + tempRect.height());
 	context->drawVerticalGradient(color2, color1, tempRect);
 
+	tempRect = rect;
+	tempRect.offset(20, 15);
+
+	context->drawRingGradient(CColor(1.0f, 0.0f, 0.0f), CColor(0.0f, 0.0f, 1.0f), tempRect.position(), 0, 20.5);
+	context->drawRingGradient(CColor(0.0f, 0.0f, 1.0f), CColor(0.0f, 1.0f, 0.0f), tempRect.position(), 19.5, 40.5);
+	context->drawRingGradient(CColor(0.0f, 1.0f, 0.0f), CColor(1.0f, 0.0f, 1.0f), tempRect.position(), 39.5, 60.5);
+	context->drawRingGradient(CColor(1.0f, 0.0f, 1.0f), CColor(1.0f, 0.0f, 1.0f, 0.0f), tempRect.position(), 59, 62);
+
+//	context->drawRadialGradient(CColor(1.0f, 0.0f, 0.0f), CColor(0.0f, 1.0f, 0.0f), tempRect.position(), 60);
+
+	context->setColor(0.0f, 0.0f, 0.0f);
+	context->drawText(button->text(), tempRect.position());
+
+	context->disableStencil();
+
 	context->setColor(0.46f, 0.46f, 0.46f);
 	context->setLineWidth(1.0f);
-	context->drawWireRect(rect);
-
-	rect.offset(20, 15);
-	context->setColor(0.0f, 0.0f, 0.0f);
-	context->drawText(button->text(), rect.position());
+	context->drawWireRoundedRect(rect, radius);
 }
 
 void CTheme::drawStaticText(const CStaticText* text, CRenderingContext* context) const
@@ -101,7 +118,7 @@ void CTheme::drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* conte
 	context->setColor(0.8f, 0.5f, 0.2f);
 	context->drawRect(rect);
 
-	context->setColor(0.6f, 0.9f, 0.1f);
+	context->setColor(1.0f, 0.9f, 0.1f);
 	if (scrollBar->isHorizontal())
 	{
 		context->drawRect(CRectangle(rect.x(), rect.y(), rect.height(), rect.height()));

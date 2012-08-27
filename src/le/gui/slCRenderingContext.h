@@ -16,16 +16,78 @@ namespace sokira
 	namespace le
 	{
 
+struct SVertex
+{
+	typedef CPoint2D::TComponentType TCoord;
+	SVertex(TCoord xCoord, TCoord yCoord, TCoord zCoord = 0.0f) : x(xCoord), y(yCoord), z(zCoord) {}
+	TCoord x;
+	TCoord y;
+	TCoord z;
+
+	void setPoint(const CPoint2D& point)
+	{
+		x = point.x();
+		y = point.y();
+		z = 0;
+	}
+
+	void setPoint(const CPoint3D& point)
+	{
+		x = point.x();
+		y = point.y();
+		z = point.z();
+	}
+};
+
+struct SColoredVertex : public SVertex
+{
+	typedef CColor::TComponentType TColorComponent;
+//	SVertex::TCoord x;
+//	SVertex::TCoord y;
+//	SVertex::TCoord z;
+	TColorComponent r;
+	TColorComponent g;
+	TColorComponent b;
+	TColorComponent a;
+
+	template <class TColorClass>
+	void setColor(const TColorClass& color)
+	{
+		color.template getComponents<TColorComponent>(&r, &g, &b, &a);
+	}
+};
+
+LE_STATIC_ASSERT(sizeof(SColoredVertex) == sizeof(SVertex::TCoord) * 3 + sizeof(SColoredVertex::TColorComponent) * 4);
+
+enum EPrimitiveType
+{
+	ePrimitiveTypePointList = 0,
+	ePrimitiveTypeTriangleList,
+	ePrimitiveTypeTriangleStrip,
+	ePrimitiveTypeTriangleFan,
+	ePrimitiveTypeLineList,
+	ePrimitiveTypeLineStrip
+};
+
 class CTexture;
 class CTextureImpl;
 class CImageImpl;
 class CFillMethod;
 
-class CRenderingContext
+class CRenderingContext : public CObject
 {
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CRenderingContext)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
 	public:
 		CRenderingContext();
 		virtual ~CRenderingContext();
+
+		virtual void beginDrawing();
+		virtual void endDrawing();
+
 //
 //		virtual void setColor(SInt8 r, SInt8 g, SInt8 b);
 //		virtual void setColor(SInt8 r, SInt8 g, SInt8 b, SInt8 a);
@@ -117,8 +179,44 @@ class CRenderingContext
 			Float32 bottomLeftXRadius, Float32 bottomLeftYRadius,
 			Float32 bottomRightXRadius, Float32 bottomRightYRadius);
 
+		virtual void drawWireRoundedRect(const CRectangle& rect,
+			Float32 topLeftXRadius, Float32 topLeftYRadius,
+			Float32 topRightXRadius, Float32 topRightYRadius,
+			Float32 bottomLeftXRadius, Float32 bottomLeftYRadius,
+			Float32 bottomRightXRadius, Float32 bottomRightYRadius);
+
+		inline void drawRoundedRect(const CRectangle& rect, Float32 radius)
+		{
+			drawRoundedRect(rect, radius, radius, radius, radius, radius, radius, radius, radius);
+		}
+
+		inline void drawWireRoundedRect(const CRectangle& rect, Float32 radius)
+		{
+			drawWireRoundedRect(rect, radius, radius, radius, radius, radius, radius, radius, radius);
+		}
+
 		virtual void drawHorizontalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
 		virtual void drawVerticalGradient(const CColor& fromColor, const CColor& toColor, const CRectangle& rect);
+
+		virtual void drawRadialGradient(const CColor& fromColor, const CColor& toColor, const CPoint2D& center, Float32 radius);
+		virtual void drawRingGradient(const CColor& fromColor, const CColor& toColor, const CPoint2D& center, Float32 innerRadius, Float32 outerRadius);
+
+		virtual void drawCircle(const CPoint2D& center, Float32 radius);
+		virtual void drawCircularSector(const CPoint2D& center, Float32 radius, Float32 startAngle, Float32 endAngle);
+
+		virtual SVertex* sharedVertexBufferOfSize(UInt32 count);
+		virtual SColoredVertex* sharedColorVertexBufferOfSize(UInt32 count);
+
+		virtual void drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
+		virtual void drawColoredVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
+
+		// Stencil routines
+		virtual void beginStencil();
+		virtual void endStencil();
+		virtual void disableStencil();
+
+		virtual Float32 levelOfDetail() const;
+		virtual UInt32 numberOfVertexesInArc(Float32 angle, Float32 radius) const;
 
 	protected:
 		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);

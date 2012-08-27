@@ -17,10 +17,10 @@ class CObject;
 
 void _le_assert(bool, const char*, unsigned, const char*, const CObject*, const char*);
 
-#	define LE_ASSERT(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, NULL)
-#	define LE_ASSERT_MESSAGE(x, message) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, NULL, message)
+#	define LE_ASSERT(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, 0, 0)
+#	define LE_ASSERT_MESSAGE(x, message) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, 0, message)
 
-#	define LE_ASSERT_EX(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, NULL)
+#	define LE_ASSERT_EX(x) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, 0)
 #	define LE_ASSERT_EX_MESSAGE(x, message) ::sokira::le::_le_assert(_LE_BOOL_CAST(x), #x, __LINE__, __FILE__, this, message)
 
 

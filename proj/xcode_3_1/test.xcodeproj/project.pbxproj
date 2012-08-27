@@ -22,9 +22,9 @@
 
 /* Begin PBXBuildFile section */
 		7B105631130166FB008B1C53 /* slCRandomTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B105630130166FB008B1C53 /* slCRandomTestSuite.cpp */; };
-		7B41A14A1057CA7000D5A2D1 /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
 		7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */; };
 		7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */; };
+		7B61B8561551BF5600AD1B59 /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
 		7B6386BA0D4B759F002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B6387520D4B7965002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B63875E0D4B79FB002357F7 /* libLeGui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* libLeGui.a */; };
@@ -102,7 +102,6 @@
 		7B10562F130166FB008B1C53 /* slCRandomTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCRandomTestSuite.h; sourceTree = "<group>"; };
 		7B105630130166FB008B1C53 /* slCRandomTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCRandomTestSuite.cpp; sourceTree = "<group>"; };
 		7B15CEE20F362388002E9DA7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		7B184E131057A7EE0036D467 /* le.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = le.framework; path = /Library/Frameworks/le.framework; sourceTree = "<absolute>"; };
 		7B41A14E1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCGuiTestAppDelegate.h; sourceTree = "<group>"; };
 		7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiTestAppDelegate.cpp; sourceTree = "<group>"; };
 		7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCGuiTestSuite.cpp; sourceTree = "<group>"; };
@@ -133,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B41A14A1057CA7000D5A2D1 /* le.framework in Frameworks */,
+				7B61B8561551BF5600AD1B59 /* le.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +175,6 @@
 				B0246B3E0A209CC50023C1A6 /* libs */,
 				B04FFA000A161C0900F559ED /* test */,
 				B04FF9EE0A161AD500F559ED /* products */,
-				7B184E131057A7EE0036D467 /* le.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -518,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -534,6 +533,7 @@
 					x86_64,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

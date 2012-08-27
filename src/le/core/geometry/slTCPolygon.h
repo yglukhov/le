@@ -13,16 +13,16 @@ namespace sokira
 template <typename T>
 class TCPolygon
 {
-	typedef TCPoint2D<T> TPoint;
-	typedef std::vector<TPoint> TPoints;
-	typedef TCPolygon<T> TSelf;
-
 	static inline int Sign(T val)
 	{
 		return (val < 0) ? -1 : 1;
 	}
 
 	public:
+		typedef TCPoint2D<T> TPoint;
+		typedef std::vector<TPoint> TPoints;
+		typedef TCPolygon<T> TSelf;
+
 		static TCPolygon createByWideningSegment(const TCSegment2D<T>& segment, T width)
 		{
 			TCPolygon result;
@@ -54,7 +54,7 @@ class TCPolygon
 		Bool containsPoint(const TPoint& point) const
 		{
 			Bool result = false;
-			int i, j;
+			size_t i, j;
 			size_t nvert = mPoints.size();
 			for (i = 0, j = nvert - 1; i < nvert; j = i++)
 			{
@@ -138,7 +138,7 @@ class TCPolygon
 
 		std::vector<TSelf> decomposeCWToTriangles() const
 		{
-			size_t vNum = mPoints.size();
+			int32 vNum = mPoints.size();
 			std::vector<TSelf> result;
 			if (vNum < 3)
 				return result;

@@ -1,0 +1,82 @@
+#if !defined SL_LE_gui_base_slCFontGlyphGeneratorMac_hp
+#define SL_LE_gui_base_slCFontGlyphGeneratorMac_hp
+
+#include <le/core/config/slCompiler.h>
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+#include <ApplicationServices/ApplicationServices.h>
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+#include <CoreText/CoreText.h>
+#include <CoreGraphics/CoreGraphics.h>
+#endif
+
+namespace sokira
+{
+	namespace le
+	{
+
+class CFontGlyphGeneratorMac
+{
+	public:
+		CResult getGlyphDataForString(const CFont& font, const CString& string, CImage& image, CFont::CGlyphPositions& glyphPositions) const
+		{
+			CTFontRef ctFont = CTFontCreateWithName(CFSTR("Times new roman"), font.size(), NULL);
+			LE_ASSERT(ctFont);
+			UInt32 len = string.length();
+			UniChar* characters = new UniChar[len];
+			for (UInt32 i = 0; i < len; ++i)
+			{
+				characters[i] = string.characterAtIndex(i);
+			}
+			CGGlyph* glyphs = new CGGlyph[len];
+			CGSize* advances = new CGSize[len];
+			CTFontGetGlyphsForCharacters(ctFont, characters, glyphs, len);
+			delete [] characters;
+			CTFontGetAdvancesForGlyphs(ctFont, kCTFontHorizontalOrientation, glyphs, advances, len);
+
+			Float32 totalGlyphWidth = 20;
+			for (UInt32 i = 0; i < len; ++i)
+			{
+				totalGlyphWidth += advances[i].width;
+			}
+
+			delete [] advances;
+
+			Float32 descent = CTFontGetDescent(ctFont);
+			Float32 totalFontHeight = CTFontGetAscent(ctFont) + descent;
+			UInt32 height = totalFontHeight;
+			UInt32 width = totalGlyphWidth;
+			UInt8* bitmapBytes = new UInt8[height * width];
+			memset(bitmapBytes, 0, height * width);
+			CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+			CGContextRef context = CGBitmapContextCreate(bitmapBytes, width, height, 8, width, colorSpace, 0);
+			CGColorSpaceRelease(colorSpace);
+			CGContextSetGrayFillColor(context, 1.0, 1.0);
+			CGFontRef cgFont = CTFontCopyGraphicsFont(ctFont, NULL);
+			CGContextSetFont(context, cgFont);
+			CGFontRelease(cgFont);
+			CGContextSetFontSize(context, CTFontGetSize(ctFont));
+			CFRelease(ctFont);
+			CGContextSetTextPosition(context, 0, descent);
+			Float32 lastPosition = CGContextGetTextPosition(context).x;
+			for (UInt32 i = 0; i < len; ++i)
+			{
+				char theChar = string.characterAtIndex(i);
+				CGContextShowGlyphs(context, glyphs + i, 1);
+				Float32 pos = CGContextGetTextPosition(context).x;
+				glyphPositions[theChar] = std::make_pair(lastPosition, pos - lastPosition);
+				lastPosition = pos;
+			}
+
+			delete [] glyphs;
+			CGContextRelease(context);
+			image = CImage::createWithPixelData(CSize2D(width, height), ePixelFormatGrayscale, bitmapBytes);
+			return true;
+		}
+};
+
+typedef CFontGlyphGeneratorMac CFontGlyphGenerator;
+
+	} // namespace le
+} // namespace sokira
+
+#endif // not defined SL_LE_gui_base_slCFontGlyphGeneratorMac_hp

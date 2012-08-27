@@ -6,6 +6,7 @@
 #include "base/slCGifImageImpl.hp"
 #include "base/slCJpegImageImpl.hp"
 #include "base/slCImageImpl.hp"
+#include "base/slCImageFrameImpl.hp"
 
 namespace sokira
 {
@@ -35,6 +36,14 @@ CImage::CImage(const CURL& url) :
 CImage::~CImage()
 {
 	if (mImpl) mImpl->release();
+}
+
+CImage CImage::createWithPixelData(const CSize2D& size, EPixelFormat format, UInt8* data)
+{
+	CImage result;
+	result.mImpl = new CImageImpl();
+	result.mImpl->insertFrame(0, CImageFrame(new CImageFrameImpl(size, format, data, 0)));
+	return result;
 }
 
 Bool CImage::loadFromURL(const CURL& url)

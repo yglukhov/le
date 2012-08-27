@@ -3,7 +3,7 @@
 
 #include <le/core/geometry/slTCSize2D.h>
 #include "slCString.h"
-//#include "slCImageFrame.h"
+#include "slCImageFrame.h"
 
 
 namespace sokira
@@ -12,7 +12,6 @@ namespace sokira
 	{
 
 class CImageImpl;
-class CImageFrame;
 class CURL;
 
 class CImage : public CObject
@@ -28,6 +27,8 @@ class CImage : public CObject
 		CImage(const CURL& url);
 		~CImage();
 
+		static CImage createWithPixelData(const CSize2D& size, EPixelFormat format, UInt8* data);
+	
 		Bool loadFromURL(const CURL& url);
 
 		UInt32 frameCount() const;

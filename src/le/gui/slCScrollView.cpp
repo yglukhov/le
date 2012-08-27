@@ -10,7 +10,7 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CScrollView);
 
-#define LE_SCROLL_BAR_WIDTH 20
+#define LE_SCROLL_BAR_WIDTH 12
 
 CScrollView::CScrollView() :
 	mContent(NULL)

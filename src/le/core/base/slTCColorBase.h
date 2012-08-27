@@ -12,52 +12,37 @@ namespace sokira
 class CColorBase
 {
 	protected:
-		template <typename To, typename From> struct _convert;
+		template <Bool ToTypeIsFloat, Bool FromTypeIsFloat, typename To, typename From> struct _convert;
 		template <typename TComponent> struct _max;
 };
 
-template <typename T>
-struct CColorBase::_convert<T, T>
+template <typename To, typename From>
+struct CColorBase::_convert<true, true, To, From>
 {
-	static inline T convert(T component)
+	static inline To convert(From component)
 	{
-		return component;
+		return static_cast<To>(component);
 	}
 };
 
-template <>
-struct CColorBase::_convert<Float32, UInt8>
+template <typename To, typename From>
+struct CColorBase::_convert<false, false, To, From> : public CColorBase::_convert<true, true, To, From> { };
+
+template <typename To, typename From>
+struct CColorBase::_convert<true, false, To, From>
 {
-	static inline Float32 convert(UInt8 component)
+	static inline To convert(From component)
 	{
-		return static_cast<Float32>(component) / 255.0f;
+		return static_cast<To>(component) / CColorBase::_max<From>::max();
 	}
 };
 
-template <>
-struct CColorBase::_convert<UInt8, Float32>
+template <typename To, typename From>
+struct CColorBase::_convert<false, true, To, From>
 {
-	static inline UInt8 convert(Float32 component)
+	static inline To convert(From component)
 	{
-		return static_cast<UInt8>(component * 255.0f);
-	}
-};
-
-template <>
-struct CColorBase::_convert<Float32, int>
-{
-	static inline Float32 convert(int component)
-	{
-		return static_cast<Float32>(component) / 255.0f;
-	}
-};
-
-template <>
-struct CColorBase::_convert<int, Float32>
-{
-	static inline int convert(Float32 component)
-	{
-		return static_cast<int>(component * 255.0f);
+		return static_cast<To>(component * CColorBase::_max<To>::max());
 	}
 };
 

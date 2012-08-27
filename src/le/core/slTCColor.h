@@ -12,10 +12,11 @@ namespace sokira
 	namespace le
 	{
 
-template <typename TComponent = Float32>
+template <typename TComponent = UInt8>
 class TCColor : public sokira::le::base::CColorBase
 {
 	public:
+		typedef TComponent TComponentType;
 
 		inline TCColor() :
 			mR(), mG(), mB(), mA()
@@ -53,10 +54,10 @@ class TCColor : public sokira::le::base::CColorBase
 
 		template <typename T>
 		inline TCColor(const TCColor<T>& copy) :
-			mR(copy.redAs<TComponent>()),
-			mG(copy.greenAs<TComponent>()),
-			mB(copy.blueAs<TComponent>()),
-			mA(copy.alphaAs<TComponent>())
+			mR(copy.template redAs<TComponent>()),
+			mG(copy.template greenAs<TComponent>()),
+			mB(copy.template blueAs<TComponent>()),
+			mA(copy.template alphaAs<TComponent>())
 		{
 
 		}
@@ -131,7 +132,7 @@ class TCColor : public sokira::le::base::CColorBase
 		}
 
 		template <typename T>
-		inline void rgba(T r, T g, T b, T a)
+		inline void setComponents(T r, T g, T b, T a)
 		{
 			mR = toComponent(r);
 			mG = toComponent(g);
@@ -140,7 +141,7 @@ class TCColor : public sokira::le::base::CColorBase
 		}
 
 		template <typename T>
-		inline void rgba(T* r, T* g = NULL, T* b = NULL, T* a = NULL) const
+		inline void getComponents(T* r, T* g = NULL, T* b = NULL, T* a = NULL) const
 		{
 			if (r)
 				*r = fromComponent<T>(mR);
@@ -160,10 +161,10 @@ class TCColor : public sokira::le::base::CColorBase
 		template <typename T>
 		const TCColor<TComponent>& operator = (const TCColor<T>& copy)
 		{
-			mR = copy.redAs<TComponent>();
-			mG = copy.greenAs<TComponent>();
-			mB = copy.blueAs<TComponent>();
-			mA = copy.alphaAs<TComponent>();
+			mR = copy.template redAs<TComponent>();
+			mG = copy.template greenAs<TComponent>();
+			mB = copy.template blueAs<TComponent>();
+			mA = copy.template alphaAs<TComponent>();
 			return *this;
 		}
 
@@ -175,10 +176,10 @@ class TCColor : public sokira::le::base::CColorBase
 		template <typename T>
 		bool operator == (const TCColor<T>& color)
 		{
-			return ((mR == color.redAs<TComponent>()) &&
-					  (mG == color.greenAs<TComponent>()) &&
-					  (mB == color.blueAs<TComponent>()) &&
-					  (mA == color.alphaAs<TComponent>()));
+			return ((mR == color.template redAs<TComponent>()) &&
+					  (mG == color.template greenAs<TComponent>()) &&
+					  (mB == color.template blueAs<TComponent>()) &&
+					  (mA == color.template alphaAs<TComponent>()));
 		}
 
 		inline bool operator != (const TCColor<TComponent>& color)
@@ -189,10 +190,10 @@ class TCColor : public sokira::le::base::CColorBase
 		template <typename T>
 		bool operator != (const TCColor<T>& color)
 		{
-			return ((mR != color.redAs<TComponent>()) ||
-					  (mG != color.greenAs<TComponent>()) ||
-					  (mB != color.blueAs<TComponent>()) ||
-					  (mA != color.alphaAs<TComponent>()));
+			return ((mR != color.template redAs<TComponent>()) ||
+					  (mG != color.template greenAs<TComponent>()) ||
+					  (mB != color.template blueAs<TComponent>()) ||
+					  (mA != color.template alphaAs<TComponent>()));
 		}
 
 	private:
@@ -200,13 +201,23 @@ class TCColor : public sokira::le::base::CColorBase
 		template <typename From>
 		inline TComponent toComponent(From component) const
 		{
-			return _convert<TComponent, From>::convert(component);
+			enum
+			{
+				toTypeIsFloat = TSOr<TSTypesEqual<TComponent, Float32>, TSTypesEqual<TComponent, Float64> >::value,
+				fromTypeIsFloat = TSOr<TSTypesEqual<From, Float32>, TSTypesEqual<From, Float64> >::value
+			};
+			return _convert<toTypeIsFloat, fromTypeIsFloat, TComponent, From>::convert(component);
 		}
 
 		template <typename To>
 		inline To fromComponent(TComponent component) const
 		{
-			return _convert<To, TComponent>::convert(component);
+			enum
+			{
+				toTypeIsFloat = TSOr<TSTypesEqual<To, Float32>, TSTypesEqual<To, Float64> >::value,
+				fromTypeIsFloat = TSOr<TSTypesEqual<TComponent, Float32>, TSTypesEqual<TComponent, Float64> >::value
+			};
+			return _convert<toTypeIsFloat, fromTypeIsFloat, To, TComponent>::convert(component);
 		}
 
 		TComponent mR, mG, mB, mA; // conponents

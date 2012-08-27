@@ -8,103 +8,6 @@
 	#define _sokira_lelex(val, loc) mSokript->lex(static_cast<void*>(val), static_cast<void*>(loc))
 
 	using namespace ::sokira::le;
-
-	static inline CSokriptInstruction* newInstruction(EInstruction instruction, CObject* arg = NULL)
-	{
-		return new CSokriptInstruction(instruction, arg);
-	}
-
-	static CSokriptInstruction* createIfThenElseInstruction(
-			CSokriptInstruction* expression,
-			CSokriptInstruction* ifPart,
-			CSokriptInstruction* elsePart)
-	{
-		if (elsePart)
-		{
-			CSokriptInstruction* secondJump = newInstruction(eInstructionJump);
-			secondJump->mSInt32Arg1 = elsePart->length();
-
-			if (!ifPart) ifPart = newInstruction(eInstructionNOP);
-
-			CSokriptInstruction* firstJump = newInstruction(eInstructionJumpIfFalse);
-
-			ifPart->addInstruction(secondJump);
-			firstJump->mSInt32Arg1 = ifPart->length();
-			ifPart->addInstruction(elsePart);
-			firstJump->addInstruction(ifPart);
-			expression->addInstruction(firstJump);
-			return expression;
-		}
-
-		// else
-
-		if (ifPart)
-		{
-			CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
-			jump->mUInt32Arg1 = ifPart->length();
-			jump->addInstruction(ifPart);
-			expression->addInstruction(jump);
-		}
-		else
-			expression->addInstruction(newInstruction(eInstructionDiscard));
-
-		return expression;
-	}
-
-
-	static CSokriptInstruction* createLoopInstruction(
-			CSokriptInstruction* expression,
-			CSokriptInstruction* loopPart)
-	{
-		if (loopPart)
-		{
-			CSokriptInstruction* jumpBack = newInstruction(eInstructionJump);
-			CSokriptInstruction* jump = newInstruction(eInstructionJumpIfFalse);
-			jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
-			jump->addInstruction(loopPart);
-			expression->addInstruction(jump);
-			jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-			jump->addInstruction(jumpBack);
-		}
-		else
-		{
-			CSokriptInstruction* jumpBack = newInstruction(eInstructionJumpIfTrue);
-			jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-			expression->addInstruction(jumpBack);
-		}
-
-		return expression;
-	}
-
-
-	static inline CSokriptInstruction* createFunctionDefinition(
-			char* name, std::list<char*>* args,
-			CSokriptInstruction* instruction)
-	{
-		CSokriptInstruction* returnInstruction = newInstruction(eInstructionReturn);
-		returnInstruction->mUInt16Arg1 = args->size();
-
-		CSokriptInstruction* pushResult = newInstruction(eInstructionPushFloat, new CNumber());
-		pushResult->addInstruction(returnInstruction);
-
-		if (instruction)
-			instruction->addInstruction(pushResult);
-		else
-			instruction = pushResult;
-
-		instruction = CSokriptInstruction::postProcessBytecode(instruction, args);
-
-		CSokriptInstruction* functionStart = newInstruction(eInstructionStartFunction, new CString(
-					CString::__CStringNoCopyDeallocWithFree(name)
-										));
-
-		functionStart->mUInt32Arg2 = instruction->length();
-		functionStart->addInstruction(instruction);
-
-		return functionStart;
-	}
-
-
 %}
 
 //%debug
@@ -125,9 +28,9 @@
 	char charValue;
 	float floatValue;
 	int intValue;
-	::sokira::le::CObject* objectValue;
-	::std::list<char*>*	stringList;
-	::sokira::le::CSokriptInstruction* instruction;
+	CObject* objectValue;
+	std::list<char*>* stringList;
+	CSokriptInstruction* instruction;
 }
 
 
@@ -183,13 +86,13 @@
 program
 	: statement_list
 		{
-			::sokira::le::CSokriptInstruction* returnInstruction = newInstruction(::sokira::le::eInstructionReturn);
+			CSokriptInstruction* returnInstruction = new CSokriptInstruction(eInstructionReturn);
 			if ($1)
 				$1->addInstruction(returnInstruction);
 			else
 				$1 = returnInstruction;
 
-			$1 = ::sokira::le::CSokriptInstruction::postProcessBytecode($1, NULL);
+			$1 = CSokriptInstruction::postProcessBytecode($1, NULL);
 			mSokript->setInstruction($1);
 		}
 	;
@@ -208,7 +111,7 @@ statement_list
 
 statement
 	: function_definition
-	| expression_or_nothing SEMICOLON			{ $$ = $1; if ($$) $$->addInstruction(newInstruction(::sokira::le::eInstructionDiscard));	}
+	| expression_or_nothing SEMICOLON			{ $$ = $1; if ($$) $$->addInstruction(new CSokriptInstruction(eInstructionDiscard));	}
 	| selection_statement
 	| loop_statement
 	| LBRACE statement_list RBRACE				{ $$ = $2;																					}
@@ -218,7 +121,7 @@ statement
 function_definition
 	: FUNCTION IDENTIFIER LPAREN function_arg_list_definition RPAREN LBRACE statement_list RBRACE
 		{
-			$$ = createFunctionDefinition($2, $4, $7);
+			$$ = CSokriptInstruction::createFunctionDefinition($2, $4, $7);
 		}
 	;
 
@@ -239,33 +142,33 @@ function_arg_definition
 return_statement
 	: RETURN expression_or_nothing SEMICOLON
 		{
-			$$ = ($2)?($2):(newInstruction(::sokira::le::eInstructionPushFloat, new ::sokira::le::CNumber(0)));
-			$$->addInstruction(newInstruction(::sokira::le::eInstructionJumpToReturn));
+			$$ = ($2)?($2):(new CSokriptInstruction(eInstructionPushFloat, new CNumber(0)));
+			$$->addInstruction(new CSokriptInstruction(eInstructionJumpToReturn));
 		}
 	;
 
 selection_statement
-	: IF LPAREN expression RPAREN statement					{ $$ = createIfThenElseInstruction($3, $5, NULL);	}
-	| IF LPAREN expression RPAREN statement ELSE statement	{ $$ = createIfThenElseInstruction($3, $5, $7);		}
+: IF LPAREN expression RPAREN statement					{ $$ = CSokriptInstruction::createIfThenElse($3, $5, NULL);	}
+	| IF LPAREN expression RPAREN statement ELSE statement	{ $$ = CSokriptInstruction::createIfThenElse($3, $5, $7);		}
 	;
 
 loop_statement
-	: WHILE LPAREN expression RPAREN statement				{ $$ = createLoopInstruction($3, $5); }
+	: WHILE LPAREN expression RPAREN statement				{ $$ = CSokriptInstruction::createLoop($3, $5); }
 	| FOR LPAREN expression_or_nothing SEMICOLON expression SEMICOLON expression_or_nothing RPAREN statement
 		{
 			if ($7)
 			{
-				$7->addInstruction(newInstruction(::sokira::le::eInstructionDiscard));
+				$7->addInstruction(new CSokriptInstruction(eInstructionDiscard));
 				if ($9)
 					$9->addInstruction($7);
 				else
 					$9 = $7;
 			}
 
-			::sokira::le::CSokriptInstruction* loopInstruction = createLoopInstruction($5, $9);
+			CSokriptInstruction* loopInstruction = CSokriptInstruction::createLoop($5, $9);
 			if ($3)
 			{
-				::sokira::le::CSokriptInstruction* discard = newInstruction(::sokira::le::eInstructionDiscard);
+				CSokriptInstruction* discard = new CSokriptInstruction(eInstructionDiscard);
 				discard->addInstruction(loopInstruction);
 				$3->addInstruction(discard);
 			}
@@ -285,8 +188,8 @@ expression
 	: assignment_expression
 	| arithmetic_expression
 	| logic_expression
-	| IDENTIFIER { $$ = newInstruction(::sokira::le::eInstructionPushVar, new ::sokira::le::CString(
-						::sokira::le::CString::__CStringNoCopyDeallocWithFree($1)
+	| IDENTIFIER { $$ = new CSokriptInstruction(eInstructionPushVar, new CString(
+						CString::__CStringNoCopyDeallocWithFree($1)
 											)); }
 	| constant_expression { $$ = mSokript->pushConstantInstruction($1); }
 	| function_call
@@ -296,8 +199,8 @@ function_call
 	: IDENTIFIER LPAREN function_arg_list RPAREN
 		{
 			$$ = $3;
-			::sokira::le::CSokriptInstruction* call = newInstruction(::sokira::le::eInstructionCall, new ::sokira::le::CString(
-						::sokira::le::CString::__CStringNoCopyDeallocWithFree($1)
+			CSokriptInstruction* call = new CSokriptInstruction(eInstructionCall, new CString(
+						CString::__CStringNoCopyDeallocWithFree($1)
 											));
 			if ($$)
 				$$->addInstruction(call);
@@ -317,33 +220,31 @@ not_empty_function_arg_list
 	;
 
 arithmetic_expression
-	: expression PLUS expression		{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionAdd));		$$->addInstruction($3);		}
-	| expression MINUS expression		{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionSubstract)); $$->addInstruction($3);		}
-	| expression MULT expression		{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionMultiply));	$$->addInstruction($3);		}
-	| expression DIVIDE expression		{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionDivide));	$$->addInstruction($3);		}
-	| MINUS expression	%prec UMINUS	{ $$ = $2; $$->addInstruction(newInstruction(::sokira::le::eInstructionNegate));								}
+	: expression PLUS expression		{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionAdd));		$$->addInstruction($3);		}
+	| expression MINUS expression		{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionSubstract)); $$->addInstruction($3);		}
+	| expression MULT expression		{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionMultiply));	$$->addInstruction($3);		}
+	| expression DIVIDE expression		{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionDivide));	$$->addInstruction($3);		}
+	| MINUS expression	%prec UMINUS	{ $$ = $2; $$->addInstruction(new CSokriptInstruction(eInstructionNegate));								}
 	| PLUS expression	%prec UPLUS		{ $$ = $2;																										}
 	| LPAREN expression RPAREN			{ $$ = $2;																										}
 	;
 
 logic_expression
-	: expression LT expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionLessThan));		$$->addInstruction($3);	}
-	| expression LE expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionLessEqual));		$$->addInstruction($3);	}
-	| expression GT expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionGreaterThan));	$$->addInstruction($3);	}
-	| expression GE expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionGreaterEqual));	$$->addInstruction($3);	}
-	| expression EQ expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionEqual));			$$->addInstruction($3);	}
-	| expression NE expression			{ $$ = $1; $3->addInstruction(newInstruction(::sokira::le::eInstructionNotEqual));		$$->addInstruction($3);	}
-	| NOT expression					{ $$ = $2; $2->addInstruction(newInstruction(::sokira::le::eInstructionNot));									}
+	: expression LT expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionLessThan));		$$->addInstruction($3);	}
+	| expression LE expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionLessEqual));		$$->addInstruction($3);	}
+	| expression GT expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionGreaterThan));	$$->addInstruction($3);	}
+	| expression GE expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionGreaterEqual));	$$->addInstruction($3);	}
+	| expression EQ expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionEqual));			$$->addInstruction($3);	}
+	| expression NE expression			{ $$ = $1; $3->addInstruction(new CSokriptInstruction(eInstructionNotEqual));		$$->addInstruction($3);	}
+	| NOT expression					{ $$ = $2; $2->addInstruction(new CSokriptInstruction(eInstructionNot));									}
 	;
 
 assignment_expression
 	: IDENTIFIER TOKEN_ASSIGN expression { $$ = $3;
 		$$->addInstruction(
-			newInstruction(
-				::sokira::le::eInstructionAssign,
-				new ::sokira::le::CString(
-						::sokira::le::CString::__CStringNoCopyDeallocWithFree($1)
-											)
+			new CSokriptInstruction(
+				eInstructionAssign,
+				new CString(CString::__CStringNoCopyDeallocWithFree($1))
 						)); }
 	;
 
@@ -364,8 +265,8 @@ constant_expression										// Constant expressions are almost the same as arit
 	;
 
 literal
-	: LITERAL_INT { $$ = new ::sokira::le::CNumber($1); }
-	| LITERAL_FLOAT { $$ = new ::sokira::le::CNumber($1); }
+	: LITERAL_INT { $$ = new CNumber($1); }
+	| LITERAL_FLOAT { $$ = new CNumber($1); }
 	| string_literal
 	;
 
@@ -375,7 +276,7 @@ string_literal
 	;
 
 simple_string_literal
-	: LITERAL_STRING { $$ = new ::sokira::le::CString(::sokira::le::CString::__CStringNoCopyDeallocWithFree($1)); }
+	: LITERAL_STRING { $$ = new CString(CString::__CStringNoCopyDeallocWithFree($1)); }
 	;
 
 %%

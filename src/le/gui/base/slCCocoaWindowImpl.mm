@@ -15,19 +15,102 @@
 #error Target platform not defined
 #endif
 
+using namespace sokira::le;
+
+template <typename TPoint>
+static inline CPoint2D CocoaPointToCPoint(const TPoint& point)
+{
+	return CPoint2D(point.x, point.y);
+}
+
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+
+static CPoint2D locationInWindowFromNSEvent(NSEvent* event)
+{
+	NSPoint point = [event locationInWindow];
+	NSWindow* window = [event window];
+	if (window)
+	{
+		NSView* contentView = [window contentView];
+		point = [contentView convertPointFromBase: point];
+		// Invert Y coord
+		point.y = [contentView frame].size.height - point.y;
+	}
+	return CPoint2D(point.x, point.y);
+}
+
+static inline CEvent createEventWithNSEvent(NSEvent* event)
+{
+	CEvent result;
+	switch ([event type])
+	{
+		case NSLeftMouseDown:
+			result = CEvent(eEventTypeMouseDown, locationInWindowFromNSEvent(event), eButtonStateDown, eKeyCodeMouseButtonPrimary);
+			break;
+
+		case NSRightMouseDown:
+			result = CEvent(eEventTypeMouseDown, locationInWindowFromNSEvent(event), eButtonStateDown, eKeyCodeMouseButtonSecondary);
+			break;
+
+		case NSOtherMouseDown:
+			result = CEvent(eEventTypeMouseDown, locationInWindowFromNSEvent(event), eButtonStateDown, eKeyCodeMouseButtonOther);
+			break;
+
+		case NSLeftMouseUp:
+			result = CEvent(eEventTypeMouseUp, locationInWindowFromNSEvent(event), eButtonStateUp, eKeyCodeMouseButtonPrimary);
+			break;
+
+		case NSRightMouseUp:
+			result = CEvent(eEventTypeMouseUp, locationInWindowFromNSEvent(event), eButtonStateUp, eKeyCodeMouseButtonSecondary);
+			break;
+
+		case NSOtherMouseUp:
+			result = CEvent(eEventTypeMouseUp, locationInWindowFromNSEvent(event), eButtonStateUp, eKeyCodeMouseButtonOther);
+			break;
+
+		case NSMouseMoved:
+		case NSLeftMouseDragged:
+		case NSRightMouseDragged:
+		case NSOtherMouseDragged:
+		case NSMouseEntered:
+		case NSMouseExited:
+			result = CEvent(eEventTypeMouseMove, locationInWindowFromNSEvent(event), eButtonStateUnknown, eKeyCodeUnknown);
+			break;
+
+		case NSKeyDown:
+			result = CEvent(eEventTypeKeyDown, CRunLoopImpl::keyCodeFromSystemCode([event keyCode]), eButtonStateDown);
+			break;
+
+		case NSKeyUp:
+			result = CEvent(eEventTypeKeyUp, CRunLoopImpl::keyCodeFromSystemCode([event keyCode]), eButtonStateUp);
+			break;
+	}
+	return result;
+}
+
 @interface SokiraLE_Window : NSWindow
 {
-
+	CWindow* leWindow;
 }
+
+@property (assign) CWindow* leWindow;
 
 @end
 
 @implementation SokiraLE_Window
 
+@synthesize leWindow;
+
 - (BOOL) canBecomeKeyWindow
 {
 	return YES;
+}
+
+- (void) sendEvent:(NSEvent *)theEvent
+{
+	[super sendEvent: theEvent];
+	CEvent event = createEventWithNSEvent(theEvent);
+	leWindow->handleEvent(&event);
 }
 
 @end
@@ -39,7 +122,6 @@
 	::sokira::le::CWindow* mScreen;
 	BOOL mMouseInView;
 	BOOL mViewDidResize;
-	UInt32 mIdentifier;
 }
 @end
 
@@ -54,6 +136,7 @@ static NSOpenGLContext* gOpenGLContext = nil;
 		NSOpenGLPFAWindow,
 		NSOpenGLPFADoubleBuffer,	// double buffered
 		NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16, // 16 bit depth buffer
+		NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute)8,
 		(NSOpenGLPixelFormatAttribute)nil
 	};
 
@@ -77,9 +160,6 @@ static NSOpenGLContext* gOpenGLContext = nil;
 	mScreen = screen;
 	mMouseInView = NO;
 	mViewDidResize = YES;
-	static UInt32 idCounter = 1;
-	mIdentifier = idCounter;
-	++idCounter;
 	return self;
 }
 
@@ -106,6 +186,7 @@ static NSOpenGLContext* gOpenGLContext = nil;
 		std::cout << "ERROR in OpenGL: " << gluErrorString(err) << std::endl;
 }
 
+#if 0
 - (void)keyDown:(NSEvent *)theEvent
 {
 //	NSString* chars = [theEvent charactersIgnoringModifiers];
@@ -246,6 +327,8 @@ static NSOpenGLContext* gOpenGLContext = nil;
 {
 	[self mouseMoved:event];
 }
+#endif
+
 
 - (BOOL) acceptsFirstResponder
 {
@@ -255,7 +338,7 @@ static NSOpenGLContext* gOpenGLContext = nil;
 - (void) prepareOpenGL
 {
 	LE_ASSERT(mScreen);
-	mScreen->_prepareOpenGL();
+	mScreen->prepareRenderingContext();
 }
 
 - (void) swipeWithEvent: (NSEvent *) event
@@ -337,7 +420,7 @@ static NSOpenGLContext* gOpenGLContext = nil;
 												kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
 												nil]];
 		[EAGLContext setCurrentContext: context];
-		mScreen->_prepareOpenGL();
+		mScreen->prepareRenderingContext();
 	}
 	return self;
 }
@@ -513,6 +596,8 @@ void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApp
 					backing: NSBackingStoreBuffered
 					defer: YES];
 
+	[(id)mWindow setLeWindow: screen];
+
 	if (mFullScreen)
 	{
 //		[(id)mWindow setLevel:NSMainMenuWindowLevel+1];
@@ -521,7 +606,7 @@ void CCocoaWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiCocoaApp
 	[(id)mWindow setOpaque: YES];
 	
 
-	NSString* title = [NSString stringWithCString: mTitle.cString() encoding: NSASCIIStringEncoding];
+	NSString* title = [NSString stringWithUTF8String: mTitle.UTF8String()];
 
 	[(id)mWindow setTitle: title];
 	[(id)mWindow setAcceptsMouseMovedEvents: YES];

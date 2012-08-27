@@ -33,7 +33,93 @@ CSokriptInstruction::~CSokriptInstruction()
 		delete mObjArg1;
 	delete mNext;
 }
+		
+CSokriptInstruction* CSokriptInstruction::createIfThenElse(CSokriptInstruction* expression,
+											 CSokriptInstruction* ifPart,
+											 CSokriptInstruction* elsePart)
+{
+	if (elsePart)
+	{
+		CSokriptInstruction* secondJump = new CSokriptInstruction(eInstructionJump);
+		secondJump->mSInt32Arg1 = elsePart->length();
+		
+		if (!ifPart) ifPart = new CSokriptInstruction(eInstructionNOP);
+		
+		CSokriptInstruction* firstJump = new CSokriptInstruction(eInstructionJumpIfFalse);
+		
+		ifPart->addInstruction(secondJump);
+		firstJump->mSInt32Arg1 = ifPart->length();
+		ifPart->addInstruction(elsePart);
+		firstJump->addInstruction(ifPart);
+		expression->addInstruction(firstJump);
+		return expression;
+	}
+	
+	// else
+	
+	if (ifPart)
+	{
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfFalse);
+		jump->mUInt32Arg1 = ifPart->length();
+		jump->addInstruction(ifPart);
+		expression->addInstruction(jump);
+	}
+	else
+		expression->addInstruction(new CSokriptInstruction(eInstructionDiscard));
+	
+	return expression;
+}
 
+CSokriptInstruction* CSokriptInstruction::createLoop(
+									   CSokriptInstruction* expression,
+									   CSokriptInstruction* loopPart)
+{
+	if (loopPart)
+	{
+		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJump);
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfFalse);
+		jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
+		jump->addInstruction(loopPart);
+		expression->addInstruction(jump);
+		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+		jump->addInstruction(jumpBack);
+	}
+	else
+	{
+		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJumpIfTrue);
+		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+		expression->addInstruction(jumpBack);
+	}
+	
+	return expression;
+}
+
+CSokriptInstruction* CSokriptInstruction::createFunctionDefinition(char* name, std::list<char*>* args,
+															CSokriptInstruction* instruction)
+{
+	CSokriptInstruction* returnInstruction = new CSokriptInstruction(eInstructionReturn);
+	returnInstruction->mUInt16Arg1 = args->size();
+
+	CSokriptInstruction* pushResult = new CSokriptInstruction(eInstructionPushFloat, new CNumber());
+	pushResult->addInstruction(returnInstruction);
+
+	if (instruction)
+		instruction->addInstruction(pushResult);
+	else
+		instruction = pushResult;
+
+	instruction = CSokriptInstruction::postProcessBytecode(instruction, args);
+
+	CSokriptInstruction* functionStart = new CSokriptInstruction(eInstructionStartFunction,
+													new CString(CString::__CStringNoCopyDeallocWithFree(name)));
+
+	functionStart->mUInt32Arg2 = instruction->length();
+	functionStart->addInstruction(instruction);
+
+	return functionStart;
+}
+
+		
 UInt32 CSokriptInstruction::length() const
 {
 	UInt32 result = selfLength();
@@ -83,7 +169,7 @@ UInt32 CSokriptInstruction::selfLength() const
 
 static inline SInt32 findVarInArgs(std::list<char*>* args, const char* var)
 {
-	SInt32 result;
+	SInt32 result = 0;
 	for (std::list<char*>::iterator it = args->begin(); it != args->end(); ++it)
 	{
 		if (!strcmp(*it, var))

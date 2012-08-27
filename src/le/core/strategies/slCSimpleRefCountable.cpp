@@ -1,3 +1,4 @@
+#include <le/core/debug/slAssert.h>
 #include "slCSimpleRefCountable.h"
 
 namespace sokira
@@ -14,7 +15,7 @@ CSimpleRefCountable::CSimpleRefCountable() :
 
 CSimpleRefCountable::~CSimpleRefCountable()
 {
-
+	LE_ASSERT(mRefCount <= 1);
 }
 
 void CSimpleRefCountable::retain() const
@@ -24,6 +25,7 @@ void CSimpleRefCountable::retain() const
 
 void CSimpleRefCountable::release() const
 {
+	LE_ASSERT(mRefCount >= 1);
 	--mRefCount;
 	if (!mRefCount)
 	{

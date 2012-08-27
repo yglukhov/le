@@ -54,6 +54,7 @@ class TCPointer
 		//////////////////////////////////////////////////////////////////////////
 		// Pointer operations
 		inline operator const T*() const;
+		inline operator T*() const;
 		inline T* get();
 		inline const T* get() const;
 
@@ -65,6 +66,11 @@ class TCPointer
 		inline operator Bool() const
 		{
 			return _LE_BOOL_CAST(mObj);
+		}
+
+		inline Bool operator == (const T* rhs) const
+		{
+			return mObj == rhs;
 		}
 
 		//////////////////////////////////////////////////////////////////////////
@@ -155,6 +161,12 @@ const TCPointer<T>& TCPointer<T>::operator = (const TCPointer<CastedFrom>& copy)
 
 template <typename T>
 TCPointer<T>::operator const T*() const
+{
+	return mObj;
+}
+
+template <typename T>
+TCPointer<T>::operator T*() const
 {
 	return mObj;
 }

@@ -8,8 +8,8 @@
 #include <sys/stat.h>
 #endif
 
-#if LE_TARGET_PLATFORM_FAMILY_IS_MAC
-#include <CoreServices/CoreServices.h>
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX
+//#include <CoreServices/CoreServices.h>
 #endif
 
 namespace sokira

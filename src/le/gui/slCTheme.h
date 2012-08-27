@@ -26,11 +26,11 @@ class CTheme
 		CTheme();
 		virtual ~CTheme();
 
-		void drawControl(const CControl* control, CRenderingContext* context) const;
-		void drawButton(const CButton* button, CRenderingContext* context) const;
-		void drawWindow(const CView* window, CRenderingContext* context) const;
-		void drawStaticText(const CStaticText* text, CRenderingContext* context) const;
-		void drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* context) const;
+		virtual void drawControl(const CControl* control, CRenderingContext* context) const;
+		virtual void drawButton(const CButton* button, CRenderingContext* context) const;
+		virtual void drawWindow(const CView* window, CRenderingContext* context) const;
+		virtual void drawStaticText(const CStaticText* text, CRenderingContext* context) const;
+		virtual void drawScrollBar(const CScrollBar* scrollBar, CRenderingContext* context) const;
 };
 
 	} // namespace le

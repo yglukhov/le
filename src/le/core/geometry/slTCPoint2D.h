@@ -30,6 +30,8 @@ class TCPoint2D
 {
 	// Construction
 	public:
+		typedef T TComponentType;
+
 		TCPoint2D(T x = T(), T y = T()) :
 			mX(x),
 			mY(y)
