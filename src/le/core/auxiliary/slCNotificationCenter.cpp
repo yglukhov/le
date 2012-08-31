@@ -1,4 +1,6 @@
 //#include "slTypes.h"
+#include <map>
+
 #include "slCNotificationCenter.h"
 #include <le/core/debug/slDebug.h>
 
@@ -9,76 +11,35 @@ namespace sokira
 	namespace le
 	{
 
-struct observer_equals
+struct SObserverData
 {
-	observer_equals(CObject* observer) : mObserver(observer)
+	SObserverData(const TCFunction<void, TSTypeList<const CNotification&> >& function, const CObject* sender) :
+		mFunction(function),
+		mSender(sender)
 	{
+
 	}
 
-	bool operator()(const CNotificationCenter::CNotifierMap::value_type& elem)
-	{
-		return elem.first.observer == mObserver;
-	}
-
-	CObject* mObserver;
+	TCFunction<void, TSTypeList<const CNotification&> > mFunction;
+	const CObject* mSender;
 };
 
-struct concrete_observer
-{
-	concrete_observer(CObject* observer, ENotification notif, CObject* sender) :
-		mObserver(observer), mNotif(notif), mSender(sender)
-	{
-	}
+typedef std::map<CString, std::list<SObserverData> > TCObserversMap;
 
-	bool operator()(const CNotificationCenter::CNotifierMap::value_type& elem)
-	{
-		return (elem.first.observer == mObserver && elem.first.notification == mNotif &&
-					(elem.first.sender == NULL || elem.first.sender == mSender));
-	}
-
-	CObject* mObserver;
-	ENotification mNotif;
-	CObject* mSender;
-};
-
-struct other_observers
-{
-	other_observers(ENotification notif, CObject* sender) :
-		mNotif(notif), mSender(sender)
-	{
-	}
-
-	bool operator()(const CNotificationCenter::CNotifierMap::value_type& elem)
-	{
-		return (elem.first.notification == mNotif &&
-					(elem.first.sender == NULL || elem.first.sender == mSender));
-	}
-
-	ENotification mNotif;
-	CObject* mSender;
-};
-
-bool CNotificationCenter::observerExists(CObject* observer)
-{
-	CNotifierMap::iterator end = mNotifierMap.end();
-
-	return (find_if(mNotifierMap.begin(), end, observer_equals(observer)) != end);
-}
-
-CNotification::CNotification(CObject* sender, ENotification notif, void* data) :
-	mData(data), mSender(sender), mNotification(notif)
+CNotification::CNotification(CObject* sender, const CString& name, CObject::Ptr userInfo) :
+	mUserInfo(userInfo), mSender(sender), mName(name)
 {
 
 }
 
-void* CNotification::data() const
+CObject::Ptr CNotification::userInfo() const
 {
-	return mData;
+	return mUserInfo;
 }
 
-ENotification CNotification::notification() const
+CString CNotification::name() const
 {
-	return mNotification;
+	return mName;
 }
 
 CObject* CNotification::sender() const
@@ -86,14 +47,15 @@ CObject* CNotification::sender() const
 	return mSender;
 }
 
-CNotificationCenter::CNotificationCenter()
+CNotificationCenter::CNotificationCenter() :
+	mObservers(new TCObserversMap())
 {
 
 }
 
 CNotificationCenter::~CNotificationCenter()
 {
-
+	delete static_cast<TCObserversMap*>(mObservers);
 }
 
 CNotificationCenter* CNotificationCenter::instance()
@@ -102,101 +64,72 @@ CNotificationCenter* CNotificationCenter::instance()
 	return &center;
 }
 
-void CNotificationCenter::removeObserver(CObject* observer, ENotification notification, const CObject* sender)
+void CNotificationCenter::addObserver(const TCFunction<void, TSTypeList<const CNotification&> >& function, const CString& notificationName, const CObject* sender)
 {
-	CNotifierMap::iterator it = mNotifierMap.find(SMapKey(observer, sender, notification));
-	if(it != mNotifierMap.end())
-	{
-		//releaseObserver(observer);
-		delete it->second;
-		mNotifierMap.erase(it);
-	}
+	(*static_cast<TCObserversMap*>(mObservers))[notificationName].push_back(SObserverData(function, sender));
 }
 
-void CNotificationCenter::removeObserver(CObject* observer)
+struct SObserverRemover
 {
-	CNotifierMap::iterator end = mNotifierMap.end();
-	observer_equals finder(observer);
-	CNotifierMap::iterator it = find_if(mNotifierMap.begin(), end, finder);
-	while(it != end)
+	SObserverRemover(const CFunctionDescriptor& function, const CObject* sender) : mDescriptor(function), mSender(sender) { }
+
+	Bool operator()(const SObserverData& data)
 	{
-		//releaseObserver(observer);
-		delete it->second;
-		mNotifierMap.erase(it);
-		it = find_if(it, end, finder);
-	}
-}
-
-void CNotificationCenter::dispatchCallBack(ENotification notification, CObject* sender, void* data, CObject* observer)
-{
-	CNotification notifObject(sender, notification, data);
-
-	// Sending to concrete observer
-	if(observer)
-	{
-		if(!observerExists(observer))
-			return;
-
-		CNotifierMap::iterator end = mNotifierMap.end();
-		concrete_observer finder(observer, notification, sender);
-		CNotifierMap::iterator it = find_if(mNotifierMap.begin(), end, finder);
-		while(it != end)
-		{
-			it->second->notify(observer, notifObject);
-			it = find_if(++it, end, finder);
-		}
-
-		return;
+		return (!mSender || data.mSender == mSender) && CFunctionDescriptor(data.mFunction) == mDescriptor;
 	}
 
-	// Sending to other observers
-	CNotifierMap::iterator end = mNotifierMap.end();
-	other_observers finder(notification, sender);
-	CNotifierMap::iterator it = find_if(mNotifierMap.begin(), end, finder);
-	while(it != end)
-	{
-		it->second->notify(it->first.observer, notifObject);
-		it = find_if(++it, end, finder);
-	}
-}
-
-struct CNotificationCenter::SNotificationData
-{
-	SNotificationData(ENotification Notification, CObject* Sender, void* Data,
-							CObject* Receiver) :
-		notification(Notification), sender(Sender), data(Data), receiver(Receiver)
-	{
-
-	}
-
-	ENotification notification;
-	CObject* sender;
-	void* data;
-	CObject* receiver;
+	CFunctionDescriptor mDescriptor;
+	const CObject* mSender;
 };
 
-void CNotificationCenter::postNotification(ENotification notification, CObject* sender, void* data, CObject* receiver, bool postAsCallBack)
+void CNotificationCenter::removeObserver(const CFunctionDescriptor& function, const CString& notificationName, const CObject* sender)
 {
-	if (postAsCallBack)
+	TCObserversMap::iterator it = static_cast<TCObserversMap*>(mObservers)->find(notificationName);
+	if (it != static_cast<TCObserversMap*>(mObservers)->end())
 	{
-		dispatchCallBack(notification, sender, data, receiver);
+		it->second.remove_if(SObserverRemover(function, sender));
 	}
-	else
+}
+
+void CNotificationCenter::postNotification(const CNotification& notification)
+{
+	TCObserversMap::iterator it = static_cast<TCObserversMap*>(mObservers)->find(notification.name());
+	if (it != static_cast<TCObserversMap*>(mObservers)->end())
 	{
-		mNotificationList.push_back(new SNotificationData(notification, sender,
-																				data, receiver));
+		const CObject* sender = notification.sender();
+		for (std::list<SObserverData>::iterator obsIt = it->second.begin(); obsIt != it->second.end(); ++obsIt)
+		{
+			if (!obsIt->mSender || obsIt->mSender == sender)
+			{
+				obsIt->mFunction(notification);
+			}
+		}
 	}
+}
+
+void CNotificationCenter::postNotification(CObject* sender, const CString& name, CObject::Ptr userInfo)
+{
+	postNotification(CNotification(sender, name, userInfo));
+}
+
+void CNotificationCenter::scheduleNotification(const CNotification& notification)
+{
+	mScheduledNotifications.push_back(notification);
+}
+
+void CNotificationCenter::scheduleNotification(CObject* sender, const CString& name, CObject::Ptr userInfo)
+{
+	scheduleNotification(CNotification(sender, name, userInfo));
 }
 
 void CNotificationCenter::fire()
 {
-	while(!mNotificationList.empty())
+	for (std::list<CNotification>::iterator it = mScheduledNotifications.begin(); it != mScheduledNotifications.end(); ++it)
 	{
-		SNotificationData* notifData = *mNotificationList.begin();
-		dispatchCallBack(notifData->notification, notifData->sender, notifData->data, notifData->receiver);
-		delete notifData;
-		mNotificationList.pop_front();
+		postNotification(*it);
 	}
+
+	mScheduledNotifications.clear();
 }
 
 

@@ -8,6 +8,7 @@
 
 #include <le/core/thread/slCThread.h>
 #include <le/core/auxiliary/slCApplicationDelegate.h>
+#include <le/core/auxiliary/slCNotificationCenter.h>
 #include <le/gui/slCWindow.h>
 #include "slCGuiCocoaApplication.h"
 
@@ -46,6 +47,7 @@ static ::sokira::le::CGuiCocoaApplication* gGuiApplication;
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 	mDelegate->applicationWillFinishLaunching(*mApp);
+	::sokira::le::CNotificationCenter::instance()->postNotification(mApp, LESTR("com.7lifes.notification.applicationWillFinishLaunching"));
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -56,6 +58,7 @@ static ::sokira::le::CGuiCocoaApplication* gGuiApplication;
 - (BOOL)application:(id)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	mDelegate->applicationDidFinishLaunching(*mApp);
+	::sokira::le::CNotificationCenter::instance()->postNotification(mApp, LESTR("com.7lifes.notification.applicationDidFinishLaunching"));
 	return NO;
 }
 

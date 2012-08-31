@@ -111,12 +111,6 @@ CString CWindow::title() const
 	return mTitle;
 }
 
-void CWindow::color(const CColor& Color)
-{
-	LE_ENTER_LOG;
-	glClearColor(Color.red(), Color.green(), Color.blue(), 0.0);
-}
-
 CWindow* CWindow::window() const
 {
 	return const_cast<CWindow*>(this);

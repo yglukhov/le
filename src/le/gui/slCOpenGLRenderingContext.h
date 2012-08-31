@@ -37,9 +37,11 @@ class COpenGLRenderingContext : public CRenderingContext
 
 		virtual SVertex* sharedVertexBufferOfSize(UInt32 count);
 		virtual SColoredVertex* sharedColorVertexBufferOfSize(UInt32 count);
+		virtual STexturedVertex* sharedTexturedVertexBufferOfSize(UInt32 count);
 
 		virtual void drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
 		virtual void drawColoredVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
+		virtual void drawTexturedVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
 
 		// Stencil routines
 		virtual void beginStencil();
@@ -47,6 +49,9 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual void disableStencil();
 
 		virtual Float32 levelOfDetail() const;
+
+		virtual void getTransform(CAffineTransform3D& transform) const;
+		virtual void setTransform(const CAffineTransform3D& transform) const;
 
 		virtual void setFillMethod(const CFillMethod* fillMethod);
 

@@ -38,8 +38,6 @@ class CWindow : public CView
 
 		CString title() const;
 
-		void color(const CColor& Color);
-
 		virtual void setNeedsRedraw();
 		virtual Bool hitTest(const CPoint2D& point) const { return true; }
 
@@ -78,14 +76,12 @@ class CWindow : public CView
 		void screenWillBeRemovedFromApplication(CGuiApplication* app);
 		void screenWasRemovedFromApplication(CGuiApplication* app);
 
-//		CView* mContentView;
 		CTheme mTheme;
 		CString mTitle;
 		Bool mFullScreen;
 		CPoint2D mPositionOnScreen;
 
 		void* mImpl;
-//		CSize2D mSize;
 		CRenderingContext::Ptr mRenderingContext;
 };
 

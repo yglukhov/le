@@ -38,7 +38,7 @@ class TCAnyContainer : public IAnyContainer
 		{
 //			std::cout << "Requested type: " << type.name() << std::endl;
 //			std::cout << "Actual type: " << typeid(TSRemoveRef<T>::result).name() << std::endl;
-			return (type == typeid(typename TSRemoveRef<T>::result))?(const_cast<void*>(static_cast<const void*>(&mValue))):(0);
+			return (type == typeid(typename TSRemoveRef<T>::result)) ? const_cast<void*>(static_cast<const void*>(&mValue)) : NULL;
 		}
 	private:
 		T mValue;

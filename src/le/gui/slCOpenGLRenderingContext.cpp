@@ -103,6 +103,7 @@ COpenGLRenderingContext::~COpenGLRenderingContext()
 void COpenGLRenderingContext::beginDrawing()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
 }
 
 void COpenGLRenderingContext::endDrawing()
@@ -316,6 +317,11 @@ SColoredVertex* COpenGLRenderingContext::sharedColorVertexBufferOfSize(UInt32 co
 	return (SColoredVertex*)sharedBufferOfSize(count * sizeof(SColoredVertex));
 }
 
+STexturedVertex* COpenGLRenderingContext::sharedTexturedVertexBufferOfSize(UInt32 count)
+{
+	return (STexturedVertex*)sharedBufferOfSize(count * sizeof(STexturedVertex));
+}
+
 void COpenGLRenderingContext::drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive)
 {
 	glVertexPointer(3, TSTypeToGLType<SVertex::TCoord>::result, 0, mSharedBuffer);
@@ -329,6 +335,15 @@ void COpenGLRenderingContext::drawColoredVertexesInSharedBuffer(UInt32 count, EP
 	glColorPointer(4, TSTypeToGLType<SColoredVertex::TColorComponent>::result, sizeof(SColoredVertex), ((char*)mSharedBuffer) + sizeof(SColoredVertex::TCoord) * 3);
 	glDrawArrays(glPrimitiveFromPrimitive(primitive), 0, count);
 	glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void COpenGLRenderingContext::drawTexturedVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive)
+{
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexPointer(3, TSTypeToGLType<STexturedVertex::TCoord>::result, sizeof(STexturedVertex), mSharedBuffer);
+	glTexCoordPointer(2, TSTypeToGLType<STexturedVertex::TTextureCoord>::result, sizeof(STexturedVertex), ((char*)mSharedBuffer) + sizeof(STexturedVertex::TCoord) * 3);
+	glDrawArrays(glPrimitiveFromPrimitive(primitive), 0, count);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 static inline void setOpenGLColor(const TCColor<Float64>& color)
@@ -532,6 +547,34 @@ Float32 COpenGLRenderingContext::levelOfDetail() const
 	return r1;
 }
 
+void COpenGLRenderingContext::getTransform(CAffineTransform3D& transform) const
+{
+	GLint matrixMode;
+	glGetIntegerv(GL_MATRIX_MODE, &matrixMode);
+	GLenum matrix = 0;
+	switch (matrixMode)
+	{
+		case GL_MODELVIEW:
+			matrix = GL_MODELVIEW_MATRIX;
+			break;
+		case GL_PROJECTION:
+			matrix = GL_PROJECTION_MATRIX;
+			break;
+		case GL_TEXTURE:
+			matrix = GL_TEXTURE_MATRIX;
+			break;
+		case GL_COLOR:
+			matrix = GL_COLOR_MATRIX;
+		default:;
+	}
+
+	glGetFloatv(matrix, reinterpret_cast<Float32*>(&transform));
+}
+
+void COpenGLRenderingContext::setTransform(const CAffineTransform3D& transform) const
+{
+	glLoadMatrixf(reinterpret_cast<const Float32*>(&transform));
+}
 
 Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const
 {

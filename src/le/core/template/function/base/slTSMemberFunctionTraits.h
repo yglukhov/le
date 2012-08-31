@@ -8,7 +8,7 @@ namespace sokira
 
 template <class T, typename TRetType>
 struct TSFunctionTraits<TRetType (T::*)()> :
-	public TSMemberFunctionCallWithTuple<T, TRetType, 0>
+	public TSMemberFunctionCallWithTuple<TRetType, 0>
 {
 	typedef TRetType RetType;
 	typedef TSTypeList<> ParamList;
@@ -22,7 +22,7 @@ struct TSFunctionTraits<TRetType (T::*)()> :
 #define _LE_DEFINE_TSFunctionTraits(x)															\
 template <class T, typename TRetType, typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT)> \
 struct TSFunctionTraits<TRetType (T::*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> :			\
-	public TSMemberFunctionCallWithTuple<T, TRetType, x + 1>									\
+	public TSMemberFunctionCallWithTuple<TRetType, x + 1>										\
 {																								\
 	typedef TRetType RetType;																	\
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;					\

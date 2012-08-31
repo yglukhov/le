@@ -8,22 +8,12 @@ namespace sokira
 	namespace le
 	{
 
-class TCPointerBaseForNonRefCountable
-{
-	typedef UInt32 TRefCountType;
-
-	private:
-		
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 // TCPointer class declaration
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 class TCPointer
 {
-	typedef UInt32 TRefCountType;
-
 	public:
 		//////////////////////////////////////////////////////////////////////////
 		// Construction
@@ -102,7 +92,7 @@ template <typename T>
 TCPointer<T>::TCPointer(T* obj) :
 	mObj(obj)
 {
-	retain();
+//	retain();
 }
 
 template <typename T>

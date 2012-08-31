@@ -21,11 +21,17 @@ template <typename FunctionType, typename RetType = typename TSFunctionTraits<Fu
 class TCFreeFunction :
 	public TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType>
 {
+	typedef TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType> TParent;
 	public:
-		inline TCFreeFunction(FunctionType func) :
-			TCFreeFunctionBase<RetType, ParamList, ParamList::length, FunctionType>(func)
+		inline TCFreeFunction(const FunctionType& func) :
+			TParent(func)
 		{
 
+		}
+
+		virtual CFunctionDescriptor functionDescriptor() const
+		{
+			return CFunctionDescriptor(TParent::mFunction);
 		}
 };
 
@@ -43,7 +49,7 @@ class TCFreeFunctionBase <RetType, TypeList, 0, FuncType> :
 {
 	protected:
 		FuncType mFunction;
-		inline TCFreeFunctionBase(FuncType func) : mFunction(func)
+		inline TCFreeFunctionBase(const FuncType& func) : mFunction(func)
 		{
 
 		}

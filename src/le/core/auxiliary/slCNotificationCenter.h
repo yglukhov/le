@@ -1,41 +1,31 @@
 #pragma once
 
-#include <le/core/config/slPrefix.h>
-#include <map>
 #include <list>
+
+#include <le/core/config/slPrefix.h>
+#include <le/core/slCString.h>
+#include <le/core/template/function/slTCFunction.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CObject;
-
-enum ENotification
-{
-	eNotificationIdle = 1,
-	eNotificationWindowDeleted = 2,
-	eNotification2,
-	eNotification3,
-	//...
-	eLastNotification
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 // CNotification - sent as a parameter to notification handler.
 class CNotification
 {
 	public:
-		CNotification(CObject*, ENotification, void*);
+		CNotification(CObject* sender, const CString& name, CObject::Ptr userInfo = NULL);
 
-		ENotification notification() const;
+		CString name() const;
 		CObject* sender() const;
-		void* data() const;
+		CObject::Ptr userInfo() const;
 
 	private:
-		void*	mData;
+		CObject::Ptr mUserInfo;
 		CObject* mSender;
-		ENotification mNotification;
+		CString mName;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,91 +36,30 @@ class CNotificationCenter
 	public:
 		static CNotificationCenter* instance();
 
-		template <class T /* : public CObject */, class TFuncRetType>
-		void addObserver(T* observer, TFuncRetType(T::*function)(CNotification&), ENotification notification,
-								CObject* sender = NULL);
-		void removeObserver(CObject* observer, ENotification notification, const CObject* sender = NULL);
-		void removeObserver(CObject* observer);
-		void postNotification(ENotification notification, CObject* sender, void* data = NULL,
-									 CObject* receiver = NULL, bool postAsCallBack = false);
+		void addObserver(const TCFunction<void, TSTypeList<const CNotification&> >& function, const CString& notificationName, const CObject* sender = NULL);
+		void removeObserver(const CFunctionDescriptor& function, const CString& notificationName, const CObject* sender = NULL);
+
+		void postNotification(const CNotification& notification);
+		void postNotification(CObject* sender, const CString& name, CObject::Ptr userInfo = NULL);
+
+		void scheduleNotification(const CNotification& notification);
+		void scheduleNotification(CObject* sender, const CString& name, CObject::Ptr userInfo = NULL);
 
 		void fire();
+
 	// Implementation
 	private:
 		CNotificationCenter();
 		~CNotificationCenter();
 
 		bool observerExists(CObject*);
-		void dispatchCallBack(ENotification, CObject*, void*, CObject*);
-
+		void dispatchNotification(const CNotification& notification);
 
 	// Data
 	private:
-
-		struct SMapKey
-		{
-			CObject* observer;
-			const CObject* sender;
-			ENotification notification;
-
-			SMapKey(CObject* Observer, const CObject* Sender, ENotification Notification) :
-				observer(Observer), sender(Sender), notification(Notification)
-			{
-
-			}
-
-			bool operator < (const SMapKey& rhs) const
-			{
-				return (observer < rhs.observer) || (sender < rhs.sender) || (notification < rhs.notification);
-			}
-		};
-
-		class INotifier
-		{
-			public:
-				virtual void notify(CObject*, CNotification&) = 0;
-				virtual ~INotifier() {}
-		};
-
-		typedef std::map<SMapKey, INotifier*> CNotifierMap;
-		CNotifierMap mNotifierMap;
-
-		struct SNotificationData;
-		typedef std::list<SNotificationData*> CNotificationList;
-		CNotificationList mNotificationList;
-
-		friend struct observer_equals;
-		friend struct concrete_observer;
-		friend struct other_observers;
+		void* mObservers;
+		std::list<CNotification> mScheduledNotifications;
 };
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Implementation
-template<class T, class TFuncRetType>
-void CNotificationCenter::addObserver(T* observer, TFuncRetType(T::*function)(CNotification&),
-													ENotification notification, CObject* sender)
-{
-	class CNotifier : public INotifier
-	{
-		typedef TFuncRetType(T::*TFunction)(CNotification&);
-		TFunction mFunction;
-
-		void notify(CObject* observer, CNotification& notification)
-		{
-			(((T*)observer)->*mFunction)(notification);
-		}
-
-		public:
-			CNotifier(TFunction function) : mFunction(function)
-			{
-			}
-	};
-
-	mNotifierMap.insert(CNotifierMap::value_type(CMapKey(observer, sender, notification),
-																new CNotifier(function)));
-}
-
 
 	} // namespace le
 } // namespace sokira

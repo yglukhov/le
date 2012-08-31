@@ -34,7 +34,7 @@ void CXMLDocument::initWithStream(std::istream& stream)
 		parser.setOnStartTag(onStart);
 		CXMLParser::TOnEndTag onEnd = bind(&CXMLDocument::onEndTag, this, bindTo(0), bindTo(1));
 		parser.setOnEndTag(onEnd);
-		CXMLParser::TOnEndTag onError = bind(&CXMLDocument::onError, this, bindTo(0), bindTo(1));
+		CXMLParser::TOnError onError = bind(&CXMLDocument::onError, this, bindTo(0), bindTo(1));
 		parser.setOnError(onError);
 		CXMLParser::TOnData onData = bind(&CXMLDocument::onData, this, bindTo(0), bindTo(1));
 		parser.setOnData(onData);

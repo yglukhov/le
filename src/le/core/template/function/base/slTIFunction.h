@@ -2,6 +2,7 @@
 
 #include <le/core/preprocessor/slPPrepeat_from_0.h>
 #include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/template/function/slTSFunctionTraits.h>
 
 namespace sokira
 {
@@ -12,6 +13,7 @@ namespace sokira
 // Forward Declarations
 template <typename RetType, class TList, unsigned TListLength> class TIFunctionBase;
 
+class CFunctionDescriptor;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TIFunction class declaration
@@ -20,7 +22,8 @@ template <typename RetType, class TypeList>
 class TIFunction :
 		public TIFunctionBase<RetType, TypeList, TypeList::length>
 {
-
+	public:
+		virtual CFunctionDescriptor functionDescriptor() const { return CFunctionDescriptor(); };
 };
 
 
@@ -37,7 +40,7 @@ class TIFunction :
 template <typename RetType, class TList>
 class TIFunctionBase<RetType, TList, 0> : public CSimpleRefCountable
 {
-	public: virtual RetType operator()() const = 0;
+	public: virtual RetType operator()() const { return RetType(); };
 };
 
 #define _le_val(x) ,typename TList::template TypeAt<x>::result

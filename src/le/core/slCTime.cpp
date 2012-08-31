@@ -1,6 +1,13 @@
 #include "slCTime.h"
 #include <le/core/slCDictionary.h>
 
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
+#include <sys/time.h>
+#else
+#error Define time!
+#endif
+
+#define MICROSECONDS_IN_MILLISECOND 1000
 #define MILLISECONDS_IN_SECOND 1000
 #define SECONDS_IN_MINUTE 60
 #define MILLISECONDS_IN_MINUTE (MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTE)
@@ -20,9 +27,9 @@ static const CString cMinutesKey = LESTR("m");
 static const CString cHoursKey = LESTR("h");
 
 
-CTime::CTime() : mData(0)
+CTime::CTime()
 {
-	timeWithCurrentTime();
+	setCurrentTime();
 }
 
 CTime::CTime(UInt32 milliseconds) : mData(milliseconds)
@@ -146,10 +153,17 @@ void CTime::timeWithHours(UInt32 value)
 	mData = value * MILLISECONDS_IN_HOUR;
 }
 
-void CTime::timeWithCurrentTime()
+void CTime::setCurrentTime()
 {
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
+	timeval tp;
+	gettimeofday(&tp, NULL);
+	mData = tp.tv_sec * MILLISECONDS_IN_SECOND + tp.tv_usec / MICROSECONDS_IN_MILLISECOND;
+#else
+#error Define Time!
 	// TODO: complete this
 	throw 0;
+#endif
 }
 
 void CTime::serialize(CDictionary& toDictionary) const

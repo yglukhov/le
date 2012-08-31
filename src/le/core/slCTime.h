@@ -44,9 +44,11 @@ class CTime : public CObject
 		void hours(UInt32 value);
 		void timeWithHours(UInt32 value);
 
-		void timeWithCurrentTime();
+		void setCurrentTime();
 
 		const CTime& operator += (const CTime& rhs) { mData += rhs.mData; return *this; }
+
+		UInt64 operator - (const CTime& rhs) { return mData - rhs.mData; }
 
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);

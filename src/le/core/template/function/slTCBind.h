@@ -1,7 +1,8 @@
 #pragma once
 
-#include <le/core/preprocessor/slPPrepeat_from_0.h>
-#include "slTSFunctionTraits.h"
+//#include <le/core/preprocessor/slPPrepeat_from_0.h>
+//#include "slTSFunctionTraits.h"
+#include "slTCVariadicFunction.h"
 #include "base/slTSBind.h"
 
 namespace sokira
@@ -15,7 +16,10 @@ namespace sokira
 ////////////////////////////////////////////////////////////////////////////////
 // TCBind class declaration.
 template <typename FunctionType, class RealTypeList>
-class TCBind
+class TCBind : public TCVariadicFunctionMixin<
+							TCBind<FunctionType, RealTypeList>,
+							TSVariadicFunctionConstantResult<typename TSFunctionTraits<FunctionType>::RetType>::template TResult,
+							true>
 {
 	typedef TSFunctionTraits<FunctionType> TraitsType;
 	typedef typename TraitsType::TupleParamList FuncParamList;
@@ -23,9 +27,23 @@ class TCBind
 	typedef TCTuple<RealTypeList> TupleType;
 
 public:
+	using TCVariadicFunctionMixin<
+		TCBind<FunctionType, RealTypeList>,
+		TSVariadicFunctionConstantResult<RetType>::template TResult,
+		true
+		>::operator();
+
 	inline TCBind(FunctionType func) : mFunction(func)
 	{
 
+	}
+
+	template <class TTypeList>
+	inline RetType operator()(const TCTuple<TTypeList>& paramTuple) const
+	{
+		TCTuple<FuncParamList> tuple;
+		copyFromParamToFuncTuple<0>(paramTuple, tuple);
+		return TraitsType::callWithTuple(mFunction, tuple);
 	}
 
 	inline RetType operator()() const
@@ -33,46 +51,14 @@ public:
 		return TraitsType::callWithTuple(mFunction, mTuple);
 	}
 
-#define _le_typenameT(x) ,typename T##x
-#define _le_paramT(x) ,T##x p##x
-#define _le_rawT(x) ,T##x
-#define _le_setP(x) paramTuple.template setValue<x>(p##x);
-
-
-#define _LE_DEFINE_TCBind_operator(x)													\
-	template <typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT)>					\
-	RetType operator()(T0 p0 LE_PP_REPETITION_FROM_0_TO(x, _le_paramT)) const			\
-	{																					\
-		TCTuple<TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> > paramTuple;	\
-		paramTuple.template setValue<0>(p0);											\
-		LE_PP_REPETITION_FROM_0_TO(x, _le_setP)											\
-																						\
-		TCTuple<FuncParamList> tuple;													\
-		copyFromParamToFuncTuple<0>(paramTuple, tuple);									\
-																						\
-		return TraitsType::callWithTuple(mFunction, tuple);								\
+	inline CFunctionDescriptor functionDescriptor() const
+	{
+		return CFunctionDescriptor(mFunction);
 	}
-
-	_LE_DEFINE_TCBind_operator(0)
-	_LE_DEFINE_TCBind_operator(1)
-	_LE_DEFINE_TCBind_operator(2)
-	_LE_DEFINE_TCBind_operator(3)
-	_LE_DEFINE_TCBind_operator(4)
-	_LE_DEFINE_TCBind_operator(5)
-	_LE_DEFINE_TCBind_operator(6)
-	_LE_DEFINE_TCBind_operator(7)
-	_LE_DEFINE_TCBind_operator(8)
-	_LE_DEFINE_TCBind_operator(9)
-
-#undef _LE_DEFINE_TCBind_operator
-#undef _le_typenameT
-#undef _le_paramT
-#undef _le_rawT
-#undef _le_setP
 
 private:
 	template <unsigned index /* should be 0 */, class TParamTypeList>
-	inline void copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
+	inline void copyFromParamToFuncTuple(const TCTuple<TParamTypeList>& paramTuple,
 													 TCTuple<FuncParamList>& funcTuple) const
 	{
 		_copyFromParamToFuncTuple<index>(paramTuple, funcTuple,
@@ -80,7 +66,7 @@ private:
 	}
 
 	template <unsigned index, class TParamTypeList>
-	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& /*paramTuple*/,
+	inline void _copyFromParamToFuncTuple(const TCTuple<TParamTypeList>& /*paramTuple*/,
 													  TCTuple<FuncParamList>& /*funcTuple*/,
 													  TSBoolToType<false> /* inBands */) const
 	{
@@ -88,7 +74,7 @@ private:
 	}
 
 	template <unsigned index, class TParamTypeList>
-	inline void _copyFromParamToFuncTuple(TCTuple<TParamTypeList>& paramTuple,
+	inline void _copyFromParamToFuncTuple(const TCTuple<TParamTypeList>& paramTuple,
 													  TCTuple<FuncParamList>& funcTuple,
 													  TSBoolToType<true> /* inBands */) const
 	{
@@ -101,14 +87,14 @@ private:
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
-		paramForIndex(TCTuple<TParamTypeList>& /*paramTuple*/, TSBoolToType<false> /* isBinded */) const
+		paramForIndex(const TCTuple<TParamTypeList>& /*paramTuple*/, TSBoolToType<false> /* isBinded */) const
 	{
 		return mTuple.template value<index>();
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
 	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
-		paramForIndex(TCTuple<TParamTypeList>& paramTuple, TSBoolToType<true> /* isBinded */) const
+		paramForIndex(const TCTuple<TParamTypeList>& paramTuple, TSBoolToType<true> /* isBinded */) const
 	{
 		return paramTuple.template value<bindIndex>();
 	}
@@ -119,50 +105,43 @@ private:
 		TupleType mTuple;
 };
 
-template <typename FunctionType>
-TCBind<FunctionType, TSTypeList<> > bind(FunctionType func)
+struct TCBindConstructor
 {
-	return TCBind<FunctionType, TSTypeList<> >(func);
-}
+	template <class TTypeList>
+	struct TResult
+	{
+		typedef TCBind<typename TTypeList::Front, typename TTypeList::PopFront> result;
+	};
 
-#define _le_typenameB(x) ,typename B##x
-#define _le_rawB(x) ,B##x
-#define _le_paramB(x) ,B##x b##x
-#define _le_tupleB(x) result.mTuple.template setValue<x>(b##x);
+	template <class TTypeList>
+	typename TResult<TTypeList>::result operator()(const TCTuple<TTypeList>& tuple)
+	{
+		typename TResult<TTypeList>::result result(tuple.template value<0>());
+		SCollector<TTypeList, 1, 1 == TTypeList::length>::fillBindWithTupleValues(result, tuple);
+		return result;
+	}
 
-#define _LE_DEFINE_bind(x)																		\
-template <typename FunctionType, typename B0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameB)>		\
-TCBind<FunctionType, TSTypeList<B0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawB)> >					\
-	bind(FunctionType func, B0 b0 LE_PP_REPETITION_FROM_0_TO(x, _le_paramB))					\
-{																								\
-	TCBind<FunctionType, TSTypeList<B0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawB)> > result(func); \
-	result.mTuple.template setValue<0>(b0);														\
-	LE_PP_REPETITION_FROM_0_TO(x, _le_tupleB)													\
-	return result;																				\
-}
+	private:
+		template <class TTypeList, UInt32 i, bool end>
+		struct SCollector
+		{
+			template <class TBind>
+			static inline void fillBindWithTupleValues(TBind& theBind, const TCTuple<TTypeList>& tuple)
+			{
+				theBind.mTuple.template setValue<i - 1>(tuple.template value<i>());
+				SCollector<TTypeList, i + 1, i + 1 == TTypeList::length>::fillBindWithTupleValues(theBind, tuple);
+			}
+		};
 
+		template <class TTypeList, UInt32 i>
+		struct SCollector<TTypeList, i, true>
+		{
+			template <class TBind>
+			static inline void fillBindWithTupleValues(TBind& vector, const TCTuple<TTypeList>& tuple) { }
+		};
+};
 
-_LE_DEFINE_bind(0)
-_LE_DEFINE_bind(1)
-_LE_DEFINE_bind(2)
-_LE_DEFINE_bind(3)
-_LE_DEFINE_bind(4)
-_LE_DEFINE_bind(5)
-_LE_DEFINE_bind(6)
-_LE_DEFINE_bind(7)
-_LE_DEFINE_bind(8)
-_LE_DEFINE_bind(9)
-_LE_DEFINE_bind(10)
-_LE_DEFINE_bind(11)
-_LE_DEFINE_bind(12)
-
-
-#undef _LE_DEFINE_bind
-#undef _le_typenameB
-#undef _le_rawB
-#undef _le_paramB
-#undef _le_tupleB
-
+static TCVariadicFunction<TCBindConstructor> bind;
 
 	} // namespace le
 } // namespace sokira

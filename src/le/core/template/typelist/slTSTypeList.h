@@ -139,6 +139,8 @@ struct TSTypeList
 	template <template <typename T> class mutator>
 	struct CollectMutantsIf : public TSTypeList<typename _TSTypeListCollectMutantsIf<_headNode, mutator>::_result>
 	{};
+
+	typedef Mutate<TSRemoveRef> TypesByRemovingRefs;
 };
 
 

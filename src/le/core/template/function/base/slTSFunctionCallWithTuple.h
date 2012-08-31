@@ -58,11 +58,11 @@ _LE_DEFINE_TSFreeFunctionCallWithTuple(11)
 ////////////////////////////////////////////////////////////////////////////////
 // TSMemberFunctionCallWithTuple
 ////////////////////////////////////////////////////////////////////////////////
-template <class T, typename RetType, unsigned length>
+template <typename RetType, unsigned length>
 struct TSMemberFunctionCallWithTuple;
 
-template <class T, typename R>
-struct TSMemberFunctionCallWithTuple<T, R, 0>
+template <typename R>
+struct TSMemberFunctionCallWithTuple<R, 0>
 {
 	template <typename FuncType, class TList>
 	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)
@@ -74,8 +74,8 @@ struct TSMemberFunctionCallWithTuple<T, R, 0>
 #define _le_val(x) ,tuple.template value<x + 1>()
 
 #define _LE_DEFINE_TSMemberFunctionCallWithTuple(x)						\
-template <class T, typename R>											\
-struct TSMemberFunctionCallWithTuple<T, R, x + 1>						\
+template <typename R>											\
+struct TSMemberFunctionCallWithTuple<R, x + 1>						\
 {																		\
 	template <typename FuncType, class TList>							\
 	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)	\

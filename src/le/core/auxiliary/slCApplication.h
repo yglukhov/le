@@ -15,7 +15,7 @@ class CApplicationDelegate;
 class CPreferences;
 class CBundle;
 
-class CApplication
+class CApplication : public CObject
 /// Basic application implementation. Usually this object is a singletone within
 /// a process. This object manages all application related properties, such as
 /// command line arguments, application bundle and user preferences.

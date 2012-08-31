@@ -383,9 +383,11 @@ void CRenderingContext::drawCircularSector(const CPoint2D& center, Float32 radiu
 
 SVertex* CRenderingContext::sharedVertexBufferOfSize(UInt32 count) { return NULL; }
 SColoredVertex* CRenderingContext::sharedColorVertexBufferOfSize(UInt32 count) { return NULL; }
+STexturedVertex* CRenderingContext::sharedTexturedVertexBufferOfSize(UInt32 count) { return NULL; }
 
 void CRenderingContext::drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive) { }
 void CRenderingContext::drawColoredVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive) { }
+void CRenderingContext::drawTexturedVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive) { }
 
 void CRenderingContext::beginStencil() { }
 void CRenderingContext::endStencil() { }
@@ -401,6 +403,10 @@ UInt32 CRenderingContext::numberOfVertexesInArc(Float32 angle, Float32 radius) c
 	const Float32 pixelsPerSegment = 8;
 	return angle * radius / pixelsPerSegment * levelOfDetail();
 }
+
+void CRenderingContext::getTransform(CAffineTransform3D& transform) const { }
+void CRenderingContext::setTransform(const CAffineTransform3D& transform) const { }
+
 
 CTextureImpl* CRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl) { return NULL; }
 void CRenderingContext::setTextureImpl(const CTextureImpl* textureImpl) { }

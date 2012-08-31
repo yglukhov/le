@@ -19,7 +19,7 @@ CAny::CAny() :
 }
 
 CAny::CAny(const CAny& copy) :
-	mValue(copy.mValue->copy())
+	mValue(copy.mValue ? copy.mValue->copy() : NULL)
 {
 	std::cout << "copy constructor\n";
 }

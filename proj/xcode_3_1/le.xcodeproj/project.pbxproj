@@ -191,8 +191,10 @@
 		7B8DAF5312C239020056CDC7 /* slCX11WindowImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB3AA612B14374006B66DD /* slCX11WindowImpl.cpp */; };
 		7B8DB02312C261E60056CDC7 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8DB02112C261E60056CDC7 /* libfreetype.a */; };
 		7B93B3F51175C5DC0089A9FF /* libgif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B93B3E91175C5BA0089A9FF /* libgif.a */; };
-		7BAB765D15E669B9009FA898 /* slTCAffineTransform2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform2D.cpp */; };
-		7BAB765E15E669B9009FA898 /* slTCAffineTransform2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform2D.cpp */; };
+		7BAB765D15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */; };
+		7BAB765E15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */; };
+		7BACE08F15ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACE08D15ECC53D00CAF6E9 /* slCStopWatch.cpp */; };
+		7BACE09015ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACE08D15ECC53D00CAF6E9 /* slCStopWatch.cpp */; };
 		7BBB3AA812B14374006B66DD /* slCX11WindowImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB3AA612B14374006B66DD /* slCX11WindowImpl.cpp */; };
 		7BC0713C0F7BE71F009F00D4 /* slCDataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0713A0F7BE71F009F00D4 /* slCDataStream.cpp */; };
 		7BC3AC990EE6FEF700D13036 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
@@ -590,8 +592,11 @@
 		7B93B3F01175C5BA0089A9FF /* jpeglib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpeglib.h; sourceTree = "<group>"; };
 		7B93B3F21175C5BA0089A9FF /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjpeg.a; sourceTree = "<group>"; };
 		7B93B3F81175C7690089A9FF /* buildLib.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildLib.sh; sourceTree = "<group>"; };
-		7BAB765B15E669B9009FA898 /* slTCAffineTransform2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slTCAffineTransform2D.cpp; sourceTree = "<group>"; };
-		7BAB765C15E669B9009FA898 /* slTCAffineTransform2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCAffineTransform2D.h; sourceTree = "<group>"; };
+		7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slTCAffineTransform3D.cpp; sourceTree = "<group>"; };
+		7BAB765C15E669B9009FA898 /* slTCAffineTransform3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCAffineTransform3D.h; sourceTree = "<group>"; };
+		7BACE08D15ECC53D00CAF6E9 /* slCStopWatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCStopWatch.cpp; sourceTree = "<group>"; };
+		7BACE08E15ECC53D00CAF6E9 /* slCStopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCStopWatch.h; sourceTree = "<group>"; };
+		7BACE0F315EF93D500CAF6E9 /* slTCVariadicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = slTCVariadicFunction.h; sourceTree = "<group>"; };
 		7BBB3AA512B14374006B66DD /* slCX11WindowImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCX11WindowImpl.hp; sourceTree = "<group>"; };
 		7BBB3AA612B14374006B66DD /* slCX11WindowImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCX11WindowImpl.cpp; sourceTree = "<group>"; };
 		7BC071390F7BE71F009F00D4 /* slCDataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCDataStream.h; sourceTree = "<group>"; };
@@ -824,6 +829,8 @@
 				7B6C997D11D3777B00DA1327 /* slCAnimation.cpp */,
 				7B3B597C12E49C2000DDAD79 /* slCFileManager.h */,
 				7B3B597D12E49C2000DDAD79 /* slCFileManager.cpp */,
+				7BACE08D15ECC53D00CAF6E9 /* slCStopWatch.cpp */,
+				7BACE08E15ECC53D00CAF6E9 /* slCStopWatch.h */,
 			);
 			path = auxiliary;
 			sourceTree = "<group>";
@@ -964,6 +971,7 @@
 				7B052B8B0BD12EB100AA8BD8 /* slTCBind.h */,
 				7B052B8C0BD12EB100AA8BD8 /* slTCFunction.h */,
 				7B052B8D0BD12EB100AA8BD8 /* slTSFunctionTraits.h */,
+				7BACE0F315EF93D500CAF6E9 /* slTCVariadicFunction.h */,
 			);
 			path = function;
 			sourceTree = "<group>";
@@ -1229,8 +1237,8 @@
 				7B4CE5ED106F7214003E20F5 /* slTCSize2D.h */,
 				7B5544FA1170657900E4DF08 /* slTCRectangle.h */,
 				7B582DE911E07EA1006E07EB /* slTCPolygon.h */,
-				7BAB765B15E669B9009FA898 /* slTCAffineTransform2D.cpp */,
-				7BAB765C15E669B9009FA898 /* slTCAffineTransform2D.h */,
+				7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */,
+				7BAB765C15E669B9009FA898 /* slTCAffineTransform3D.h */,
 			);
 			path = geometry;
 			sourceTree = "<group>";
@@ -1802,7 +1810,8 @@
 				7B41CB15140E49BE00577BA0 /* slCFont.cpp in Sources */,
 				7B41CB1D140E4FE800577BA0 /* slCResult.cpp in Sources */,
 				7B40C60F1555D666007E3F21 /* slCEventTracker.cpp in Sources */,
-				7BAB765E15E669B9009FA898 /* slTCAffineTransform2D.cpp in Sources */,
+				7BAB765E15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */,
+				7BACE09015ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1880,7 +1889,8 @@
 				7B7FD21D11D8C8D3001DC819 /* slCGradient.cpp in Sources */,
 				7B3B597F12E49C2000DDAD79 /* slCFileManager.cpp in Sources */,
 				7B10554913014EFB008B1C53 /* slCRandomGenerator.cpp in Sources */,
-				7BAB765D15E669B9009FA898 /* slTCAffineTransform2D.cpp in Sources */,
+				7BAB765D15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */,
+				7BACE08F15ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 #include <le/core/geometry/slTCSegment3D.h>
 #include <le/core/geometry/slTCRectangle.h>
 #include <le/core/geometry/slTCPolygon.h>
+#include <le/core/geometry/slTCAffineTransform3D.h>
 #include <le/core/slCColor.h>
 #include <le/gui/slTypes.h>
 
@@ -42,9 +43,6 @@ struct SVertex
 struct SColoredVertex : public SVertex
 {
 	typedef CColor::TComponentType TColorComponent;
-//	SVertex::TCoord x;
-//	SVertex::TCoord y;
-//	SVertex::TCoord z;
 	TColorComponent r;
 	TColorComponent g;
 	TColorComponent b;
@@ -55,6 +53,13 @@ struct SColoredVertex : public SVertex
 	{
 		color.template getComponents<TColorComponent>(&r, &g, &b, &a);
 	}
+};
+
+struct STexturedVertex : public SVertex
+{
+	typedef SVertex::TCoord TTextureCoord;
+	TTextureCoord u;
+	TTextureCoord v;
 };
 
 LE_STATIC_ASSERT(sizeof(SColoredVertex) == sizeof(SVertex::TCoord) * 3 + sizeof(SColoredVertex::TColorComponent) * 4);
@@ -206,9 +211,11 @@ class CRenderingContext : public CObject
 
 		virtual SVertex* sharedVertexBufferOfSize(UInt32 count);
 		virtual SColoredVertex* sharedColorVertexBufferOfSize(UInt32 count);
+		virtual STexturedVertex* sharedTexturedVertexBufferOfSize(UInt32 count);
 
 		virtual void drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
 		virtual void drawColoredVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
+		virtual void drawTexturedVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive);
 
 		// Stencil routines
 		virtual void beginStencil();
@@ -217,6 +224,9 @@ class CRenderingContext : public CObject
 
 		virtual Float32 levelOfDetail() const;
 		virtual UInt32 numberOfVertexesInArc(Float32 angle, Float32 radius) const;
+
+		virtual void getTransform(CAffineTransform3D& transform) const;
+		virtual void setTransform(const CAffineTransform3D& transform) const;
 
 	protected:
 		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);
