@@ -1,5 +1,7 @@
-#pragma once
+#if !defined SL_LE_core_template_tuple_slTCTuple_h
+#define SL_LE_core_template_tuple_slTCTuple_h
 
+#include <new>
 #include <le/core/template/util/slTSConstToType.h>
 #include "slTCUnitTuple.h"
 
@@ -12,6 +14,15 @@ template <typename T>
 struct TSDefaultTupleUnit
 {
 	T mValue;
+	const T& value() const
+	{
+		return mValue;
+	}
+	
+	void setValue(const T& value)
+	{
+		mValue = value;
+	}
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +39,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		const typename TTypeList::template TypeAt<index>::result& value() const
 		{
 			return TCUnitTuple<TTypeList,
-							TSDefaultTupleUnit>::template unit<index>().mValue;
+							TSDefaultTupleUnit>::template unit<index>().value();
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -38,7 +49,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		void setValue(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
 		{
 			TCUnitTuple<TTypeList,
-					TSDefaultTupleUnit>::template unit<index>().mValue = newValue;
+					TSDefaultTupleUnit>::template unit<index>().setValue(newValue);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -59,7 +70,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		template <unsigned i, typename T>
 		inline void _setValueNonStrict(const T& obj, TSBoolToType<false>)
 		{
-			value<i>() = obj;
+			setValue<i>(obj);
 		}
 
 		template<unsigned index, typename T>
@@ -72,3 +83,5 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 
 	} // namespace le
 } // namespace sokira
+
+#endif // not defined SL_LE_core_template_tuple_slTCUnitTuple_h

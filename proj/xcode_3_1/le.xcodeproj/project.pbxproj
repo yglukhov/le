@@ -334,7 +334,6 @@
 		7B052B8B0BD12EB100AA8BD8 /* slTCBind.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCBind.h; sourceTree = "<group>"; };
 		7B052B8C0BD12EB100AA8BD8 /* slTCFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCFunction.h; sourceTree = "<group>"; };
 		7B052B8D0BD12EB100AA8BD8 /* slTSFunctionTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSFunctionTraits.h; sourceTree = "<group>"; };
-		7B052B900BD12EB100AA8BD8 /* slTSTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTuple.h; sourceTree = "<group>"; };
 		7B052B910BD12EB100AA8BD8 /* slTCTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCTuple.h; sourceTree = "<group>"; };
 		7B052B920BD12EB100AA8BD8 /* slTCUnitTuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCUnitTuple.h; sourceTree = "<group>"; };
 		7B052B950BD12EB100AA8BD8 /* slTSTypeListAppendTraits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTSTypeListAppendTraits.h; sourceTree = "<group>"; };
@@ -992,19 +991,10 @@
 		7B052B8E0BD12EB100AA8BD8 /* tuple */ = {
 			isa = PBXGroup;
 			children = (
-				7B052B8F0BD12EB100AA8BD8 /* base */,
 				7B052B910BD12EB100AA8BD8 /* slTCTuple.h */,
 				7B052B920BD12EB100AA8BD8 /* slTCUnitTuple.h */,
 			);
 			path = tuple;
-			sourceTree = "<group>";
-		};
-		7B052B8F0BD12EB100AA8BD8 /* base */ = {
-			isa = PBXGroup;
-			children = (
-				7B052B900BD12EB100AA8BD8 /* slTSTuple.h */,
-			);
-			path = base;
 			sourceTree = "<group>";
 		};
 		7B052B930BD12EB100AA8BD8 /* typelist */ = {
