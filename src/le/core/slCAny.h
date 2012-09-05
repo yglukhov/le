@@ -2,74 +2,29 @@
 #define SL_LE_core_slCAny_h
 
 #include "slCObject.h"
-#include "base/slTCAnyContainer.h"
-
+#include <le/core/base/slCBasicAny.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CAny : public CObject
+class CAny : public CObject, public CBasicAny
 {
+	LE_RTTI_BEGIN
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+		LE_RTTI_SELF(CAny)
+	LE_RTTI_END
+
 	public:
-		CAny();
+		CAny() {}
 
 		template <typename T>
 		CAny(T value) :
-			mValue(new TCAnyContainer<typename TSConstRef<T>::result>(value))
+			CBasicAny(value)
 		{
-			std::cout << "value constructor\n";
+
 		}
-
-		CAny(const CAny& copy);
-		virtual ~CAny();
-
-		template <typename T>
-		static CAny constRef(const T& value)
-		{
-			return CAny((IAnyContainer*)new TCAnyContainer<const T&>(value));
-		}
-
-		template <typename T>
-		static CAny ref(T& value)
-		{
-			return CAny((IAnyContainer*)new TCAnyContainer<typename TSRemoveConst<T>::result&>(value));
-		}
-
-		const CAny& operator = (const CAny& copy);
-
-		template <typename T>
-		const CAny& operator=(typename TSRef<T>::result& value)
-		{
-			delete mValue;
-			mValue = new TCAnyContainer<typename TSRef<T>::result>(value);
-			return *this;
-		}
-
-		template <typename T>
-		typename TSRef<T>::result value() const
-		{
-			typedef typename TSRemoveRef<typename TSRef<T>::result>::result TResult;
-			if (!mValue)
-			{
-				std::cout << "mValue NULL\n";
-				throw std::bad_cast();
-			}
-
-			TResult* result = static_cast<TResult*>(mValue->get(typeid(TResult)));
-			if (!result)
-			{
-				std::cout << "Result NULL\n";
-				throw std::bad_cast();
-			}
-
-			return *result;
-		}
-
-	private:
-		CAny(IAnyContainer* container);
-		IAnyContainer* mValue;
 };
 
 	} // namespace le

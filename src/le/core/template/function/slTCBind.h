@@ -1,7 +1,5 @@
 #pragma once
 
-//#include <le/core/preprocessor/slPPrepeat_from_0.h>
-//#include "slTSFunctionTraits.h"
 #include "slTCVariadicFunction.h"
 #include "base/slTSBind.h"
 

@@ -346,11 +346,6 @@ void COpenGLRenderingContext::drawTexturedVertexesInSharedBuffer(UInt32 count, E
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-static inline void setOpenGLColor(const TCColor<Float64>& color)
-{
-	glColor4d(color.red(), color.green(), color.blue(), color.alpha());
-}
-
 static inline void setOpenGLColor(const TCColor<UInt8>& color)
 {
 	glColor4ub(color.red(), color.green(), color.blue(), color.alpha());
@@ -563,8 +558,6 @@ void COpenGLRenderingContext::getTransform(CAffineTransform3D& transform) const
 		case GL_TEXTURE:
 			matrix = GL_TEXTURE_MATRIX;
 			break;
-		case GL_COLOR:
-			matrix = GL_COLOR_MATRIX;
 		default:;
 	}
 

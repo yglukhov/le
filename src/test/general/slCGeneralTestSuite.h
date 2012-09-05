@@ -24,7 +24,7 @@ class CGeneralTestSuite : public CTestSuite
 			testUrls();
 			testFunctionTraits();
 			testPreprocessor();
-//			testAny();
+			testAny();
 		}
 
 	private:

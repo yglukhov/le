@@ -1,3 +1,4 @@
+#include <le/core/slCString.h>
 #include "slCReflectionTestSuite.h"
 
 namespace sokira
@@ -83,7 +84,6 @@ void TestClass2::test2Func3(int a)
 	std::cout << "hi" << a << std::endl;
 }
 
-
 void CReflectionTestSuite::testSelectors()
 {
 	TestClass testObj;
@@ -104,6 +104,33 @@ void CReflectionTestSuite::testSelectors()
 		std::cout << "parent: " << it->name() << std::endl;
 	}
 	
+}
+
+static std::set<CString> classNamesFromClasses(const std::vector<CClass>& classes)
+{
+	std::set<CString> result;
+	for (std::vector<CClass>::const_iterator it = classes.begin(); it != classes.end(); ++it)
+	{
+		result.insert(it->name());
+	}
+	return result;
+}
+
+void CReflectionTestSuite::testInheritance()
+{
+	std::set<CString> parents = classNamesFromClasses(TestClass::staticClass().parents());
+
+	std::set<CString> validValue;
+	validValue.insert("CObject");
+
+	LE_ASSERT(validValue == parents);
+
+
+	parents = classNamesFromClasses(TestClass2::staticClass().parents());
+
+	validValue.clear();
+	validValue.insert("TestClass");
+	LE_ASSERT(validValue == parents);
 }
 
 class CAnimation

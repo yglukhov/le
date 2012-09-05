@@ -31,17 +31,17 @@ class TCUnitTuple
 		struct _TSTupleUnit : public T
 		{ };
 
-		template <class TList, template <typename> class TUnit, unsigned i = 0>
+		template <class TList, unsigned i = 0>
 		struct TSTuple :
 			public _TSTupleUnit<i, TUnit<typename TList::Front> >,
-			public TSTuple<typename TList::PopFront, TUnit, i+1>
+			public TSTuple<typename TList::PopFront, i+1>
 		{ };
 
-		template <template <typename> class TUnit, unsigned i>
-		struct TSTuple <TSTypeList<>, TUnit, i>
+		template <unsigned i>
+		struct TSTuple <TSTypeList<>, i>
 		{ };
 
-		TSTuple<TTypeList, TUnit> mTuple;
+		TSTuple<TTypeList> mTuple;
 };
 
 

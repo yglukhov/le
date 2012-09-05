@@ -18,8 +18,8 @@ struct TSFreeFunctionCallWithTuple;
 template <typename R>
 struct TSFreeFunctionCallWithTuple<R, 0>
 {
-	template <typename FuncType, class TList>
-	static inline R callWithTuple(FuncType func, const TCTuple<TList>& /*tuple*/)
+	template <typename FuncType, class Tuple>
+	static inline R callWithTuple(FuncType func, const Tuple& /*tuple*/)
 	{
 		return func();
 	}

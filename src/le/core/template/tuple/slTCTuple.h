@@ -10,19 +10,63 @@ namespace sokira
 	namespace le
 	{
 
-template <typename T>
-struct TSDefaultTupleUnit
+template <typename T, bool hasConstructor>
+struct _TSUnitTuple
 {
-	T mValue;
+	typename TSRemoveConst<typename TSRemoveRef<T>::result>::result mValue;
 	const T& value() const
 	{
 		return mValue;
 	}
-	
+
 	void setValue(const T& value)
 	{
 		mValue = value;
 	}
+};
+
+template <typename T>
+struct _TSUnitTuple<T, false>
+{
+	typedef typename TSRemoveConst<typename TSRemoveRef<T>::result>::result TRawType;
+	char mValue[sizeof(TRawType)];
+	bool inited;
+
+	_TSUnitTuple():
+		inited(false)
+	{
+		
+	}
+
+	~_TSUnitTuple()
+	{
+		if (inited)
+		{
+			reinterpret_cast<TRawType*>(mValue)->TRawType::~TRawType();
+		}
+	}
+
+	const TRawType& value() const
+	{
+		return *reinterpret_cast<const TRawType*>(mValue);
+	}
+
+	void setValue(const TRawType& value)
+	{
+		if (inited)
+		{
+			reinterpret_cast<TRawType*>(mValue)->TRawType::~TRawType();
+		}
+		new (mValue) TRawType(value);
+		inited = true;
+	}
+};
+
+
+template <typename T>
+struct TSDefaultTupleUnit : _TSUnitTuple<T, true>
+{
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

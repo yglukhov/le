@@ -22,9 +22,9 @@
 
 /* Begin PBXBuildFile section */
 		7B105631130166FB008B1C53 /* slCRandomTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B105630130166FB008B1C53 /* slCRandomTestSuite.cpp */; };
+		7B401D2A15F766D50022ADED /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
 		7B41A1501057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B41A14F1057CB5F00D5A2D1 /* slCGuiTestAppDelegate.cpp */; };
 		7B4E754E0F35026100153E4A /* slCGuiTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E754C0F35026100153E4A /* slCGuiTestSuite.cpp */; };
-		7B61B8561551BF5600AD1B59 /* le.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145B4F0F37774F004DF6BE /* le.framework */; };
 		7B6386BA0D4B759F002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B6387520D4B7965002357F7 /* libLeCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA1E0A161CA400F559ED /* libLeCore.a */; };
 		7B63875E0D4B79FB002357F7 /* libLeGui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B04FFA260A161CA400F559ED /* libLeGui.a */; };
@@ -132,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B61B8561551BF5600AD1B59 /* le.framework in Frameworks */,
+				7B401D2A15F766D50022ADED /* le.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +519,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = _DEBUG;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/..";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -535,6 +536,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
 				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/..";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

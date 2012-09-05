@@ -20,10 +20,11 @@ class CFunctionDescriptor;
 ////////////////////////////////////////////////////////////////////////////////
 template <typename RetType, class TypeList>
 class TIFunction :
-		public TIFunctionBase<RetType, TypeList, TypeList::length>
+		public TIFunctionBase<RetType, TypeList, TypeList::length>,
+		public CSimpleRefCountable
 {
 	public:
-		virtual CFunctionDescriptor functionDescriptor() const { return CFunctionDescriptor(); };
+		virtual CFunctionDescriptor functionDescriptor() const  = 0;
 };
 
 
@@ -38,20 +39,37 @@ class TIFunction :
 ////////////////////////////////////////////////////////////////////////////////
 // TIFunctionBase specialization. Limitations are equal to LE_PP_IFUNCTION_LIMIT
 template <typename RetType, class TList>
-class TIFunctionBase<RetType, TList, 0> : public CSimpleRefCountable
+class TIFunctionBaseBase
 {
-	public: virtual RetType operator()() const { return RetType(); };
+	public:
+		virtual RetType operator()(const TCTuple<TList>& tuple) const = 0;
 };
 
-#define _le_val(x) ,typename TList::template TypeAt<x>::result
+template <typename RetType, class TList>
+class TIFunctionBase<RetType, TList, 0> : public TIFunctionBaseBase<RetType, TList>
+{
+	public:
+	using TIFunctionBaseBase<RetType, TList>::operator();
+	RetType operator()() const { return operator()(TCTuple<TList>()); };
+};
+
+#define _le_val(x) ,typename TList::template TypeAt<x>::result a##x
+#define _le_tuple(x) t.template setValue<x>(a##x);
 
 #define _LE_DEFINE_TIFunctionBase(x) \
 template <typename RetType, class TList> \
-class TIFunctionBase<RetType, TList, x + 1> : public CSimpleRefCountable \
+class TIFunctionBase<RetType, TList, x + 1> : public TIFunctionBaseBase<RetType, TList> \
 { \
-	public: virtual RetType operator()(typename TList::template TypeAt<0>::result LE_PP_REPETITION_FROM_0_TO(x, _le_val)) const = 0; \
+	public: \
+		using TIFunctionBaseBase<RetType, TList>::operator(); \
+		RetType operator()(typename TList::template TypeAt<0>::result a0 LE_PP_REPETITION_FROM_0_TO(x, _le_val)) const \
+	{ \
+		TCTuple<TList> t; \
+		t.template setValue<0>(a0); \
+		LE_PP_REPETITION_FROM_0_TO(x, _le_tuple) \
+		return operator()(t); \
+	} \
 };
-
 
 _LE_DEFINE_TIFunctionBase(0)
 _LE_DEFINE_TIFunctionBase(1)

@@ -89,7 +89,8 @@ public: \
 	template<typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT) > \
 	typename TResult<TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) > >::result operator()(T0 a0 LE_PP_REPETITION_FROM_0_TO(x, _le_paramT)) _le_const \
 	{ \
-		TCTuple<TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) > > t; \
+		typedef typename TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) >::template Mutate<TSRemoveConst>::template Mutate<TSRemoveRef> NEWTypeList; \
+		TCTuple<NEWTypeList> t; \
 		t.template setValue<0>(a0); \
 		LE_PP_REPETITION_FROM_0_TO(x, _le_tupleT) \
 		return ((_le_const TFunction*)this)->operator()(t); \

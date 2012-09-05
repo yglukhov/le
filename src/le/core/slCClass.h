@@ -18,9 +18,6 @@ namespace sokira
 		namespace base
 		{
 
-struct _TSStubDeclarator
-{};
-
 template <class T>
 struct TSPublicParentDeclarator
 {};
@@ -98,7 +95,7 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> > : public TSTr
 	typedef ::sokira::le::TSTypeList<>::PushBack<
 
 #define LE_RTTI_SELF(name)	\
-	::sokira::le::base::_TSStubDeclarator>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
+	::sokira::le::_SNullType>::result _LE_RTTI_SELF_DECLARATOR_##name##_break; \
 	typedef name __LE_temp_Self; \
 	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
 
@@ -129,7 +126,7 @@ struct _SSelectorDeclarator
 #define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
 
 #define _LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, type)	\
-	::sokira::le::base::_TSStubDeclarator>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
+	::sokira::le::_SNullType>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
 	struct _TSSel_##sel##_##name##_declarator : public ::sokira::le::base::_SSelectorDeclarator \
 	{																	\
 		static inline ISelector *selector()								\
@@ -154,7 +151,7 @@ struct _SSelectorDeclarator
 #define LE_RTTI_SINGLE_PROTECTED_PARENT LE_RTTI_PROTECTED_PARENT(leSelf)
 
 
-#define LE_RTTI_END ::sokira::le::base::_TSStubDeclarator>::result \
+#define LE_RTTI_END ::sokira::le::_SNullType>::result \
 	_le_RTTI_INFO; \
 	template<typename> friend  class ::sokira::le::base::TCClassImpl;	\
 	protected:		\

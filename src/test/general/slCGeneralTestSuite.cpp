@@ -207,6 +207,7 @@ void CGeneralTestSuite::testBinds()
 	A objA;
 
 	objA.mFunctor = bind(testFunc, 10, bindTo(0));
+	LE_ASSERT(objA.mFunctor(5) == 10);
 
 	TCFunction<int, TSTypeList<A*, int> > func = bind(&A::memberOfA, bindTo(0), bindTo(1));
 	LE_ASSERT(func(&objA, 5) == 10);
@@ -346,8 +347,8 @@ void CGeneralTestSuite::testUrls()
 ////////////////////////////////////////////////////////////////////////////////
 void CGeneralTestSuite::testFunctionTraits()
 {
-//	typedef TSFunctionTraits<testFunc> TestFuncTraits;
-//	LE_ASSERT((TSTypesEqual<TestFuncTraits::RetType, int>::value));
+//	typedef Traits<MyTestFunc> TestFuncTraits;
+//	LE_ASSERT(TestFuncTraits::value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -393,7 +394,6 @@ void CGeneralTestSuite::testAny()
 	any.value<int&>() = 6;
 
 	LE_ASSERT(any.value<int>() == 6);
-//	LE_ASSERT(i == 5);
 
 	any = CAny::ref(i);
 	LE_ASSERT(any.value<int&>() == i);

@@ -23,10 +23,10 @@ class CXMLParser
 		typedef TCFunction<void, TSTypeList<CXMLParser*, CString> > TOnData;
 		typedef TCFunction<void, TSTypeList<CXMLParser*, CString> > TOnError;
 
-		void setOnStartTag(TOnStartTag& onStartTag);
-		void setOnEndTag(TOnEndTag& onEndTag);
-		void setOnData(TOnData& onData);
-		void setOnError(TOnError& onError);
+		void setOnStartTag(const TOnStartTag& onStartTag);
+		void setOnEndTag(const TOnEndTag& onEndTag);
+		void setOnData(const TOnData& onData);
+		void setOnError(const TOnError& onError);
 
 		void setTrimsWhitespace(Bool trimWhitespace = true);
 		Bool trimsWhitespace() const;

@@ -87,6 +87,15 @@ static TCAnyVariadicFunction<SMyAnyVariadicFunction> myAnyVariadicFunction;
 static SMyVariadicFunction myVariadicFunction;
 static TCVariadicFunction<SMyAnotherVariadicFunction> myAnotherVariadicFunction;
 
+struct B
+{
+	private:
+	B()
+	{
+		std::cout << "B::private called" << std::endl;
+	}
+};
+
 struct A
 {
 	void fillMatrix(float* m)
@@ -113,6 +122,9 @@ struct A
 		myVariadicFunction();
 		myVariadicFunction(2);
 		myAnotherVariadicFunction(2);
+//		std::cout << "A constructible: " << TSTypeHasDefaultConstructor<A>::value << std::endl;
+//		std::cout << "B constructible: " << TSTypeHasDefaultConstructor<B>::value << std::endl;
+//		_TSTypeHasDefaultConstructor<B>::sfinae(0);
 //		TCFreeFunction<void(*)()> tet(ff);
 //		tet();
 //		TCFunction<void, TSTypeList<int> > tet(f);

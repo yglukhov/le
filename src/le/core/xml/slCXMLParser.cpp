@@ -80,22 +80,22 @@ Bool CXMLParser::isEOF()
 	return (this->*mIsEOF)();
 }
 
-void CXMLParser::setOnStartTag(TOnStartTag& onStartTag)
+void CXMLParser::setOnStartTag(const TOnStartTag& onStartTag)
 {
 	mOnStartTag = onStartTag;
 }
 
-void CXMLParser::setOnEndTag(TOnEndTag& onEndTag)
+void CXMLParser::setOnEndTag(const TOnEndTag& onEndTag)
 {
 	mOnEndTag = onEndTag;
 }
 
-void CXMLParser::setOnData(TOnData& onData)
+void CXMLParser::setOnData(const TOnData& onData)
 {
 	mOnData = onData;
 }
 
-void CXMLParser::setOnError(TOnError& onError)
+void CXMLParser::setOnError(const TOnError& onError)
 {
 	mOnError = onError;
 }

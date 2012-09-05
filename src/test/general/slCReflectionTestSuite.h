@@ -16,10 +16,12 @@ class CReflectionTestSuite : public CTestSuite
 		virtual void runTest()
 		{
 			testSelectors();
+			testInheritance();
 		}
 
 	private:
 		void testSelectors();
+		void testInheritance();
 };
 
 	} // namespace le

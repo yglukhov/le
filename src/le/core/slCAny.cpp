@@ -1,5 +1,4 @@
 
-#include "base/slTCAnyContainer.h"
 #include "slCAny.h"
 
 namespace sokira
@@ -7,41 +6,7 @@ namespace sokira
 	namespace le
 	{
 
-IAnyContainer::~IAnyContainer()
-{
-
-}
-
-CAny::CAny() :
-	mValue(NULL)
-{
-	std::cout << "default constructor\n";
-}
-
-CAny::CAny(const CAny& copy) :
-	mValue(copy.mValue ? copy.mValue->copy() : NULL)
-{
-	std::cout << "copy constructor\n";
-}
-
-CAny::~CAny()
-{
-	delete mValue;
-}
-
-CAny::CAny(IAnyContainer* container) :
-	mValue(container)
-{
-
-}
-
-const CAny& CAny::operator = (const CAny& copy)
-{
-	std::cout << "copy =\n";
-	delete mValue;
-	mValue = copy.mValue->copy();
-	return *this;
-}
+LE_IMPLEMENT_RUNTIME_CLASS(CAny);
 
 	} // namespace le
 } // namespace sokira

@@ -81,6 +81,8 @@
 		7B3E0110117741F7005ECE2D /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3E010B117741E9005ECE2D /* libogg.a */; };
 		7B3E0111117741F8005ECE2D /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3E010C117741E9005ECE2D /* libvorbis.a */; };
 		7B3E0135117742AC005ECE2D /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3E010E117741E9005ECE2D /* libvorbisfile.a */; };
+		7B401D6E15F79B270022ADED /* slCBasicAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B401D6C15F79B270022ADED /* slCBasicAny.cpp */; };
+		7B401D6F15F79B270022ADED /* slCBasicAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B401D6C15F79B270022ADED /* slCBasicAny.cpp */; };
 		7B40C60E1555D666007E3F21 /* slCEventTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B40C60D1555D666007E3F21 /* slCEventTracker.cpp */; };
 		7B40C60F1555D666007E3F21 /* slCEventTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B40C60D1555D666007E3F21 /* slCEventTracker.cpp */; };
 		7B419E4D1057BC8100D5A2D1 /* slAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B420BD12EB100AA8BD8 /* slAssert.cpp */; };
@@ -410,6 +412,8 @@
 		7B3E010C117741E9005ECE2D /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbis.a; sourceTree = "<group>"; };
 		7B3E010D117741E9005ECE2D /* libvorbisenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisenc.a; sourceTree = "<group>"; };
 		7B3E010E117741E9005ECE2D /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libvorbisfile.a; sourceTree = "<group>"; };
+		7B401D6C15F79B270022ADED /* slCBasicAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCBasicAny.cpp; sourceTree = "<group>"; };
+		7B401D6D15F79B270022ADED /* slCBasicAny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCBasicAny.h; sourceTree = "<group>"; };
 		7B40C60D1555D666007E3F21 /* slCEventTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCEventTracker.cpp; sourceTree = "<group>"; };
 		7B40C6101555D690007E3F21 /* slCEventTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = slCEventTracker.h; sourceTree = "<group>"; };
 		7B419EAE1057BFAC00D5A2D1 /* copyHeaders.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copyHeaders.sh; sourceTree = "<group>"; };
@@ -604,7 +608,6 @@
 		7BC3AC980EE6FEF700D13036 /* slCXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCXMLParser.h; sourceTree = "<group>"; };
 		7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAny.cpp; sourceTree = "<group>"; };
 		7BC3ACAC0EE6FF6B00D13036 /* slCAny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAny.h; sourceTree = "<group>"; };
-		7BC3ACB00EE6FFA300D13036 /* slTCAnyContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCAnyContainer.h; sourceTree = "<group>"; };
 		7BC3ACB10EE6FFA300D13036 /* slTCSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slTCSelector.h; sourceTree = "<group>"; };
 		7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCLexer.cpp; sourceTree = "<group>"; };
 		7BC3ACD60EE701CC00D13036 /* slCLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCLexer.h; sourceTree = "<group>"; };
@@ -837,7 +840,6 @@
 		7B052B360BD12EB100AA8BD8 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				7BC3ACB00EE6FFA300D13036 /* slTCAnyContainer.h */,
 				7BC3ACB10EE6FFA300D13036 /* slTCSelector.h */,
 				7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */,
 				7B052B380BD12EB100AA8BD8 /* slCBasicString.h */,
@@ -853,6 +855,8 @@
 				7B3215BB10874237000E62E8 /* slCJpegImageImpl.cpp */,
 				7B5DAD8E119194A300B49733 /* slCXMLDictionaryParser.hp */,
 				7B5DAD8F119194A300B49733 /* slCXMLDictionaryParser.cpp */,
+				7B401D6C15F79B270022ADED /* slCBasicAny.cpp */,
+				7B401D6D15F79B270022ADED /* slCBasicAny.h */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1802,6 +1806,7 @@
 				7B40C60F1555D666007E3F21 /* slCEventTracker.cpp in Sources */,
 				7BAB765E15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */,
 				7BACE09015ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
+				7B401D6F15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1881,6 +1886,7 @@
 				7B10554913014EFB008B1C53 /* slCRandomGenerator.cpp in Sources */,
 				7BAB765D15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */,
 				7BACE08F15ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
+				7B401D6E15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2020,6 +2026,7 @@
 					/opt/local/include/freetype2,
 				);
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
 					"$(leLibRoot)/jpeg/macos",
 					"$(leLibRoot)/gif/macos",
@@ -2053,6 +2060,7 @@
 					/opt/local/include/freetype2,
 				);
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
 					"$(leLibRoot)/jpeg/macos",
 					"$(leLibRoot)/gif/macos",

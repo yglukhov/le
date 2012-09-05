@@ -16,6 +16,7 @@ namespace sokira
 class CNotification
 {
 	public:
+		CNotification() : mSender(NULL) {};
 		CNotification(CObject* sender, const CString& name, CObject::Ptr userInfo = NULL);
 
 		CString name() const;

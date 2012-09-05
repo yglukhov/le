@@ -30,14 +30,10 @@ void CXMLDocument::initWithStream(std::istream& stream)
 	{
 		CXMLParser parser;
 		parser.setTrimsWhitespace();
-		CXMLParser::TOnStartTag onStart = bind(&CXMLDocument::onStartTag, this, bindTo(0), bindTo(1), bindTo(2));
-		parser.setOnStartTag(onStart);
-		CXMLParser::TOnEndTag onEnd = bind(&CXMLDocument::onEndTag, this, bindTo(0), bindTo(1));
-		parser.setOnEndTag(onEnd);
-		CXMLParser::TOnError onError = bind(&CXMLDocument::onError, this, bindTo(0), bindTo(1));
-		parser.setOnError(onError);
-		CXMLParser::TOnData onData = bind(&CXMLDocument::onData, this, bindTo(0), bindTo(1));
-		parser.setOnData(onData);
+		parser.setOnStartTag(bind(&CXMLDocument::onStartTag, this, bindTo(0), bindTo(1), bindTo(2)));
+		parser.setOnEndTag(bind(&CXMLDocument::onEndTag, this, bindTo(0), bindTo(1)));
+		parser.setOnError(bind(&CXMLDocument::onError, this, bindTo(0), bindTo(1)));
+		parser.setOnData(bind(&CXMLDocument::onData, this, bindTo(0), bindTo(1)));
 		parser.parseStream(stream);
 	}
 }

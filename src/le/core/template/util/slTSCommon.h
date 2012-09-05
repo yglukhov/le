@@ -245,5 +245,32 @@ struct TSRef
 		typename TSRemoveRef<T>::result&>::result result;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct _TSTypeHasDefaultConstructor
+{
+	public:
+//	template<int x>
+//	class receive_size{};
+
+	static int sfinae( int a )
+	{
+		T t;
+		return 0;
+	}
+
+	static char sfinae( ... )
+	{
+		return 0;
+	}
+	public:
+		typedef TSBoolTypeFromInt<sizeof(sfinae(0)) == sizeof(int)> _result;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+template <typename T>
+struct TSTypeHasDefaultConstructor : public _TSTypeHasDefaultConstructor<T>::_result
+{ };
+
 	} // namespace le
 } // namespace sokira
