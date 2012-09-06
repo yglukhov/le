@@ -197,6 +197,7 @@ class CClass
 		CClass(base::IClassImpl* impl);
 
 		inline const std::type_info& stdType() const;
+		inline bool isChildOfStdClass(const std::type_info& stdClass) const;
 	private:
 		base::IClassImpl* mImpl;
 };
@@ -243,7 +244,7 @@ class IClassImpl
 		virtual std::vector<CClass> parents() const = 0;
 
 	protected:
-	IClassImpl(const char*);
+		IClassImpl(const char*);
 		virtual ~IClassImpl()
 		{
 			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
@@ -252,19 +253,19 @@ class IClassImpl
 			}
 		}
 
-		template <class TListNode>
+		template <class TTypeList>
 		inline void registerSelectors()
 		{
 			processDeclarator
 				<
 					typename TSSelect
 					<
-						TSStrictCastAvailable<typename TListNode::Head, _SSelectorDeclarator>,
-						typename TListNode::Head,
+						TSStrictCastAvailable<typename TTypeList::Front, _SSelectorDeclarator>,
+						typename TTypeList::Front,
 						_SNullType
 					>::result
 				>();
-			registerSelectors<typename TListNode::Tail>();
+			registerSelectors<typename TTypeList::PopFront>();
 		}
 
 	private:
@@ -282,7 +283,7 @@ class IClassImpl
 };
 
 template <>
-inline void IClassImpl::registerSelectors<_SNullType>()
+inline void IClassImpl::registerSelectors<TSTypeList<> >()
 {
 
 }
@@ -306,6 +307,11 @@ const std::type_info& CClass::stdType() const
 	return mImpl->stdType();
 }
 
+bool CClass::isChildOfStdClass(const std::type_info& stdClass) const
+{
+	return mImpl->isChildOfStdClass(stdClass);
+}
+
 		namespace base
 		{
 
@@ -321,7 +327,7 @@ struct TSForTypeListParentCreate
 
 		void* result = TSForTypeListParentCreate<typename TListNode::Head::leParents::_headNode, T>::create(type);
 
-		return (result)?(result):(TSForTypeListParentCreate<typename TListNode::Tail, T>::create(type));
+		return result ? result :(TSForTypeListParentCreate<typename TListNode::Tail, T>::create(type));
 	}
 };
 
@@ -334,17 +340,15 @@ struct TSForTypeListParentCreate<_SNullType, T>
 	}
 };
 
-template <class TSTypeListNode>
+template <class TContext>
 struct TSChildOf
-{
-};
-
-template <class U, class V>
-struct TSChildOf<_TSTypeListNode<U, V> >
 {
 	static inline bool f(const std::type_info& stdType)
 	{
-		return (typeid(U) == stdType) || TSChildOf<typename U::leParents::_headNode>::f(stdType) || TSChildOf<V>::f(stdType);
+		typedef typename TContext::T T;
+		return (typeid(T) == stdType) ||
+			T::leParents::template Enumerate<TContext::template TEnumerator>::f(stdType) ||
+			TContext::Next::f(stdType);
 	}
 };
 
@@ -356,7 +360,6 @@ struct TSChildOf<_SNullType>
 		return false;
 	}
 };
-
 
 template <class TListNode>
 struct TSForTypeListParentFind
@@ -384,7 +387,7 @@ class TCClassImpl : public IClassImpl
 	public:
 		TCClassImpl(const char* typeName) : IClassImpl(typeName)
 		{
-			registerSelectors<typename T::_le_RTTI_INFO::_headNode>();
+			registerSelectors<typename T::_le_RTTI_INFO>();
 		}
 
 		virtual void* create(const std::type_info& type) const
@@ -397,7 +400,7 @@ class TCClassImpl : public IClassImpl
 
 		virtual bool isChildOfStdClass(const std::type_info& type) const
 		{
-			return TSChildOf<typename T::leParents::_headNode>::f(type);
+			return T::leParents::template Enumerate<TSChildOf>::f(type);
 		}
 
 		virtual const std::type_info& stdType() const

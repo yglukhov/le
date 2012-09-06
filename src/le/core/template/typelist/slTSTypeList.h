@@ -10,6 +10,13 @@ namespace sokira
 	namespace le
 	{
 
+
+//#define LE_USE_VARIADIC_TEMPLATES
+
+#ifdef LE_USE_VARIADIC_TEMPLATES
+template <typename... T> struct TSTypeList;
+#endif
+
 template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNullType,
 		typename T3 = _SNullType, typename T4 = _SNullType, typename T5 = _SNullType,
 		typename T6 = _SNullType, typename T7 = _SNullType, typename T8 = _SNullType,
@@ -27,7 +34,11 @@ template <typename T0 = _SNullType, typename T1 = _SNullType, typename T2 = _SNu
 		typename T42 = _SNullType, typename T43 = _SNullType, typename T44 = _SNullType,
 		typename T45 = _SNullType, typename T46 = _SNullType, typename T47 = _SNullType,
 		typename T48 = _SNullType, typename T49 = _SNullType>
+#ifdef LE_USE_VARIADIC_TEMPLATES
+struct TSTypeListNonVariadic
+#else
 struct TSTypeList
+#endif
 {
 	private:
 
@@ -54,8 +65,9 @@ struct TSTypeList
 
 	public:
 
+//	typedef _dirtyList _headNode;
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
-	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
+//	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
 
 	enum
 	{
@@ -63,8 +75,15 @@ struct TSTypeList
 	};
 
 	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> uniqueItems;
-	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>, TSTypeList<>, TSTypeList<_popFront> >::result PopFront;
+//	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>, TSTypeList<>, TSTypeList<_popFront> >::result PopFront;
 
+//	typedef typename TSSelect<
+//		TSTypesEqual<_headNode, _SNullType>,
+//		TSTypeList<>,
+//		TSTypeList<typename _headNode::Tail> >::result PopFront;
+	typedef TSTypeList<typename _TSTypeListEraseAt<_headNode, 0>::_result> PopFront;
+
+	
 	template <UInt index>
 	struct TypeAt
 	{
@@ -93,17 +112,31 @@ struct TSTypeList
 		enum { result = _TSTypeListFindIf<_headNode, TPredicate>::_result };
 	};
 
+	
+//	template <typename T>
+//	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode,
+//				typename TSTypeListAppendTraits<T>::listNode>::_result>
+//	{
+//		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
+//				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
+//	};
+//
+//	template <typename T>
+//	struct PushFront : public TSTypeList<typename _TSTypeListAppend<
+//			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result>
+//	{};
 	template <typename T>
-	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode,
-				typename TSTypeListAppendTraits<T>::listNode>::_result>
+	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode, T>::_result>
 	{
-		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
-				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
+		typedef TSTypeList<typename _TSTypeListAppend<_headNode, T>::_result> result;
 	};
 
 	template <typename T>
-	struct PushFront : public TSTypeList<typename _TSTypeListAppend<
-			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result>
+	struct PushFront : public TSTypeList<typename _TSTypeListAppend<T, _headNode>::_result>
+	{};
+
+	template <UInt32 i>
+	struct EraseAt : public TSTypeList<typename _TSTypeListEraseAt<_headNode, i>::_result>
 	{};
 
 	template <typename T>
@@ -141,8 +174,46 @@ struct TSTypeList
 	{};
 
 	typedef Mutate<TSRemoveRef> TypesByRemovingRefs;
+
+	//////////////
+	// Enumeration
+	template <template <class TContext> class TEnumerator, UInt32 i = 0>
+	struct TSTypeListEnumerationContext;
+
+	template <int i, bool atEnd, template <class TContext> class TEnumerator>
+	struct TSEnumerationCycle : public TEnumerator<TSTypeListEnumerationContext<TEnumerator, i> >
+	{ };
+
+	template <int i, template <class TContext> class TEnumerator>
+	struct TSEnumerationCycle<i, true, TEnumerator> : public TEnumerator<_SNullType>
+	{ };
+
+	template <template <class TContext> class TEnum, UInt32 i>
+	struct TSTypeListEnumerationContext
+	{
+		template <class _T>
+		struct TEnumerator : public TEnum<_T>
+		{
+			
+		};
+		typedef TSTypeList<_headNode> TTypeList;
+		enum { I = i };
+		typedef typename TTypeList::template TypeAt<i>::result T;
+		typedef TSEnumerationCycle<i + 1, i + 1 == TTypeList::length, TEnum> Next;
+	};
+
+	template <template <class TContext> class TEnumerator>
+	struct Enumerate : public TSEnumerationCycle<0, !length, TEnumerator>
+	{ };
 };
 
+#ifdef LE_USE_VARIADIC_TEMPLATES
+template <typename... T>
+struct TSTypeList : public TSTypeListNonVariadic<T...>
+{
+
+};
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Maximum number of elements in TSTypeList

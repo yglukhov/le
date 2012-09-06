@@ -17,6 +17,7 @@ struct TSFunctionTraits<TRetType()> :
 	typedef TSTypeList<> ParamList;
 	typedef _SNullType OwnerClass;
 	typedef ParamList TupleParamList;
+	typedef TSFalse IsConst;
 };
 
 #define _le_typenameT(x) ,typename T##x
@@ -31,6 +32,7 @@ struct TSFunctionTraits<TRetType(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> :	
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;		\
 	typedef _SNullType OwnerClass;													\
 	typedef ParamList TupleParamList;												\
+	typedef TSFalse IsConst;														\
 };
 
 _LE_DEFINE_TSFunctionTraits(0)
@@ -60,6 +62,7 @@ struct TSFunctionTraits<TRetType(*)()> :
 	typedef TSTypeList<> ParamList;
 	typedef _SNullType OwnerClass;
 	typedef ParamList TupleParamList;
+	typedef TSFalse IsConst;
 };
 
 
@@ -72,6 +75,7 @@ struct TSFunctionTraits<TRetType(*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))>
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList; \
 	typedef _SNullType OwnerClass; \
 	typedef ParamList TupleParamList; \
+	typedef TSFalse IsConst; \
 };
 
 _LE_DEFINE_TSFunctionTraits(0)

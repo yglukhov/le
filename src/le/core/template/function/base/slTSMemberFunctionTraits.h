@@ -14,21 +14,37 @@ struct TSFunctionTraits<TRetType (T::*)()> :
 	typedef TSTypeList<> ParamList;
 	typedef T OwnerClass;
 	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
+	typedef TSFalse IsConst;
+};
+
+template <class T, typename TRetType>
+struct TSFunctionTraits<TRetType (T::*)() const> :
+public TSMemberFunctionCallWithTuple<TRetType, 0>
+{
+	typedef TRetType RetType;
+	typedef TSTypeList<> ParamList;
+	typedef T OwnerClass;
+	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
+	typedef TSTrue IsConst;
 };
 
 #define _le_typenameT(x) ,typename T##x
 #define _le_rawT(x) ,T##x
 
-#define _LE_DEFINE_TSFunctionTraits(x)															\
+#define _LE_DEFINE_TSFunctionTraitsWithConst(x, CONST, TIsConst)								\
 template <class T, typename TRetType, typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT)> \
-struct TSFunctionTraits<TRetType (T::*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> :			\
+struct TSFunctionTraits<TRetType (T::*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)) CONST> :	\
 	public TSMemberFunctionCallWithTuple<TRetType, x + 1>										\
 {																								\
 	typedef TRetType RetType;																	\
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;					\
-	typedef T OwnerClass;																		\
+	typedef CONST T OwnerClass;																		\
 	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;					\
+	typedef TIsConst IsConst;																	\
 };
+
+#define _LE_NOTHING
+#define _LE_DEFINE_TSFunctionTraits(x) _LE_DEFINE_TSFunctionTraitsWithConst(x, _LE_NOTHING, TSFalse) _LE_DEFINE_TSFunctionTraitsWithConst(x, const, TSTrue)
 
 _LE_DEFINE_TSFunctionTraits(0)
 _LE_DEFINE_TSFunctionTraits(1)

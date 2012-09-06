@@ -35,6 +35,7 @@ struct TSFunctionTraits<TCFunction<TRetType, TypeList> > :
 	typedef TypeList ParamList;
 	typedef _SNullType OwnerClass;
 	typedef ParamList TupleParamList;
+	typedef TSFalse IsConst;
 };
 
 template <typename FuncType, class TypeList>
@@ -47,6 +48,7 @@ struct TSFunctionTraits<TCBind<FuncType, TypeList> > :
 	typedef TypeList ParamList;
 	typedef _SNullType OwnerClass;
 	typedef ParamList TupleParamList;
+	typedef TSFalse IsConst;
 };
 
 class CFunctionDescriptor

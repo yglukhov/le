@@ -147,6 +147,26 @@ struct _TSTypeListFindIf<_TSTypeListNode<U, V>, TPredicate>
 };
 
 
+////////////////////////////////////////////////////////////////////////////////
+// EraseAt
+template <class TListNode, UInt32 i>
+struct _TSTypeListEraseAt
+{
+	typedef typename _TSTypeListEraseAt<typename TListNode::Tail, i - 1>::_result _result;
+};
+
+template <typename U, typename V>
+struct _TSTypeListEraseAt<_TSTypeListNode<U, V>, 0>
+{
+	typedef V _result;
+};
+
+template <UInt32 i>
+struct _TSTypeListEraseAt<_SNullType, i>
+{
+	typedef _SNullType _result;
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Erase
@@ -219,7 +239,10 @@ struct _TSTypeListUnique<_TSTypeListNode<Head, Tail> >
 
 ////////////////////////////////////////////////////////////////////////////////
 // Append
-template <class TListNode, class TTypeToAppend> struct _TSTypeListAppend;
+template <class TListNode, class TTypeToAppend> struct _TSTypeListAppend
+{
+	typedef _TSTypeListNode<TListNode, TTypeToAppend> _result;
+};
 
 template <>
 struct _TSTypeListAppend<_SNullType, _SNullType>
@@ -245,6 +268,13 @@ struct _TSTypeListAppend<_TSTypeListNode<Head, Tail>, T>
 	typedef _TSTypeListNode<Head,
 						typename _TSTypeListAppend<Tail, T>::_result> _result;
 };
+
+//template <class Head, class Tail, class T>
+//struct _TSTypeListAppend<T, _TSTypeListNode<Head, Tail> >
+//{
+//	typedef _TSTypeListNode<Head,
+//	typename _TSTypeListAppend<Tail, T>::_result> _result;
+//};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Mutate

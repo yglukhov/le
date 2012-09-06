@@ -131,6 +131,11 @@ void CReflectionTestSuite::testInheritance()
 	validValue.clear();
 	validValue.insert("TestClass");
 	LE_ASSERT(validValue == parents);
+
+	LE_ASSERT(TestClass2::staticClass().isChildOfStdClass(typeid(TestClass)));
+	LE_ASSERT(TestClass2::staticClass().isChildOfStdClass(typeid(CObject)));
+	LE_ASSERT(TestClass::staticClass().isChildOfStdClass(typeid(CObject)));
+	LE_ASSERT(!TestClass::staticClass().isChildOfStdClass(typeid(TestClass2)));
 }
 
 class CAnimation

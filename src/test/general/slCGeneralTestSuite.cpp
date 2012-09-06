@@ -108,9 +108,57 @@ struct TCollectorPredicate<i2t<I> >
 	typedef i2t<I + 5> result;
 };
 
+
+//template <class T>
+//struct test1
+//{
+//	template <template <class> class T1>
+//	struct test2
+//	{
+//		static int f()
+//		{
+//			return 3;
+//		}
+//	};
+//
+////	static int i()
+////	{
+////		return test2<test1>::f();
+////	}
+//	test1<int> m;
+//};
+//
+//template <>
+//struct test1<int>
+//{
+//	
+//};
+
+template <class TEnumerationContext>
+struct EnumerateTypeList
+{
+	static void f()
+	{
+		std::cout << "type " << TEnumerationContext::I << ": " << typeid(typename TEnumerationContext::T).name() << std::endl;
+		TEnumerationContext::Next::f();
+	}
+};
+
+template <>
+struct EnumerateTypeList<_SNullType>
+{
+	static void f()
+	{
+		std::cout << "type ZZZZZ" << std::endl;
+	}
+};
+
 void CGeneralTestSuite::testTypeList()
 {
 	LE_ENTER_LOG;
+
+	//TEST_STRUCT<int>::bla<TEST_STRUCT>::f();
+
 	typedef TSTypeList<i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<7>,
 						i2t<-2>, i2t<0>, i2t<1>, i2t<2>, i2t<3>, i2t<4>, i2t<5>,
 						i2t<-1>, i2t<10>, i2t<-3> > unsortedList;
@@ -155,6 +203,30 @@ void CGeneralTestSuite::testTypeList()
 							TypeList2::TypeAt<1>::result>::value));
 	LE_ASSERT((TSTypesEqual<TypeList1::TypeAt<2>::result,
 							TypeList2::TypeAt<2>::result>::value));
+
+	typedef TypeList2::PopFront::PushBack<float> TypeList3;
+
+	LE_ASSERT(!(TSTypesEqual<TypeList1::TypeAt<0>::result,
+			   TypeList3::TypeAt<0>::result>::value));
+	LE_ASSERT(!(TSTypesEqual<TypeList1::TypeAt<1>::result,
+			   TypeList3::TypeAt<1>::result>::value));
+	LE_ASSERT(!(TSTypesEqual<TypeList1::TypeAt<2>::result,
+			   TypeList3::TypeAt<2>::result>::value));
+
+
+	typedef TSTypeList<float, int, float> TypeList4;
+	LE_ASSERT((TSTypesEqual<TypeList3::TypeAt<0>::result,
+			   TypeList4::TypeAt<0>::result>::value));
+	LE_ASSERT((TSTypesEqual<TypeList3::TypeAt<1>::result,
+			   TypeList4::TypeAt<1>::result>::value));
+	LE_ASSERT((TSTypesEqual<TypeList3::TypeAt<2>::result,
+			   TypeList4::TypeAt<2>::result>::value));
+
+	TypeList4::Enumerate<EnumerateTypeList>::f();
+	TSTypeList<>::Enumerate<EnumerateTypeList>::f();
+	mutatedCollection::Enumerate<EnumerateTypeList>::f();
+//	TSEnumerateTypeList<TypeList4, EnumerateTypeList>::f();
+//	LE_ASSERT((TSTypesEqual<TSTypeList<>, TSTypeList<>::EraseAt<0> >::value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,9 +268,15 @@ class A
 		{
 			mTestValue = 5;
 		}
+	
+		void someConstFunc(int a) const
+		{
+			mMutableTestValue = a;
+		}
 
 		TCFunction<int, TSTypeList<int> > mFunctor;
 		UInt32 mTestValue;
+		mutable int mMutableTestValue;
 };
 
 void CGeneralTestSuite::testBinds()
@@ -225,6 +303,10 @@ void CGeneralTestSuite::testBinds()
 	TCFunction<> func4 = bind(&A::voidFunc, &objA);
 	func4();
 	LE_ASSERT(objA.mTestValue == 5);
+
+	TCFunction<void, TSTypeList<int> > func5 = bind(&A::someConstFunc, &objA, bindTo(0));
+	func5(15);
+	LE_ASSERT(objA.mMutableTestValue == 15);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
