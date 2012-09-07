@@ -4,7 +4,13 @@
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
 #include <sys/time.h>
 #else
-#error Define time!
+//#error Define time!
+#include <windows.h>
+#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
+#else
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
+#endif
 #endif
 
 #define MICROSECONDS_IN_MILLISECOND 1000
@@ -160,9 +166,32 @@ void CTime::setCurrentTime()
 	gettimeofday(&tp, NULL);
 	mData = tp.tv_sec * MILLISECONDS_IN_SECOND + tp.tv_usec / MICROSECONDS_IN_MILLISECOND;
 #else
-#error Define Time!
-	// TODO: complete this
-	throw 0;
+	// Define a structure to receive the current Windows filetime
+	FILETIME ft;
+
+	// Initialize the present time to 0 and the timezone to UTC
+	unsigned __int64 tmpres = 0;
+	//static int tzflag = 0;
+
+	GetSystemTimeAsFileTime(&ft);
+ 
+	// The GetSystemTimeAsFileTime returns the number of 100 nanosecond 
+	// intervals since Jan 1, 1601 in a structure. Copy the high bits to 
+	// the 64 bit tmpres, shift it left by 32 then or in the low 32 bits.
+	tmpres |= ft.dwHighDateTime;
+	tmpres <<= 32;
+	tmpres |= ft.dwLowDateTime;
+
+	// Convert to microseconds by dividing by 10
+	tmpres /= 10;
+
+	// The Unix epoch starts on Jan 1 1970.  Need to subtract the difference 
+	// in seconds from Jan 1 1601.
+	tmpres -= DELTA_EPOCH_IN_MICROSECS;
+
+	// Finally change microseconds to seconds and place in the seconds value. 
+	// The modulus picks up the microseconds.
+	mData =  (long)(tmpres / 1000000UL) * MILLISECONDS_IN_SECOND + (long)(tmpres % 1000000UL) / MICROSECONDS_IN_MILLISECOND;
 #endif
 }
 

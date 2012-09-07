@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <le/core/slTypes.h>
 
 namespace sokira
 {

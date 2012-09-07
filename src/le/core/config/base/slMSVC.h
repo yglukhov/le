@@ -55,5 +55,6 @@
 #define LE_ENDIAN LE_ENDIAN_LITTLE
 
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning( disable : 4503 )
 
 #endif // defined _MSC_VER

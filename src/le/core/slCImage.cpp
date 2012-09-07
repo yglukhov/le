@@ -72,11 +72,11 @@ Bool CImage::loadFromURL(const CURL& url)
 				break;
 			case 18759: // 'GI' - GIF image
 				mImpl = new CImageImpl();
-				CGifImageImpl::loadFromFileToImageImpl(file, mImpl);
+				//CGifImageImpl::loadFromFileToImageImpl(file, mImpl);
 				break;
 			case 55551: // FF D8 - JPEG image
 				mImpl = new CImageImpl();
-				CJpegImageImpl::loadFromFileToImageImpl(file, mImpl);
+				//CJpegImageImpl::loadFromFileToImageImpl(file, mImpl);
 				break;
 		}
 		fclose(file);

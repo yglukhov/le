@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>le.gui</ProjectName>
+    <ProjectGuid>{39BCA7B3-D02D-4AD5-96FA-2460C6BF6006}</ProjectGuid>
+    <RootNamespace>gui</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leRelease.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leDebug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leGui.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leGui.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\le\gui\auxiliary\slCGuiWindowsApplication.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\base\slCWindowsWindowImpl.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCButton.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCControl.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCControlDelegate.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCFont.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCOpenGLRenderingContext.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCRenderingContext.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCScrollBar.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCScrollView.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCStaticText.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCTexture.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCTheme.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCView.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slCWindow.cpp" />
+    <ClCompile Include="..\..\..\src\le\gui\slTypes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\le\gui\auxiliary\slCGuiWindowsApplication.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCButton.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCControl.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCControlDelegate.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCFont.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slConstants.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCOpenGLRenderingContext.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCRenderingContext.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCScrollBar.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCScrollView.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCStaticText.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCTexture.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCTheme.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCView.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slCWindow.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slTCGraphicControllerClass.h" />
+    <ClInclude Include="..\..\..\src\le\gui\slTypes.h" />
+    <ClInclude Include="..\..\..\src\le\gui\auxiliary\slCGuiApplication.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\le\gui\base\slCOpenGLTextureImpl.hp" />
+    <None Include="..\..\..\src\le\gui\base\slCWindowsWindowImpl.hp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="core.vcxproj">
+      <Project>{1490ba9a-7302-4ea9-99ae-227d7c7f26f8}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

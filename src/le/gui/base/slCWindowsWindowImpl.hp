@@ -11,7 +11,7 @@ namespace sokira
 	namespace le
 	{
 
-class CGuiApplication;
+//class CGuiApplication;
 class CWindow;
 
 class CWindowsWindowImpl
@@ -19,11 +19,11 @@ class CWindowsWindowImpl
 	public:
 		CWindowsWindowImpl(bool fullScreen, const CString& title, const CRectangle& rect);
 
-		void screenWillBeAddedToApplication(CScreen* screen, CGuiApplication* app);
-		void screenWasAddedToApplication(CScreen* screen, CGuiApplication* app);
+		void screenWillBeAddedToApplication(CWindow* screen, CGuiApplication* app);
+		void screenWasAddedToApplication(CWindow* screen, CGuiApplication* app);
 
-		void screenWillBeRemovedFromApplication(CScreen* screen, CGuiApplication* app);
-		void screenWasRemovedFromApplication(CScreen* screen, CGuiApplication* app);
+		void screenWillBeRemovedFromApplication(CWindow* screen, CGuiApplication* app);
+		void screenWasRemovedFromApplication(CWindow* screen, CGuiApplication* app);
 
 		Bool inLiveResize() const;
 

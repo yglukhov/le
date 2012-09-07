@@ -1,8 +1,4 @@
-#include <Accelerate/Accelerate.h>
 #include <le/core/config/slCompiler.h>
-
-#include <unistd.h>
-#include <fcntl.h>
 
 #include <le/gui/slOpenGL.h>
 #include <le/core/slCString.h>
@@ -14,6 +10,7 @@
 #include "slCOpenGLRenderingContext.h"
 #include <le/core/slCGradient.h>
 
+LE_DEFINE_LINK_MODULE(COpenGLRenderingContext);
 
 namespace sokira
 {

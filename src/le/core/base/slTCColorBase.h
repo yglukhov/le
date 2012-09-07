@@ -33,7 +33,7 @@ struct CColorBase::_convert<true, false, To, From>
 {
 	static inline To convert(From component)
 	{
-		return static_cast<To>(component) / CColorBase::_max<From>::max();
+		return static_cast<To>(component) / CColorBase::_max<From>::maxValue();
 	}
 };
 
@@ -42,14 +42,14 @@ struct CColorBase::_convert<false, true, To, From>
 {
 	static inline To convert(From component)
 	{
-		return static_cast<To>(component * CColorBase::_max<To>::max());
+		return static_cast<To>(component * CColorBase::_max<To>::maxValue());
 	}
 };
 
 template <typename T>
 struct CColorBase::_max
 {
-	static inline T max()
+	static inline T maxValue()
 	{
 		return 255;
 	}
@@ -58,7 +58,7 @@ struct CColorBase::_max
 template <>
 struct CColorBase::_max<Float32>
 {
-	static inline Float32 max()
+	static inline Float32 maxValue()
 	{
 		return 1.0f;
 	}
@@ -67,7 +67,7 @@ struct CColorBase::_max<Float32>
 template <>
 struct CColorBase::_max<Float64>
 {
-	static inline Float64 max()
+	static inline Float64 maxValue()
 	{
 		return 1.0;
 	}

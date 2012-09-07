@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <slOutputDir>$(SolutionDir)build\$(Platform)\$(Configuration)\$(SolutionName)</slOutputDir>
+    <slIntDir>$(SolutionDir)build\$(Platform)\intermediate\$(Configuration)\$(SolutionName)</slIntDir>
+    <slSrcRoot>$(SolutionDir)..\..\src</slSrcRoot>
+    <slLibsRoot>$(SolutionDir)..\..\libs</slLibsRoot>
+    <slTestDir>$(SolutionDir)build\$(Platform)\$(Configuration)\test</slTestDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir>$(slOutputDir)\</OutDir>
+    <IntDir>$(slIntDir)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(slSrcRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+    <Link>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Label="Configuration">
+    <BuildLogFile>$(IntDir)$(ProjectName)_BuildLog.htm</BuildLogFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="slOutputDir">
+      <Value>$(slOutputDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="slIntDir">
+      <Value>$(slIntDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="slSrcRoot">
+      <Value>$(slSrcRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="slLibsRoot">
+      <Value>$(slLibsRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="slTestDir">
+      <Value>$(slTestDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

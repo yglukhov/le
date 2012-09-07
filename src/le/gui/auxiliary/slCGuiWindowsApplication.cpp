@@ -20,9 +20,23 @@ namespace sokira
 		{
 			if (window)
 			{
-//				screen->screenWillBeAddedToApplication(this);
+				window->screenWillBeAddedToApplication(this);
 				mScreens.push_back(window);
-//				screen->screenWasAddedToApplication(this);
+				window->screenWasAddedToApplication(this);
+			}
+		}
+
+		void CGuiWindowsApplication::removeWindow(CWindow* window)
+		{
+			if (window)
+			{
+				window->screenWillBeRemovedFromApplication(this);
+				std::vector<CWindow*>::iterator it = std::find(mScreens.begin(), mScreens.end(), window);
+				if (it != mScreens.end())
+				{
+					mScreens.erase(it);
+				}
+				window->screenWasRemovedFromApplication(this);
 			}
 		}
 

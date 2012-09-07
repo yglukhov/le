@@ -12,6 +12,8 @@
 
 #include <le/gui/slCRenderingContext.h>
 
+#include <le/core/slCImage.h>
+
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 #include "base/slCCocoaWindowImpl.hp"
 #define CWindowImpl CCocoaWindowImpl
@@ -19,6 +21,8 @@
 #include "base/slCWindowsWindowImpl.hp"
 #define CWindowImpl CWindowsWindowImpl
 #endif
+
+LE_LINK_MODULE_DEPENDENCY(COpenGLRenderingContext);
 
 namespace sokira
 {
@@ -40,6 +44,7 @@ CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) 
 
 CWindow::~CWindow()
 {
+	CImage image;
 	LE_ENTER_LOG;
 	delete static_cast<CWindowImpl*>(mImpl);
 }
@@ -149,6 +154,7 @@ void CWindow::screenWasRemovedFromApplication(CGuiApplication* app)
 void CWindow::prepareRenderingContext()
 {
 	mRenderingContext = CClassFactory::defaultInstance()->create<CRenderingContext>("COpenGLRenderingContext");
+	std::cout << "Rendering context: " << mRenderingContext << std::endl;
 }
 
 void CWindow::_screenWillBeClosed()

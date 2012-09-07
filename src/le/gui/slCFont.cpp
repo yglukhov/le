@@ -6,7 +6,8 @@
 //#include "base/slCFontGlyphGeneratorInline.hp"
 //#include "base/slCFontGlyphGeneratorFreetype.hp"
 #elif LE_TARGET_PLATWORM == LE_PLATPORM_WINDOWS
-#include "base/slCFontGlyphGeneratorWindows.hp"
+#include "base/slCFontGlyphGeneratorInline.hp"
+//#include "base/slCFontGlyphGeneratorWindows.hp"
 #endif
 
 namespace sokira

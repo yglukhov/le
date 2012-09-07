@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="slProperties.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <leLibOutputDir>$(slOutputDir)\lib</leLibOutputDir>
+    <leHeaderOutputDir>$(slOutputDir)\include</leHeaderOutputDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir>$(leLibOutputDir)\</OutDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="leLibOutputDir">
+      <Value>$(leLibOutputDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="leHeaderOutputDir">
+      <Value>$(leHeaderOutputDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -67,14 +67,14 @@ class CWindow : public CView
 		CRenderingContext::Ptr renderingContext();
 		virtual void* createImpl();
 
-	private:
-		friend class CGuiCocoaApplication;
-
+	public:
 		void screenWillBeAddedToApplication(CGuiApplication* app);
 		void screenWasAddedToApplication(CGuiApplication* app);
 
 		void screenWillBeRemovedFromApplication(CGuiApplication* app);
 		void screenWasRemovedFromApplication(CGuiApplication* app);
+
+	private:
 
 		CTheme mTheme;
 		CString mTitle;

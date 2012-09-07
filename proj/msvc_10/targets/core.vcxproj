@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>le.core</ProjectName>
+    <ProjectGuid>{1490BA9A-7302-4EA9-99AE-227D7C7F26F8}</ProjectGuid>
+    <RootNamespace>core</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leRelease.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leDebug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <AdditionalIncludeDirectories>$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leCore.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <AdditionalIncludeDirectories>$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leCore.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCBasicAny.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCAny.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCClass.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCClassFactory.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCColor.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCData.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCDictionary.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCGradient.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCImage.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCImageFrame.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCNumber.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCObject.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCResult.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCTime.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCURL.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCApplication.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCApplicationDelegate.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCBundle.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCCommandLine.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCNotificationCenter.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCPreferences.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCRunLoop.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCWorkspace.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCBasicString.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCBitmapImageImpl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCGifImageImpl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCJpegImageImpl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\debug\slAssert.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\debug\slCAssertControl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\debug\slCAssertionPolicy.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\debug\slCLogControl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\debug\slCLogEntry.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\file\slCFile.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\file\slCFolder.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\strategies\slCSimpleRefCountable.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\thread\slCMutex.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\thread\slCThread.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\thread\base\slCThreadImplPosix.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\thread\base\slCThreadImplWindows.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\network\slCClient.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\network\slCConnection.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\network\slCServer.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\slCLexer.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\slCScript.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\slCTokenizer.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\xml\slCXMLDocument.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\xml\slCXMLNode.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\xml\slCXMLParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCFileManager.h" />
+    <ClInclude Include="..\..\..\src\le\core\base\slCBasicAny.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCAny.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCClass.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCClassFactory.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCColor.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCData.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCDictionary.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCGradient.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCImage.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCImageFrame.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCNumber.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCObject.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCResult.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCString.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCTime.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCURL.h" />
+    <ClInclude Include="..\..\..\src\le\core\slTCColor.h" />
+    <ClInclude Include="..\..\..\src\le\core\slTCPointer.h" />
+    <ClInclude Include="..\..\..\src\le\core\slTypes.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCApplication.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCApplicationDelegate.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCBundle.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCCommandLine.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCNotificationCenter.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCPreferences.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCRunLoop.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCWorkspace.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slStdExtensions.h" />
+    <ClInclude Include="..\..\..\src\le\core\base\slCBasicString.h" />
+    <ClInclude Include="..\..\..\src\le\core\base\slCNumberBase.h" />
+    <ClInclude Include="..\..\..\src\le\core\base\slTCColorBase.h" />
+    <ClInclude Include="..\..\..\src\le\core\base\slTCSelector.h" />
+    <ClInclude Include="..\..\..\src\le\core\config\slCompiler.h" />
+    <ClInclude Include="..\..\..\src\le\core\config\slPrefix.h" />
+    <ClInclude Include="..\..\..\src\le\core\config\base\slGCC.h" />
+    <ClInclude Include="..\..\..\src\le\core\config\base\slMSVC.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slAssert.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slCAssertControl.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slCAssertionPolicy.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slCLogControl.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slCLogEntry.h" />
+    <ClInclude Include="..\..\..\src\le\core\debug\slDebug.h" />
+    <ClInclude Include="..\..\..\src\le\core\file\slCFile.h" />
+    <ClInclude Include="..\..\..\src\le\core\file\slCFolder.h" />
+    <ClInclude Include="..\..\..\src\le\core\strategies\slCNonCopyable.h" />
+    <ClInclude Include="..\..\..\src\le\core\strategies\slCSimpleRefCountable.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\slTCBind.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\slTCFunction.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\slTSFunctionTraits.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTCFreeFunction.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTIFunction.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTSBind.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTSFreeFunctionTraits.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTSFunctionCallWithTuple.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\function\base\slTSMemberFunctionTraits.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\tuple\slTCTuple.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\tuple\slTCUnitTuple.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\tuple\base\slTSTuple.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\typelist\slTSTypeList.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\typelist\base\slTSTypeListAppendTraits.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\typelist\base\slTSTypeListBase.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\typelist\base\slTSTypeListSorting.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\util\slTSCommon.h" />
+    <ClInclude Include="..\..\..\src\le\core\template\util\slTSConstToType.h" />
+    <ClInclude Include="..\..\..\src\le\core\thread\slCMutex.h" />
+    <ClInclude Include="..\..\..\src\le\core\thread\slCThread.h" />
+    <ClInclude Include="..\..\..\src\le\core\thread\slTCThreadSingletone.h" />
+    <ClInclude Include="..\..\..\src\le\core\network\slCClient.h" />
+    <ClInclude Include="..\..\..\src\le\core\network\slCConnection.h" />
+    <ClInclude Include="..\..\..\src\le\core\network\slCServer.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPand.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbit_and.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbit_if.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbit_not.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbit_or.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbit_xor.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPbool.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPcat.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPdec.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPequal.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPfor.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPif.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPinc.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPnot.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPnot_equal.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPor.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPrepeat_from_0.h" />
+    <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPxor.h" />
+    <ClInclude Include="..\..\..\src\le\core\script\slCLexer.h" />
+    <ClInclude Include="..\..\..\src\le\core\script\slCScript.h" />
+    <ClInclude Include="..\..\..\src\le\core\script\slCTokenizer.h" />
+    <ClInclude Include="..\..\..\src\le\core\xml\slCXMLDocument.h" />
+    <ClInclude Include="..\..\..\src\le\core\xml\slCXMLNode.h" />
+    <ClInclude Include="..\..\..\src\le\core\xml\slCXMLParser.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCPoint2D.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCPoint3D.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCRectangle.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCSegment2D.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCSegment3D.h" />
+    <ClInclude Include="..\..\..\src\le\core\geometry\slTCSize2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\le\core\auxiliary\base\slCRunLoopImplWin.hp" />
+    <None Include="..\..\..\src\le\core\base\slCBitmapImageImpl.hp" />
+    <None Include="..\..\..\src\le\core\base\slCGifImageImpl.hp" />
+    <None Include="..\..\..\src\le\core\base\slCImageFrameImpl.hp" />
+    <None Include="..\..\..\src\le\core\base\slCImageImpl.hp" />
+    <None Include="..\..\..\src\le\core\base\slCJpegImageImpl.hp" />
+    <None Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.hp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

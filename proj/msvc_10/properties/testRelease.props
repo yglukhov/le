@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="slProperties.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <testBuildedLeLibsDir>$(slOutputDir)\lib</testBuildedLeLibsDir>
+    <testBuildedLeHeadersDir>$(slOutputDir)\include</testBuildedLeHeadersDir>
+    <testOutputDir>$(slTestDir)</testOutputDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir>$(testOutputDir)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ProgramDataBaseFileName>$(IntDir)test_$(ProjectName).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(testBuildedLeLibsDir);$(slLibsRoot)\jpeg\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Label="Configuration">
+    <BuildLogFile>$(IntDir)$(ProjectName)_test_BuildLog.htm</BuildLogFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="testBuildedLeLibsDir">
+      <Value>$(testBuildedLeLibsDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="testBuildedLeHeadersDir">
+      <Value>$(testBuildedLeHeadersDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="testOutputDir">
+      <Value>$(testOutputDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

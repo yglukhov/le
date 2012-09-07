@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>le.sound</ProjectName>
+    <ProjectGuid>{8031531C-3400-45A5-8095-E3BFDF8D4664}</ProjectGuid>
+    <RootNamespace>gui</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leRelease.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\leDebug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(slLibsRoot)\vorbis\include;$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(slLibsRoot)\al\windows\OpenAL32.lib;$(slLibsRoot)\vorbis\windows\libvorbis_static.lib;$(slLibsRoot)\vorbis\windows\libvorbisfile_static.lib;$(slLibsRoot)\vorbis\windows\libogg_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leSound.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(slLibsRoot)\vorbis\include;$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(slLibsRoot)\al\windows\OpenAL32.lib;$(slLibsRoot)\vorbis\windows\libvorbis_static.lib;$(slLibsRoot)\vorbis\windows\libvorbisfile_static.lib;$(slLibsRoot)\vorbis\windows\libogg_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)leSound.lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>echo .cpp&gt;_le_tmp_file.tmp
+echo .cp&gt;&gt;_le_tmp_file.tmp
+echo .c&gt;&gt;_le_tmp_file.tmp
+echo .hp&gt;&gt;_le_tmp_file.tmp
+echo .svn&gt;&gt;_le_tmp_file.tmp
+xcopy "$(slSrcRoot)/le/$(ProjectName)" "$(leHeaderOutputDir)/$(SolutionName)/$(ProjectName)" /I /S /Y /Q /EXCLUDE:_le_tmp_file.tmp
+del _le_tmp_file.tmp
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\le\sound\slCListener.cpp" />
+    <ClCompile Include="..\..\..\src\le\sound\slCSoundContext.cpp" />
+    <ClCompile Include="..\..\..\src\le\sound\slCSource.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\le\sound\slCListener.h" />
+    <ClInclude Include="..\..\..\src\le\sound\slCSoundContext.h" />
+    <ClInclude Include="..\..\..\src\le\sound\slCSource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\le\sound\base\slCSourceImpl.hp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

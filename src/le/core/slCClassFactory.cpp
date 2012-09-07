@@ -12,7 +12,8 @@ base::IClassImpl::IClassImpl(const char* typeName) :
 	mName(typeName)
 {
 	LE_ENTER_LOG_SILENT;
-	LE_IF_LOG(log << "Registering class \"" << mName << "\"." << std::endl);
+//	LE_IF_LOG(log << "Registering class \"" << mName << "\"." << std::endl);
+	std::cout << "Registering class \"" << mName << "\"." << std::endl;
 	CClassFactory::defaultInstance()->registerClass(this);
 }
 

@@ -8,12 +8,13 @@
 #include "slCImageFrameImpl.hp"
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
-#include <jpeg/include/jconfig_win.h>
+#include <jpeg/include/jconfig.h>
 #define JCONFIG_INCLUDED
 #endif
 
 #include <jpeg/include/jpeglib.h>
 
+#pragma comment(lib, "libjpeg")
 
 namespace sokira
 {
