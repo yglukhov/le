@@ -35,6 +35,11 @@ static inline base::IClassImpl* stubClassImpl()
 			{
 				return std::vector<CClass>();
 			}
+
+			virtual Float32 priorityForParameters(const CDictionary& params) const
+			{
+				return 0;
+			}
 	};
 
 	static CStubClassImpl stub;

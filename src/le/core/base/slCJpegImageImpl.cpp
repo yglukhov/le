@@ -1,11 +1,6 @@
-
-//#include <iostream>
-#include <le/core/slCImage.h>
-//#include <le/core/slCNumber.h>
-#include "slCJpegImageImpl.hp"
-
 #include "slCImageImpl.hp"
 #include "slCImageFrameImpl.hp"
+#include <le/core/slCDictionary.h>
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 #include <jpeg/include/jconfig.h>
@@ -21,12 +16,34 @@ namespace sokira
 	namespace le
 	{
 
+class CLibJpegImageImpl : public CImageImpl
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CLibJpegImageImpl)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
+	public:
+		virtual void loadFromFile(FILE* file);
+		static Float32 priorityForParameters(const CDictionary& parameters)
+		{
+			UInt16 fileSignature = parameters.valueAsUInt16ForKey("fileSignature");
+			if (fileSignature == 55551) // FF D8 - JPEG image
+			{
+				return 100;
+			}
+			return -1;
+		}
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(CLibJpegImageImpl);
+		
 static void onJpegError (j_common_ptr cinfo)
 {
 	throw cinfo;
 }
 
-void CJpegImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
+void CLibJpegImageImpl::loadFromFile(FILE* file)
 {
 	fseek(file, 0, SEEK_SET);
 
@@ -74,7 +91,7 @@ void CJpegImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 
 		jpeg_finish_decompress(&info);   //finish decompressing this file
 
-		image->insertFrame(0, CImageFrame(new CImageFrameImpl(size, type, pixelData, 0)));
+		insertFrame(0, CImageFrame(new CImageFrameImpl(size, type, pixelData, 0)));
 	}
 	catch (j_common_ptr cinfo)
 	{

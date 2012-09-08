@@ -21,34 +21,6 @@ LE_IMPLEMENT_RUNTIME_CLASS(COpenGLRenderingContext);
 
 static CSize2D createTextureWithBitmapData(COpenGLRenderingContext* context, const CSize2D& size, const UInt8* data, EPixelFormat format, GLuint texture);
 
-void fillMatrix(Float32* m)
-{
-	for (int i = 0; i < 16; ++i)
-	{
-		m[i] = rand() * 0.123f;
-	}
-}
-
-void Matrix4Mul(Float32* M, Float32* A, Float32* B)
-{
-	M[ 0] = A[ 0] * B[ 0] + A[ 1] * B[ 4] + A[ 2] * B[ 8] + A[ 3] * B[12];
-	M[ 1] = A[ 0] * B[ 1] + A[ 1] * B[ 5] + A[ 2] * B[ 9] + A[ 3] * B[13];
-	M[ 2] = A[ 0] * B[ 2] + A[ 1] * B[ 6] + A[ 2] * B[10] + A[ 3] * B[14];
-	M[ 3] = A[ 0] * B[ 3] + A[ 1] * B[ 7] + A[ 2] * B[11] + A[ 3] * B[15];
-	M[ 4] = A[ 4] * B[ 0] + A[ 5] * B[ 4] + A[ 6] * B[ 8] + A[ 7] * B[12];
-	M[ 5] = A[ 4] * B[ 1] + A[ 5] * B[ 5] + A[ 6] * B[ 9] + A[ 7] * B[13];
-	M[ 6] = A[ 4] * B[ 2] + A[ 5] * B[ 6] + A[ 6] * B[10] + A[ 7] * B[14];
-	M[ 7] = A[ 4] * B[ 3] + A[ 5] * B[ 7] + A[ 6] * B[11] + A[ 7] * B[15];
-	M[ 8] = A[ 8] * B[ 0] + A[ 9] * B[ 4] + A[10] * B[ 8] + A[11] * B[12];
-	M[ 9] = A[ 8] * B[ 1] + A[ 9] * B[ 5] + A[10] * B[ 9] + A[11] * B[13];
-	M[10] = A[ 8] * B[ 2] + A[ 9] * B[ 6] + A[10] * B[10] + A[11] * B[14];
-	M[11] = A[ 8] * B[ 3] + A[ 9] * B[ 7] + A[10] * B[11] + A[11] * B[15];
-	M[12] = A[12] * B[ 0] + A[13] * B[ 4] + A[14] * B[ 8] + A[15] * B[12];
-	M[13] = A[12] * B[ 1] + A[13] * B[ 5] + A[14] * B[ 9] + A[15] * B[13];
-	M[14] = A[12] * B[ 2] + A[13] * B[ 6] + A[14] * B[10] + A[15] * B[14];
-	M[15] = A[12] * B[ 3] + A[13] * B[ 7] + A[14] * B[11] + A[15] * B[15];
-}
-
 COpenGLRenderingContext::COpenGLRenderingContext() :
 	mSharedBuffer(NULL),
 	mSharedBufferSize(0)
@@ -68,27 +40,6 @@ COpenGLRenderingContext::COpenGLRenderingContext() :
 	glStencilMask(0xFF);
 
 	mFont.setSize(16);
-
-//	Float32 matrix1[16];
-//	Float32 matrix2[16];
-//
-//	Float32 mm1[16];
-//	Float32 mm2[16];
-	
-//	for (int i = 0; i < 100; ++i)
-//	{
-//		fillMatrix(matrix1);
-//		fillMatrix(matrix2);
-//		cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, 4, 4, 4, 1.0f, matrix1, 4, matrix2, 4, 1.0f, mm1, 4);
-//		Matrix4Mul(mm2, matrix1, matrix2);
-//		for (int j = 0; j < 16; ++j)
-//		{
-//			if (mm1[j] != mm2[j])
-//			{
-//				std::cout << "ERROR(" << mm1[j] << ", " << mm2[j] << ")" << std::endl;
-//			}
-//		}
-//	}
 }
 
 COpenGLRenderingContext::~COpenGLRenderingContext()

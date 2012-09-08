@@ -27,11 +27,13 @@ class CClassFactory
 			return NULL;
 		}
 
-		bool isClassRegistered(const CBasicString& className);
+		bool isClassRegistered(const CBasicString& className) const;
 		CClass classWithName(const CBasicString& className)
 		{
 			return CClass(_classWithName(className));
 		}
+
+		CClass bestSubclassOfClassWithParameters(const CClass& superclass, const CDictionary& parameters) const;
 
 		class iterator// : public std::set<IClassImpl*>::iterator
 		{
@@ -165,7 +167,7 @@ class CClassFactory
 	private:
 		typedef std::set<base::IClassImpl*> CClassSet;
 		CClassSet mClassSet;
-		base::IClassImpl* _classWithName(const CBasicString& name);
+		base::IClassImpl* _classWithName(const CBasicString& name) const;
 		iterator _beginForChildsOfStd(const std::type_info& name);
 };
 

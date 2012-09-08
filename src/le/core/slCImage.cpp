@@ -1,10 +1,8 @@
 #include "slTypes.h"
 #include "slCURL.h"
 #include "slCImage.h"
-#include "slCNumber.h"
-#include "base/slCBitmapImageImpl.hp"
-#include "base/slCGifImageImpl.hp"
-#include "base/slCJpegImageImpl.hp"
+#include "slCDictionary.h"
+#include "slCClassFactory.h"
 #include "base/slCImageImpl.hp"
 #include "base/slCImageFrameImpl.hp"
 
@@ -14,6 +12,7 @@ namespace sokira
 	{
 
 LE_IMPLEMENT_RUNTIME_CLASS(CImage);
+LE_IMPLEMENT_RUNTIME_CLASS(CImageImpl);
 
 CImage::CImage() :
 	mImpl(NULL)
@@ -58,27 +57,22 @@ Bool CImage::loadFromURL(const CURL& url)
 	FILE* file = fopen(url.path().cString(), "rb");
 	if (file)
 	{
-		UInt16 type;
-		fread(&type, sizeof(type), 1, file);
-		type = CNumber::littleEndianToHost(type);
+		UInt16 fileSignature;
+		fread(&fileSignature, sizeof(fileSignature), 1, file);
+		fileSignature = CNumber::littleEndianToHost(fileSignature);
 
-//		std::cout << "Type: " << type << std::endl;
+		CDictionary parameters;
+		parameters.setValueForKey(LESTR("fileSignature"), fileSignature);
+		parameters.setValueForKey(LESTR("fileExtension"), url.extension());
+		parameters.setValueForKey(LESTR("fileURL"), url);
 
-		switch (type)
+		mImpl = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CImageImpl::staticClass(), parameters).create<CImageImpl>().retain();
+
+		if (mImpl)
 		{
-			case 19778: // 'BM' - Windows BMP image
-				mImpl = new CImageImpl();
-				CBitmapImageImpl::loadFromFileToImageImpl(file, mImpl);
-				break;
-			case 18759: // 'GI' - GIF image
-				mImpl = new CImageImpl();
-				//CGifImageImpl::loadFromFileToImageImpl(file, mImpl);
-				break;
-			case 55551: // FF D8 - JPEG image
-				mImpl = new CImageImpl();
-				//CJpegImageImpl::loadFromFileToImageImpl(file, mImpl);
-				break;
+			mImpl->loadFromFile(file);
 		}
+
 		fclose(file);
 	}
 	return _LE_BOOL_CAST(mImpl);

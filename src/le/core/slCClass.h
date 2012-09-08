@@ -176,6 +176,8 @@ class IClassImpl;
 
 } // namespace base
 
+class CDictionary;
+
 ////////////////////////////////////////////////////////////////////////////////
 // class CClass
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,11 +195,17 @@ class CClass
 		std::set<ISelector*> selectors() const;
 		std::set<ISelector*> ownSelectors() const;
 
+		inline bool isChildOfClass(const CClass& otherClass) const
+		{
+			return isChildOfStdClass(otherClass.stdType());
+		}
+
 	// Private:
 		CClass(base::IClassImpl* impl);
 
 		inline const std::type_info& stdType() const;
 		inline bool isChildOfStdClass(const std::type_info& stdClass) const;
+		inline Float32 priorityForParameters(const CDictionary& paramters) const;
 	private:
 		base::IClassImpl* mImpl;
 };
@@ -268,6 +276,7 @@ class IClassImpl
 			registerSelectors<typename TTypeList::PopFront>();
 		}
 
+		virtual Float32 priorityForParameters(const CDictionary& parameters) const = 0;
 	private:
 		IClassImpl();
 		const char* mName;
@@ -310,6 +319,11 @@ const std::type_info& CClass::stdType() const
 bool CClass::isChildOfStdClass(const std::type_info& stdClass) const
 {
 	return mImpl->isChildOfStdClass(stdClass);
+}
+
+Float32 CClass::priorityForParameters(const CDictionary& paramters) const
+{
+	return mImpl->priorityForParameters(paramters);
 }
 
 		namespace base
@@ -361,29 +375,45 @@ struct TSChildOf<_SNullType>
 	}
 };
 
-template <class TListNode>
-struct TSForTypeListParentFind
+template <class TContext>
+struct TSAddParent
 {
-	static void addParent(std::vector<CClass>& res)
+	static inline void addParent(std::vector<CClass>& res)
 	{
-		res.push_back(TListNode::Head::staticClass());
-		TSForTypeListParentFind<typename TListNode::Tail>::addParent(res);
+		res.push_back(TContext::T::staticClass());
+		TContext::Next::addParent(res);
 	}
 };
 
 template <>
-struct TSForTypeListParentFind<_SNullType>
+struct TSAddParent<_SNullType>
 {
-	static void addParent(std::vector<CClass>& res)
-	{
+	static inline void addParent(std::vector<CClass>& res) { }
+};
 
+template <class T, bool Exists>
+struct TSGetPriorityForParameters
+{
+	static inline Float32 f(const CDictionary& params)
+	{
+		return T::priorityForParameters(params);
 	}
 };
 
+template <class T>
+struct TSGetPriorityForParameters<T, false>
+{
+	static inline Float32 f(const CDictionary& params)
+	{
+		return 0;
+	}
+};
 
 template <class T>
 class TCClassImpl : public IClassImpl
 {
+	LE_DECLARE_MEMBER_FUNCTION_CHECKER(priorityForParameters, TSPriorityForParametersFunctionExists);
+
 	public:
 		TCClassImpl(const char* typeName) : IClassImpl(typeName)
 		{
@@ -411,8 +441,14 @@ class TCClassImpl : public IClassImpl
 		virtual std::vector<CClass> parents() const
 		{
 			std::vector<CClass> result;
-			TSForTypeListParentFind<typename T::leParents::_headNode>::addParent(result);
+			result.reserve(T::leParents::length);
+			T::leParents::template Enumerate<TSAddParent>::addParent(result);
 			return result;
+		}
+
+		virtual Float32 priorityForParameters(const CDictionary& parameters) const
+		{
+			return TSGetPriorityForParameters<T, TSPriorityForParametersFunctionExists<T, Float32(*)(const CDictionary&)>::result::value>::f(parameters);
 		}
 };
 

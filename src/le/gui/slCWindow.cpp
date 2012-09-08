@@ -153,8 +153,8 @@ void CWindow::screenWasRemovedFromApplication(CGuiApplication* app)
 
 void CWindow::prepareRenderingContext()
 {
-	mRenderingContext = CClassFactory::defaultInstance()->create<CRenderingContext>("COpenGLRenderingContext");
-	std::cout << "Rendering context: " << mRenderingContext << std::endl;
+	CClass rendererClass = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CRenderingContext::staticClass(), CDictionary());
+	mRenderingContext = rendererClass.create<CRenderingContext>();
 }
 
 void CWindow::_screenWillBeClosed()

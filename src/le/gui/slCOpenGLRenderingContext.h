@@ -57,6 +57,11 @@ class COpenGLRenderingContext : public CRenderingContext
 
 		Bool isExtensionSupported(const char* extensionName) const;
 
+		static Float32 priorityForParameters(const CDictionary& params)
+		{
+			return 1;
+		}
+
 	protected:
 		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);
 		virtual void setTextureImpl(const CTextureImpl* textureImpl);

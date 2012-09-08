@@ -1,6 +1,7 @@
 #include <iostream>
 #include <le/core/slCImage.h>
 #include <le/core/slCNumber.h>
+#include <le/core/slCDictionary.h>
 #include "slCImageFrameImpl.hp"
 
 #include "slCGifImageImpl.hp"
@@ -13,6 +14,28 @@ namespace sokira
 {
 	namespace le
 	{
+
+class CLibGifImageImpl : public CImageImpl
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CLibGifImageImpl)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
+	public:
+		virtual void loadFromFile(FILE* file);
+		static Float32 priorityForParameters(const CDictionary& parameters)
+		{
+			UInt16 fileSignature = parameters.valueAsUInt16ForKey("fileSignature");
+			if (fileSignature == 18759) // 'GI'
+			{
+				return 100;
+			}
+			return -1;
+		}
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(CLibGifImageImpl);
 
 static int le_gif_input_func(GifFileType *gifFile, GifByteType * data, int byteCount)
 {
@@ -46,7 +69,7 @@ static inline UInt8 transparentColor(UInt8* graphicControlExtension)
 	return *(graphicControlExtension + 3);
 }
 
-void CGifImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
+void CLibGifImageImpl::loadFromFile(FILE* file)
 {
 	fseek(file, 0, SEEK_SET);
 	GifFileType *gifFile = DGifOpen(file, le_gif_input_func);
@@ -92,7 +115,7 @@ void CGifImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 				}
 			}
 //			std::cout << "IMAGE " << i << " duration: " << frameDuration(gce) << std::endl;
-			image->insertFrame(i, CImageFrame(new CImageFrameImpl(size, format, pixelData, frameDuration(gce))));
+			insertFrame(i, CImageFrame(new CImageFrameImpl(size, format, pixelData, frameDuration(gce))));
 		}
 
 		DGifCloseFile(gifFile);

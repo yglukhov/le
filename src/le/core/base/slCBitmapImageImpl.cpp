@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string.h> // For memcpy
 #include <le/core/slCNumber.h>
+#include <le/core/slCDictionary.h>
 #include "slCImageImpl.hp"
-#include "slCBitmapImageImpl.hp"
 
 //#include <le/core/slCImage.h>
 #include "slCImageFrameImpl.hp"
@@ -11,6 +11,28 @@ namespace sokira
 {
 	namespace le
 	{
+
+class CBitmapImageImpl : public CImageImpl
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CBitmapImageImpl)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+	
+	public:
+		virtual void loadFromFile(FILE* file);
+		static Float32 priorityForParameters(const CDictionary& parameters)
+		{
+			UInt16 fileSignature = parameters.valueAsUInt16ForKey("fileSignature");
+			if (fileSignature == 19778) // 'BM' - Windows BMP image
+			{
+				return 200;
+			}
+			return -1;
+		}
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(CBitmapImageImpl);
 
 
 #define LE_BMP_BITS_PER_PIXEL 32
@@ -55,7 +77,7 @@ typedef struct tagRGBQUAD {
   BYTE    rgbReserved;
 } RGBQUAD;
 
-void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
+void CBitmapImageImpl::loadFromFile(FILE* file)
 {
 //	std::cout << "loading bitmap" << std::endl;
 	BITMAPFILEHEADER bmfh;
@@ -98,7 +120,6 @@ void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 
 	UInt32 bytesPerPixel = bmih.biBitCount / 8;
 	UInt32 padWidth = bmih.biWidth * bytesPerPixel;
-
 
 	while (padWidth % 4) ++padWidth;
 
@@ -161,7 +182,7 @@ void CBitmapImageImpl::loadFromFileToImageImpl(FILE* file, CImageImpl* image)
 		}
 		fread(&color, padWidth, 1, file); // Omit padding
 	}
-	image->insertFrame(0, CImageFrame(new CImageFrameImpl(size, (EPixelFormat)LE_BMP_BITS_PER_PIXEL, pixelData, 0)));
+	insertFrame(0, CImageFrame(new CImageFrameImpl(size, (EPixelFormat)LE_BMP_BITS_PER_PIXEL, pixelData, 0)));
 }
 
 	} // namespace le

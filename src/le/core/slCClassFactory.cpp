@@ -13,7 +13,6 @@ base::IClassImpl::IClassImpl(const char* typeName) :
 {
 	LE_ENTER_LOG_SILENT;
 //	LE_IF_LOG(log << "Registering class \"" << mName << "\"." << std::endl);
-	std::cout << "Registering class \"" << mName << "\"." << std::endl;
 	CClassFactory::defaultInstance()->registerClass(this);
 }
 
@@ -28,9 +27,33 @@ CClassFactory *CClassFactory::defaultInstance()
 	return &factory;
 }
 
-bool CClassFactory::isClassRegistered(const CBasicString& className)
+bool CClassFactory::isClassRegistered(const CBasicString& className) const
 {
 	return (_classWithName(className) != NULL);
+}
+
+CClass CClassFactory::bestSubclassOfClassWithParameters(const CClass& superclass, const CDictionary& parameters) const
+{
+	CClassSet::iterator end = mClassSet.end();
+	
+	CClass bestClass = superclass;
+	Float32 bestPriority = bestClass.priorityForParameters(parameters);
+
+	for (CClassSet::iterator it = mClassSet.begin(); it != end; ++it)
+	{
+		CClass curClass(*it);
+		if (curClass.isChildOfClass(superclass))
+		{
+			Float32 priority = curClass.priorityForParameters(parameters);
+			if (priority > bestPriority)
+			{
+				bestPriority = priority;
+				bestClass = curClass;
+			}
+		}
+	}
+
+	return bestClass;
 }
 
 struct SByNameFinder
@@ -49,7 +72,7 @@ struct SByNameFinder
 	CBasicString mName;
 };
 
-base::IClassImpl* CClassFactory::_classWithName(const CBasicString& name)
+base::IClassImpl* CClassFactory::_classWithName(const CBasicString& name) const
 {
 	CClassSet::iterator end = mClassSet.end();
 	CClassSet::iterator it = std::find_if(mClassSet.begin(), end, SByNameFinder(name));

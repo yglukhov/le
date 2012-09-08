@@ -64,7 +64,13 @@ CString CURL::path() const
 
 CString CURL::extension() const
 {
-	return CString();
+	SInt32 dotPos = mPath.findLast(LESTR("."));
+	if (dotPos < 0)
+	{
+		return CString();
+	}
+	++dotPos;
+	return mPath.subString(dotPos, mPath.length() - dotPos);
 }
 
 CString CURL::lastPathComponent() const

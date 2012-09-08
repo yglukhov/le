@@ -24,24 +24,24 @@ class TCColor : public sokira::le::base::CColorBase
 
 		}
 
-		inline TCColor(TComponent red, TComponent green = 0, TComponent blue = 0, TComponent alpha = _max<TComponent>::maxValue()) :
-			mR(red),
-			mG(green),
-			mB(blue),
-			mA(alpha)
+//		inline TCColor(TComponent red, TComponent green = 0, TComponent blue = 0, TComponent alpha = _max<TComponent>::maxValue()) :
+//			mR(red),
+//			mG(green),
+//			mB(blue),
+//			mA(alpha)
+//		{
+//
+//		}
+
+		template <typename T>
+		inline TCColor(T red, T green = 0, T blue = 0, T alpha = _max<T>::maxValue()) :
+			mR(toComponent(red)),
+			mG(toComponent(green)),
+			mB(toComponent(blue)),
+			mA(toComponent(alpha))
 		{
 
 		}
-
-		//template <typename T>
-		//inline TCColor(T red, T green = 0, T blue = 0, T alpha = _max<T>::maxValue()) :
-		//	mR(toComponent(red)),
-		//	mG(toComponent(green)),
-		//	mB(toComponent(blue)),
-		//	mA(toComponent(alpha))
-		//{
-
-		//}
 
 		inline TCColor(const TCColor<TComponent>& copy) :
 			mR(copy.mR),

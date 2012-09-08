@@ -245,6 +245,18 @@ struct TSRef
 		typename TSRemoveRef<T>::result&>::result result;
 };
 
+#define LE_DECLARE_MEMBER_FUNCTION_CHECKER(func, name)						\
+	template<typename TTypeOfClassThatHasMemberFunction, typename TMemberFunctionType>	\
+	struct name {															\
+		typedef char yes[1];												\
+		typedef char no [2];												\
+		template <typename U, U> struct type_check;							\
+		template <typename _1> static yes &chk(type_check<TMemberFunctionType, &_1::func> *); \
+		template <typename   > static no  &chk(...);						\
+		typedef TSBoolTypeFromInt<sizeof(chk<TTypeOfClassThatHasMemberFunction>(0)) == sizeof(yes)> result; \
+	}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 struct _TSTypeHasDefaultConstructor

@@ -65,8 +65,8 @@ class TCPointer
 
 		//////////////////////////////////////////////////////////////////////////
 		// Release
-		inline void retain();
-		inline void release();
+		inline TCPointer& retain();
+		inline TCPointer& release();
 
 		//////////////////////////////////////////////////////////////////////////
 		// Private section
@@ -211,21 +211,23 @@ T* TCPointer<T>::reset(T* toValue)
 }
 
 template <typename T>
-void TCPointer<T>::retain()
+TCPointer<T>& TCPointer<T>::retain()
 {
 	if (mObj)
 	{
 		mObj->retain();
 	}
+	return *this;
 }
 
 template <typename T>
-void TCPointer<T>::release()
+TCPointer<T>& TCPointer<T>::release()
 {
 	if (mObj)
 	{
 		mObj->release();
 	}
+	return *this;
 }
 
 	} // namespace le
