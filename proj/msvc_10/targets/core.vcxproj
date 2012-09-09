@@ -86,6 +86,7 @@ del _le_tmp_file.tmp
   <ItemGroup>
     <ClCompile Include="..\..\..\src\le\core\auxiliary\slCFileManager.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCBasicAny.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\base\slCIPictureImageImpl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCAny.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCClass.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCClassFactory.cpp" />
@@ -110,8 +111,6 @@ del _le_tmp_file.tmp
     <ClCompile Include="..\..\..\src\le\core\auxiliary\slCWorkspace.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCBasicString.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCBitmapImageImpl.cpp" />
-    <ClCompile Include="..\..\..\src\le\core\base\slCGifImageImpl.cpp" />
-    <ClCompile Include="..\..\..\src\le\core\base\slCJpegImageImpl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slAssert.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slCAssertControl.cpp" />
@@ -240,11 +239,8 @@ del _le_tmp_file.tmp
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\src\le\core\auxiliary\base\slCRunLoopImplWin.hp" />
-    <None Include="..\..\..\src\le\core\base\slCBitmapImageImpl.hp" />
-    <None Include="..\..\..\src\le\core\base\slCGifImageImpl.hp" />
     <None Include="..\..\..\src\le\core\base\slCImageFrameImpl.hp" />
     <None Include="..\..\..\src\le\core\base\slCImageImpl.hp" />
-    <None Include="..\..\..\src\le\core\base\slCJpegImageImpl.hp" />
     <None Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.hp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

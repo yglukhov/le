@@ -4,7 +4,6 @@
 #include <le/core/slCDictionary.h>
 #include "slCImageFrameImpl.hp"
 
-#include "slCGifImageImpl.hp"
 #include "slCImageImpl.hp"
 
 #include <gif/include/gif_lib.h>

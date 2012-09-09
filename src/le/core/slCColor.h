@@ -28,6 +28,12 @@ class CColor : public CObject, public TCColor<>
 
 		}
 
+		inline CColor(const CColor& color) :
+			TCColor<>((const TCColor<>&)color)
+		{
+
+		}
+
 		template <typename T>
 		inline CColor(const TCColor<T>& color) :
 			TCColor<>(color)

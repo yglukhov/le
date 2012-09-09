@@ -57,15 +57,15 @@ class CTestScreen : public CWindow
 
 		void CGuiTestAppDelegate::applicationDidFinishLaunching(CApplication& application)
 		{
-			CWindow* screen = new CTestScreen();
+			CWindow::Ptr screen = new CWindow();
 
 			//	CDialog::Ptr dlg1 = new CDialog(CRectangle(10, 15, 30, 30));
 			//	dlg1.retain();
 			//	dlg1->setAutoResizing(eAutoResizingFixedMargins);
 
-			CView* dlg2 = new CView(CRectangle(1, 1, 60, 60));
+			CView::Ptr dlg2 = new CView(CRectangle(1, 1, 60, 60));
 
-			CButton* button = new CButton(CRectangle(1, 1, 20, 20));
+			CButton::Ptr button = new CButton(CRectangle(1, 1, 20, 20));
 			button->setText("x");
 			//	dlg2->addChild(dlg1.get());
 			//	CFace* face = new CFace();
@@ -78,7 +78,7 @@ class CTestScreen : public CWindow
 //			screen->addScene(scene, 0);
 
 //			screen->contentView()->addChild(dlg2);
-//			screen->addChild(dlg2);
+			screen->addChild(dlg2);
 			dynamic_cast<CGuiApplication&>(application).addWindow(screen);
 
 //			TCFunction<> timerFunc = bind(&CGuiTestAppDelegate::onTimer, this);
