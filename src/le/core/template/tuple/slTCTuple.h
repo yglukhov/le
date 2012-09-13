@@ -2,6 +2,7 @@
 #define SL_LE_core_template_tuple_slTCTuple_h
 
 #include <new>
+#include <iostream>
 #include <le/core/template/util/slTSConstToType.h>
 #include "slTCUnitTuple.h"
 
@@ -10,35 +11,20 @@ namespace sokira
 	namespace le
 	{
 
-template <typename T, bool hasConstructor>
-struct _TSUnitTuple
-{
-	typename TSRemoveConst<typename TSRemoveRef<T>::result>::result mValue;
-	const T& value() const
-	{
-		return mValue;
-	}
-
-	void setValue(const T& value)
-	{
-		mValue = value;
-	}
-};
-
 template <typename T>
-struct _TSUnitTuple<T, false>
+struct _TSUnitTupleForNoConstructor
 {
 	typedef typename TSRemoveConst<typename TSRemoveRef<T>::result>::result TRawType;
 	char mValue[sizeof(TRawType)];
 	bool inited;
 
-	_TSUnitTuple():
+	_TSUnitTupleForNoConstructor():
 		inited(false)
 	{
 		
 	}
 
-	~_TSUnitTuple()
+	~_TSUnitTupleForNoConstructor()
 	{
 		if (inited)
 		{
@@ -64,16 +50,56 @@ struct _TSUnitTuple<T, false>
 
 
 template <typename T>
-struct TSDefaultTupleUnit : _TSUnitTuple<T, true>
+struct TSDefaultTupleUnit
 {
+	typename TSRemoveConst<typename TSRemoveRef<T>::result>::result mValue;
 
+	const T& value() const
+	{
+		return mValue;
+	}
+	
+	void setValue(const T& value)
+	{
+		mValue = value;
+	}
 };
+
+		template <typename T>
+		struct TSDefaultTupleUnit<T&>
+		{
+			T* mValue;
+			T& value() const
+			{
+				return *mValue;
+			}
+			
+			void setValue(T& value)
+			{
+				mValue = &value;
+			}
+		};
+		
+		template <typename T>
+		struct TSDefaultTupleUnit<const T&>
+		{
+			const T* mValue;
+			const T& value() const
+			{
+				return *mValue;
+			}
+			
+			void setValue(const T& value)
+			{
+				mValue = &value;
+			}
+		};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class TCTuple - allows to store objects of different types in one structure,
 // and refer to them by index.
-template <class TTypeList>
-class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
+template <class TTypeList, template <typename T> class TUnit = TSDefaultTupleUnit>
+class TCTuple : public TCUnitTuple<TTypeList, TUnit>
 {
 	public:
 		////////////////////////////////////////////////////////////////////////
@@ -82,8 +108,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		template <unsigned index>
 		const typename TTypeList::template TypeAt<index>::result& value() const
 		{
-			return TCUnitTuple<TTypeList,
-							TSDefaultTupleUnit>::template unit<index>().value();
+			return TCUnitTuple<TTypeList, TUnit>::template unit<index>().value();
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -92,8 +117,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		template <unsigned index>
 		void setValue(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
 		{
-			TCUnitTuple<TTypeList,
-					TSDefaultTupleUnit>::template unit<index>().setValue(newValue);
+			TCUnitTuple<TTypeList, TUnit>::template unit<index>().setValue(newValue);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -106,11 +130,35 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 								TSBoolToType<(index >= TTypeList::length)>());
 		}
 
+		void dump(std::ostream& stream) const
+		{
+			TTypeList::template Enumerate<TSTupleDumper, _SNullType, TSTupleDumperTerminator>::dump(stream, this);
+		}
 
 		////////////////////////////////////////////////////////////////////////
 		// Implementation
 		////////////////////////////////////////////////////////////////////////
 	private:
+		template <class TContext>
+		struct TSTupleDumper
+		{
+			template <class Tuple>
+			static inline void dump(std::ostream& s, const Tuple* t)
+			{
+				s << TContext::I << ": " << t->template value<TContext::I>() << "\n";
+				TContext::Next::dump(s, t);
+			}
+		};
+
+		struct TSTupleDumperTerminator
+		{
+			template <class Tuple>
+			static inline void dump(std::ostream& s, const Tuple* t)
+			{
+
+			}
+		};
+
 		template <unsigned i, typename T>
 		inline void _setValueNonStrict(const T& obj, TSBoolToType<false>)
 		{
@@ -124,7 +172,12 @@ class TCTuple : public TCUnitTuple<TTypeList, TSDefaultTupleUnit>
 		}
 };
 
-
+		template <class TTypeList>
+		class TCReferenceTuple : public TCTuple<TTypeList>
+		{
+			
+		};
+		
 	} // namespace le
 } // namespace sokira
 

@@ -3,6 +3,8 @@
 
 #include <le/core/slCClass.h>
 #include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/template/function/slTCVariadicFunction.h>
+#include <le/core/base/slCBasicAny.h>
 
 namespace sokira
 {
@@ -11,11 +13,30 @@ namespace sokira
 
 class CDictionary;
 class CString;
-class CSelectorInvocation
+class CSelectorInvocation :
+	public TCVariadicFunctionMixin<TSVariadicToAnyPacker<CSelectorInvocation, std::vector<CBasicAny> >, TSVariadicFunctionConstantResult<CBasicAny>::TResult>
 {
 	public:
-//		CSelectorInvocation(CObject* obj, 
+		template <class TList>
+		struct TResult
+		{
+			typedef CBasicAny result;
+		};
 
+		CSelectorInvocation(CObject* obj, ISelector* sel) :
+			mObject(obj),
+			mSelector(sel)
+		{
+
+		}
+
+		using TVariadic::operator();
+
+		CBasicAny operator()(const std::vector<CBasicAny>& arguments);
+
+	private:
+		CObject* mObject;
+		ISelector* mSelector;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +59,7 @@ class CObject : public CSimpleRefCountable
 		virtual void deserialize(const CDictionary& fromDictionary);
 
 		CSelectorInvocation selector(const CString& name);
+		Bool respondsToSelector(const CString& name) const;
 //		CAny performSelector(const CString& name, TCArray<CAny>& arguments);
 //		CAny performConstSelector(const CString& name, TCArray<CAny>& arguments) const;
 //		static CAny performStaticSelector(const CString& name, TCArray<CAny>& arguments);

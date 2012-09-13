@@ -22,13 +22,13 @@ CBasicAny::IAnyContainer::~IAnyContainer()
 CBasicAny::CBasicAny() :
 	mValue(NULL)
 {
-	std::cout << "default constructor\n";
+//	std::cout << "default constructor\n";
 }
 
 CBasicAny::CBasicAny(const CBasicAny& copy) :
 	mValue(copy.mValue ? copy.mValue->copy() : NULL)
 {
-	std::cout << "copy constructor\n";
+//	std::cout << "copy constructor\n";
 }
 
 CBasicAny::~CBasicAny()
@@ -44,12 +44,12 @@ CBasicAny::CBasicAny(IAnyContainer* container) :
 
 const CBasicAny& CBasicAny::operator = (const CBasicAny& copy)
 {
-	std::cout << "copy =\n";
+//	std::cout << "copy =\n";
 	delete mValue;
 	mValue = copy.mValue->copy();
 	return *this;
 }
-		
+
 
 	} // namespace le
 } // namespace sokira

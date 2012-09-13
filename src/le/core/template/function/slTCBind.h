@@ -84,14 +84,14 @@ private:
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
-	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
+	inline typename FuncParamList::template TypeAt<index>::result
 		paramForIndex(const TCTuple<TParamTypeList>& /*paramTuple*/, TSBoolToType<false> /* isBinded */) const
 	{
 		return mTuple.template value<index>();
 	}
 
 	template <unsigned index, int bindIndex, class TParamTypeList>
-	inline typename TSConstRef<typename FuncParamList::template TypeAt<index>::result>::result
+	inline typename FuncParamList::template TypeAt<index>::result
 		paramForIndex(const TCTuple<TParamTypeList>& paramTuple, TSBoolToType<true> /* isBinded */) const
 	{
 		return paramTuple.template value<bindIndex>();

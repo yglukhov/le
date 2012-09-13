@@ -31,8 +31,8 @@ struct TSFreeFunctionCallWithTuple<R, 0>
 template <typename R>															\
 struct TSFreeFunctionCallWithTuple<R, x + 1>									\
 {																				\
-	template <typename FuncType, class TList>									\
-	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)	\
+	template <typename FuncType, class Tuple>									\
+	static inline R callWithTuple(FuncType func, const Tuple& tuple)			\
 	{																			\
 		return func(tuple.template value<0>() LE_PP_REPETITION_FROM_0_TO(x, _le_val)); \
 	}																			\
@@ -64,8 +64,8 @@ struct TSMemberFunctionCallWithTuple;
 template <typename R>
 struct TSMemberFunctionCallWithTuple<R, 0>
 {
-	template <typename FuncType, class TList>
-	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)
+	template <typename FuncType, class Tuple>
+	static inline R callWithTuple(FuncType func, const Tuple& tuple)
 	{
 		return (tuple.template value<0>()->*func)();
 	}
@@ -77,8 +77,8 @@ struct TSMemberFunctionCallWithTuple<R, 0>
 template <typename R>											\
 struct TSMemberFunctionCallWithTuple<R, x + 1>						\
 {																		\
-	template <typename FuncType, class TList>							\
-	static inline R callWithTuple(FuncType func, const TCTuple<TList>& tuple)	\
+	template <typename FuncType, class Tuple>							\
+	static inline R callWithTuple(FuncType func, Tuple& tuple)	\
 	{																	\
 		return (tuple.template value<0>()->*func)(						\
 			tuple.template value<1>()									\

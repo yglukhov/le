@@ -227,34 +227,59 @@ struct TSRemoveRef<T&>
 template <typename T>
 struct TSConstRef
 {
-	private:
-		typedef typename TSRemoveRef<T>::result _unref;
-	public:
-		typedef typename TSIntSelect<
-			(sizeof(_unref) > sizeof(_unref&)),
-			const _unref&,
-			const _unref>::result result;
+	typedef const T& result;
+//	private:
+//		typedef typename TSRemoveRef<T>::result _unref;
+//	public:
+//		typedef typename TSIntSelect<
+//			(sizeof(_unref) > sizeof(_unref&)),
+//			const _unref&,
+//			const _unref>::result result;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 struct TSRef
 {
-	typedef typename TSSelect<TSIsConst<T>,
-		typename TSConstRef<T>::result,
-		typename TSRemoveRef<T>::result&>::result result;
+	typedef T& result;
+//	typedef typename TSSelect<TSIsConst<T>,
+//		typename TSConstRef<T>::result,
+//		typename TSRemoveRef<T>::result&>::result result;
 };
+
+template <typename T>
+struct TSRef<const T*>
+{
+	typedef const T* result;
+	//	typedef typename TSSelect<TSIsConst<T>,
+	//		typename TSConstRef<T>::result,
+	//		typename TSRemoveRef<T>::result&>::result result;
+};
+
+template <typename T>
+struct TSRef<const T * const>
+{
+	typedef const T* const result;
+	//	typedef typename TSSelect<TSIsConst<T>,
+	//		typename TSConstRef<T>::result,
+	//		typename TSRemoveRef<T>::result&>::result result;
+};
+
 
 #define LE_DECLARE_MEMBER_FUNCTION_CHECKER(func, name)						\
 	template<typename TTypeOfClassThatHasMemberFunction, typename TMemberFunctionType>	\
-	struct name {															\
+	struct __##name##__ {															\
 		typedef char yes[1];												\
 		typedef char no [2];												\
 		template <typename U, U> struct type_check;							\
 		template <typename _1> static yes &chk(type_check<TMemberFunctionType, &_1::func> *); \
 		template <typename   > static no  &chk(...);						\
 		typedef TSBoolTypeFromInt<sizeof(chk<TTypeOfClassThatHasMemberFunction>(0)) == sizeof(yes)> result; \
-	}
+	}; \
+	template<typename TTypeOfClassThatHasMemberFunction, typename TMemberFunctionType>	\
+	struct name : public __##name##__<TTypeOfClassThatHasMemberFunction, TMemberFunctionType>::result \
+	{ }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -63,11 +63,12 @@ struct TSTypeList
 		> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >
 		> > > > > > >::node _dirtyList;
 
-	public:
 
 //	typedef _dirtyList _headNode;
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
 //	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
+
+	public:
 
 	enum
 	{
@@ -177,33 +178,33 @@ struct TSTypeList
 
 	//////////////
 	// Enumeration
-	template <template <class TContext> class TEnumerator, UInt32 i = 0>
+	template <template <class TContext> class TEnumerator, UInt32 i, class CustomDefinitions, class TerminationEnumerator>
 	struct TSTypeListEnumerationContext;
 
-	template <int i, bool atEnd, template <class TContext> class TEnumerator>
-	struct TSEnumerationCycle : public TEnumerator<TSTypeListEnumerationContext<TEnumerator, i> >
+	template <int i, bool atEnd, template <class TContext> class TEnumerator, class CustomDefinitions, class TerminationEnumerator>
+	struct TSEnumerationCycle : public TEnumerator<TSTypeListEnumerationContext<TEnumerator, i, CustomDefinitions, TerminationEnumerator> >
 	{ };
 
-	template <int i, template <class TContext> class TEnumerator>
-	struct TSEnumerationCycle<i, true, TEnumerator> : public TEnumerator<_SNullType>
+	template <int i, template <class TContext> class TEnumerator, class CustomDefinitions, class TerminationEnumerator>
+	struct TSEnumerationCycle<i, true, TEnumerator, CustomDefinitions, TerminationEnumerator> : public TerminationEnumerator
 	{ };
 
-	template <template <class TContext> class TEnum, UInt32 i>
-	struct TSTypeListEnumerationContext
+	template <template <class TContext> class TEnum, UInt32 i, class CustomDefinitions, class TerminationEnumerator>
+	struct TSTypeListEnumerationContext : public CustomDefinitions
 	{
 		template <class _T>
 		struct TEnumerator : public TEnum<_T>
 		{
-			
+
 		};
 		typedef TSTypeList<_headNode> TTypeList;
 		enum { I = i };
 		typedef typename TTypeList::template TypeAt<i>::result T;
-		typedef TSEnumerationCycle<i + 1, i + 1 == TTypeList::length, TEnum> Next;
+		typedef TSEnumerationCycle<i + 1, i + 1 == TTypeList::length, TEnum, CustomDefinitions, TerminationEnumerator> Next;
 	};
 
-	template <template <class TContext> class TEnumerator>
-	struct Enumerate : public TSEnumerationCycle<0, !length, TEnumerator>
+	template <template <class TContext> class TEnumerator, class CustomDefinitions = _SNullType, class TerminationEnumerator = TEnumerator<_SNullType> >
+	struct Enumerate : public TSEnumerationCycle<0, !length, TEnumerator, CustomDefinitions, TerminationEnumerator>
 	{ };
 };
 

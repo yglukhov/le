@@ -12,6 +12,8 @@ template <class TTypeList, template <typename> class TUnit>
 class TCUnitTuple
 {
 	public:
+		typedef TTypeList TypeList;
+
 		template <unsigned int index>
 		inline TUnit<typename TTypeList::template TypeAt<index>::result>& unit()
 		{
@@ -31,17 +33,13 @@ class TCUnitTuple
 		struct _TSTupleUnit : public T
 		{ };
 
-		template <class TList, unsigned i = 0>
+		template <class TContext>
 		struct TSTuple :
-			public _TSTupleUnit<i, TUnit<typename TList::Front> >,
-			public TSTuple<typename TList::PopFront, i+1>
+			public _TSTupleUnit<TContext::I, TUnit<typename TContext::T> >,
+			public TContext::Next
 		{ };
 
-		template <unsigned i>
-		struct TSTuple <TSTypeList<>, i>
-		{ };
-
-		TSTuple<TTypeList> mTuple;
+		typename TTypeList::template Enumerate<TSTuple, _SNullType, _SNullType> mTuple;
 };
 
 

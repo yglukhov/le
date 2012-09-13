@@ -82,7 +82,7 @@ struct SMyAnyVariadicFunction
 
 
 //static TCVariadicFunction<SMyVariadicFunction> myVariadicFunction;
-static TCAnyVariadicFunction<SMyAnyVariadicFunction> myAnyVariadicFunction;
+static TCAnyVariadicFunction<SMyAnyVariadicFunction, std::vector<CAny> > myAnyVariadicFunction;
 
 static SMyVariadicFunction myVariadicFunction;
 static TCVariadicFunction<SMyAnotherVariadicFunction> myAnotherVariadicFunction;
@@ -119,9 +119,9 @@ struct A
 	A()
 	{
 	//	TResult<SMyVariadicFunction, TSTypeList<> >::result t;
-		myVariadicFunction();
-		myVariadicFunction(2);
-		myAnotherVariadicFunction(2);
+//		myVariadicFunction();
+//		myVariadicFunction(2);
+//		myAnotherVariadicFunction(2);
 //		std::cout << "A constructible: " << TSTypeHasDefaultConstructor<A>::value << std::endl;
 //		std::cout << "B constructible: " << TSTypeHasDefaultConstructor<B>::value << std::endl;
 //		_TSTypeHasDefaultConstructor<B>::sfinae(0);
@@ -138,7 +138,7 @@ struct A
 //		CAny any2 = any;
 //		std::cout << any.value<int>() << std::endl;
 //		
-		myAnyVariadicFunction(5, 5, 3, 2, 8);
+//		myAnyVariadicFunction(5, 5, 3, 2, 8);
 //
 //
 //		Float32 m[16];

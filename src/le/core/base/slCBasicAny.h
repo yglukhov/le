@@ -18,7 +18,7 @@ class CBasicAny
 
 		template <typename T>
 		CBasicAny(T value) :
-			mValue(new TCAnyContainer<typename TSConstRef<T>::result>(value))
+			mValue(new TCAnyContainer<T>(value))
 		{
 
 		}
@@ -57,7 +57,7 @@ class CBasicAny
 				throw std::bad_cast();
 			}
 
-			TResult* result = static_cast<TResult*>(mValue->get(typeid(TResult)));
+			TResult* result = static_cast<TResult*>(mValue->get(typeid(const TResult*)));
 			if (!result)
 			{
 				throw std::bad_cast();
@@ -79,7 +79,7 @@ class CBasicAny
 		class TCAnyContainer : public IAnyContainer
 		{
 			public:
-				TCAnyContainer(T value) :
+				TCAnyContainer(const T& value) :
 					mValue(value)
 				{
 
@@ -92,9 +92,16 @@ class CBasicAny
 
 				virtual void* get(const std::type_info& type) const
 				{
-		//			std::cout << "Requested type: " << type.name() << std::endl;
-		//			std::cout << "Actual type: " << typeid(TSRemoveRef<T>::result).name() << std::endl;
-					return (type == typeid(typename TSRemoveRef<T>::result)) ? const_cast<void*>(static_cast<const void*>(&mValue)) : NULL;
+					if (!strcmp(type.name(), typeid(const typename TSRemoveRef<T>::result*).name()))
+					{
+						return const_cast<void*>(static_cast<const void*>(&mValue));
+					}
+
+					std::cout << "TYPES DO NOT MATCH!" << std::endl;
+					std::cout << "Requested type: " << type.name() << std::endl;
+					std::cout << "Actual type: " << typeid(const typename TSRemoveRef<T>::result*).name() << std::endl;
+
+					return NULL;
 				}
 			private:
 				T mValue;

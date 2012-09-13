@@ -8,6 +8,9 @@ namespace sokira
 {
 	namespace le
 	{
+
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+
 		SInt32 CGuiWindowsApplication::runApplication()
 		{
 			delegate()->applicationWillFinishLaunching(*this);
@@ -44,6 +47,8 @@ namespace sokira
 		{
 			CThread::thread().runLoop().stop();
 		}
-		
+
+#endif
+
 	} // namespace le
 } // namespace sokira

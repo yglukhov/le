@@ -18,6 +18,11 @@ namespace sokira
 		namespace base
 		{
 
+static inline Bool typeInfosEqual(const std::type_info& lhs, const std::type_info& rhs)
+{
+	return !strcmp(lhs.name(), rhs.name());
+}
+
 template <class T>
 struct TSPublicParentDeclarator
 {};
@@ -199,6 +204,8 @@ class CClass
 		{
 			return isChildOfStdClass(otherClass.stdType());
 		}
+	
+		inline bool instanceRespondsToSelector(const CBasicString& name) const;
 
 	// Private:
 		CClass(base::IClassImpl* impl);
@@ -261,19 +268,22 @@ class IClassImpl
 			}
 		}
 
+		Bool instanceRespondsToSelector(const CBasicString& name) const
+		{
+			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
+			{
+				if (name == (*it)->name())
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		template <class TTypeList>
 		inline void registerSelectors()
 		{
-			processDeclarator
-				<
-					typename TSSelect
-					<
-						TSStrictCastAvailable<typename TTypeList::Front, _SSelectorDeclarator>,
-						typename TTypeList::Front,
-						_SNullType
-					>::result
-				>();
-			registerSelectors<typename TTypeList::PopFront>();
+			TTypeList::template Enumerate<TSSelectorRegistrator, _SNullType, TSSelectorRegistratorTerminator>::addSelector(mSelectors);
 		}
 
 		virtual Float32 priorityForParameters(const CDictionary& parameters) const = 0;
@@ -281,27 +291,38 @@ class IClassImpl
 		IClassImpl();
 		const char* mName;
 		std::set<ISelector*> mSelectors;
-		template <typename T>
-		inline void processDeclarator()
+
+		template <class TContext>
+		struct TSSelectorRegistrator
 		{
-			mSelectors.insert(T::selector());
-		}
+			struct TSActualRegister
+			{
+				static inline void addSelector(std::set<ISelector*>& selectors)
+				{
+					selectors.insert(TContext::T::selector());
+				}
+			};
+
+			static inline void addSelector(std::set<ISelector*>& selectors)
+			{
+				TSSelect
+				<
+					TSStrictCastAvailable<typename TContext::T, _SSelectorDeclarator>,
+					TSActualRegister,
+					TSSelectorRegistratorTerminator
+				>::result::addSelector(selectors);
+				TContext::Next::addSelector(selectors);
+			}
+		};
+
+		struct TSSelectorRegistratorTerminator
+		{
+			static inline void addSelector(std::set<ISelector*>& selectors) { }
+		};
 
 		friend class ::sokira::le::CClass;
 		friend struct ::sokira::le::SByNameFinder;
 };
-
-template <>
-inline void IClassImpl::registerSelectors<TSTypeList<> >()
-{
-
-}
-
-template <>
-inline void IClassImpl::processDeclarator<_SNullType>()
-{
-
-}
 
 			} // namespace base
 
@@ -326,88 +347,13 @@ Float32 CClass::priorityForParameters(const CDictionary& paramters) const
 	return mImpl->priorityForParameters(paramters);
 }
 
+bool CClass::instanceRespondsToSelector(const CBasicString& name) const
+{
+	return mImpl->instanceRespondsToSelector(name);
+}
+
 		namespace base
 		{
-
-template <class TListNode, class T>
-struct TSForTypeListParentCreate
-{
-	static void* create(const std::type_info& type)
-	{
-		if (typeid(typename TListNode::Head) == type)
-		{
-			return static_cast<void*>(dynamic_cast<typename TListNode::Head*>(new T()));
-		}
-
-		void* result = TSForTypeListParentCreate<typename TListNode::Head::leParents::_headNode, T>::create(type);
-
-		return result ? result :(TSForTypeListParentCreate<typename TListNode::Tail, T>::create(type));
-	}
-};
-
-template <class T>
-struct TSForTypeListParentCreate<_SNullType, T>
-{
-	static void* create(const std::type_info& type)
-	{
-		return NULL;
-	}
-};
-
-template <class TContext>
-struct TSChildOf
-{
-	static inline bool f(const std::type_info& stdType)
-	{
-		typedef typename TContext::T T;
-		return (typeid(T) == stdType) ||
-			T::leParents::template Enumerate<TContext::template TEnumerator>::f(stdType) ||
-			TContext::Next::f(stdType);
-	}
-};
-
-template <>
-struct TSChildOf<_SNullType>
-{
-	static inline bool f(const std::type_info&)
-	{
-		return false;
-	}
-};
-
-template <class TContext>
-struct TSAddParent
-{
-	static inline void addParent(std::vector<CClass>& res)
-	{
-		res.push_back(TContext::T::staticClass());
-		TContext::Next::addParent(res);
-	}
-};
-
-template <>
-struct TSAddParent<_SNullType>
-{
-	static inline void addParent(std::vector<CClass>& res) { }
-};
-
-template <class T, bool Exists>
-struct TSGetPriorityForParameters
-{
-	static inline Float32 f(const CDictionary& params)
-	{
-		return T::priorityForParameters(params);
-	}
-};
-
-template <class T>
-struct TSGetPriorityForParameters<T, false>
-{
-	static inline Float32 f(const CDictionary& params)
-	{
-		return 0;
-	}
-};
 
 template <class T>
 class TCClassImpl : public IClassImpl
@@ -422,15 +368,15 @@ class TCClassImpl : public IClassImpl
 
 		virtual void* create(const std::type_info& type) const
 		{
-			return (typeid(T) == type)?
+			return (typeInfosEqual(typeid(T), type))?
 				(static_cast<void*>(new T()))
 				:
-				(TSForTypeListParentCreate<typename T::leParents::_headNode, T>::create(type));
+				(T::leParents::template Enumerate<TSForTypeListParentCreate, _SNullType, TSForTypeListParentCreateTerminator>::create(type));
 		}
 
 		virtual bool isChildOfStdClass(const std::type_info& type) const
 		{
-			return T::leParents::template Enumerate<TSChildOf>::f(type);
+			return T::leParents::template Enumerate<TSChildOf, _SNullType, TSChildOfTerminator>::f(type);
 		}
 
 		virtual const std::type_info& stdType() const
@@ -442,14 +388,90 @@ class TCClassImpl : public IClassImpl
 		{
 			std::vector<CClass> result;
 			result.reserve(T::leParents::length);
-			T::leParents::template Enumerate<TSAddParent>::addParent(result);
+			T::leParents::template Enumerate<TSAddParent, _SNullType, TSAddParentTerminator>::addParent(result);
 			return result;
 		}
 
 		virtual Float32 priorityForParameters(const CDictionary& parameters) const
 		{
-			return TSGetPriorityForParameters<T, TSPriorityForParametersFunctionExists<T, Float32(*)(const CDictionary&)>::result::value>::f(parameters);
+			return TSSelect<TSPriorityForParametersFunctionExists<T, Float32(*)(const CDictionary&)>, TSActualGetPriorityForParameters, TSStubGetPriorityForParameters>::result::f(parameters);
 		}
+
+	private:
+		template <class TContext>
+		struct TSForTypeListParentCreate
+		{
+			static void* create(const std::type_info& type)
+			{
+				if (typeInfosEqual(typeid(typename TContext::T), type))
+				{
+					return static_cast<void*>(dynamic_cast<typename TContext::T*>(new T()));
+				}
+
+				void* result = TContext::T::leParents::template Enumerate<TContext::template TEnumerator, _SNullType, TSForTypeListParentCreateTerminator>::create(type);
+
+				return result ? result :(TContext::Next::create(type));
+			}
+		};
+
+		struct TSForTypeListParentCreateTerminator
+		{
+			static void* create(const std::type_info& type)
+			{
+				return NULL;
+			}
+		};
+
+		template <class TContext>
+		struct TSChildOf
+		{
+			static inline bool f(const std::type_info& stdType)
+			{
+				typedef typename TContext::T CurType;
+				return typeInfosEqual(typeid(CurType), stdType) ||
+				CurType::leParents::template Enumerate<TContext::template TEnumerator, _SNullType, TSChildOfTerminator>::f(stdType) ||
+				TContext::Next::f(stdType);
+			}
+		};
+
+		struct TSChildOfTerminator
+		{
+			static inline bool f(const std::type_info&)
+			{
+				return false;
+			}
+		};
+
+		template <class TContext>
+		struct TSAddParent
+		{
+			static inline void addParent(std::vector<CClass>& res)
+			{
+				res.push_back(TContext::T::staticClass());
+				TContext::Next::addParent(res);
+			}
+		};
+
+		struct TSAddParentTerminator
+		{
+			static inline void addParent(std::vector<CClass>& res) { }
+		};
+
+		struct TSActualGetPriorityForParameters
+		{
+			static inline Float32 f(const CDictionary& params)
+			{
+				return T::priorityForParameters(params);
+			}
+		};
+
+		struct TSStubGetPriorityForParameters
+		{
+			static inline Float32 f(const CDictionary& params)
+			{
+				return 0;
+			}
+		};
 };
 
 		} // namespace base

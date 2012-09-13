@@ -2,7 +2,6 @@
 #define SL_LE_core_template_function_slTCVariadicFunction_h
 
 #include <le/core/preprocessor/slPPrepeat_from_0.h>
-#include <le/core/slCAny.h>
 #include "slTSFunctionTraits.h"
 
 namespace sokira
@@ -10,13 +9,13 @@ namespace sokira
 	namespace le
 	{
 
-template <class TFunction>
+template <class TFunction, class TContainer>
 struct TSVariadicToAnyPacker : public TFunction
 {
 	template <class TTypeList>
 	typename TFunction::template TResult<TTypeList>::result operator()(const TCTuple<TTypeList>& tuple)
 	{
-		std::vector<CAny> arguments;
+		TContainer arguments;
 		arguments.reserve(TTypeList::length);
 		SCollector<TTypeList, 0, 0 == TTypeList::length>::fillVectorWithTupleValues(arguments, tuple);
 		return TFunction::operator()(arguments);
@@ -26,9 +25,14 @@ private:
 	template <class TTypeList, UInt32 i, bool end>
 	struct SCollector
 	{
-		static inline void fillVectorWithTupleValues(std::vector<CAny>& vector, const TCTuple<TTypeList>& tuple)
+		static inline void fillVectorWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple)
 		{
-			vector.push_back(CAny(tuple.template value<i>()));
+#if 0
+			vector.push_back(typename TContainer::value_type(tuple.template value<i>()));
+#else
+			std::cout << "Creating Any is ref : " << TSIsRef<typename TTypeList::template TypeAt<i>::result>::value << std::endl;
+			vector.push_back(typename TContainer::value_type((typename TTypeList::template TypeAt<i>::result)tuple.template value<i>()));
+#endif
 			SCollector<TTypeList, i + 1, i + 1 == TTypeList::length>::fillVectorWithTupleValues(vector, tuple);
 		}
 	};
@@ -36,7 +40,7 @@ private:
 	template <class TTypeList, UInt32 i>
 	struct SCollector<TTypeList, i, true>
 	{
-		static inline void fillVectorWithTupleValues(std::vector<CAny>& vector, const TCTuple<TTypeList>& tuple) { }
+		static inline void fillVectorWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple) { }
 	};
 };
 
@@ -89,8 +93,8 @@ public: \
 	template<typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typenameT) > \
 	typename TResult<TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) > >::result operator()(T0 a0 LE_PP_REPETITION_FROM_0_TO(x, _le_paramT)) _le_const \
 	{ \
-		typedef typename TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) >::template Mutate<TSRemoveConst>::template Mutate<TSRemoveRef> NEWTypeList; \
-		TCTuple<NEWTypeList> t; \
+		typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT) > TypeList; \
+		TCTuple<TypeList> t; \
 		t.template setValue<0>(a0); \
 		LE_PP_REPETITION_FROM_0_TO(x, _le_tupleT) \
 		return ((_le_const TFunction*)this)->operator()(t); \
@@ -174,8 +178,8 @@ public:
 };
 
 
-template <class TFunction>
-class TCAnyVariadicFunction : public TCVariadicFunction<TSVariadicToAnyPacker<TFunction> > { };
+template <class TFunction, class TContainer>
+class TCAnyVariadicFunction : public TCVariadicFunction<TSVariadicToAnyPacker<TFunction, TContainer> > { };
 
 	} // namespace le
 } // namespace sokira
