@@ -2,7 +2,6 @@
 
 #include <le/core/config/slPrefix.h>
 #include "base/slTSTypeListBase.h"
-#include "base/slTSTypeListAppendTraits.h"
 #include "base/slTSTypeListSorting.h"
 
 namespace sokira
@@ -64,9 +63,7 @@ struct TSTypeList
 		> > > > > > >::node _dirtyList;
 
 
-//	typedef _dirtyList _headNode;
 	typedef typename _TSTypeListEraseAll<_dirtyList, _SNullType>::_result _headNode;
-//	typedef typename _TSTypeListEraseAll<typename _dirtyList::Tail, _SNullType>::_result _popFront;
 
 	public:
 
@@ -75,16 +72,9 @@ struct TSTypeList
 		length = _TSTypeListLength<_headNode>::_result
 	};
 
-	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> uniqueItems;
-//	typedef typename TSSelect<TSTypesEqual<_popFront, _SNullType>, TSTypeList<>, TSTypeList<_popFront> >::result PopFront;
-
-//	typedef typename TSSelect<
-//		TSTypesEqual<_headNode, _SNullType>,
-//		TSTypeList<>,
-//		TSTypeList<typename _headNode::Tail> >::result PopFront;
+	typedef TSTypeList<typename _TSTypeListUnique<_headNode>::_result> Unique;
 	typedef TSTypeList<typename _TSTypeListEraseAt<_headNode, 0>::_result> PopFront;
 
-	
 	template <UInt index>
 	struct TypeAt
 	{
@@ -101,39 +91,31 @@ struct TSTypeList
 	typedef typename TypeAtNonStrict<0>::result Front;
 	typedef typename TypeAtNonStrict<length-1>::result Back;
 
-	template <typename T>
-	struct Find
-	{
-		enum { result = _TSTypeListFind<_headNode, T>::_result };
-	};
-
 	template <template <typename T> class TPredicate>
 	struct FindIf
 	{
 		enum { result = _TSTypeListFindIf<_headNode, TPredicate>::_result };
 	};
 
-	
-//	template <typename T>
-//	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode,
-//				typename TSTypeListAppendTraits<T>::listNode>::_result>
-//	{
-//		typedef TSTypeList<typename _TSTypeListAppend<_headNode,
-//				typename TSTypeListAppendTraits<T>::listNode>::_result> result;
-//	};
-//
-//	template <typename T>
-//	struct PushFront : public TSTypeList<typename _TSTypeListAppend<
-//			typename TSTypeListAppendTraits<T>::listNode, _headNode>::_result>
-//	{};
 	template <typename T>
-	struct PushBack : public TSTypeList<typename _TSTypeListAppend<_headNode, T>::_result>
+	struct Find
 	{
-		typedef TSTypeList<typename _TSTypeListAppend<_headNode, T>::_result> result;
+		template <typename Rhs> struct Predicate : public TSTypesEqual<Rhs, T> {};
+		enum { result = FindIf<Predicate>::result };
 	};
 
-	template <typename T>
-	struct PushFront : public TSTypeList<typename _TSTypeListAppend<T, _headNode>::_result>
+	template <int position, typename TTypeToInsert, int count = 1>
+	struct Insert : public TSTypeList<typename _TSTypeListInsert<_headNode, TTypeToInsert, position, count>::_result>
+	{ };
+
+	template <typename T, unsigned count = 1>
+	struct PushBack : public Insert<length, T, count>
+	{
+		typedef Insert<length, T, count> result;
+	};
+
+	template <typename T, unsigned count = 1>
+	struct PushFront : public Insert<0, T, count>
 	{};
 
 	template <UInt32 i>
@@ -206,6 +188,9 @@ struct TSTypeList
 	template <template <class TContext> class TEnumerator, class CustomDefinitions = _SNullType, class TerminationEnumerator = TEnumerator<_SNullType> >
 	struct Enumerate : public TSEnumerationCycle<0, !length, TEnumerator, CustomDefinitions, TerminationEnumerator>
 	{ };
+
+private:
+
 };
 
 #ifdef LE_USE_VARIADIC_TEMPLATES

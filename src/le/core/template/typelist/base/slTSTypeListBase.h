@@ -97,32 +97,6 @@ struct _TSTypeListTypeAtNonStrict<_TSTypeListNode<Head, Tail>, i, DefaultType>
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Find
-template <class TListNode, class T> struct _TSTypeListFind;
-
-template <class T>
-struct _TSTypeListFind<_SNullType, T>
-{
-	enum { _result = -1 };
-};
-
-template <class T, class Tail>
-struct _TSTypeListFind<_TSTypeListNode<T, Tail>, T>
-{
-	enum { _result = 0 };
-};
-
-template <class Head, class Tail, class T>
-struct _TSTypeListFind<_TSTypeListNode<Head, Tail>, T>
-{
-	private:
-		enum { temp = _TSTypeListFind<Tail, T>::_result };
-	public:
-		enum { _result = (temp == -1) ? (-1) : 1 + temp };
-};
-
-
-////////////////////////////////////////////////////////////////////////////////
 // Find if
 template <class TListNode, template <class T> class TPredicate>
 struct _TSTypeListFindIf;
@@ -140,7 +114,7 @@ struct _TSTypeListFindIf<_TSTypeListNode<U, V>, TPredicate>
 		enum { temp = _TSTypeListFindIf<V, TPredicate>::_result };
 
 	public:
-		enum { _result = (TPredicate<U>::result)?
+		enum { _result = (TPredicate<U>::value)?
 						(0)
 						:
 						((temp == -1)?(-1):(1 + temp)) };
@@ -148,7 +122,7 @@ struct _TSTypeListFindIf<_TSTypeListNode<U, V>, TPredicate>
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// EraseAt
+// Erase at
 template <class TListNode, UInt32 i>
 struct _TSTypeListEraseAt
 {
@@ -193,30 +167,6 @@ struct _TSTypeListErase<_TSTypeListNode<Head, Tail>, TTypeToErase>
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// EraseAll
-template <class TListNode, typename TTypeToErase> struct _TSTypeListEraseAll;
-
-template <typename TTypeToErase>
-struct _TSTypeListEraseAll <_SNullType, TTypeToErase>
-{
-	typedef _SNullType _result;
-};
-
-template <typename TTypeToErase, typename Tail>
-struct _TSTypeListEraseAll <_TSTypeListNode<TTypeToErase, Tail>, TTypeToErase>
-{
-	typedef typename _TSTypeListEraseAll<Tail, TTypeToErase>::_result _result;
-};
-
-template <typename Head, typename Tail, typename TTypeToErase>
-struct _TSTypeListEraseAll <_TSTypeListNode<Head, Tail>, TTypeToErase>
-{
-	typedef _TSTypeListNode<Head,
-		typename _TSTypeListEraseAll<Tail, TTypeToErase>::_result> _result;
-};
-
-
-////////////////////////////////////////////////////////////////////////////////
 // Unique
 template <class TListNode> struct _TSTypeListUnique;
 
@@ -238,83 +188,40 @@ struct _TSTypeListUnique<_TSTypeListNode<Head, Tail> >
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// Append
-template <class TListNode, class TTypeToAppend> struct _TSTypeListAppend
+// Push front
+template <class TListNode, typename T, unsigned count>
+struct _TSTypeListPushFront
 {
-	typedef _TSTypeListNode<TListNode, TTypeToAppend> _result;
+	typedef typename _TSTypeListPushFront<_TSTypeListNode<T, TListNode>, T, count - 1>::_result _result;
 };
 
-template <>
-struct _TSTypeListAppend<_SNullType, _SNullType>
+template <class TListNode, typename T>
+struct _TSTypeListPushFront<TListNode, T, 0>
 {
-	typedef _SNullType _result;
+	typedef TListNode _result;
 };
 
-template <class T>
-struct _TSTypeListAppend<_SNullType, T>
-{
-	typedef _TSTypeListNode<T, _SNullType> _result;
-};
-
-template <class Head, class Tail>
-struct _TSTypeListAppend<_SNullType, _TSTypeListNode<Head, Tail> >
-{
-	typedef _TSTypeListNode<Head, Tail> _result;
-};
-
-template <class Head, class Tail, class T>
-struct _TSTypeListAppend<_TSTypeListNode<Head, Tail>, T>
-{
-	typedef _TSTypeListNode<Head,
-						typename _TSTypeListAppend<Tail, T>::_result> _result;
-};
-
-//template <class Head, class Tail, class T>
-//struct _TSTypeListAppend<T, _TSTypeListNode<Head, Tail> >
-//{
-//	typedef _TSTypeListNode<Head,
-//	typename _TSTypeListAppend<Tail, T>::_result> _result;
-//};
 
 ////////////////////////////////////////////////////////////////////////////////
-// Mutate
-template <class TListNode, template <typename T> class TMutator>
-struct _TSTypeListMutate;
-
-template <template <typename T> class TMutator>
-struct _TSTypeListMutate<_SNullType, TMutator>
+// Insert
+template <class TListNode, typename T, unsigned position, unsigned count>
+struct _TSTypeListInsert
 {
-	typedef _SNullType _result;
+	typedef typename _TSTypeListPushFront<TListNode, T, count>::_result _result;
 };
 
-template <typename U, typename V, template <typename T> class TMutator>
-struct _TSTypeListMutate<_TSTypeListNode<U, V>, TMutator>
+template <typename U, typename V, typename T, unsigned position, unsigned count>
+struct _TSTypeListInsert<_TSTypeListNode<U, V>, T, position, count>
 {
-	typedef _TSTypeListNode<typename TMutator<U>::result,
-					typename _TSTypeListMutate<V, TMutator>::_result> _result;
+	typedef _TSTypeListNode<U, typename _TSTypeListInsert<V, T, position - 1, count>::_result> _result;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// Collect if
-template <class TListNode, template <typename T> class predicate>
-struct _TSTypeListCollectIf;
-
-template <template <typename T> class predicate>
-struct _TSTypeListCollectIf<_SNullType, predicate>
+template <typename U, typename V, typename T, unsigned count>
+struct _TSTypeListInsert<_TSTypeListNode<U, V>, T, 0, count>
 {
-	typedef _SNullType _result;
+	typedef typename _TSTypeListPushFront<_TSTypeListNode<U, V>, T, count>::_result _result;
 };
 
-template <typename U, typename V, template <typename T> class predicate>
-struct _TSTypeListCollectIf<_TSTypeListNode<U, V>, predicate>
-{
-	private:
-		typedef typename _TSTypeListCollectIf<V, predicate>::_result _tailCollect;
-
-	public:
-		typedef typename TSIntSelect<predicate<U>::value,
-				_TSTypeListNode<U, _tailCollect>, _tailCollect>::result _result;
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Collect mutants if
@@ -351,6 +258,36 @@ struct _TSTypeListCollectMutantsIf<_TSTypeListNode<U, V>, predicate>
 					_tailCollect>, _tailCollect>::result _result;
 };
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Collect if
+template <class TListNode, template <typename T> class predicate>
+struct _TSTypeListCollectIf
+{
+	template <typename T> struct Mutator : public predicate<T> { typedef T result; };
+	typedef typename _TSTypeListCollectMutantsIf<TListNode, Mutator>::_result _result;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Mutate
+template <class TListNode, template <typename T> class TMutator>
+struct _TSTypeListMutate
+{
+	template <typename T> struct Mutator : public TMutator<T>, public TSTrue {};
+	typedef typename _TSTypeListCollectMutantsIf<TListNode, Mutator>::_result _result;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Erase all
+template <class TListNode, typename TTypeToErase>
+struct _TSTypeListEraseAll
+{
+	template <typename T>
+	struct Predicate : public TSNot<TSTypesEqual<T, TTypeToErase> > { };
+	typedef typename _TSTypeListCollectIf<TListNode, Predicate>::_result _result;
+};
 
 	} // namespace le
 } // namespace sokira

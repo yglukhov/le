@@ -157,8 +157,6 @@ void CGeneralTestSuite::testTypeList()
 {
 	LE_ENTER_LOG;
 
-	//TEST_STRUCT<int>::bla<TEST_STRUCT>::f();
-
 	typedef TSTypeList<i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<7>,
 						i2t<-2>, i2t<0>, i2t<1>, i2t<2>, i2t<3>, i2t<4>, i2t<5>,
 						i2t<-1>, i2t<10>, i2t<-3> > unsortedList;
@@ -222,9 +220,19 @@ void CGeneralTestSuite::testTypeList()
 	LE_ASSERT((TSTypesEqual<TypeList3::TypeAt<2>::result,
 			   TypeList4::TypeAt<2>::result>::value));
 
-	TypeList4::Enumerate<EnumerateTypeList>::f();
-	TSTypeList<>::Enumerate<EnumerateTypeList>::f();
-	mutatedCollection::Enumerate<EnumerateTypeList>::f();
+	typedef TypeList4::Insert<1, double> TypeList5;
+	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<0>::result, float>::value));
+	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<1>::result, double>::value));
+	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<2>::result, int>::value));
+	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<3>::result, float>::value));
+
+	LE_ASSERT(TypeList5::Find<double>::result == 1);
+	LE_ASSERT(TypeList5::Find<int>::result == 2);
+
+
+//	TypeList4::Enumerate<EnumerateTypeList>::f();
+//	TSTypeList<>::Enumerate<EnumerateTypeList>::f();
+//	mutatedCollection::Enumerate<EnumerateTypeList>::f();
 //	TSEnumerateTypeList<TypeList4, EnumerateTypeList>::f();
 //	LE_ASSERT((TSTypesEqual<TSTypeList<>, TSTypeList<>::EraseAt<0> >::value));
 }
@@ -279,10 +287,56 @@ class A
 		mutable int mMutableTestValue;
 };
 
+template <typename T>
+struct TSRef3
+{
+	typedef T& result;
+};
+
+//template <typename T>
+//static void templateFunc( const T& a)
+//{
+//	std::cout << "const" << std::endl;
+//	std::cout << "Is Ref: " << TSIsRef<T>::value << std::endl;
+//	std::cout << "Is Const: " << TSIsConst<T>::value << std::endl;
+//}
+
+struct TSArgList
+{
+	template <typename T>
+	TSArgList(T a)
+	{
+		std::cout << "TSArgList::TSArgList\n";
+	}
+
+	TSArgList operator ,(int a)
+	{
+		std::cout << "operator,\n";
+	}
+};
+
+//template <typename T>
+//std::ostream& operator << (std::ostream& s, TSArg<T> a)
+//{
+//	s << "hello";
+//}
+
+
+static void templateFunc(TSArgList a)
+{
+
+}
+
+
 void CGeneralTestSuite::testBinds()
 {
 	LE_ENTER_LOG;
 	A objA;
+
+	const int t = 123;
+//	std::cout << TSArg(123);
+//	templateFunc(TSArgList(123), 12);
+//	LE_ASSERT(t == 12);
 
 	objA.mFunctor = bind(testFunc, 10, bindTo(0));
 	LE_ASSERT(objA.mFunctor(5) == 10);
@@ -315,13 +369,35 @@ void CGeneralTestSuite::testBinds()
 void CGeneralTestSuite::testTuples()
 {
 	LE_ENTER_LOG;
-	TCTuple<TSTypeList<int, float, int> > tuple;
-	tuple.setValue<0>(5);
-	tuple.setValue<2>(6);
-	tuple.setValue<1>(3.1f);
-	LE_ASSERT(tuple.value<0>() == 5);
-	LE_ASSERT(tuple.value<1>() > 3.0f && tuple.value<1>() < 3.2f);
-	LE_ASSERT(tuple.value<2>() == 6);
+
+	{
+		TCTuple<TSTypeList<int, float, int> > tuple;
+		tuple.setValue<0>(5);
+		tuple.setValue<2>(6);
+		tuple.setValue<1>(3.1f);
+		LE_ASSERT(tuple.value<0>() == 5);
+		LE_ASSERT(tuple.value<1>() > 3.0f && tuple.value<1>() < 3.2f);
+		LE_ASSERT(tuple.value<2>() == 6);
+	}
+
+	{
+		// Reference tuple
+		CString str = "Hello";
+		TCTuple<TSTypeList<CString&> > refTuple;
+		refTuple.setValue<0>(str);
+		refTuple.value<0>().append(LESTR(", world!"));
+		LE_ASSERT(str == "Hello, world!");
+	}
+
+	{
+		int a = 123;
+		void* somePtr = &a;
+		TCTuple<TSTypeList<void*> > tuple;
+		tuple.setValue<0>(somePtr);
+		TCTuple<TSTypeList<void*> > otherTuple;
+		otherTuple.setValue<0>(tuple.value<0>());
+		LE_ASSERT(*((int*)otherTuple.value<0>()) == 123);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

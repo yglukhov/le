@@ -1,5 +1,8 @@
+
+#include <typeinfo>
 #include <le/core/slCString.h>
 #include "slCReflectionTestSuite.h"
+#include <le/core/slCDictionary.h>
 
 namespace sokira
 {
@@ -16,30 +19,37 @@ class TestClass: public CObject
 //		LE_RTTI_SELECTOR(testFunc)
 		LE_RTTI_SELECTOR(testFunc2)
 		LE_RTTI_SELECTOR(testFunc3)
-		LE_RTTI_SELECTOR_WITH_TYPE(testFunc, void, (int))
+		LE_RTTI_SELECTOR_WITH_TYPE(testFunc, int, (int))
 		LE_RTTI_SELECTOR_WITH_TYPE_NAME(testFunc, voidTestFunc, void, (void))
 	LE_RTTI_END
 
 	public:
 		void testFunc();
-		void testFunc(int);
-		void testFunc2();
+		int testFunc(int);
+		void testFunc2() const;
 		void testFunc3(int);
+
+		virtual void serialize(CDictionary& dict) const
+		{
+			std::cout << "dict: " << &dict << std::endl;
+			dict.setValueForKey(LESTR("SomeKey"), CString(LESTR("SomeValue")));
+		}
 };
 
 LE_IMPLEMENT_RUNTIME_CLASS(TestClass);
 
 void TestClass::testFunc()
 {
-	std::cout << "hi" << std::endl;
+	std::cout << "hi(void)" << std::endl;
 }
 
-void TestClass::testFunc(int)
+int TestClass::testFunc(int a)
 {
-	std::cout << "hi" << std::endl;
+	std::cout << "hi: " << a << std::endl;
+	return a + 5;
 }
 
-void TestClass::testFunc2()
+void TestClass::testFunc2() const
 {
 	std::cout << "hi2" << std::endl;
 }
@@ -88,11 +98,26 @@ void CReflectionTestSuite::testSelectors()
 {
 	TestClass testObj;
 	testObj.testFunc();
-//	testObj.selector("testFunc")();
+	
+	CDictionary dict;
+	std::cout << "SERIALIZE: " << &dict << std::endl;
+	testObj.selector("serialize")(dict);
+	std::cout << "SERIALIZE DONE:" << std::endl;
+	dict.dump(std::cout);
+	//LE_ASSERT(dict.valueAsStringForKey("SomeKey") == "SomeValue");
+
+	std::cout << "WILL CALL test func!!" << std::endl;
+
+//	std::cout << "Result: " <<
+	testObj.selector("testFunc2")(5);
+
+	std::cout << "DID CALL test func!!" << std::endl;
+
 
 	CClass testClass = TestClass2::staticClass();
 	std::set<ISelector*> selectors = testClass.selectors();
 
+	std::cout << "Selectors: " << std::endl;
 	for (std::set<ISelector*>::iterator it = selectors.begin(); it != selectors.end(); ++it)
 	{
 		std::cout << "Selector: " << (*it)->name() << std::endl;
@@ -103,7 +128,17 @@ void CReflectionTestSuite::testSelectors()
 	{
 		std::cout << "parent: " << it->name() << std::endl;
 	}
-	
+
+	LE_ASSERT(testObj.respondsToSelector("testFunc"));
+	LE_ASSERT(testObj.respondsToSelector("voidTestFunc"));
+	LE_ASSERT(testObj.respondsToSelector("testFunc2"));
+	LE_ASSERT(testObj.respondsToSelector("testFunc3"));
+	LE_ASSERT(!testObj.respondsToSelector("someNonexistentFunc"));
+
+//	class AbraCadabra;
+//
+//	std::cout << "Typeof int: " << typeid(AbraCadabra).name() << std::endl;
+//	std::cout << "Typeof int&: " << typeid(const int&).name() << std::endl;
 }
 
 static std::set<CString> classNamesFromClasses(const std::vector<CClass>& classes)

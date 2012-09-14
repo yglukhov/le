@@ -4,13 +4,17 @@
 #include <le/core/config/slPrefix.h>
 #include <le/core/strategies/slCSimpleRefCountable.h>
 #include <le/core/slTCPointer.h>
+#include <le/core/template/typelist/slTSTypeList.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-template <typename FuncType> struct TSFunctionTraits;
+template <typename FuncType> struct TSFunctionTraits
+{
+	typedef TSFalse IsFunction;
+};
 
 	} // namespace le
 } // namespace sokira
@@ -31,6 +35,7 @@ template <typename TRetType, class TypeList>
 struct TSFunctionTraits<TCFunction<TRetType, TypeList> > :
 	public TSFreeFunctionCallWithTuple<TRetType, TypeList::length>
 {
+	typedef TSTrue IsFunction;
 	typedef TRetType RetType;
 	typedef TypeList ParamList;
 	typedef _SNullType OwnerClass;
@@ -44,12 +49,14 @@ struct TSFunctionTraits<TCBind<FuncType, TypeList> > :
 		typename TSFunctionTraits<FuncType>::RetType,
 		TypeList::length>
 {
+	typedef TSTrue IsFunction;
 	typedef typename TSFunctionTraits<FuncType>::RetType RetType;
 	typedef TypeList ParamList;
 	typedef _SNullType OwnerClass;
 	typedef ParamList TupleParamList;
 	typedef TSFalse IsConst;
 };
+
 
 class CFunctionDescriptor
 {
@@ -111,6 +118,19 @@ class CFunctionDescriptor
 			UInt32 mySize = mData->size();
 			return mySize == rhs.mData->size() && !memcmp(mData->pointer(), rhs.mData->pointer(), mySize);
 		}
+};
+
+// TODO Move TSRef2 to base
+template <typename T>
+struct TSRef2
+{
+	typedef typename TSSelect<typename TSFunctionTraits<T>::IsFunction, T, T&>::result result;
+};
+
+template <typename T>
+struct TSRef2<T&>
+{
+	typedef T& result;
 };
 
 	} // namespace le

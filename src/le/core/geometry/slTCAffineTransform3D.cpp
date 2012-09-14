@@ -125,8 +125,6 @@ struct A
 //		std::cout << "A constructible: " << TSTypeHasDefaultConstructor<A>::value << std::endl;
 //		std::cout << "B constructible: " << TSTypeHasDefaultConstructor<B>::value << std::endl;
 //		_TSTypeHasDefaultConstructor<B>::sfinae(0);
-//		TCFreeFunction<void(*)()> tet(ff);
-//		tet();
 //		TCFunction<void, TSTypeList<int> > tet(f);
 //		tet(3);
 //		TCFunction<void, TSTypeList<int> > f = bind(&A::testFunc, this, bindTo(0));

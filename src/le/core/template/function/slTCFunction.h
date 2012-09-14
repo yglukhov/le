@@ -3,7 +3,7 @@
 
 //#include <le/core/debug/slAssert.h>
 #include <le/core/slTCPointer.h>
-#include "base/slTCFreeFunction.h"
+#include "base/slTIFunction.h"
 #include "slTCVariadicFunction.h"
 
 namespace sokira
@@ -28,7 +28,7 @@ class TCFunction : public TIFunction<RetType, TypeList>
 
 		template <typename FuncType>
 		inline TCFunction(FuncType func) :
-			mFunc(new TCFreeFunction<FuncType, RetType, TypeList>(func))
+			mFunc(new TCFunctionImpl<FuncType>(func))
 		{
 
 		}
@@ -51,6 +51,26 @@ class TCFunction : public TIFunction<RetType, TypeList>
 
 	private:
 		TCPointer<TIFunction<RetType, TypeList> > mFunc;
+
+		template <typename FunctionType>
+		class TCFunctionImpl : public TIFunction<RetType, TypeList>
+		{
+				FunctionType mFunction;
+			public:
+				inline TCFunctionImpl(const FunctionType& func) :
+					mFunction(func)
+				{ }
+
+				virtual CFunctionDescriptor functionDescriptor() const
+				{
+					return CFunctionDescriptor(mFunction);
+				}
+
+				virtual RetType operator()(const TCTuple<TypeList>& t) const
+				{
+					return TSFreeFunctionCallWithTuple<RetType, TypeList::length>::callWithTuple(mFunction, t);
+				}
+		};
 };
 
 	} // namespace le

@@ -2,7 +2,7 @@
 #define SL_LE_core_template_function_base_slTSFunctionCallWithTuple_h
 
 #include <le/core/preprocessor/slPPrepeat_from_0.h>
-#include <le/core/template/tuple/slTCTuple.h>
+//#include <le/core/template/tuple/slTCTuple.h>
 
 namespace sokira
 {

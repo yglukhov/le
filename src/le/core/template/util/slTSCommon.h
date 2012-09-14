@@ -184,7 +184,7 @@ struct TSIsRef : public TSFalse
 {};
 
 template <typename T>
-struct TSIsRef<T&> : public TSFalse
+struct TSIsRef<T&> : public TSTrue
 {};
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -239,9 +239,9 @@ struct TSConstRef
 
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
-struct TSRef
+		struct TSRef
 {
-	typedef T& result;
+	typedef T const& result;
 //	typedef typename TSSelect<TSIsConst<T>,
 //		typename TSConstRef<T>::result,
 //		typename TSRemoveRef<T>::result&>::result result;
@@ -263,6 +263,18 @@ struct TSRef<const T * const>
 	//	typedef typename TSSelect<TSIsConst<T>,
 	//		typename TSConstRef<T>::result,
 	//		typename TSRemoveRef<T>::result&>::result result;
+};
+
+template <typename T>
+struct TSRef<T&>
+{
+	typedef T& result;
+};
+
+template <typename T>
+struct TSRef<const T>
+{
+	typedef T const& result;
 };
 
 

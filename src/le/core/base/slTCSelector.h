@@ -70,6 +70,7 @@ class TCSelector : public ISelector
 			TCTuple<TupleParamList> t;
 			t.template setValue<0>(static_cast<typename Traits::OwnerClass*>(object));
 			ParamList::template Enumerate<TSFillTupleWithAnyArray, _SNullType, TSFillTupleWithAnyArrayTerminator>::f(t, arguments);
+			std::cout << "In tcselector:" << &t.template value<0>() << std::endl;
 			return call(t, TSTypeToType<typename Traits::RetType>());
 		}
 

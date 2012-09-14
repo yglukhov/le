@@ -13,6 +13,7 @@ template <typename TRetType>
 struct TSFunctionTraits<TRetType()> :
 	public TSFreeFunctionCallWithTuple<TRetType, 0>
 {
+	enum { IsFunction = true };
 	typedef TRetType RetType;
 	typedef TSTypeList<> ParamList;
 	typedef _SNullType OwnerClass;
@@ -28,6 +29,7 @@ template <typename TRetType, typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typen
 struct TSFunctionTraits<TRetType(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> :	\
 	public TSFreeFunctionCallWithTuple<TRetType, x + 1>								\
 {																					\
+	enum { IsFunction = true };														\
 	typedef TRetType RetType;														\
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;		\
 	typedef _SNullType OwnerClass;													\
@@ -58,6 +60,7 @@ template <typename TRetType>
 struct TSFunctionTraits<TRetType(*)()> :
 	public TSFreeFunctionCallWithTuple<TRetType, 0>
 {
+	enum { IsFunction = true };
 	typedef TRetType RetType;
 	typedef TSTypeList<> ParamList;
 	typedef _SNullType OwnerClass;
@@ -71,6 +74,7 @@ template <typename TRetType, typename T0 LE_PP_REPETITION_FROM_0_TO(x, _le_typen
 struct TSFunctionTraits<TRetType(*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT))> : \
 	public TSFreeFunctionCallWithTuple<TRetType, x + 1> \
 { \
+	enum { IsFunction = true }; \
 	typedef TRetType RetType; \
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList; \
 	typedef _SNullType OwnerClass; \
