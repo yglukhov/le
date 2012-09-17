@@ -162,10 +162,10 @@ struct _SSelectorDeclarator
 	protected:		\
 	typedef __LE_temp_Self leSelf;					\
 	public:	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector>	leParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPublicParentCollector> lePublicParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPrivateParentCollector> lePrivateParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSProtectedParentCollector> leProtectedParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector>::result	leParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPublicParentCollector>::result lePublicParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPrivateParentCollector>::result lePrivateParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSProtectedParentCollector>::result leProtectedParents;	\
 	typedef leParents::TypeAtNonStrict<0>::result leFirstParent;	\
 	typedef lePublicParents::TypeAtNonStrict<0>::result leFirstPublicParent;	\
 	typedef lePrivateParents::TypeAtNonStrict<0>::result leFirstPrivateParent;	\

@@ -108,32 +108,6 @@ struct TCollectorPredicate<i2t<I> >
 	typedef i2t<I + 5> result;
 };
 
-
-//template <class T>
-//struct test1
-//{
-//	template <template <class> class T1>
-//	struct test2
-//	{
-//		static int f()
-//		{
-//			return 3;
-//		}
-//	};
-//
-////	static int i()
-////	{
-////		return test2<test1>::f();
-////	}
-//	test1<int> m;
-//};
-//
-//template <>
-//struct test1<int>
-//{
-//	
-//};
-
 template <class TEnumerationContext>
 struct EnumerateTypeList
 {
@@ -160,7 +134,7 @@ void CGeneralTestSuite::testTypeList()
 	typedef TSTypeList<i2t<5>, i2t<4>, i2t<3>, i2t<2>, i2t<1>, i2t<0>, i2t<7>,
 						i2t<-2>, i2t<0>, i2t<1>, i2t<2>, i2t<3>, i2t<4>, i2t<5>,
 						i2t<-1>, i2t<10>, i2t<-3> > unsortedList;
-	typedef unsortedList::SortDes<TSSortTestPredicate> sortedList;
+	typedef unsortedList::SortDes<TSSortTestPredicate>::result sortedList;
 
 	LE_ASSERT(sortedList::TypeAt<0>::result::value == 10);
 	LE_ASSERT(sortedList::TypeAt<1>::result::value == 7);
@@ -180,20 +154,32 @@ void CGeneralTestSuite::testTypeList()
 	LE_ASSERT(sortedList::TypeAt<15>::result::value == -2);
 	LE_ASSERT(sortedList::TypeAt<16>::result::value == -3);
 
-	typedef unsortedList::CollectIf<TCollectorPredicate> collection;
+	typedef unsortedList::CollectIf<TCollectorPredicate>::result collection;
 	LE_ASSERT(collection::TypeAt<0>::result::value == 4);
 	LE_ASSERT(collection::TypeAt<1>::result::value == 3);
 	LE_ASSERT(collection::TypeAt<2>::result::value == 3);
 	LE_ASSERT(collection::TypeAt<3>::result::value == 4);
 
-	typedef unsortedList::CollectMutantsIf<TCollectorPredicate> mutatedCollection;
+	typedef unsortedList::CollectMutantsIf<TCollectorPredicate>::result mutatedCollection;
 	LE_ASSERT(mutatedCollection::TypeAt<0>::result::value == 9);
 	LE_ASSERT(mutatedCollection::TypeAt<1>::result::value == 8);
 	LE_ASSERT(mutatedCollection::TypeAt<2>::result::value == 8);
 	LE_ASSERT(mutatedCollection::TypeAt<3>::result::value == 9);
 
+	typedef TSTypeList<>::PushBack<i2t<0> >::result pushBackedTypeList1;
+	LE_ASSERT(pushBackedTypeList1::length == 1);
+
+	typedef pushBackedTypeList1::PushBack<i2t<1> >::result pushBackedTypeList2;
+	LE_ASSERT(pushBackedTypeList2::length == 2);
+
+	typedef pushBackedTypeList2::PushBack<i2t<2> >::result pushBackedTypeList3;
+	LE_ASSERT(pushBackedTypeList3::length == 3);
+
+	typedef pushBackedTypeList3::PushBack<i2t<3> >::result pushBackedTypeList4;
+	LE_ASSERT(pushBackedTypeList4::length == 4);
+
 	typedef TSTypeList<int, float, int> TypeList1;
-	typedef TSTypeList<int, float>::PushBack<int> TypeList2;
+	typedef TSTypeList<int, float>::PushBack<int>::result TypeList2;
 
 	LE_ASSERT((TSTypesEqual<TypeList1::TypeAt<0>::result,
 							TypeList2::TypeAt<0>::result>::value));
@@ -202,7 +188,7 @@ void CGeneralTestSuite::testTypeList()
 	LE_ASSERT((TSTypesEqual<TypeList1::TypeAt<2>::result,
 							TypeList2::TypeAt<2>::result>::value));
 
-	typedef TypeList2::PopFront::PushBack<float> TypeList3;
+	typedef TypeList2::PopFront::PushBack<float>::result TypeList3;
 
 	LE_ASSERT(!(TSTypesEqual<TypeList1::TypeAt<0>::result,
 			   TypeList3::TypeAt<0>::result>::value));
@@ -220,7 +206,7 @@ void CGeneralTestSuite::testTypeList()
 	LE_ASSERT((TSTypesEqual<TypeList3::TypeAt<2>::result,
 			   TypeList4::TypeAt<2>::result>::value));
 
-	typedef TypeList4::Insert<1, double> TypeList5;
+	typedef TypeList4::Insert<1, double>::result TypeList5;
 	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<0>::result, float>::value));
 	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<1>::result, double>::value));
 	LE_ASSERT((TSTypesEqual<TypeList5::TypeAt<2>::result, int>::value));
@@ -287,56 +273,10 @@ class A
 		mutable int mMutableTestValue;
 };
 
-template <typename T>
-struct TSRef3
-{
-	typedef T& result;
-};
-
-//template <typename T>
-//static void templateFunc( const T& a)
-//{
-//	std::cout << "const" << std::endl;
-//	std::cout << "Is Ref: " << TSIsRef<T>::value << std::endl;
-//	std::cout << "Is Const: " << TSIsConst<T>::value << std::endl;
-//}
-
-struct TSArgList
-{
-	template <typename T>
-	TSArgList(T a)
-	{
-		std::cout << "TSArgList::TSArgList\n";
-	}
-
-	TSArgList operator ,(int a)
-	{
-		std::cout << "operator,\n";
-	}
-};
-
-//template <typename T>
-//std::ostream& operator << (std::ostream& s, TSArg<T> a)
-//{
-//	s << "hello";
-//}
-
-
-static void templateFunc(TSArgList a)
-{
-
-}
-
-
 void CGeneralTestSuite::testBinds()
 {
 	LE_ENTER_LOG;
 	A objA;
-
-	const int t = 123;
-//	std::cout << TSArg(123);
-//	templateFunc(TSArgList(123), 12);
-//	LE_ASSERT(t == 12);
 
 	objA.mFunctor = bind(testFunc, 10, bindTo(0));
 	LE_ASSERT(objA.mFunctor(5) == 10);
@@ -545,7 +485,6 @@ void CGeneralTestSuite::testAny()
 	int i = 2;
 	CAny any = i;
 
-	std::cout << any.value<int>() << '\n';
 	LE_ASSERT(any.value<int>() == i);
 	LE_ASSERT(any.value<int &>() == i);
 
@@ -577,17 +516,13 @@ void CGeneralTestSuite::testAny()
 	LE_ASSERT(any.value<int &>() == j);
 	any.value<int &>() = 321;
 
-	std::cout << j << std::endl;
-	std::cout << any.value<int>() << std::endl;
-
 	const CString str = "hi!";
 	any = CAny::constRef(str);
 
-	std::cout << any.value<CString&>() << std::endl;
 	any.value<CString&>() = "qwer";
-
-	std::cout << any.value<CString&>() << std::endl;
-	std::cout << str << std::endl;
+//
+//	std::cout << any.value<CString&>() << std::endl;
+//	std::cout << str << std::endl;
 }
 
 	} // namespace le

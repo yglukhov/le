@@ -14,24 +14,7 @@ struct _SNullType
 
 template <typename U, typename V>
 struct _TSTypeListNode
-{
-	typedef U Head;
-	typedef V Tail;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-// Type List traits
-template <class T>
-struct TSTypeListTraits
-{
-	typedef T node;
-};
-
-template <typename U, typename V, typename T>
-struct TSTypeListTraits <_TSTypeListNode<_TSTypeListNode<U, V>, T> >
-{
-	typedef _TSTypeListNode<U, V> node;
-};
+{};
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,11 +234,11 @@ struct _TSTypeListCollectMutantsIf<_TSTypeListNode<U, V>, predicate>
 {
 	private:
 		typedef typename _TSTypeListCollectMutantsIf<V, predicate>::_result _tailCollect;
+		enum { _predicateResult = predicate<U>::value };
+		typedef typename _TSMutatorStubResultSelector<_predicateResult, U, predicate>::_result _mutatedHead;
 
 	public:
-		typedef typename TSIntSelect<predicate<U>::value,
-				_TSTypeListNode<typename _TSMutatorStubResultSelector<predicate<U>::value, U, predicate>::_result,
-					_tailCollect>, _tailCollect>::result _result;
+		typedef typename TSIntSelect<_predicateResult, _TSTypeListNode<_mutatedHead, _tailCollect>, _tailCollect>::result _result;
 };
 
 
@@ -265,16 +248,6 @@ template <class TListNode, template <typename T> class predicate>
 struct _TSTypeListCollectIf
 {
 	template <typename T> struct Mutator : public predicate<T> { typedef T result; };
-	typedef typename _TSTypeListCollectMutantsIf<TListNode, Mutator>::_result _result;
-};
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Mutate
-template <class TListNode, template <typename T> class TMutator>
-struct _TSTypeListMutate
-{
-	template <typename T> struct Mutator : public TMutator<T>, public TSTrue {};
 	typedef typename _TSTypeListCollectMutantsIf<TListNode, Mutator>::_result _result;
 };
 

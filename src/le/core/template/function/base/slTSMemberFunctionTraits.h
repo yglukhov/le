@@ -14,7 +14,7 @@ struct TSFunctionTraits<TRetType (T::*)()> :
 	typedef TRetType RetType;
 	typedef TSTypeList<> ParamList;
 	typedef T OwnerClass;
-	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
+	typedef typename ParamList::template PushFront<OwnerClass*>::result TupleParamList;
 	typedef TSFalse IsConst;
 };
 
@@ -26,7 +26,7 @@ public TSMemberFunctionCallWithTuple<TRetType, 0>
 	typedef TRetType RetType;
 	typedef TSTypeList<> ParamList;
 	typedef T OwnerClass;
-	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;
+	typedef typename ParamList::template PushFront<OwnerClass*>::result TupleParamList;
 	typedef TSTrue IsConst;
 };
 
@@ -42,7 +42,7 @@ struct TSFunctionTraits<TRetType (T::*)(T0 LE_PP_REPETITION_FROM_0_TO(x, _le_raw
 	typedef TRetType RetType;																	\
 	typedef TSTypeList<T0 LE_PP_REPETITION_FROM_0_TO(x, _le_rawT)> ParamList;					\
 	typedef CONST T OwnerClass;																	\
-	typedef typename ParamList::template PushFront<OwnerClass*> TupleParamList;					\
+	typedef typename ParamList::template PushFront<OwnerClass*>::result TupleParamList;			\
 	typedef TIsConst IsConst;																	\
 };
 
