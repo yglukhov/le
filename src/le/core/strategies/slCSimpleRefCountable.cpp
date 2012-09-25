@@ -13,6 +13,12 @@ CSimpleRefCountable::CSimpleRefCountable() :
 
 }
 
+CSimpleRefCountable::CSimpleRefCountable(const CSimpleRefCountable& copy) :
+	mRefCount(1)
+{
+
+}
+
 CSimpleRefCountable::~CSimpleRefCountable()
 {
 	LE_ASSERT(mRefCount <= 1);
