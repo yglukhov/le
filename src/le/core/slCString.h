@@ -31,6 +31,7 @@ class CString : public CObject, public CBasicString
 
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
+		virtual CString description() const { return *this; }
 };
 
 	} // namespace le
