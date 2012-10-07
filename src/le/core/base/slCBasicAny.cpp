@@ -14,11 +14,6 @@ namespace sokira
 	namespace le
 	{
 	
-CBasicAny::IAnyContainer::~IAnyContainer()
-{
-
-}
-
 CBasicAny::CBasicAny() :
 	mValue(NULL)
 {
@@ -31,11 +26,6 @@ CBasicAny::CBasicAny(const CBasicAny& copy) :
 //	std::cout << "copy constructor\n";
 }
 
-CBasicAny::~CBasicAny()
-{
-	delete mValue;
-}
-
 CBasicAny::CBasicAny(IAnyContainer* container) :
 	mValue(container)
 {
@@ -45,7 +35,6 @@ CBasicAny::CBasicAny(IAnyContainer* container) :
 const CBasicAny& CBasicAny::operator = (const CBasicAny& copy)
 {
 //	std::cout << "copy =\n";
-	delete mValue;
 	mValue = copy.mValue->copy();
 	return *this;
 }

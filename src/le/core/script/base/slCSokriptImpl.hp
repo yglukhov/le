@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <le/core/slCData.h>
+#include "slCSokriptInstruction.hp"
 
 namespace sokira
 {
@@ -10,7 +11,6 @@ namespace sokira
 	{
 
 class CSokriptFlexLexer;
-class CSokriptInstruction;
 
 class CSokriptImpl
 {
@@ -36,7 +36,7 @@ class CSokriptImpl
 		void parse_error(const void*, const void*);
 		void lex_error(const char*, const void*);
 
-		void setInstruction(CSokriptInstruction* instruction);
+		void setInstruction(CSokriptInstruction::Ptr instruction);
 
 		// Arithmetic actions
 		CObject* addObjects(CObject* left, CObject* right);
@@ -50,7 +50,7 @@ class CSokriptImpl
 		CSokriptInstruction* pushConstantInstruction(CObject* theConstant);
 
 	private:
-		CSokriptInstruction* mInstruction;
+		CSokriptInstruction::Ptr mInstruction;
 };
 
 	} // namespace le

@@ -98,7 +98,9 @@ class CBasicString
 		bool isEmpty() const;
 
 		SInt32 find(const CBasicString& string) const;
+		SInt32 find(WChar c) const;
 		SInt32 findLast(const CBasicString& string) const;
+		SInt32 findLast(WChar c) const;
 		Bool hasPrefix(const CBasicString& prefix) const;
 
 		CBasicString subString(UInt32 from, UInt32 length) const;

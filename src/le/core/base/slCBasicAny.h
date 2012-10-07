@@ -5,6 +5,8 @@
 // Includes
 #include <typeinfo>
 #include <le/core/template/util/slTSCommon.h>
+#include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/slTCPointer.h>
 
 namespace sokira
 {
@@ -17,14 +19,13 @@ class CBasicAny
 		CBasicAny();
 
 		template <typename T>
-		CBasicAny(T value) :
+		CBasicAny(const T& value) :
 			mValue(new TCAnyContainer<T>(value))
 		{
 
 		}
 
 		CBasicAny(const CBasicAny& copy);
-		virtual ~CBasicAny();
 
 		template <typename T>
 		static CBasicAny constRef(const T& value)
@@ -33,9 +34,21 @@ class CBasicAny
 		}
 
 		template <typename T>
-		static CBasicAny ref(T& value)
+		static CBasicAny mutableRef(T& value)
 		{
 			return CBasicAny((IAnyContainer*)new TCAnyContainer<typename TSRemoveConst<T>::result&>(value));
+		}
+
+		template <typename T>
+		static CBasicAny ref(T& value)
+		{
+			return mutableRef(value);
+		}
+
+		template <typename T>
+		static CBasicAny ref(const T& value)
+		{
+			return constRef(value);
 		}
 
 		const CBasicAny& operator = (const CBasicAny& copy);
@@ -43,7 +56,6 @@ class CBasicAny
 		template <typename T>
 		const CBasicAny& operator=(typename TSRef<T>::result& value)
 		{
-			delete mValue;
 			mValue = new TCAnyContainer<typename TSRef<T>::result>(value);
 			return *this;
 		}
@@ -66,13 +78,31 @@ class CBasicAny
 			return *result;
 		}
 
+		template <typename T>
+		typename TSRemoveConst<typename TSRef<T>::result>::result mutableValue()
+		{
+			typedef typename TSRemoveRef<typename TSRef<T>::result>::result TResult;
+			if (!mValue || mValue->isConst())
+			{
+				throw std::bad_cast();
+			}
+
+			TResult* result = static_cast<TResult*>(mValue->get(typeid(const TResult*)));
+			if (!result)
+			{
+				throw std::bad_cast();
+			}
+
+			return const_cast<typename TSRemoveConst<typename TSRef<T>::result>::result>(*result);
+		}
+
 	private:
-		class IAnyContainer
+		class IAnyContainer : public CSimpleRefCountable
 		{
 			public:
 				virtual IAnyContainer* copy() const = 0;
 				virtual void* get(const std::type_info& type) const = 0;
-				virtual ~IAnyContainer();
+				virtual bool isConst() const = 0;
 		};
 
 		template <typename T>
@@ -87,6 +117,12 @@ class CBasicAny
 
 				virtual IAnyContainer* copy() const
 				{
+					if (TSIsRef<T>::value)
+					{
+						retain();
+						return const_cast<IAnyContainer*>(static_cast<const IAnyContainer*>(this));
+					}
+
 					return new TCAnyContainer<T>(mValue);
 				}
 
@@ -103,12 +139,43 @@ class CBasicAny
 
 					return NULL;
 				}
+
+				virtual bool isConst() const
+				{
+					return TSIsConst<T>::value;
+				}
+
 			private:
 				T mValue;
 		};
 
 		CBasicAny(IAnyContainer* container);
-		IAnyContainer* mValue;
+		TCPointer<IAnyContainer> mValue;
+};
+
+class CBasicReferenceAny : public CBasicAny
+{
+public:
+	CBasicReferenceAny() {}
+
+	template <typename T>
+	CBasicReferenceAny(T& value) : CBasicAny(mutableRef(value)) {}
+	template <typename T>
+	CBasicReferenceAny(const T& value) : CBasicAny(constRef(value)) {}
+
+	using CBasicAny::operator=;
+
+	template <typename T>
+	const CBasicAny& operator=(T& value)
+	{
+		return (*this = CBasicAny::mutableRef(value));
+	}
+
+	template <typename T>
+	const CBasicAny& operator=(const T& value)
+	{
+		return (*this = CBasicAny::constRef(value));
+	}
 };
 
 	} // namespace le

@@ -62,8 +62,8 @@ class FlexLexer {
 public:
 	virtual ~FlexLexer()	{ }
 
-	const char* YYText()	{ return yytext; }
-	int YYLeng()		{ return yyleng; }
+	const char* YYText() const	{ return yytext; }
+	size_t YYLeng()	const	{ return yyleng; }
 
 	virtual void
 		yy_switch_to_buffer( struct yy_buffer_state* new_buffer ) = 0;
@@ -93,18 +93,18 @@ public:
 
 protected:
 	char* yytext;
-	int yyleng;
+	size_t yyleng;
 	int yylineno;		// only maintained if you use %option yylineno
 	int yy_flex_debug;	// only has effect with -d or "%option debug"
 };
 
 }
-#endif
+#endif // FLEXLEXER_H
 
 #if defined(yyFlexLexer) || ! defined(yyFlexLexerOnce)
 // Either this is the first time through (yyFlexLexerOnce not defined),
 // or this is a repeated include to define a different flavor of
-// yyFlexLexer, as discussed in the flex man page.
+// yyFlexLexer, as discussed in the flex manual.
 #define yyFlexLexerOnce
 
 extern "C++" {
@@ -122,15 +122,16 @@ public:
 	void yy_delete_buffer( struct yy_buffer_state* b );
 	void yyrestart( FLEX_STD istream* s );
 
-    void yypush_buffer_state( struct yy_buffer_state* new_buffer );
-    void yypop_buffer_state(void);
+	void yypush_buffer_state( struct yy_buffer_state* new_buffer );
+	void yypop_buffer_state();
 
 	virtual int yylex();
-	virtual void switch_streams( FLEX_STD istream* new_in, FLEX_STD ostream* new_out );
+	virtual void switch_streams( FLEX_STD istream* new_in, FLEX_STD ostream* new_out = 0 );
+	virtual int yywrap();
 
 protected:
-	virtual int LexerInput( char* buf, int max_size );
-	virtual void LexerOutput( const char* buf, int size );
+	virtual size_t LexerInput( char* buf, size_t max_size );
+	virtual void LexerOutput( const char* buf, size_t size );
 	virtual void LexerError( const char* msg );
 
 	void yyunput( int c, char* buf_ptr );
@@ -159,7 +160,7 @@ protected:
 	char yy_hold_char;
 
 	// Number of characters read into yy_ch_buf.
-	int yy_n_chars;
+	size_t yy_n_chars;
 
 	// Points to current character in buffer.
 	char* yy_c_buf_p;
@@ -172,10 +173,10 @@ protected:
 	int yy_did_buffer_switch_on_eof;
 
 
-    size_t yy_buffer_stack_top; /**< index of top of stack. */
-    size_t yy_buffer_stack_max; /**< capacity of stack. */
-    struct yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
-    void yyensure_buffer_stack(void);
+	size_t yy_buffer_stack_top; /**< index of top of stack. */
+	size_t yy_buffer_stack_max; /**< capacity of stack. */
+	struct yy_buffer_state ** yy_buffer_stack; /**< Stack as an array. */
+	void yyensure_buffer_stack(void);
 
 	// The following are not always needed, but may be depending
 	// on use of certain flex features (like REJECT or yymore()).
@@ -201,4 +202,5 @@ protected:
 
 }
 
-#endif
+#endif // yyFlexLexer || ! yyFlexLexerOnce
+

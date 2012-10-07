@@ -14,7 +14,7 @@ namespace sokira
 class CDictionary;
 class CString;
 class CSelectorInvocation :
-	public TCVariadicFunctionMixin<TSVariadicToAnyPacker<CSelectorInvocation, std::vector<CBasicAny> >, TSVariadicFunctionConstantResult<CBasicAny>::TResult>
+	public TCMonoTypeVariadicFunctionMixin<CSelectorInvocation, CBasicAny, CBasicReferenceAny>
 {
 	public:
 		template <class TList>
@@ -30,9 +30,18 @@ class CSelectorInvocation :
 
 		}
 
-		using TVariadic::operator();
+		using TCMonoTypeVariadicFunctionMixin<CSelectorInvocation, CBasicAny, CBasicReferenceAny>::operator();
 
-		CBasicAny operator()(const std::vector<CBasicAny>& arguments);
+		template <class TypeList>
+		CBasicAny operator()(const TCTuple<TypeList>& arguments)
+		{
+			std::template vector<CBasicReferenceAny> v;
+			v.reserve(TypeList::length);
+			TSTupleToContainerCollector<TypeList>::fillContainerWithTupleValues(v, arguments);
+			return this->operator()(v);
+		}
+
+		CBasicAny operator()(const std::vector<CBasicReferenceAny>& arguments);
 
 	private:
 		CObject* mObject;
@@ -54,7 +63,7 @@ class CObject : public CSimpleRefCountable
 //		CObject();
 //		virtual ~CObject();
 
-		CString description() const;
+		virtual CString description() const;
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
 

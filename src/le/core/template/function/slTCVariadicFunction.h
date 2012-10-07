@@ -10,6 +10,25 @@ namespace sokira
 	namespace le
 	{
 
+template <class TTypeList, UInt32 i = 0, bool end = (0 == TTypeList::length)>
+struct TSTupleToContainerCollector
+{
+	template <class TContainer>
+	static inline void fillContainerWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple)
+	{
+		vector.push_back(typename TContainer::value_type(tuple.template value<i>()));
+		TSTupleToContainerCollector<TTypeList, i + 1, i + 1 == TTypeList::length>::fillContainerWithTupleValues(vector, tuple);
+	}
+};
+
+template <class TTypeList, UInt32 i>
+struct TSTupleToContainerCollector<TTypeList, i, true>
+{
+	template <class TContainer>
+	static inline void fillContainerWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple) { }
+};
+
+
 template <class TFunction, class TContainer>
 struct TSVariadicToAnyPacker : public TFunction
 {
@@ -18,32 +37,9 @@ struct TSVariadicToAnyPacker : public TFunction
 	{
 		TContainer arguments;
 		arguments.reserve(TTypeList::length);
-		SCollector<TTypeList, 0, 0 == TTypeList::length>::fillVectorWithTupleValues(arguments, tuple);
+		TSTupleToContainerCollector<TTypeList>::fillContainerWithTupleValues(arguments, tuple);
 		return TFunction::operator()(arguments);
 	}
-
-private:
-	template <class TTypeList, UInt32 i, bool end>
-	struct SCollector
-	{
-		static inline void fillVectorWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple)
-		{
-#if 0
-			vector.push_back(typename TContainer::value_type(tuple.template value<i>()));
-#else
-			std::cout << "IN fillVectorWithTupleValues: " << &tuple.template value<i>() << std::endl;
-			std::cout << "Creating Any is ref : " << TSIsRef<typename TTypeList::template TypeAt<i>::result>::value << std::endl;
-			vector.push_back(typename TContainer::value_type((typename TTypeList::template TypeAt<i>::result)tuple.template value<i>()));
-#endif
-			SCollector<TTypeList, i + 1, i + 1 == TTypeList::length>::fillVectorWithTupleValues(vector, tuple);
-		}
-	};
-
-	template <class TTypeList, UInt32 i>
-	struct SCollector<TTypeList, i, true>
-	{
-		static inline void fillVectorWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple) { }
-	};
 };
 
 template <typename T>
@@ -261,23 +257,24 @@ class TCVariadicFunctionMixin<TFunction, TResult, isConst, 0> :
 		using TCVariadicFunctionInterfaceMixin<TFunction, TResult, 0, isConst>::operator();
 };
 
-//template <class TFunction, typename RetType, typename ArgType, bool isConst = false, int maxArgs = 12>
-//class TCMonoTypeVariadicFunction : public TFunction,
-//			public TCConcreteFunctionInterfaceMixin<TCMonoTypeVariadicFunction<TFunction, RetType, , <#typename TResult#>>
-//
-//		template <class TFunction, bool isConst = false>
-//		class TCVariadicFunction :
-//		public TFunction,
-//		public TCVariadicFunctionMixin<TCVariadicFunction<TFunction>, TFunction::template TResult, isConst>
-//		{
-//		public:
-//			using TCVariadicFunctionMixin<TCVariadicFunction<TFunction>, TFunction::template TResult>::operator();
-//			template <class TTypeList>
-//			typename TFunction::template TResult<TTypeList>::result operator()(const TCTuple<TTypeList>& tuple)
-//			{
-//				return TFunction::operator()(tuple);
-//			}
-//		};
+template <class TFunction, typename RetType, typename ArgType, bool isConst = false, int maxArgs = 12>
+class TCMonoTypeVariadicFunctionMixin :
+		public TCConcreteFunctionInterfaceMixin<TFunction, RetType, typename TSTypeList<>::PushBack<ArgType, maxArgs>::result, isConst, maxArgs>,
+		public TCMonoTypeVariadicFunctionMixin<TFunction, RetType, ArgType, isConst, maxArgs - 1>
+{
+public:
+	typedef TCMonoTypeVariadicFunctionMixin<TFunction, RetType, ArgType, isConst, maxArgs> TVariadic;
+	using TCConcreteFunctionInterfaceMixin<TFunction, RetType, typename TSTypeList<>::PushBack<ArgType, maxArgs>::result, isConst, maxArgs>::operator();
+	using TCMonoTypeVariadicFunctionMixin<TFunction, RetType, ArgType, isConst, maxArgs - 1>::operator();
+};
+
+template <class TFunction, typename RetType, typename ArgType, bool isConst>
+class TCMonoTypeVariadicFunctionMixin<TFunction, RetType, ArgType, isConst, 0> :
+		public TCConcreteFunctionInterfaceMixin<TFunction, RetType, TSTypeList<>, isConst, 0>
+{
+public:
+	using TCConcreteFunctionInterfaceMixin<TFunction, RetType, TSTypeList<>, isConst, 0>::operator();
+};
 
 
 template <class TFunction, bool isConst = false>

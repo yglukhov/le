@@ -210,6 +210,12 @@ struct TSRemoveConst<const T>
 	typedef T result;
 };
 
+template <typename T>
+struct TSRemoveConst<const T&>
+{
+	typedef T& result;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 struct TSRemoveRef

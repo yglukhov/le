@@ -517,9 +517,23 @@ SInt32 CBasicString::find(const CBasicString& string) const
 	return (res)?(res - mProxy->mString):(-1);
 }
 
+SInt32 CBasicString::find(WChar c) const
+{
+	char needle[] = { c, 0 };
+	char* res = strstr(mProxy->mString, needle);
+	return (res)?(res - mProxy->mString):(-1);
+}
+
 SInt32 CBasicString::findLast(const CBasicString& string) const
 {
 	size_t res = std::string(mProxy->mString).rfind(string.mProxy->mString);
+	return (res == std::string::npos)?(-1):((SInt32)res);
+}
+
+SInt32 CBasicString::findLast(WChar c) const
+{
+	char needle[] = { c, 0 };
+	size_t res = std::string(mProxy->mString).rfind(needle);
 	return (res == std::string::npos)?(-1):((SInt32)res);
 }
 

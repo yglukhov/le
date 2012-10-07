@@ -7,98 +7,6 @@ namespace sokira
 	namespace le
 	{
 
-
-#define REALLOC_COEF 1.5
-//#define LOG_INSTRUCTIONS
-
-template<typename T>
-struct SokriptVMStack
-{
-	inline SokriptVMStack() :
-		mSize(0),
-		mBuffer(NULL),
-		mPosition(0)
-#ifdef LOG_INSTRUCTIONS
-		, mTraceRealloc(false)
-#endif
-	{
-
-	}
-
-	inline ~SokriptVMStack()
-	{
-		if (mBuffer) free(mBuffer);
-	}
-
-	void push(T obj)
-	{
-		if (mPosition + 1 >= mSize) reallocate(1);
-		mBuffer[mPosition++] = obj;
-	}
-
-	T pop()
-	{
-		LE_ASSERT(mPosition);
-		return mBuffer[--mPosition];
-	}
-
-	void increase(UInt32 bySize)
-	{
-		if (mPosition + bySize >= mSize) reallocate(bySize);
-
-#ifdef LOG_INSTRUCTIONS
-		UInt32 newPosition = mPosition + bySize;
-		for (; mPosition < newPosition; ++mPosition)
-		{
-			mBuffer[mPosition] = NULL;
-		}
-#else
-		mPosition += bySize;
-#endif
-	}
-
-	void decrease(UInt32 bySize)
-	{
-		mPosition -= bySize;
-	}
-
-	void reallocate(UInt32 bySize)
-	{
-		UInt32 newSize = mSize * REALLOC_COEF + 1;
-		if (newSize < mSize + bySize) newSize = mSize + bySize;
-#ifdef LOG_INSTRUCTIONS
-		if (mTraceRealloc) std::cout << "Reallocating stack. Old size: " << mSize << ", new size: " << newSize << std::endl;
-#endif
-		mSize = newSize;
-
-		mBuffer = (T*)realloc(mBuffer, newSize * sizeof(T));
-	}
-
-	T objectAtIndex(UInt32 pos)
-	{
-		return mBuffer[pos];
-	}
-
-	void setObjectAtIndex(UInt32 pos, T obj)
-	{
-		mBuffer[pos] = obj;
-	}
-
-	UInt32 position()
-	{
-		return mPosition;
-	}
-
-	UInt32 mSize;
-	T* mBuffer;
-	UInt32 mPosition;
-
-#ifdef LOG_INSTRUCTIONS
-	Bool mTraceRealloc;
-#endif
-};
-
-
 CSokriptVM::CSokriptVM()
 {
 
@@ -386,8 +294,8 @@ static inline CObject* notObject(CObject* object)
 }
 
 
-#ifdef LOG_INSTRUCTIONS
-#define LOG_INSTRUCTION(x) std::cout << "INSTRUCTION: "; (x);
+#ifdef LE_LOG_INSTRUCTIONS
+#define LOG_INSTRUCTION(x) std::cout << "INSTRUCTION: "; (x); std::cout << std::endl;
 #else
 #define LOG_INSTRUCTION(x)
 #endif
@@ -407,206 +315,239 @@ void dumpVarStack(SokriptVMStack<CObject*>* stack)
 	}
 }
 
+#define LE_INSTRUCTION_HANDLER(instruction) template <> void CSokriptVM::handleInstruction<instruction>()
+#define LE_DUMMY_INSTRUCTION(instruction) LE_INSTRUCTION_HANDLER(instruction) { LE_ASSERT(false); }
+
+LE_DUMMY_INSTRUCTION(eInstructionNOP);
+LE_DUMMY_INSTRUCTION(eInstructionStartFunction);
+
+LE_INSTRUCTION_HANDLER(eInstructionSetSymbolsCount)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionSetSymbolsCount: " << *(UInt32*)(mCode + 1));
+	mVarStack.increase(*(UInt32*)(mCode + 1));
+	mCode += sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionPushVar)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionPushVar: " << *(SInt32*)(mCode + 1) << ", stackLine: " << mCurrentStackLine);
+	mVarStack.push(mVarStack.objectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1)));
+	mCode += sizeof(SInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionPushStr)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionPushStr");
+	mVarStack.push(new CString((char*)(mCode + sizeof(UInt32) + 1)));
+	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionDeclareExternalFunction)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalFunction: " << (char*)(mCode + sizeof(UInt32) + 1));
+	mExternFunctions.push_back((char*)(mCode + sizeof(UInt32) + 1));
+	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionPushInt)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionPushInt");
+	mVarStack.push(new CNumber(*((UInt32*)(mCode + 1))));
+	mCode += sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionPushFloat)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionPushFloat");
+	mVarStack.push(new CNumber(*((Float32*)(mCode + 1))));
+	mCode += sizeof(Float32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionDiscard)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionDiscard");
+	mVarStack.pop();
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionAssign)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionAssign");
+	mVarStack.setObjectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1), mVarStack.pop());
+	mVarStack.push(mVarStack.objectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1)));
+	mCode += sizeof(SInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionAdd)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionAdd");
+	mVarStack.push(addObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionSubstract)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionSubstract");
+	mVarStack.push(substractObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionMultiply)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionMultiply");
+	mVarStack.push(multiplyObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionDivide)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionDivide");
+	mVarStack.push(divideObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionNegate)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionNegate");
+	mVarStack.push(negateObject(mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionEqual)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionEqual");
+	mVarStack.push(equalObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionNotEqual)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionNotEqual");
+	mVarStack.push(notEqualObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionGreaterThan)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionGreaterThan");
+	mVarStack.push(greaterThanObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionGreaterEqual)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionGreaterEqual");
+	mVarStack.push(greaterEqualObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionLessThan)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionLessThan");
+	mVarStack.push(lessThanObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionLessEqual)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionLessEqual");
+	mVarStack.push(lessEqualObjects(mVarStack.pop(), mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionNot)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionNot");
+	mVarStack.push(notObject(mVarStack.pop()));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionJumpIfTrue)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << (*(SInt32*)(mCode + 1)));
+	if (objIsFalse(mVarStack.pop())) { mCode += sizeof(SInt32) + (*(SInt32*)(mCode + 1)); }
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionJump)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionJump : " << (*(SInt32*)(mCode + 1)));
+	if ((*(SInt32*)(mCode + 1)) > 0)
+		mCode += (*(SInt32*)(mCode + 1)) + sizeof(SInt32);
+	else
+		mCode += (*(SInt32*)(mCode + 1));
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionReturn)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionReturn");
+//	UInt16 unwindVars = *(UInt16*)(mCode + 1);
+	mCode = mPcStack.pop();
+	if (mCode)
+	{
+		CObject* returnValue = mVarStack.pop();
+		mCurrentStackLine = mStackLineStack.pop();
+		UInt32 unwindVars = mVarStack.position() - mCurrentStackLine;
+		mVarStack.decrease(unwindVars);
+		mVarStack.push(returnValue);
+	}
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionPushFunction)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionPushFunction");
+	// TODO.
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionCall)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionCall");
+	mCurrentStackLine = mVarStack.position();
+	mStackLineStack.push(mCurrentStackLine);
+	mPcStack.push(mCode + sizeof(UInt32));
+	mCode -= *(UInt32*)(mCode + 1);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionCallExternal)
+{
+	LOG_INSTRUCTION(std::cout << "eInstructionCallExternal: " << *(UInt32*)(mCode + 1));
+	mVarStack.push(mFunctions[mExternFunctions[*(UInt32*)(mCode + 1)]](mVarStack.pop()));
+	mCode += sizeof(UInt32);
+}
+
 void CSokriptVM::performByteCode(const CData& data)
 {
-	const UInt8* code = static_cast<const UInt8*>(data.data());
-	SokriptVMStack<CObject*> varStack;
-	SokriptVMStack<const UInt8*> pcStack;
-	SokriptVMStack<UInt32> stackLineStack;
-
-	std::vector<CString> externFunctions;
+	mCode = static_cast<const UInt8*>(data.data());
+	mVarStack = SokriptVMStack<CObject*>();
+	mPcStack = SokriptVMStack<const UInt8*>();
+	mStackLineStack = SokriptVMStack<UInt32>();
 
 	mFunctions[LESTR("print")] = &printObject;
 	mFunctions[LESTR("print1")] = &print1;
 	mFunctions[LESTR("print2")] = &print2;
 	mFunctions[LESTR("print3")] = &print3;
 
-	bool run = true;
+	mPcStack.push(NULL);
+	mStackLineStack.push(0);
 
-	pcStack.push(NULL);
-	stackLineStack.push(0);
+	mCurrentStackLine = 0;
 
-	UInt32 currentStackLine = 0;
+	mExternFunctions.clear();
 
-
-#ifdef LOG_INSTRUCTIONS
-	varStack.mTraceRealloc = true;
+#ifdef LE_LOG_INSTRUCTIONS
+	mVarStack.mTraceRealloc = true;
 #endif
 
 	do
 	{
-		switch (*code)
+		switch (*mCode)
 		{
-			case eInstructionSetSymbolsCount:
-				LOG_INSTRUCTION(std::cout << "eInstructionSetSymbolsCount: " << *(UInt32*)(code + 1));
-				varStack.increase(*(UInt32*)(code + 1));
-				code += sizeof(UInt32);
-				break;
 
-			case eInstructionNOP:
-				LOG_INSTRUCTION(std::cout << "eInstructionNOP");
-				break;
-
-			case eInstructionPushVar:
-				LOG_INSTRUCTION(std::cout << "eInstructionPushVar: " << *(SInt32*)(code + 1) << ", stackLine: " << currentStackLine);
-				varStack.push(varStack.objectAtIndex(currentStackLine + *(SInt32*)(code + 1)));
-				code += sizeof(SInt32);
-				break;
-
-			case eInstructionPushStr:
-				LOG_INSTRUCTION(std::cout << "eInstructionPushStr");
-				varStack.push(new CString(CString::__CStringWithLiteral((char*)(code + sizeof(UInt32) + 1))));
-				code += *((UInt32*)(code + 1)) + sizeof(UInt32);
-				break;
-
-			case eInstructionDeclareExternalFunction:
-				LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalFunction: " << (char*)(code + sizeof(UInt32) + 1));
-				externFunctions.push_back(CString::__CStringWithLiteral((char*)(code + sizeof(UInt32) + 1)));
-				code += *((UInt32*)(code + 1)) + sizeof(UInt32);
-				break;
-
-			case eInstructionPushInt:
-				LOG_INSTRUCTION(std::cout << "eInstructionPushInt");
-				varStack.push(new CNumber(*((UInt32*)(code + 1))));
-				code += sizeof(UInt32);
-				break;
-
-			case eInstructionPushFloat:
-				LOG_INSTRUCTION(std::cout << "eInstructionPushFloat");
-				varStack.push(new CNumber(*((Float32*)(code + 1))));
-				code += sizeof(Float32);
-				break;
-
-			case eInstructionDiscard:
-				LOG_INSTRUCTION(std::cout << "eInstructionDiscard");
-				varStack.pop();
-				break;
-
-			case eInstructionAssign:
-				LOG_INSTRUCTION(std::cout << "eInstructionAssign");
-				varStack.setObjectAtIndex(currentStackLine + *(SInt32*)(code + 1), varStack.pop());
-				varStack.push(varStack.objectAtIndex(currentStackLine + *(SInt32*)(code + 1)));
-				code += sizeof(SInt32);
-				break;
-
-			case eInstructionAdd:
-				LOG_INSTRUCTION(std::cout << "eInstructionAdd");
-				varStack.push(addObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionSubstract:
-				LOG_INSTRUCTION(std::cout << "eInstructionSubstract");
-				varStack.push(substractObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionMultiply:
-				LOG_INSTRUCTION(std::cout << "eInstructionMultiply");
-				varStack.push(multiplyObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionDivide:
-				LOG_INSTRUCTION(std::cout << "eInstructionDivide");
-				varStack.push(divideObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionNegate:
-				LOG_INSTRUCTION(std::cout << "eInstructionNegate");
-				varStack.push(negateObject(varStack.pop()));
-				break;
-
-			case eInstructionEqual:
-				LOG_INSTRUCTION(std::cout << "eInstructionEqual");
-				varStack.push(equalObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionNotEqual:
-				LOG_INSTRUCTION(std::cout << "eInstructionNotEqual");
-				varStack.push(notEqualObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionGreaterThan:
-				LOG_INSTRUCTION(std::cout << "eInstructionGreaterThan");
-				varStack.push(greaterThanObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionGreaterEqual:
-				LOG_INSTRUCTION(std::cout << "eInstructionGreaterEqual");
-				varStack.push(greaterEqualObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionLessThan:
-				LOG_INSTRUCTION(std::cout << "eInstructionLessThan");
-				varStack.push(lessThanObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionLessEqual:
-				LOG_INSTRUCTION(std::cout << "eInstructionLessEqual");
-				varStack.push(lessEqualObjects(varStack.pop(), varStack.pop()));
-				break;
-
-			case eInstructionNot:
-				varStack.push(notObject(varStack.pop()));
-				break;
-
-			case eInstructionJumpIfTrue:
-				LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << (*(SInt32*)(code + 1)));
-				if (objIsFalse(varStack.pop())) { code += sizeof(SInt32); break; }// Else continue with next case
-
-			case eInstructionJump:
-				LOG_INSTRUCTION(std::cout << "eInstructionJump : " << (*(SInt32*)(code + 1)));
-				if ((*(SInt32*)(code + 1)) > 0)
-					code += (*(SInt32*)(code + 1)) + sizeof(SInt32);
-				else
-					code += (*(SInt32*)(code + 1));
-				break;
-
-			case eInstructionJumpIfFalse:
-				LOG_INSTRUCTION(std::cout << "eInstructionJumpIfFalse");
-				code += (objIsFalse(varStack.pop())?(*(UInt32*)(code + 1)):(0)) + sizeof(UInt32);
-				break;
-
-			case eInstructionReturn:
-				LOG_INSTRUCTION(std::cout << "eInstructionReturn : " << *(UInt16*)(code + 1));
-				{
-					UInt16 unwindVars = *(UInt16*)(code + 1);
-					code = pcStack.pop();
-					if (code)
-					{
-						CObject* returnValue = varStack.pop();
-						varStack.decrease(unwindVars);
-						currentStackLine = stackLineStack.pop();
-						varStack.push(returnValue);
-					}
-					else
-						run = false;
-					break;
-				}
-
-			case eInstructionCall:
-				LOG_INSTRUCTION(std::cout << "eInstructionCall");
-				currentStackLine = varStack.position();
-				stackLineStack.push(currentStackLine);
-				pcStack.push(code + sizeof(UInt32));
-				code -= *(UInt32*)(code + 1);
-				break;
-
-			case eInstructionCallExternal:
-				LOG_INSTRUCTION(std::cout << "eInstructionCallExternal: " << *(UInt32*)(code + 1));
-				varStack.push(mFunctions[externFunctions[*(UInt32*)(code + 1)]](varStack.pop()));
-				code += sizeof(UInt32);
-				break;
+#define LE_HANDLE_INSTRUCTION(code) case code: handleInstruction<code>(); break;
+_LE_FOR_INSTRUCTION_LIST(LE_HANDLE_INSTRUCTION)
 
 			default:
-				LOG_INSTRUCTION(std::cout << "Invalid instruction: " << (int) *code);
+				LOG_INSTRUCTION(std::cout << "Invalid instruction: " << (int) *mCode);
 				LE_ASSERT_MESSAGE(false, "Invalid instruction!");
 		}
 
-#ifdef LOG_INSTRUCTIONS
+#ifdef LE_LOG_INSTRUCTIONS
 		std::cout << std::endl;
-		dumpVarStack(&varStack);
+		dumpVarStack(&mVarStack);
 #endif
-		++code;
-	} while (run);
+		++mCode;
+	} while (mPcStack.position() > 0);
+
+	if (mVarStack.position() == 1)
+	{
+		std::cout << "Stack result: " << mVarStack.objectAtIndex(0)->description() << std::endl;
+	}
 }
 
 	} // namespace le

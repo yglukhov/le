@@ -8,7 +8,7 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CObject);
 
-CBasicAny CSelectorInvocation::operator()(const std::vector<CBasicAny>& arguments)
+CBasicAny CSelectorInvocation::operator()(const std::vector<CBasicReferenceAny>& arguments)
 {
 	if (mSelector)
 	{

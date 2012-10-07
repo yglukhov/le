@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <list>
 #include <le/core/slTypes.h>
+#include <le/core/slCObject.h>
 
 #define _LE_FOR_INSTRUCTION_LIST(_OP_)	\
 	_OP_(eInstructionPushVar)			\
@@ -27,13 +28,12 @@
 	_OP_(eInstructionSetSymbolsCount)	\
 	_OP_(eInstructionJump)				\
 	_OP_(eInstructionJumpIfTrue)		\
-	_OP_(eInstructionJumpIfFalse)		\
 	_OP_(eInstructionStartFunction)		\
 	_OP_(eInstructionDeclareExternalFunction)		\
+	_OP_(eInstructionPushFunction)		\
 	_OP_(eInstructionCall)				\
 	_OP_(eInstructionCallExternal)		\
-	_OP_(eInstructionReturn)			\
-	_OP_(eInstructionJumpToReturn)	/* This instruction will be replaced with jump, after processing */
+	_OP_(eInstructionReturn)
 
 #define _LE_DECLARE_INSTRUCTION(instruction) instruction,
 
@@ -52,15 +52,31 @@ enum EInstruction
 };
 
 
-class CSokriptInstruction
+class CSokriptInstruction : public CObject
 {
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CSokriptInstruction)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
 	public:
+		CSokriptInstruction() {}
+
 		CSokriptInstruction(EInstruction instruction, CObject* arg1 = NULL) :
 			mNext(NULL),
 			mInstruction(instruction),
 			mProcessed(false)
 		{
 			mObjArg1 = arg1;
+		}
+
+		CSokriptInstruction(EInstruction instruction, CObject::Ptr arg1) :
+			mNext(NULL),
+			mInstruction(instruction),
+			mProcessed(false)
+		{
+			mObjArg1 = arg1.get();
+			mObjArg1->retain();
 		}
 
 		~CSokriptInstruction();
@@ -73,8 +89,10 @@ class CSokriptInstruction
 		static CSokriptInstruction* createLoop(CSokriptInstruction* expression,
 											   CSokriptInstruction* loopPart);
 
-		static CSokriptInstruction* createFunctionDefinition(char* name, std::list<char*>* args,
+		static CSokriptInstruction* createFunctionDefinition(char* name, std::list<CString>* args,
 																	CSokriptInstruction* instruction);
+
+		static CSokriptInstruction* return0Instruction();
 
 		void addInstruction(CSokriptInstruction* instruction)
 		{
@@ -83,18 +101,37 @@ class CSokriptInstruction
 			i->mNext = instruction;
 		}
 
+		void addInstruction(CSokriptInstruction::Ptr instruction)
+		{
+			instruction.retain();
+			CSokriptInstruction* i = this;
+			while (i->mNext) i = i->mNext;
+			i->mNext = instruction;
+		}
+
+		void addReturn0Instruction()
+		{
+			CSokriptInstruction* i = this;
+			while (i->mNext) i = i->mNext;
+			if (i->mInstruction != eInstructionReturn)
+			{
+				i->mNext = return0Instruction();
+			}
+		}
+
 		UInt32 length() const;
 		UInt32 selfLength() const;
 
-		static CSokriptInstruction* postProcessBytecode(CSokriptInstruction* instruction, std::list<char*>* arguments);
-		static CSokriptInstruction* optimizeByteCode(CSokriptInstruction* instruction);
+		static CSokriptInstruction::Ptr postProcessBytecode(CSokriptInstruction::Ptr instruction, std::list<CString>* arguments);
+		static CSokriptInstruction::Ptr optimizeByteCode(CSokriptInstruction::Ptr instruction);
 		static void dumpBytecodeToStream(const CSokriptInstruction* instruction, std::ostream& stream);
 
-		void showAll(int i = 1) const;
-		void show(int i = 1) const;
+		void showAll(std::ostream& s, int i = 1) const;
+		void show(std::ostream& s, int i = 1) const;
 
+		virtual CString description() const;
 	public:
-		CSokriptInstruction *mNext;
+		CSokriptInstruction* mNext;
 		EInstruction mInstruction;
 		union  {
 			CObject* mObjArg1;

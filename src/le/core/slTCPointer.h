@@ -30,7 +30,7 @@ class TCPointer
 
 		//////////////////////////////////////////////////////////////////////////
 		// Assignment
-		const TCPointer& operator=(T* copy);
+		//const TCPointer& operator=(T* copy);
 		inline const TCPointer& operator=(const TCPointer& copy);
 
 		template <typename CastedFrom>
@@ -61,6 +61,12 @@ class TCPointer
 		inline Bool operator == (const T* rhs) const
 		{
 			return mObj == rhs;
+		}
+
+		template <typename TUpCast>
+		TCPointer<TUpCast> upcast() const
+		{
+			return TCPointer<TUpCast>(dynamic_cast<TUpCast*>(mObj)).retain();
 		}
 
 		//////////////////////////////////////////////////////////////////////////
@@ -116,18 +122,18 @@ TCPointer<T>::~TCPointer()
 	release();
 }
 
-template <typename T>
-const TCPointer<T>& TCPointer<T>::operator = (T* copy)
-{
-	if (mObj != copy)
-	{
-		release();
-		mObj = copy;
-		retain();
-	}
-
-	return *this;
-}
+//template <typename T>
+//const TCPointer<T>& TCPointer<T>::operator = (T* copy)
+//{
+//	if (mObj != copy)
+//	{
+//		release();
+//		mObj = copy;
+//		retain();
+//	}
+//
+//	return *this;
+//}
 
 template <typename T>
 const TCPointer<T>& TCPointer<T>::operator = (const TCPointer& copy)

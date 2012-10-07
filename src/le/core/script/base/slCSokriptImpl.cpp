@@ -17,8 +17,7 @@ typedef ::_sokira_le::CSokriptBisonParser CSokriptBisonParser;
 
 
 CSokriptImpl::CSokriptImpl() :
-	mLexer(NULL),
-	mInstruction(NULL)
+	mLexer(NULL)
 {
 
 }
@@ -59,8 +58,10 @@ void CSokriptImpl::compileFromStream(std::istream& input, std::ostream& output)
 		mInstruction = CSokriptInstruction::optimizeByteCode(mInstruction);
 	}
 
+	std::cout << "BISON INSTRUCTIONS: \n";
+	std::cout << mInstruction->description();
+
 	CSokriptInstruction::dumpBytecodeToStream(mInstruction, output);
-	delete mInstruction;
 	mInstruction = NULL;
 }
 
@@ -86,7 +87,7 @@ void CSokriptImpl::lex_error(const char* str, const void* l)
 	std::cerr << *location << ": LEXER ERROR: " << str << std::endl;
 }
 
-void CSokriptImpl::setInstruction(CSokriptInstruction* instruction)
+void CSokriptImpl::setInstruction(CSokriptInstruction::Ptr instruction)
 {
 	mInstruction = instruction;
 }

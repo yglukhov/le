@@ -386,7 +386,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nif [ \"$PRODUCT_NAME\" != \"TEMPLATE\" ]\nthen\n\t\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME\"\nelse\n\techo \"error: This is a template target and should not be built.\"\n\texit 1\nfi\n";
+			shellScript = "\nif [ \"$PRODUCT_NAME\" != \"TEMPLATE\" ]\nthen\ntrue # \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME\"\nelse\n\techo \"error: This is a template target and should not be built.\"\n\texit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7B6387530D4B7965002357F7 /* Run */ = {

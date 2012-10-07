@@ -15,7 +15,8 @@ template <typename RetType = void, class TypeList = TSTypeList<> >
 class TCFunction : public TIFunction<RetType, TypeList>
 {
 	public:
-		TCFunction()
+		TCFunction() :
+			mFunc(NULL)
 		{
 
 		}

@@ -120,7 +120,20 @@ CNumber::CNumber(const CString& value) :
 	mFormat(eFormatFloat32)
 {
 	// TODO: complete this
-	sscanf(value.cString(), "%f", &mData.valFloat32);
+	if (value == "true")
+	{
+		mFormat = eFormatBool;
+		mData.valBool = true;
+	}
+	else if (value == "false")
+	{
+		mFormat = eFormatBool;
+		mData.valBool = false;
+	}
+	else
+	{
+		sscanf(value.cString(), "%f", &mData.valFloat32);
+	}
 }
 
 CNumber::CNumber(const CDictionary& fromDict)

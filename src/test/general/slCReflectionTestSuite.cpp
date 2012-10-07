@@ -31,7 +31,6 @@ class TestClass: public CObject
 
 		virtual void serialize(CDictionary& dict) const
 		{
-			std::cout << "dict: " << &dict << std::endl;
 			dict.setValueForKey(LESTR("SomeKey"), CString(LESTR("SomeValue")));
 		}
 };
@@ -100,16 +99,14 @@ void CReflectionTestSuite::testSelectors()
 	testObj.testFunc();
 	
 	CDictionary dict;
-	std::cout << "SERIALIZE: " << &dict << std::endl;
 	testObj.selector("serialize")(dict);
-	std::cout << "SERIALIZE DONE:" << std::endl;
-	dict.dump(std::cout);
-	//LE_ASSERT(dict.valueAsStringForKey("SomeKey") == "SomeValue");
+	LE_ASSERT(dict.valueAsStringForKey("SomeKey") == "SomeValue");
 
 	std::cout << "WILL CALL test func!!" << std::endl;
 
 //	std::cout << "Result: " <<
 	testObj.selector("testFunc2")(5);
+	testObj.selector("testFunc3")(5);
 
 	std::cout << "DID CALL test func!!" << std::endl;
 

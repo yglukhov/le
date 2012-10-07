@@ -25,7 +25,7 @@ class ISelector
 			return mName;
 		}
 
-		virtual CBasicAny operator() (void* object, const std::vector<CBasicAny>& arguments) const = 0;
+		virtual CBasicAny operator() (void* object, const std::vector<CBasicReferenceAny>& arguments) const = 0;
 		virtual UInt32 argumentsCount() const = 0;
 
 		virtual Bool isConst() const = 0;
@@ -40,7 +40,7 @@ class TCSelector : public ISelector
 	struct TSFillTupleWithAnyArray
 	{
 		template <class Tuple>
-		static inline void f(Tuple& t, const std::vector<CBasicAny>& a)
+		static inline void f(Tuple& t, const std::vector<CBasicReferenceAny>& a)
 		{
 			t.template setValue<TContext::I + 1>(a[TContext::I].template value<typename TContext::T>());
 			TContext::Next::f(t, a);
@@ -50,7 +50,7 @@ class TCSelector : public ISelector
 	struct TSFillTupleWithAnyArrayTerminator
 	{
 		template <class Tuple>
-		static inline void f(Tuple& t, const std::vector<CBasicAny>& a)
+		static inline void f(Tuple& t, const std::vector<CBasicReferenceAny>& a)
 		{ }
 	};
 
@@ -62,7 +62,7 @@ class TCSelector : public ISelector
 
 		}
 
-		virtual CBasicAny operator() (void* object, const std::vector<CBasicAny>& arguments) const
+		virtual CBasicAny operator() (void* object, const std::vector<CBasicReferenceAny>& arguments) const
 		{
 			typedef TSFunctionTraits<FuncType> Traits;
 			typedef typename Traits::TupleParamList TupleParamList;
@@ -70,7 +70,6 @@ class TCSelector : public ISelector
 			TCTuple<TupleParamList> t;
 			t.template setValue<0>(static_cast<typename Traits::OwnerClass*>(object));
 			ParamList::template Enumerate<TSFillTupleWithAnyArray, _SNullType, TSFillTupleWithAnyArrayTerminator>::f(t, arguments);
-			std::cout << "In tcselector:" << &t.template value<0>() << std::endl;
 			return call(t, TSTypeToType<typename Traits::RetType>());
 		}
 

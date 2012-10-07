@@ -1,4 +1,5 @@
 #include <vector>
+#include <sstream>
 #include <le/core/slCNumber.h>
 
 #include "slCSokriptInstruction.hp"
@@ -8,6 +9,8 @@ namespace sokira
 {
 	namespace le
 	{
+
+LE_IMPLEMENT_RUNTIME_CLASS(CSokriptInstruction);
 
 #define _LE_INSTRUCTION_STRING_LIST(instruction) #instruction ,
 
@@ -30,8 +33,17 @@ CSokriptInstruction::~CSokriptInstruction()
 		|| mInstruction == eInstructionDeclareExternalFunction
 		|| mInstruction == eInstructionPushFloat
 		|| mInstruction == eInstructionPushInt)
-		delete mObjArg1;
-	delete mNext;
+	{
+		if (mObjArg1)
+		{
+			mObjArg1->release();
+		}
+	}
+
+	if (mNext)
+	{
+		mNext->release();
+	}
 }
 		
 CSokriptInstruction* CSokriptInstruction::createIfThenElse(CSokriptInstruction* expression,
@@ -40,29 +52,33 @@ CSokriptInstruction* CSokriptInstruction::createIfThenElse(CSokriptInstruction* 
 {
 	if (elsePart)
 	{
-		CSokriptInstruction* secondJump = new CSokriptInstruction(eInstructionJump);
-		secondJump->mSInt32Arg1 = elsePart->length();
-		
-		if (!ifPart) ifPart = new CSokriptInstruction(eInstructionNOP);
-		
-		CSokriptInstruction* firstJump = new CSokriptInstruction(eInstructionJumpIfFalse);
-		
-		ifPart->addInstruction(secondJump);
-		firstJump->mSInt32Arg1 = ifPart->length();
-		ifPart->addInstruction(elsePart);
-		firstJump->addInstruction(ifPart);
+		CSokriptInstruction* firstJump = new CSokriptInstruction(eInstructionJumpIfTrue);
+		firstJump->mSInt32Arg1 = elsePart->length();
+
+
+		if (ifPart)
+		{
+			CSokriptInstruction* secondJump = new CSokriptInstruction(eInstructionJump);
+			secondJump->mSInt32Arg1 = ifPart->length();
+			secondJump->addInstruction(ifPart);
+			elsePart->addInstruction(secondJump);
+		}
+
+		firstJump->addInstruction(elsePart);
 		expression->addInstruction(firstJump);
 		return expression;
 	}
-	
+
 	// else
 	
 	if (ifPart)
 	{
-		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfFalse);
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
 		jump->mUInt32Arg1 = ifPart->length();
 		jump->addInstruction(ifPart);
-		expression->addInstruction(jump);
+		CSokriptInstruction* invert = new CSokriptInstruction(eInstructionNot);
+		invert->addInstruction(jump);
+		expression->addInstruction(invert);
 	}
 	else
 		expression->addInstruction(new CSokriptInstruction(eInstructionDiscard));
@@ -76,13 +92,14 @@ CSokriptInstruction* CSokriptInstruction::createLoop(
 {
 	if (loopPart)
 	{
+		expression->addInstruction(new CSokriptInstruction(eInstructionNot));
 		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJump);
-		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfFalse);
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
 		jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
 		jump->addInstruction(loopPart);
 		expression->addInstruction(jump);
 		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-		jump->addInstruction(jumpBack);
+		loopPart->addInstruction(jumpBack);
 	}
 	else
 	{
@@ -94,21 +111,15 @@ CSokriptInstruction* CSokriptInstruction::createLoop(
 	return expression;
 }
 
-CSokriptInstruction* CSokriptInstruction::createFunctionDefinition(char* name, std::list<char*>* args,
+CSokriptInstruction* CSokriptInstruction::createFunctionDefinition(char* name, std::list<CString>* args,
 															CSokriptInstruction* instruction)
 {
-	CSokriptInstruction* returnInstruction = new CSokriptInstruction(eInstructionReturn);
-	returnInstruction->mUInt16Arg1 = args->size();
-
-	CSokriptInstruction* pushResult = new CSokriptInstruction(eInstructionPushFloat, new CNumber());
-	pushResult->addInstruction(returnInstruction);
-
 	if (instruction)
-		instruction->addInstruction(pushResult);
+		instruction->addReturn0Instruction();
 	else
-		instruction = pushResult;
+		instruction = return0Instruction();
 
-	instruction = CSokriptInstruction::postProcessBytecode(instruction, args);
+	instruction = CSokriptInstruction::postProcessBytecode(instruction, args).retain().get();
 
 	CSokriptInstruction* functionStart = new CSokriptInstruction(eInstructionStartFunction,
 													new CString(CString::__CStringNoCopyDeallocWithFree(name)));
@@ -119,7 +130,14 @@ CSokriptInstruction* CSokriptInstruction::createFunctionDefinition(char* name, s
 	return functionStart;
 }
 
-		
+CSokriptInstruction* CSokriptInstruction::return0Instruction()
+{
+	CSokriptInstruction* result = new CSokriptInstruction(eInstructionPushFloat, new CNumber());
+	result->addInstruction(new CSokriptInstruction(eInstructionReturn));
+	return result;
+}
+
+
 UInt32 CSokriptInstruction::length() const
 {
 	UInt32 result = selfLength();
@@ -137,7 +155,6 @@ UInt32 CSokriptInstruction::selfLength() const
 			result += dynamic_cast<CString*> (mObjArg1)->length() + 1;
 			// No break here
 
-		case eInstructionJumpIfFalse:
 		case eInstructionCall:
 		case eInstructionCallExternal:
 		case eInstructionStartFunction:
@@ -148,7 +165,6 @@ UInt32 CSokriptInstruction::selfLength() const
 		case eInstructionAssign:
 		case eInstructionPushVar:
 		case eInstructionJump:
-		case eInstructionJumpToReturn:
 		case eInstructionJumpIfTrue:
 			result += sizeof(SInt32);
 			break;
@@ -157,22 +173,18 @@ UInt32 CSokriptInstruction::selfLength() const
 			result += sizeof(Float32);
 			break;
 
-		case eInstructionReturn:
-			result += sizeof(UInt16);
-			break;
-
 		default:
 			break;
 	}
 	return result;
 }
 
-static inline SInt32 findVarInArgs(std::list<char*>* args, const char* var)
+static inline SInt32 findVarInArgs(std::list<CString>* args, const char* var)
 {
 	SInt32 result = 0;
-	for (std::list<char*>::iterator it = args->begin(); it != args->end(); ++it)
+	for (std::list<CString>::iterator it = args->begin(); it != args->end(); ++it)
 	{
-		if (!strcmp(*it, var))
+		if (*it == var)
 			break;
 		++result;
 	}
@@ -180,7 +192,7 @@ static inline SInt32 findVarInArgs(std::list<char*>* args, const char* var)
 	return args->size() - result;
 }
 
-CSokriptInstruction* CSokriptInstruction::postProcessBytecode(CSokriptInstruction* instruction, std::list<char*>* arguments)
+CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstruction::Ptr instruction, std::list<CString>* arguments)
 {
 	UInt32 symbolIndexCounter = 0;
 	std::map<CString, SInt32> varMap;
@@ -189,7 +201,12 @@ CSokriptInstruction* CSokriptInstruction::postProcessBytecode(CSokriptInstructio
 
 	bool finalStage = !arguments;
 
-	if (!arguments) arguments = new std::list<char*>();
+	bool argsShoudBeDeleted = false;
+	if (!arguments)
+	{
+		arguments = new std::list<CString>();
+		argsShoudBeDeleted = true;
+	}
 
 	UInt32 offset = 0;
 
@@ -292,9 +309,9 @@ CSokriptInstruction* CSokriptInstruction::postProcessBytecode(CSokriptInstructio
 		offset += i->selfLength();
 	}
 
-	delete arguments;
+	if (argsShoudBeDeleted) delete arguments;
 
-	CSokriptInstruction* result = instruction;
+	CSokriptInstruction::Ptr result = instruction;
 
 	if (!varMap.empty())
 	{
@@ -314,7 +331,7 @@ CSokriptInstruction* CSokriptInstruction::postProcessBytecode(CSokriptInstructio
 	return result;
 }
 
-CSokriptInstruction* CSokriptInstruction::optimizeByteCode(CSokriptInstruction* instruction)
+CSokriptInstruction::Ptr CSokriptInstruction::optimizeByteCode(CSokriptInstruction::Ptr instruction)
 {
 	return instruction;
 }
@@ -328,7 +345,6 @@ void CSokriptInstruction::dumpBytecodeToStream(const CSokriptInstruction* instru
 		switch (command)
 		{
 			case eInstructionSetSymbolsCount:
-			case eInstructionJumpIfFalse:
 			case eInstructionCall:
 			case eInstructionCallExternal:
 				{
@@ -364,73 +380,47 @@ void CSokriptInstruction::dumpBytecodeToStream(const CSokriptInstruction* instru
 				}
 				break;
 
-			case eInstructionReturn:
-				{
-					UInt16 intValue = i->mUInt16Arg1;
-					stream.write((const char*)&intValue, sizeof(intValue));
-				}
-				break;
-
 			default:
 				break;
 		}
 	}
 }
 
-void CSokriptInstruction::showAll(int i) const
+void CSokriptInstruction::showAll(std::ostream& s, int i) const
 {
-	show(i);
-	if (mNext) mNext->showAll(i + 1);
+	show(s, i);
+	if (mNext) mNext->showAll(s, i + 1);
 }
 
-void CSokriptInstruction::show(int i) const
+void CSokriptInstruction::show(std::ostream& s, int i) const
 {
 	if (mInstruction > eInstructionCount_)
-		std::cout << i << ": INVALID(" << mInstruction << ");" << std::endl;
-	std::cout << i << ": " << strings[mInstruction];
+		s << i << ": INVALID(" << mInstruction << ");" << std::endl;
+	s << i << ": " << strings[mInstruction];
 
 	switch (mInstruction)
 	{
 		case eInstructionAssign:
 		case eInstructionPushVar:
 			if (mProcessed)
-				std::cout << ": \"" << mSInt32Arg1 << "\"";
+				s << ": \"" << mSInt32Arg1 << "\"";
 			else
-				std::cout << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
+				s << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
 			break;
 
 		case eInstructionDeclareExternalFunction:
 		case eInstructionPushStr:
-			std::cout << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
+			s << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
 			break;
 
 		case eInstructionPushFloat:
-			std::cout << ": \"" << dynamic_cast<CNumber*> (mObjArg1)->valueAsFloat32() << "\"";
+			s << ": \"" << dynamic_cast<CNumber*> (mObjArg1)->valueAsFloat32() << "\"";
 			break;
 
 		case eInstructionCallExternal:
 		case eInstructionSetSymbolsCount:
-			std::cout << ": \"" << mUInt32Arg1 << "\"";
+			s << ": \"" << mUInt32Arg1 << "\"";
 			break;
-
-		case eInstructionReturn:
-			std::cout << ": " << mUInt16Arg1;
-			break;
-
-		case eInstructionJumpIfFalse:
-		{
-			UInt32 offset = mUInt32Arg1;
-			UInt32 instrCount = 0;
-			UInt32 instrSize = 0;
-			for(CSokriptInstruction* j = mNext; j && instrSize <= offset; j = j->mNext)
-			{
-				instrSize += j->selfLength();
-				++instrCount;
-			}
-
-			std::cout << ": \"" << offset << "\"" << " target: " << i + instrCount;
-			break;
-		}
 
 		case eInstructionJump:
 		case eInstructionJumpIfTrue:
@@ -447,11 +437,11 @@ void CSokriptInstruction::show(int i) const
 				}
 			}
 
-			std::cout << ": \"" << offset << "\"" << " target: ";
+			s << ": \"" << offset << "\"" << " target: ";
 			if (instrCount)
-				std::cout << i + instrCount;
+				s << i + instrCount;
 			else
-				std::cout << "negative";
+				s << "negative";
 
 			break;
 		}
@@ -459,7 +449,14 @@ void CSokriptInstruction::show(int i) const
 		default: ;
 	}
 
-	std::cout << ";" << std::endl;
+	s << ";" << std::endl;
+}
+
+CString CSokriptInstruction::description() const
+{
+	std::stringstream stream;
+	showAll(stream);
+	return stream.str().c_str();
 }
 
 	} // namespace le

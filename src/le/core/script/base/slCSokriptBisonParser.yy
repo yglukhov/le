@@ -29,7 +29,7 @@
 	float floatValue;
 	int intValue;
 	CObject* objectValue;
-	std::list<char*>* stringList;
+	std::list<CString>* stringList;
 	CSokriptInstruction* instruction;
 }
 
@@ -86,13 +86,12 @@
 program
 	: statement_list
 		{
-			CSokriptInstruction* returnInstruction = new CSokriptInstruction(eInstructionReturn);
 			if ($1)
-				$1->addInstruction(returnInstruction);
+				$1->addReturn0Instruction();
 			else
-				$1 = returnInstruction;
+				$1 = CSokriptInstruction::return0Instruction();
 
-			$1 = CSokriptInstruction::postProcessBytecode($1, NULL);
+			$1 = CSokriptInstruction::postProcessBytecode($1, NULL).retain().get();
 			mSokript->setInstruction($1);
 		}
 	;
@@ -114,7 +113,7 @@ statement
 	| expression_or_nothing SEMICOLON			{ $$ = $1; if ($$) $$->addInstruction(new CSokriptInstruction(eInstructionDiscard));	}
 	| selection_statement
 	| loop_statement
-	| LBRACE statement_list RBRACE				{ $$ = $2;																					}
+	| LBRACE statement_list RBRACE				{ $$ = $2; }
 	| return_statement
 	;
 
@@ -122,17 +121,18 @@ function_definition
 	: FUNCTION IDENTIFIER LPAREN function_arg_list_definition RPAREN LBRACE statement_list RBRACE
 		{
 			$$ = CSokriptInstruction::createFunctionDefinition($2, $4, $7);
+			delete $4;
 		}
 	;
 
 function_arg_list_definition
-	:													{ $$ = new std::list<char*>(); }
+	:													{ $$ = new std::list<CString>(); }
 	| not_empty_function_arg_list_definition
 	;
 
 not_empty_function_arg_list_definition
-	: function_arg_definition												{ $$ = new std::list<char*>(); $$->push_back($1); }
-	| not_empty_function_arg_list_definition COMMA function_arg_definition	{ $$ = $1; $$->push_back($3); }
+	: function_arg_definition												{ $$ = new std::list<CString>(); $$->push_back(CString($1)); }
+	| not_empty_function_arg_list_definition COMMA function_arg_definition	{ $$ = $1; $$->push_back(CString($3)); }
 	;
 
 function_arg_definition
@@ -143,12 +143,12 @@ return_statement
 	: RETURN expression_or_nothing SEMICOLON
 		{
 			$$ = ($2)?($2):(new CSokriptInstruction(eInstructionPushFloat, new CNumber(0)));
-			$$->addInstruction(new CSokriptInstruction(eInstructionJumpToReturn));
+			$$->addInstruction(new CSokriptInstruction(eInstructionReturn));
 		}
 	;
 
 selection_statement
-: IF LPAREN expression RPAREN statement					{ $$ = CSokriptInstruction::createIfThenElse($3, $5, NULL);	}
+	: IF LPAREN expression RPAREN statement					{ $$ = CSokriptInstruction::createIfThenElse($3, $5, NULL);	}
 	| IF LPAREN expression RPAREN statement ELSE statement	{ $$ = CSokriptInstruction::createIfThenElse($3, $5, $7);		}
 	;
 

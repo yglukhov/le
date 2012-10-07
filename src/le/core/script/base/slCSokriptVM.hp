@@ -3,13 +3,104 @@
 
 #include <le/core/slCNumber.h>
 #include <le/core/slCData.h>
+#include "slCSokriptInstruction.hp"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CSokriptInstruction;
+//#define LE_LOG_INSTRUCTIONS
+
+template<typename T>
+struct SokriptVMStack
+{
+	inline SokriptVMStack() :
+		mSize(0),
+		mBuffer(NULL),
+		mPosition(0)
+#ifdef LE_LOG_INSTRUCTIONS
+		, mTraceRealloc(false)
+#endif
+	{
+
+	}
+
+	inline ~SokriptVMStack()
+	{
+		if (mBuffer) free(mBuffer);
+	}
+
+	void push(T obj)
+	{
+		if (mPosition + 1 >= mSize) reallocate(1);
+		mBuffer[mPosition] = obj;
+		++mPosition;
+	}
+
+	T pop()
+	{
+		LE_ASSERT(mPosition);
+		return mBuffer[--mPosition];
+	}
+
+	void increase(UInt32 bySize)
+	{
+		if (mPosition + bySize >= mSize) reallocate(bySize);
+
+#ifdef LE_LOG_INSTRUCTIONS
+		UInt32 newPosition = mPosition + bySize;
+		for (; mPosition < newPosition; ++mPosition)
+		{
+			mBuffer[mPosition] = NULL;
+		}
+#else
+		mPosition += bySize;
+#endif
+	}
+
+	void decrease(UInt32 bySize)
+	{
+		mPosition -= bySize;
+	}
+
+	void reallocate(UInt32 bySize)
+	{
+		const Float32 reallocCoef = 1.5;
+
+		UInt32 newSize = mSize * reallocCoef + 1;
+		if (newSize < mSize + bySize) newSize = mSize + bySize;
+#ifdef LE_LOG_INSTRUCTIONS
+		if (mTraceRealloc) std::cout << "Reallocating stack. Old size: " << mSize << ", new size: " << newSize << std::endl;
+#endif
+		mSize = newSize;
+
+		mBuffer = (T*)realloc(mBuffer, newSize * sizeof(T));
+	}
+
+	T objectAtIndex(UInt32 pos)
+	{
+		return mBuffer[pos];
+	}
+
+	void setObjectAtIndex(UInt32 pos, T obj)
+	{
+		mBuffer[pos] = obj;
+	}
+
+	UInt32 position()
+	{
+		return mPosition;
+	}
+
+	UInt32 mSize;
+	T* mBuffer;
+	UInt32 mPosition;
+
+#ifdef LE_LOG_INSTRUCTIONS
+	Bool mTraceRealloc;
+#endif
+};
 
 class CSokriptVM
 {
@@ -23,6 +114,17 @@ class CSokriptVM
 		void performByteCode(const CData& data);
 
 	private:
+		template <EInstruction>
+		inline void handleInstruction();
+
+		const UInt8* mCode;
+		SokriptVMStack<CObject*> mVarStack;
+		SokriptVMStack<const UInt8*> mPcStack;
+		SokriptVMStack<UInt32> mStackLineStack;
+
+		UInt32 mCurrentStackLine;
+
+		std::vector<CString> mExternFunctions;
 		std::map<CString, CObject* (*)(CObject*)> mFunctions;
 };
 

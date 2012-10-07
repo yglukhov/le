@@ -70,7 +70,7 @@ WSPACE		[ \t]+
 				yylval->stringValue = strdup(yytext);
 				return Token::IDENTIFIER;
 			}
-\"(\\.|[^\\"\n])*\"	{   /* " */
+\"(\\.|[^\\"\n])*\"|'(\\.|[^'\n])*'	{   /* "|' */
 						yylval->stringValue = strdup(yytext + 1);
 						yylval->stringValue[strlen(yylval->stringValue) - 1] = '\0';
 						return Token::LITERAL_STRING;
@@ -104,4 +104,5 @@ int yyFlexLexer::yylex()
 
 #ifndef yywrap
 int yywrap() { return 1; }
+int yyFlexLexer::yywrap() { return 1; }
 #endif

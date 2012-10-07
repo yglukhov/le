@@ -10,16 +10,15 @@ namespace sokira
 
 class CScriptTestSuite : public CTestSuite
 {
-	LE_DECLARE_RUNTIME_CLASS(CScriptTestSuite);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CScriptTestSuite)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+		LE_RTTI_SELECTOR(testTokenizer)
+		LE_RTTI_SELECTOR(testParser)
+	LE_RTTI_END
 
-	public:
-		virtual void runTest()
-		{
-			testTokenizer();
-		}
-
-	private:
-		void testTokenizer();
+	void testTokenizer();
+	void testParser();
 };
 
 	} // namespace le

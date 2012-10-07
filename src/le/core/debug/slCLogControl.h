@@ -23,12 +23,12 @@ class CLogControl :
 		~CLogControl();
 
 		void attachToFile(const CString& name, UInt32 minPriority);
-		void attachToScreen(UInt32 minPriority);
+		void attachToStandardOutput(UInt32 minPriority);
 
 		void setCurrentEntry(CLogEntry* entry);
 		CLogEntry* currentEntry() const;
 
-		void attachToStream(std::ostream* theStream, UInt32 severity);
+		void attachToStream(std::ostream* theStream, UInt32 severity, bool deleteOnEnd = true);
 
 		void increaseWhiteSpace()
 		{
@@ -52,7 +52,9 @@ class CLogControl :
 		
 	private:
 		CLogEntry* mCurrentEntry;
-		std::list<std::pair<UInt32, std::ostream*> > mStreams;
+//	std::list<std::pair<UInt32, std::ostream*> > mStreams;
+		typedef TCTuple<TSTypeList<UInt32, std::ostream*, bool> > CStreamTuple;
+		std::list<CStreamTuple> mStreams;
 		std::string mWhiteSpace;
 		std::string mBuffer;
 };

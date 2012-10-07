@@ -26,10 +26,13 @@ CLogControl::CLogControl() :
 
 CLogControl::~CLogControl()
 {
-	for (std::list<std::pair<UInt32, std::ostream*> >::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
+	for (std::list<CStreamTuple>::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
 	{
-		(*it->second) << "\n\n---------------------\nLog ended: [TODO: here must be curent time]\nS.O.K.I.R.A. labs." << std::endl;
-		delete it->second;
+		*(it->value<1>()) << "\n\n---------------------\nLog ended: [TODO: here must be curent time]\nS.O.K.I.R.A. labs." << std::endl;
+		if (it->value<2>())
+		{
+			delete it->value<1>();
+		}
 	}
 }
 
@@ -38,14 +41,18 @@ void CLogControl::attachToFile(const CString& name, UInt32 minPriority)
 	attachToStream(new std::ofstream(name.cString()), minPriority);
 }
 
-void CLogControl::attachToScreen(UInt32 minPriority)
+void CLogControl::attachToStandardOutput(UInt32 minPriority)
 {
-//	attachToStream(new std::ostream(std::cout), minPriority);
+	attachToStream(&std::cout, minPriority, false);
 }
 
-void CLogControl::attachToStream(std::ostream* theStream, UInt32 severity)
+void CLogControl::attachToStream(std::ostream* theStream, UInt32 severity, bool deleteOnEnd)
 {
-	mStreams.push_back(std::make_pair(severity, theStream));
+	CStreamTuple t;
+	t.setValue<0>(severity);
+	t.setValue<1>(theStream);
+	t.setValue<2>(deleteOnEnd);
+	mStreams.push_back(t);
 	*theStream << "S.O.K.I.R.A. labs.\nLog started: [TODO: here must be current time]\n---------------------\n\n" << std::endl;
 }
 
@@ -72,12 +79,12 @@ int CLogControl::sync()
 	if (!mBuffer.empty())
 	{
 		LE_ASSERT(mCurrentEntry);
-		for (std::list<std::pair<UInt32, std::ostream*> >::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
+		for (std::list<CStreamTuple>::iterator it = mStreams.begin(); it != mStreams.end(); ++it)
 		{
-			if (it->first <= mCurrentEntry->severity())
+			if (it->value<0>() <= mCurrentEntry->severity())
 			{
-				*(it->second) << mWhiteSpace << mBuffer;
-				it->second->flush();
+				*(it->value<1>()) << mWhiteSpace << mBuffer;
+				it->value<1>()->flush();
 			}
 		}
 	}
