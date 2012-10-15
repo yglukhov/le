@@ -1,31 +1,6 @@
 #if !defined included_core_script_slCScript_h
 #define included_core_script_slCScript_h
 
-// Performing a script:
-// std::istream | CTokenizer | CLexer | [ CLogicOptimizer | ]
-// | CCompiler | [ CBytecodeOptimizer ] | CMachine
-//
-// Compiling script:
-// std::istream | CTokenizer | CLexer | CLogicOptimizer |
-// | CCompiler | CBytecodeOptimizer | std::ostream
-//
-// Performing compiled script
-// std::istream | [ CBytecodeOptimizer | ] CMachine
-//
-// Requirements:
-// CTokenizer	requires std::istream
-//				produces CToken
-//
-// CLexer		requires CTokenizer
-//				produces CLexem
-//
-// CLogicOptimizer	requires CLexer
-//					produces CLexem
-//					inherits CLexer
-//
-// CCompiler		requires CLexer
-//					produces byte
-
 #include <le/core/slCData.h>
 
 namespace sokira
@@ -33,17 +8,24 @@ namespace sokira
 	namespace le
 	{
 
-class CScript
-{
-	public:
-		virtual ~CScript();
+typedef CObject::Ptr (*TScriptFunction)(CObject::Ptr);
 
-		virtual void addFunction(const CString& name, CObject* (*function)(CObject*));
-		virtual void addClass(const CClass& theClass);
-	//	virtual void addInstance(const CString& name, instance);
-		void runFromStream(std::istream& stream);
-		virtual void runBytecode(const CData& bytecode);
-		virtual void compileFromStream(std::istream& input, std::ostream& output);
+class CScript : public CObject
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CScript)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
+	public:
+		virtual bool compileStream(std::istream& stream, std::ostream& ostream);
+		virtual CObject::Ptr runBytecode(const CData& data);
+		
+		virtual CObject::Ptr runScript(const CString& script);
+		virtual CObject::Ptr runStream(std::istream& stream);
+
+		virtual void addExternalObject(const CString& name, CObject::Ptr object);
+		virtual void addExternalFunction(const CString& name, TScriptFunction function);
 };
 
 	} // namespace le

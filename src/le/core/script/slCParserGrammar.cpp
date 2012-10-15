@@ -253,14 +253,15 @@ CParserGrammar::CGrammarReader& CParserGrammar::CGrammarReader::operator << (TCP
 	return *this << str;
 }
 
+struct TSPassFunc
+{
+	CObject::Ptr operator() (std::vector<CObject::Ptr>& objects) { return objects.at(mIndex); }
+	int mIndex;
+};
+
 CParserGrammar::CGrammarReader& CParserGrammar::CGrammarReader::operator << (int pass)
 {
-	struct PassFunc
-	{
-		CObject::Ptr operator() (std::vector<CObject::Ptr>& objects) { return objects.at(mIndex); }
-		int mIndex;
-	};
-	PassFunc handler;
+	TSPassFunc handler;
 	handler.mIndex = pass;
 	return *this << handler;
 }

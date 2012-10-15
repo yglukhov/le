@@ -1,62 +1,287 @@
-#if !defined included_core_script_slCLexer_h
-#define included_core_script_slCLexer_h
+#if !defined SL_LE_core_script_slCLexer_h
+#define SL_LE_core_script_slCLexer_h
 
-//#include <iterator>
-#include <le/core/slCObject.h>
-#include <le/core/template/function/slTCFunction.h>
-#include "slCParser.h"
-#include "slCParserGrammar.h"
+#include <iosfwd>
+#include <string>
+#include <vector>
+#include <set>
+
+#include <le/core/strategies/slCSimpleRefCountable.h>
+#include <le/core/slTCPointer.h>
+#include <le/core/slCString.h>
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CData;
+typedef std::set<char> CCharSet;
 
-class CParser : public CObject
+enum ETokenMatchResult
+{
+	eTokenMatchResultInvalid = 0,
+	eTokenMatchResultIncomplete,
+	eTokenMatchResultEnough,
+	eTokenMatchResultComplete
+};
+
+class ITokenMatcher : public CSimpleRefCountable
+{
+	public:
+		virtual ETokenMatchResult match(WChar c) = 0;
+		
+		CString identifier() const
+		{
+			return mIdentifier;
+		}
+
+		void setIdentifier(const CString& identifier)
+		{
+			mIdentifier = identifier;
+		}
+	
+		virtual CString token() const = 0;
+		virtual void reset() = 0;
+		virtual Float32 priority() const { return 1.0f; }
+		virtual CObject::Ptr value() const { return new CString(token()); }
+
+	private:
+		CString mIdentifier;
+};
+
+class CConstStringTokenMatcher : public ITokenMatcher
+{
+	public:
+	CConstStringTokenMatcher(const CString& token) :
+		mToken(token)
+	{
+
+	};
+
+	virtual ETokenMatchResult match(WChar c)
+	{
+		if (mToken.characterAtIndex(mIndex) == c)
+		{
+			++mIndex;
+			if (mIndex == mToken.length())
+			{
+				return eTokenMatchResultComplete;
+			}
+			return eTokenMatchResultIncomplete;
+		}
+		return eTokenMatchResultInvalid;
+	}
+
+	virtual CString token() const
+	{
+		return mToken;
+	}
+
+	virtual void reset()
+	{
+		mIndex = 0;
+	}
+
+	virtual Float32 priority() const
+	{
+		return 2.0f;
+	}
+	
+	private:
+		CString mToken;
+		UInt32 mIndex;
+};
+
+class CCharacterSetTokenMatcher : public ITokenMatcher
+{
+public:
+	CCharacterSetTokenMatcher(const CString& charSet) :
+		mCharSet(charSet)
+	{
+
+	};
+
+	virtual ETokenMatchResult match(WChar c)
+	{
+		if (mCharSet.find(c) != -1)
+		{
+			mToken.append(c);
+			return eTokenMatchResultEnough;
+		}
+		return eTokenMatchResultInvalid;
+	}
+
+	virtual CString token() const
+	{
+		return mToken;
+	}
+
+	virtual void reset()
+	{
+		mToken.clear();
+	}
+
+private:
+	CString mToken;
+	CString mCharSet;
+};
+
+class CIdentifierTokenMatcher : public ITokenMatcher
+{
+public:
+	virtual ETokenMatchResult match(WChar c)
+	{
+		CString alpha = CString::createWithCharacterRange('a', 'z' - 'a' + 1);
+		alpha += CString::createWithCharacterRange('A', 'Z' - 'A' + 1);
+		alpha += "_";
+		if (mToken.isEmpty())
+		{
+			if (alpha.find(c) == -1)
+			{
+				return eTokenMatchResultInvalid;
+			}
+			mToken.append(c);
+			return eTokenMatchResultEnough;
+		}
+		
+		CString numeric = CString::createWithCharacterRange('0', 10);
+		if (numeric.find(c) != -1 || alpha.find(c) != -1)
+		{
+			mToken.append(c);
+			return eTokenMatchResultEnough;
+		}
+
+		return eTokenMatchResultInvalid;
+	}
+
+	virtual CString token() const
+	{
+		return mToken;
+	}
+
+	virtual void reset()
+	{
+		mToken.clear();
+	}
+
+private:
+	CString mToken;
+};
+
+class CStringLiteralTokenMatcher : public ITokenMatcher
+{
+public:
+
+	virtual ETokenMatchResult match(WChar c)
+	{
+		if (mToken.isEmpty())
+		{
+			if (c == '\'' || c == '\"')
+			{
+				mToken.append(c);
+				return eTokenMatchResultIncomplete;
+			}
+			return eTokenMatchResultInvalid;
+		}
+
+		mToken.append(c);
+		if (c == '\'' || c == '\"')
+		{
+			if (mToken.characterAtIndex(0) == c && mToken.characterAtIndex(mToken.length() - 2) != '\\')
+			{
+				return eTokenMatchResultComplete;
+			}
+		}
+
+		return eTokenMatchResultIncomplete;
+	}
+
+	virtual CString token() const
+	{
+		return mToken;
+	}
+
+	virtual void reset()
+	{
+		mToken.clear();
+	}
+
+private:
+	CString mToken;
+};
+
+
+
+struct CToken
+{
+	CToken(const ITokenMatcher* matcher, UInt32 line, UInt32 column) :
+		mMatcher(matcher), mLine(line), mColumn(column)
+	{
+		if (mMatcher)
+		{
+			mIdentifier = mMatcher->identifier();
+			mValue = mMatcher->value();
+		}
+	}
+
+	CToken() {}
+
+	CString identifier() const
+	{
+		return mIdentifier;
+	}
+
+	CObject::Ptr value() const
+	{
+		return mValue;
+	}
+
+	const ITokenMatcher* mMatcher;
+	UInt32 mLine;
+	UInt32 mColumn;
+	CString mIdentifier;
+	CObject::Ptr mValue;
+};
+
+class CLexer : public CObject
 {
 	LE_RTTI_BEGIN
-		LE_RTTI_SELF(CParser)
+		LE_RTTI_SELF(CLexer)
 		LE_RTTI_SINGLE_PUBLIC_PARENT
 	LE_RTTI_END
 
 	public:
-		CObject::Ptr parse(std::istream& stream);
+		CLexer();
+		~CLexer();
+		void setInputStream(std::istream* stream)
+		{
+			mStream = stream;
+		}
 
-		void setGrammar(CParserGrammar::Ptr grammar);
-		CParserGrammar::Ptr grammar() const;
+		CToken nextToken();
+		bool eof();
 
-	private:
-		CParserGrammar::Ptr mGrammar;
-};
+		UInt32 position() const
+		{
+			return 0;
+		}
+	
+		void addMatcher(ITokenMatcher* matcher, const CString& identifier);
+		void addIgnoredIdentifier(const CString& identifier);
 
-typedef CObject::Ptr (*TSokriptFunction)(CObject::Ptr);
-
-class CSokript : public CObject
-{
-	LE_RTTI_BEGIN
-		LE_RTTI_SELF(CSokript)
-		LE_RTTI_SINGLE_PUBLIC_PARENT
-	LE_RTTI_END
-
-	public:
-		CSokript();
-		bool compileStream(std::istream& stream, std::ostream& ostream);
-		CObject::Ptr runBytecode(const CData& data);
-
-		CObject::Ptr runScript(const CString& script);
-
-		void addExternalObject(const CString& name, CObject::Ptr object);
-		void addExternalFunction(const CString& name, TSokriptFunction function);
+	protected:
+		std::map<CString, ITokenMatcher*> mTokenMatches;
+		WChar nextChar();
 
 	private:
-		std::map<CString, CObject::Ptr> mExternalObjects;
+		CToken nextTokenIncludingIgnored();
+		std::istream* mStream;
+		std::wstring mBuffer;
+		std::set<CString> mIgnoredItems;
 };
-
-
 
 	} // namespace le
 } // namespace sokira
 
-#endif // not defined included_core_script_slCLexer_h
+
+#endif // not defined SL_LE_core_script_slCLexer_h

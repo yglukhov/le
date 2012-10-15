@@ -8,21 +8,24 @@ namespace sokira
 	namespace le
 	{
 
-class CSokriptImpl;
 
-class CSokriptOld : public CScript
+class CSokript : public CScript
 {
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CSokript)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
 	public:
-		CSokriptOld();
-		~CSokriptOld();
+		CSokript();
+		virtual bool compileStream(std::istream& stream, std::ostream& ostream);
+		virtual CObject::Ptr runBytecode(const CData& data);
 
-		virtual void addFunction(const CString& name, CObject* (*function)(CObject*));
-
-		virtual void runBytecode(const CData& bytecode);
-		virtual void compileFromStream(std::istream& input, std::ostream& output);
+		virtual void addExternalObject(const CString& name, CObject::Ptr object);
+		virtual void addExternalFunction(const CString& name, TScriptFunction function);
 
 	private:
-		CSokriptImpl* mImpl;
+		std::map<CString, CObject::Ptr> mExternalObjects;
 };
 
 	} // namespace le

@@ -1,4 +1,5 @@
 #include <le/core/io/slCDataStream.h>
+#include <le/core/slCString.h>
 #include "slCScript.h"
 
 namespace sokira
@@ -6,39 +7,47 @@ namespace sokira
 	namespace le
 	{
 
-CScript::~CScript()
+LE_IMPLEMENT_RUNTIME_CLASS(CScript);
+
+bool CScript::compileStream(std::istream& stream, std::ostream& ostream)
+{
+	return false;
+}
+
+CObject::Ptr CScript::runBytecode(const CData& data)
+{
+	return NULL;
+}
+
+CObject::Ptr CScript::runScript(const CString& script)
+{
+	CInputDataStream stream(script.cString(), script.length());
+	return runStream(stream);
+}
+
+CObject::Ptr CScript::runStream(std::istream& stream)
+{
+	CDataStream compiledDataStream;
+	if (!compileStream(stream, compiledDataStream))
+	{
+		return NULL;
+	}
+
+	CData bytecode(compiledDataStream.c_data(), compiledDataStream.size());
+	return runBytecode(bytecode);
+}
+
+void CScript::addExternalObject(const CString& name, CObject::Ptr object)
 {
 
 }
 
-void CScript::addFunction(const CString& name, CObject* (*function)(CObject*))
+
+void CScript::addExternalFunction(const CString& name, TScriptFunction function)
 {
 
 }
 
-void CScript::addClass(const CClass& theClass)
-{
-
-}
-
-//	virtual void addInstance(const CString& name, instance);
-
-void CScript::runFromStream(std::istream& stream)
-{
-	CDataStream data;
-	compileFromStream(stream, data);
-	runBytecode(CData(data.c_data(), data.size()));
-}
-
-void CScript::runBytecode(const CData& bytecode)
-{
-
-}
-
-void CScript::compileFromStream(std::istream& input, std::ostream& output)
-{
-
-}
 
 	} // namespace le
 } // namespace sokira

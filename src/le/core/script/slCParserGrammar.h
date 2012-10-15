@@ -1,7 +1,7 @@
 #if !defined SL_LE_core_script_slCParserGrammar_h
 #define SL_LE_core_script_slCParserGrammar_h
 
-#include <le/core/script/slCTokenizer.h>
+#include <le/core/script/slCLexer.h>
 #include <le/core/template/function/slTCFunction.h>
 
 

@@ -211,8 +211,6 @@
 		7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
 		7BFAC811107B837500BF07DF /* slCImageFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFAC810107B837500BF07DF /* slCImageFrame.cpp */; };
 		7BFAC812107B837500BF07DF /* slCImageFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFAC810107B837500BF07DF /* slCImageFrame.cpp */; };
-		7BFBF39E161645F3005F12CA /* slCSweetParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFBF39D161645F3005F12CA /* slCSweetParser.cpp */; };
-		7BFBF39F161645F3005F12CA /* slCSweetParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFBF39D161645F3005F12CA /* slCSweetParser.cpp */; };
 		7BFF4105107D3D650007FFC0 /* slCPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF4104107D3D650007FFC0 /* slCPreferences.cpp */; };
 		7BFF4106107D3D650007FFC0 /* slCPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF4104107D3D650007FFC0 /* slCPreferences.cpp */; };
 		B04FF9AD0A16175800F559ED /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
@@ -631,7 +629,6 @@
 		7BFAC80F107B837500BF07DF /* slCImageFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCImageFrame.h; sourceTree = "<group>"; };
 		7BFAC810107B837500BF07DF /* slCImageFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCImageFrame.cpp; sourceTree = "<group>"; };
 		7BFAC813107B861D00BF07DF /* slCImageFrameImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCImageFrameImpl.hp; sourceTree = "<group>"; };
-		7BFBF39D161645F3005F12CA /* slCSweetParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSweetParser.cpp; sourceTree = "<group>"; };
 		7BFF4103107D3D650007FFC0 /* slCPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCPreferences.h; sourceTree = "<group>"; };
 		7BFF4104107D3D650007FFC0 /* slCPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCPreferences.cpp; sourceTree = "<group>"; };
 		B004630D08E56B7F00236593 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -1170,7 +1167,6 @@
 				7B4C2AE20F78EBA1008CF4B6 /* slCSokriptInstruction.cpp */,
 				7BE910C50F7946C8004C12C9 /* slCSokriptVM.hp */,
 				7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */,
-				7BFBF39D161645F3005F12CA /* slCSweetParser.cpp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1806,7 +1802,6 @@
 				7BACE09015ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
 				7B401D6F15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 				7B1B94A815FA233900490C34 /* slCCocoaImageImpl.mm in Sources */,
-				7BFBF39F161645F3005F12CA /* slCSweetParser.cpp in Sources */,
 				7BF26EDA16198FC100660784 /* slCParserGrammar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1887,7 +1882,6 @@
 				7BACE08F15ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */,
 				7B401D6E15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 				7B1B94A715FA233900490C34 /* slCCocoaImageImpl.mm in Sources */,
-				7BFBF39E161645F3005F12CA /* slCSweetParser.cpp in Sources */,
 				7BF26ED916198FC100660784 /* slCParserGrammar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
