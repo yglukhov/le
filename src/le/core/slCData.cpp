@@ -26,7 +26,7 @@ CData::CData(const void* theData, DataLength length) :
 CData::CData(const CData& theData) :
 	mData(NULL)
 {
-	setData(theData.mData, theData.length());
+	setData(theData.data(), theData.length());
 }
 
 CData::~CData()
@@ -97,7 +97,7 @@ void CData::setData(const void* newData, DataLength length)
 
 const CData& CData::operator = (const CData& newData)
 {
-	setData(newData.mData, newData.length());
+	setData(newData.data(), newData.length());
 	return *this;
 }
 

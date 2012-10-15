@@ -511,16 +511,16 @@ bool CBasicString::isEmpty() const
 	return mProxy->isEmpty();
 }
 
-SInt32 CBasicString::find(const CBasicString& string) const
+SInt32 CBasicString::find(const CBasicString& string, UInt32 fromPos) const
 {
-	char* res = strstr(mProxy->mString, string.mProxy->mString);
+	char* res = strstr(mProxy->mString + fromPos, string.mProxy->mString);
 	return (res)?(res - mProxy->mString):(-1);
 }
 
-SInt32 CBasicString::find(WChar c) const
+SInt32 CBasicString::find(WChar c, UInt32 fromPos) const
 {
 	char needle[] = { c, 0 };
-	char* res = strstr(mProxy->mString, needle);
+	char* res = strstr(mProxy->mString + fromPos, needle);
 	return (res)?(res - mProxy->mString):(-1);
 }
 

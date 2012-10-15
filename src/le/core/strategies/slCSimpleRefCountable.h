@@ -24,6 +24,11 @@ class CSimpleRefCountable
 			return *this;
 		}
 
+		UInt32 retainCount() const
+		{
+			return mRefCount;
+		}
+
 	private:
 		mutable UInt32 mRefCount;
 };

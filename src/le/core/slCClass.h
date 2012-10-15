@@ -131,15 +131,15 @@ struct _SSelectorDeclarator
 #define LE_RTTI_SELECTOR(sel) LE_RTTI_SELECTOR_WITH_NAME(sel, sel)
 
 #define _LE_RTTI_SELECTOR_WITH_TYPE_NAME(sel, name, type)	\
-	::sokira::le::_SNullType>::result _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break;	\
-	struct _TSSel_##sel##_##name##_declarator : public ::sokira::le::base::_SSelectorDeclarator \
+	::sokira::le::_SNullType>::result _LE_RTTI_SEL_DECLARATOR_##name##_break;	\
+	struct _TSSel_##name##_declarator : public ::sokira::le::base::_SSelectorDeclarator \
 	{																	\
 		static inline ISelector *selector()								\
 		{																\
 			return _selector(type &__LE_temp_Self::sel, #name);			\
 		}																\
 	};																	\
-	typedef _LE_RTTI_SEL_DECLARATOR_##sel##_##name##_break::PushBack<_TSSel_##sel##_##name##_declarator>::result::PushBack<
+	typedef _LE_RTTI_SEL_DECLARATOR_##name##_break::PushBack<_TSSel_##name##_declarator>::result::PushBack<
 
 
 

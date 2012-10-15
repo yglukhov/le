@@ -39,7 +39,7 @@ static void addMatchersToTokenizer(CLexer& tokenizer)
 void CScriptTestSuite::testTokenizer()
 {
 	CLexer tokenizer;
-	CString string = LESTR("sdfg; 1234+1234  ; function   a+=b + 'string literal'");
+	CString string = LESTR("sdfg; 1234+1234  ; function   a+=b + 'string literal' z");
 	CInputDataStream stream(string.cString(), string.length());
 	tokenizer.setInputStream(&stream);
 	addMatchersToTokenizer(tokenizer);
@@ -57,6 +57,7 @@ void CScriptTestSuite::testTokenizer()
 	tokenIds.push_back("identifier");
 	tokenIds.push_back("+");
 	tokenIds.push_back("LITERAL_STRING");
+	tokenIds.push_back("identifier");
 
 	tokenizer.addIgnoredIdentifier("WHITESPACE");
 
@@ -67,54 +68,37 @@ void CScriptTestSuite::testTokenizer()
 		if (token.mMatcher)
 		{
 			LE_ASSERT(token.identifier() == tokenIds[i]);
+			++i;
 		}
-		++i;
 	}
-	
-	LE_ASSERT(i == tokenIds.size() + 1);
+
+	LE_ASSERT(i == tokenIds.size());
+}
+
+CObject::Ptr printObject(CObject::Ptr obj)
+{
+	LE_ASSERT(obj);
+	std::cout << "Print object: " << obj->description() << std::endl;
+	return NULL;
 }
 
 void CScriptTestSuite::testParser()
 {
-//	CLexer tokenizer;
-	CString string = LESTR("function a(x, y) { return x + y; }; print(a(3, 4));");
-	CInputDataStream stream(string.cString(), string.length());
-//	tokenizer.setInputStream(&stream);
-//	addMatchersToTokenizer(tokenizer);
+//	CString string = LESTR("function a(obj, times) { for (i = 0; i < times; i = i + 1) { print('obj ' + i + ': ' + obj); } } a(2, 5);");
+	CString string = LESTR("i = 5;");
+	CSokript sokript;
+	sokript.addExternalFunction("print", printObject);
+//	sokript.addExternalObject("a", new CNumber(2));
+//	sokript.addExternalObject("b", new CNumber(3));
 
-//	tokenizer.retain();
-
-//	CParserGrammar grammar;
 	CStopWatch watch;
 	watch.start();
-	CSokriptParser parser;
-	CObject::Ptr result = parser.parse(stream);
+	CObject::Ptr result = sokript.runScript(string);
 	watch.pause();
+	LE_ASSERT(result);
 	std::cout << "PARSE RESULT: \n";
 	std::cout << result->description();
-	std::cout << "time: " << watch.milliseconds() << std::endl;
-
-	watch.reset();
-	watch.start();
-	CSokript sokript;
-	CDataStream dataStream;
-	CInputDataStream bisonStream(string.cString(), string.length());
-	sokript.compileFromStream(bisonStream, dataStream);
-	watch.pause();
-	std::cout << "time: " << watch.milliseconds() << std::endl;
-
-	CData data(dataStream.c_data(), dataStream.size());
-//	std::cout << "DATA length: " << data.length() << std::endl;
-	sokript.runBytecode(data);
-//	CSokriptParser parser;
-//	parser.setLexer(&tokenizer);
-
-
-//	CParser::TRuleHandler handler = bind(matchFunc, bindTo(0));
-
-//	CLogControl::instance()->attachToStandardOutput(0);
-
-//	std::cout << "PARSED: " << parser.parse()->description() << std::endl;
+	std::cout << "\ntime: " << watch.milliseconds() << std::endl;
 }
 
 	} // namespace le

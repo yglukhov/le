@@ -97,8 +97,8 @@ class CBasicString
 		UInt32 length() const;
 		bool isEmpty() const;
 
-		SInt32 find(const CBasicString& string) const;
-		SInt32 find(WChar c) const;
+		SInt32 find(const CBasicString& string, UInt32 fromPos = 0) const;
+		SInt32 find(WChar c, UInt32 fromPos = 0) const;
 		SInt32 findLast(const CBasicString& string) const;
 		SInt32 findLast(WChar c) const;
 		Bool hasPrefix(const CBasicString& prefix) const;
@@ -117,7 +117,6 @@ class CBasicString
 		{
 			return CBasicString(cString(), string.cString());
 		}
-
 
 		static Bool isWhitespace(NChar c);
 		static Bool isWhitespace(WChar c);

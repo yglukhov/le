@@ -10,11 +10,11 @@ namespace sokira
 
 class CSokriptImpl;
 
-class CSokript : public CScript
+class CSokriptOld : public CScript
 {
 	public:
-		CSokript();
-		~CSokript();
+		CSokriptOld();
+		~CSokriptOld();
 
 		virtual void addFunction(const CString& name, CObject* (*function)(CObject*));
 

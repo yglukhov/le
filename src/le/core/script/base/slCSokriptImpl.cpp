@@ -35,7 +35,10 @@ void CSokriptImpl::addFunction(const CString& name, CObject* (*function)(CObject
 void CSokriptImpl::runBytecode(const CData& bytecode)
 {
 	CSokriptVM vm;
-	vm.performByteCode(bytecode);
+	CData temp = bytecode;
+	temp.retain();
+	vm.setBytecode(&temp);
+	vm.performByteCode();
 }
 
 void CSokriptImpl::compileFromStream(std::istream& input, std::ostream& output)

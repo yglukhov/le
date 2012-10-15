@@ -139,6 +139,7 @@ CToken CLexer::nextTokenIncludingIgnored()
 			}
 		}
 
+		LE_ASSERT(bestMatch);
 		mBuffer.insert(mBuffer.begin(), buffer.begin() + bestLength, buffer.end());
 
 //		std::cout << "return: " << bestMatch->identifier() << std::endl;

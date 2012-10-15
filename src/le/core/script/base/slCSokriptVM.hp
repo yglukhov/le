@@ -10,122 +10,89 @@ namespace sokira
 	namespace le
 	{
 
-//#define LE_LOG_INSTRUCTIONS
-
 template<typename T>
 struct SokriptVMStack
 {
-	inline SokriptVMStack() :
-		mSize(0),
-		mBuffer(NULL),
-		mPosition(0)
-#ifdef LE_LOG_INSTRUCTIONS
-		, mTraceRealloc(false)
-#endif
+	inline void push(T obj)
 	{
-
+		mBuffer.push_back(obj);
 	}
 
-	inline ~SokriptVMStack()
+	inline T pop()
 	{
-		if (mBuffer) free(mBuffer);
+		LE_ASSERT(position());
+		T result = mBuffer[mBuffer.size() - 1];
+		mBuffer.pop_back();
+		return result;
 	}
 
-	void push(T obj)
+	inline void increase(UInt32 bySize)
 	{
-		if (mPosition + 1 >= mSize) reallocate(1);
-		mBuffer[mPosition] = obj;
-		++mPosition;
+		mBuffer.resize(mBuffer.size() + bySize);
 	}
 
-	T pop()
+	inline void decrease(UInt32 bySize)
 	{
-		LE_ASSERT(mPosition);
-		return mBuffer[--mPosition];
+		mBuffer.resize(mBuffer.size() - bySize);
 	}
 
-	void increase(UInt32 bySize)
-	{
-		if (mPosition + bySize >= mSize) reallocate(bySize);
-
-#ifdef LE_LOG_INSTRUCTIONS
-		UInt32 newPosition = mPosition + bySize;
-		for (; mPosition < newPosition; ++mPosition)
-		{
-			mBuffer[mPosition] = NULL;
-		}
-#else
-		mPosition += bySize;
-#endif
-	}
-
-	void decrease(UInt32 bySize)
-	{
-		mPosition -= bySize;
-	}
-
-	void reallocate(UInt32 bySize)
-	{
-		const Float32 reallocCoef = 1.5;
-
-		UInt32 newSize = mSize * reallocCoef + 1;
-		if (newSize < mSize + bySize) newSize = mSize + bySize;
-#ifdef LE_LOG_INSTRUCTIONS
-		if (mTraceRealloc) std::cout << "Reallocating stack. Old size: " << mSize << ", new size: " << newSize << std::endl;
-#endif
-		mSize = newSize;
-
-		mBuffer = (T*)realloc(mBuffer, newSize * sizeof(T));
-	}
-
-	T objectAtIndex(UInt32 pos)
+	inline T objectAtIndex(UInt32 pos)
 	{
 		return mBuffer[pos];
 	}
 
-	void setObjectAtIndex(UInt32 pos, T obj)
+	inline void setObjectAtIndex(UInt32 pos, T obj)
 	{
 		mBuffer[pos] = obj;
 	}
 
-	UInt32 position()
+	inline UInt32 position()
 	{
-		return mPosition;
+		return mBuffer.size();
 	}
 
-	UInt32 mSize;
-	T* mBuffer;
-	UInt32 mPosition;
-
-#ifdef LE_LOG_INSTRUCTIONS
-	Bool mTraceRealloc;
-#endif
+	std::vector<T> mBuffer;
 };
 
 class CSokriptVM
 {
 	public:
 		CSokriptVM();
-		~CSokriptVM()
-		{
 
+		CObject::Ptr performByteCode(const UInt8* startPos = NULL);
+
+		void reset();
+
+		void setBytecode(const CData::Ptr bytecode)
+		{
+			mBytecode = bytecode;
 		}
 
-		void performByteCode(const CData& data);
+		void setExternalObjects(std::map<CString, CObject::Ptr>* objects)
+		{
+			mAllExternalObjects = objects;
+		}
 
 	private:
 		template <EInstruction>
 		inline void handleInstruction();
 
-		const UInt8* mCode;
-		SokriptVMStack<CObject*> mVarStack;
-		SokriptVMStack<const UInt8*> mPcStack;
-		SokriptVMStack<UInt32> mStackLineStack;
+		template <template <typename> class>
+		inline void operateObjects();
 
+		template <template <typename> class>
+		inline void arithmeticOperation();
+
+		const UInt8* mCode;
+		SokriptVMStack<CObject::Ptr> mVarStack;
 		UInt32 mCurrentStackLine;
 
-		std::vector<CString> mExternFunctions;
-		std::map<CString, CObject* (*)(CObject*)> mFunctions;
+		std::vector<CObject::Ptr> mExternalObjects;
+		std::map<CString, CObject::Ptr>* mAllExternalObjects;
+
+		CData::Ptr mBytecode;
+
+		friend class CInternalFunction;
 };
 
 	} // namespace le

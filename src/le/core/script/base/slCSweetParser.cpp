@@ -1,6 +1,4 @@
 
-//#include <sweet_parser/sweet/parser/Parser.hpp>
-
 #include <le/core/config/slCompiler.h>
 
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
@@ -29,6 +27,7 @@
 #include <sweet/parser/GrammarParser.cpp>
 #include <sweet/parser/Error.cpp>
 #include <sweet/parser/parser_types.cpp>
+#include <sweet/parser/ParserErrorPolicy.cpp>
 
 #include <sweet/pointer/ReferenceCount.cpp>
 
@@ -225,8 +224,26 @@ using namespace sweet::parser;
 		}
 	};
 
+	struct : public ParserErrorPolicy
+	{
+        virtual void parser_error( int line, const error::Error& error )
+		{
+			std::cout << "PARSE ERROR: " << error.what() << std::endl;
+		}
+
+        virtual void parser_vprintf( const char* format, va_list args )
+		{
+			LE_ASSERT(false);
+		}
+
+		TParser* parser;
+	} errorPolicy;
+	
+	
 	ParserStateMachine stateMachine(grammar);
-	TParser parser(&stateMachine);
+	TParser parser(&stateMachine, &errorPolicy);
+
+	errorPolicy.parser = &parser;
 
 	parser.mLexer = lexer;
 

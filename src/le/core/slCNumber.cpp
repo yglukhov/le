@@ -142,8 +142,7 @@ CNumber::CNumber(const CDictionary& fromDict)
 }
 
 CNumber::CNumber(const CNumber& copy) :
-	mData(copy.mData),
-	mFormat(copy.mFormat)
+	CNumberBase(copy)
 {
 
 }
@@ -336,6 +335,62 @@ const CNumber& CNumber::operator/=(const CNumber& value)
 //	if (rval == 0.0) rval = 1.0;
 	return *this = this->valueAsFloat32() / rval;
 }
+
+CNumber CNumber::operator + (const CNumber& rhs) const
+{
+	return valueAsFloat64() + rhs.valueAsFloat64();
+}
+
+CNumber CNumber::operator - (const CNumber& rhs) const
+{
+	return valueAsFloat64() - rhs.valueAsFloat64();
+}
+
+CNumber CNumber::operator / (const CNumber& rhs) const
+{
+	return valueAsFloat64() / rhs.valueAsFloat64();
+}
+
+CNumber CNumber::operator * (const CNumber& rhs) const
+{
+	return valueAsFloat64() * rhs.valueAsFloat64();
+}
+
+CNumber CNumber::operator % (const CNumber& rhs) const
+{
+	return valueAsUInt64() % rhs.valueAsUInt64();
+}
+
+Bool CNumber::operator == (const CNumber& lhs) const
+{
+	return valueAsFloat64() == lhs.valueAsFloat64();
+}
+
+Bool CNumber::operator != (const CNumber& lhs) const
+{
+	return valueAsFloat64() != lhs.valueAsFloat64();
+}
+
+Bool CNumber::operator < (const CNumber& lhs) const
+{
+	return valueAsFloat64() < lhs.valueAsFloat64();
+}
+
+Bool CNumber::operator <= (const CNumber& lhs) const
+{
+	return valueAsFloat64() <= lhs.valueAsFloat64();
+}
+
+Bool CNumber::operator > (const CNumber& lhs) const
+{
+	return valueAsFloat64() > lhs.valueAsFloat64();
+}
+
+Bool CNumber::operator >= (const CNumber& lhs) const
+{
+	return valueAsFloat64() >= lhs.valueAsFloat64();
+}
+
 
 void CNumber::setBigEndianValue(UInt64 value)
 {

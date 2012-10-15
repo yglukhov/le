@@ -11,7 +11,7 @@ namespace sokira
 class CNumberBase
 {
 	protected:
-		union UNumberData
+		union
 		{
 			UInt8 valUInt8;
 			UInt16 valUInt16;
@@ -26,7 +26,7 @@ class CNumberBase
 			Float64 valFloat64;
 
 			Bool valBool;
-		};
+		} mData;
 
 		enum EFormat
 		{

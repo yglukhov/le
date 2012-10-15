@@ -63,6 +63,21 @@ class CNumber : public CObject, CNumberBase
 		const CNumber& operator*=(const CNumber& value);
 		const CNumber& operator/=(const CNumber& value);
 
+		// Arithmetic
+		CNumber operator + (const CNumber& rhs) const;
+		CNumber operator - (const CNumber& rhs) const;
+		CNumber operator / (const CNumber& rhs) const;
+		CNumber operator * (const CNumber& rhs) const;
+		CNumber operator % (const CNumber& rhs) const;
+
+		// Comparison
+		Bool operator == (const CNumber& lhs) const;
+		Bool operator != (const CNumber& lhs) const;
+		Bool operator < (const CNumber& lhs) const;
+		Bool operator <= (const CNumber& lhs) const;
+		Bool operator > (const CNumber& lhs) const;
+		Bool operator >= (const CNumber& lhs) const;
+
 		void setBigEndianValue(UInt32);
 		void setBigEndianValue(UInt64);
 		void setBigEndianValue(UInt16);
@@ -211,8 +226,7 @@ class CNumber : public CObject, CNumberBase
 		CString valueAs(TSTypeToType<CString>) const;
 
 	private:
-		UNumberData mData;
-		EFormat mFormat;
+		UInt8 mFormat;
 };
 
 	} // namespace le

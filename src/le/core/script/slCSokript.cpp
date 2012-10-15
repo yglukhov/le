@@ -6,28 +6,28 @@ namespace sokira
 	namespace le
 	{
 
-CSokript::CSokript() :
+CSokriptOld::CSokriptOld() :
 	mImpl(new CSokriptImpl())
 {
 
 }
 
-CSokript::~CSokript()
+CSokriptOld::~CSokriptOld()
 {
 	delete mImpl;
 }
 
-void CSokript::addFunction(const CString& name, CObject* (*function)(CObject*))
+void CSokriptOld::addFunction(const CString& name, CObject* (*function)(CObject*))
 {
 	mImpl->addFunction(name, function);
 }
 
-void CSokript::runBytecode(const CData& bytecode)
+void CSokriptOld::runBytecode(const CData& bytecode)
 {
 	mImpl->runBytecode(bytecode);
 }
 
-void CSokript::compileFromStream(std::istream& input, std::ostream& output)
+void CSokriptOld::compileFromStream(std::istream& input, std::ostream& output)
 {
 	mImpl->compileFromStream(input, output);
 }

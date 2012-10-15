@@ -32,7 +32,7 @@ int main(int argc, char * const argv[])
 	LE_ENTER_LOG;
 	using namespace sokira::le;
 
-	CAssertControl::instance()->setAssertionPolicy(new CUnitTestingAssertionPolicy());
+//	CAssertControl::instance()->setAssertionPolicy(new CUnitTestingAssertionPolicy());
 
 	CClassFactory* factory = CClassFactory::defaultInstance();
 	CClassFactory::iterator it = factory->beginForChildsOf<CTestSuite>();

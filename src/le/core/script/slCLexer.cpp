@@ -1,7 +1,10 @@
 
 #include <iterator>
+#include <le/core/io/slCDataStream.h>
+
 #include "slCLexer.h"
 #include "base/slCSokriptInstruction.hp"
+#include "base/slCSokriptVM.hp"
 #include <le/core/slCNumber.h>
 #include <le/core/slCAny.h>
 
@@ -10,7 +13,7 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_RUNTIME_CLASS(CSokriptParser);
+LE_IMPLEMENT_RUNTIME_CLASS(CSokript);
 
 static void dumpArgs(std::vector<CObject::Ptr>& args)
 {
@@ -194,7 +197,9 @@ static CObject::Ptr createLoop(std::vector<CObject::Ptr>& args)
 	expression->retain();
 	CSokriptInstruction* statement = dynamic_cast<CSokriptInstruction*>(args[4].get());
 	if (statement) statement->retain();
-	return CSokriptInstruction::createLoop(expression, statement);
+	statement = CSokriptInstruction::createLoop(expression, statement);
+	statement->retain();
+	return statement;
 }
 
 static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
@@ -215,7 +220,7 @@ static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
 			loopBody = afterLoop;
 	}
 
-	CSokriptInstruction* loopInstruction = CSokriptInstruction::createLoop(condition, loopBody);
+	CSokriptInstruction::Ptr loopInstruction = CSokriptInstruction::createLoop(condition, loopBody);
 	if (loopInit)
 	{
 		CSokriptInstruction* discard = new CSokriptInstruction(eInstructionDiscard);
@@ -223,7 +228,10 @@ static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
 		loopInit->addInstruction(discard);
 	}
 	else
+	{
 		loopInit = loopInstruction;
+		loopInit.retain();
+	}
 
 	return loopInit;
 }
@@ -273,21 +281,20 @@ static CObject::Ptr createFunctionDefinition(std::vector<CObject::Ptr>& args)
 
 	instruction = CSokriptInstruction::postProcessBytecode(instruction, funcArgs);
 
-	CObject::Ptr identifier;
+	CSokriptInstruction::Ptr pushFunction = new CSokriptInstruction(eInstructionPushFunction);
+	pushFunction->mUInt32Arg1 = instruction->length();
+	pushFunction->mUInt16Arg2 = funcArgs->size();
+
 	if (definitionHasIdentifier)
 	{
-		identifier = args[1];
-	}
-	else
-	{
-		identifier = new CString();
+		CObject::Ptr identifier = args[1];
+		CSokriptInstruction* tmp = new CSokriptInstruction(eInstructionAssign, identifier);
+		tmp->addInstruction(new CSokriptInstruction(eInstructionDiscard));
+		instruction->addInstruction(tmp);
 	}
 
-	CSokriptInstruction* functionStart = new CSokriptInstruction(eInstructionStartFunction, identifier);
-
-	functionStart->mUInt32Arg2 = instruction->length();
-	functionStart->addInstruction(instruction);
-	return functionStart;
+	pushFunction->addInstruction(instruction);
+	return pushFunction;
 }
 
 static CObject::Ptr createFunctionArgListDefinition(std::vector<CObject::Ptr>& args)
@@ -319,39 +326,70 @@ static CObject::Ptr createFunctionArgListDefinition(std::vector<CObject::Ptr>& a
 	return list;
 }
 
+struct SFunctionCallArguments : public CObject
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(SFunctionCallArguments)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+	CSokriptInstruction::Ptr args;
+	UInt16 argsCount;
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(SFunctionCallArguments);
+
 static CObject::Ptr createFunctionCall(std::vector<CObject::Ptr>& args)
 {
-	CSokriptInstruction::Ptr arguments = args[2].upcast<CSokriptInstruction>();
-	CSokriptInstruction::Ptr call = new CSokriptInstruction(eInstructionCall, args[0]);
+	SFunctionCallArguments::Ptr arguments = args[2].upcast<SFunctionCallArguments>();
+	LE_ASSERT(arguments);
 
-	if (arguments)
+	CSokriptInstruction::Ptr call = new CSokriptInstruction(eInstructionCall);
+	call->mUInt16Arg1 = arguments->argsCount;
+
+	CSokriptInstruction::Ptr argsInstruction = arguments->args;
+
+	if (argsInstruction)
 	{
-		arguments->addInstruction(call);
+		argsInstruction->addInstruction(call);
 	}
 	else
-		arguments = call;
+		argsInstruction = call;
 
-	return arguments;
+	CSokriptInstruction::Ptr funcExpression = args[0].upcast<CSokriptInstruction>();
+	LE_ASSERT(funcExpression);
+	funcExpression->addInstruction(argsInstruction);
+
+	return funcExpression;
 }
-
 
 static CObject::Ptr createFunctionArgList(std::vector<CObject::Ptr>& args)
 {
-	CSokriptInstruction::Ptr i1 = args[0].upcast<CSokriptInstruction>();
-	CSokriptInstruction::Ptr i2 = args[2].upcast<CSokriptInstruction>();
-
-	LE_ASSERT(i1);
-	LE_ASSERT(i2);
-	i1->addInstruction(i2);
-	return i1;
+	SFunctionCallArguments::Ptr callArgs = NULL;
+	if (args.size() <= 1)
+	{
+		callArgs = new SFunctionCallArguments;
+		callArgs->argsCount = 0;
+		if (args.size() == 1)
+		{
+			callArgs->args = args[0].upcast<CSokriptInstruction>();
+			callArgs->argsCount = 1;
+		}
+	}
+	else
+	{
+		callArgs = args[0].upcast<SFunctionCallArguments>();
+		LE_ASSERT(callArgs);
+		LE_ASSERT(callArgs->args);
+		callArgs->args->addInstruction(args[2].upcast<CSokriptInstruction>());
+		++callArgs->argsCount;
+	}
+	return callArgs;
 }
 
-
-CSokriptParser::CSokriptParser()
+static inline CParserGrammar::Ptr sokripGrammar()
 {
-	CParserGrammar* _grammar = new CParserGrammar();
-
-	CParserGrammar& grammar = *_grammar;
+	CParserGrammar* pGrammar = new CParserGrammar();
+	CParserGrammar& grammar = *pGrammar;
 
 	grammar["%ignore"]
 		>> new CCharacterSetTokenMatcher(" \n\t\r");
@@ -370,8 +408,9 @@ CSokriptParser::CSokriptParser()
 	grammar["%right"]
 		>> '!';
 
-//	grammar["%left"]
-//		>> '(' << ')';
+	grammar["%left"]
+		>> '(' << ')'
+		>> '.';
 
 	grammar["program"]
 		>> "statementList" << createProgram;
@@ -382,6 +421,7 @@ CSokriptParser::CSokriptParser()
 
 	grammar["statement"]
 		>> "functionDefinition"
+		>> "classDefinition"
 		>> "expressionOrNothing" << ';' << createStatementFromExpression
 		>> "return" << "expressionOrNothing" << ';' << createReturnStatement
 		>> '{' << "statementList" << '}' << 1
@@ -407,7 +447,12 @@ CSokriptParser::CSokriptParser()
 		>> "logicExpression"
 		>> "identifier" << createExpressionFromIdentifier
 		>> "constantExpression" << createConstantExpression
-		>> "functionCall";
+		>> "functionCall"
+		>> "anonymousFunctionDefinition"
+		>> "getProperty";
+
+	grammar["getProperty"]
+		>> "expression" << '.' << "identifier";
 
 	grammar["arithmeticExpression"]
 		>> "expression" << '+' << "expression" << createBinaryArithmeticExpression
@@ -438,18 +483,20 @@ CSokriptParser::CSokriptParser()
 //		>> "identifier";
 
 	grammar["functionCall"]
-		>> "identifier" << '(' << "functionArgList" << ')' << createFunctionCall;
+		>> "expression" << '(' << "functionArgList" << ')' << createFunctionCall;
 
 	grammar["functionArgList"]
 		>> "not_empty_function_arg_list"
-		>> "";
+		>> "" << createFunctionArgList;
 
 	grammar["not_empty_function_arg_list"]
-		>> "expression"
+		>> "expression" << createFunctionArgList
 		>> "not_empty_function_arg_list" << ',' << "expression" << createFunctionArgList;
 
 	grammar["functionDefinition"]
-		>> "function" << "identifier" << '(' << "functionArgListDefinition" << ')' << '{' << "statementList" << '}' << createFunctionDefinition
+		>> "function" << "identifier" << '(' << "functionArgListDefinition" << ')' << '{' << "statementList" << '}' << createFunctionDefinition;
+
+	grammar["anonymousFunctionDefinition"]
 		>> "function" << '(' << "functionArgListDefinition" << ')' << '{' << "statementList" << '}' << createFunctionDefinition;
 
 	grammar["functionArgListDefinition"]
@@ -483,7 +530,80 @@ CSokriptParser::CSokriptParser()
 	grammar["identifier"]
 		>> new CIdentifierTokenMatcher();
 
-	setGrammar(_grammar);
+	return pGrammar;
+}
+
+CSokript::CSokript()
+{
+
+}
+
+void CSokript::addExternalObject(const CString& name, CObject::Ptr object)
+{
+	mExternalObjects.insert(std::make_pair(name, object));
+}
+
+struct CExternalFunction : public CObject
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CExternalFunction)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+		LE_RTTI_SELECTOR_WITH_NAME(operator(), __func__)
+	LE_RTTI_END
+
+	CObject::Ptr operator()(CObject::Ptr arg)
+	{
+		return mFunction(arg);
+	}
+
+	TSokriptFunction mFunction;
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(CExternalFunction);
+
+void CSokript::addExternalFunction(const CString& name, TSokriptFunction function)
+{
+	CExternalFunction* fn = new CExternalFunction;
+	fn->mFunction = function;
+	addExternalObject(name, fn);
+}
+
+bool CSokript::compileStream(std::istream& stream, std::ostream& ostream)
+{
+	CParser parser;
+	parser.setGrammar(sokripGrammar());
+
+	CSokriptInstruction::Ptr instruction = parser.parse(stream).upcast<CSokriptInstruction>();
+	if (instruction)
+	{
+		instruction->showAll(std::cout);
+		CSokriptInstruction::dumpBytecodeToStream(instruction, ostream);
+		return true;
+	}
+	return false;
+}
+
+CObject::Ptr CSokript::runBytecode(const CData& bytecode)
+{
+	CData temp = bytecode;
+	temp.retain();
+	CSokriptVM vm;
+	vm.setBytecode(&temp);
+	vm.setExternalObjects(&mExternalObjects);
+	return vm.performByteCode();
+}
+
+CObject::Ptr CSokript::runScript(const CString& script)
+{
+	CInputDataStream stream(script.cString(), script.length());
+	CDataStream compiledDataStream;
+	if (!compileStream(stream, compiledDataStream))
+	{
+		return NULL;
+	}
+
+	CData bytecode(compiledDataStream.c_data(), compiledDataStream.size());
+	return runBytecode(bytecode);
 }
 
 	} // namespace le

@@ -131,8 +131,8 @@ class CIdentifierTokenMatcher : public ITokenMatcher
 public:
 	virtual ETokenMatchResult match(WChar c)
 	{
-		CString alpha = CString::createWithCharacterRange('a', 'z' - 'a');
-		alpha += CString::createWithCharacterRange('A', 'Z' - 'A');
+		CString alpha = CString::createWithCharacterRange('a', 'z' - 'a' + 1);
+		alpha += CString::createWithCharacterRange('A', 'Z' - 'A' + 1);
 		alpha += "_";
 		if (mToken.isEmpty())
 		{

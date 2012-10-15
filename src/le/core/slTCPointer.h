@@ -182,28 +182,32 @@ const T* TCPointer<T>::get() const
 template <typename T>
 T& TCPointer<T>::operator*()
 {
-	LE_ASSERT(mObj != NULL);
+	LE_ASSERT(mObj);
+	LE_ASSERT(mObj->retainCount());
 	return *mObj;
 }
 
 template <typename T>
 const T& TCPointer<T>::operator*() const
 {
-	LE_ASSERT(mObj != NULL);
+	LE_ASSERT(mObj);
+	LE_ASSERT(mObj->retainCount());
 	return *mObj;
 }
 
 template <typename T>
 T* TCPointer<T>::operator->()
 {
-	LE_ASSERT(mObj != NULL);
+	LE_ASSERT(mObj);
+	LE_ASSERT(mObj->retainCount());
 	return mObj;
 }
 
 template <typename T>
 const T* TCPointer<T>::operator->() const
 {
-	LE_ASSERT(mObj != NULL);
+	LE_ASSERT(mObj);
+	LE_ASSERT(mObj->retainCount());
 	return mObj;
 }
 

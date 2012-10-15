@@ -7,56 +7,26 @@ namespace sokira
 	namespace le
 	{
 
+//#define LE_LOG_INSTRUCTIONS
+
 CSokriptVM::CSokriptVM()
 {
-
+	reset();
 }
 
-static CObject* printObject(CObject* obj)
-{
-	CString* string = dynamic_cast<CString*> (obj);
-	if (string)
-		std::cout << *string << std::endl;
-	else
-	{
-		CNumber* number = dynamic_cast<CNumber*> (obj);
-		LE_ASSERT(number);
-		std::cout << number->valueAsFloat32() << std::endl;
-	}
-	return new CNumber();
-}
-
-static CObject* print1(CObject* obj)
-{
-	std::cout << "print1: ";
-	return printObject(obj);
-}
-
-static CObject* print2(CObject* obj)
-{
-	std::cout << "print2: ";
-	return printObject(obj);
-}
-
-static CObject* print3(CObject* obj)
-{
-	std::cout << "print3: ";
-	return printObject(obj);
-}
-
-static inline CObject* addObjects(CObject* left, CObject* right)
+static inline CObject::Ptr addObjects(CObject::Ptr left, CObject::Ptr right)
 {
 	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
+	CNumber::Ptr leftNumber = left.upcast<CNumber>();
+	CNumber::Ptr rightNumber = right.upcast<CNumber>();
 	if (leftNumber && rightNumber)
 	{
 		return new CNumber(leftNumber->valueAsFloat32() + rightNumber->valueAsFloat32());
 	}
 
 	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
+	CString::Ptr leftString = left.upcast<CString>();
+	CString::Ptr rightString = right.upcast<CString>();
 
 	if (leftString && rightString)
 	{
@@ -77,52 +47,29 @@ static inline CObject* addObjects(CObject* left, CObject* right)
 	return new CNumber(1);
 }
 
-static inline CObject* substractObjects(CObject* left, CObject* right)
+template <template <typename> class Operator>
+void CSokriptVM::arithmeticOperation()
 {
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
+	CNumber::Ptr rightNumber = mVarStack.pop().upcast<CNumber>();
+	CNumber::Ptr leftNumber = mVarStack.pop().upcast<CNumber>();
+	CObject::Ptr result;
 	if (leftNumber && rightNumber)
 	{
-		return new CNumber(leftNumber->valueAsFloat32() - rightNumber->valueAsFloat32());
+		result = new CNumber(Operator<CNumber>()(*leftNumber, *rightNumber));
 	}
-
-	LE_ASSERT(false);
-	return new CNumber(2);
-}
-
-static inline CObject* multiplyObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
+	else
 	{
-		return new CNumber(leftNumber->valueAsFloat32() * rightNumber->valueAsFloat32());
+		LE_ASSERT(false);
+		result = new CNumber();
 	}
-
-	LE_ASSERT(false);
-	return new CNumber(3);
+	mVarStack.push(result);
 }
 
-static inline CObject* divideObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() / rightNumber->valueAsFloat32());
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(4);
-}
-
-static inline CObject* negateObject(CObject* obj)
+static inline CObject::Ptr negateObject(CObject::Ptr obj)
 {
 	// If obj is a number, negate it
-	CNumber* number = dynamic_cast<CNumber*>(obj);
+	CNumber* number = dynamic_cast<CNumber*>(obj.get());
+
 	if (number)
 	{
 		return new CNumber(- number->valueAsFloat32());
@@ -132,165 +79,56 @@ static inline CObject* negateObject(CObject* obj)
 	return new CNumber(5);
 }
 
-static inline CObject* equalObjects(CObject* left, CObject* right)
+template <template <typename> class Operator>
+void CSokriptVM::operateObjects()
 {
+	CObject::Ptr right = mVarStack.pop();
+	CObject::Ptr left = mVarStack.pop();
+
+	CObject::Ptr result;
+	
 	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
+	const CNumber* leftNumber = dynamic_cast<const CNumber*>(left.get());
+	const CNumber* rightNumber = dynamic_cast<const CNumber*>(right.get());
 	if (leftNumber && rightNumber)
 	{
-		return new CNumber(leftNumber->valueAsFloat32() == rightNumber->valueAsFloat32());
+		result = new CNumber(Operator<CNumber>()(*leftNumber, *rightNumber));
 	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
+	else
 	{
-		return new CNumber(*leftString == *rightString);
-	}
+		// If both values are strings, resulting value is string
+		const CString* leftString = dynamic_cast<const CString*>(left.get());
+		const CString* rightString = dynamic_cast<const CString*>(right.get());
 
-	LE_ASSERT(false);
-	return new CNumber(1);
+		if (leftString && rightString)
+		{
+			result = new CNumber(Operator<CString>()(*leftString, *rightString));
+		}
+		else
+		{
+			LE_ASSERT(false);
+			result = new CNumber(1);
+		}
+	}
+	mVarStack.push(result);
 }
 
-static inline CObject* notEqualObjects(CObject* left, CObject* right)
+static Bool booleanFromObject(CObject::Ptr obj)
 {
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() != rightNumber->valueAsFloat32());
-	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
-	{
-		return new CNumber(*leftString != *rightString);
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(1);
-}
-
-static inline CObject* lessEqualObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() <= rightNumber->valueAsFloat32());
-	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
-	{
-		return new CNumber(*leftString <= *rightString);
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(1);
-}
-
-static inline CObject* lessThanObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() < rightNumber->valueAsFloat32());
-	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
-	{
-		return new CNumber(*leftString < *rightString);
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(1);
-}
-
-static inline CObject* greaterEqualObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() >= rightNumber->valueAsFloat32());
-	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
-	{
-		return new CNumber(*leftString >= *rightString);
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(1);
-}
-
-static inline CObject* greaterThanObjects(CObject* left, CObject* right)
-{
-	// If both values are numbers, resulting value is number
-	CNumber* leftNumber = dynamic_cast<CNumber*>(left);
-	CNumber* rightNumber = dynamic_cast<CNumber*>(right);
-	if (leftNumber && rightNumber)
-	{
-		return new CNumber(leftNumber->valueAsFloat32() > rightNumber->valueAsFloat32());
-	}
-
-	// If both values are strings, resulting value is string
-	CString* leftString = dynamic_cast<CString*>(left);
-	CString* rightString = dynamic_cast<CString*>(right);
-
-	if (leftString && rightString)
-	{
-		return new CNumber(*leftString > *rightString);
-	}
-
-	LE_ASSERT(false);
-	return new CNumber(1);
-}
-
-static Bool objIsFalse(CObject* obj)
-{
-	CString* string = dynamic_cast<CString*> (obj);
+	CString* string = dynamic_cast<CString*> (obj.get());
 	if (string)
 	{
-		return string->isEmpty();
+		return CNumber(*string).valueAsBool();
 	}
 
-	CNumber* number = dynamic_cast<CNumber*> (obj);
+	CNumber* number = dynamic_cast<CNumber*> (obj.get());
 	if (number)
 	{
-		return !number->valueAsBool();
+		return number->valueAsBool();
 	}
 
 	LE_ASSERT(false);
-	return 0;
-}
-
-static inline CObject* notObject(CObject* object)
-{
-	return new CNumber(!objIsFalse(object));
+	return false;
 }
 
 
@@ -300,7 +138,7 @@ static inline CObject* notObject(CObject* object)
 #define LOG_INSTRUCTION(x)
 #endif
 
-void dumpVarStack(SokriptVMStack<CObject*>* stack)
+void dumpVarStack(SokriptVMStack<CObject::Ptr>* stack)
 {
 	UInt32 pos = stack->position();
 	for (UInt32 i = 0; i < pos; ++i)
@@ -320,6 +158,7 @@ void dumpVarStack(SokriptVMStack<CObject*>* stack)
 
 LE_DUMMY_INSTRUCTION(eInstructionNOP);
 LE_DUMMY_INSTRUCTION(eInstructionStartFunction);
+LE_DUMMY_INSTRUCTION(eInstructionReturn);
 
 LE_INSTRUCTION_HANDLER(eInstructionSetSymbolsCount)
 {
@@ -342,10 +181,39 @@ LE_INSTRUCTION_HANDLER(eInstructionPushStr)
 	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
 }
 
-LE_INSTRUCTION_HANDLER(eInstructionDeclareExternalFunction)
+LE_INSTRUCTION_HANDLER(eInstructionDeclareExternalSymbols)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalFunction: " << (char*)(mCode + sizeof(UInt32) + 1));
-	mExternFunctions.push_back((char*)(mCode + sizeof(UInt32) + 1));
+	CString symbols = CBasicString::__CStringWithLiteral((char*)(mCode + sizeof(UInt32) + 1));
+	LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalSymbols: " << symbols);
+
+	UInt32 startPos = 0;
+	SInt32 pos = 0;
+	Bool undefined = false;
+
+	while (pos != -1)
+	{
+		pos = symbols.find('\n', startPos);
+		SInt32 endPos = pos;
+		if (endPos == -1)
+		{
+			endPos = symbols.length();
+		}
+
+		CString symbol = symbols.subString(startPos, endPos - startPos);
+
+		std::map<CString, CObject::Ptr>::const_iterator it = mAllExternalObjects->find(symbol);
+		if (it == mAllExternalObjects->end())
+		{
+			std::cout << "Undefined external symbol: " << symbol << std::endl;
+			undefined = true;
+		}
+
+		mExternalObjects.push_back(it->second);
+		startPos = endPos + 1;
+	}
+
+	LE_ASSERT(!undefined);
+
 	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
 }
 
@@ -358,7 +226,7 @@ LE_INSTRUCTION_HANDLER(eInstructionPushInt)
 
 LE_INSTRUCTION_HANDLER(eInstructionPushFloat)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushFloat");
+	LOG_INSTRUCTION(std::cout << "eInstructionPushFloat: " << *((Float32*)(mCode + 1)));
 	mVarStack.push(new CNumber(*((Float32*)(mCode + 1))));
 	mCode += sizeof(Float32);
 }
@@ -380,25 +248,27 @@ LE_INSTRUCTION_HANDLER(eInstructionAssign)
 LE_INSTRUCTION_HANDLER(eInstructionAdd)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionAdd");
-	mVarStack.push(addObjects(mVarStack.pop(), mVarStack.pop()));
+	CObject::Ptr right = mVarStack.pop();
+	CObject::Ptr left = mVarStack.pop();
+	mVarStack.push(addObjects(left, right));
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionSubstract)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionSubstract");
-	mVarStack.push(substractObjects(mVarStack.pop(), mVarStack.pop()));
+	arithmeticOperation<std::minus>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionMultiply)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionMultiply");
-	mVarStack.push(multiplyObjects(mVarStack.pop(), mVarStack.pop()));
+	arithmeticOperation<std::multiplies>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionDivide)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionDivide");
-	mVarStack.push(divideObjects(mVarStack.pop(), mVarStack.pop()));
+	arithmeticOperation<std::divides>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNegate)
@@ -410,49 +280,51 @@ LE_INSTRUCTION_HANDLER(eInstructionNegate)
 LE_INSTRUCTION_HANDLER(eInstructionEqual)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionEqual");
-	mVarStack.push(equalObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::equal_to>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNotEqual)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionNotEqual");
-	mVarStack.push(notEqualObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::not_equal_to>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionGreaterThan)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionGreaterThan");
-	mVarStack.push(greaterThanObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::greater>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionGreaterEqual)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionGreaterEqual");
-	mVarStack.push(greaterEqualObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::greater_equal>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionLessThan)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionLessThan");
-	mVarStack.push(lessThanObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::less>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionLessEqual)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionLessEqual");
-	mVarStack.push(lessEqualObjects(mVarStack.pop(), mVarStack.pop()));
+	operateObjects<std::less_equal>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNot)
 {
 	LOG_INSTRUCTION(std::cout << "eInstructionNot");
-	mVarStack.push(notObject(mVarStack.pop()));
+	mVarStack.push(new CNumber(!booleanFromObject(mVarStack.pop())));
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionJumpIfTrue)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << (*(SInt32*)(mCode + 1)));
-	if (objIsFalse(mVarStack.pop())) { mCode += sizeof(SInt32) + (*(SInt32*)(mCode + 1)); }
+	SInt32 offset = *(SInt32*)(mCode + 1);
+	LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << offset);
+	mCode += sizeof(SInt32);
+	if (booleanFromObject(mVarStack.pop())) { mCode += offset; }
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionJump)
@@ -464,67 +336,132 @@ LE_INSTRUCTION_HANDLER(eInstructionJump)
 		mCode += (*(SInt32*)(mCode + 1));
 }
 
-LE_INSTRUCTION_HANDLER(eInstructionReturn)
+class CInternalFunction : public CObject
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionReturn");
-//	UInt16 unwindVars = *(UInt16*)(mCode + 1);
-	mCode = mPcStack.pop();
-	if (mCode)
-	{
-		CObject* returnValue = mVarStack.pop();
-		mCurrentStackLine = mStackLineStack.pop();
-		UInt32 unwindVars = mVarStack.position() - mCurrentStackLine;
-		mVarStack.decrease(unwindVars);
-		mVarStack.push(returnValue);
-	}
-}
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CInternalFunction)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
+
+	public:
+		CInternalFunction()
+		{
+			LE_ASSERT(false);
+		}
+
+		CInternalFunction(CSokriptVM* vm, const UInt8* start, UInt16 argsCount) :
+			mVM(vm),
+			mStart(start),
+			mArgsCount(argsCount)
+		{
+
+		}
+
+		CObject::Ptr operator()(UInt16 argsCount)
+		{
+			LE_ASSERT(argsCount == mArgsCount);
+			UInt32 prevStackLine = mVM->mCurrentStackLine;
+			mVM->mCurrentStackLine = mVM->mVarStack.position();
+			const UInt8* code = mVM->mCode;
+
+			CObject::Ptr result = mVM->performByteCode(mStart);
+
+			UInt32 unwindVars = mVM->mVarStack.position() - prevStackLine - 1;
+			mVM->mVarStack.decrease(unwindVars);
+
+			mVM->mCode = code;
+			mVM->mCurrentStackLine = prevStackLine;
+
+			return result;
+		}
+
+	private:
+		CSokriptVM* mVM;
+		const UInt8* mStart;
+		UInt16 mArgsCount;
+};
+
+LE_IMPLEMENT_RUNTIME_CLASS(CInternalFunction);
 
 LE_INSTRUCTION_HANDLER(eInstructionPushFunction)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushFunction");
-	// TODO.
+	UInt32 length = *((UInt32*)(mCode + 1));
+	mCode += sizeof(UInt32);
+	UInt16 argsCount = *((UInt16*)(mCode + 1));
+	mCode += sizeof(UInt16);
+	LOG_INSTRUCTION(std::cout << "eInstructionPushFunction, length: " << length << ", argsCount: " << argsCount);
+
+	mVarStack.push(new CInternalFunction(this, mCode + 1, argsCount));
+	mCode += length;
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionCall)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionCall");
-	mCurrentStackLine = mVarStack.position();
-	mStackLineStack.push(mCurrentStackLine);
-	mPcStack.push(mCode + sizeof(UInt32));
-	mCode -= *(UInt32*)(mCode + 1);
+	UInt16 argsCount = *((UInt16*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << "eInstructionCall: " << argsCount);
+	UInt32 varStackPosition = mVarStack.position();
+	CObject* func = mVarStack.objectAtIndex(varStackPosition - argsCount - 1);
+	CInternalFunction* internalFunc = dynamic_cast<CInternalFunction*>(func);
+	CObject::Ptr result;
+	if (internalFunc)
+	{
+		result = (*internalFunc)(argsCount);
+	}
+	else
+	{
+		CString selectorName = LESTR("__func__");
+		if (func->respondsToSelector(selectorName))
+		{
+			std::vector<CBasicReferenceAny> arguments;
+			arguments.reserve(argsCount);
+			for (UInt32 i = varStackPosition - argsCount; i < varStackPosition; ++i)
+			{
+				arguments.push_back(mVarStack.objectAtIndex(i));
+			}
+			result = func->selector(selectorName)(arguments).value<CObject::Ptr>();
+		}
+		else
+		{
+			std::cout << "Object does not respond to selector " << selectorName << ": " << func->description() << std::endl;
+		}
+
+		mVarStack.decrease(argsCount);
+	}
+
+	mCode += sizeof(UInt16);
+	mVarStack.pop(); // Pop function object
+	mVarStack.push(result);
 }
 
-LE_INSTRUCTION_HANDLER(eInstructionCallExternal)
+LE_INSTRUCTION_HANDLER(eInstructionPushExternal)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionCallExternal: " << *(UInt32*)(mCode + 1));
-	mVarStack.push(mFunctions[mExternFunctions[*(UInt32*)(mCode + 1)]](mVarStack.pop()));
+	UInt32 index = *(UInt32*)(mCode + 1);
+	LOG_INSTRUCTION(std::cout << "eInstructionPushExternal: " << index);
+	mVarStack.push(mExternalObjects.at(index));
 	mCode += sizeof(UInt32);
 }
 
-void CSokriptVM::performByteCode(const CData& data)
+void CSokriptVM::reset()
 {
-	mCode = static_cast<const UInt8*>(data.data());
-	mVarStack = SokriptVMStack<CObject*>();
-	mPcStack = SokriptVMStack<const UInt8*>();
-	mStackLineStack = SokriptVMStack<UInt32>();
-
-	mFunctions[LESTR("print")] = &printObject;
-	mFunctions[LESTR("print1")] = &print1;
-	mFunctions[LESTR("print2")] = &print2;
-	mFunctions[LESTR("print3")] = &print3;
-
-	mPcStack.push(NULL);
-	mStackLineStack.push(0);
-
+	mVarStack = SokriptVMStack<CObject::Ptr>();
+	mExternalObjects.clear();
 	mCurrentStackLine = 0;
+}
 
-	mExternFunctions.clear();
+CObject::Ptr CSokriptVM::performByteCode(const UInt8* startPos)
+{
+	mCode = startPos;
+	if (!mCode)
+	{
+		mCode = static_cast<const UInt8*>(mBytecode->data());
+	}
 
 #ifdef LE_LOG_INSTRUCTIONS
-	mVarStack.mTraceRealloc = true;
+	UInt32 startPosIndex = mCode - static_cast<const UInt8*>(mBytecode->data());
+	std::cout << "Entering at position: " << startPosIndex << std::endl;
 #endif
 
-	do
+	while (*mCode != eInstructionReturn)
 	{
 		switch (*mCode)
 		{
@@ -542,12 +479,14 @@ _LE_FOR_INSTRUCTION_LIST(LE_HANDLE_INSTRUCTION)
 		dumpVarStack(&mVarStack);
 #endif
 		++mCode;
-	} while (mPcStack.position() > 0);
-
-	if (mVarStack.position() == 1)
-	{
-		std::cout << "Stack result: " << mVarStack.objectAtIndex(0)->description() << std::endl;
 	}
+
+#ifdef LE_LOG_INSTRUCTIONS
+	std::cout << "Returning from position: " << startPosIndex << std::endl;
+#endif
+
+	LE_ASSERT(mVarStack.position());
+	return mVarStack.pop();
 }
 
 	} // namespace le

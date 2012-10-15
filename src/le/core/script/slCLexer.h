@@ -12,97 +12,8 @@ namespace sokira
 	namespace le
 	{
 
-//class CParserGrammarReader;
-//struct CRule;
-//
-//class CParser : public CObject
-//{
-//	LE_RTTI_BEGIN
-//		LE_RTTI_SELF(CParser)
-//		LE_RTTI_SINGLE_PUBLIC_PARENT
-//	LE_RTTI_END
-//
-//	public:
-//	
-//	typedef TCFunction<CObject::Ptr, TSTypeList<std::vector<CObject::Ptr>&> > TRuleHandler;
-//	CParser();
-//	~CParser();
-//
-//	void addRule(const CString& identifier, const std::vector<CString>& subIdentifiers, TRuleHandler handler);
-//	void setLexer(CLexer::Ptr lexer)
-//	{
-//		mLexer = lexer;
-//	}
-//
-//	CLexer::Ptr lexer() const
-//	{
-//		return mLexer;
-//	}
-//
-//	void setEntryIdentifier(const CString& entry)
-//	{
-//		mEntryIdentifier = entry;
-//	}
-//
-//	CString entryIdentifier() const
-//	{
-//		return mEntryIdentifier;
-//	}
-//
-//	CObject::Ptr parse();
-//
-//	CParserGrammarReader operator [] (const CString& identifier);
-//
-//	UInt32 position() const
-//	{
-//		return mPosition;
-//	}
-//
-//	void setPosition(UInt32 position)
-//	{
-//		mPosition = position;
-//	}
-//	
-//private:
-//
-//	bool isTerminal(const CString& identifier) const;
-//	bool parseUsingRule(CRule* rule, CObject::Ptr& result, std::vector<void*>& rulesStack);
-//	bool parseForRuleIdentifier(const CString& identifier, CObject::Ptr& result, std::vector<void*>& rulesStack);
-//
-//	CToken nextToken();
-//	CLexer::Ptr mLexer;
-//	void* mRules;
-//	CString mEntryIdentifier;
-//	std::vector<CToken> mTokens;
-//	std::vector<void*> mRulesStack;
-//	UInt32 mPosition;
-//};
-//
-//class CParserGrammarReader
-//{
-//	friend class CParser;
-//
-//	public:
-//		~CParserGrammarReader();
-//
-//		CParserGrammarReader& operator >> (const CString& obj);
-//		CParserGrammarReader& operator >> (char c);
-//
-//		CParserGrammarReader& operator << (const CString& obj);
-//		CParserGrammarReader& operator << (const CParser::TRuleHandler& obj);
-//		CParserGrammarReader& operator << (const char* obj);
-//		CParserGrammarReader& operator << (char c);
-//
-//	private:
-//		inline CParserGrammarReader(CParser*, const CString&);
-//		void flush();
-//
-//		CParser* mParser;
-//		CString mIdentifier;
-//		std::vector<CString> mSubIdentifiers;
-//		CParser::TRuleHandler mHandler;
-//};
-//
+class CData;
+
 class CParser : public CObject
 {
 	LE_RTTI_BEGIN
@@ -120,15 +31,27 @@ class CParser : public CObject
 		CParserGrammar::Ptr mGrammar;
 };
 
-class CSokriptParser : public CParser
+typedef CObject::Ptr (*TSokriptFunction)(CObject::Ptr);
+
+class CSokript : public CObject
 {
 	LE_RTTI_BEGIN
-		LE_RTTI_SELF(CSokriptParser)
+		LE_RTTI_SELF(CSokript)
 		LE_RTTI_SINGLE_PUBLIC_PARENT
 	LE_RTTI_END
 
 	public:
-		CSokriptParser();
+		CSokript();
+		bool compileStream(std::istream& stream, std::ostream& ostream);
+		CObject::Ptr runBytecode(const CData& data);
+
+		CObject::Ptr runScript(const CString& script);
+
+		void addExternalObject(const CString& name, CObject::Ptr object);
+		void addExternalFunction(const CString& name, TSokriptFunction function);
+
+	private:
+		std::map<CString, CObject::Ptr> mExternalObjects;
 };
 
 

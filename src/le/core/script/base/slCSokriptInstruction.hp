@@ -11,6 +11,7 @@
 	_OP_(eInstructionPushStr)			\
 	_OP_(eInstructionPushInt)			\
 	_OP_(eInstructionPushFloat)			\
+	_OP_(eInstructionPushExternal)		\
 	_OP_(eInstructionDiscard)			\
 	_OP_(eInstructionAssign)			\
 	_OP_(eInstructionAdd)				\
@@ -29,10 +30,9 @@
 	_OP_(eInstructionJump)				\
 	_OP_(eInstructionJumpIfTrue)		\
 	_OP_(eInstructionStartFunction)		\
-	_OP_(eInstructionDeclareExternalFunction)		\
+	_OP_(eInstructionDeclareExternalSymbols)		\
 	_OP_(eInstructionPushFunction)		\
 	_OP_(eInstructionCall)				\
-	_OP_(eInstructionCallExternal)		\
 	_OP_(eInstructionReturn)
 
 #define _LE_DECLARE_INSTRUCTION(instruction) instruction,
@@ -86,8 +86,8 @@ class CSokriptInstruction : public CObject
 													CSokriptInstruction* ifPart,
 													 CSokriptInstruction* elsePart);
 
-		static CSokriptInstruction* createLoop(CSokriptInstruction* expression,
-											   CSokriptInstruction* loopPart);
+		static CSokriptInstruction::Ptr createLoop(CSokriptInstruction::Ptr expression,
+												   CSokriptInstruction::Ptr loopPart);
 
 		static CSokriptInstruction* createFunctionDefinition(char* name, std::list<CString>* args,
 																	CSokriptInstruction* instruction);
