@@ -124,7 +124,7 @@
 		7B419E801057BCCF00D5A2D1 /* slCThreadImplPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA50BD12EB100AA8BD8 /* slCThreadImplPosix.cpp */; };
 		7B419E811057BCD000D5A2D1 /* slCThreadImplWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BA70BD12EB100AA8BD8 /* slCThreadImplWindows.cpp */; };
 		7B419E821057BCD000D5A2D1 /* slCTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B780BD12EB100AA8BD8 /* slCTime.cpp */; };
-		7B419E841057BCD300D5A2D1 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
+		7B419E841057BCD300D5A2D1 /* slCParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCParser.cpp */; };
 		7B419E851057BCD600D5A2D1 /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AC970EE6FEF700D13036 /* slCXMLParser.cpp */; };
 		7B419E8B1057BD3500D5A2D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B145BDB0F3794D1004DF6BE /* Cocoa.framework */; };
@@ -201,7 +201,7 @@
 		7BC3ACAD0EE6FF6B00D13036 /* slCAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACAB0EE6FF6B00D13036 /* slCAny.cpp */; };
 		7BC3ACDB0EE701CC00D13036 /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
 		7BC3ACDC0EE701CC00D13036 /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
-		7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */; };
+		7BC3ACDD0EE701CC00D13036 /* slCParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCParser.cpp */; };
 		7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
 		7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		7BF26ED916198FC100660784 /* slCParserGrammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF26ED716198FC000660784 /* slCParserGrammar.cpp */; };
@@ -611,8 +611,8 @@
 		7BC3ACD60EE701CC00D13036 /* slCLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCLexer.h; sourceTree = "<group>"; };
 		7BC3ACD70EE701CC00D13036 /* slCScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCScript.cpp; sourceTree = "<group>"; };
 		7BC3ACD80EE701CC00D13036 /* slCScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScript.h; sourceTree = "<group>"; };
-		7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTokenizer.cpp; sourceTree = "<group>"; };
-		7BC3ACDA0EE701CC00D13036 /* slCTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTokenizer.h; sourceTree = "<group>"; };
+		7BC3ACD90EE701CC00D13036 /* slCParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCParser.cpp; sourceTree = "<group>"; };
+		7BC3ACDA0EE701CC00D13036 /* slCParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCParser.h; sourceTree = "<group>"; };
 		7BE910C50F7946C8004C12C9 /* slCSokriptVM.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptVM.hp; sourceTree = "<group>"; };
 		7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptVM.cpp; sourceTree = "<group>"; };
 		7BE927861410D77F00E64B12 /* slCFontGlyphGeneratorInline.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCFontGlyphGeneratorInline.hp; sourceTree = "<group>"; };
@@ -1475,8 +1475,8 @@
 				7BC3ACD60EE701CC00D13036 /* slCLexer.h */,
 				7BC3ACD70EE701CC00D13036 /* slCScript.cpp */,
 				7BC3ACD80EE701CC00D13036 /* slCScript.h */,
-				7BC3ACD90EE701CC00D13036 /* slCTokenizer.cpp */,
-				7BC3ACDA0EE701CC00D13036 /* slCTokenizer.h */,
+				7BC3ACD90EE701CC00D13036 /* slCParser.cpp */,
+				7BC3ACDA0EE701CC00D13036 /* slCParser.h */,
 				7BF26ED716198FC000660784 /* slCParserGrammar.cpp */,
 				7BF26ED816198FC100660784 /* slCParserGrammar.h */,
 			);
@@ -1762,7 +1762,7 @@
 				7B419E801057BCCF00D5A2D1 /* slCThreadImplPosix.cpp in Sources */,
 				7B419E811057BCD000D5A2D1 /* slCThreadImplWindows.cpp in Sources */,
 				7B419E821057BCD000D5A2D1 /* slCTime.cpp in Sources */,
-				7B419E841057BCD300D5A2D1 /* slCTokenizer.cpp in Sources */,
+				7B419E841057BCD300D5A2D1 /* slCParser.cpp in Sources */,
 				7B419E851057BCD600D5A2D1 /* slCURL.cpp in Sources */,
 				7B419E871057BCD700D5A2D1 /* slCXMLParser.cpp in Sources */,
 				7B686AE41060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */,
@@ -1853,7 +1853,7 @@
 				7BC3ACAD0EE6FF6B00D13036 /* slCAny.cpp in Sources */,
 				7BC3ACDB0EE701CC00D13036 /* slCLexer.cpp in Sources */,
 				7BC3ACDC0EE701CC00D13036 /* slCScript.cpp in Sources */,
-				7BC3ACDD0EE701CC00D13036 /* slCTokenizer.cpp in Sources */,
+				7BC3ACDD0EE701CC00D13036 /* slCParser.cpp in Sources */,
 				7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */,
 				7B15CF460F363315002E9DA7 /* slCApplication.cpp in Sources */,
 				7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */,

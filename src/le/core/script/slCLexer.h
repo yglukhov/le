@@ -4,7 +4,7 @@
 //#include <iterator>
 #include <le/core/slCObject.h>
 #include <le/core/template/function/slTCFunction.h>
-#include "slCTokenizer.h"
+#include "slCParser.h"
 #include "slCParserGrammar.h"
 
 namespace sokira
