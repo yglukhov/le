@@ -27,7 +27,6 @@ CSokriptInstruction::~CSokriptInstruction()
 	LE_ASSERT(this);
 	if ((mInstruction == eInstructionPushVar && !mProcessed)
 		|| (mInstruction == eInstructionAssign && !mProcessed)
-		|| (mInstruction == eInstructionStartFunction && !mProcessed)
 		|| mInstruction == eInstructionPushStr
 		|| mInstruction == eInstructionDeclareExternalSymbols
 		|| mInstruction == eInstructionPushFloat
@@ -38,16 +37,11 @@ CSokriptInstruction::~CSokriptInstruction()
 			mObjArg1->release();
 		}
 	}
-
-	if (mNext)
-	{
-		mNext->release();
-	}
 }
 
-CSokriptInstruction* CSokriptInstruction::createIfThenElse(CSokriptInstruction* expression,
-											 CSokriptInstruction* ifPart,
-											 CSokriptInstruction* elsePart)
+CSokriptInstruction::Ptr CSokriptInstruction::createIfThenElse(CSokriptInstruction::Ptr expression,
+											 CSokriptInstruction::Ptr ifPart,
+											 CSokriptInstruction::Ptr elsePart)
 {
 	if (elsePart)
 	{
@@ -109,25 +103,6 @@ CSokriptInstruction::Ptr CSokriptInstruction::createLoop(
 	return expression;
 }
 
-CSokriptInstruction* CSokriptInstruction::createFunctionDefinition(char* name, std::list<CString>* args,
-															CSokriptInstruction* instruction)
-{
-	if (instruction)
-		instruction->addReturn0Instruction();
-	else
-		instruction = return0Instruction();
-
-	instruction = CSokriptInstruction::postProcessBytecode(instruction, args).retain().get();
-
-	CSokriptInstruction* functionStart = new CSokriptInstruction(eInstructionStartFunction,
-													new CString(CString::__CStringNoCopyDeallocWithFree(name)));
-
-	functionStart->mUInt32Arg2 = instruction->length();
-	functionStart->addInstruction(instruction);
-
-	return functionStart;
-}
-
 CSokriptInstruction* CSokriptInstruction::return0Instruction()
 {
 	CSokriptInstruction* result = new CSokriptInstruction(eInstructionPushFloat, new CNumber());
@@ -154,7 +129,6 @@ UInt32 CSokriptInstruction::selfLength() const
 			// No break here
 
 		case eInstructionPushExternal:
-		case eInstructionStartFunction:
 		case eInstructionSetSymbolsCount:
 			result += sizeof(UInt32);
 			break;
@@ -221,80 +195,80 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 			switch (i->mInstruction)
 			{
 				case eInstructionPushVar:
+				{
+					CString* string = dynamic_cast<CString*> (i->mObjArg1);
+					SInt32 argIndex = findVarInArgs(arguments, *string);
+
+					Bool symbolFound = true;
+
+					if (argIndex == 0)
 					{
-						CString* string = dynamic_cast<CString*> (i->mObjArg1);
-						SInt32 argIndex = findVarInArgs(arguments, *string);
-
-						Bool symbolFound = true;
-
-						if (argIndex == 0)
+						std::map<CString, SInt32>::iterator it = varMap.find(*string);
+						if (it == varMap.end())
 						{
-							std::map<CString, SInt32>::iterator it = varMap.find(*string);
-							if (it == varMap.end())
+							if (finalStage)
 							{
-								if (finalStage)
+								std::vector<CString>::iterator it = std::find(externalSymbols.begin(), externalSymbols.end(), *string);
+								if (it == externalSymbols.end())
 								{
-									std::vector<CString>::iterator it = std::find(externalSymbols.begin(), externalSymbols.end(), *string);
-									if (it == externalSymbols.end())
-									{
-										argIndex = externalSymbols.size();
-										externalSymbols.push_back(*string);
-									}
-									else
-									{
-										argIndex = it - externalSymbols.begin();
-									}
-									i->mInstruction = eInstructionPushExternal;
+									argIndex = externalSymbols.size();
+									externalSymbols.push_back(*string);
 								}
 								else
 								{
-									symbolFound = false;
+									argIndex = it - externalSymbols.begin();
 								}
+								i->mInstruction = eInstructionPushExternal;
 							}
 							else
 							{
-								argIndex = it->second;
+								symbolFound = false;
 							}
 						}
 						else
-							argIndex = -argIndex;
-
-						if (symbolFound)
 						{
-							i->mObjArg1->release();
-							i->mSInt32Arg1 = argIndex;
-						}
-						else
-						{
-							i->mProcessed = false;
+							argIndex = it->second;
 						}
 					}
-					break;
+					else
+						argIndex = -argIndex;
 
-				case eInstructionAssign:
+					if (symbolFound)
 					{
-						CString* string = dynamic_cast<CString*> (i->mObjArg1);
-						SInt32 argIndex = findVarInArgs(arguments, *string);
-
-						if (argIndex == 0)
-						{
-							std::map<CString, SInt32>::iterator it = varMap.find(*string);
-							if (it == varMap.end())
-							{
-								varMap.insert(std::make_pair(*string, symbolIndexCounter));
-								argIndex = symbolIndexCounter;
-								++symbolIndexCounter;
-							}
-							else
-								argIndex = it->second;
-						}
-						else
-							argIndex = -argIndex;
-
-						delete i->mObjArg1;
+						i->mObjArg1->release();
 						i->mSInt32Arg1 = argIndex;
 					}
-					break;
+					else
+					{
+						i->mProcessed = false;
+					}
+				}
+				break;
+
+				case eInstructionAssign:
+				{
+					CString* string = dynamic_cast<CString*> (i->mObjArg1);
+					SInt32 argIndex = findVarInArgs(arguments, *string);
+
+					if (argIndex == 0)
+					{
+						std::map<CString, SInt32>::iterator it = varMap.find(*string);
+						if (it == varMap.end())
+						{
+							varMap.insert(std::make_pair(*string, symbolIndexCounter));
+							argIndex = symbolIndexCounter;
+							++symbolIndexCounter;
+						}
+						else
+							argIndex = it->second;
+					}
+					else
+						argIndex = -argIndex;
+
+					delete i->mObjArg1;
+					i->mSInt32Arg1 = argIndex;
+				}
+				break;
 
 				default:
 					i->mProcessed = false;

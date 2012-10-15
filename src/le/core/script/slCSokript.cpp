@@ -174,17 +174,16 @@ static CObject::Ptr createReturnStatement(std::vector<CObject::Ptr>& args)
 
 static CObject::Ptr createIfThenElse(std::vector<CObject::Ptr>& args)
 {
-	CSokriptInstruction* expression = dynamic_cast<CSokriptInstruction*>(args[2].get());
+	CSokriptInstruction::Ptr expression = args[2].upcast<CSokriptInstruction>();
 	LE_ASSERT(expression);
 	expression->retain();
-	CSokriptInstruction* ifStatement = dynamic_cast<CSokriptInstruction*>(args[4].get());
+	CSokriptInstruction::Ptr ifStatement = args[4].upcast<CSokriptInstruction>();
 	if (ifStatement) ifStatement->retain();
 
-	CSokriptInstruction* elseStatement = NULL;
+	CSokriptInstruction::Ptr elseStatement;
 	if (args.size() == 7)
 	{
-		elseStatement = dynamic_cast<CSokriptInstruction*>(args[6].get());
-		if (elseStatement) elseStatement->retain();
+		elseStatement = args[6].upcast<CSokriptInstruction>();
 	}
 	return CSokriptInstruction::createIfThenElse(expression, ifStatement, elseStatement);
 }
@@ -193,14 +192,9 @@ static CObject::Ptr createLoop(std::vector<CObject::Ptr>& args)
 {
 	std::cout << "createLoop:\n";
 	dumpArgs(args);
-	CSokriptInstruction* expression = dynamic_cast<CSokriptInstruction*>(args[2].get());
+	CSokriptInstruction::Ptr expression = args[2].upcast<CSokriptInstruction>();
 	LE_ASSERT(expression);
-	expression->retain();
-	CSokriptInstruction* statement = dynamic_cast<CSokriptInstruction*>(args[4].get());
-	if (statement) statement->retain();
-	statement = CSokriptInstruction::createLoop(expression, statement);
-	statement->retain();
-	return statement;
+	return CSokriptInstruction::createLoop(expression, args[4].upcast<CSokriptInstruction>());
 }
 
 static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)

@@ -157,7 +157,6 @@ void dumpVarStack(SokriptVMStack<CObject::Ptr>* stack)
 #define LE_DUMMY_INSTRUCTION(instruction) LE_INSTRUCTION_HANDLER(instruction) { LE_ASSERT(false); }
 
 LE_DUMMY_INSTRUCTION(eInstructionNOP);
-LE_DUMMY_INSTRUCTION(eInstructionStartFunction);
 LE_DUMMY_INSTRUCTION(eInstructionReturn);
 
 LE_INSTRUCTION_HANDLER(eInstructionSetSymbolsCount)

@@ -29,7 +29,6 @@
 	_OP_(eInstructionSetSymbolsCount)	\
 	_OP_(eInstructionJump)				\
 	_OP_(eInstructionJumpIfTrue)		\
-	_OP_(eInstructionStartFunction)		\
 	_OP_(eInstructionDeclareExternalSymbols)		\
 	_OP_(eInstructionPushFunction)		\
 	_OP_(eInstructionCall)				\
@@ -41,8 +40,6 @@ namespace sokira
 {
 	namespace le
 	{
-
-class CObject;
 
 enum EInstruction
 {
@@ -63,7 +60,6 @@ class CSokriptInstruction : public CObject
 		CSokriptInstruction() {}
 
 		CSokriptInstruction(EInstruction instruction, CObject* arg1 = NULL) :
-			mNext(NULL),
 			mInstruction(instruction),
 			mProcessed(false)
 		{
@@ -71,7 +67,6 @@ class CSokriptInstruction : public CObject
 		}
 
 		CSokriptInstruction(EInstruction instruction, CObject::Ptr arg1) :
-			mNext(NULL),
 			mInstruction(instruction),
 			mProcessed(false)
 		{
@@ -82,37 +77,30 @@ class CSokriptInstruction : public CObject
 		~CSokriptInstruction();
 
 		// Creators
-		static CSokriptInstruction* createIfThenElse(CSokriptInstruction* expression,
-													CSokriptInstruction* ifPart,
-													 CSokriptInstruction* elsePart);
+		static CSokriptInstruction::Ptr createIfThenElse(CSokriptInstruction::Ptr expression,
+														 CSokriptInstruction::Ptr ifPart,
+														 CSokriptInstruction::Ptr elsePart);
 
 		static CSokriptInstruction::Ptr createLoop(CSokriptInstruction::Ptr expression,
 												   CSokriptInstruction::Ptr loopPart);
 
-		static CSokriptInstruction* createFunctionDefinition(char* name, std::list<CString>* args,
-																	CSokriptInstruction* instruction);
-
 		static CSokriptInstruction* return0Instruction();
 
-		void addInstruction(CSokriptInstruction* instruction)
+		CSokriptInstruction* lastInstruction()
 		{
 			CSokriptInstruction* i = this;
 			while (i->mNext) i = i->mNext;
-			i->mNext = instruction;
+			return i;
 		}
 
 		void addInstruction(CSokriptInstruction::Ptr instruction)
 		{
-			instruction.retain();
-			CSokriptInstruction* i = this;
-			while (i->mNext) i = i->mNext;
-			i->mNext = instruction;
+			lastInstruction()->mNext = instruction;
 		}
 
 		void addReturn0Instruction()
 		{
-			CSokriptInstruction* i = this;
-			while (i->mNext) i = i->mNext;
+			CSokriptInstruction* i = lastInstruction();
 			if (i->mInstruction != eInstructionReturn)
 			{
 				i->mNext = return0Instruction();
@@ -130,8 +118,9 @@ class CSokriptInstruction : public CObject
 		void show(std::ostream& s, int i = 1) const;
 
 		virtual CString description() const;
+
 	public:
-		CSokriptInstruction* mNext;
+		CSokriptInstruction::Ptr mNext;
 		EInstruction mInstruction;
 		union  {
 			CObject* mObjArg1;
