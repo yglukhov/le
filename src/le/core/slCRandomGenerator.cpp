@@ -1,3 +1,4 @@
+#include <time.h>
 #include "slCRandomGenerator.h"
 
 namespace sokira

@@ -163,16 +163,16 @@ public:
 	template <typename T>
 	CBasicReferenceAny(const T& value) : CBasicAny(constRef(value)) {}
 
-	using CBasicAny::operator=;
+	CBasicReferenceAny(const CBasicReferenceAny& copy) : CBasicAny((const CBasicAny&)copy) {}
 
 	template <typename T>
-	const CBasicAny& operator=(T& value)
+	const CBasicReferenceAny& operator=(T& value)
 	{
 		return (*this = CBasicAny::mutableRef(value));
 	}
 
 	template <typename T>
-	const CBasicAny& operator=(const T& value)
+	const CBasicReferenceAny& operator=(const T& value)
 	{
 		return (*this = CBasicAny::constRef(value));
 	}

@@ -46,10 +46,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <AdditionalIncludeDirectories>$(slLibsRoot);$(slLibsRoot)\sweet_parser</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(slLibsRoot);$(slLibsRoot)\sweet_parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)leCore.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
@@ -69,7 +68,6 @@ del _le_tmp_file.tmp
       <AdditionalIncludeDirectories>$(slLibsRoot);$(slLibsRoot)\sweet_parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)leCore.lib</OutputFile>
     </Lib>
     <PostBuildEvent>
@@ -103,6 +101,7 @@ del _le_tmp_file.tmp
     <ClCompile Include="..\..\..\src\le\core\slCImageFrame.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCNumber.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCObject.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\slCRandomGenerator.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCResult.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCTime.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCURL.cpp" />
@@ -155,6 +154,7 @@ del _le_tmp_file.tmp
     <ClInclude Include="..\..\..\src\le\core\slCImageFrame.h" />
     <ClInclude Include="..\..\..\src\le\core\slCNumber.h" />
     <ClInclude Include="..\..\..\src\le\core\slCObject.h" />
+    <ClInclude Include="..\..\..\src\le\core\slCRandomGenerator.h" />
     <ClInclude Include="..\..\..\src\le\core\slCResult.h" />
     <ClInclude Include="..\..\..\src\le\core\slCString.h" />
     <ClInclude Include="..\..\..\src\le\core\slCTime.h" />

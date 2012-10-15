@@ -15,7 +15,7 @@ void CRandomTestSuite::testRandom()
 	UInt32 maxNumber = 1000;
 	UInt32* hits = new UInt32[maxNumber];
 
-	bzero(hits, sizeof(UInt32) * maxNumber);
+	memset(hits, 0, sizeof(UInt32) * maxNumber);
 
 	for (UInt32 i = 0; i < 100000000; ++i)
 	{

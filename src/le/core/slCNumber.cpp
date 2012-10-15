@@ -142,7 +142,8 @@ CNumber::CNumber(const CDictionary& fromDict)
 }
 
 CNumber::CNumber(const CNumber& copy) :
-	CNumberBase(copy)
+	CNumberBase(copy),
+	mFormat(copy.mFormat)
 {
 
 }

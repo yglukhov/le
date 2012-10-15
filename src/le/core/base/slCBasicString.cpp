@@ -280,7 +280,7 @@ CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list 
 
 CBasicString CBasicString::createWithCharacterRange(NChar startChar, UInt32 rangeLength)
 {
-	char* buffer = new char[rangeLength];
+	char* buffer = new char[rangeLength + 1];
 	UInt32 i = 0;
 	for (; i < rangeLength; ++i)
 	{
