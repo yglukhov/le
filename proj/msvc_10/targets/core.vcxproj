@@ -46,7 +46,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <AdditionalIncludeDirectories>$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(slLibsRoot);$(slLibsRoot)\sweet_parser</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -66,7 +66,7 @@ del _le_tmp_file.tmp
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <AdditionalIncludeDirectories>$(slLibsRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(slLibsRoot);$(slLibsRoot)\sweet_parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>$(slLibsRoot)/jpeg/windows/libjpeg.lib;$(slLibsRoot)/gif/windows/giflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -85,8 +85,13 @@ del _le_tmp_file.tmp
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\le\core\auxiliary\slCFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\auxiliary\slCStopWatch.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCBasicAny.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCIPictureImageImpl.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\base\slCSokriptInstruction.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\base\slCSokriptVM.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\base\slCSweetParser.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\slCParserGrammar.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCAny.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCClass.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCClassFactory.cpp" />
@@ -136,7 +141,9 @@ del _le_tmp_file.tmp
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\le\core\auxiliary\slCFileManager.h" />
+    <ClInclude Include="..\..\..\src\le\core\auxiliary\slCStopWatch.h" />
     <ClInclude Include="..\..\..\src\le\core\base\slCBasicAny.h" />
+    <ClInclude Include="..\..\..\src\le\core\script\slCParserGrammar.h" />
     <ClInclude Include="..\..\..\src\le\core\slCAny.h" />
     <ClInclude Include="..\..\..\src\le\core\slCClass.h" />
     <ClInclude Include="..\..\..\src\le\core\slCClassFactory.h" />
@@ -242,6 +249,8 @@ del _le_tmp_file.tmp
     <None Include="..\..\..\src\le\core\base\slCImageFrameImpl.hp" />
     <None Include="..\..\..\src\le\core\base\slCImageImpl.hp" />
     <None Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.hp" />
+    <None Include="..\..\..\src\le\core\script\base\slCSokriptInstruction.hp" />
+    <None Include="..\..\..\src\le\core\script\base\slCSokriptVM.hp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

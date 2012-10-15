@@ -1,5 +1,6 @@
 #include <vector>
 #include <sstream>
+#include <algorithm> // for std::find
 #include <le/core/slCNumber.h>
 
 #include "slCSokriptInstruction.hp"
