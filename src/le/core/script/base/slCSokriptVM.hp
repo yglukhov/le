@@ -75,7 +75,10 @@ class CSokriptVM
 
 	private:
 		template <EInstruction>
-		inline void handleInstruction();
+		inline void handleInstruction()
+		{
+			LE_ASSERT(false);
+		}
 
 		template <template <typename> class>
 		inline void operateObjects();

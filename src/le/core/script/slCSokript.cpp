@@ -176,25 +176,79 @@ static CObject::Ptr createIfThenElse(std::vector<CObject::Ptr>& args)
 {
 	CSokriptInstruction::Ptr expression = args[2].upcast<CSokriptInstruction>();
 	LE_ASSERT(expression);
-	expression->retain();
 	CSokriptInstruction::Ptr ifStatement = args[4].upcast<CSokriptInstruction>();
-	if (ifStatement) ifStatement->retain();
 
 	CSokriptInstruction::Ptr elseStatement;
 	if (args.size() == 7)
 	{
 		elseStatement = args[6].upcast<CSokriptInstruction>();
 	}
-	return CSokriptInstruction::createIfThenElse(expression, ifStatement, elseStatement);
+
+	if (elseStatement)
+	{
+		CSokriptInstruction* firstJump = new CSokriptInstruction(eInstructionJumpIfTrue);
+		firstJump->mSInt32Arg1 = elseStatement->length();
+		
+		if (ifStatement)
+		{
+			CSokriptInstruction* secondJump = new CSokriptInstruction(eInstructionJump);
+			secondJump->mSInt32Arg1 = ifStatement->length();
+			secondJump->addInstruction(ifStatement);
+			elseStatement->addInstruction(secondJump);
+		}
+		
+		firstJump->addInstruction(elseStatement);
+		expression->addInstruction(firstJump);
+		return expression;
+	}
+	
+	// else
+	
+	if (ifStatement)
+	{
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
+		jump->mUInt32Arg1 = ifStatement->length();
+		jump->addInstruction(ifStatement);
+		CSokriptInstruction* invert = new CSokriptInstruction(eInstructionNot);
+		invert->addInstruction(jump);
+		expression->addInstruction(invert);
+	}
+	else
+		expression->addInstruction(new CSokriptInstruction(eInstructionDiscard));
+	
+	return expression;
 }
 
-static CObject::Ptr createLoop(std::vector<CObject::Ptr>& args)
+CSokriptInstruction::Ptr createLoop(CSokriptInstruction::Ptr expression, CSokriptInstruction::Ptr loopPart)
 {
-	std::cout << "createLoop:\n";
+	if (loopPart)
+	{
+		expression->addInstruction(new CSokriptInstruction(eInstructionNot));
+		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJump);
+		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
+		jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
+		jump->addInstruction(loopPart);
+		expression->addInstruction(jump);
+		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+		loopPart->addInstruction(jumpBack);
+	}
+	else
+	{
+		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJumpIfTrue);
+		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
+		expression->addInstruction(jumpBack);
+	}
+	
+	return expression;
+}
+
+static CObject::Ptr createWhileLoop(std::vector<CObject::Ptr>& args)
+{
+	std::cout << "createWhileLoop:\n";
 	dumpArgs(args);
 	CSokriptInstruction::Ptr expression = args[2].upcast<CSokriptInstruction>();
 	LE_ASSERT(expression);
-	return CSokriptInstruction::createLoop(expression, args[4].upcast<CSokriptInstruction>());
+	return createLoop(expression, args[4].upcast<CSokriptInstruction>());
 }
 
 static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
@@ -215,7 +269,7 @@ static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
 			loopBody = afterLoop;
 	}
 
-	CSokriptInstruction::Ptr loopInstruction = CSokriptInstruction::createLoop(condition, loopBody);
+	CSokriptInstruction::Ptr loopInstruction = createLoop(condition, loopBody);
 	if (loopInit)
 	{
 		CSokriptInstruction* discard = new CSokriptInstruction(eInstructionDiscard);
@@ -225,7 +279,6 @@ static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
 	else
 	{
 		loopInit = loopInstruction;
-		loopInit.retain();
 	}
 
 	return loopInit;
@@ -247,9 +300,7 @@ static CObject::Ptr createExpressionFromIdentifier(std::vector<CObject::Ptr>& ar
 static CObject::Ptr createStringLiteral(std::vector<CObject::Ptr>& args)
 {
 	CString* literal = dynamic_cast<CString*>(args[0].get());
-	CString* result = new CString(literal->subString(1, literal->length() - 2));
-	std::cout << "STRING LITERAL: " << *result << std::endl;
-	return result;
+	return new CString(literal->subString(1, literal->length() - 2));
 }
 
 static CObject::Ptr concatStringLiteral(std::vector<CObject::Ptr>& args)
@@ -381,11 +432,8 @@ static CObject::Ptr createFunctionArgList(std::vector<CObject::Ptr>& args)
 	return callArgs;
 }
 
-static inline CParserGrammar::Ptr sokripGrammar()
+static inline void createSokriptGrammar(CParserGrammar& grammar)
 {
-	CParserGrammar* pGrammar = new CParserGrammar();
-	CParserGrammar& grammar = *pGrammar;
-
 	grammar["%ignore"]
 		>> new CCharacterSetTokenMatcher(" \n\t\r");
 
@@ -428,7 +476,7 @@ static inline CParserGrammar::Ptr sokripGrammar()
 		>> "if" << '(' << "expression" << ')' << "statement" << "else" << "statement" << createIfThenElse;
 
 	grammar["loopStatement"]
-		>> "while" << '(' << "expression" << ')' << "statement" << createLoop
+		>> "while" << '(' << "expression" << ')' << "statement" << createWhileLoop
 		>> "for" << '(' <<  "expressionOrNothing" << ';' << "expression" << ';' << "expressionOrNothing" << ')' << "statement" << createForLoop;
 
 	grammar["expressionOrNothing"]
@@ -481,12 +529,12 @@ static inline CParserGrammar::Ptr sokripGrammar()
 		>> "expression" << '(' << "functionArgList" << ')' << createFunctionCall;
 
 	grammar["functionArgList"]
-		>> "not_empty_function_arg_list"
+		>> "nonEmptyFunctionArgList"
 		>> "" << createFunctionArgList;
 
-	grammar["not_empty_function_arg_list"]
+	grammar["nonEmptyFunctionArgList"]
 		>> "expression" << createFunctionArgList
-		>> "not_empty_function_arg_list" << ',' << "expression" << createFunctionArgList;
+		>> "nonEmptyFunctionArgList" << ',' << "expression" << createFunctionArgList;
 
 	grammar["functionDefinition"]
 		>> "function" << "identifier" << '(' << "functionArgListDefinition" << ')' << '{' << "statementList" << '}' << createFunctionDefinition;
@@ -523,8 +571,6 @@ static inline CParserGrammar::Ptr sokripGrammar()
 
 	grammar["identifier"]
 		>> new CIdentifierTokenMatcher();
-
-	return pGrammar;
 }
 
 CSokript::CSokript()
@@ -564,8 +610,14 @@ void CSokript::addExternalFunction(const CString& name, TScriptFunction function
 
 bool CSokript::compileStream(std::istream& stream, std::ostream& ostream)
 {
+	CParserGrammar grammar;
+
+	createSokriptGrammar(grammar);
+
 	CParser parser;
-	parser.setGrammar(sokripGrammar());
+
+	grammar.retain();
+	parser.setGrammar(&grammar);
 
 	CSokriptInstruction::Ptr instruction = parser.parse(stream).upcast<CSokriptInstruction>();
 	if (instruction)

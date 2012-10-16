@@ -77,13 +77,6 @@ class CSokriptInstruction : public CObject
 		~CSokriptInstruction();
 
 		// Creators
-		static CSokriptInstruction::Ptr createIfThenElse(CSokriptInstruction::Ptr expression,
-														 CSokriptInstruction::Ptr ifPart,
-														 CSokriptInstruction::Ptr elsePart);
-
-		static CSokriptInstruction::Ptr createLoop(CSokriptInstruction::Ptr expression,
-												   CSokriptInstruction::Ptr loopPart);
-
 		static CSokriptInstruction* return0Instruction();
 
 		CSokriptInstruction* lastInstruction()

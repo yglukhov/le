@@ -39,70 +39,6 @@ CSokriptInstruction::~CSokriptInstruction()
 	}
 }
 
-CSokriptInstruction::Ptr CSokriptInstruction::createIfThenElse(CSokriptInstruction::Ptr expression,
-											 CSokriptInstruction::Ptr ifPart,
-											 CSokriptInstruction::Ptr elsePart)
-{
-	if (elsePart)
-	{
-		CSokriptInstruction* firstJump = new CSokriptInstruction(eInstructionJumpIfTrue);
-		firstJump->mSInt32Arg1 = elsePart->length();
-
-		if (ifPart)
-		{
-			CSokriptInstruction* secondJump = new CSokriptInstruction(eInstructionJump);
-			secondJump->mSInt32Arg1 = ifPart->length();
-			secondJump->addInstruction(ifPart);
-			elsePart->addInstruction(secondJump);
-		}
-
-		firstJump->addInstruction(elsePart);
-		expression->addInstruction(firstJump);
-		return expression;
-	}
-
-	// else
-	
-	if (ifPart)
-	{
-		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
-		jump->mUInt32Arg1 = ifPart->length();
-		jump->addInstruction(ifPart);
-		CSokriptInstruction* invert = new CSokriptInstruction(eInstructionNot);
-		invert->addInstruction(jump);
-		expression->addInstruction(invert);
-	}
-	else
-		expression->addInstruction(new CSokriptInstruction(eInstructionDiscard));
-	
-	return expression;
-}
-
-CSokriptInstruction::Ptr CSokriptInstruction::createLoop(
-									   CSokriptInstruction::Ptr expression,
-									   CSokriptInstruction::Ptr loopPart)
-{
-	if (loopPart)
-	{
-		expression->addInstruction(new CSokriptInstruction(eInstructionNot));
-		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJump);
-		CSokriptInstruction* jump = new CSokriptInstruction(eInstructionJumpIfTrue);
-		jump->mUInt32Arg1 = loopPart->length() + jumpBack->length();
-		jump->addInstruction(loopPart);
-		expression->addInstruction(jump);
-		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-		loopPart->addInstruction(jumpBack);
-	}
-	else
-	{
-		CSokriptInstruction* jumpBack = new CSokriptInstruction(eInstructionJumpIfTrue);
-		jumpBack->mSInt32Arg1 = -(SInt32)(expression->length() + 1);
-		expression->addInstruction(jumpBack);
-	}
-	
-	return expression;
-}
-
 CSokriptInstruction* CSokriptInstruction::return0Instruction()
 {
 	CSokriptInstruction* result = new CSokriptInstruction(eInstructionPushFloat, new CNumber());
@@ -158,7 +94,7 @@ UInt32 CSokriptInstruction::selfLength() const
 	return result;
 }
 
-static inline SInt32 findVarInArgs(std::list<CString>* args, const CString& var)
+static SInt32 findVarInArgs(std::list<CString>* args, const CString& var)
 {
 	if (args)
 	{
