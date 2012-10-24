@@ -8,7 +8,7 @@ namespace sokira
 	namespace le
 	{
 
-base::IClassImpl::IClassImpl(const char* typeName) :
+base::IClassImpl::IClassImpl(const CBasicString& typeName) :
 	mName(typeName)
 {
 	LE_ENTER_LOG_SILENT;

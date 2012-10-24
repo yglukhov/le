@@ -1,4 +1,3 @@
-#include <cstring>
 #include "slCClass.h"
 
 
@@ -14,7 +13,7 @@ static inline base::IClassImpl* stubClassImpl()
 	class CStubClassImpl : public base::IClassImpl
 	{
 		public:
-			CStubClassImpl() : base::IClassImpl("(null)") {}
+			CStubClassImpl() : base::IClassImpl(LESTR("(null)")) {}
 
 			virtual void* create(const std::type_info&) const
 			{
@@ -55,12 +54,12 @@ CClass::CClass(base::IClassImpl* impl) :
 
 CBasicString CClass::name() const
 {
-	return CBasicString::__CStringWithLiteral(mImpl->mName);
+	return mImpl->mName;
 }
 
 bool CClass::operator == (const CClass rhs)
 {
-	return !std::strcmp(mImpl->mName, rhs.mImpl->mName);
+	return mImpl->mName == rhs.mImpl->mName;
 }
 
 std::vector<CClass> CClass::parents() const

@@ -23,70 +23,22 @@ static inline Bool typeInfosEqual(const std::type_info& lhs, const std::type_inf
 	return !strcmp(lhs.name(), rhs.name());
 }
 
-template <class T>
-struct TSPublicParentDeclarator
+template <class T, int ParentType> // 1 - public, 2 - private, 4 - protected
+struct TSParentDeclarator
 {};
 
-template <class T>
-struct TSPrivateParentDeclarator
-{};
-
-template <class T>
-struct TSProtectedParentDeclarator
-{};
-
-//typedef _SNullType Self;
-
-template <class T>
-struct TSParentCollector : public TSFalse
-{ };
-
-template <class T>
-struct TSParentCollector<TSPublicParentDeclarator<T> > : public TSTrue
+template <int TypeMask>
+struct TSParentCollector
 {
-	typedef T result;
-};
+	template <typename T>
+	struct collector : public TSFalse
+	{};
 
-template <class T>
-struct TSParentCollector<TSPrivateParentDeclarator<T> > : public TSTrue
-{
-	typedef T result;
-};
-
-template <class T>
-struct TSParentCollector<TSProtectedParentDeclarator<T> > : public TSTrue
-{
-	typedef T result;
-};
-
-template <class T>
-struct TSPublicParentCollector : public TSFalse
-{ };
-
-template <class T>
-struct TSPublicParentCollector<TSPublicParentDeclarator<T> > : public TSTrue
-{
-	typedef T result;
-};
-
-template <class T>
-struct TSPrivateParentCollector : public TSFalse
-{ };
-
-template <class T>
-struct TSPrivateParentCollector<TSPrivateParentDeclarator<T> > : public TSTrue
-{
-	typedef T result;
-};
-
-template <class T>
-struct TSProtectedParentCollector : public TSFalse
-{ };
-
-template <class T>
-struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> > : public TSTrue
-{
-	typedef T result;
+	template <class T, int Type>
+	struct collector<TSParentDeclarator<T, Type> > : public TSBoolTypeFromInt<Type & TypeMask>
+	{
+		typedef T result;
+	};
 };
 
 #define LE_DECLARE_RUNTIME_CLASS(name)	\
@@ -104,14 +56,12 @@ struct TSProtectedParentCollector<TSProtectedParentDeclarator<T> > : public TSTr
 	typedef name __LE_temp_Self; \
 	typedef _LE_RTTI_SELF_DECLARATOR_##name##_break::PushBack<
 
-#define LE_RTTI_PUBLIC_PARENT(name)		\
-	::sokira::le::base::TSPublicParentDeclarator<name> >::result::PushBack<
+#define LE_RTTI_PUBLIC_PARENT(name) _LE_RTTI_PARENT_WITH_TYPE(name, 1)
+#define LE_RTTI_PRIVATE_PARENT(name) _LE_RTTI_PARENT_WITH_TYPE(name, 2)
+#define LE_RTTI_PROTECTED_PARENT(name) _LE_RTTI_PARENT_WITH_TYPE(name, 4)
 
-#define LE_RTTI_PRIVATE_PARENT(name)	\
-	::sokira::le::base::TSPrivateParentDeclarator<name> >::result::PushBack<
-
-#define LE_RTTI_PROTECTED_PARENT(name)	\
-	::sokira::le::base::TSProtectedParentDeclarator<name> >::result::PushBack<
+#define _LE_RTTI_PARENT_WITH_TYPE(name, type)	\
+	::sokira::le::base::TSParentDeclarator<name, type> >::result::PushBack<
 
 struct _SSelectorDeclarator
 {
@@ -162,10 +112,10 @@ struct _SSelectorDeclarator
 	protected:		\
 	typedef __LE_temp_Self leSelf;					\
 	public:	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector>::result	leParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPublicParentCollector>::result lePublicParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSPrivateParentCollector>::result lePrivateParents;	\
-	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSProtectedParentCollector>::result leProtectedParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector<1 | 2 | 4>::collector>::result leParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector<1>::collector>::result lePublicParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector<2>::collector>::result lePrivateParents;	\
+	typedef _le_RTTI_INFO::CollectMutantsIf< ::sokira::le::base::TSParentCollector<4>::collector>::result leProtectedParents;	\
 	typedef leParents::TypeAtNonStrict<0>::result leFirstParent;	\
 	typedef lePublicParents::TypeAtNonStrict<0>::result leFirstPublicParent;	\
 	typedef lePrivateParents::TypeAtNonStrict<0>::result leFirstPrivateParent;	\
@@ -223,8 +173,8 @@ class CClass
 ////////////////////////////////////////////////////////////////////////////////
 // RTTI implementation
 ////////////////////////////////////////////////////////////////////////////////
-#define LE_IMPLEMENT_RUNTIME_CLASS(Class)									\
-	static ::sokira::le::base::TCClassImpl<Class> _le_##Class##_ClassInfo_(#Class);	\
+#define LE_IMPLEMENT_RUNTIME_CLASS(Class)													\
+	static ::sokira::le::base::TCClassImpl<Class> _le_##Class##_ClassInfo_(LESTR(#Class));	\
 	_LE_IMPLEMENT_RUNTIME_CLASS(Class);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +211,7 @@ class IClassImpl
 		virtual std::vector<CClass> parents() const = 0;
 
 	protected:
-		IClassImpl(const char*);
+		IClassImpl(const CBasicString&);
 		virtual ~IClassImpl()
 		{
 			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
@@ -279,7 +229,7 @@ class IClassImpl
 		virtual Float32 priorityForParameters(const CDictionary& parameters) const = 0;
 	private:
 		IClassImpl();
-		const char* mName;
+		CBasicString mName;
 		std::set<ISelector*> mSelectors;
 
 		template <class TContext>
@@ -346,7 +296,7 @@ class TCClassImpl : public IClassImpl
 	LE_DECLARE_MEMBER_FUNCTION_CHECKER(priorityForParameters, TSPriorityForParametersFunctionExists);
 
 	public:
-		TCClassImpl(const char* typeName) : IClassImpl(typeName)
+		TCClassImpl(const CBasicString& typeName) : IClassImpl(typeName)
 		{
 			registerSelectors<typename T::_le_RTTI_INFO>();
 		}
