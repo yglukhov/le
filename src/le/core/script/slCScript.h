@@ -20,12 +20,22 @@ class CScript : public CObject
 	public:
 		virtual bool compileStream(std::istream& stream, std::ostream& ostream);
 		virtual CObject::Ptr runBytecode(const CData& data);
-		
+
 		virtual CObject::Ptr runScript(const CString& script);
 		virtual CObject::Ptr runStream(std::istream& stream);
 
 		virtual void addExternalObject(const CString& name, CObject::Ptr object);
-		virtual void addExternalFunction(const CString& name, TScriptFunction function);
+
+		template <typename Func>
+		void addExternalFunction(const CString& name, Func func)
+		{
+			ISelector* sel = new TCSelector<Func>(func, name);
+			addExternalSelector(sel);
+			sel->release();
+		}
+
+	protected:
+		virtual void addExternalSelector(ISelector* selector);
 };
 
 	} // namespace le

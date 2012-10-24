@@ -11,11 +11,11 @@ namespace sokira
 
 #define LESTR(string) ::sokira::le::CBasicString::__CStringWithLiteral("" string "")
 
+class CData;
 
 enum EStringEncoding
 {
 	eStringEncodingASCII = 0,
-	eStringEncodingASCIINonLossy,
 	eStringEncodingUTF8,
 	eStringEncodingUTF8NoBOM,
 	eStringEncodingUTF16BE,
@@ -36,10 +36,9 @@ class CBasicString
 	public:
 		CBasicString();	// Create an empty string.
 		CBasicString(const CBasicString& copy);	// Create a copy.
-		CBasicString(const NChar* cString); // Create a string from C-string with default encoding
-		CBasicString(const NChar* cString, EStringEncoding encoding); // Create a string from C-string
-		CBasicString(const WChar* uniString, UInt32 length, EStringEncoding encoding); // From uni-string
-		CBasicString(const NChar* cString1, const NChar* cString2); // Append 2 cStrings with default encoding.
+		CBasicString(const NChar* cString); // Create a string from C-string with ASCII encoding
+		CBasicString(const WChar* wString); // Create a string from wide string
+		CBasicString(const void* data, UInt32 length, EStringEncoding encoding); // From data
 		~CBasicString();
 
 		static CBasicString createWithFormat(const NChar *format, ...);
@@ -58,6 +57,7 @@ class CBasicString
 		const CBasicString& operator += (const CBasicString& string) { append(string); return *this; }
 
 		SInt32 compare(const NChar* cString) const;
+		SInt32 compare(const WChar* cString) const;
 		SInt32 compare(const CBasicString& string) const;
 
 		Bool operator == (const NChar* cString) const;
@@ -78,11 +78,10 @@ class CBasicString
 		Bool operator >= (const NChar* cString) const;
 		Bool operator >= (const CBasicString& string) const;
 
-		void append(NChar c, EStringEncoding encoding = eStringEncodingASCII);
-		void append(WChar c, EStringEncoding encoding = eStringEncodingASCII);
-		void append(const NChar* cString, EStringEncoding encoding = eStringEncodingASCII);
-		void append(const WChar* uniString, UInt32 length,
-						EStringEncoding encoding = eStringEncodingASCII);
+		void append(NChar c);
+		void append(WChar c);
+		void append(const NChar* cString);
+		void append(const WChar* wString);
 		void append(const CBasicString& string);
 
 		WChar characterAtIndex(UInt32 index) const;
@@ -97,6 +96,15 @@ class CBasicString
 		UInt32 length() const;
 		bool isEmpty() const;
 
+		enum EFindOptions
+		{
+			eStringOptionsCaseInsensitive = LE_SET_BIT(0),
+			eStringOptionsReverse = LE_SET_BIT(1)
+		};
+
+		SInt32 findWithOptions(const NChar* needle, UInt32 fromPos, UInt32 toPos, UInt16 options) const;
+		SInt32 findWithOptions(const WChar* needle, UInt32 fromPos, UInt32 toPos, UInt16 options) const;
+
 		SInt32 find(const CBasicString& string, UInt32 fromPos = 0) const;
 		SInt32 find(WChar c, UInt32 fromPos = 0) const;
 		SInt32 findLast(const CBasicString& string) const;
@@ -105,18 +113,28 @@ class CBasicString
 
 		CBasicString subString(UInt32 from, UInt32 length) const;
 
-		const NChar* cString(EStringEncoding encoding = eStringEncodingASCII) const;
 		const NChar* UTF8String() const;
+
+		CData dataUsingEncoding(EStringEncoding encoding) const;
 
 		const CBasicString operator + (const NChar* nullTerminatedString) const
 		{
-			return CBasicString(cString(), nullTerminatedString);
+			CBasicString result(*this);
+			result.append(nullTerminatedString);
+			return result;
 		}
 
 		const CBasicString operator + (const CBasicString& string) const
 		{
-			return CBasicString(cString(), string.cString());
+			CBasicString result(*this);
+			result.append(string);
+			return result;
 		}
+
+		void uppercase();
+		void lowercase();
+
+		void capitalize();
 
 		static Bool isWhitespace(NChar c);
 		static Bool isWhitespace(WChar c);
@@ -126,14 +144,13 @@ class CBasicString
 		static CBasicString __CStringNoCopyDeallocWithDelete(const NChar*);
 
 	private:
-		struct SStringProxy;
-		SStringProxy* mProxy;
-		inline CBasicString(SStringProxy* mProxy);
+		void* mData;
+		inline CBasicString(void*);
 };
 
 inline const CBasicString operator + (const NChar* cString, const CBasicString& string)
 {
-	return CBasicString(cString, string.cString());
+	return CBasicString::__CStringWithLiteral(cString) + string;
 }
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string);

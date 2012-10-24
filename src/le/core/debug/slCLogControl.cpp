@@ -38,7 +38,7 @@ CLogControl::~CLogControl()
 
 void CLogControl::attachToFile(const CString& name, UInt32 minPriority)
 {
-	attachToStream(new std::ofstream(name.cString()), minPriority);
+	attachToStream(new std::ofstream(name.UTF8String()), minPriority);
 }
 
 void CLogControl::attachToStandardOutput(UInt32 minPriority)

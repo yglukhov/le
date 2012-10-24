@@ -176,7 +176,7 @@ Bool CXMLParser::parse()
 
 		if (!state)
 		{
-			if (c == '<')
+			if (c == L'<')
 			{
 				onData(str);
 				str.clear();
@@ -187,7 +187,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInTagName)
 		{
-			if (CString::isWhitespace(c) || c == '>' || c == '/')
+			if (CString::isWhitespace(c) || c == L'>' || c == L'/')
 			{
 				state &= ~eStateInTagName;
 				mPushBackChar = c;
@@ -197,7 +197,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInAttrName)
 		{
-			if (CString::isWhitespace(c) || c == '=' || c == '>')
+			if (CString::isWhitespace(c) || c == L'=' || c == L'>')
 			{
 				state &= ~eStateInAttrName;
 				mPushBackChar = c;
@@ -207,7 +207,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInAttrValue)
 		{
-			bool charIsSpecial = CString::isWhitespace(c) || (c == '>');
+			bool charIsSpecial = CString::isWhitespace(c) || (c == L'>');
 			if (c == '"' && attrValue.hasPrefix("\""))
 			{
 				attrValue.erase(0, 1);
@@ -228,7 +228,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInStartTag)
 		{
-			if (c == '>')
+			if (c == L'>')
 			{
 				if (!attrName.isEmpty())
 				{
@@ -241,7 +241,7 @@ Bool CXMLParser::parse()
 				attrs.clear();
 				state &= ~(eStateInStartTag | eStateInTag);
 			}
-			else if (c == '=')
+			else if (c == L'=')
 			{
 				if (attrName.isEmpty())
 				{
@@ -252,7 +252,7 @@ Bool CXMLParser::parse()
 					state |= eStateInAttrValue;
 				}
 			}
-			else if (c == '/')
+			else if (c == L'/')
 			{
 				onStartTag(str, attrs);
 				attrs.clear();
@@ -273,7 +273,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInEndTag)
 		{
-			if (c == '>')
+			if (c == L'>')
 			{
 				onEndTag(str);
 				str.clear();
@@ -282,7 +282,7 @@ Bool CXMLParser::parse()
 		}
 		else if (state & eStateInTag)
 		{
-			if (c == '/')
+			if (c == L'/')
 			{
 				if (str.isEmpty())
 				{

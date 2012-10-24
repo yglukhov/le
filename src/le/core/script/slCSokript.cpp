@@ -1,13 +1,14 @@
 #include <iterator>
 #include <le/core/io/slCDataStream.h>
 
+
 #include "slCSokript.h"
 #include "slCParser.h"
 #include "base/slCSokriptInstruction.hp"
 #include "base/slCSokriptVM.hp"
 #include <le/core/slCNumber.h>
 #include <le/core/slCAny.h>
-
+#include <le/core/slCDictionary.h>
 
 namespace sokira
 {
@@ -284,11 +285,77 @@ static CObject::Ptr createForLoop(std::vector<CObject::Ptr>& args)
 	return loopInit;
 }
 
+static inline CSokriptInstruction::Ptr preAssignInstructionForOperation(const CString& operation)
+{
+	EInstruction preAssign = eInstructionNOP;
+	if (operation == "+=")
+		preAssign = eInstructionAdd;
+	else if (operation == "-=")
+		preAssign = eInstructionSubstract;
+	else if (operation == "*=")
+		preAssign = eInstructionMultiply;
+	else if (operation == "/=")
+		preAssign = eInstructionDivide;
+
+	if (preAssign != eInstructionNOP)
+	{
+		return new CSokriptInstruction(preAssign);
+	}
+
+	return NULL;
+}
+
 static CObject::Ptr createAssignmentExpression(std::vector<CObject::Ptr>& args)
 {
+	CSokriptInstruction::Ptr lvalue = args[0].upcast<CSokriptInstruction>();
 	CSokriptInstruction::Ptr expression = args[2].upcast<CSokriptInstruction>();
 	LE_ASSERT(expression);
-	expression->addInstruction(new CSokriptInstruction(eInstructionAssign, args[0]));
+	LE_ASSERT(lvalue);
+
+	CSokriptInstruction::Ptr preAssign = preAssignInstructionForOperation(*(args[1].upcast<CString>()));
+
+	if (lvalue->mInstruction == eInstructionPushVar && !lvalue->mNext)
+	{
+		if (preAssign)
+		{
+			lvalue->addInstruction(expression);
+			preAssign->addInstruction(new CSokriptInstruction(eInstructionAssign, lvalue->mObjArg1));
+			expression->addInstruction(preAssign);
+			expression = lvalue;
+		}
+		else
+		{
+			lvalue->mInstruction = eInstructionAssign;
+			expression->addInstruction(lvalue);
+		}
+	}
+	else
+	{
+		if (preAssign)
+		{
+			CSokriptInstruction::Ptr lastInstruction = lvalue->lastInstruction();
+			CSokriptInstruction::Ptr preLastInstruction = lvalue->instructionAtIndex(lvalue->count() - 2);
+			preLastInstruction->mNext = NULL;
+			preLastInstruction->addInstruction(new CSokriptInstruction(eInstructionDuplicate));
+			CSokriptInstruction* assignInstruction = new CSokriptInstruction(*lastInstruction);
+			assignInstruction->mInstruction = eInstructionSetProperty;
+			preAssign->addInstruction(assignInstruction);
+			expression->addInstruction(preAssign);
+			preLastInstruction->addInstruction(lastInstruction);
+			lastInstruction->addInstruction(expression);
+		}
+		else
+		{
+			CSokriptInstruction::Ptr lastInstruction = lvalue->lastInstruction();
+			CSokriptInstruction* copy = new CSokriptInstruction(*lastInstruction);
+			copy->mInstruction = eInstructionSetProperty;
+			expression->addInstruction(copy);
+			*lastInstruction = *expression;
+		}
+
+		expression = lvalue;
+	}
+
 	return expression;
 }
 
@@ -432,13 +499,27 @@ static CObject::Ptr createFunctionArgList(std::vector<CObject::Ptr>& args)
 	return callArgs;
 }
 
+static CObject::Ptr createPropertyAccess(std::vector<CObject::Ptr>& args)
+{
+	CSokriptInstruction::Ptr expression = args[0].upcast<CSokriptInstruction>();
+	LE_ASSERT(expression);
+	expression->addInstruction(new CSokriptInstruction(eInstructionGetProperty, args.back()));
+	return expression;
+}
+
 static inline void createSokriptGrammar(CParserGrammar& grammar)
 {
 	grammar["%ignore"]
 		>> new CCharacterSetTokenMatcher(" \n\t\r");
 
+	grammar["%left"]
+		>> "else";
+
+	grammar["%none"]
+		>> '{' << '}';
+	
 	grammar["%right"]
-		>> '=';
+		>> '=' << "+=" << "-=" << "*=" << "/=";
 
 	grammar["%left"]
 		>> "||"
@@ -472,7 +553,7 @@ static inline void createSokriptGrammar(CParserGrammar& grammar)
 		>> "loopStatement";
 
 	grammar["selectionStatement"]
-//		>> "if" << '(' << "expression" << ')' << "statement" << createIfThenElse
+		>> "if" << '(' << "expression" << ')' << "statement" << createIfThenElse
 		>> "if" << '(' << "expression" << ')' << "statement" << "else" << "statement" << createIfThenElse;
 
 	grammar["loopStatement"]
@@ -488,14 +569,10 @@ static inline void createSokriptGrammar(CParserGrammar& grammar)
 		>> "arithmeticExpression"
 		>> "comparisonExpression"
 		>> "logicExpression"
-		>> "identifier" << createExpressionFromIdentifier
 		>> "constantExpression" << createConstantExpression
 		>> "functionCall"
 		>> "anonymousFunctionDefinition"
-		>> "getProperty";
-
-	grammar["getProperty"]
-		>> "expression" << '.' << "identifier";
+		>> "lvalueExpression";
 
 	grammar["arithmeticExpression"]
 		>> "expression" << '+' << "expression" << createBinaryArithmeticExpression
@@ -520,10 +597,15 @@ static inline void createSokriptGrammar(CParserGrammar& grammar)
 		>> '!' << "expression";
 
 	grammar["assignmentExpression"]
-		>> "identifier" << "=" << "expression" << createAssignmentExpression;
+		>> "lvalueExpression" << '=' << "expression" << createAssignmentExpression
+		>> "lvalueExpression" << "+=" << "expression" << createAssignmentExpression
+		>> "lvalueExpression" << "-=" << "expression" << createAssignmentExpression
+		>> "lvalueExpression" << "*=" << "expression" << createAssignmentExpression
+		>> "lvalueExpression" << "/=" << "expression" << createAssignmentExpression;
 
-//	grammar["lvalueExpression"]
-//		>> "identifier";
+	grammar["lvalueExpression"]
+		>> "expression" << '.' << "identifier" << createPropertyAccess
+		>> "identifier" << createExpressionFromIdentifier;
 
 	grammar["functionCall"]
 		>> "expression" << '(' << "functionArgList" << ')' << createFunctionCall;
@@ -550,11 +632,25 @@ static inline void createSokriptGrammar(CParserGrammar& grammar)
 		>> "identifier" << createFunctionArgListDefinition
 		>> "nonEmptyFunctionArgListDefinition" << ',' << "identifier" << createFunctionArgListDefinition;
 
+//	grammar["dictionaryLiteral"]
+//		>> '{' << "dictionaryLiteralContent" << '}';
+//
+//	grammar["dictionaryLiteralContent"]
+//		>> "dictionaryLiteralNonEmptyContent";
+////		>> "";
+//
+//	grammar["dictionaryLiteralNonEmptyContent"]
+//		>> "dictionaryLiteralNonEmptyContent" << ',' << "dictionaryLiteralKeyValue"
+//		>> "dictionaryLiteralKeyValue";
+//
+//	grammar["dictionaryLiteralKeyValue"]
+//		>> "expression" << ':' << "expression";
+
 	grammar["constantExpression"]
 		>> "literal";
 
 	grammar["literal"]
-		>> new CCharacterSetTokenMatcher("0123456789") << createNumberLiteral
+		>> new CCharacterSetTokenMatcher(CString::createWithCharacterRange('0', '9' - '0' + 1)) << createNumberLiteral
 		>> "stringLiteral"
 		>> "booleanLiteral" << createNumberLiteral;
 
@@ -583,29 +679,9 @@ void CSokript::addExternalObject(const CString& name, CObject::Ptr object)
 	mExternalObjects.insert(std::make_pair(name, object));
 }
 
-struct CExternalFunction : public CObject
+void CSokript::addExternalSelector(ISelector* selector)
 {
-	LE_RTTI_BEGIN
-		LE_RTTI_SELF(CExternalFunction)
-		LE_RTTI_SINGLE_PUBLIC_PARENT
-		LE_RTTI_SELECTOR_WITH_NAME(operator(), __func__)
-	LE_RTTI_END
-
-	CObject::Ptr operator()(CObject::Ptr arg)
-	{
-		return mFunction(arg);
-	}
-
-	TScriptFunction mFunction;
-};
-
-LE_IMPLEMENT_RUNTIME_CLASS(CExternalFunction);
-
-void CSokript::addExternalFunction(const CString& name, TScriptFunction function)
-{
-	CExternalFunction* fn = new CExternalFunction;
-	fn->mFunction = function;
-	addExternalObject(name, fn);
+	addExternalObject(selector->name(), new CExternalFunction(NULL, selector));
 }
 
 bool CSokript::compileStream(std::istream& stream, std::ostream& ostream)
@@ -629,8 +705,14 @@ bool CSokript::compileStream(std::istream& stream, std::ostream& ostream)
 	return false;
 }
 
+CObject::Ptr createDict()
+{
+	return new CDictionary;
+}
+
 CObject::Ptr CSokript::runBytecode(const CData& bytecode)
 {
+	addExternalFunction("dict", createDict);
 	CData temp = bytecode;
 	temp.retain();
 	CSokriptVM vm;

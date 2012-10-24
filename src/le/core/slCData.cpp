@@ -40,7 +40,7 @@ CData::~CData()
 CData CData::createWithContentsOfURL(const CURL& url)
 {
 	CData result;
-	FILE* file = fopen(url.path().cString(), "r");
+	FILE* file = fopen(url.path().UTF8String(), "r");
 	if (file)
 	{
 		UInt32 bufferSize = 1024;
@@ -160,7 +160,7 @@ Bool CData::operator == (const CData& rhs) const
 
 void CData::writeToURL(const CURL& url) const
 {
-	FILE* file = fopen(url.path().cString(), "w");
+	FILE* file = fopen(url.path().UTF8String(), "w");
 	if (file)
 	{
 		fwrite(data(), 1, length(), file);

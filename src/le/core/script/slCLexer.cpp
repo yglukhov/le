@@ -25,16 +25,17 @@ CLexer::~CLexer()
 
 WChar CLexer::nextChar()
 {
-	char result;
+	WChar result;
 	if (mBuffer.length())
 	{
-		WChar t = mBuffer[0];
-		result = t;
+		result = mBuffer[0];
 		mBuffer.erase(mBuffer.begin());
 	}
 	else
 	{
-		mStream->read(&result, 1);
+		char c;
+		mStream->read(&c, sizeof(c));
+		mbtowc(&result, &c, sizeof(c));
 	}
 	return result;
 }

@@ -173,7 +173,6 @@
 		7B7FD21D11D8C8D3001DC819 /* slCGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B7FD21B11D8C8D3001DC819 /* slCGradient.cpp */; };
 		7B8DAF5312C239020056CDC7 /* slCX11WindowImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB3AA612B14374006B66DD /* slCX11WindowImpl.cpp */; };
 		7B8DB02312C261E60056CDC7 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8DB02112C261E60056CDC7 /* libfreetype.a */; };
-		7B93B3F51175C5DC0089A9FF /* libgif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B93B3E91175C5BA0089A9FF /* libgif.a */; };
 		7BAB765D15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */; };
 		7BAB765E15E669B9009FA898 /* slTCAffineTransform3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB765B15E669B9009FA898 /* slTCAffineTransform3D.cpp */; };
 		7BACE08F15ECC53D00CAF6E9 /* slCStopWatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACE08D15ECC53D00CAF6E9 /* slCStopWatch.cpp */; };
@@ -234,7 +233,7 @@
 		7B052B330BD12EB100AA8BD8 /* slCRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCRunLoop.cpp; sourceTree = "<group>"; };
 		7B052B340BD12EB100AA8BD8 /* slCRunLoop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCRunLoop.h; sourceTree = "<group>"; };
 		7B052B350BD12EB100AA8BD8 /* slStdExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slStdExtensions.h; sourceTree = "<group>"; };
-		7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = slCBasicString.cpp; sourceTree = "<group>"; };
+		7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCBasicString.cpp; sourceTree = "<group>"; };
 		7B052B380BD12EB100AA8BD8 /* slCBasicString.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCBasicString.h; sourceTree = "<group>"; };
 		7B052B390BD12EB100AA8BD8 /* slCNumberBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slCNumberBase.h; sourceTree = "<group>"; };
 		7B052B3A0BD12EB100AA8BD8 /* slTCColorBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = slTCColorBase.h; sourceTree = "<group>"; };
@@ -604,7 +603,6 @@
 				7B419E8B1057BD3500D5A2D1 /* Cocoa.framework in Frameworks */,
 				7B76900D1076A42A00DAF20B /* OpenGL.framework in Frameworks */,
 				7B75CE79107774FA00F93924 /* OpenAL.framework in Frameworks */,
-				7B93B3F51175C5DC0089A9FF /* libgif.a in Frameworks */,
 				7B3E0110117741F7005ECE2D /* libogg.a in Frameworks */,
 				7B3E0111117741F8005ECE2D /* libvorbis.a in Frameworks */,
 				7B3E0135117742AC005ECE2D /* libvorbisfile.a in Frameworks */,
@@ -1946,12 +1944,6 @@
 					"$(leLibRoot)/vorbis/macos",
 					/usr/X11/lib,
 				);
-				OTHER_LDFLAGS = (
-					"-force_load",
-					"$(leLibRoot)/jpeg/macos/libjpeg.a",
-					"-framework",
-					Accelerate,
-				);
 				PRODUCT_NAME = le;
 				SKIP_INSTALL = NO;
 			};
@@ -1976,12 +1968,6 @@
 					"$(leLibRoot)/gif/macos",
 					"$(leLibRoot)/vorbis/macos",
 					/usr/X11/lib,
-				);
-				OTHER_LDFLAGS = (
-					"-force_load",
-					"$(leLibRoot)/jpeg/macos/libjpeg.a",
-					"-framework",
-					Accelerate,
 				);
 				PRODUCT_NAME = le;
 			};

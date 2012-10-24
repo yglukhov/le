@@ -41,7 +41,7 @@ class CSourceImpl : public CSimpleRefCountable
 			alSource3f(mSource, AL_POSITION, 0.0f, 0.0f, 0.0f);
 
 			// Open for binary reading
-			FILE *f = fopen(url.path().cString(), "rb");
+			FILE *f = fopen(url.path().UTF8String(), "rb");
 			if (f == NULL)
 			{
 				std::cout << "Could not open file!" << std::endl;

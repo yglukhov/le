@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <stdarg.h>
+#include <iconv.h>
 
 #include "slCBasicString.h"
 #include <le/core/debug/slAssert.h>
@@ -17,34 +18,16 @@ static inline int vasprintf(char** buffer, const char* format, va_list args)
 	return count;
 }
 
+#elif LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+
+#include <CoreFoundation/CoreFoundation.h>
+
 #endif
 
 namespace sokira
 {
 	namespace le
 	{
-
-/*
-typedef UInt64 TCharType;
-
-typedef TCharType (*TEncodeFunc)(TCharType);
-typedef UInt32 (*TReadBufFunc)(const UInt8 *, UInt32, TCharType&);
-
-static inline UInt32 readASCIIChar(const UInt8 *buffer, UInt32, TCharType& readChar)
-{
-	readChar = *buffer;
-	return 1;
-}
-
-typedef std::map<EStringEncoding, std::pair<TEncodeFunc, bool> > SubEncodingInfo;
-typedef std::pair<TReadBufFunc, SubEncodingInfo> EncodingInfo;
-
-struct _StringEncoding
-{
-	std::list<std::pair<EStringEncoding, bool> > acceptedEncodings() const;
-};
-
-*/
 
 #if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
 #pragma warning (push)
@@ -57,10 +40,28 @@ static inline void slStrCpy(NChar* dest, const NChar* src)
 	strcpy(dest, src);
 }
 
+static inline void slStrCpy(WChar* dest, const WChar* src)
+{
+	using namespace std;
+	wcscpy(dest, src);
+}
+
 static inline void slStrCat(NChar* dest, const NChar* src)
 {
 	using namespace std;
 	strcat(dest, src);
+}
+
+static inline size_t slStrLen(const NChar* str)
+{
+	using namespace std;
+	return strlen(str);
+}
+
+static inline size_t slStrLen(const WChar* str)
+{
+	using namespace std;
+	return wcslen(str);
 }
 
 #if defined(LE_COMPILER_IS_MSVC) && LE_COMPILER_VERSION >= 1400 // MSVS 2005 and higher
@@ -74,61 +75,44 @@ static inline void slStrCat(NChar* dest, const NChar* src)
 enum EOwnPolicy
 {
 	eOwnPolicyCopy = LE_SET_BIT(0),
-	eOwnPolicyDealloc = LE_SET_BIT(1),
-	eOwnPolicyDeallocWithFree = LE_SET_BIT(2), // If set the dealloc will use free() otherwise delete[]
-	eOwnPolicyDefault = eOwnPolicyCopy | eOwnPolicyDealloc,
+	eOwnPolicyDeallocWithDelete = LE_SET_BIT(1),
+	eOwnPolicyDeallocWithFree = LE_SET_BIT(2),
+	eOwnPolicyIsWide = LE_SET_BIT(3),
+	eOwnPolicyDefault = eOwnPolicyCopy | eOwnPolicyDeallocWithDelete,
 	eOwnPolicyLiteral = 0
 };
 
+struct SStringProxy;
 
-struct CBasicString::SStringProxy
+template <typename TChar>
+static SStringProxy* createProxy(const TChar* string, UInt16 policy = eOwnPolicyDefault, UInt32 length = 0);
+
+struct SStringProxy
 {
-	inline SStringProxy(const NChar* string, EOwnPolicy ownPolicy = eOwnPolicyDefault, UInt32 length = 0) :
-		mOwnPolicy(ownPolicy),
-		mRefCount(1),
-		mString((ownPolicy & eOwnPolicyCopy)?(new NChar[((length)?(length):(std::strlen(string))) + 1]):(NULL))
+	~SStringProxy()
 	{
-		if (mString)
+		LE_ASSERT(!mEmpty);
+		if (mFlags & eOwnPolicyDeallocWithDelete)
 		{
-			if (length)
+			if (isWide())
 			{
-				memcpy(mString, string, length);
-				mString[length] = 0;
+				delete [] mWString;
 			}
 			else
 			{
-				slStrCpy(mString, string);
+				delete [] mNString;
 			}
 		}
-		else
+		else if (mFlags & eOwnPolicyDeallocWithFree)
 		{
-			mString = const_cast<NChar*>(string);
+			free(mNString);
+		}
+
+		if (mUTF8String != mNString)
+		{
+			delete [] mUTF8String;
 		}
 	}
-
-	inline SStringProxy(const NChar* cString1, const NChar* cString2) :
-		mOwnPolicy(eOwnPolicyDefault),
-		mRefCount(1)
-	{
-		size_t str1len = (cString1)?(std::strlen(cString1)):(0);
-		size_t str2len = (cString1)?(std::strlen(cString2)):(0);
-
-		mString = new NChar[str1len + str2len + 1];
-
-		if (str1len)
-		{
-			slStrCpy(mString, cString1);
-			if (str2len)
-			{
-				slStrCat(mString, cString2);
-			}
-		}
-		else
-		{
-			slStrCpy(mString, cString2);
-		}
-	}
-
 
 	inline SStringProxy* retain()
 	{
@@ -141,111 +125,259 @@ struct CBasicString::SStringProxy
 		--mRefCount;
 		if (!mRefCount)
 		{
-			if (mOwnPolicy & eOwnPolicyDealloc)
-			{
-				if (mOwnPolicy & eOwnPolicyDeallocWithFree)
-				{
-					free(mString);
-				}
-				else
-				{
-					delete [] mString;
-				}
-			}
 			delete this;
 		}
 	}
 
+	SStringProxy* copy()
+	{
+		SStringProxy* result;
+		if (isWide())
+		{
+			result = createProxy(mWString);
+		}
+		else
+		{
+			result = createProxy(mNString);
+		}
+		release();
+		return result;
+	}
+
 	inline UInt32 length() const
 	{
-		return static_cast<UInt32>(std::strlen(mString));
+		return isWide() ? slStrLen(mWString) : slStrLen(mNString);
 	}
 
 	inline Bool isEmpty() const
 	{
-		return !(*mString);
+		return isWide() ? !(*mWString) : !(*mNString);
 	}
 
-	static inline SStringProxy* emptyStringProxy()
+	inline bool isWide() const
 	{
-		static SStringProxy proxy("", eOwnPolicyLiteral);
-		return &proxy;
+		return !!(mFlags & eOwnPolicyIsWide);
 	}
 
-	EOwnPolicy mOwnPolicy;
+	inline const char* UTF8String() const
+	{
+		if (!mUTF8String)
+		{
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+			// Check our byte order. Assuming we made the string as in your example
+			CFStringEncoding encoding = (CFByteOrderLittleEndian == CFByteOrderGetCurrent()) ?
+				kCFStringEncodingUTF32LE : kCFStringEncodingUTF32BE;
+
+			UInt32 wLength = slStrLen(mWString);
+			CFStringRef string = CFStringCreateWithBytes(kCFAllocatorDefault,
+														 (const UInt8 *)mWString,
+														 wLength * sizeof(WChar),
+														 encoding,
+														 false);
+			if (string)
+			{
+				CFIndex length = CFStringGetMaximumSizeForEncoding(wLength, kCFStringEncodingUTF8) + 1;
+				mUTF8String = new char[length];
+				CFStringGetCString(string, mUTF8String, length, kCFStringEncodingUTF8);
+				CFRelease(string);
+			}
+#else
+#error Not implemented
+#endif
+		}
+		return mUTF8String;
+	}
+
+
+	template <typename TChar>
+	inline TChar*& data();
+
+	union
+	{
+		char* mString;
+		WChar* mWString;
+		NChar* mNString;
+	};
+
+	mutable char* mUTF8String;
+
 	UInt32 mRefCount;
-	NChar* mString;
+	UInt16 mFlags;
+	bool mEmpty;
 };
 
+template <>
+NChar*& SStringProxy::data<NChar>()
+{
+	return mNString;
+}
 
-static inline Bool notEmpty(const NChar* string)
+template <>
+WChar*& SStringProxy::data<WChar>()
+{
+	return mWString;
+}
+
+template <typename TChar>
+static inline Bool notEmpty(const TChar* string)
 {
 	return string && *string;
+}
+
+template <typename TChar>
+static inline void setWideFlag(SStringProxy* proxy)
+{
+	proxy->mUTF8String = proxy->mNString;
+}
+
+template <>
+inline void setWideFlag<WChar>(SStringProxy* proxy)
+{
+	proxy->mFlags |= eOwnPolicyIsWide;
+	proxy->mUTF8String = NULL;
+}
+
+
+template <typename TChar>
+static SStringProxy* createProxy(const TChar* string, UInt16 policy, UInt32 length)
+{
+	SStringProxy* result = new SStringProxy;
+	if (policy & eOwnPolicyCopy)
+	{
+		UInt32 newLen = length;
+		if (!newLen)
+		{
+			newLen = slStrLen(string);
+		}
+		result->data<TChar>() = new TChar[newLen + 1];
+
+		if (length)
+		{
+			memcpy(result->data<TChar>(), string, length * sizeof(TChar));
+			result->data<TChar>()[length] = 0;
+		}
+		else
+		{
+			slStrCpy(result->data<TChar>(), string);
+		}
+	}
+	else
+	{
+		result->data<TChar>() = const_cast<TChar*>(string);
+	}
+
+	result->mFlags = policy;
+	result->mRefCount = 1;
+	result->mEmpty = false;
+	setWideFlag<TChar>(result);
+
+	return result;
+}
+
+static SStringProxy* createEmptyProxy()
+{
+	static SStringProxy* proxy = createProxy("", eOwnPolicyLiteral);
+	proxy->mEmpty = true;
+	return proxy->retain();
+}
+
+static WChar* widecharWithData(void* data, UInt32 length, EStringEncoding encoding)
+{
+#if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+	CFStringEncoding cfEncoding = kCFStringEncodingInvalidId;
+	switch (encoding)
+	{
+		case eStringEncodingASCII: cfEncoding = kCFStringEncodingASCII; break;
+		case eStringEncodingUTF8: cfEncoding = kCFStringEncodingUTF8; break;
+		case eStringEncodingUTF16LE: cfEncoding = kCFStringEncodingUTF16LE; break;
+		case eStringEncodingUTF16BE: cfEncoding = kCFStringEncodingUTF16BE; break;
+		default:
+			break;
+	}
+
+	if (cfEncoding != kCFStringEncodingInvalidId)
+	{
+		CFStringRef string = CFStringCreateWithBytesNoCopy(kCFAllocatorDefault,
+													 (const UInt8 *)data,
+													 length,
+													 cfEncoding,
+													 false,
+														   kCFAllocatorNull);
+		if (string)
+		{
+			// Check our byte order. Assuming we made the string as in your example
+			cfEncoding = (CFByteOrderLittleEndian == CFByteOrderGetCurrent()) ?
+				kCFStringEncodingUTF32LE : kCFStringEncodingUTF32BE;
+			CFIndex cfLen = CFStringGetLength(string);
+			CFIndex length = CFStringGetMaximumSizeForEncoding(cfLen + 1, cfEncoding);
+			WChar* result = (WChar*) new char[length];
+			if (CFStringGetBytes(string, CFRangeMake(0, cfLen), cfEncoding, 0, FALSE, (UInt8*)result, length, NULL) != cfLen)
+			{
+				delete [] result;
+				result = NULL;
+			}
+			CFRelease(string);
+			return result;
+		}
+	}
+
+	return NULL;
+#else
+#error Not implemented
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // CBasicString implementation
 ////////////////////////////////////////////////////////////////////////////////
 CBasicString::CBasicString() :
-	mProxy(SStringProxy::emptyStringProxy()->retain())
+	mData(createEmptyProxy())
 {
 
 }
 
 CBasicString::CBasicString(const CBasicString& copy) :
-	mProxy(copy.mProxy->retain())
+	mData(((SStringProxy*)copy.mData)->retain())
 {
 
 }
 
-CBasicString::CBasicString(const NChar* cString) :
-	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
+CBasicString::CBasicString(const NChar* str) :
+	mData(notEmpty(str) ? createProxy(str) : createEmptyProxy())
 {
 
 }
 
-CBasicString::CBasicString(const NChar* cString, EStringEncoding /*encoding*/) :
-	mProxy((notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain()))
+CBasicString::CBasicString(const WChar* str) :
+	mData(notEmpty(str) ? createProxy(str) : createEmptyProxy())
 {
 
 }
 
-CBasicString::CBasicString(const WChar* /*uniString*/, UInt32 /*length*/, EStringEncoding /*encoding*/) :
-	mProxy(new SStringProxy("This string was generated from uniString. Complete the constructor!", eOwnPolicyLiteral))
-{
-	// TODO: complete
-}
-
-CBasicString::CBasicString(const NChar* cString1, const NChar* cString2) :
-	mProxy((notEmpty(cString1) || notEmpty(cString2))?(new SStringProxy(cString1, cString2)):(SStringProxy::emptyStringProxy()->retain()))
-{
-
-}
-
-CBasicString::CBasicString(SStringProxy* proxy) :
-	mProxy(proxy)
+CBasicString::CBasicString(void* proxy) :
+	mData(proxy)
 {
 
 }
 
 CBasicString CBasicString::__CStringWithLiteral(const NChar* str)
 {
-	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyLiteral)):(SStringProxy::emptyStringProxy()->retain()));
+	return CBasicString(notEmpty(str) ? createProxy(str, eOwnPolicyLiteral) : createEmptyProxy());
 }
 
 CBasicString CBasicString::__CStringNoCopyDeallocWithFree(const NChar* str)
 {
-	return CBasicString((notEmpty(str))?(new SStringProxy(str, (EOwnPolicy)(eOwnPolicyDealloc | eOwnPolicyDeallocWithFree))):(SStringProxy::emptyStringProxy()->retain()));
+	return CBasicString(notEmpty(str) ? createProxy(str, eOwnPolicyDeallocWithFree) : createEmptyProxy());
 }
 
 CBasicString CBasicString::__CStringNoCopyDeallocWithDelete(const NChar* str)
 {
-	return CBasicString((notEmpty(str))?(new SStringProxy(str, eOwnPolicyDealloc)):(SStringProxy::emptyStringProxy()->retain()));
+	return CBasicString(notEmpty(str) ? createProxy(str, eOwnPolicyDeallocWithDelete) : createEmptyProxy());
 }
 
 CBasicString::~CBasicString()
 {
-	mProxy->release();
+	((SStringProxy*)mData)->release();
 }
 
 CBasicString CBasicString::createWithFormat(const NChar *format, ...)
@@ -261,7 +393,7 @@ CBasicString CBasicString::createWithFormat(CBasicString format, ...)
 {
 	va_list list;
 	va_start(list, format);
-	CBasicString result = createWithFormat(format.cString(), list);
+	CBasicString result = createWithFormat(format.UTF8String(), list);
 	va_end(list);
 	return result;
 }
@@ -270,42 +402,42 @@ CBasicString CBasicString::createWithFormat(const NChar *format, va_list argList
 {
 	char* buffer;
 	vasprintf(&buffer, format, argList);
-	return CBasicString(new SStringProxy(buffer, (EOwnPolicy)(eOwnPolicyDefault | eOwnPolicyDeallocWithFree)));
+	return CBasicString(createProxy(buffer, eOwnPolicyDeallocWithFree));
 }
 
 CBasicString CBasicString::createWithFormat(const CBasicString &format, va_list argList)
 {
-	return createWithFormat(format.cString(), argList);
+	return createWithFormat(format.UTF8String(), argList);
 }
 
 CBasicString CBasicString::createWithCharacterRange(NChar startChar, UInt32 rangeLength)
 {
-	char* buffer = new char[rangeLength + 1];
+	NChar* buffer = new NChar[rangeLength + 1];
 	UInt32 i = 0;
 	for (; i < rangeLength; ++i)
 	{
 		buffer[i] = startChar + i;
 	}
 	buffer[i] = 0;
-	return CBasicString(new SStringProxy(buffer, eOwnPolicyDealloc));
+	return CBasicString(createProxy(buffer, eOwnPolicyDeallocWithDelete));
 }
 
 const CBasicString& CBasicString::operator = (NChar character)
 {
-	mProxy->release();
+	((SStringProxy*)mData)->release();
 	NChar* str = new NChar[2];
 	*str = character;
 	str[1] = 0;
-	mProxy = new SStringProxy(str, eOwnPolicyDealloc);
+	mData = createProxy(str, eOwnPolicyDeallocWithDelete);
 	return *this;
 }
 
 const CBasicString& CBasicString::operator = (const NChar* cString)
 {
-	if (mProxy->mString != cString)
+	if (((SStringProxy*)mData)->mNString != cString)
 	{
-		mProxy->release();
-		mProxy = (notEmpty(cString))?(new SStringProxy(cString)):(SStringProxy::emptyStringProxy()->retain());
+		((SStringProxy*)mData)->release();
+		mData = notEmpty(cString) ? createProxy(cString) : createEmptyProxy();
 	}
 
 	return *this;
@@ -313,10 +445,10 @@ const CBasicString& CBasicString::operator = (const NChar* cString)
 
 const CBasicString& CBasicString::operator = (const CBasicString& copy)
 {
-	if (mProxy->mString != copy.mProxy->mString)
+	if (((SStringProxy*)mData)->mNString != ((SStringProxy*)copy.mData)->mNString)
 	{
-		mProxy->release();
-		mProxy = copy.mProxy->retain();
+		((SStringProxy*)mData)->release();
+		mData = ((SStringProxy*)copy.mData)->retain();
 	}
 
 	return *this;
@@ -324,12 +456,43 @@ const CBasicString& CBasicString::operator = (const CBasicString& copy)
 
 SInt32 CBasicString::compare(const NChar* cString) const
 {
-	return strcmp(mProxy->mString, cString);
+	if (((SStringProxy*)mData)->isWide())
+	{
+		size_t count = mbstowcs(NULL, cString, 0) + 1;
+		WChar* buffer = (WChar*)malloc(sizeof(WChar) * count);
+		mbstowcs(buffer, cString, count);
+		SInt32 result = wcscmp(((SStringProxy*)mData)->mWString, buffer);
+		free(buffer);
+		return result;
+	}
+
+	return strcmp(((SStringProxy*)mData)->mNString, cString);
+}
+
+SInt32 CBasicString::compare(const WChar* str) const
+{
+	if (((SStringProxy*)mData)->isWide())
+	{
+		return wcscmp(((SStringProxy*)mData)->mWString, str);
+	}
+
+	NChar* cString = ((SStringProxy*)mData)->mNString;
+	size_t count = mbstowcs(NULL, cString, 0) + 1;
+	WChar* buffer = (WChar*)malloc(sizeof(WChar) * count);
+	mbstowcs(buffer, cString, count);
+	SInt32 result = wcscmp(buffer, str);
+	free(buffer);
+	return result;
 }
 
 SInt32 CBasicString::compare(const CBasicString& string) const
 {
-	return strcmp(mProxy->mString, string.mProxy->mString);
+	if (((SStringProxy*)string.mData)->isWide())
+	{
+		return compare(((SStringProxy*)string.mData)->mWString);
+	}
+
+	return compare(((SStringProxy*)string.mData)->mNString);
 }
 
 Bool CBasicString::operator == (const NChar* cString) const
@@ -398,70 +561,128 @@ Bool CBasicString::operator >= (const CBasicString& string) const
 
 WChar CBasicString::characterAtIndex(UInt32 index) const
 {
-	return mProxy->mString[index];
+	if (((SStringProxy*)mData)->isWide())
+	{
+		return ((SStringProxy*)mData)->mWString[index];
+	}
+
+	NChar c = ((SStringProxy*)mData)->mNString[index];
+	WChar result = 0;
+	if (mbtowc(&result, &c, sizeof(c)))
+	{
+		return result;
+	}
+	return 0;
 }
 
-void CBasicString::append(NChar c, EStringEncoding encoding)
+void CBasicString::append(NChar c)
 {
-	char str[] = "x";
-	*str = c;
-	append(str, encoding);
+	NChar str[] = {c, 0};
+	append(str);
 }
 
-void CBasicString::append(WChar c, EStringEncoding)
+void CBasicString::append(WChar c)
 {
-//	union
-//	{
-//		WChar c;
-//		char s[2];
-//	} u;
-//	u.c = c;
-	// TODO: complete this to correctly handle endians
-//	std::cout << (char)c;
-	append((char)c);
-//#if LE_ENDIANS == LE_ENDIANS_LITTLE
-////	std::cout << "CBasicString::append(" << u.s[0] << ")" << std::endl;
-//	append(u.s[0]);
-//#else
-////	std::cout << "CBasicString::append(" << u.s[1] << ")" << std::endl;
-//	append(u.s[1]);
-//#endif
+	WChar str[] = {c, 0};
+	append(str);
 }
 
-void CBasicString::append(const NChar* cString, EStringEncoding /* encoding*/)
+void CBasicString::append(const NChar* cString)
 {
 	if (!notEmpty(cString))
 		return;
 
-	SStringProxy* newProxy = new SStringProxy(mProxy->mString, cString);
-	mProxy->release();
-	mProxy = newProxy;
+	SStringProxy* proxy = (SStringProxy*)mData;
+	if (proxy->isWide())
+	{
+		UInt32 otherLen = mbstowcs(NULL, cString, 0);
+		if (otherLen)
+		{
+			++otherLen;
+			UInt32 curLength = slStrLen(proxy->mWString);
+			WChar* buffer = new WChar[otherLen + curLength];
+			memcpy(buffer, proxy->mWString, curLength * sizeof(WChar));
+			mbstowcs(buffer + curLength, cString, otherLen);
+			proxy->release();
+			mData = createProxy(buffer, eOwnPolicyDeallocWithDelete);
+		}
+	}
+	else
+	{
+		UInt32 otherLen = slStrLen(cString);
+		++otherLen;
+		UInt32 curLength = slStrLen(proxy->mNString);
+		NChar* buffer = new NChar[otherLen + curLength];
+		memcpy(buffer, proxy->mNString, curLength);
+		memcpy(buffer + curLength, cString, otherLen);
+		proxy->release();
+		mData = createProxy(buffer, eOwnPolicyDeallocWithDelete);
+	}
 }
 
-void CBasicString::append(const WChar* /*uniString*/, UInt32 /*length*/,
-				EStringEncoding /*encoding*/)
+void CBasicString::append(const WChar* wString)
 {
-	// TODO: complete
-	mProxy->release();
-	mProxy = new SStringProxy("This string was generated from uniString. Complete the append() method!", eOwnPolicyLiteral);
+	if (!notEmpty(wString))
+		return;
+
+	SStringProxy* proxy = (SStringProxy*)mData;
+	if (proxy->isWide())
+	{
+		UInt32 otherLen = slStrLen(wString) + 1;
+		UInt32 curLength = slStrLen(proxy->mWString);
+		WChar* buffer = new WChar[otherLen + curLength];
+		memcpy(buffer, proxy->mWString, curLength * sizeof(WChar));
+		memcpy(buffer + curLength, wString, otherLen * sizeof(WChar));
+		proxy->release();
+		mData = createProxy(buffer, eOwnPolicyDeallocWithDelete);
+	}
+	else
+	{
+		UInt32 curLength = mbstowcs(NULL, proxy->mNString, 0);
+		UInt32 otherLen = slStrLen(wString) + 1;
+		WChar* buffer = new WChar[otherLen + curLength];
+		mbstowcs(buffer, proxy->mNString, curLength);
+		memcpy(buffer + curLength, wString, otherLen * sizeof(WChar));
+		proxy->release();
+		mData = createProxy(buffer, eOwnPolicyDeallocWithDelete);
+	}
 }
 
 void CBasicString::append(const CBasicString& string)
 {
-	append(string.cString());
+	const SStringProxy* otherProxy = (const SStringProxy*)string.mData;
+	if (otherProxy->isWide())
+	{
+		append(otherProxy->mWString);
+	}
+	else
+	{
+		append(otherProxy->mNString);
+	}
 }
 
 void CBasicString::clear()
 {
-	mProxy->release();
-	mProxy = SStringProxy::emptyStringProxy()->retain();
+	((SStringProxy*)mData)->release();
+	mData = createEmptyProxy();
+}
+
+template <typename TChar>
+static inline SStringProxy* createProxyByErasingChars(UInt32 len, UInt32 fromPos, UInt32 length, SStringProxy* proxy)
+{
+	TChar* newStr = new TChar[len - length + 1];
+	memcpy(newStr, proxy->data<TChar>(), fromPos * sizeof(TChar));
+	memcpy(newStr + fromPos, proxy->data<TChar>() + fromPos + length, (len - fromPos - length + 1) * sizeof(TChar));
+	proxy->release();
+	return createProxy(newStr, eOwnPolicyDeallocWithDelete);
 }
 
 // Erase characters from string. If toPos is equal to 0, then the
 // characters are erased to the end of the string.
 void CBasicString::erase(UInt32 fromPos, UInt32 length)
 {
-	UInt32 len = mProxy->length();
+	SStringProxy* proxy = ((SStringProxy*)mData);
+	UInt32 len = proxy->length();
 	if (fromPos >= len) return;
 	if (length >= len - fromPos || length == 0) length = len - fromPos;
 	if (fromPos == 0 && length == len)
@@ -470,71 +691,156 @@ void CBasicString::erase(UInt32 fromPos, UInt32 length)
 	}
 	else
 	{
-		NChar* newStr = new NChar[len - length + 1];
-		memcpy(newStr, mProxy->mString, fromPos);
-		memcpy(newStr + fromPos, mProxy->mString + fromPos + length, len - fromPos - length + 1);
-		mProxy->release();
-		mProxy = new SStringProxy(newStr, eOwnPolicyDealloc);
+		if (proxy->isWide())
+		{
+			mData = createProxyByErasingChars<WChar>(len, fromPos, length, proxy);
+		}
+		else
+		{
+			mData = createProxyByErasingChars<NChar>(len, fromPos, length, proxy);
+		}
 	}
+}
+
+template <typename TChar>
+SStringProxy* proxyByTrimmingWhitespace(SStringProxy* proxy)
+{
+	TChar* start = proxy->data<TChar>();
+	for (; *start && CBasicString::isWhitespace(*start); ++start);
+	if (*start)
+	{
+		TChar* end = start + slStrLen(start) - 1;
+		TChar* endmark = end;
+		for (; CBasicString::isWhitespace(*end); --end);
+		if (start != proxy->data<TChar>() || end != endmark)
+		{
+			++end;
+			TChar* newStr = new TChar[end - start + 1];
+			memcpy(newStr, start, (end - start) * sizeof(TChar));
+			*(newStr + (end - start)) = 0;
+			proxy->release();
+			return createProxy(newStr, eOwnPolicyDeallocWithDelete);
+		}
+
+		return proxy;
+	}
+
+	proxy->release();
+	return createEmptyProxy();
 }
 
 void CBasicString::trimWhitespace()
 {
-	NChar* start = mProxy->mString;
-	for (; *start && isWhitespace(*start); ++start);
-	if (*start)
+	if (((SStringProxy*)mData)->isWide())
 	{
-		NChar* end = start + strlen(start) - 1;
-		NChar* endmark = end;
-		for (; isWhitespace(*end); --end);
-		if (start != mProxy->mString || end != endmark)
-		{
-			++end;
-			NChar* newStr = new NChar[end - start + 1];
-			memcpy(newStr, start, end - start);
-			*(newStr + (end - start)) = '\0';
-			mProxy->release();
-			mProxy = new SStringProxy(newStr, eOwnPolicyDealloc);
-		}
+		mData = proxyByTrimmingWhitespace<WChar>((SStringProxy*)mData);
 	}
 	else
-		clear();
+	{
+		mData = proxyByTrimmingWhitespace<NChar>((SStringProxy*)mData);
+	}
 }
 
 UInt32 CBasicString::length() const
 {
-	return mProxy->length();
+	return ((SStringProxy*)mData)->length();
 }
 
 bool CBasicString::isEmpty() const
 {
-	return mProxy->isEmpty();
+	return ((SStringProxy*)mData)->isEmpty();
+}
+
+template <typename TChar>
+static SInt32 _findWithOptions(const TChar* haystack, const TChar* needle, UInt32 fromPos, UInt32 toPos, UInt16 options)
+{
+	typedef std::basic_string<TChar> StdString;
+
+	size_t haystackLength = slStrLen(haystack);
+	if (toPos == 0)
+	{
+		toPos = haystackLength - 1;
+	}
+
+	size_t haystackRange = toPos - fromPos + 1;
+	StdString stdHaystack(haystack + fromPos, haystackRange);
+
+	size_t result;
+
+	if (options & CBasicString::eStringOptionsReverse)
+	{
+		result = stdHaystack.rfind(needle);
+	}
+	else
+	{
+		result = stdHaystack.find(needle);
+	}
+
+	if (result == std::string::npos)
+	{
+		return -1;
+	}
+
+	return fromPos + result;
+}
+
+SInt32 CBasicString::findWithOptions(const NChar* needle, UInt32 fromPos, UInt32 toPos, UInt16 options) const
+{
+	if (((SStringProxy*)mData)->isWide())
+	{
+		UInt32 len = mbstowcs(NULL, needle, 0) + 1;
+		WChar* buffer = new WChar[len];
+		mbstowcs(buffer, needle, len);
+		SInt32 result = _findWithOptions(((SStringProxy*)mData)->mWString, buffer, fromPos, toPos, options);
+		delete [] buffer;
+		return result;
+	}
+	return _findWithOptions(((SStringProxy*)mData)->mNString, needle, fromPos, toPos, options);
+}
+
+SInt32 CBasicString::findWithOptions(const WChar* needle, UInt32 fromPos, UInt32 toPos, UInt16 options) const
+{
+	if (((SStringProxy*)mData)->isWide())
+	{
+		return _findWithOptions(((SStringProxy*)mData)->mWString, needle, fromPos, toPos, options);
+	}
+
+	UInt32 len = mbstowcs(NULL, ((SStringProxy*)mData)->mNString, 0) + 1;
+	WChar* buffer = new WChar[len];
+	mbstowcs(buffer, ((SStringProxy*)mData)->mNString, len);
+	SInt32 result = _findWithOptions(buffer, needle, fromPos, toPos, options);
+	delete [] buffer;
+	return result;
 }
 
 SInt32 CBasicString::find(const CBasicString& string, UInt32 fromPos) const
 {
-	char* res = strstr(mProxy->mString + fromPos, string.mProxy->mString);
-	return (res)?(res - mProxy->mString):(-1);
+	if (((SStringProxy*)string.mData)->isWide())
+	{
+		return findWithOptions(((SStringProxy*)string.mData)->mWString, fromPos, 0, 0);
+	}
+	return findWithOptions(((SStringProxy*)string.mData)->mNString, fromPos, 0, 0);
 }
 
 SInt32 CBasicString::find(WChar c, UInt32 fromPos) const
 {
-	char needle[] = { c, 0 };
-	char* res = strstr(mProxy->mString + fromPos, needle);
-	return (res)?(res - mProxy->mString):(-1);
+	WChar needle[] = { c, 0 };
+	return findWithOptions(needle, fromPos, 0, 0);
 }
 
 SInt32 CBasicString::findLast(const CBasicString& string) const
 {
-	size_t res = std::string(mProxy->mString).rfind(string.mProxy->mString);
-	return (res == std::string::npos)?(-1):((SInt32)res);
+	if (((SStringProxy*)string.mData)->isWide())
+	{
+		return findWithOptions(((SStringProxy*)string.mData)->mWString, 0, 0, eStringOptionsReverse);
+	}
+	return findWithOptions(((SStringProxy*)string.mData)->mNString, 0, 0, eStringOptionsReverse);
 }
 
 SInt32 CBasicString::findLast(WChar c) const
 {
-	char needle[] = { c, 0 };
-	size_t res = std::string(mProxy->mString).rfind(needle);
-	return (res == std::string::npos)?(-1):((SInt32)res);
+	WChar needle[] = { c, 0 };
+	return findWithOptions(needle, 0, 0, eStringOptionsReverse);
 }
 
 Bool CBasicString::hasPrefix(const CBasicString& string) const
@@ -544,22 +850,102 @@ Bool CBasicString::hasPrefix(const CBasicString& string) const
 
 CBasicString CBasicString::subString(UInt32 from, UInt32 length) const
 {
-	return CBasicString(new SStringProxy(mProxy->mString + from, eOwnPolicyDefault, length));
-}
+	if (((SStringProxy*)mData)->isWide())
+	{
+		return CBasicString(createProxy(((SStringProxy*)mData)->mWString + from, eOwnPolicyDefault, length));
+	}
 
-const NChar* CBasicString::cString(EStringEncoding encoding) const
-{
-	return mProxy->mString;
+	return CBasicString(createProxy(((SStringProxy*)mData)->mNString + from, eOwnPolicyDefault, length));
 }
 
 const NChar* CBasicString::UTF8String() const
 {
-	return mProxy->mString;
+	return ((SStringProxy*)mData)->UTF8String();
+}
+
+CData CBasicString::dataUsingEncoding(EStringEncoding encoding) const
+{
+	LE_ASSERT(false);
+	return CData();
 }
 
 std::ostream& operator << (std::ostream& stream, const CBasicString& string)
 {
-	return (stream << (string.cString()));
+	return (stream << (string.UTF8String()));
+}
+
+static inline void uppercaseChar(NChar& c)
+{
+	if (c >= 'a' && c <= 'z')
+	{
+		c = 'A' + (c - 'a');
+	}
+}
+
+static inline void lowercaseChar(NChar& c)
+{
+	if (c >= 'A' && c <= 'Z')
+	{
+		c = 'a' + (c - 'A');
+	}
+}
+
+static inline void uppercaseChar(WChar& c)
+{
+	if (c >= L'a' && c <= L'z')
+	{
+		c = L'A' + (c - L'a');
+	}
+}
+
+static inline void lowercaseChar(WChar& c)
+{
+	if (c >= L'A' && c <= L'Z')
+	{
+		c = L'a' + (c - L'A');
+	}
+}
+
+void CBasicString::uppercase()
+{
+	mData = ((SStringProxy*)mData)->copy();
+	if (((SStringProxy*)mData)->isWide())
+	{
+		for (WChar* c = ((SStringProxy*)mData)->mWString; *c; ++c) uppercaseChar(*c);
+	}
+	else
+	{
+		for (NChar* c = ((SStringProxy*)mData)->mNString; *c; ++c) uppercaseChar(*c);
+	}
+}
+
+void CBasicString::lowercase()
+{
+	mData = ((SStringProxy*)mData)->copy();
+	if (((SStringProxy*)mData)->isWide())
+	{
+		for (WChar* c = ((SStringProxy*)mData)->mWString; *c; ++c) lowercaseChar(*c);
+	}
+	else
+	{
+		for (NChar* c = ((SStringProxy*)mData)->mNString; *c; ++c) lowercaseChar(*c);
+	}
+}
+
+void CBasicString::capitalize()
+{
+	if (length())
+	{
+		mData = ((SStringProxy*)mData)->copy();
+		if (((SStringProxy*)mData)->isWide())
+		{
+			uppercaseChar(*((SStringProxy*)mData)->mWString);
+		}
+		else
+		{
+			uppercaseChar(*((SStringProxy*)mData)->mNString);
+		}
+	}
 }
 
 Bool CBasicString::isWhitespace(NChar c)
@@ -569,7 +955,7 @@ Bool CBasicString::isWhitespace(NChar c)
 
 Bool CBasicString::isWhitespace(WChar c)
 {
-	return isWhitespace((NChar)c);
+	return c == L' ' || c == L'\n' || c == L'\t' || c == L'\r';
 }
 
 	} // namespace le

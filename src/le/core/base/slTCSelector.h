@@ -9,10 +9,10 @@ namespace sokira
 	namespace le
 	{
 
-class ISelector
+class ISelector : public CSimpleRefCountable
 {
 	public:
-		ISelector(const char* name) :
+		ISelector(const CBasicString& name) :
 			mName(name)
 		{
 
@@ -20,7 +20,7 @@ class ISelector
 
 		virtual ~ISelector() {}
 
-		inline const char* name() const
+		inline CBasicString name() const
 		{
 			return mName;
 		}
@@ -29,20 +29,49 @@ class ISelector
 		virtual UInt32 argumentsCount() const = 0;
 
 		virtual Bool isConst() const = 0;
+		virtual Bool isVoid() const = 0;
+
 	private:
-		const char* mName;
+		CBasicString mName;
+};
+
+template <bool IsClass>
+struct TCSelectorBase
+{
+	enum { _isClass = IsClass };
+	template <class Tuple, typename T>
+	static inline void setThisToFunction(Tuple& t, T thisObject)
+	{
+		t.template setValue<0>(thisObject);
+	}
+};
+
+template <>
+struct TCSelectorBase<false>
+{
+	enum { _isClass = false };
+	template <class Tuple, typename T>
+	static inline void setThisToFunction(Tuple& t, T thisObject)
+	{
+	}
 };
 
 template <typename FuncType>
 class TCSelector : public ISelector
 {
+	enum
+	{
+		isClassFunc = !TSTypesEqual<typename TSFunctionTraits<FuncType>::OwnerClass, _SNullType>::value,
+		argsCount = TSFunctionTraits<FuncType>::ParamList::length
+	};
+
 	template <class TContext>
 	struct TSFillTupleWithAnyArray
 	{
 		template <class Tuple>
 		static inline void f(Tuple& t, const std::vector<CBasicReferenceAny>& a)
 		{
-			t.template setValue<TContext::I + 1>(a[TContext::I].template value<typename TContext::T>());
+			t.template setValue<TContext::I + isClassFunc>(a[TContext::I].template value<typename TContext::T>());
 			TContext::Next::f(t, a);
 		}
 	};
@@ -55,7 +84,7 @@ class TCSelector : public ISelector
 	};
 
 	public:
-		TCSelector(FuncType func, const char* name) :
+		TCSelector(FuncType func, const CBasicString& name) :
 			ISelector(name),
 			mFunc(func)
 		{
@@ -64,23 +93,29 @@ class TCSelector : public ISelector
 
 		virtual CBasicAny operator() (void* object, const std::vector<CBasicReferenceAny>& arguments) const
 		{
+			LE_ASSERT(arguments.size() >= argsCount);
 			typedef TSFunctionTraits<FuncType> Traits;
 			typedef typename Traits::TupleParamList TupleParamList;
 			typedef typename Traits::ParamList ParamList;
 			TCTuple<TupleParamList> t;
-			t.template setValue<0>(static_cast<typename Traits::OwnerClass*>(object));
+			TCSelectorBase<isClassFunc>::setThisToFunction(t, static_cast<typename Traits::OwnerClass*>(object));
 			ParamList::template Enumerate<TSFillTupleWithAnyArray, _SNullType, TSFillTupleWithAnyArrayTerminator>::f(t, arguments);
 			return call(t, TSTypeToType<typename Traits::RetType>());
 		}
 
 		virtual UInt32 argumentsCount() const
 		{
-			return TSFunctionTraits<FuncType>::ParamList::length;
+			return argsCount;
 		}
 
 		virtual Bool isConst() const
 		{
 			return TSFunctionTraits<FuncType>::IsConst::value;
+		}
+
+		virtual Bool isVoid() const
+		{
+			return TSTypesEqual<typename TSFunctionTraits<FuncType>::RetType, void>::value;
 		}
 
 	private:

@@ -84,6 +84,10 @@ void CCocoaImageImpl::loadFromFile(FILE* file)
 			NSLog(@"CCocoaImageImpl: Could not load bitmap");
 		}
 	}
+	else
+	{
+		LE_ASSERT(false);
+	}
 	[pool drain];
 }
 

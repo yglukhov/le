@@ -22,7 +22,9 @@ class CSokript : public CScript
 		virtual CObject::Ptr runBytecode(const CData& data);
 
 		virtual void addExternalObject(const CString& name, CObject::Ptr object);
-		virtual void addExternalFunction(const CString& name, TScriptFunction function);
+
+	protected:
+		virtual void addExternalSelector(ISelector* selector);
 
 	private:
 		std::map<CString, CObject::Ptr> mExternalObjects;

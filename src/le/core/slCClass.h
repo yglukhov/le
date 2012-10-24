@@ -117,7 +117,7 @@ struct _SSelectorDeclarator
 {
 	protected:
 		template <typename SelType>
-		static inline ISelector *_selector(SelType sel, const char* name)
+		static inline ISelector *_selector(SelType sel, const CBasicString& name)
 		{
 			return new TCSelector<SelType>(sel, name);
 		}
@@ -136,7 +136,7 @@ struct _SSelectorDeclarator
 	{																	\
 		static inline ISelector *selector()								\
 		{																\
-			return _selector(type &__LE_temp_Self::sel, #name);			\
+			return _selector(type &__LE_temp_Self::sel, LESTR(#name));	\
 		}																\
 	};																	\
 	typedef _LE_RTTI_SEL_DECLARATOR_##name##_break::PushBack<_TSSel_##name##_declarator>::result::PushBack<
@@ -200,12 +200,14 @@ class CClass
 		std::set<ISelector*> selectors() const;
 		std::set<ISelector*> ownSelectors() const;
 
+		ISelector* selectorWithName(const CBasicString& name) const;
+
 		inline bool isChildOfClass(const CClass& otherClass) const
 		{
 			return isChildOfStdClass(otherClass.stdType());
 		}
 	
-		inline bool instanceRespondsToSelector(const CBasicString& name) const;
+		bool instanceRespondsToSelector(const CBasicString& name) const;
 
 	// Private:
 		CClass(base::IClassImpl* impl);
@@ -264,20 +266,8 @@ class IClassImpl
 		{
 			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
 			{
-				delete *it;
+				(*it)->release();
 			}
-		}
-
-		Bool instanceRespondsToSelector(const CBasicString& name) const
-		{
-			for (std::set<ISelector*>::iterator it = mSelectors.begin(); it != mSelectors.end(); ++it)
-			{
-				if (name == (*it)->name())
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 
 		template <class TTypeList>
@@ -345,11 +335,6 @@ bool CClass::isChildOfStdClass(const std::type_info& stdClass) const
 Float32 CClass::priorityForParameters(const CDictionary& paramters) const
 {
 	return mImpl->priorityForParameters(paramters);
-}
-
-bool CClass::instanceRespondsToSelector(const CBasicString& name) const
-{
-	return mImpl->instanceRespondsToSelector(name);
 }
 
 		namespace base

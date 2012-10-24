@@ -214,6 +214,7 @@ SInt32 CGuiCocoaApplication::runApplication()
 	id appDelegate = [[SokiraLE_AppDelegate alloc] initWithDelegate: delegate() andApplication: this];
 	[app setDelegate: appDelegate];
 	[app run];
+	[appDelegate release];
 	SInt32 result = 0;
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 	gGuiApplication = this;

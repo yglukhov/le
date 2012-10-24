@@ -12,8 +12,12 @@
 	_OP_(eInstructionPushInt)			\
 	_OP_(eInstructionPushFloat)			\
 	_OP_(eInstructionPushExternal)		\
+	_OP_(eInstructionPushGlobalObject)	\
 	_OP_(eInstructionDiscard)			\
+	_OP_(eInstructionDuplicate)			\
 	_OP_(eInstructionAssign)			\
+	_OP_(eInstructionGetProperty)		\
+	_OP_(eInstructionSetProperty)		\
 	_OP_(eInstructionAdd)				\
 	_OP_(eInstructionSubstract)			\
 	_OP_(eInstructionMultiply)			\
@@ -29,7 +33,8 @@
 	_OP_(eInstructionSetSymbolsCount)	\
 	_OP_(eInstructionJump)				\
 	_OP_(eInstructionJumpIfTrue)		\
-	_OP_(eInstructionDeclareExternalSymbols)		\
+	_OP_(eInstructionDeclareExternalSymbol)		\
+	_OP_(eInstructionDeclareSymbol)		\
 	_OP_(eInstructionPushFunction)		\
 	_OP_(eInstructionCall)				\
 	_OP_(eInstructionReturn)
@@ -57,32 +62,31 @@ class CSokriptInstruction : public CObject
 	LE_RTTI_END
 
 	public:
-		CSokriptInstruction() {}
+		CSokriptInstruction() { LE_ASSERT(false); }
 
-		CSokriptInstruction(EInstruction instruction, CObject* arg1 = NULL) :
+//		CSokriptInstruction(EInstruction instruction, CObject* arg1 = NULL) :
+//			mInstruction(instruction),
+//			mProcessed(false)
+//		{
+//			mObjArg1 = arg1;
+//		}
+
+		CSokriptInstruction(EInstruction instruction, CObject::Ptr arg1 = NULL) :
 			mInstruction(instruction),
+			mObjArg1(arg1),
 			mProcessed(false)
 		{
-			mObjArg1 = arg1;
-		}
 
-		CSokriptInstruction(EInstruction instruction, CObject::Ptr arg1) :
-			mInstruction(instruction),
-			mProcessed(false)
-		{
-			mObjArg1 = arg1.get();
-			mObjArg1->retain();
 		}
-
-		~CSokriptInstruction();
 
 		// Creators
 		static CSokriptInstruction* return0Instruction();
 
-		CSokriptInstruction* lastInstruction()
+		CSokriptInstruction::Ptr lastInstruction()
 		{
 			CSokriptInstruction* i = this;
 			while (i->mNext) i = i->mNext;
+			i->retain();
 			return i;
 		}
 
@@ -103,6 +107,21 @@ class CSokriptInstruction : public CObject
 		UInt32 length() const;
 		UInt32 selfLength() const;
 
+		UInt32 count() const
+		{
+			UInt32 result = 1;
+			for (const CSokriptInstruction* i = this; i->mNext; ++result, i = i->mNext);
+			return result;
+		}
+
+		CSokriptInstruction::Ptr instructionAtIndex(UInt32 index)
+		{
+			CSokriptInstruction* i = this;
+			for (; i->mNext && index; --index, i = i->mNext);
+			if (i) i->retain();
+			return i;
+		}
+
 		static CSokriptInstruction::Ptr postProcessBytecode(CSokriptInstruction::Ptr instruction, std::list<CString>* arguments);
 		static CSokriptInstruction::Ptr optimizeByteCode(CSokriptInstruction::Ptr instruction);
 		static void dumpBytecodeToStream(const CSokriptInstruction* instruction, std::ostream& stream);
@@ -112,18 +131,19 @@ class CSokriptInstruction : public CObject
 
 		virtual CString description() const;
 
+		static const char* nameFromCode(EInstruction instruction);
+	
 	public:
 		CSokriptInstruction::Ptr mNext;
 		EInstruction mInstruction;
+		CObject::Ptr mObjArg1;
 		union  {
-			CObject* mObjArg1;
 			SInt32 mSInt32Arg1;
 			UInt16 mUInt16Arg1;
 			UInt32 mUInt32Arg1;
 		};
 
 		union  {
-			CObject* mObjArg2;
 			SInt32 mSInt32Arg2;
 			UInt16 mUInt16Arg2;
 			UInt32 mUInt32Arg2;

@@ -41,7 +41,7 @@ CDictionary CDictionary::createFromStream(std::istream& stream)
 
 CDictionary CDictionary::createWithContentsOfURL(const CURL& url)
 {
-	std::ifstream stream(url.path().cString());
+	std::ifstream stream(url.path().UTF8String());
 	return CDictionary::createFromStream(stream);
 }
 

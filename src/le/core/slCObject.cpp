@@ -44,13 +44,10 @@ Bool CObject::respondsToSelector(const CString& name) const
 
 CSelectorInvocation CObject::selector(const CString& name)
 {
-	std::set<ISelector*> selectors = objectClass().selectors();
-	for (std::set<ISelector*>::iterator it = selectors.begin(); it != selectors.end(); ++it)
+	ISelector* sel = objectClass().selectorWithName(name);
+	if (sel)
 	{
-		if (name == (*it)->name())
-		{
-			return CSelectorInvocation(this, *it);
-		}
+		return CSelectorInvocation(this, sel);
 	}
 
 	return CSelectorInvocation(NULL, NULL);

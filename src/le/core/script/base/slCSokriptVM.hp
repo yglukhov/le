@@ -90,12 +90,59 @@ class CSokriptVM
 		SokriptVMStack<CObject::Ptr> mVarStack;
 		UInt32 mCurrentStackLine;
 
-		std::vector<CObject::Ptr> mExternalObjects;
+		std::vector<CString> mSymbols;
+		std::map<SInt32, CObject::Ptr> mExternalObjects;
 		std::map<CString, CObject::Ptr>* mAllExternalObjects;
 
 		CData::Ptr mBytecode;
 
 		friend class CInternalFunction;
+};
+
+class CExternalFunction : public CObject
+{
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CExternalFunction)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+		LE_RTTI_SELECTOR_WITH_NAME(operator(), __func__)
+	LE_RTTI_END
+
+	public:
+		CExternalFunction()
+		{
+			LE_ASSERT(false);
+		}
+
+		CExternalFunction(CObject::Ptr thisObject, ISelector* selector) :
+			mThisObject(thisObject),
+			mSelector(selector)
+		{
+			mSelector->retain();
+		}
+		
+		CObject::Ptr operator()(CObject::Ptr arg)
+		{
+			LE_ASSERT(false); // Should not get here
+			return NULL;
+		}
+
+		virtual CSelectorInvocation selector(const CString& name)
+		{
+			if (name == "__func__")
+			{
+				return CSelectorInvocation(mThisObject, mSelector);
+			}
+			return CObject::selector(name);
+		}
+
+		~CExternalFunction()
+		{
+			mSelector->release();
+		}
+
+	private:
+		CObject::Ptr mThisObject;
+		ISelector* mSelector;
 };
 
 	} // namespace le

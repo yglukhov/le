@@ -2,6 +2,7 @@
 
 #include <le/core/slCString.h>
 #include <le/core/slCNumber.h>
+#include <le/core/slCDictionary.h>
 #include <le/core/io/slCDataStream.h>
 #include <le/core/script/slCLexer.h>
 #include <le/core/template/function/slTCBind.h>
@@ -40,7 +41,7 @@ void CScriptTestSuite::testTokenizer()
 {
 	CLexer tokenizer;
 	CString string = LESTR("sdfg; 1234+1234  ; function   a+=b + 'string literal' z");
-	CInputDataStream stream(string.cString(), string.length());
+	CInputDataStream stream(string.UTF8String(), string.length());
 	tokenizer.setInputStream(&stream);
 	addMatchersToTokenizer(tokenizer);
 
@@ -82,14 +83,37 @@ CObject::Ptr printObject(CObject::Ptr obj)
 	return NULL;
 }
 
+		struct TestObject : public CDictionary
+		{
+			LE_RTTI_BEGIN
+				LE_RTTI_SELF(TestObject)
+				LE_RTTI_SINGLE_PUBLIC_PARENT
+				LE_RTTI_SELECTOR(setValue)
+				LE_RTTI_SELECTOR_WITH_NAME(value, getValue)
+			LE_RTTI_END
+			
+			void setValue(CObject::Ptr newValue)
+			{
+				setValueForKey("value", newValue);
+			}
+
+			CObject::Ptr value() const
+			{
+				return valueAsObjectForKey("value");
+			}
+		};
+		
+		LE_IMPLEMENT_RUNTIME_CLASS(TestObject);
+
 void CScriptTestSuite::testParser()
 {
 //	CString string = LESTR("function a(obj, times) { for (i = 0; i < times; i = i + 1) { print('obj ' + i + ': ' + obj); } } a(2, 5);");
-	CString string = LESTR("i = 5;");
+	CString string = LESTR("a.value = 10; a.setValue(a.getValue() + 5); print(a.value); b = dict(); b.a = 123; b.a += 2; print(b); return b;");
 	CSokript sokript;
+
+
 	sokript.addExternalFunction("print", printObject);
-//	sokript.addExternalObject("a", new CNumber(2));
-//	sokript.addExternalObject("b", new CNumber(3));
+	sokript.addExternalObject("a", new TestObject());
 
 	CStopWatch watch;
 	watch.start();

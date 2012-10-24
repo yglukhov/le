@@ -13,7 +13,7 @@ CXMLDocument::CXMLDocument(const CURL& url) :
 	mRootNode(NULL),
 	mCurrentNode(NULL)
 {
-	std::ifstream stream(url.path().cString());
+	std::ifstream stream(url.path().UTF8String());
 	initWithStream(stream);
 }
 

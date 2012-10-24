@@ -13,31 +13,28 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CSokriptInstruction);
 
+
+const char* CSokriptInstruction::nameFromCode(EInstruction instruction)
+{
 #define _LE_INSTRUCTION_STRING_LIST(instruction) #instruction ,
 
-static const char * strings[] =
-{
-	"eInstructionNOP",
-	_LE_FOR_INSTRUCTION_LIST(_LE_INSTRUCTION_STRING_LIST)
-	"eInstructionCount_"
-};
-
-CSokriptInstruction::~CSokriptInstruction()
-{
-	LE_ASSERT(this);
-	if ((mInstruction == eInstructionPushVar && !mProcessed)
-		|| (mInstruction == eInstructionAssign && !mProcessed)
-		|| mInstruction == eInstructionPushStr
-		|| mInstruction == eInstructionDeclareExternalSymbols
-		|| mInstruction == eInstructionPushFloat
-		|| mInstruction == eInstructionPushInt)
+	static const char * strings[] =
 	{
-		if (mObjArg1)
-		{
-			mObjArg1->release();
-		}
+		"eInstructionNOP",
+		_LE_FOR_INSTRUCTION_LIST(_LE_INSTRUCTION_STRING_LIST)
+		"eInstructionCount_"
+	};
+
+#undef _LE_INSTRUCTION_STRING_LIST
+
+	if (instruction < 0 || instruction >= eInstructionCount_)
+	{
+		return NULL;
 	}
+
+	return strings[instruction];
 }
+
 
 CSokriptInstruction* CSokriptInstruction::return0Instruction()
 {
@@ -60,13 +57,17 @@ UInt32 CSokriptInstruction::selfLength() const
 	switch (mInstruction)
 	{
 		case eInstructionPushStr:
-		case eInstructionDeclareExternalSymbols:
-			result += dynamic_cast<CString*> (mObjArg1)->length() + 1;
+			result += mObjArg1.upcast<CString>()->length() + 1;
 			// No break here
 
 		case eInstructionPushExternal:
 		case eInstructionSetSymbolsCount:
 			result += sizeof(UInt32);
+			break;
+
+		case eInstructionDeclareExternalSymbol:
+		case eInstructionDeclareSymbol:
+			result += mObjArg1.upcast<CString>()->length() + 1;
 			break;
 
 		case eInstructionPushFunction:
@@ -112,12 +113,35 @@ static SInt32 findVarInArgs(std::list<CString>* args, const CString& var)
 	return 0;
 }
 
+template <class Table>
+SInt32 symbolFromSymbolTable(Table& table, const CString& symbol, bool externalLink)
+{
+	SInt32 i = 0;
+	for (typename Table::iterator it = table.begin(); it != table.end(); ++it)
+	{
+		if (it->first == symbol)
+		{
+			if (externalLink)
+			{
+				it->second = true;
+			}
+			return i;
+		}
+		++i;
+	}
+
+	table.push_back(typename Table::value_type(symbol, externalLink));
+	return i;
+}
+
 CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstruction::Ptr instruction, std::list<CString>* arguments)
 {
 	UInt32 symbolIndexCounter = 0;
 	std::map<CString, SInt32> varMap;
 
-	std::vector<CString> externalSymbols;
+	typedef std::vector<std::pair<CString, bool> > TExternalSymbols;
+
+	TExternalSymbols externalSymbols;
 
 	bool finalStage = !arguments;
 
@@ -132,7 +156,7 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 			{
 				case eInstructionPushVar:
 				{
-					CString* string = dynamic_cast<CString*> (i->mObjArg1);
+					CString::Ptr string = i->mObjArg1.upcast<CString>();
 					SInt32 argIndex = findVarInArgs(arguments, *string);
 
 					Bool symbolFound = true;
@@ -144,16 +168,7 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 						{
 							if (finalStage)
 							{
-								std::vector<CString>::iterator it = std::find(externalSymbols.begin(), externalSymbols.end(), *string);
-								if (it == externalSymbols.end())
-								{
-									argIndex = externalSymbols.size();
-									externalSymbols.push_back(*string);
-								}
-								else
-								{
-									argIndex = it - externalSymbols.begin();
-								}
+								argIndex = symbolFromSymbolTable(externalSymbols, *string, true);
 								i->mInstruction = eInstructionPushExternal;
 							}
 							else
@@ -171,7 +186,6 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 
 					if (symbolFound)
 					{
-						i->mObjArg1->release();
 						i->mSInt32Arg1 = argIndex;
 					}
 					else
@@ -183,7 +197,7 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 
 				case eInstructionAssign:
 				{
-					CString* string = dynamic_cast<CString*> (i->mObjArg1);
+					CString::Ptr string = i->mObjArg1.upcast<CString>();
 					SInt32 argIndex = findVarInArgs(arguments, *string);
 
 					if (argIndex == 0)
@@ -201,8 +215,15 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 					else
 						argIndex = -argIndex;
 
-					delete i->mObjArg1;
 					i->mSInt32Arg1 = argIndex;
+				}
+				break;
+
+				case eInstructionGetProperty:
+				case eInstructionSetProperty:
+				{
+					CString::Ptr string = i->mObjArg1.upcast<CString>();
+					i->mUInt32Arg1 = symbolFromSymbolTable(externalSymbols, *string, false);
 				}
 				break;
 
@@ -224,23 +245,13 @@ CSokriptInstruction::Ptr CSokriptInstruction::postProcessBytecode(CSokriptInstru
 		result->addInstruction(instruction);
 	}
 
-	if (!externalSymbols.empty())
+	for (TExternalSymbols::reverse_iterator it = externalSymbols.rbegin(); it != externalSymbols.rend(); ++it)
 	{
-		CString* symbols = new CString;
-		bool first = true;
-		for (std::vector<CString>::iterator it = externalSymbols.begin(); it != externalSymbols.end(); ++it)
+		CSokriptInstruction::Ptr newInstruction = new CSokriptInstruction(eInstructionDeclareExternalSymbol, new CString(it->first));
+		if (!it->second)
 		{
-			if (first)
-			{
-				first = false;
-			}
-			else
-			{
-				symbols->append('\n');
-			}
-			symbols->append(*it);
+			newInstruction->mInstruction = eInstructionDeclareSymbol;
 		}
-		CSokriptInstruction* newInstruction = new CSokriptInstruction(eInstructionDeclareExternalSymbols, symbols);
 		newInstruction->addInstruction(result);
 		result = newInstruction;
 	}
@@ -263,6 +274,8 @@ void CSokriptInstruction::dumpBytecodeToStream(const CSokriptInstruction* instru
 		{
 			case eInstructionPushExternal:
 			case eInstructionSetSymbolsCount:
+			case eInstructionSetProperty:
+			case eInstructionGetProperty:
 				{
 					UInt32 intValue = i->mUInt32Arg1;
 					stream.write((const char*)&intValue, sizeof(intValue));
@@ -295,19 +308,26 @@ void CSokriptInstruction::dumpBytecodeToStream(const CSokriptInstruction* instru
 				}
 				break;
 
-			case eInstructionDeclareExternalSymbols:
+			case eInstructionDeclareExternalSymbol:
+			case eInstructionDeclareSymbol:
+				{
+					CString::Ptr string = i->mObjArg1.upcast<CString>();
+					stream.write(string->UTF8String(), string->length() + 1);
+				}
+				break;
+
 			case eInstructionPushStr:
 				{
-					CString* string = dynamic_cast<CString*> (i->mObjArg1);
+					CString::Ptr string = i->mObjArg1.upcast<CString>();
 					UInt32 size = string->length() + 1;
 					stream.write((const char*)&size, sizeof(size));
-					stream.write(string->cString(), size);
+					stream.write(string->UTF8String(), size);
 				}
 				break;
 
 			case eInstructionPushFloat:
 				{
-					Float32 value = dynamic_cast<CNumber*>(i->mObjArg1)->valueAsFloat32();
+					Float32 value = i->mObjArg1.upcast<CNumber>()->valueAsFloat32();
 					stream.write((const char*)&value, sizeof(value));
 				}
 				break;
@@ -328,25 +348,28 @@ void CSokriptInstruction::show(std::ostream& s, int i) const
 {
 	if (mInstruction > eInstructionCount_)
 		s << i << ": INVALID(" << mInstruction << ");" << std::endl;
-	s << i << ": " << strings[mInstruction];
+	s << i << ": " << nameFromCode(mInstruction);
 
 	switch (mInstruction)
 	{
 		case eInstructionAssign:
 		case eInstructionPushVar:
+		case eInstructionSetProperty:
+		case eInstructionGetProperty:
 			if (mProcessed)
 				s << ": \"" << mSInt32Arg1 << "\"";
 			else
-				s << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
+				s << ": \"" << mObjArg1->description() << "\"";
 			break;
 
-		case eInstructionDeclareExternalSymbols:
+		case eInstructionDeclareExternalSymbol:
+		case eInstructionDeclareSymbol:
 		case eInstructionPushStr:
-			s << ": \"" << *(dynamic_cast<CString*> (mObjArg1)) << "\"";
+			s << ": \"" << mObjArg1->description() << "\"";
 			break;
 
 		case eInstructionPushFloat:
-			s << ": \"" << dynamic_cast<CNumber*> (mObjArg1)->valueAsFloat32() << "\"";
+			s << ": \"" << mObjArg1.upcast<CNumber>()->valueAsFloat32() << "\"";
 			break;
 
 		case eInstructionPushExternal:

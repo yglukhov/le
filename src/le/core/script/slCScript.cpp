@@ -21,7 +21,7 @@ CObject::Ptr CScript::runBytecode(const CData& data)
 
 CObject::Ptr CScript::runScript(const CString& script)
 {
-	CInputDataStream stream(script.cString(), script.length());
+	CInputDataStream stream(script.UTF8String(), script.length());
 	return runStream(stream);
 }
 
@@ -42,12 +42,10 @@ void CScript::addExternalObject(const CString& name, CObject::Ptr object)
 
 }
 
-
-void CScript::addExternalFunction(const CString& name, TScriptFunction function)
+void CScript::addExternalSelector(ISelector* selector)
 {
 
 }
-
 
 	} // namespace le
 } // namespace sokira

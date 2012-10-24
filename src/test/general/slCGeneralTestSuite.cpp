@@ -392,6 +392,18 @@ void CGeneralTestSuite::testStrings()
 	LE_ASSERT(str.subString(4, 2) == "Hi");
 	LE_ASSERT(str.subString(11, 2) == "Hi");
 	LE_ASSERT(str.subString(7, 0) == "Foo Hi");
+
+	str = CString(L"Wide string");
+	LE_ASSERT(str == "Wide string");
+
+	str = "Narrow";
+	str.append(L'W');
+	LE_ASSERT(str == "NarrowW");
+
+	str.clear();
+	str.append(L"Wide");
+	LE_ASSERT(str == "Wide");
+	LE_ASSERT(str == L"Wide");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -440,13 +452,19 @@ void CGeneralTestSuite::testUrls()
 	//LE_ASSERT(bundle.contentsUrl() == CURL("/Applications/iTunes.app/Contents"));
 }
 
+template <typename T>
+inline bool functionIsVoid(T func)
+{
+	return TSTypesEqual<typename TSFunctionTraits<T>::RetType, void>::value;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 ////////////////////////////////////////////////////////////////////////////////
 void CGeneralTestSuite::testFunctionTraits()
 {
-//	typedef Traits<MyTestFunc> TestFuncTraits;
-//	LE_ASSERT(TestFuncTraits::value);
+	LE_ASSERT(functionIsVoid(&CURL::removeLastPathComponent));
+	LE_ASSERT((TSTypesEqual<void, void>::value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

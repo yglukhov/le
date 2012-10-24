@@ -132,7 +132,7 @@ CNumber::CNumber(const CString& value) :
 	}
 	else
 	{
-		sscanf(value.cString(), "%f", &mData.valFloat32);
+		sscanf(value.UTF8String(), "%f", &mData.valFloat32);
 	}
 }
 
@@ -311,7 +311,7 @@ const CNumber& CNumber::operator=(const CString& value)
 {
 	// TODO: complete this
 	mFormat = eFormatFloat32;
-	sscanf(value.cString(), "%f", &mData.valFloat32);
+	sscanf(value.UTF8String(), "%f", &mData.valFloat32);
 	return *this;
 }
 

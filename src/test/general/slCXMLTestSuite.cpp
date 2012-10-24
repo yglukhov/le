@@ -17,27 +17,27 @@ LE_IMPLEMENT_RUNTIME_CLASS(CXMLTestSuite);
 
 static void onStartTag(CXMLParser*, CString tagName, CXMLParser::TArrtibutes attrs, CString* result)
 {
-	*result += CString::createWithFormat("<'%s'", tagName.cString());
+	*result += CString::createWithFormat("<'%s'", tagName.UTF8String());
 	for (CXMLParser::TArrtibutes::const_iterator it = attrs.begin(); it != attrs.end(); ++it)
 	{
-		*result += CString::createWithFormat(" '%s'='%s'", it->first.cString(), it->second.cString());
+		*result += CString::createWithFormat(" '%s'='%s'", it->first.UTF8String(), it->second.UTF8String());
 	}
 	*result += ">\n";
 }
 
 static void onEndTag(CXMLParser*, CString tagName, CString* result)
 {
-	*result += CString::createWithFormat("</%s>\n", tagName.cString());
+	*result += CString::createWithFormat("</%s>\n", tagName.UTF8String());
 }
 
 static void onData(CXMLParser* parser, CString data, CString* result)
 {
-	*result += CString::createWithFormat("DATA[%s]\n", data.cString());
+	*result += CString::createWithFormat("DATA[%s]\n", data.UTF8String());
 }
 
 static void onError(CXMLParser* parser, CString error, CString* result)
 {
-	*result += CString::createWithFormat("ERROR[%s] LINE: %d COLUMN: %d\n", error.cString(), parser->line(), parser->column());
+	*result += CString::createWithFormat("ERROR[%s] LINE: %d COLUMN: %d\n", error.UTF8String(), parser->line(), parser->column());
 }
 
 void CXMLTestSuite::testXMLParser()
@@ -47,7 +47,7 @@ void CXMLTestSuite::testXMLParser()
 		"	<subtag1></subtag1>"
 		"</tag1><tag2 ghj=\"jhg\"/>\n");
 
-	CInputDataStream stream(string.cString(), string.length());
+	CInputDataStream stream(string.UTF8String(), string.length());
 
 	CString expectedResult = LESTR(
 		"<'tag1' 'attr'='sdfg ljkh' 'attr2'='jhg'>\n"
@@ -88,7 +88,7 @@ void CXMLTestSuite::testXMLDocument()
 		"	<someOtherEmptyTag emptyAttr1 attr=\"asdf\" emptyAttr2/>\n"
 		"</someTag>");
 
-	CInputDataStream inputStream(string.cString(), string.length());
+	CInputDataStream inputStream(string.UTF8String(), string.length());
 	CXMLDocument document(inputStream);
 
 	CXMLNode* rootNode = document.rootNode();
@@ -164,7 +164,7 @@ void CXMLTestSuite::testPlistParsing()
 		"</dict>"
 		"</plist>");
 
-	CInputDataStream inputStream(string.cString(), string.length());
+	CInputDataStream inputStream(string.UTF8String(), string.length());
 
 	CDictionary newDict = CDictionary::createFromStream(inputStream);
 	CString expectedResult = LESTR(

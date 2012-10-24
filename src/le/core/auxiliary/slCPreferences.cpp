@@ -30,7 +30,7 @@ const NChar* CPreferences::filePath() const
 {
 	CURL url = CWorkspace().userPreferencesURL();
 	url.appendPathComponent(mDomain);
-	return url.path().cString();
+	return url.path().UTF8String();
 }
 
 	} // namespace le

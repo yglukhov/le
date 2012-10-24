@@ -16,7 +16,7 @@ CFile* CFile::createWithPath(const CString& filePath, unsigned openFlags)
 	CFile* result = new CFile();
 	if(result)
 	{
-		if(result->open(filePath.cString(), openFlags) == eStatusOK)
+		if(result->open(filePath.UTF8String(), openFlags) == eStatusOK)
 		{
 			return result;
 		}
@@ -36,11 +36,11 @@ EStatus CFile::open(const CString& filePath, unsigned openFlags)
 								((openFlags & eOpenTruncate)?(std::ios::trunc):((std::ios::openmode)0)) |
 								((openFlags & eOpenAppend)?(std::ios::app):((std::ios::openmode)0));
 
-		std::fstream::open(filePath.cString(), mode);
+		std::fstream::open(filePath.UTF8String(), mode);
 	}
 	else
 	{
-		std::fstream::open(filePath.cString());
+		std::fstream::open(filePath.UTF8String());
 	}
 
 	return (is_open())?(eStatusOK):(eStatusOpenFailed);

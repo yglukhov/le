@@ -54,7 +54,7 @@ Bool CImage::loadFromURL(const CURL& url)
 		mImpl = NULL;
 	}
 
-	FILE* file = fopen(url.path().cString(), "rb");
+	FILE* file = fopen(url.path().UTF8String(), "rb");
 	if (file)
 	{
 		UInt16 fileSignature;
@@ -68,9 +68,12 @@ Bool CImage::loadFromURL(const CURL& url)
 
 		mImpl = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CImageImpl::staticClass(), parameters).create<CImageImpl>().retain();
 
+		LE_ASSERT(mImpl);
+
 		if (mImpl)
 		{
 			mImpl->loadFromFile(file);
+			LE_ASSERT(mImpl->frameCount());
 		}
 
 		fclose(file);
@@ -92,48 +95,6 @@ void CImage::insertFrame(UInt32 position, const CImageFrame& frame)
 {
 	if (mImpl) mImpl->insertFrame(position, frame);
 }
-
-
-//UInt32 CImage::frameCount() const
-//{
-//	return (mImpl)?(mImpl->frameCount()):(0);
-//}
-//
-//CImageFrame frameAtIndex(UInt32 frame) const
-//{
-//	return (mImpl)?(mImpl->frameAtIndex(
-//}
-//
-//UInt32 CImage::currentFrame() const
-//{
-//	return (mImpl)?(mImpl->currentFrame()):(0);
-//}
-//
-//void CImage::setCurrentFrame(UInt32 frame)
-//{
-//	if (mImpl) mImpl->setCurrentFrame(frame);
-//}
-//
-//EPixelFormat CImage::pixelFormat() const
-//{
-//	return (mImpl)?(mImpl->pixelFormat()):(ePixelFormatRGB);
-//}
-//
-//const UInt8* CImage::pixelData() const
-//{
-//	return (mImpl)?(mImpl->pixelData()):(NULL);
-//}
-//
-//CSize2D CImage::size() const
-//{
-//	return (mImpl)?(mImpl->size()):(CSize2D());
-//}
-//
-//UInt32 CImage::duration()
-//{
-//	return (mImpl)?(mImpl->duration()):(0);
-//}
-//
 
 const CImage& CImage::operator = (const CImage& copy)
 {

@@ -9,6 +9,8 @@ namespace sokira
 
 //#define LE_LOG_INSTRUCTIONS
 
+LE_IMPLEMENT_RUNTIME_CLASS(CExternalFunction);
+
 CSokriptVM::CSokriptVM()
 {
 	reset();
@@ -133,7 +135,19 @@ static Bool booleanFromObject(CObject::Ptr obj)
 
 
 #ifdef LE_LOG_INSTRUCTIONS
-#define LOG_INSTRUCTION(x) std::cout << "INSTRUCTION: "; (x); std::cout << std::endl;
+#define LOG_INSTRUCTION(x) std::cout << ": "; (x);
+
+static inline std::ostream& operator << (std::ostream& o, EInstruction i)
+{
+	const char* name = CSokriptInstruction::nameFromCode(i);
+	if (name)
+	{
+		return o << name;
+	}
+
+	return o << "Invalid instruction: " << (SInt32)i;
+}
+
 #else
 #define LOG_INSTRUCTION(x)
 #endif
@@ -157,84 +171,77 @@ void dumpVarStack(SokriptVMStack<CObject::Ptr>* stack)
 
 LE_INSTRUCTION_HANDLER(eInstructionSetSymbolsCount)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionSetSymbolsCount: " << *(UInt32*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << *(UInt32*)(mCode + 1));
 	mVarStack.increase(*(UInt32*)(mCode + 1));
 	mCode += sizeof(UInt32);
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionPushVar)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushVar: " << *(SInt32*)(mCode + 1) << ", stackLine: " << mCurrentStackLine);
+	LOG_INSTRUCTION(std::cout << *(SInt32*)(mCode + 1) << ", stackLine: " << mCurrentStackLine);
 	mVarStack.push(mVarStack.objectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1)));
 	mCode += sizeof(SInt32);
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionPushStr)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushStr");
 	mVarStack.push(new CString((char*)(mCode + sizeof(UInt32) + 1)));
 	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
 }
 
-LE_INSTRUCTION_HANDLER(eInstructionDeclareExternalSymbols)
+LE_INSTRUCTION_HANDLER(eInstructionDeclareExternalSymbol)
 {
-	CString symbols = CBasicString::__CStringWithLiteral((char*)(mCode + sizeof(UInt32) + 1));
-	LOG_INSTRUCTION(std::cout << "eInstructionDeclareExternalSymbols: " << symbols);
-
-	UInt32 startPos = 0;
-	SInt32 pos = 0;
-	Bool undefined = false;
-
-	while (pos != -1)
+	CString symbol((char*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << symbol);
+	std::map<CString, CObject::Ptr>::const_iterator it = mAllExternalObjects->find(symbol);
+	if (it == mAllExternalObjects->end())
 	{
-		pos = symbols.find('\n', startPos);
-		SInt32 endPos = pos;
-		if (endPos == -1)
-		{
-			endPos = symbols.length();
-		}
-
-		CString symbol = symbols.subString(startPos, endPos - startPos);
-
-		std::map<CString, CObject::Ptr>::const_iterator it = mAllExternalObjects->find(symbol);
-		if (it == mAllExternalObjects->end())
-		{
-			std::cout << "Undefined external symbol: " << symbol << std::endl;
-			undefined = true;
-		}
-
-		mExternalObjects.push_back(it->second);
-		startPos = endPos + 1;
+		std::cout << "Undefined external symbol: " << symbol << std::endl;
 	}
-
-	LE_ASSERT(!undefined);
-
-	mCode += *((UInt32*)(mCode + 1)) + sizeof(UInt32);
+	else
+	{
+		mExternalObjects.insert(std::make_pair(mSymbols.size(), it->second));
+	}
+	mSymbols.push_back(symbol);
+	mCode += symbol.length() + 1;
 }
 
+LE_INSTRUCTION_HANDLER(eInstructionDeclareSymbol)
+{
+	CString symbol((char*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << symbol);
+	mSymbols.push_back(symbol);
+	mCode += symbol.length() + 1;
+}
+		
 LE_INSTRUCTION_HANDLER(eInstructionPushInt)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushInt");
 	mVarStack.push(new CNumber(*((UInt32*)(mCode + 1))));
 	mCode += sizeof(UInt32);
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionPushFloat)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionPushFloat: " << *((Float32*)(mCode + 1)));
+	LOG_INSTRUCTION(std::cout << *((Float32*)(mCode + 1)));
 	mVarStack.push(new CNumber(*((Float32*)(mCode + 1))));
 	mCode += sizeof(Float32);
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionDiscard)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionDiscard");
 	mVarStack.pop();
 }
 
+LE_INSTRUCTION_HANDLER(eInstructionDuplicate)
+{
+	CObject::Ptr lastObject = mVarStack.pop();
+	mVarStack.push(lastObject);
+	mVarStack.push(lastObject);
+}
+		
 LE_INSTRUCTION_HANDLER(eInstructionAssign)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionAssign");
+	LOG_INSTRUCTION(std::cout << *(SInt32*)(mCode + 1));
 	mVarStack.setObjectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1), mVarStack.pop());
 	mVarStack.push(mVarStack.objectAtIndex(mCurrentStackLine + *(SInt32*)(mCode + 1)));
 	mCode += sizeof(SInt32);
@@ -242,7 +249,6 @@ LE_INSTRUCTION_HANDLER(eInstructionAssign)
 
 LE_INSTRUCTION_HANDLER(eInstructionAdd)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionAdd");
 	CObject::Ptr right = mVarStack.pop();
 	CObject::Ptr left = mVarStack.pop();
 	mVarStack.push(addObjects(left, right));
@@ -250,81 +256,70 @@ LE_INSTRUCTION_HANDLER(eInstructionAdd)
 
 LE_INSTRUCTION_HANDLER(eInstructionSubstract)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionSubstract");
 	arithmeticOperation<std::minus>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionMultiply)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionMultiply");
 	arithmeticOperation<std::multiplies>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionDivide)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionDivide");
 	arithmeticOperation<std::divides>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNegate)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionNegate");
 	mVarStack.push(negateObject(mVarStack.pop()));
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionEqual)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionEqual");
 	operateObjects<std::equal_to>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNotEqual)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionNotEqual");
 	operateObjects<std::not_equal_to>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionGreaterThan)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionGreaterThan");
 	operateObjects<std::greater>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionGreaterEqual)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionGreaterEqual");
 	operateObjects<std::greater_equal>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionLessThan)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionLessThan");
 	operateObjects<std::less>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionLessEqual)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionLessEqual");
 	operateObjects<std::less_equal>();
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionNot)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionNot");
 	mVarStack.push(new CNumber(!booleanFromObject(mVarStack.pop())));
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionJumpIfTrue)
 {
 	SInt32 offset = *(SInt32*)(mCode + 1);
-	LOG_INSTRUCTION(std::cout << "eInstructionJumpIfTrue : " << offset);
+	LOG_INSTRUCTION(std::cout << offset);
 	mCode += sizeof(SInt32);
 	if (booleanFromObject(mVarStack.pop())) { mCode += offset; }
 }
 
 LE_INSTRUCTION_HANDLER(eInstructionJump)
 {
-	LOG_INSTRUCTION(std::cout << "eInstructionJump : " << (*(SInt32*)(mCode + 1)));
+	LOG_INSTRUCTION(std::cout << (*(SInt32*)(mCode + 1)));
 	if ((*(SInt32*)(mCode + 1)) > 0)
 		mCode += (*(SInt32*)(mCode + 1)) + sizeof(SInt32);
 	else
@@ -384,7 +379,7 @@ LE_INSTRUCTION_HANDLER(eInstructionPushFunction)
 	mCode += sizeof(UInt32);
 	UInt16 argsCount = *((UInt16*)(mCode + 1));
 	mCode += sizeof(UInt16);
-	LOG_INSTRUCTION(std::cout << "eInstructionPushFunction, length: " << length << ", argsCount: " << argsCount);
+	LOG_INSTRUCTION(std::cout << "length: " << length << ", argsCount: " << argsCount);
 
 	mVarStack.push(new CInternalFunction(this, mCode + 1, argsCount));
 	mCode += length;
@@ -393,7 +388,7 @@ LE_INSTRUCTION_HANDLER(eInstructionPushFunction)
 LE_INSTRUCTION_HANDLER(eInstructionCall)
 {
 	UInt16 argsCount = *((UInt16*)(mCode + 1));
-	LOG_INSTRUCTION(std::cout << "eInstructionCall: " << argsCount);
+	LOG_INSTRUCTION(std::cout << argsCount);
 	UInt32 varStackPosition = mVarStack.position();
 	CObject* func = mVarStack.objectAtIndex(varStackPosition - argsCount - 1);
 	CInternalFunction* internalFunc = dynamic_cast<CInternalFunction*>(func);
@@ -404,16 +399,22 @@ LE_INSTRUCTION_HANDLER(eInstructionCall)
 	}
 	else
 	{
+		std::vector<CBasicReferenceAny> arguments;
+		arguments.reserve(argsCount);
+		for (UInt32 i = varStackPosition - argsCount; i < varStackPosition; ++i)
+		{
+			arguments.push_back(mVarStack.objectAtIndex(i));
+		}
+
 		CString selectorName = LESTR("__func__");
 		if (func->respondsToSelector(selectorName))
 		{
-			std::vector<CBasicReferenceAny> arguments;
-			arguments.reserve(argsCount);
-			for (UInt32 i = varStackPosition - argsCount; i < varStackPosition; ++i)
+			CSelectorInvocation invocation = func->selector(selectorName);
+			CBasicAny any = invocation(arguments);
+			if (!invocation.isVoid())
 			{
-				arguments.push_back(mVarStack.objectAtIndex(i));
+				result = any.value<CObject::Ptr>();
 			}
-			result = func->selector(selectorName)(arguments).value<CObject::Ptr>();
 		}
 		else
 		{
@@ -431,8 +432,52 @@ LE_INSTRUCTION_HANDLER(eInstructionCall)
 LE_INSTRUCTION_HANDLER(eInstructionPushExternal)
 {
 	UInt32 index = *(UInt32*)(mCode + 1);
-	LOG_INSTRUCTION(std::cout << "eInstructionPushExternal: " << index);
+	LOG_INSTRUCTION(std::cout << index);
 	mVarStack.push(mExternalObjects.at(index));
+	mCode += sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionGetProperty)
+{
+	CString propertyName = mSymbols.at(*(UInt32*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << propertyName);
+	CObject::Ptr thisObject = mVarStack.pop();
+	if (thisObject->respondsToSelector(propertyName))
+	{
+		mVarStack.push(new CExternalFunction(thisObject, thisObject->objectClass().selectorWithName(propertyName)));
+	}
+	else
+	{
+		CString selectorName = LESTR("valueForKey");
+		if (thisObject->respondsToSelector(selectorName))
+		{
+			mVarStack.push(thisObject->selector(selectorName)(propertyName, CObject::Ptr()).value<CObject::Ptr>());
+		}
+		else
+		{
+			mVarStack.push(NULL);
+			std::cout << "Object does not respond to selector " << propertyName << ": " << thisObject->description() << std::endl;
+		}
+	}
+	mCode += sizeof(UInt32);
+}
+
+LE_INSTRUCTION_HANDLER(eInstructionSetProperty)
+{
+	CString propertyName = mSymbols.at(*(UInt32*)(mCode + 1));
+	LOG_INSTRUCTION(std::cout << propertyName);
+	CObject::Ptr value = mVarStack.pop();
+	CObject::Ptr thisObject = mVarStack.pop();
+	CString selectorName = LESTR("setValueForKey");
+	if (thisObject->respondsToSelector(selectorName))
+	{
+		thisObject->selector(selectorName)(propertyName, value);
+	}
+	else
+	{
+		std::cout << "Object does not respond to selector " << selectorName << ": " << thisObject->description() << std::endl;
+	}
+	mVarStack.push(value);
 	mCode += sizeof(UInt32);
 }
 
@@ -458,6 +503,9 @@ CObject::Ptr CSokriptVM::performByteCode(const UInt8* startPos)
 
 	while (*mCode != eInstructionReturn)
 	{
+#ifdef LE_LOG_INSTRUCTIONS
+		std::cout << "INSTRUCTION: " << (EInstruction)*mCode;
+#endif
 		switch (*mCode)
 		{
 
@@ -465,12 +513,11 @@ CObject::Ptr CSokriptVM::performByteCode(const UInt8* startPos)
 _LE_FOR_INSTRUCTION_LIST(LE_HANDLE_INSTRUCTION)
 
 			default:
-				LOG_INSTRUCTION(std::cout << "Invalid instruction: " << (int) *mCode);
 				LE_ASSERT_MESSAGE(false, "Invalid instruction!");
 		}
 
 #ifdef LE_LOG_INSTRUCTIONS
-		std::cout << std::endl;
+		std::cout << std::endl << std::endl;
 		dumpVarStack(&mVarStack);
 #endif
 		++mCode;

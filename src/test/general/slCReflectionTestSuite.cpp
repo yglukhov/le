@@ -126,6 +126,9 @@ void CReflectionTestSuite::testSelectors()
 		std::cout << "parent: " << it->name() << std::endl;
 	}
 
+	LE_ASSERT(testObj.selector("voidTestFunc").isVoid());
+	LE_ASSERT(!testObj.selector("testFunc").isVoid());
+	
 	LE_ASSERT(testObj.respondsToSelector("testFunc"));
 	LE_ASSERT(testObj.respondsToSelector("voidTestFunc"));
 	LE_ASSERT(testObj.respondsToSelector("testFunc2"));

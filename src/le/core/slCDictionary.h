@@ -16,7 +16,12 @@ class CURL;
 
 class CDictionary : public CObject
 {
-	LE_DECLARE_RUNTIME_CLASS(CDictionary);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CDictionary)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+		LE_RTTI_SELECTOR_WITH_NAME(valueAsObjectForKey, valueForKey)
+		LE_RTTI_SELECTOR_WITH_TYPE(setValueForKey, void, (const CString&, const CObject::Ptr))
+	LE_RTTI_END
 
 	public:
 		CDictionary(const CString& rootKey = LESTR("dict"));

@@ -43,6 +43,11 @@ class CSelectorInvocation :
 
 		CBasicAny operator()(const std::vector<CBasicReferenceAny>& arguments);
 
+		bool isVoid() const
+		{
+			return mSelector->isVoid();
+		}
+
 	private:
 		CObject* mObject;
 		ISelector* mSelector;
@@ -67,7 +72,7 @@ class CObject : public CSimpleRefCountable
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
 
-		CSelectorInvocation selector(const CString& name);
+		virtual CSelectorInvocation selector(const CString& name);
 		Bool respondsToSelector(const CString& name) const;
 //		CAny performSelector(const CString& name, TCArray<CAny>& arguments);
 //		CAny performConstSelector(const CString& name, TCArray<CAny>& arguments) const;

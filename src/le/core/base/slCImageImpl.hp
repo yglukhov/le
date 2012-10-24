@@ -35,7 +35,7 @@ class CImageImpl : public CObject
 
 		virtual void loadFromFile(FILE* file)
 		{
-			
+			LE_ASSERT(false);
 		}
 
 	private:

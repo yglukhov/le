@@ -25,10 +25,10 @@ Bool CFileManager::fileExists(const CURL& url) const
 {
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
 	struct stat buf;
-	return !lstat(url.path().cString(), &buf);
+	return !lstat(url.path().UTF8String(), &buf);
 #else
 	struct _stat buf;
-	return !_stat(url.path().cString(), &buf);
+	return !_stat(url.path().UTF8String(), &buf);
 #endif
 }
 
@@ -36,7 +36,7 @@ Bool CFileManager::fileExists(const CURL& url, Bool* isDirectory) const
 {
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
 	struct stat buf;
-	if (lstat(url.path().cString(), &buf))
+	if (lstat(url.path().UTF8String(), &buf))
 	{
 		return false;
 	}
@@ -45,7 +45,7 @@ Bool CFileManager::fileExists(const CURL& url, Bool* isDirectory) const
 
 #else
 	struct _stat buf;
-	if (_stat(url.path().cString(), &buf))
+	if (_stat(url.path().UTF8String(), &buf))
 	{
 		return false;
 	}
@@ -70,9 +70,9 @@ Bool CFileManager::createDirectoryAtURL(const CURL& url, Bool createIntermediate
 	}
 
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_UNIX
-	return !mkdir(url.path().cString(), 0777);
+	return !mkdir(url.path().UTF8String(), 0777);
 #else
-	return !_mkdir(url.path().cString());
+	return !_mkdir(url.path().UTF8String());
 #endif
 }
 
@@ -88,7 +88,7 @@ Bool CFileManager::copyItem(const CURL& fromURL, const CURL& toURL) const
 
 Bool CFileManager::removeItem(const CURL& url) const
 {
-	return !remove(url.path().cString());
+	return !remove(url.path().UTF8String());
 }
 
 	} // namespace le

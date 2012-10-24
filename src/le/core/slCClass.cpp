@@ -85,5 +85,26 @@ std::set<ISelector*> CClass::ownSelectors() const
 	return mImpl->mSelectors;
 }
 
+Bool CClass::instanceRespondsToSelector(const CBasicString& name) const
+{
+	return !!selectorWithName(name);
+}
+
+ISelector* CClass::selectorWithName(const CBasicString& name) const
+{
+	std::set<ISelector*> allSelectors = selectors();
+
+	for (std::set<ISelector*>::iterator it = allSelectors.begin(); it != allSelectors.end(); ++it)
+	{
+		if (name == (*it)->name())
+		{
+			return *it;
+		}
+	}
+
+	return NULL;
+}
+
+
 	} // namespace le
 } // namespace sokira

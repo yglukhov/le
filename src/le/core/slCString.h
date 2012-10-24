@@ -22,12 +22,15 @@ class CString : public CObject, public CBasicString
 		inline CString(const CBasicString& copy) : CBasicString(copy) {}
 		inline CString(const CString& copy) : CBasicString(copy) {}
 		inline CString(const NChar* cString) : CBasicString(cString) {}
-		inline CString(const NChar* cString, EStringEncoding encoding) :
-			CBasicString(cString, encoding) {}
-		inline CString(const WChar* uniString, UInt32 length, EStringEncoding encoding) :
-			CBasicString(uniString, length, encoding) {}
+		inline CString(const WChar* wString) : CBasicString(wString) {}
+		inline CString(const void* data, UInt32 length, EStringEncoding encoding) :
+			CBasicString(data, length, encoding) {}
 
 		const CString& operator = (NChar character) { CBasicString::operator = (character); return *this; }
+		const CString& operator = (WChar character) { CBasicString::operator = (character); return *this; }
+		const CString& operator = (const NChar* string) { CBasicString::operator = (string); return *this; }
+		const CString& operator = (const WChar* string) { CBasicString::operator = (string); return *this; }
+		const CString& operator = (const CBasicString& string) { CBasicString::operator = (string); return *this; }
 
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
