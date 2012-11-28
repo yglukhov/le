@@ -24,18 +24,9 @@ class CDictionary : public CObject
 	LE_RTTI_END
 
 	public:
-		CDictionary(const CString& rootKey = LESTR("dict"));
+		//CDictionary(const CString& rootKey = LESTR("dict"));
 		static CDictionary createFromStream(std::istream& stream);
 		static CDictionary createWithContentsOfURL(const CURL& url);
-
-		////////////////////////////////////////////////////////////////////////
-		// Root modifiers
-		////////////////////////////////////////////////////////////////////////
-		void setRootKey(const CString& key);
-		CString rootKey() const;
-
-		void setRootValue(const CString& value);
-		CString rootValue() const;
 
 		////////////////////////////////////////////////////////////////////////
 		// Value accessors
@@ -86,8 +77,15 @@ class CDictionary : public CObject
 		////////////////////////////////////////////////////////////////////////
 		// Value setters
 		////////////////////////////////////////////////////////////////////////
-		void setValueForKey(const CString& key, const CObject& value); // serialize
 		void setValueForKey(const CString& key, const CObject::Ptr value);	// Stores the mutable reference
+		inline void setValueForKey(const CString& key, const CObject* value)
+		{
+			value->retain();
+			setValueForKey(key, CObject::Ptr(const_cast<CObject*>(value)));
+		}
+
+		inline void setValueForKey(const CString& key, const CString& value)
+			{ setValueForKey(key, new CString(value)); }
 
 		void setValueForKey(const CString& key, UInt8 value);
 		void setValueForKey(const CString& key, UInt16 value);
@@ -114,15 +112,7 @@ class CDictionary : public CObject
 		UInt32 valueCount() const;
 		void append(const CDictionary& dictionary, bool overwriteExistingValues = true);
 
-		////////////////////////////////////////////////////////////////////////
-		// Attribute management
-		////////////////////////////////////////////////////////////////////////
-		CString attributeForKey(const CString& key) const;
-		void setAttributeForKey(const CString& key, const CString& attribute);
-		bool attributeExists(const CString& key) const;
-		UInt32 attributeCount() const;
-		void deleteAttribute(const CString& key);
-		void deleteAllAttributes();
+	public:
 
 		///////////////////////////////////////////////////////////////////////
 		// Operators
@@ -139,7 +129,14 @@ class CDictionary : public CObject
 		virtual void serialize(CDictionary& toDictionary) const;
 		virtual void deserialize(const CDictionary& fromDictionary);
 
+		virtual CString description() const
+		{
+			return toString();
+		}
+
 	private:
+		void dumpContents(std::ostream& stream) const;
+
 		CObject::Ptr _valueForKey(const CString& key, CObject::Ptr defaultValue) const;
 		CString _valueForKey(const CString& key, const CString& defaultValue) const;
 		CNumber _valueForKey(const CString& key, const CNumber& defaultValue) const;
@@ -157,10 +154,7 @@ class CDictionary : public CObject
 		Float64 _valueForKey(const CString& key, Float64 defaultValue) const;
 		Bool _valueForKey(const CString& key, Bool defaultValue) const;
 
-		CString mRootKey;
-		mutable CString mRootValue;
-		std::map<CString, CDictionary> mData;
-		std::map<CString, CString> mAttributes;
+		std::map<CString, CObject::Ptr> mData;
 };
 
 

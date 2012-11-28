@@ -54,13 +54,19 @@ void CXMLDictionaryParser::onStartTag(CXMLParser*, CString name, CXMLParser::TAr
 		mIsPlist = true;
 		return;
 	}
+	
+	mIsPlist = true;
 
 	if (mIsPlist)
 	{
 		mLastTag = name;
 		if (name == cDict)
 		{
-			CDictionary* newDict = new CDictionary(mKey);
+			CDictionary* newDict = new CDictionary();
+			if (!mDictStack.empty())
+			{
+				mDictStack.back()->setValueForKey(mKey, newDict);
+			}
 			mDictStack.push_back(newDict);
 		}
 		else if (name == "true")
@@ -74,9 +80,9 @@ void CXMLDictionaryParser::onStartTag(CXMLParser*, CString name, CXMLParser::TAr
 	}
 	else
 	{
-		CDictionary* newDict = new CDictionary(name);
-		for (CXMLParser::TArrtibutes::iterator it = attributes.begin(); it != attributes.end(); ++it)
-			newDict->setAttributeForKey(it->first, it->second);
+		CDictionary* newDict = new CDictionary();
+//		for (CXMLParser::TArrtibutes::iterator it = attributes.begin(); it != attributes.end(); ++it)
+//			newDict->setAttributeForKey(it->first, it->second);
 
 		mDictStack.push_back(newDict);
 	}
@@ -93,11 +99,6 @@ void CXMLDictionaryParser::onEndTag(CXMLParser*, CString name)
 		{
 			mDictStack.push_back(dict);
 		}
-		else
-		{
-			mDictStack.back()->setValueForKey(dict->rootKey(), *dict);
-			delete dict;
-		}
 	}
 }
 
@@ -109,14 +110,14 @@ void CXMLDictionaryParser::onData(CXMLParser* parser, CString data)
 		{
 			mKey = data;
 		}
-		else if (mLastTag == "string" || mLastTag == "real" || mLastTag == "integer")
+		else if (mLastTag == "string")
 		{
 			mDictStack.back()->setValueForKey(mKey, data);
 		}
-	}
-	else
-	{
-		mDictStack.back()->setRootValue(data);
+		else if (mLastTag == "real" || mLastTag == "integer")
+		{
+			mDictStack.back()->setValueForKey(mKey, new CNumber(data));
+		}
 	}
 }
 

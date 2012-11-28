@@ -973,21 +973,5 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CString);
 
-CString::CString(const CDictionary& fromDictionary) :
-	CBasicString(fromDictionary.rootValue())
-{
-
-}
-
-void CString::serialize(CDictionary& toDictionary) const
-{
-	toDictionary.setRootValue(*this);
-}
-
-void CString::deserialize(const CDictionary& fromDictionary)
-{
-	CString::operator=(fromDictionary.rootValue());
-}
-
 	} // namespace le
 } // namespace sokira

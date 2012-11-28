@@ -141,7 +141,7 @@ class CClass
 		CClass() {}
 	public:
 		CBasicString name() const;
-		bool operator == (const CClass rhs);
+		bool operator == (const CClass rhs) const;
 		template <class TCastTo>
 		TCPointer<TCastTo> create() const;
 
@@ -156,7 +156,12 @@ class CClass
 		{
 			return isChildOfStdClass(otherClass.stdType());
 		}
-	
+
+		inline bool isKindOfClass(const CClass& otherClass) const
+		{
+			return *this == otherClass || isChildOfStdClass(otherClass.stdType());
+		}
+
 		bool instanceRespondsToSelector(const CBasicString& name) const;
 
 	// Private:

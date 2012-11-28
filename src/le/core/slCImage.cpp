@@ -64,7 +64,7 @@ Bool CImage::loadFromURL(const CURL& url)
 		CDictionary parameters;
 		parameters.setValueForKey(LESTR("fileSignature"), fileSignature);
 		parameters.setValueForKey(LESTR("fileExtension"), url.extension());
-		parameters.setValueForKey(LESTR("fileURL"), url);
+		parameters.setValueForKey(LESTR("fileURL"), new CURL(url));
 
 		mImpl = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CImageImpl::staticClass(), parameters).create<CImageImpl>().retain();
 

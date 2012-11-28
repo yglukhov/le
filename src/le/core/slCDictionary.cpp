@@ -1,7 +1,9 @@
 #include <fstream>
+#include <strstream>
 #include "slCDictionary.h"
 #include "slCURL.h"
 #include "slCClassFactory.h"
+#include "slCDataStream.h"
 #include "base/slCXMLDictionaryParser.hp"
 
 namespace sokira
@@ -13,7 +15,7 @@ LE_IMPLEMENT_RUNTIME_CLASS(CDictionary);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Typedefs
-typedef std::map<CString, CDictionary> CDictMap;
+typedef std::map<CString, CObject::Ptr> CDictMap;
 typedef CDictMap::iterator CDictIterator;
 typedef CDictMap::const_iterator CDictConstIterator;
 
@@ -21,12 +23,6 @@ typedef CDictMap::const_iterator CDictConstIterator;
 // Constants
 
 #define cTypeAttributeKey LESTR("type")
-
-CDictionary::CDictionary(const CString& rootKey) :
-	mRootKey(rootKey)
-{
-
-}
 
 CDictionary CDictionary::createFromStream(std::istream& stream)
 {
@@ -63,7 +59,6 @@ void CDictionary::deleteValue(const CString& key)
 void CDictionary::clear()
 {
 	mData.clear();
-	mRootValue.clear();
 }
 
 bool CDictionary::isEmpty() const
@@ -78,55 +73,17 @@ UInt32 CDictionary::valueCount() const
 
 void CDictionary::append(const CDictionary& dictionary, bool overwriteExistingValues)
 {
-	if (dictionary.mData.empty() && !dictionary.mRootValue.isEmpty())
+	for (CDictConstIterator it = dictionary.mData.begin(); it != dictionary.mData.end(); ++it)
 	{
-		setRootValue(dictionary.mRootValue);
-	}
-	else
-	{
-		for (CDictConstIterator it = dictionary.mData.begin(); it != dictionary.mData.end(); ++it)
+		if (overwriteExistingValues)
 		{
-			if (overwriteExistingValues || !valueExists(it->first))
-			{
-				mData[it->first] = it->second;
-			}
+			mData[it->first] = it->second;
+		}
+		else
+		{
+			mData.insert(*it);
 		}
 	}
-}
-
-////////////////////////////////////////////////////////////////////////
-// Root modifiers
-////////////////////////////////////////////////////////////////////////
-void CDictionary::setRootKey(const CString& key)
-{
-	mRootKey = key;
-}
-
-CString CDictionary::rootKey() const
-{
-	return mRootKey;
-}
-
-void CDictionary::setRootValue(const CString& value)
-{
-	mData.clear();
-	// Try to parse value and split it to key-value structure.
-	mRootValue = value;
-}
-
-CString CDictionary::rootValue() const
-{
-	if (!mRootValue.isEmpty())
-	{
-		return mRootValue;
-	}
-
-	for (CDictConstIterator it = mData.begin(); it != mData.end(); ++it)
-	{
-		mRootValue += it->second.toString();
-	}
-
-	return mRootValue;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,28 +92,30 @@ CString CDictionary::rootValue() const
 CObject::Ptr CDictionary::_valueForKey(const CString& key, CObject::Ptr defaultValue) const
 {
 	CDictConstIterator it = mData.find(key);
-	if (it != mData.end())
-	{
-		CObject::Ptr newObj = CClassFactory::defaultInstance()->create<CObject>(it->second.attributeForKey(cTypeAttributeKey));
-		if (newObj)
-		{
-			newObj->deserialize(it->second);
-		}
-		return newObj;
-	}
-	return defaultValue;
+	return it == mData.end() ? defaultValue : it->second;
 }
 
 CString CDictionary::_valueForKey(const CString& key, const CString& defaultValue) const
 {
-	CDictConstIterator it = mData.find(key);
-	return (it == mData.end())? defaultValue : CString(it->second);
+	CObject::Ptr theObj = valueAsObjectForKey(key);
+	CString* result = dynamic_cast<CString*>(theObj.get());
+	return result ? *result : defaultValue;
 }
 
 CNumber CDictionary::_valueForKey(const CString& key, const CNumber& defaultValue) const
 {
-	CDictConstIterator it = mData.find(key);
-	return (it == mData.end())? defaultValue : CNumber(it->second);
+	CObject::Ptr theObj = valueAsObjectForKey(key);
+	CNumber* result = dynamic_cast<CNumber*>(theObj.get());
+	if (!result)
+	{
+		CString* string = dynamic_cast<CString*>(theObj.get());
+		if (string)
+		{
+			return CNumber(*string);
+		}
+		return defaultValue;
+	}
+	return *result;
 }
 
 CTime CDictionary::_valueForKey(const CString& key, const CTime& defaultValue) const
@@ -231,109 +190,64 @@ Bool CDictionary::_valueForKey(const CString& key, Bool defaultValue) const
 ////////////////////////////////////////////////////////////////////////////////
 // Value setters
 ////////////////////////////////////////////////////////////////////////////////
-void CDictionary::setValueForKey(const CString& key, const CObject& value)
-{
-	mRootValue.clear();
-	CDictionary newDict(key);
-	newDict.setAttributeForKey(cTypeAttributeKey, value.objectClass().name());
-	value.serialize(newDict);
-	mData[key] = newDict;
-}
-
 void CDictionary::setValueForKey(const CString& key, const CObject::Ptr value)
 {
-	// TODO: Complete linkage
-	CDictionary::setValueForKey(key, *value);
+	mData[key] = value;
 }
 
 void CDictionary::setValueForKey(const CString& key, UInt8 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, UInt16 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, UInt32 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, UInt64 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, SInt8 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, SInt16 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, SInt32 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, SInt64 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, Float32 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, Float64 value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
+	setValueForKey(key, new CNumber(value));
 }
 
 void CDictionary::setValueForKey(const CString& key, bool value)
 {
-	CDictionary::setValueForKey(key, CNumber(value));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Attribute management
-////////////////////////////////////////////////////////////////////////////////
-CString CDictionary::attributeForKey(const CString& key) const
-{
-	std::map<CString, CString>::const_iterator it = mAttributes.find(key);
-	return (it == mAttributes.end())?(CString()):(it->second);
-}
-
-void CDictionary::setAttributeForKey(const CString& key, const CString& attribute)
-{
-	mAttributes[key] = attribute;
-}
-
-bool CDictionary::attributeExists(const CString& key) const
-{
-	std::map<CString, CString>::const_iterator it = mAttributes.find(key);
-	return (it != mAttributes.end());
-}
-
-UInt32 CDictionary::attributeCount() const
-{
-	return mAttributes.size();
-}
-
-void CDictionary::deleteAttribute(const CString& key)
-{
-	mAttributes.erase(key);
-}
-
-void CDictionary::deleteAllAttributes()
-{
-	mAttributes.clear();
+	setValueForKey(key, new CNumber(value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -341,29 +255,92 @@ void CDictionary::deleteAllAttributes()
 ////////////////////////////////////////////////////////////////////////////////
 CString CDictionary::toString() const
 {
-	CString result = "<" + mRootKey;
+	CDataStream stream;
+	dump(stream);
+	char* actualRes = new char[stream.size() + 1];
+	memcpy(actualRes, stream.c_data(), stream.size());
+	actualRes[stream.size()] = 0;
+	return CString::__CStringNoCopyDeallocWithDelete(actualRes);
+}
 
-	std::map<CString, CString>::const_iterator it = mAttributes.begin();
-	for(; it != mAttributes.end(); ++it)
+void CDictionary::dumpContents(std::ostream& stream) const
+{
+	for (CDictConstIterator it = mData.begin(); it != mData.end(); ++it)
 	{
-		result += " " + it->first + "=\"" + it->second + "\"";
+		stream << "<key>" << it->first << "</key>";
+		CClass valClass = it->second->objectClass();
+		if (valClass.isKindOfClass(CNumber::staticClass()))
+		{
+			const CNumber* number = dynamic_cast<const CNumber*>(it->second.get());
+			LE_ASSERT(number);
+			if (number->valueIsFloat())
+			{
+				stream << "<real>" << number->valueAsFloat64() << "</real>";
+			}
+			else if (number->valueIsBool())
+			{
+				stream << (number->valueAsBool() ? "<true/>" : "<false/>");
+			}
+			else
+			{
+				stream << "<integer>";
+				if (number->valueIsSigned())
+					stream << number->valueAsSInt64();
+				else
+					stream << number->valueAsUInt64();
+				stream << "</integer>";
+			}
+		}
+		else if (valClass.isKindOfClass(CString::staticClass()))
+		{
+			const CString* string = dynamic_cast<const CString*>(it->second.get());
+			LE_ASSERT(string);
+			if (string->isEmpty())
+			{
+				stream << "<string/>";
+			}
+			else
+			{
+				stream << "<string>" << *string << "</string>";
+			}
+		}
+		else if (valClass.isKindOfClass(CDictionary::staticClass()))
+		{
+			const CDictionary* dict = dynamic_cast<const CDictionary*>(it->second.get());
+			LE_ASSERT(dict);
+			dict->dump(stream);
+		}
+		else
+		{
+			CDictionary dict;
+			it->second->serialize(dict);
+			stream << '<' << valClass.name();
+			if (dict.isEmpty())
+			{
+				stream << "/>";
+			}
+			else
+			{
+				stream << '>';
+				dict.dumpContents(stream);
+				stream << "</" << valClass.name() << '>';
+			}
+		}
 	}
-
-	result += ">" + rootValue() + "</" + mRootKey + ">";
-	return result;
 }
 
 void CDictionary::dump(std::ostream& stream) const
 {
-	stream << '<' << mRootKey;
-
-	std::map<CString, CString>::const_iterator it = mAttributes.begin();
-	for(; it != mAttributes.end(); ++it)
+	if (isEmpty())
 	{
-		stream << ' ' << it->first << "=\"" << it->second << '\"';
+		stream << "<dict/>";
 	}
-
-	stream << '>' << rootValue() << "</" << mRootKey << '>';
+	else
+	{
+		stream << "<dict>";
+		dumpContents(stream);
+		stream << "</dict>";
+	}
 }
 
 
@@ -372,17 +349,12 @@ void CDictionary::dump(std::ostream& stream) const
 ////////////////////////////////////////////////////////////////////////////////
 void CDictionary::serialize(CDictionary& toDictionary) const
 {
-	// Saving attributes
-	for (std::map<CString, CString>::const_iterator it = mAttributes.begin(); it != mAttributes.end(); ++it)
-		toDictionary.setAttributeForKey(it->first, it->second);
-
 	toDictionary.append(*this);
 }
 
 void CDictionary::deserialize(const CDictionary& fromDictionary)
 {
 	*this = fromDictionary;
-	deleteAttribute(cTypeAttributeKey);
 }
 
 	} // namespace le

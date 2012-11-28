@@ -18,7 +18,6 @@ class CString : public CObject, public CBasicString
 
 	public:
 		inline CString() {}
-		CString(const CDictionary& fromDictionary);
 		inline CString(const CBasicString& copy) : CBasicString(copy) {}
 		inline CString(const CString& copy) : CBasicString(copy) {}
 		inline CString(const NChar* cString) : CBasicString(cString) {}
@@ -32,8 +31,6 @@ class CString : public CObject, public CBasicString
 		const CString& operator = (const WChar* string) { CBasicString::operator = (string); return *this; }
 		const CString& operator = (const CBasicString& string) { CBasicString::operator = (string); return *this; }
 
-		virtual void serialize(CDictionary& toDictionary) const;
-		virtual void deserialize(const CDictionary& fromDictionary);
 		virtual CString description() const { return *this; }
 };
 

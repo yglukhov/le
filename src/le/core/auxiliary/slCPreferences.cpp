@@ -8,7 +8,7 @@ namespace sokira
 	{
 
 CPreferences::CPreferences(const CString& domain) :
-	CDictionary("preferences"),
+	CDictionary(),
 	mDomain(domain)
 {
 	std::ifstream stream(filePath());

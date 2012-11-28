@@ -19,12 +19,11 @@ CBasicAny CSelectorInvocation::operator()(const std::vector<CBasicReferenceAny>&
 
 CString CObject::description() const
 {
-	CDictionary dict(LESTR("object"));
+	CDictionary dict;
 	serialize(dict);
-	CString addressStr = CString::createWithFormat("%p", (const void*)this);
-	dict.setAttributeForKey(LESTR("type"), objectClass().name());
-	dict.setAttributeForKey(LESTR("address"), addressStr);
-	return dict.toString();
+	CString result = CString::createWithFormat("%s %p: ", objectClass().name().UTF8String(), (const void*)this);
+	result += dict.toString();
+	return result;
 }
 
 void CObject::serialize(CDictionary& toDictionary) const

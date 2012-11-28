@@ -35,7 +35,6 @@ class CNumber : public CObject, CNumberBase
 		CNumber(Bool value);
 
 		CNumber(const CString& value);
-		CNumber(const CDictionary& fromDict);
 
 		CNumber(const CNumber& copy);
 
@@ -144,11 +143,11 @@ class CNumber : public CObject, CNumberBase
 
 		inline Bool valueIsFloat32() const { return valueIs<Float32>(); }
 		inline Bool valueIsFloat64() const { return valueIs<Float64>(); }
+		inline Bool valueIsFloat() const { return valueIsFloat32() || valueIsFloat64(); }
 
 		inline Bool valueIsBool() const { return valueIs<Bool>(); }
 
-		virtual void serialize(CDictionary& toDictionary) const;
-		virtual void deserialize(const CDictionary& fromDictionary);
+		inline Bool valueIsSigned() const { return valueIsFloat32() || valueIsSInt8() || valueIsSInt16() ||valueIsSInt32() ||valueIsSInt64(); }
 
 		// Endian conversion
 		static UInt64 hostToBigEndian(UInt64 value);
@@ -209,6 +208,11 @@ class CNumber : public CObject, CNumberBase
 			val |= val >> 8;
 			val |= val >> 16;
 			return ++val;
+		}
+
+		virtual CString description() const
+		{
+			return valueAsString();
 		}
 
 	private:

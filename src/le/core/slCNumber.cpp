@@ -136,11 +136,6 @@ CNumber::CNumber(const CString& value) :
 	}
 }
 
-CNumber::CNumber(const CDictionary& fromDict)
-{
-	operator=(fromDict.rootValue());
-}
-
 CNumber::CNumber(const CNumber& copy) :
 	CNumberBase(copy),
 	mFormat(copy.mFormat)
@@ -464,16 +459,6 @@ void CNumber::setLittleEndianValue(SInt16 value)
 {
 	mFormat = eFormatSInt16;
 	mData.valSInt16 = littleEndianToHost(value);
-}
-
-void CNumber::serialize(CDictionary& toDictionary) const
-{
-	toDictionary.setRootValue(valueAsString());
-}
-
-void CNumber::deserialize(const CDictionary& fromDictionary)
-{
-	operator=(fromDictionary.rootValue());
 }
 
 template <typename T>

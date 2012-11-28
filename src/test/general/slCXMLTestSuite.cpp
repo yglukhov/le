@@ -112,11 +112,11 @@ void CXMLTestSuite::testXMLDocument()
 
 void CXMLTestSuite::testDictionaries()
 {
-	CDictionary dict("test");
+	CDictionary dict;
 	dict.setValueForKey("someTestKey", CString("1234"));
 	dict.setValueForKey("someOtherTestKey", CString("4321"));
 	dict.setValueForKey("someNumber", CString("123"));
-
+	
 	CDataStream dataStream;
 	dict.dump(dataStream);
 	CInputDataStream inputStream(dataStream.c_data(), dataStream.size());
@@ -169,28 +169,34 @@ void CXMLTestSuite::testPlistParsing()
 	CDictionary newDict = CDictionary::createFromStream(inputStream);
 	CString expectedResult = LESTR(
 		"<dict>"
-			"<CFBundleDevelopmentRegion type=\"CString\">English</CFBundleDevelopmentRegion>"
-			"<CFBundleExecutable type=\"CString\">yo</CFBundleExecutable>"
-			"<CFBundleIdentifier type=\"CString\">org.7lifes.id</CFBundleIdentifier>"
-			"<CFBundleInfoDictionaryVersion type=\"CString\">6.0</CFBundleInfoDictionaryVersion>"
-			"<CFBundleName type=\"CString\">yo</CFBundleName>"
-			"<CFBundlePackageType type=\"CString\">APPL</CFBundlePackageType>"
-			"<CFBundleVersion type=\"CString\">1.0</CFBundleVersion>"
-			"<NSPrincipalClass type=\"CString\">NSApplication</NSPrincipalClass>"
-			"<someDict type=\"CDictionary\">"
-				"<someKey type=\"CString\">someValue</someKey>"
-			"</someDict>"
-			"<testBoolFalse type=\"CNumber\">0</testBoolFalse>"
-			"<testBoolTrue type=\"CNumber\">1</testBoolTrue>"
+			"<key>CFBundleDevelopmentRegion</key>"
+			"<string>English</string>"
+			"<key>CFBundleExecutable</key>"
+			"<string>yo</string>"
+			"<key>CFBundleIdentifier</key>"
+			"<string>org.7lifes.id</string>"
+			"<key>CFBundleInfoDictionaryVersion</key>"
+			"<string>6.0</string>"
+			"<key>CFBundleName</key>"
+			"<string>yo</string>"
+			"<key>CFBundlePackageType</key>"
+			"<string>APPL</string>"
+			"<key>CFBundleVersion</key>"
+			"<string>1.0</string>"
+			"<key>NSPrincipalClass</key>"
+			"<string>NSApplication</string>"
+			"<key>someDict</key>"
+			"<dict>"
+				"<key>someKey</key>"
+				"<string>someValue</string>"
+			"</dict>"
+			"<key>testBoolFalse</key>"
+			"<false/>"
+			"<key>testBoolTrue</key>"
+			"<true/>"
 		"</dict>");
 
-	CDataStream outputStream;
-	newDict.dump(outputStream);
-	char* actualRes = new char[outputStream.size() + 1];
-	memcpy(actualRes, outputStream.c_data(), outputStream.size());
-	actualRes[outputStream.size()] = 0;
-
-	CString actualResult = CString::__CStringNoCopyDeallocWithDelete(actualRes);
+	CString actualResult = newDict.toString();
 
 	if (expectedResult != actualResult)
 	{

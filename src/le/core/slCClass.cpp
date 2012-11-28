@@ -57,7 +57,7 @@ CBasicString CClass::name() const
 	return mImpl->mName;
 }
 
-bool CClass::operator == (const CClass rhs)
+bool CClass::operator == (const CClass rhs) const
 {
 	return mImpl->mName == rhs.mImpl->mName;
 }
