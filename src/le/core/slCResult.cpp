@@ -32,7 +32,7 @@ CResult::operator Bool() const
 	return mSuccess;
 }
 
-CString CResult::errorDescription() const
+CString CResult::description() const
 {
 	return mErrorDescription;
 }

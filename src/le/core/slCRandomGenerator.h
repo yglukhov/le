@@ -13,20 +13,17 @@ class CRandomGenerator : public CObject
 	public:
 		CRandomGenerator();
 
-		void setSeed(UInt64 seed);
+		void setSeed(UInt32 seed);
 		void generateSeed();
-		UInt64 seed() const;
-
-		UInt32 position() const;
-		void setPosition(UInt32 position);
+		UInt32 seed() const;
 
 		UInt32 nextUInt32();
 		UInt32 nextUInt32(UInt32 startRange, UInt32 endRange);
 		Float64 nextFloat64(); // from 0.0 to 1.0
 
 	private:
-		UInt64 mSeed;
-		UInt32 mPosition;
+		UInt32 mSeed;
+		UInt32 mNext;
 };
 
 	} // namespace le

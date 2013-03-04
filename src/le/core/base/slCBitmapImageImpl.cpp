@@ -20,7 +20,7 @@ class CBitmapImageImpl : public CImageImpl
 	LE_RTTI_END
 	
 	public:
-		virtual void loadFromFile(FILE* file);
+		virtual void loadFromStream(std::istream& stream);
 		static Float32 priorityForParameters(const CDictionary& parameters)
 		{
 			UInt16 fileSignature = parameters.valueAsUInt16ForKey("fileSignature");
@@ -77,14 +77,14 @@ typedef struct tagRGBQUAD {
   BYTE    rgbReserved;
 } RGBQUAD;
 
-void CBitmapImageImpl::loadFromFile(FILE* file)
+void CBitmapImageImpl::loadFromStream(std::istream& stream)
 {
 //	std::cout << "loading bitmap" << std::endl;
 	BITMAPFILEHEADER bmfh;
-	fread(&bmfh, sizeof(bmfh), 1, file);
+	stream.read((char*)&bmfh, sizeof(bmfh));
 
 	BITMAPINFOHEADER bmih;
-	fread(&bmih, sizeof(bmih), 1, file);
+	stream.read((char*)&bmih, sizeof(bmih));
 
 	bmih.biWidth = CNumber::littleEndianToHost(bmih.biWidth);
 	bmih.biHeight = CNumber::littleEndianToHost(bmih.biHeight);
@@ -101,7 +101,7 @@ void CBitmapImageImpl::loadFromFile(FILE* file)
 		//set the number of colours
 		UInt32 numColours = 1 << bmih.biBitCount;
 		palette = new RGBQUAD[numColours];
-		fread(palette, sizeof(RGBQUAD), numColours, file);
+		stream.read((char*)palette, sizeof(RGBQUAD) * numColours);
 	}
 	delete [] palette; // TODO handle this!
 
@@ -141,7 +141,7 @@ void CBitmapImageImpl::loadFromFile(FILE* file)
 			UInt8 b = 0;
 			UInt8 a = 0xff;
 
-			fread(&color, bytesPerPixel, 1, file);
+			stream.read((char*)&color, bytesPerPixel);
 			if (bytesPerPixel == 3)
 			{
 				r = *(((UInt8*)&color) + 2);
@@ -180,7 +180,7 @@ void CBitmapImageImpl::loadFromFile(FILE* file)
 				*(destPixel + 3) = a;
 			}
 		}
-		fread(&color, padWidth, 1, file); // Omit padding
+		stream.read((char*)&color, padWidth); // Omit padding
 	}
 	insertFrame(0, CImageFrame(new CImageFrameImpl(size, (EPixelFormat)LE_BMP_BITS_PER_PIXEL, pixelData, 0)));
 }

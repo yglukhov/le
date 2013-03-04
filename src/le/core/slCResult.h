@@ -7,7 +7,7 @@ namespace sokira
 {
 	namespace le
 	{
-		
+
 class CResult
 {
 	public:
@@ -15,7 +15,17 @@ class CResult
 		CResult(const CString& errorDescription);
 		operator Bool() const;
 
-		CString errorDescription() const;
+		CString description() const;
+
+		inline void throwIfFailure() const throw (CResult)
+		{
+			if (!mSuccess)
+			{
+				throw *this;
+			}
+		}
+
+		static CResult lastError();
 
 	private:
 		Bool mSuccess;

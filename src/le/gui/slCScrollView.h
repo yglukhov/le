@@ -22,8 +22,8 @@ class CScrollView : public CView
 		CScrollView();
 		CScrollView(const CRectangle& rect);
 
-		void setContent(CView* content);
-		CView* content() const;
+		void setContent(CView::Ptr content);
+		CView::Ptr content() const;
 
 		virtual void draw(const CTheme* theme, CRenderingContext* context) const;
 
@@ -31,7 +31,7 @@ class CScrollView : public CView
 		void onHorizontalPositionChanged(CScrollBar* scrollBar);
 
 	private:
-		CView* mContent;
+		CView::Ptr mContent;
 };
 
 	} // namespace le

@@ -39,7 +39,7 @@ struct TSStaticAssert<true>
 };
 
 #define LE_STATIC_ASSERT(expression) \
-class _static_assert_object_##__LINE__ {  ::sokira::le::TSStaticAssert<((bool)(expression))> STATIC_ASSERTION_RAISED; };
+class _static_assert_object_##__LINE__ { public: ::sokira::le::TSStaticAssert<((bool)(expression))> STATIC_ASSERTION_RAISED; };
 
 #else // LE_FLAG_DEBUG
 

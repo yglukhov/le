@@ -5,6 +5,7 @@
 #include <le/core/slCData.h>
 #include <le/core/slCURL.h>
 #include <le/core/slCNumber.h>
+#include <le/core/thread/slCThread.h>
 #include <le/core/base/slCImageImpl.hp>
 #include <le/gui/base/slCOpenGLTextureImpl.hp>
 #include "slCOpenGLRenderingContext.h"
@@ -25,6 +26,7 @@ COpenGLRenderingContext::COpenGLRenderingContext() :
 	mSharedBuffer(NULL),
 	mSharedBufferSize(0)
 {
+	validateCurrentContext();
 	//std::cout << "Creating COpenGLRenderingContext" << std::endl;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -50,6 +52,7 @@ COpenGLRenderingContext::~COpenGLRenderingContext()
 
 void COpenGLRenderingContext::beginDrawing()
 {
+	validateCurrentContext();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 }
@@ -73,6 +76,7 @@ void COpenGLRenderingContext::endDrawing()
 
 void COpenGLRenderingContext::setLineWidth(Float32 width)
 {
+	validateCurrentContext();
 	glLineWidth(width);
 }
 
@@ -94,7 +98,6 @@ static inline CFontData* fontData(COpenGLRenderingContext* context, CFont& font)
 	if (!result)
 	{
 		result = new CFontData();
-		CImage image;
 		CString characters = CString::createWithCharacterRange('A', 26);
 		characters += CString::createWithCharacterRange('a', 26);
 		characters += CString::createWithCharacterRange('0', 10);
@@ -114,6 +117,7 @@ static inline CFontData* fontData(COpenGLRenderingContext* context, CFont& font)
 		LE_ASSERT(maxChar <= 1024);
 
 		result->glyphPositions = CFont::CGlyphPositions(maxChar + 1, std::make_pair(0.0f, 0.0f));
+		CImage image;
 		font.getGlyphDataForString(characters, image, result->glyphPositions);
 		font.setRendererInfo(result);
 		glGenTextures(1, &result->fontTexture);
@@ -126,6 +130,7 @@ static inline CFontData* fontData(COpenGLRenderingContext* context, CFont& font)
 
 void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& position)
 {
+	validateCurrentContext();
 	glEnable(GL_TEXTURE_2D);
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -212,11 +217,13 @@ void drawBoxWithGLPrimitive(const CBox& box, int primitive)
 
 void COpenGLRenderingContext::drawBox(const CBox& box)
 {
+	validateCurrentContext();
 //	drawBoxWithGLPrimitive(box, GL_QUADS);
 }
 
 void COpenGLRenderingContext::drawWireBox(const CBox& box)
 {
+	validateCurrentContext();
 //	glPolygonMode(GL_FRONT, GL_LINE);
 //	glPolygonMode(GL_BACK, GL_LINE);
 	drawBox(box);
@@ -272,12 +279,14 @@ STexturedVertex* COpenGLRenderingContext::sharedTexturedVertexBufferOfSize(UInt3
 
 void COpenGLRenderingContext::drawVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive)
 {
+	validateCurrentContext();
 	glVertexPointer(3, TSTypeToGLType<SVertex::TCoord>::result, 0, mSharedBuffer);
 	glDrawArrays(glPrimitiveFromPrimitive(primitive), 0, count);
 }
 
 void COpenGLRenderingContext::drawColoredVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive)
 {
+	validateCurrentContext();
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, TSTypeToGLType<SColoredVertex::TCoord>::result, sizeof(SColoredVertex), mSharedBuffer);
 	glColorPointer(4, TSTypeToGLType<SColoredVertex::TColorComponent>::result, sizeof(SColoredVertex), ((char*)mSharedBuffer) + sizeof(SColoredVertex::TCoord) * 3);
@@ -287,6 +296,7 @@ void COpenGLRenderingContext::drawColoredVertexesInSharedBuffer(UInt32 count, EP
 
 void COpenGLRenderingContext::drawTexturedVertexesInSharedBuffer(UInt32 count, EPrimitiveType primitive)
 {
+	validateCurrentContext();
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(3, TSTypeToGLType<STexturedVertex::TCoord>::result, sizeof(STexturedVertex), mSharedBuffer);
 	glTexCoordPointer(2, TSTypeToGLType<STexturedVertex::TTextureCoord>::result, sizeof(STexturedVertex), ((char*)mSharedBuffer) + sizeof(STexturedVertex::TCoord) * 3);
@@ -310,6 +320,7 @@ void COpenGLRenderingContext::setFillMethod(const CFillMethod* fillMethod)
 	{
 		if (fillMethod->isSolid())
 		{
+			validateCurrentContext();
 			CColor color = fillMethod->colorAtPoint(CPoint2D());
 			setOpenGLColor(color);
 			fillMethod = NULL;
@@ -371,6 +382,7 @@ static CSize2D createTextureWithBitmapData(COpenGLRenderingContext* context, con
 
 CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture, const CImageImpl* image)
 {
+	validateCurrentContext();
 	if (image->frameCount() == 0)
 	{
 		std::cout << "FRAME_COUNT 0 in COpenGLRenderingContext::createTextureImpl!!" << std::endl;
@@ -392,6 +404,7 @@ CTextureImpl* COpenGLRenderingContext::createTextureImpl(const CTexture* texture
 
 void COpenGLRenderingContext::setTextureImpl(const CTextureImpl* textureImpl)
 {
+	validateCurrentContext();
 	const COpenGLTextureImpl* tex = dynamic_cast<const COpenGLTextureImpl*>(textureImpl);
 	clock_t curTime = clock();
 //	time(&curTime);
@@ -412,11 +425,14 @@ void COpenGLRenderingContext::setTextureImpl(const CTextureImpl* textureImpl)
 
 void COpenGLRenderingContext::unsetTexture()
 {
+	validateCurrentContext();
 	glDisable(GL_TEXTURE_2D);
 }
 
 void COpenGLRenderingContext::pushClippingRect(const CRectangle& rect)
 {
+	validateCurrentContext();
+
 #if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	GLfloat vp[4];
 	glGetFloatv(GL_VIEWPORT, vp);
@@ -433,6 +449,8 @@ void COpenGLRenderingContext::pushClippingRect(const CRectangle& rect)
 
 void COpenGLRenderingContext::popClippingRect()
 {
+	validateCurrentContext();
+
 #if LE_TARGET_PLATFORM != LE_PLATFORM_IOS
 	glPopMatrix();
 	glPopAttrib();
@@ -442,6 +460,7 @@ void COpenGLRenderingContext::popClippingRect()
 
 void COpenGLRenderingContext::beginStencil()
 {
+	validateCurrentContext();
 	glEnable(GL_STENCIL_TEST);
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDepthMask(GL_FALSE);
@@ -455,6 +474,7 @@ void COpenGLRenderingContext::beginStencil()
 
 void COpenGLRenderingContext::endStencil()
 {
+	validateCurrentContext();
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glDepthMask(GL_TRUE);
 	glStencilMask(0x00);
@@ -470,6 +490,7 @@ void COpenGLRenderingContext::disableStencil()
 
 Float32 COpenGLRenderingContext::levelOfDetail() const
 {
+	validateCurrentContext();
 	GLfloat m[16];
 	glGetFloatv(GL_MODELVIEW_MATRIX, m);
 	GLfloat r0 = m[0] + m[4] + m[8] + m[12];
@@ -492,6 +513,7 @@ Float32 COpenGLRenderingContext::levelOfDetail() const
 
 void COpenGLRenderingContext::getTransform(CAffineTransform3D& transform) const
 {
+	validateCurrentContext();
 	GLint matrixMode;
 	glGetIntegerv(GL_MATRIX_MODE, &matrixMode);
 	GLenum matrix = 0;
@@ -514,11 +536,13 @@ void COpenGLRenderingContext::getTransform(CAffineTransform3D& transform) const
 
 void COpenGLRenderingContext::setTransform(const CAffineTransform3D& transform) const
 {
+	validateCurrentContext();
 	glLoadMatrixf(reinterpret_cast<const Float32*>(&transform));
 }
 
 Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const
 {
+	validateCurrentContext();
 	const GLubyte *extensions = NULL;
 	const GLubyte *start;
 
@@ -552,6 +576,22 @@ Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const
 	}
 
 	return false;
+}
+
+inline void COpenGLRenderingContext::validateCurrentContext() const
+{
+	LE_TLS_STATIC_DEFINITION(const COpenGLRenderingContext*, currentContext = NULL);
+	if (currentContext != this)
+	{
+		std::cout << "Switching context\n";
+		makeCurrentContext();
+		currentContext = this;
+	}
+}
+
+void COpenGLRenderingContext::makeCurrentContext() const
+{
+
 }
 
 	} // namespace le

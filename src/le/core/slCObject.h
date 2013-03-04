@@ -45,6 +45,7 @@ class CSelectorInvocation :
 
 		bool isVoid() const
 		{
+			LE_ASSERT(mSelector);
 			return mSelector->isVoid();
 		}
 

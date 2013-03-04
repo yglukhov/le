@@ -12,15 +12,13 @@ LE_IMPLEMENT_RUNTIME_CLASS(CScrollView);
 
 #define LE_SCROLL_BAR_WIDTH 12
 
-CScrollView::CScrollView() :
-	mContent(NULL)
+CScrollView::CScrollView()
 {
 
 }
 
 CScrollView::CScrollView(const CRectangle& rect) :
-	CView(rect),
-	mContent(NULL)
+	CView(rect)
 {
 //	mHorizontalScrollBar.setParent(this);
 //	mVerticalScrollBar.setParent(this);
@@ -38,40 +36,34 @@ CScrollView::CScrollView(const CRectangle& rect) :
 	addChild(scrollBar);
 }
 
-void CScrollView::setContent(CView* content)
+void CScrollView::setContent(CView::Ptr content)
 {
 	if (mContent)
 	{
 		removeChild(mContent);
-		delete mContent;
 	}
 	mContent = content;
 	addChild(mContent);
 }
 
-CView* CScrollView::content() const
+CView::Ptr CScrollView::content() const
 {
 	return mContent;
 }
 
 void CScrollView::draw(const CTheme* theme, CRenderingContext* context) const
 {
-	if (isVisible())
+	CView::draw(theme, context);
+	if (mContent)
 	{
-		if (mContent) mContent->setVisible(false);
-		CView::draw(theme, context);
-		if (mContent)
-		{
-			mContent->setVisible();
-			CRectangle rect = absoluteRect();
+		CRectangle rect = absoluteRect();
 
-			rect.setWidth(rect.width() - LE_SCROLL_BAR_WIDTH);
-			rect.setHeight(rect.height() - LE_SCROLL_BAR_WIDTH);
-			context->pushClippingRect(rect);
-			mContent->draw(theme, context);
+		rect.setWidth(rect.width() - LE_SCROLL_BAR_WIDTH);
+		rect.setHeight(rect.height() - LE_SCROLL_BAR_WIDTH);
+		context->pushClippingRect(rect);
+		mContent->draw(theme, context);
 
-			context->popClippingRect();
-		}
+		context->popClippingRect();
 	}
 }
 

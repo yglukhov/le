@@ -79,7 +79,6 @@
 		7B419E501057BC8400D5A2D1 /* slCApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CF220F362F55002E9DA7 /* slCApplication.cpp */; };
 		7B419E511057BC8500D5A2D1 /* slCApplicationDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EE020F3B8C34000E00CB /* slCApplicationDelegate.cpp */; };
 		7B419E521057BC8600D5A2D1 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
-		7B419E531057BC8700D5A2D1 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B419E541057BC8900D5A2D1 /* slCBasicString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B370BD12EB100AA8BD8 /* slCBasicString.cpp */; };
 		7B419E551057BC8A00D5A2D1 /* slCBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B46EDEC0F3B65DC000E00CB /* slCBundle.cpp */; };
 		7B419E581057BC8C00D5A2D1 /* slCClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052B690BD12EB100AA8BD8 /* slCClass.cpp */; };
@@ -132,7 +131,6 @@
 		7B5F50E90F74F1A500269E2D /* slCSokript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F50E60F74F1A500269E2D /* slCSokript.cpp */; };
 		7B61FF9A1196F42400DE6B99 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B61FF991196F42400DE6B99 /* slCTimer.cpp */; };
 		7B61FF9B1196F42400DE6B99 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B61FF991196F42400DE6B99 /* slCTimer.cpp */; };
-		7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */; };
 		7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */; };
 		7B686AE41060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */; };
 		7B686AE51060FFBF0001E7A6 /* slCXMLDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B686AE31060FFBF0001E7A6 /* slCXMLDocument.cpp */; };
@@ -184,6 +182,10 @@
 		7BC3ACDB0EE701CC00D13036 /* slCLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD50EE701CC00D13036 /* slCLexer.cpp */; };
 		7BC3ACDC0EE701CC00D13036 /* slCScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD70EE701CC00D13036 /* slCScript.cpp */; };
 		7BC3ACDD0EE701CC00D13036 /* slCParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3ACD90EE701CC00D13036 /* slCParser.cpp */; };
+		7BE2ACCE16DBDFE1004E2745 /* slCIndexSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2ACCC16DBDFDB004E2745 /* slCIndexSet.cpp */; };
+		7BE2ACCF16DBDFE1004E2745 /* slCIndexSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2ACCC16DBDFDB004E2745 /* slCIndexSet.cpp */; };
+		7BE2ACD216DD0B73004E2745 /* slCCharacterSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2ACD016DD0B6E004E2745 /* slCCharacterSet.cpp */; };
+		7BE2ACD316DD0B73004E2745 /* slCCharacterSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE2ACD016DD0B6E004E2745 /* slCCharacterSet.cpp */; };
 		7BE910C70F7946C8004C12C9 /* slCSokriptVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */; };
 		7BEAEB030EE7CFC900BD04DE /* slCURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BEAEB020EE7CFC900BD04DE /* slCURL.cpp */; };
 		7BF26ED916198FC100660784 /* slCParserGrammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF26ED716198FC000660784 /* slCParserGrammar.cpp */; };
@@ -424,8 +426,6 @@
 		7B61FF981196F42400DE6B99 /* slCTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTimer.h; sourceTree = "<group>"; };
 		7B61FF991196F42400DE6B99 /* slCTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTimer.cpp; sourceTree = "<group>"; };
 		7B61FFA71196F81F00DE6B99 /* slCRunLoopImplMac.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCRunLoopImplMac.hp; sourceTree = "<group>"; };
-		7B6384E30D4B4E44002357F7 /* slCAssertControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertControl.h; sourceTree = "<group>"; };
-		7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertControl.cpp; sourceTree = "<group>"; };
 		7B63850B0D4B50EB002357F7 /* slCAssertionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCAssertionPolicy.h; sourceTree = "<group>"; };
 		7B63850C0D4B50EB002357F7 /* slCAssertionPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCAssertionPolicy.cpp; sourceTree = "<group>"; };
 		7B6536AF12A2D6B400EC5ABA /* slCRunLoopImplX11.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCRunLoopImplX11.hp; sourceTree = "<group>"; };
@@ -570,6 +570,10 @@
 		7BC3ACD80EE701CC00D13036 /* slCScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCScript.h; sourceTree = "<group>"; };
 		7BC3ACD90EE701CC00D13036 /* slCParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCParser.cpp; sourceTree = "<group>"; };
 		7BC3ACDA0EE701CC00D13036 /* slCParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCParser.h; sourceTree = "<group>"; };
+		7BE2ACCC16DBDFDB004E2745 /* slCIndexSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCIndexSet.cpp; sourceTree = "<group>"; };
+		7BE2ACCD16DBDFDE004E2745 /* slCIndexSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCIndexSet.h; sourceTree = "<group>"; };
+		7BE2ACD016DD0B6E004E2745 /* slCCharacterSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCCharacterSet.cpp; sourceTree = "<group>"; };
+		7BE2ACD116DD0B71004E2745 /* slCCharacterSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCCharacterSet.h; sourceTree = "<group>"; };
 		7BE910C50F7946C8004C12C9 /* slCSokriptVM.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCSokriptVM.hp; sourceTree = "<group>"; };
 		7BE910C60F7946C8004C12C9 /* slCSokriptVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCSokriptVM.cpp; sourceTree = "<group>"; };
 		7BE927861410D77F00E64B12 /* slCFontGlyphGeneratorInline.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCFontGlyphGeneratorInline.hp; sourceTree = "<group>"; };
@@ -705,6 +709,10 @@
 				7B10554813014EFB008B1C53 /* slCRandomGenerator.cpp */,
 				7B41CB1B140E4FE800577BA0 /* slCResult.cpp */,
 				7B41CB1E140E4FF500577BA0 /* slCResult.h */,
+				7BE2ACCC16DBDFDB004E2745 /* slCIndexSet.cpp */,
+				7BE2ACCD16DBDFDE004E2745 /* slCIndexSet.h */,
+				7BE2ACD016DD0B6E004E2745 /* slCCharacterSet.cpp */,
+				7BE2ACD116DD0B71004E2745 /* slCCharacterSet.h */,
 			);
 			name = core;
 			path = le/core;
@@ -835,8 +843,6 @@
 		7B052B410BD12EB100AA8BD8 /* debug */ = {
 			isa = PBXGroup;
 			children = (
-				7B6384E30D4B4E44002357F7 /* slCAssertControl.h */,
-				7B6384E40D4B4E44002357F7 /* slCAssertControl.cpp */,
 				7B052B420BD12EB100AA8BD8 /* slAssert.cpp */,
 				7B052B430BD12EB100AA8BD8 /* slAssert.h */,
 				7B052B440BD12EB100AA8BD8 /* slCLogControl.cpp */,
@@ -1656,7 +1662,6 @@
 				7B419E501057BC8400D5A2D1 /* slCApplication.cpp in Sources */,
 				7B419E511057BC8500D5A2D1 /* slCApplicationDelegate.cpp in Sources */,
 				7B419E521057BC8600D5A2D1 /* slCAssertionPolicy.cpp in Sources */,
-				7B419E531057BC8700D5A2D1 /* slCAssertControl.cpp in Sources */,
 				7B419E541057BC8900D5A2D1 /* slCBasicString.cpp in Sources */,
 				7B419E551057BC8A00D5A2D1 /* slCBundle.cpp in Sources */,
 				7B419E581057BC8C00D5A2D1 /* slCClass.cpp in Sources */,
@@ -1732,6 +1737,8 @@
 				7B401D6F15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 				7B1B94A815FA233900490C34 /* slCCocoaImageImpl.mm in Sources */,
 				7BF26EDA16198FC100660784 /* slCParserGrammar.cpp in Sources */,
+				7BE2ACCF16DBDFE1004E2745 /* slCIndexSet.cpp in Sources */,
+				7BE2ACD316DD0B73004E2745 /* slCCharacterSet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1771,7 +1778,6 @@
 				7B052BC30BD12EB200AA8BD8 /* slCThreadImplPosix.cpp in Sources */,
 				7B052BC50BD12EB200AA8BD8 /* slCMutex.cpp in Sources */,
 				7B052BC60BD12EB200AA8BD8 /* slCThread.cpp in Sources */,
-				7B6384E50D4B4E44002357F7 /* slCAssertControl.cpp in Sources */,
 				7B63850D0D4B50EB002357F7 /* slCAssertionPolicy.cpp in Sources */,
 				7BC3AC990EE6FEF700D13036 /* slCXMLParser.cpp in Sources */,
 				7BC3ACAD0EE6FF6B00D13036 /* slCAny.cpp in Sources */,
@@ -1809,6 +1815,8 @@
 				7B401D6E15F79B270022ADED /* slCBasicAny.cpp in Sources */,
 				7B1B94A715FA233900490C34 /* slCCocoaImageImpl.mm in Sources */,
 				7BF26ED916198FC100660784 /* slCParserGrammar.cpp in Sources */,
+				7BE2ACCE16DBDFE1004E2745 /* slCIndexSet.cpp in Sources */,
+				7BE2ACD216DD0B73004E2745 /* slCCharacterSet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

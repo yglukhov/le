@@ -262,7 +262,7 @@ void CGuiCocoaApplication::quit()
 
 Bool CGuiCocoaApplication::canQuit() const
 {
-	return (LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX);
+	return (LE_TARGET_PLATFORM != LE_PLATFORM_IOS);
 }
 
 	} // namespace le

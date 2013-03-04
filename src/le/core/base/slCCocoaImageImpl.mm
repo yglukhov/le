@@ -1,4 +1,10 @@
+#include <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+#import <UIKit/UIKit.h>
+#else
 #import <AppKit/AppKit.h>
+#endif
 #import <le/core/slCDictionary.h>
 #import "slCImageImpl.hp"
 #import "slCImageFrameImpl.hp"
@@ -16,7 +22,7 @@ class CCocoaImageImpl : public CImageImpl
 	LE_RTTI_END
 
 	public:
-		virtual void loadFromFile(FILE* file);
+		virtual void loadFromStream(std::istream& stream);
 		static Float32 priorityForParameters(const CDictionary& parameters)
 		{
 			NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
@@ -38,50 +44,55 @@ class CCocoaImageImpl : public CImageImpl
 
 	private:
 		inline void loadFrame(NSBitmapImageRep* bitmap);
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+		inline void loadFromUIImage(UIImage* image);
+#else
+		inline void loadFromNSBitmapImageRep(NSBitmapImageRep* rep);
 		inline NSBitmapImageRep* bitmapFromData(NSData* data, BOOL isGif);
+#endif
 };
 
 LE_IMPLEMENT_RUNTIME_CLASS(CCocoaImageImpl);
 
-void CCocoaImageImpl::loadFromFile(FILE* file)
+void CCocoaImageImpl::loadFromStream(std::istream& stream)
 {
-	fseek(file, 0, SEEK_END);
-	UInt32 fileSize = ftell(file);
-	fseek(file, 0, SEEK_SET);
+	stream.seekg(0, std::ios_base::end);
+	UInt32 fileSize = stream.tellg();
+	stream.seekg(0, std::ios_base::beg);
 
 	UInt16 fileSignature;
-	fread(&fileSignature, sizeof(fileSignature), 1, file);
+	stream.read((char*)&fileSignature, sizeof(fileSignature));
 	BOOL isGif = CNumber::littleEndianToHost(fileSignature) == 18759;  // 'GI'
 
-	fseek(file, 0, SEEK_SET);
+	stream.seekg(0, std::ios_base::beg);
 
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSMutableData* imageData = [[NSMutableData alloc] initWithCapacity: fileSize];
 	if (imageData)
 	{
 		[imageData setLength: fileSize];
-		fread([imageData mutableBytes], fileSize, 1, file);
-		NSBitmapImageRep* bitmap = bitmapFromData(imageData, isGif);
+		stream.read((char*)[imageData mutableBytes], fileSize);
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+		UIImage* image = [UIImage imageWithData: imageData];
+#else
+		NSBitmapImageRep* image = bitmapFromData(imageData, isGif);
+#endif
+
 		[imageData release];
-		if (bitmap)
+
+		if (image)
 		{
-			NSUInteger frameCount = [[bitmap valueForProperty: NSImageFrameCount] unsignedIntegerValue];
-			if (frameCount)
-			{
-				for (NSUInteger i = 0; i < frameCount; ++i)
-				{
-					[bitmap setProperty: NSImageCurrentFrame withValue: [NSNumber numberWithUnsignedInteger: i]];
-					loadFrame(bitmap);
-				}
-			}
-			else
-			{
-				loadFrame(bitmap);
-			}
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+			loadFromUIImage(image);
+#else
+			loadFromNSBitmapImageRep(image);
+#endif
 		}
 		else
 		{
 			NSLog(@"CCocoaImageImpl: Could not load bitmap");
+
 		}
 	}
 	else
@@ -89,6 +100,46 @@ void CCocoaImageImpl::loadFromFile(FILE* file)
 		LE_ASSERT(false);
 	}
 	[pool drain];
+}
+
+#if LE_TARGET_PLATFORM == LE_PLATFORM_IOS
+inline void CCocoaImageImpl::loadFromUIImage(UIImage* image)
+{
+	NSArray* frames = nil;
+
+	if ([image respondsToSelector(@selector(images))])
+	{
+		frames = [image images];
+	}
+
+	if (frames)
+	{
+		for (UIImage* frame in frames)
+		{
+			
+		}
+	}
+	else
+	{
+		
+	}
+}
+#else
+inline void CCocoaImageImpl::loadFromNSBitmapImageRep(NSBitmapImageRep* image)
+{
+	NSUInteger frameCount = [[image valueForProperty: NSImageFrameCount] unsignedIntegerValue];
+	if (frameCount)
+	{
+		for (NSUInteger i = 0; i < frameCount; ++i)
+		{
+			[image setProperty: NSImageCurrentFrame withValue: [NSNumber numberWithUnsignedInteger: i]];
+			loadFrame(image);
+		}
+	}
+	else
+	{
+		loadFrame(image);
+	}
 }
 
 inline NSBitmapImageRep* CCocoaImageImpl::bitmapFromData(NSData* data, BOOL isGif)
@@ -110,7 +161,10 @@ inline NSBitmapImageRep* CCocoaImageImpl::bitmapFromData(NSData* data, BOOL isGi
 	return result;
 }
 
-void CCocoaImageImpl::loadFrame(NSBitmapImageRep* bitmap)
+#endif
+
+		
+inline void CCocoaImageImpl::loadFrame(NSBitmapImageRep* bitmap)
 {
 	NSInteger samplesPerPixel = [bitmap samplesPerPixel];
 	if(![bitmap isPlanar] && (samplesPerPixel == 4 || samplesPerPixel == 3))

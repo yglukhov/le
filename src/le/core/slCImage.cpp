@@ -1,3 +1,4 @@
+#include <fstream>
 #include "slTypes.h"
 #include "slCURL.h"
 #include "slCImage.h"
@@ -54,11 +55,11 @@ Bool CImage::loadFromURL(const CURL& url)
 		mImpl = NULL;
 	}
 
-	FILE* file = fopen(url.path().UTF8String(), "rb");
-	if (file)
+	std::ifstream stream(url.path().UTF8String());
+	if (stream)
 	{
 		UInt16 fileSignature;
-		fread(&fileSignature, sizeof(fileSignature), 1, file);
+		stream.read((char*)&fileSignature, sizeof(fileSignature));
 		fileSignature = CNumber::littleEndianToHost(fileSignature);
 
 		CDictionary parameters;
@@ -72,11 +73,9 @@ Bool CImage::loadFromURL(const CURL& url)
 
 		if (mImpl)
 		{
-			mImpl->loadFromFile(file);
+			mImpl->loadFromStream(stream);
 			LE_ASSERT(mImpl->frameCount());
 		}
-
-		fclose(file);
 	}
 	return _LE_BOOL_CAST(mImpl);
 }

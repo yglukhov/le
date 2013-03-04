@@ -33,7 +33,7 @@ class CImageImpl : public CObject
 			mFrames.insert(mFrames.begin() + position, frame);
 		}
 
-		virtual void loadFromFile(FILE* file)
+		virtual void loadFromStream(std::istream& stream)
 		{
 			LE_ASSERT(false);
 		}

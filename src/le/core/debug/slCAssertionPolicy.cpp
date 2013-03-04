@@ -8,6 +8,8 @@ namespace sokira
 	namespace le
 	{
 
+static TCPointer<CAssertionPolicy> sAssertionPolicy = new CAssertionPolicy();
+
 static void logAssert(const CString& expression, UInt lineNumber,
 								const CString& fileName, const CObject *object,
 								const CString& message)
@@ -30,6 +32,20 @@ static void logAssert(const CString& expression, UInt lineNumber,
 
 	if (!message.isEmpty())
 		*log << "\tMESSAGE: " << message << std::endl;
+}
+
+void CAssertionPolicy::setCurrentPolicy(TCPointer<CAssertionPolicy> policy)
+{
+	sAssertionPolicy = policy;
+	if (!sAssertionPolicy)
+	{
+		sAssertionPolicy = new CAssertionPolicy();
+	}
+}
+
+TCPointer<CAssertionPolicy> CAssertionPolicy::currentPolicy()
+{
+	return sAssertionPolicy;
 }
 
 void CAssertionPolicy::performAssert(const CString& expression, UInt lineNumber,

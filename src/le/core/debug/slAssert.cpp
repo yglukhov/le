@@ -1,5 +1,4 @@
 #include "slAssert.h"
-#include "slCAssertControl.h"
 #include "slCAssertionPolicy.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +15,7 @@ void _le_assert(bool expression, const char* strExression, unsigned line, const 
 {
 	if (!expression)
 	{
-		CAssertControl::instance()->assertionPolicy()->performAssert(strExression, line, file, object, message);
+		CAssertionPolicy::currentPolicy()->performAssert(strExression, line, file, object, message);
 	}
 }
 

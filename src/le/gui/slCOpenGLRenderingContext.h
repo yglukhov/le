@@ -66,6 +66,8 @@ class COpenGLRenderingContext : public CRenderingContext
 		virtual CTextureImpl* createTextureImpl(const CTexture* texture, const CImageImpl* imageImpl);
 		virtual void setTextureImpl(const CTextureImpl* textureImpl);
 
+		virtual void makeCurrentContext() const;
+
 	private:
 		void* sharedBufferOfSize(UInt32 size);
 		//void drawRectWithGLMode(const CRectangle& rect, int mode);
@@ -74,6 +76,8 @@ class COpenGLRenderingContext : public CRenderingContext
 		UInt32 mSharedBufferSize;
 
 		CFont mFont;
+
+		inline void validateCurrentContext() const;
 };
 
 	} // namespace le
