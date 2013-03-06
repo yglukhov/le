@@ -20,11 +20,12 @@ from optparse import OptionParser
 
 totalBuildTime = 0
 
-def slExec(code, locals=None, globals=None):
-	if sys.version_info[0] >= 3:
-		return exec(code, locals, globals)
-	else:
-		return eval(code, locals, globals)
+if sys.version_info[0] >= 3:
+	def slExecWithEnv(code, locals=None, globals=None):
+		exec("exec(code, locals, globals)")
+else:
+	def slExecWithEnv(code, locals=None, globals=None):
+		exec("exec code in locals, globals")
 
 def slExecfile(filepath, locals=None, globals=None):
 	return slExec(open(filepath, 'r').read(), locals, globals)

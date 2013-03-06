@@ -50,7 +50,7 @@ class CBuilder:
 
 			if predicateMatched:
 				try:
-					slExec(settingsData['block'], self.globalDefinitions, settings)
+					slExecWithEnv(settingsData['block'], self.globalDefinitions, settings)
 				except SyntaxError as error:
 					error.filename = settingsData['file']
 					error.lineno += settingsData['line']
@@ -109,4 +109,4 @@ class CBuilder:
 			toolSet.build()
 
 	def performScript(self, scriptName):
-		slExec(self.scripts[scriptName])
+		exec(self.scripts[scriptName])

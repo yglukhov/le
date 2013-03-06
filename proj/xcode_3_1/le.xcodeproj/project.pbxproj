@@ -158,7 +158,6 @@
 		7B7690031076A3FE00DAF20B /* slCCocoaWindowImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B15CE7B0F3610B3002E9DA7 /* slCCocoaWindowImpl.mm */; };
 		7B7690081076A40200DAF20B /* slCRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */; };
 		7B7690091076A40300DAF20B /* slCOpenGLRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */; };
-		7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
 		7B76900D1076A42A00DAF20B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B004630D08E56B7F00236593 /* OpenGL.framework */; };
 		7B7690101076A43800DAF20B /* slCControlDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B052BD10BD12ECD00AA8BD8 /* slCControlDelegate.cpp */; };
 		7B7690281076A50300DAF20B /* slCSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B7690261076A50300DAF20B /* slCSource.cpp */; };
@@ -192,7 +191,6 @@
 		7BF26EDA16198FC100660784 /* slCParserGrammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF26ED716198FC000660784 /* slCParserGrammar.cpp */; };
 		7BF5AA8B1057D26100A09C15 /* slCRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */; };
 		7BF5AA911057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */; };
-		7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */; };
 		7BFAC811107B837500BF07DF /* slCImageFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFAC810107B837500BF07DF /* slCImageFrame.cpp */; };
 		7BFAC812107B837500BF07DF /* slCImageFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFAC810107B837500BF07DF /* slCImageFrame.cpp */; };
 		7BFF4105107D3D650007FFC0 /* slCPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF4104107D3D650007FFC0 /* slCPreferences.cpp */; };
@@ -586,9 +584,6 @@
 		7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCRenderingContext.cpp; sourceTree = "<group>"; };
 		7BF5AA8E1057D61600A09C15 /* slCOpenGLRenderingContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCOpenGLRenderingContext.h; sourceTree = "<group>"; };
 		7BF5AA8F1057D61600A09C15 /* slCOpenGLRenderingContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCOpenGLRenderingContext.cpp; sourceTree = "<group>"; };
-		7BF5AC5C10580F9200A09C15 /* slCTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCTimer.h; sourceTree = "<group>"; };
-		7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCTimer.cpp; sourceTree = "<group>"; };
-		7BF5AC6610582DB200A09C15 /* slCTimerImplMacOS.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCTimerImplMacOS.hp; sourceTree = "<group>"; };
 		7BFAC80F107B837500BF07DF /* slCImageFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slCImageFrame.h; sourceTree = "<group>"; };
 		7BFAC810107B837500BF07DF /* slCImageFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = slCImageFrame.cpp; sourceTree = "<group>"; };
 		7BFAC813107B861D00BF07DF /* slCImageFrameImpl.hp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = slCImageFrameImpl.hp; sourceTree = "<group>"; };
@@ -748,8 +743,6 @@
 				7B052BE60BD12ECD00AA8BD8 /* slTypes.h */,
 				7BF5AA881057D26100A09C15 /* slCRenderingContext.h */,
 				7BF5AA891057D26100A09C15 /* slCRenderingContext.cpp */,
-				7BF5AC5C10580F9200A09C15 /* slCTimer.h */,
-				7BF5AC5D10580F9200A09C15 /* slCTimer.cpp */,
 				7B4AF637106E6B84002EED8A /* slCStaticText.h */,
 				7B4AF638106E6B84002EED8A /* slCStaticText.cpp */,
 				7B1ABE711071FE95003F102E /* slCTexture.h */,
@@ -1031,7 +1024,6 @@
 				7B65370F12A38C1300EC5ABA /* slCWindowsWindowImpl.hp */,
 				7B15CE7B0F3610B3002E9DA7 /* slCCocoaWindowImpl.mm */,
 				7B15CE7C0F3610B3002E9DA7 /* slCCocoaWindowImpl.hp */,
-				7BF5AC6610582DB200A09C15 /* slCTimerImplMacOS.hp */,
 				7B1ABE96107204A5003F102E /* slCOpenGLTextureImpl.hp */,
 				7B183BB5107281DE00652373 /* slCTextureImpl.hp */,
 				7BBB3AA512B14374006B66DD /* slCX11WindowImpl.hp */,
@@ -1710,7 +1702,6 @@
 				7B7690021076A3FD00DAF20B /* slTypes.cpp in Sources */,
 				7B7690031076A3FE00DAF20B /* slCCocoaWindowImpl.mm in Sources */,
 				7B7690081076A40200DAF20B /* slCRenderingContext.cpp in Sources */,
-				7B76900A1076A40400DAF20B /* slCTimer.cpp in Sources */,
 				7B7690101076A43800DAF20B /* slCControlDelegate.cpp in Sources */,
 				7BFAC812107B837500BF07DF /* slCImageFrame.cpp in Sources */,
 				7BFF4105107D3D650007FFC0 /* slCPreferences.cpp in Sources */,
@@ -1834,7 +1825,6 @@
 				7B15CE7D0F3610B3002E9DA7 /* slCCocoaWindowImpl.mm in Sources */,
 				7BF5AA8B1057D26100A09C15 /* slCRenderingContext.cpp in Sources */,
 				7BF5AA911057D61600A09C15 /* slCOpenGLRenderingContext.cpp in Sources */,
-				7BF5AC5F10580F9200A09C15 /* slCTimer.cpp in Sources */,
 				7B75EBAC10808F810073DE2F /* slCScrollView.cpp in Sources */,
 				7B75EBB0108092250073DE2F /* slCScrollBar.cpp in Sources */,
 				7B00156D129BED7C009886A4 /* slCGuiCocoaApplication.mm in Sources */,
