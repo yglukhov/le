@@ -1,0 +1,126 @@
+
+extension
+{
+	print('Extension loaded')
+}
+
+
+targets leFramework leCore leGui leSound
+configurations release debug
+
+targets slSnakes
+
+default target slSnakes
+default configuration release
+
+depend leFramework on leCore leGui leSound
+
+settings
+{
+	leProjectRoot = '$(projectDir)/../..'
+	leLibsDir = leProjectRoot + '/libs'
+	commonSrcRoot = leProjectRoot + '/src/le'
+	headerSearchPaths.append(path.join(leProjectRoot, 'src'))
+	targetType = staticLib
+}
+
+settings (targetPlatform in [macos, windows])
+{
+	architectures = [i386]
+}
+
+settings (targetPlatform == ios)
+{
+	architectures = [armv7]
+}
+
+
+#target leFramework
+settings (target in [leFramework, slSnakes])
+{
+	productName = 'le'
+	sourcesRoots.append(commonSrcRoot)
+	treeHeadersRoots.append(commonSrcRoot)
+	targetType = framework
+	frameworks = ['OpenAL']
+	slPlatform = 'ios' # targetPlatform
+	headerSearchPaths.append(leLibsDir)
+	libraries = ['gif', 'ogg', 'vorbis', 'vorbisfile', 'jpeg']
+	librarySearchPaths = [leLibsDir + '/gif/' + slPlatform, leLibsDir + '/vorbis/' + slPlatform, leLibsDir + '/jpeg/' + slPlatform]
+	headerSearchPaths.append(leLibsDir + '/sweet_parser')
+	productIdentifier = 'org.7lifes.le'
+	productVersion = '1.0'
+}
+
+settings (target in [leFramework, slSnakes] and targetPlatform in [ios, iosSimulator])
+{
+	frameworks.extend(['OpenGLES', 'UIKit', 'Foundation', 'CoreText', 'CoreGraphics', 'QuartzCore'])
+}
+
+settings (target in [leFramework, slSnakes] and targetPlatform == macos)
+{
+	librarySearchPaths.append('/usr/X11/lib')
+	#libraries.append('X11.6')
+	#libraries.append('freetype.6')
+	frameworks.extend(['OpenGL', 'Cocoa'])
+}
+
+target slSnakes
+{
+	productName = '$(target)'
+	targetType = application
+	slSnakesProjectRoot = '/Users/yglukhov/Projects/slSnakes/trunk'
+	slSnakesSrcRoot = path.join(slSnakesProjectRoot, 'src')
+	slSnakesResRoot = path.join(slSnakesProjectRoot, 'res')
+
+	treeResourcesRoots.append(slSnakesResRoot)
+	sourcesRoots.append(slSnakesSrcRoot)
+
+	infoPlist = { 'SLAppDelegateClass' : 'CSnakeAppDelegate' }
+}
+
+target leCore
+{
+	headerSearchPaths.append(leLibsDir)
+	headerSearchPaths.append(leLibsDir + '/sweet_parser')
+	commonSrcRoot += '/core'
+	sourcesRoots.append(commonSrcRoot)
+}
+
+target leGui
+{
+	headerSearchPaths.append(leLibsDir)
+	commonSrcRoot += '/gui'
+	sourcesRoots.append(commonSrcRoot)
+}
+
+target leSound
+{
+	commonSrcRoot += '/sound'
+	sourcesRoots.append(commonSrcRoot)
+}
+
+settings (target in [leSound, leFramework, slSnakes])
+{
+	headerSearchPaths.append(leLibsDir + '/vorbis/include')
+	headerSearchPaths.append(leLibsDir)
+}
+
+settings (target in [leGui, leFramework, slSnakes] and targetPlatform == macos)
+{
+#	headerSearchPaths.append('/usr/X11/include')
+#	headerSearchPaths.append('/usr/X11/include/freetype2')
+	headerSearchPaths.append('/opt/local/include')
+#	headerSearchPaths.append(leLibsDir + '/freetype/include')
+#	headerSearchPaths.append('/usr/X11/include/freetype2')
+}
+
+configuration release
+{
+	testVar = 'yo'
+}
+
+script scriptName
+{
+	print "Executing script"
+}
