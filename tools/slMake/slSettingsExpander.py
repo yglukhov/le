@@ -53,8 +53,10 @@ class CSettingsExpander:
 		return value
 
 	def expandValue(self, value):
-		if isinstance(value, basestring):
+		if slIsString(value):
 			return self.expandStringValue(value)
+		elif isinstance(value, list):
+			return [ self.expandValue(i) for i in value ]
 		return value
 
 	def expand(self):

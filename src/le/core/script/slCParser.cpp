@@ -260,12 +260,14 @@ using namespace sweet::parser;
 		if (rule->handler)
 		{
 			CString str(CNumber(i).valueAsString());
-			parser.set_action_handler(str.UTF8String(), std::tr1::bind(SParserFunction::func, _1, _2, _3, rule->handler));
+			TParser::ParserActionFunction func = std::tr1::bind(SParserFunction::func, _1, _2, _3, rule->handler);
+			parser.set_action_handler(str.UTF8String(), func);
 		}
 		++i;
 	}
 
-	parser.set_default_action_handler(std::tr1::bind(SParserFunction::func, _1, _2, _3, SParserFunction::defaultHandler));
+	TParser::ParserActionFunction func = std::tr1::bind(SParserFunction::func, _1, _2, _3, SParserFunction::defaultHandler);
+	parser.set_default_action_handler(func);
 
 	parser.parse(NULL, NULL);
 	return parser.user_data();

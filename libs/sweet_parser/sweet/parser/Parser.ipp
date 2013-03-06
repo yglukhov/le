@@ -86,8 +86,8 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::Parser( const ParserStateMa
   error_policy_( error_policy ),
   nodes_(),
 //  lexer_( state_machine_->lexer_state_machine(), state_machine_->end_symbol(), lexer_error_policy ),
-  action_handlers_(),
-  default_action_handler_( NULL ),
+  //action_handlers_(),
+  //default_action_handler_( NULL ),
   debug_enabled_( false ),
   accepted_( false ),
   full_( false )
@@ -99,7 +99,7 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::Parser( const ParserStateMa
     {
         ParserAction* action = i->get();
         SWEET_ASSERT( action );
-        action_handlers_.push_back( ParserActionHandler(action, NULL) );
+        action_handlers_.push_back( ParserActionHandler(action, ParserActionFunction()) );
     }
 
     nodes_.reserve( 64 );       

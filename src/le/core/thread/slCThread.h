@@ -13,9 +13,9 @@ namespace sokira
 	namespace le
 	{
 
-#define LE_TLS_DEFINITION(type, name) __thread type name;
-#define LE_TLS_STATIC_DEFINITION(type, name) static __thread type name;
-#define LE_TLS_REFERENCE(name) name;
+//#define LE_TLS_DEFINITION(type, name) __thread type name;
+//#define LE_TLS_STATIC_DEFINITION(type, name) static __thread type name;
+//#define LE_TLS_REFERENCE(name) name;
 
 class CThreadImplBase;
 

@@ -580,7 +580,11 @@ Bool COpenGLRenderingContext::isExtensionSupported(const char* extension) const
 
 inline void COpenGLRenderingContext::validateCurrentContext() const
 {
+#ifdef LE_TLS_STATIC_DEFINITION
 	LE_TLS_STATIC_DEFINITION(const COpenGLRenderingContext*, currentContext = NULL);
+#else
+	static const COpenGLRenderingContext* currentContext = NULL;
+#endif
 	if (currentContext != this)
 	{
 		std::cout << "Switching context\n";

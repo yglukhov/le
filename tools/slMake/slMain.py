@@ -19,6 +19,17 @@ index = [ 'slHeader',
 		 'slParser',
 		 'slMakeMain' ]
 
+outputFile = 'slMake'
+
+import sys, os, shutil
+
 if __name__ == '__main__':
+	pathname = os.path.dirname(sys.argv[0])
+	outputContent = ''
 	for i in index:
-		execfile(i + '.py')
+		content = open(os.path.join(pathname, i + '.py'), 'r').read()
+		outputContent += content
+		exec(compile(content, i, 'exec'))
+	output = open(os.path.join(pathname, outputFile + '.py'), 'w')
+	output.write(outputContent)
+	output.close()

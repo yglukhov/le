@@ -51,7 +51,7 @@ class CCharacterSet : public CObject
 		CString allCharacters() const
 		{
 			CString result;
-			for (typename TSet::TRangeVector::const_iterator it = mSet.indexRanges().begin(); it != mSet.indexRanges().end(); ++it)
+			for (TSet::TRangeVector::const_iterator it = mSet.indexRanges().begin(); it != mSet.indexRanges().end(); ++it)
 			{
 				for (UInt32 i = 0; i < it->length; ++i)
 				{

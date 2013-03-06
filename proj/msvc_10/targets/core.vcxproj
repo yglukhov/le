@@ -18,9 +18,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -88,7 +90,7 @@ del _le_tmp_file.tmp
     <ClCompile Include="..\..\..\src\le\core\base\slCIPictureImageImpl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\script\base\slCSokriptInstruction.cpp" />
     <ClCompile Include="..\..\..\src\le\core\script\base\slCSokriptVM.cpp" />
-    <ClCompile Include="..\..\..\src\le\core\script\base\slCSweetParser.cpp" />
+    <ClCompile Include="..\..\..\src\le\core\script\slCParser.cpp" />
     <ClCompile Include="..\..\..\src\le\core\script\slCParserGrammar.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCAny.cpp" />
     <ClCompile Include="..\..\..\src\le\core\slCClass.cpp" />
@@ -117,7 +119,6 @@ del _le_tmp_file.tmp
     <ClCompile Include="..\..\..\src\le\core\base\slCBitmapImageImpl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\base\slCXMLDictionaryParser.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slAssert.cpp" />
-    <ClCompile Include="..\..\..\src\le\core\debug\slCAssertControl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slCAssertionPolicy.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slCLogControl.cpp" />
     <ClCompile Include="..\..\..\src\le\core\debug\slCLogEntry.cpp" />
@@ -133,7 +134,6 @@ del _le_tmp_file.tmp
     <ClCompile Include="..\..\..\src\le\core\network\slCServer.cpp" />
     <ClCompile Include="..\..\..\src\le\core\script\slCLexer.cpp" />
     <ClCompile Include="..\..\..\src\le\core\script\slCScript.cpp" />
-    <ClCompile Include="..\..\..\src\le\core\script\slCTokenizer.cpp" />
     <ClCompile Include="..\..\..\src\le\core\xml\slCXMLDocument.cpp" />
     <ClCompile Include="..\..\..\src\le\core\xml\slCXMLNode.cpp" />
     <ClCompile Include="..\..\..\src\le\core\xml\slCXMLParser.cpp" />
@@ -142,6 +142,7 @@ del _le_tmp_file.tmp
     <ClInclude Include="..\..\..\src\le\core\auxiliary\slCFileManager.h" />
     <ClInclude Include="..\..\..\src\le\core\auxiliary\slCStopWatch.h" />
     <ClInclude Include="..\..\..\src\le\core\base\slCBasicAny.h" />
+    <ClInclude Include="..\..\..\src\le\core\script\slCParser.h" />
     <ClInclude Include="..\..\..\src\le\core\script\slCParserGrammar.h" />
     <ClInclude Include="..\..\..\src\le\core\slCAny.h" />
     <ClInclude Include="..\..\..\src\le\core\slCClass.h" />
@@ -180,7 +181,6 @@ del _le_tmp_file.tmp
     <ClInclude Include="..\..\..\src\le\core\config\base\slGCC.h" />
     <ClInclude Include="..\..\..\src\le\core\config\base\slMSVC.h" />
     <ClInclude Include="..\..\..\src\le\core\debug\slAssert.h" />
-    <ClInclude Include="..\..\..\src\le\core\debug\slCAssertControl.h" />
     <ClInclude Include="..\..\..\src\le\core\debug\slCAssertionPolicy.h" />
     <ClInclude Include="..\..\..\src\le\core\debug\slCLogControl.h" />
     <ClInclude Include="..\..\..\src\le\core\debug\slCLogEntry.h" />
@@ -233,7 +233,6 @@ del _le_tmp_file.tmp
     <ClInclude Include="..\..\..\src\le\core\preprocessor\slPPxor.h" />
     <ClInclude Include="..\..\..\src\le\core\script\slCLexer.h" />
     <ClInclude Include="..\..\..\src\le\core\script\slCScript.h" />
-    <ClInclude Include="..\..\..\src\le\core\script\slCTokenizer.h" />
     <ClInclude Include="..\..\..\src\le\core\xml\slCXMLDocument.h" />
     <ClInclude Include="..\..\..\src\le\core\xml\slCXMLNode.h" />
     <ClInclude Include="..\..\..\src\le\core\xml\slCXMLParser.h" />

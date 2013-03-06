@@ -13,7 +13,7 @@ class CBuilder:
 								}
 		self.addGlobalIdentifiers('ppc i386 x86_64 ppc64 armv6 armv7') # architectures
 		self.addGlobalIdentifiers('executable staticLib dynamicLib application framework bundle') # target types
-		self.addGlobalIdentifiers('macos ios iosSimulator windows') # platforms
+		self.addGlobalIdentifiers('macos ios iosSimulator windows windowsPhone') # platforms
 		self.settings = []
 		self.dependencies = CDependencyGraph()
 
@@ -50,7 +50,7 @@ class CBuilder:
 
 			if predicateMatched:
 				try:
-					exec settingsData['block'] in self.globalDefinitions, settings
+					slExec(settingsData['block'], self.globalDefinitions, settings)
 				except SyntaxError as error:
 					error.filename = settingsData['file']
 					error.lineno += settingsData['line']
@@ -105,7 +105,8 @@ class CBuilder:
 		for target in self.dependencies.unwrappedForObject(self.defaultTarget):
 			log.logStartBuildTarget(target, self.defaultConfiguration)
 			toolSet = self.createToolset(target, self.defaultConfiguration)
+			print("toolset: " + toolSet.__class__.__name__)
 			toolSet.build()
 
 	def performScript(self, scriptName):
-		exec self.scripts[scriptName]
+		slExec(self.scripts[scriptName])

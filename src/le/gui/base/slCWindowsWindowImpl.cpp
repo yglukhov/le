@@ -214,7 +214,7 @@ void CWindowsWindowImpl::screenWasAddedToApplication(CWindow* screen, CGuiApplic
 
 	mWindow = CreateWindow(
 		"le_window",
-		mTitle.cString(),
+		mTitle.UTF8String(),
 		WS_THICKFRAME | WS_SYSMENU,
 		0, 0, 200, 200,
 		NULL,

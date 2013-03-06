@@ -7,13 +7,8 @@
 ################################################################################
 
 ################################################################################
-__inlineProjects = """
-# Inline Projects Start
-
-# Inline Projects End
-"""
 ################################################################################
-import os, string, md5, sys, shutil, plistlib
+import os, string, hashlib, sys, shutil, plistlib, itertools, subprocess, re
 
 from os import path
 from subprocess import Popen, call, PIPE
@@ -25,6 +20,18 @@ from optparse import OptionParser
 
 totalBuildTime = 0
 
+def slExec(code, locals=None, globals=None):
+	if sys.version_info[0] >= 3:
+		return exec(code, locals, globals)
+	else:
+		return eval(code, locals, globals)
+
+def slExecfile(filepath, locals=None, globals=None):
+	return slExec(open(filepath, 'r').read(), locals, globals)
+
+def slIsString(obj):
+	if sys.version_info[0] >= 3: return isinstance(obj, str)
+	return isinstance(obj, basestring)
 
 def slMakedirs(dirPath):
 	if not path.exists(dirPath): os.makedirs(dirPath)
@@ -35,6 +42,8 @@ def slIsIdentifierNative(identifier):
 def slPlatform():
 	if sys.platform == 'darwin':
 		return 'macos'
+	elif sys.platform == 'win32':
+		return 'windows'
 	return None
 
 def itersubclasses(cls, _seen=None):

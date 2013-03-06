@@ -3,7 +3,7 @@
 #include "slCDictionary.h"
 #include "slCURL.h"
 #include "slCClassFactory.h"
-#include "slCDataStream.h"
+#include <le/core/io/slCDataStream.h>
 #include "base/slCXMLDictionaryParser.hp"
 
 namespace sokira

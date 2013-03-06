@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <stdarg.h>
-#include <iconv.h>
 
 #include "slCBasicString.h"
 #include <le/core/debug/slAssert.h>
@@ -9,6 +8,8 @@
 #include <le/core/slCDictionary.h>
 
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+
+#include <windows.h>
 
 static inline int vasprintf(char** buffer, const char* format, va_list args)
 {
@@ -19,9 +20,7 @@ static inline int vasprintf(char** buffer, const char* format, va_list args)
 }
 
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
-
 #include <CoreFoundation/CoreFoundation.h>
-
 #endif
 
 namespace sokira
@@ -163,12 +162,12 @@ struct SStringProxy
 	{
 		if (!mUTF8String)
 		{
+			UInt32 wLength = slStrLen(mWString);
 #if LE_TARGET_PLATFORM == LE_PLATFORM_MACOSX || LE_TARGET_PLATFORM == LE_PLATFORM_IOS
 			// Check our byte order. Assuming we made the string as in your example
 			CFStringEncoding encoding = (CFByteOrderLittleEndian == CFByteOrderGetCurrent()) ?
 				kCFStringEncodingUTF32LE : kCFStringEncodingUTF32BE;
 
-			UInt32 wLength = slStrLen(mWString);
 			CFStringRef string = CFStringCreateWithBytes(kCFAllocatorDefault,
 														 (const UInt8 *)mWString,
 														 wLength * sizeof(WChar),
@@ -181,6 +180,30 @@ struct SStringProxy
 				CFStringGetCString(string, mUTF8String, length, kCFStringEncodingUTF8);
 				CFRelease(string);
 			}
+#elif LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+#if (WINVER >= 0x0600)
+			DWORD dwConversionFlags = WC_ERR_INVALID_CHARS;
+#else
+			DWORD dwConversionFlags = 0;
+#endif
+
+			int length = ::WideCharToMultiByte(CP_UTF8, dwConversionFlags, mWString,
+					static_cast<int>( wLength + 1 ),   // total source string length, in WCHAR's,
+                                        // including end-of-string \0
+					NULL,                   // unused - no conversion required in this step
+					0,                      // request buffer size
+					NULL, NULL);
+
+			LE_ASSERT(length != 0);
+			mUTF8String = new char[length];
+
+			::WideCharToMultiByte(CP_UTF8, dwConversionFlags, mWString,
+				static_cast<int>( wLength + 1 ),   // total source string length, in WCHAR's,
+												// including end-of-string \0
+				mUTF8String,                // destination buffer
+				length,                 // destination buffer size, in bytes
+				NULL, NULL              // unused
+				); 
 #else
 #error Not implemented
 #endif
@@ -323,7 +346,8 @@ static WChar* widecharWithData(void* data, UInt32 length, EStringEncoding encodi
 
 	return NULL;
 #else
-#error Not implemented
+	return NULL;
+//#error Not implemented
 #endif
 }
 

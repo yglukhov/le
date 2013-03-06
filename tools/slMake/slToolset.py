@@ -90,6 +90,7 @@ class CToolset:
 			dependencies = self.createDependencies(sourceFile, dependenciesFile)
 			depsMTime = float('inf')
 
+		if not dependencies: return True
 		return self.areDependenciesValid(dependencies, objMTime, sourceFile, dependenciesFile, depsMTime)
 
 	def executablePath(self):
@@ -119,6 +120,7 @@ class CToolset:
 
 	def buildExecutable(self):
 		self.settings = self.createSettings('')
+		#print(self.settings)
 		architectures = self.settings.get('architectures', ['i386'])
 
 		linkedProducts = []

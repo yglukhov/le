@@ -51,6 +51,7 @@ def listExtensions(all):
 ################################################################################
 
 def main():
+	print("platform: " + slPlatform())
 	#	selfDirPath = os.path.dirname(path.abspath(argv[0]))
 	projectDir = configDir()
 	if projectDir:
