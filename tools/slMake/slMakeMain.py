@@ -63,7 +63,7 @@ def main():
 		parser.add_option("--listExtensions", dest="listExtensions")
 		parser.add_option("--targetPlatform", dest="targetPlatform")
 		(options, args) = parser.parse_args()
-		builder.globalDefinitions['targetPlatform'] = 'iosSimulator';
+		builder.globalDefinitions['targetPlatform'] = slPlatform();
 		parser = CParser()
 		parser.parseFileInputToBuilder(fileInput, builder)
 		builder.performBuild()

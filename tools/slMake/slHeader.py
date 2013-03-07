@@ -40,6 +40,10 @@ def slMakedirs(dirPath):
 def slIsIdentifierNative(identifier):
 	return identifier.startswith('com.7lifes.')
 
+def slDecodeCLIOutput(output):
+	#TODO: Check for universal newlines supported. For now, hope that it is.
+	return output
+
 def slPlatform():
 	if sys.platform == 'darwin':
 		return 'macos'

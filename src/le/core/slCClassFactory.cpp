@@ -45,7 +45,7 @@ CClass CClassFactory::bestSubclassOfClassWithParameters(const CClass& superclass
 		if (curClass.isChildOfClass(superclass))
 		{
 			Float32 priority = curClass.priorityForParameters(parameters);
-			if (priority > bestPriority)
+			if (priority > bestPriority || bestClass == superclass)
 			{
 				bestPriority = priority;
 				bestClass = curClass;

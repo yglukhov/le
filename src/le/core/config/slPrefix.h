@@ -17,7 +17,7 @@
 
 
 /// This flag is set to #LE_TRUE when building with \b debug configuration.
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 #define LE_FLAG_DEBUG LE_TRUE
 #else
 #define LE_FLAG_DEBUG LE_FALSE

@@ -20,7 +20,7 @@ class CBitmapImageImpl : public CImageImpl
 	LE_RTTI_END
 	
 	public:
-		virtual void loadFromStream(std::istream& stream);
+		virtual CResult loadFromStream(std::istream& stream);
 		static Float32 priorityForParameters(const CDictionary& parameters)
 		{
 			UInt16 fileSignature = parameters.valueAsUInt16ForKey("fileSignature");
@@ -77,7 +77,7 @@ typedef struct tagRGBQUAD {
   BYTE    rgbReserved;
 } RGBQUAD;
 
-void CBitmapImageImpl::loadFromStream(std::istream& stream)
+CResult CBitmapImageImpl::loadFromStream(std::istream& stream)
 {
 //	std::cout << "loading bitmap" << std::endl;
 	BITMAPFILEHEADER bmfh;
@@ -183,6 +183,7 @@ void CBitmapImageImpl::loadFromStream(std::istream& stream)
 		stream.read((char*)&color, padWidth); // Omit padding
 	}
 	insertFrame(0, CImageFrame(new CImageFrameImpl(size, (EPixelFormat)LE_BMP_BITS_PER_PIXEL, pixelData, 0)));
+	return true;
 }
 
 	} // namespace le

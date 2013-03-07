@@ -38,7 +38,7 @@ CURL CBundle::contentsUrl() const
 	result.removeLastPathComponent();
 #elif LE_TARGET_PLATFORM == LE_PLATFORM_WINDOWS
 	result.removeLastPathComponent();
-	result.appendPathComponent("Contents");
+//	result.appendPathComponent("Contents");
 #endif
 	return result;
 }

@@ -1,9 +1,17 @@
 #if !defined SL_LE_core_geometry_slTCSegment2D_h
 #define SL_LE_core_geometry_slTCSegment2D_h
 
+#define _USE_MATH_DEFINES
+
 #include <algorithm>
 #include <cmath>
 #include "slTCPoint2D.h"
+#include <le/core/config/slCompiler.h>
+
+//#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+//#pragma message("error: Hello")
+//#include <math.h>
+//#endif
 
 
 namespace sokira

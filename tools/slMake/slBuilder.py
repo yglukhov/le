@@ -105,7 +105,6 @@ class CBuilder:
 		for target in self.dependencies.unwrappedForObject(self.defaultTarget):
 			log.logStartBuildTarget(target, self.defaultConfiguration)
 			toolSet = self.createToolset(target, self.defaultConfiguration)
-			print("toolset: " + toolSet.__class__.__name__)
 			toolSet.build()
 
 	def performScript(self, scriptName):

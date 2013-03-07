@@ -43,10 +43,10 @@ settings (target in [leFramework, slSnakes])
 	treeHeadersRoots.append(commonSrcRoot)
 	targetType = framework
 	frameworks = ['OpenAL']
-	slPlatform = 'ios' # targetPlatform
+	slPlatform = targetPlatform
 	headerSearchPaths.append(leLibsDir)
-	libraries = ['gif', 'ogg', 'vorbis', 'vorbisfile', 'jpeg']
-	librarySearchPaths = [leLibsDir + '/gif/' + slPlatform, leLibsDir + '/vorbis/' + slPlatform, leLibsDir + '/jpeg/' + slPlatform]
+	libraries = ['libvorbis_static', 'libvorbisfile_static']
+	librarySearchPaths = [leLibsDir + '/gif/' + slPlatform, leLibsDir + '/vorbis/' + slPlatform, leLibsDir + '/jpeg/' + slPlatform, leLibsDir + '/al/' + slPlatform]
 	headerSearchPaths.append(leLibsDir + '/sweet_parser')
 	productIdentifier = 'org.7lifes.le'
 	productVersion = '1.0'
@@ -55,6 +55,11 @@ settings (target in [leFramework, slSnakes])
 settings (target in [leFramework, slSnakes] and targetPlatform in [ios, iosSimulator])
 {
 	frameworks.extend(['OpenGLES', 'UIKit', 'Foundation', 'CoreText', 'CoreGraphics', 'QuartzCore'])
+}
+
+settings (target in [leFramework, slSnakes] and targetPlatform == windows)
+{
+	libraries.extend(['User32', 'Ole32', 'OleAut32', 'Shell32', 'libogg_static', 'giflib', 'OpenGL32', 'gdi32', 'OpenAL32'])
 }
 
 settings (target in [leFramework, slSnakes] and targetPlatform == macos)
@@ -69,7 +74,7 @@ target slSnakes
 {
 	productName = '$(target)'
 	targetType = application
-	slSnakesProjectRoot = '/Users/yglukhov/Projects/slSnakes/trunk'
+	slSnakesProjectRoot = '$(leProjectRoot)/../slsnakes'
 	slSnakesSrcRoot = path.join(slSnakesProjectRoot, 'src')
 	slSnakesResRoot = path.join(slSnakesProjectRoot, 'res')
 

@@ -15,26 +15,59 @@ namespace sokira
 	{
 		
 CResult::CResult(Bool success) :
-	mSuccess(success)
+	mErrorCode(!success)
 {
-
 }
 
-CResult::CResult(const CString& errorDescription) :
-	mSuccess(false),
+CResult::CResult(SInt32 code) :
+	mErrorCode(code)
+{
+}
+
+CResult::CResult(const CString& errorDescription, SInt32 errorCode) :
+	mErrorCode(errorCode),
 	mErrorDescription(errorDescription)
 {
+}
 
+CResult::CResult(const NChar* errorDescription, SInt32 errorCode) :
+	mErrorCode(errorCode),
+	mErrorDescription(errorDescription)
+{
+}
+
+CResult::CResult(const WChar* errorDescription, SInt32 errorCode) :
+	mErrorCode(errorCode),
+	mErrorDescription(errorDescription)
+{
+}
+
+CResult::CResult(const CResult& copy) :
+	mErrorDescription(copy.mErrorDescription),
+	mErrorCode(copy.mErrorCode)
+{
+}
+
+const CResult& CResult::operator=(const CResult& copy)
+{
+	mErrorCode = copy.mErrorCode;
+	mErrorDescription = copy.mErrorDescription;
+	return *this;
 }
 
 CResult::operator Bool() const
 {
-	return mSuccess;
+	return !mErrorCode;
 }
 
 CString CResult::description() const
 {
 	return mErrorDescription;
+}
+
+SInt32 CResult::errorCode() const
+{
+	return mErrorCode;
 }
 
 	} // namespace le

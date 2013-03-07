@@ -5,4 +5,4 @@
 @echo off
 cd "%~dp0"
 C:\Python33\python %SLMAKE_PATH%
-pause
+REM pause

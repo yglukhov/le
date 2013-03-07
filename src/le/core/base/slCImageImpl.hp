@@ -3,6 +3,7 @@
 
 //#include <vector>
 #include <le/core/slCObject.h>
+#include <le/core/slCResult.h>
 #include <le/core/slCImageFrame.h>
 
 namespace sokira
@@ -33,9 +34,10 @@ class CImageImpl : public CObject
 			mFrames.insert(mFrames.begin() + position, frame);
 		}
 
-		virtual void loadFromStream(std::istream& stream)
+		virtual CResult loadFromStream(std::istream& stream)
 		{
 			LE_ASSERT(false);
+			return false;
 		}
 
 	private:

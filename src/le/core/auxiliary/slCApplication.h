@@ -5,13 +5,13 @@
 //#include "slCBundle.h"
 #include "slCCommandLine.h"
 #include "slCPreferences.h"
+#include "slCApplicationDelegate.h"
 
 namespace sokira
 {
 	namespace le
 	{
 
-class CApplicationDelegate;
 class CPreferences;
 class CBundle;
 
@@ -33,19 +33,18 @@ class CApplication : public CObject
 		CCommandLine commandLine() const;
 		CPreferences* preferences();
 
-		void setDelegate(CApplicationDelegate& delegate);
+		void setDelegate(CApplicationDelegate::Ptr delegate);
 		bool setDelegateClass(const CString& className);
 
 		CBundle mainBundle() const;
 
-		CApplicationDelegate* delegate();
+		CApplicationDelegate::Ptr delegate();
 
 	protected:
 		virtual SInt32 runApplication();
 
 	private:
-		CApplicationDelegate* mDelegate;
-		Bool mOwnDelegate;
+		CApplicationDelegate::Ptr mDelegate;
 		CCommandLine mCommandLine;
 		CPreferences* mPreferences;
 };

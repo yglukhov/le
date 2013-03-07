@@ -1,6 +1,8 @@
 #if !defined SL_LE_core_geometry_slTCPoint2D_h
 #define SL_LE_core_geometry_slTCPoint2D_h
 
+#define _USE_MATH_DEFINES
+
 #include <cmath>
 #include <algorithm>
 #include <iostream>

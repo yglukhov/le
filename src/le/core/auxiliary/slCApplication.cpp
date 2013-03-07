@@ -1,6 +1,5 @@
 #include <le/core/slCClassFactory.h>
 #include "slCApplication.h"
-#include "slCApplicationDelegate.h"
 #include "slCBundle.h"
 
 namespace sokira
@@ -11,7 +10,6 @@ namespace sokira
 static CApplication* gCurrentApplication = NULL;
 
 CApplication::CApplication() :
-	mDelegate(NULL),
 	mPreferences(NULL)
 {
 
@@ -42,8 +40,15 @@ int CApplication::run(int argc, const char * const argv[])
 		setDelegateClass(delegateClass);
 		if (!mDelegate)
 		{
-			std::cout << "Could not create delegate of class \"" << delegateClass << "\"" << std::endl;
-			return 1;
+			mDelegate = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CApplicationDelegate::staticClass(), CDictionary()).create<CApplicationDelegate>();
+			if (!mDelegate)
+			{
+				std::cout << "Could not create delegate of class \"" << delegateClass << "\"" << std::endl;
+				char c;
+				std::cin >> c;
+				return 1;
+			}
+			std::cout << "delegate class: " << mDelegate->objectClass().name() << std::endl;
 		}
 	}
 
@@ -75,10 +80,9 @@ CPreferences* CApplication::preferences()
 	return mPreferences;
 }
 
-void CApplication::setDelegate(CApplicationDelegate& delegate)
+void CApplication::setDelegate(CApplicationDelegate::Ptr delegate)
 {
-	mDelegate = &delegate;
-	mOwnDelegate = false;
+	mDelegate = delegate;
 }
 
 bool CApplication::setDelegateClass(const CString& className)
@@ -88,10 +92,7 @@ bool CApplication::setDelegateClass(const CString& className)
 
 	if (delegate)
 	{
-		if (mOwnDelegate) delete mDelegate;
-		mDelegate = delegate.get();
-		delegate.retain();
-		mOwnDelegate = true;
+		mDelegate = delegate;
 		return true;
 	}
 
@@ -103,7 +104,7 @@ SInt32 CApplication::runApplication()
 	return 0;
 }
 
-CApplicationDelegate* CApplication::delegate()
+CApplicationDelegate::Ptr CApplication::delegate()
 {
 	return mDelegate;
 }

@@ -116,20 +116,21 @@ class CWindowsToolset(CToolset):
 			command.append('/I' + searchPath)
 		command.append('/Fo' + objectFile)
 		command.append(sourceFile)
+		command.append('/Zi')
+		command.extend(['/GS', '/RTC1', '/DEBUG'])
 		return command
 
 	def compileSource(self, sourceFile, objectFile):
 		slMakedirs(path.dirname(objectFile))
 		command = self.compilerCommandLine(sourceFile, objectFile)
 		theTime = time()
-		p = Popen(command, stdout = PIPE, stderr = PIPE, env = self.vcppEnvironment())
+		p = Popen(command, stdout = PIPE, stderr = PIPE, env = self.vcppEnvironment(), universal_newlines = True)
 		out, err = p.communicate()
 		global totalBuildTime
 		totalBuildTime += time() - theTime
 		if p.returncode:
-			out = str(out).replace('\\r\\n', '\r\n')
 			print(command)
-			print(out)
+			print(slDecodeCLIOutput(out))
 		if len(err):
 			print(err)
 
@@ -137,25 +138,30 @@ class CWindowsToolset(CToolset):
 		return 'exe'
 
 	def linkObjects(self, objects, executable):
-		print("linking")
-		#print(objects)
-		print(executable)
-		return
-		command = self.linkerCommandLine(objects, executable)
-		theTime = time()
-		call(command)
-		global totalBuildTime
-		totalBuildTime += time() - theTime
+		command = [self.visualCPPCompilerPath(), '/nologo', '/EHsc', '/MT']
+		command.append('/Fe' + executable)
+		for lib in self.settings['libraries']:
+			command.append(lib + '.lib')
+		command.extend(objects)
+		command.extend(['/link', '/LTCG'])
+		command.append('/DEBUG')
+		for libPath in self.settings['librarySearchPaths']:
+			command.append('/LIBPATH:' + libPath)
+		#print(command)
+		p = Popen(command, stdout = PIPE, stderr = PIPE, env = self.vcppEnvironment(), universal_newlines = True)
+		out, err = p.communicate()
+		print(slDecodeCLIOutput(out))
 
 	def actualDependenciesForSourceFile(self, source):
+		log.logInfo('Analyzing dependencies of ' + path.basename(source))
 		command = [self.visualCPPCompilerPath(), '/nologo', '/EHsc', '/E']
 		for searchPath in self.settings['headerSearchPaths']:
 			command.append('/I' + searchPath)
 		command.append(source)
-		p = Popen(command, stdout = PIPE, stderr = PIPE, env = self.vcppEnvironment())
+		p = Popen(command, stdout = PIPE, stderr = PIPE, env = self.vcppEnvironment(), universal_newlines = True)
 		out, err = p.communicate()
 		result = set()
-		for line in out.decode('unicode_escape').splitlines():
+		for line in slDecodeCLIOutput(out).splitlines():
 			if line.startswith('#line '):
 				result.add(re.search('#line [^ ]+ "(.*)"', line).group(1))
 		return list(result)

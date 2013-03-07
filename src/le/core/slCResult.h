@@ -12,14 +12,22 @@ class CResult
 {
 	public:
 		CResult(Bool success);
-		CResult(const CString& errorDescription);
+		CResult(SInt32 errorCode);
+		CResult(const CString& errorDescription, SInt32 errorCode = 1);
+		CResult(const NChar* errorDescription, SInt32 errorCode = 1);
+		CResult(const WChar* errorDescription, SInt32 errorCode = 1);
+		CResult(const CResult& copy);
+
+		const CResult& operator=(const CResult& copy);
+
 		operator Bool() const;
 
 		CString description() const;
+		SInt32 errorCode() const;
 
 		inline void throwIfFailure() const throw (CResult)
 		{
-			if (!mSuccess)
+			if (!*this)
 			{
 				throw *this;
 			}
@@ -28,9 +36,18 @@ class CResult
 		static CResult lastError();
 
 	private:
-		Bool mSuccess;
 		CString mErrorDescription;
+		SInt32 mErrorCode;
 };
+
+inline std::ostream& operator << (std::ostream& o, const CResult& result)
+{
+	if (!result.description().isEmpty())
+	{
+		o << result.description() << ": ";
+	}
+	return o << result.errorCode(); 
+}
 
 	} // namespace le
 } // namespace sokira

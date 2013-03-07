@@ -1,6 +1,7 @@
 #if !defined SL_LE_core_slCImage_h
 #define SL_LE_core_slCImage_h
 
+#include <le/core/slCResult.h>
 #include <le/core/geometry/slTCSize2D.h>
 #include "slCString.h"
 #include "slCImageFrame.h"
@@ -29,7 +30,7 @@ class CImage : public CObject
 
 		static CImage createWithPixelData(const CSize2D& size, EPixelFormat format, UInt8* data);
 	
-		Bool loadFromURL(const CURL& url);
+		CResult loadFromURL(const CURL& url);
 
 		UInt32 frameCount() const;
 		CImageFrame frameAtIndex(UInt32 index) const;

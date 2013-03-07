@@ -46,7 +46,7 @@ CImage CImage::createWithPixelData(const CSize2D& size, EPixelFormat format, UIn
 	return result;
 }
 
-Bool CImage::loadFromURL(const CURL& url)
+CResult CImage::loadFromURL(const CURL& url)
 {
 //	std::cout << "Loading image: " << url << std::endl;
 	if (mImpl)
@@ -55,7 +55,7 @@ Bool CImage::loadFromURL(const CURL& url)
 		mImpl = NULL;
 	}
 
-	std::ifstream stream(url.path().UTF8String());
+	std::ifstream stream(url.path().UTF8String(), std::ifstream::binary);
 	if (stream)
 	{
 		UInt16 fileSignature;
@@ -73,7 +73,12 @@ Bool CImage::loadFromURL(const CURL& url)
 
 		if (mImpl)
 		{
-			mImpl->loadFromStream(stream);
+			CResult result = mImpl->loadFromStream(stream);
+			if (!result)
+			{
+				std::cout << "Error loading image: " << result << std::endl;
+				return result;
+			}
 			LE_ASSERT(mImpl->frameCount());
 		}
 	}
