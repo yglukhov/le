@@ -31,7 +31,7 @@ enum EAutoResizing
 // CControl objects can not contain any childs.
 class CControl : public CObject
 {
-	LE_DECLARE_RUNTIME_CLASS(CControl);
+	LE_DECLARE_RUNTIME_CLASS(CControl)
 
 	// Creation
 	public:

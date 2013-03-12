@@ -152,10 +152,12 @@ class CIndexSet : public CObject, public TCIndexSet<SRange>
 		LE_RTTI_SINGLE_PUBLIC_PARENT
 	LE_RTTI_END
 
+	typedef TCIndexSet<SRange> TParent;
+
 	public:
 		CIndexSet() {}
-		CIndexSet(const SRange& range) : TCIndexSet(range) {}
-		CIndexSet(SRange::TLocation index) : TCIndexSet(index) {}
+		CIndexSet(const SRange& range) : TParent(range) {}
+		CIndexSet(SRange::TLocation index) : TParent(index) {}
 };
 
 template <typename T>

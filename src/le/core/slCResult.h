@@ -25,14 +25,7 @@ class CResult
 		CString description() const;
 		SInt32 errorCode() const;
 
-		inline void throwIfFailure() const throw (CResult)
-		{
-			if (!*this)
-			{
-				throw *this;
-			}
-		}
-
+		void throwIfFailure() const;
 		static CResult lastError();
 
 	private:

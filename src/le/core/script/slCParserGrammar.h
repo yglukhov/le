@@ -55,7 +55,7 @@ class CParserGrammar : public CObject
 		EAssociativity associativityForTerminal(const CString& identifier) const;
 		SInt precedenceForTerminal(const CString& identifier) const;
 		ITokenMatcher* matcherForTerminal(const CString& identifier) const;
-	
+
 	private:
 		class CGrammarReader
 		{
@@ -83,8 +83,6 @@ class CParserGrammar : public CObject
 				std::vector<CString> mSubIdentifiers;
 				TRuleHandler mHandler;
 		};
-
-		friend class CParserGrammar;
 
 		void finalize() const;
 		inline bool ruleWithIdentifierExists(const CString& identifier) const;

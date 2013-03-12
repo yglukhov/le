@@ -25,20 +25,20 @@ CResult::CResult(SInt32 code) :
 }
 
 CResult::CResult(const CString& errorDescription, SInt32 errorCode) :
-	mErrorCode(errorCode),
-	mErrorDescription(errorDescription)
+	mErrorDescription(errorDescription),
+	mErrorCode(errorCode)
 {
 }
 
 CResult::CResult(const NChar* errorDescription, SInt32 errorCode) :
-	mErrorCode(errorCode),
-	mErrorDescription(errorDescription)
+	mErrorDescription(errorDescription),
+	mErrorCode(errorCode)
 {
 }
 
 CResult::CResult(const WChar* errorDescription, SInt32 errorCode) :
-	mErrorCode(errorCode),
-	mErrorDescription(errorDescription)
+	mErrorDescription(errorDescription),
+	mErrorCode(errorCode)
 {
 }
 
@@ -68,6 +68,14 @@ CString CResult::description() const
 SInt32 CResult::errorCode() const
 {
 	return mErrorCode;
+}
+
+void CResult::throwIfFailure() const
+{
+	if (!*this)
+	{
+		throw *this;
+	}
 }
 
 	} // namespace le

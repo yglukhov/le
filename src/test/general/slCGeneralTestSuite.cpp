@@ -72,6 +72,11 @@ void CGeneralTestSuite::testTypeTraits()
 	LE_ASSERT((TSTypesEqual<leFirstPublicParent, CTestSuite>::value));
 	LE_ASSERT((TSTypesEqual<leFirstPrivateParent, _SNullType>::value));
 	LE_ASSERT((TSTypesEqual<leSelf, CGeneralTestSuite>::value));
+
+	LE_ASSERT((TSTypesEqual<TSRef<int>::result, int&>::value));
+	LE_ASSERT((TSTypesEqual<TSRef<int&>::result, int&>::value));
+	LE_ASSERT((TSTypesEqual<TSRef<const int>::result, const int&>::value));
+	LE_ASSERT((TSTypesEqual<TSRef<const int&>::result, const int&>::value));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

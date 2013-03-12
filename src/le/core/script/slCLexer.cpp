@@ -52,7 +52,7 @@ CToken CLexer::nextToken()
 	return result;
 }
 
-CToken CLexer::nextTokenIncludingIgnored()
+void CLexer::resetTokenMatchers()
 {
 	std::map<CString, ITokenMatcher*>::iterator end = mTokenMatches.end();
 	for (std::map<CString, ITokenMatcher*>::iterator it = mTokenMatches.begin();
@@ -60,6 +60,11 @@ CToken CLexer::nextTokenIncludingIgnored()
 	{
 		it->second->reset();
 	}
+}
+
+CToken CLexer::nextTokenIncludingIgnored()
+{
+	resetTokenMatchers();
 
 	std::map<CString, ITokenMatcher*> allMatchers = mTokenMatches;
 	std::set<ITokenMatcher*> matchedMatchers;

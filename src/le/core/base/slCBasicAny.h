@@ -20,9 +20,8 @@ class CBasicAny
 
 		template <typename T>
 		CBasicAny(const T& value) :
-			mValue(new TCAnyContainer<T>(value))
+			mValue(new TCAnyConstContainer<T>(value))
 		{
-
 		}
 
 		CBasicAny(const CBasicAny& copy);
@@ -30,13 +29,13 @@ class CBasicAny
 		template <typename T>
 		static CBasicAny constRef(const T& value)
 		{
-			return CBasicAny((IAnyContainer*)new TCAnyContainer<const T&>(value));
+			return CBasicAny((IAnyContainer*)new TCAnyConstContainer<const T&>(value));
 		}
 
 		template <typename T>
 		static CBasicAny mutableRef(T& value)
 		{
-			return CBasicAny((IAnyContainer*)new TCAnyContainer<typename TSRemoveConst<T>::result&>(value));
+			return CBasicAny((IAnyContainer*)new TCAnyMutableContainer<typename TSRemoveConst<T>::result&>(value));
 		}
 
 		template <typename T>
@@ -54,9 +53,9 @@ class CBasicAny
 		const CBasicAny& operator = (const CBasicAny& copy);
 
 		template <typename T>
-		const CBasicAny& operator=(typename TSRef<T>::result& value)
+		const CBasicAny& operator=(typename TSConstRef<T>::result& value)
 		{
-			mValue = new TCAnyContainer<typename TSRef<T>::result>(value);
+			mValue = new TCAnyMutableContainer<typename TSRemoveRef<T>::result>(value);
 			return *this;
 		}
 
@@ -103,13 +102,14 @@ class CBasicAny
 				virtual IAnyContainer* copy() const = 0;
 				virtual void* get(const std::type_info& type) const = 0;
 				virtual bool isConst() const = 0;
+				virtual const char* type() const = 0;
 		};
 
 		template <typename T>
-		class TCAnyContainer : public IAnyContainer
+		class TCAnyMutableContainer : public IAnyContainer
 		{
 			public:
-				TCAnyContainer(const T& value) :
+				TCAnyMutableContainer(typename TSRef<T>::result value) :
 					mValue(value)
 				{
 
@@ -123,7 +123,7 @@ class CBasicAny
 						return const_cast<IAnyContainer*>(static_cast<const IAnyContainer*>(this));
 					}
 
-					return new TCAnyContainer<T>(mValue);
+					return new TCAnyMutableContainer<T>(mValue);
 				}
 
 				virtual void* get(const std::type_info& type) const
@@ -142,14 +142,68 @@ class CBasicAny
 
 				virtual bool isConst() const
 				{
-					return TSIsConst<T>::value;
+					return false;
 				}
 
+				const char* type() const
+				{
+					return typeid(const typename TSRemoveRef<T>::result*).name();
+				}
 			private:
 				T mValue;
 		};
 
+		template <typename T>
+		class TCAnyConstContainer : public IAnyContainer
+		{
+		public:
+			TCAnyConstContainer(typename TSConstRef<T>::result value) :
+				mValue(value)
+			{
+				
+			}
+			
+			virtual IAnyContainer* copy() const
+			{
+				if (TSIsRef<T>::value)
+				{
+					retain();
+					return const_cast<IAnyContainer*>(static_cast<const IAnyContainer*>(this));
+				}
+
+				return new TCAnyConstContainer<T>(mValue);
+			}
+
+			virtual void* get(const std::type_info& type) const
+			{
+				if (!strcmp(type.name(), typeid(const typename TSRemoveRef<T>::result*).name()))
+				{
+					return const_cast<void*>(static_cast<const void*>(&mValue));
+				}
+
+				std::cout << "TYPES DO NOT MATCH!" << std::endl;
+				std::cout << "Requested type: " << type.name() << std::endl;
+				std::cout << "Actual type: " << typeid(const typename TSRemoveRef<T>::result*).name() << std::endl;
+				
+				return NULL;
+			}
+
+			virtual bool isConst() const
+			{
+				return true;
+			}
+
+			const char* type() const
+			{
+				return typeid(const typename TSRemoveRef<T>::result*).name();
+			}
+
+		private:
+			T mValue;
+		};
+
 		CBasicAny(IAnyContainer* container);
+		protected:
 		TCPointer<IAnyContainer> mValue;
 };
 
@@ -158,12 +212,20 @@ class CBasicReferenceAny : public CBasicAny
 public:
 	CBasicReferenceAny() {}
 
-	template <typename T>
-	CBasicReferenceAny(T& value) : CBasicAny(mutableRef(value)) {}
-	template <typename T>
-	CBasicReferenceAny(const T& value) : CBasicAny(constRef(value)) {}
+	CBasicReferenceAny(const CBasicReferenceAny& copy) : CBasicAny((const CBasicAny&)copy)
+	{
+	}
 
-	CBasicReferenceAny(const CBasicReferenceAny& copy) : CBasicAny((const CBasicAny&)copy) {}
+	template <typename T>
+	CBasicReferenceAny(T& value) : CBasicAny(mutableRef(value))
+	{
+	}
+
+	template <typename T>
+	CBasicReferenceAny(const T& value) : CBasicAny(constRef(value))
+	{
+	}
+
 
 	template <typename T>
 	const CBasicReferenceAny& operator=(T& value)
@@ -175,6 +237,18 @@ public:
 	const CBasicReferenceAny& operator=(const T& value)
 	{
 		return (*this = CBasicAny::constRef(value));
+	}
+
+	const CBasicReferenceAny& operator=(const CBasicReferenceAny& copy)
+	{
+		CBasicAny::operator=(copy);
+		return *this;
+	}
+
+	const CBasicReferenceAny& operator=(const CBasicAny& copy)
+	{
+		CBasicAny::operator=(copy);
+		return *this;
 	}
 };
 

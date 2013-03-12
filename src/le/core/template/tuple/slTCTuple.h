@@ -54,9 +54,9 @@ struct TSDefaultTupleUnit
 {
 	typename TSRemoveConst<typename TSRemoveRef<T>::result>::result mValue;
 
-	const T& value() const
+	T& value() const
 	{
-		return mValue;
+		return const_cast<T&>(mValue);
 	}
 	
 	void setValue(const T& value)
@@ -65,35 +65,35 @@ struct TSDefaultTupleUnit
 	}
 };
 
-		template <typename T>
-		struct TSDefaultTupleUnit<T&>
-		{
-			T* mValue;
-			T& value() const
-			{
-				return *mValue;
-			}
-			
-			void setValue(T& value)
-			{
-				mValue = &value;
-			}
-		};
-		
-		template <typename T>
-		struct TSDefaultTupleUnit<const T&>
-		{
-			const T* mValue;
-			const T& value() const
-			{
-				return *mValue;
-			}
-			
-			void setValue(const T& value)
-			{
-				mValue = &value;
-			}
-		};
+template <typename T>
+struct TSDefaultTupleUnit<T&>
+{
+	T* mValue;
+	T& value() const
+	{
+		return *mValue;
+	}
+	
+	void setValue(const T& value)
+	{
+		mValue = const_cast<T*>(&value);
+	}
+};
+
+template <typename T>
+struct TSDefaultTupleUnit<const T&>
+{
+	const T* mValue;
+	/*const */T& value() const
+	{
+		return const_cast<T&>(*mValue);
+	}
+	
+	void setValue(const T& value)
+	{
+		mValue = &value;
+	}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class TCTuple - allows to store objects of different types in one structure,
@@ -106,7 +106,7 @@ class TCTuple : public TCUnitTuple<TTypeList, TUnit>
 		// value<index>() - return a const reference to the object in the tuple
 		// at index
 		template <unsigned index>
-		const typename TTypeList::template TypeAt<index>::result& value() const
+		typename TSRef<typename TTypeList::template TypeAt<index>::result>::result value() const
 		{
 			return TCUnitTuple<TTypeList, TUnit>::template unit<index>().value();
 		}
@@ -114,8 +114,8 @@ class TCTuple : public TCUnitTuple<TTypeList, TUnit>
 		////////////////////////////////////////////////////////////////////////
 		// value<index>() - return a const reference to the object in the tuple
 		// at index
-		template <unsigned index>
-		void setValue(typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result newValue)
+		template <unsigned index, typename T>
+		void setValue(/*typename TSConstRef<typename TTypeList::template TypeAt<index>::result>::result*/const T& newValue)
 		{
 			TCUnitTuple<TTypeList, TUnit>::template unit<index>().setValue(newValue);
 		}

@@ -11,7 +11,7 @@ namespace sokira
 
 class CColor : public CObject, public TCColor<>
 {
-	LE_DECLARE_RUNTIME_CLASS(CColor);
+	LE_DECLARE_RUNTIME_CLASS(CColor)
 
 	public:
 		inline CColor() {};

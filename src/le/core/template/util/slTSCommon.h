@@ -243,33 +243,46 @@ struct TSConstRef
 //			const _unref>::result result;
 };
 
+//#error These lines
+template <typename T>
+struct TSConstRef<const T&>
+{
+	typedef const T& result;
+};
+
+template <typename T>
+struct TSConstRef<T&>
+{
+	typedef const T& result;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 		struct TSRef
 {
-	typedef T const& result;
+	typedef T& result;
 //	typedef typename TSSelect<TSIsConst<T>,
 //		typename TSConstRef<T>::result,
 //		typename TSRemoveRef<T>::result&>::result result;
 };
 
-template <typename T>
-struct TSRef<const T*>
-{
-	typedef const T* result;
-	//	typedef typename TSSelect<TSIsConst<T>,
-	//		typename TSConstRef<T>::result,
-	//		typename TSRemoveRef<T>::result&>::result result;
-};
-
-template <typename T>
-struct TSRef<const T * const>
-{
-	typedef const T* const result;
-	//	typedef typename TSSelect<TSIsConst<T>,
-	//		typename TSConstRef<T>::result,
-	//		typename TSRemoveRef<T>::result&>::result result;
-};
+//template <typename T>
+//struct TSRef<const T*>
+//{
+//	typedef const T* result;
+//	//	typedef typename TSSelect<TSIsConst<T>,
+//	//		typename TSConstRef<T>::result,
+//	//		typename TSRemoveRef<T>::result&>::result result;
+//};
+//
+//template <typename T>
+//struct TSRef<const T * const>
+//{
+//	typedef const T* const result;
+//	//	typedef typename TSSelect<TSIsConst<T>,
+//	//		typename TSConstRef<T>::result,
+//	//		typename TSRemoveRef<T>::result&>::result result;
+//};
 
 template <typename T>
 struct TSRef<T&>
@@ -277,11 +290,11 @@ struct TSRef<T&>
 	typedef T& result;
 };
 
-template <typename T>
-struct TSRef<const T>
-{
-	typedef T const& result;
-};
+//template <typename T>
+//struct TSRef<const T>
+//{
+//	typedef T const& result;
+//};
 
 
 #define LE_DECLARE_MEMBER_FUNCTION_CHECKER(func, name)						\

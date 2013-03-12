@@ -12,7 +12,7 @@ namespace sokira
 
 class CButton : public CView
 {
-	LE_DECLARE_RUNTIME_CLASS(CButton);
+	LE_DECLARE_RUNTIME_CLASS(CButton)
 
 	public:
 		CButton();

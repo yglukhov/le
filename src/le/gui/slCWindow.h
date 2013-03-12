@@ -19,7 +19,7 @@ class CEvent;
 
 class CWindow : public CView
 {
-	LE_DECLARE_RUNTIME_CLASS(CWindow);
+	LE_DECLARE_RUNTIME_CLASS(CWindow)
 
 	public:
 		CWindow(bool fullscreen = true, const CString& title = CString(),

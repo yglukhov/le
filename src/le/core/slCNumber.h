@@ -13,8 +13,7 @@ namespace sokira
 
 class CNumber : public CObject, CNumberBase
 {
-	LE_DECLARE_RUNTIME_CLASS(CNumber);
-
+	LE_DECLARE_RUNTIME_CLASS(CNumber)
 	public:
 
 		CNumber();

@@ -284,7 +284,7 @@ void CView::setAbsolutePosition(const CPoint2D& position)
 	CControlList::iterator end = mChildren.end();
 	for (CControlList::iterator it = mChildren.begin(); it != end; ++it)
 	{
-		CPoint2D prevPos = (*it)->absolutePosition();
+		prevPos = (*it)->absolutePosition();
 		(*it)->setAbsolutePosition(
 			CPoint2D(prevPos.x() + delta.width(), prevPos.y() + delta.height())
 				);

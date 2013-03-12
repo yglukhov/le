@@ -11,7 +11,10 @@ namespace sokira
 
 class CTime : public CObject
 {
-	LE_DECLARE_RUNTIME_CLASS(CTime);
+	LE_RTTI_BEGIN
+		LE_RTTI_SELF(CTime)
+		LE_RTTI_SINGLE_PUBLIC_PARENT
+	LE_RTTI_END
 
 	public:
 		CTime(); // init with current time

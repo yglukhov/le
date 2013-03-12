@@ -15,7 +15,7 @@ class CWindow;
 
 class CView : public CControl
 {
-	LE_DECLARE_RUNTIME_CLASS(CView);
+	LE_DECLARE_RUNTIME_CLASS(CView)
 
 	// Creation
 	public:

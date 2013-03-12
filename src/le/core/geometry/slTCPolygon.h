@@ -327,7 +327,7 @@ class TCPolygon
 
 		static Bool isEarAtIndex(const TPoints& points, size_t i)
 		{
-			if (i >= points.size() || i < 0 || points.size() < 3)
+			if (i >= points.size() || points.size() < 3)
 			{
 				return false;
 			}

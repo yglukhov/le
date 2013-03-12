@@ -17,24 +17,20 @@ namespace sokira
 CBasicAny::CBasicAny() :
 	mValue(NULL)
 {
-//	std::cout << "default constructor\n";
 }
 
 CBasicAny::CBasicAny(const CBasicAny& copy) :
 	mValue(copy.mValue ? copy.mValue->copy() : NULL)
 {
-//	std::cout << "copy constructor\n";
 }
 
 CBasicAny::CBasicAny(IAnyContainer* container) :
 	mValue(container)
 {
-
 }
 
 const CBasicAny& CBasicAny::operator = (const CBasicAny& copy)
 {
-//	std::cout << "copy =\n";
 	mValue = copy.mValue->copy();
 	return *this;
 }

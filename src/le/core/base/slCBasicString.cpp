@@ -332,9 +332,9 @@ static WChar* widecharWithData(void* data, UInt32 length, EStringEncoding encodi
 			cfEncoding = (CFByteOrderLittleEndian == CFByteOrderGetCurrent()) ?
 				kCFStringEncodingUTF32LE : kCFStringEncodingUTF32BE;
 			CFIndex cfLen = CFStringGetLength(string);
-			CFIndex length = CFStringGetMaximumSizeForEncoding(cfLen + 1, cfEncoding);
-			WChar* result = (WChar*) new char[length];
-			if (CFStringGetBytes(string, CFRangeMake(0, cfLen), cfEncoding, 0, FALSE, (UInt8*)result, length, NULL) != cfLen)
+			CFIndex outputLength = CFStringGetMaximumSizeForEncoding(cfLen + 1, cfEncoding);
+			WChar* result = (WChar*) new char[outputLength];
+			if (CFStringGetBytes(string, CFRangeMake(0, cfLen), cfEncoding, 0, FALSE, (UInt8*)result, outputLength, NULL) != cfLen)
 			{
 				delete [] result;
 				result = NULL;

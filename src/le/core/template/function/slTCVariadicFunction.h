@@ -16,7 +16,14 @@ struct TSTupleToContainerCollector
 	template <class TContainer>
 	static inline void fillContainerWithTupleValues(TContainer& vector, const TCTuple<TTypeList>& tuple)
 	{
-		vector.push_back(typename TContainer::value_type(tuple.template value<i>()));
+//		std::cout << "fill(" << i << "): " << typeid(typename TTypeList::template TypeAt<i>::result).name() << std::endl;
+//		std::cout << "fill(" << i << "): " << typeid(tuple.template value<i>()).name() << std::endl;
+//
+//		std::cout << "WILL COPY\n";
+//		typename TContainer::value_type any((const typename TContainer::value_type&)tuple.template value<i>());
+//		std::cout << "DID COPY\n";
+//
+		vector.push_back((const typename TContainer::value_type&)tuple.template value<i>());
 		TSTupleToContainerCollector<TTypeList, i + 1, i + 1 == TTypeList::length>::fillContainerWithTupleValues(vector, tuple);
 	}
 };
@@ -207,21 +214,6 @@ public: \
 	} \
 };
 
-#define _LE_DEFINE_variadic_function_operators()	\
-	_LE_DEFINE_variadic_function_operator(0)		\
-	_LE_DEFINE_variadic_function_operator(1)		\
-	_LE_DEFINE_variadic_function_operator(2)		\
-	_LE_DEFINE_variadic_function_operator(3)		\
-	_LE_DEFINE_variadic_function_operator(4)		\
-	_LE_DEFINE_variadic_function_operator(5)		\
-	_LE_DEFINE_variadic_function_operator(6)		\
-	_LE_DEFINE_variadic_function_operator(7)		\
-	_LE_DEFINE_variadic_function_operator(8)		\
-	_LE_DEFINE_variadic_function_operator(9)		\
-	_LE_DEFINE_variadic_function_operator(10)		\
-	_LE_DEFINE_variadic_function_operator(11)		\
-	_LE_DEFINE_variadic_function_operator(12)
-
 _LE_DEFINE_variadic_function_operators()
 
 #undef _le_const
@@ -231,6 +223,7 @@ _LE_DEFINE_variadic_function_operators()
 
 _LE_DEFINE_variadic_function_operators()
 
+#undef _LE_DEFINE_variadic_function_operators
 #undef _LE_DEFINE_variadic_function_operator
 #undef _le_typenameT
 #undef _le_rawT

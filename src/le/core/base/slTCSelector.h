@@ -36,9 +36,8 @@ class ISelector : public CSimpleRefCountable
 };
 
 template <bool IsClass>
-struct TCSelectorBase
+struct TCSelectorArgumentsSetter
 {
-	enum { _isClass = IsClass };
 	template <class Tuple, typename T>
 	static inline void setThisToFunction(Tuple& t, T thisObject)
 	{
@@ -47,14 +46,35 @@ struct TCSelectorBase
 };
 
 template <>
-struct TCSelectorBase<false>
+struct TCSelectorArgumentsSetter<false>
 {
-	enum { _isClass = false };
 	template <class Tuple, typename T>
 	static inline void setThisToFunction(Tuple& t, T thisObject)
 	{
 	}
 };
+
+template <bool isVoid>
+struct TSSelectorCaller
+{
+	template <class Tuple, typename FuncType>
+	static inline CBasicAny call(Tuple& t, FuncType func)
+	{
+		return CBasicAny(TSFunctionTraits<FuncType>::callWithTuple(func, t));
+	}
+};
+
+template <>
+struct TSSelectorCaller<true>
+{
+	template <class Tuple, typename FuncType>
+	static inline CBasicAny call(Tuple& t, FuncType func)
+	{
+		TSFunctionTraits<FuncType>::callWithTuple(func, t);
+		return CBasicAny();
+	}
+};
+
 
 template <typename FuncType>
 class TCSelector : public ISelector
@@ -62,7 +82,8 @@ class TCSelector : public ISelector
 	enum
 	{
 		isClassFunc = !TSTypesEqual<typename TSFunctionTraits<FuncType>::OwnerClass, _SNullType>::value,
-		argsCount = TSFunctionTraits<FuncType>::ParamList::length
+		argsCount = TSFunctionTraits<FuncType>::ParamList::length,
+		isVoidFunc = TSTypesEqual<typename TSFunctionTraits<FuncType>::RetType, void>::value
 	};
 
 	template <class TContext>
@@ -98,9 +119,10 @@ class TCSelector : public ISelector
 			typedef typename Traits::TupleParamList TupleParamList;
 			typedef typename Traits::ParamList ParamList;
 			TCTuple<TupleParamList> t;
-			TCSelectorBase<isClassFunc>::setThisToFunction(t, static_cast<typename Traits::OwnerClass*>(object));
+			TCSelectorArgumentsSetter<isClassFunc>::setThisToFunction(t, static_cast<typename Traits::OwnerClass*>(object));
 			ParamList::template Enumerate<TSFillTupleWithAnyArray, _SNullType, TSFillTupleWithAnyArrayTerminator>::f(t, arguments);
-			return call(t, TSTypeToType<typename Traits::RetType>());
+//			return call(t, TSTypeToType<typename Traits::RetType>());
+			return TSSelectorCaller<isVoidFunc>::call(t, mFunc);
 		}
 
 		virtual UInt32 argumentsCount() const
@@ -115,23 +137,10 @@ class TCSelector : public ISelector
 
 		virtual Bool isVoid() const
 		{
-			return TSTypesEqual<typename TSFunctionTraits<FuncType>::RetType, void>::value;
+			return isVoidFunc;
 		}
 
 	private:
-		template <class Tuple, typename T>
-		CBasicAny call(Tuple& t, TSTypeToType<T>) const
-		{
-			return CBasicAny(TSFunctionTraits<FuncType>::callWithTuple(mFunc, t));
-		}
-
-		template <class Tuple>
-		CBasicAny call(Tuple& t, TSTypeToType<void>) const
-		{
-			TSFunctionTraits<FuncType>::callWithTuple(mFunc, t);
-			return CBasicAny();
-		}
-
 		FuncType mFunc;
 };
 

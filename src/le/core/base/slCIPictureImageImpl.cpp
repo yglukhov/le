@@ -1,3 +1,7 @@
+#include <le/core/config/slCompiler.h>
+
+#if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
+
 #include <Windows.h>
 #include <OleCtl.h>
 #include "slCImageImpl.hp"
@@ -125,3 +129,5 @@ CResult CIPictureImageImpl::loadFromStream(std::istream& stream)
 
 	} // namespace le
 } // namespace sokira
+
+#endif // LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS

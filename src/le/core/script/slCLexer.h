@@ -274,6 +274,8 @@ class CLexer : public CObject
 		WChar nextChar();
 
 	private:
+		inline void resetTokenMatchers();
+
 		CToken nextTokenIncludingIgnored();
 		std::istream* mStream;
 		std::wstring mBuffer;

@@ -22,7 +22,7 @@ class CCocoaImageImpl : public CImageImpl
 	LE_RTTI_END
 
 	public:
-		virtual void loadFromStream(std::istream& stream);
+		virtual CResult loadFromStream(std::istream& stream);
 		static Float32 priorityForParameters(const CDictionary& parameters)
 		{
 			NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
@@ -55,7 +55,7 @@ class CCocoaImageImpl : public CImageImpl
 
 LE_IMPLEMENT_RUNTIME_CLASS(CCocoaImageImpl);
 
-void CCocoaImageImpl::loadFromStream(std::istream& stream)
+CResult CCocoaImageImpl::loadFromStream(std::istream& stream)
 {
 	stream.seekg(0, std::ios_base::end);
 	UInt32 fileSize = stream.tellg();
@@ -67,6 +67,8 @@ void CCocoaImageImpl::loadFromStream(std::istream& stream)
 
 	stream.seekg(0, std::ios_base::beg);
 
+	CResult result = true;
+	
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSMutableData* imageData = [[NSMutableData alloc] initWithCapacity: fileSize];
 	if (imageData)
@@ -92,14 +94,16 @@ void CCocoaImageImpl::loadFromStream(std::istream& stream)
 		else
 		{
 			NSLog(@"CCocoaImageImpl: Could not load bitmap");
-
+			result = CResult("Could not load bitmap");
 		}
 	}
 	else
 	{
 		LE_ASSERT(false);
+		result = CResult("Could not alloc data");
 	}
 	[pool drain];
+	return result;
 }
 
 #if LE_TARGET_PLATFORM == LE_PLATFORM_IOS

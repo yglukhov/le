@@ -1,5 +1,5 @@
 #include <fstream>
-#include <strstream>
+//#include <strstream>
 #include "slCDictionary.h"
 #include "slCURL.h"
 #include "slCClassFactory.h"

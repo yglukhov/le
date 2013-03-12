@@ -81,9 +81,9 @@ class CFunctionDescriptor
 					TFuncType f;
 				} desc;
 				
-				TSFunctionDescriptor(TFuncType f)
+				TSFunctionDescriptor(TFuncType func)
 				{
-					desc.f = f;
+					desc.f = func;
 				}
 				
 				virtual UInt32 size() const
