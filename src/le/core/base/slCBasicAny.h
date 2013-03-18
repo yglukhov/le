@@ -95,6 +95,11 @@ class CBasicAny
 			return const_cast<typename TSRemoveConst<typename TSRef<T>::result>::result>(*result);
 		}
 
+		const std::type_info& type() const
+		{
+			return mValue->type();
+		}
+
 	private:
 		class IAnyContainer : public CSimpleRefCountable
 		{
@@ -102,7 +107,7 @@ class CBasicAny
 				virtual IAnyContainer* copy() const = 0;
 				virtual void* get(const std::type_info& type) const = 0;
 				virtual bool isConst() const = 0;
-				virtual const char* type() const = 0;
+				virtual const std::type_info& type() const = 0;
 		};
 
 		template <typename T>
@@ -145,9 +150,9 @@ class CBasicAny
 					return false;
 				}
 
-				const char* type() const
+				const std::type_info& type() const
 				{
-					return typeid(const typename TSRemoveRef<T>::result*).name();
+					return typeid(const typename TSRemoveRef<T>::result*);
 				}
 			private:
 				T mValue;
@@ -193,9 +198,9 @@ class CBasicAny
 				return true;
 			}
 
-			const char* type() const
+			const std::type_info& type() const
 			{
-				return typeid(const typename TSRemoveRef<T>::result*).name();
+				return typeid(const typename TSRemoveRef<T>::result*);
 			}
 
 		private:

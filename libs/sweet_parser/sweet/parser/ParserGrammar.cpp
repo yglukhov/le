@@ -57,8 +57,8 @@ ParserGrammar::ParserGrammar( size_t actions_reserve, size_t productions_reserve
   symbols_(),
   start_symbol_( NULL ),
   end_symbol_( NULL ),
-  error_symbol_( NULL ),
-  index_( 0 )
+  error_symbol_( NULL )//,
+//  index_( 0 )
 {
     actions_.reserve( actions_reserve );
     productions_.reserve( productions_reserve );

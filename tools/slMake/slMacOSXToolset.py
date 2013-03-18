@@ -31,7 +31,6 @@ class CMacOSXToolset(CGCCToolset):
 		if 'targetPlatform' not in self.builder.globalDefinitions:
 			self.builder.globalDefinitions['targetPlatform'] = 'macos'
 		self.availableSdks = CMacOSPlatfromFinder().findPlatforms()
-		pprint(self.availableSdks)
 
 	def defaultWrapperExtension(self):
 		return {

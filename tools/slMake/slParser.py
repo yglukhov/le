@@ -38,7 +38,7 @@ class CParser:
 				self._pushError('Unknown keyword "' + words[0] + '"')
 
 	def _pushError(self, text):
-		log.logError(text, self.fileInput.name, self.line)
+		log.logError(text, self.inputName, self.line)
 
 	def _processTarget(self, words):
 		self._processSettingsWithPredicate("target==" + words[1], True)
@@ -55,12 +55,13 @@ class CParser:
 	def _processInclude(self, words):
 		childParser = CParser()
 		fileInput = open(words[1])
+		childParser.inputName = words[1]
 		childParser.parseFileInputToBuilder(fileInput, self.builder, self)
 
 	def _processSettingsWithPredicate(self, predicate, optional):
 		line = self.line + 1
 		block = self._readBlock()
-		self.builder.addSettings({'predicate' : predicate, 'block' : block, 'line' : line, 'file' : self.fileInput.name })
+		self.builder.addSettings({'predicate' : predicate, 'block' : block, 'line' : line, 'file' : self.inputName })
 
 	def _processSettings(self, words):
 		optional = False

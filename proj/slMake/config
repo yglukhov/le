@@ -45,8 +45,7 @@ settings (target in [leFramework, slSnakes])
 	frameworks = ['OpenAL']
 	slPlatform = targetPlatform
 	headerSearchPaths.append(leLibsDir)
-	libraries = ['libvorbis_static', 'libvorbisfile_static']
-	librarySearchPaths = [leLibsDir + '/gif/' + slPlatform, leLibsDir + '/vorbis/' + slPlatform, leLibsDir + '/jpeg/' + slPlatform, leLibsDir + '/al/' + slPlatform]
+	librarySearchPaths = [leLibsDir + '/gif/' + slPlatform, leLibsDir + '/vorbis/' + slPlatform, leLibsDir + '/jpeg/' + slPlatform]
 	headerSearchPaths.append(leLibsDir + '/sweet_parser')
 	productIdentifier = 'org.7lifes.le'
 	productVersion = '1.0'
@@ -59,11 +58,14 @@ settings (target in [leFramework, slSnakes] and targetPlatform in [ios, iosSimul
 
 settings (target in [leFramework, slSnakes] and targetPlatform == windows)
 {
-	libraries.extend(['User32', 'Ole32', 'OleAut32', 'Shell32', 'libogg_static', 'giflib', 'OpenGL32', 'gdi32', 'OpenAL32'])
+	libraries.extend(['User32', 'Ole32', 'OleAut32', 'Shell32', 'giflib', 'OpenGL32', 'gdi32', 'OpenAL32'])
+	libraries.extend(['libvorbis_static', 'libogg_static', 'libvorbisfile_static'])
+	librarySearchPaths.append(leLibsDir + '/al/' + slPlatform)
 }
 
 settings (target in [leFramework, slSnakes] and targetPlatform == macos)
 {
+	libraries.extend(['gif', 'jpeg', 'vorbisfile', 'vorbis', 'ogg'])
 	librarySearchPaths.append('/usr/X11/lib')
 	#libraries.append('X11.6')
 	#libraries.append('freetype.6')

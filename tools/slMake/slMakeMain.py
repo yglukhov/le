@@ -1,76 +1,42 @@
 
 import py_compile
 
-def configDir():
-	for dir in [
-				os.getcwd(),
-				path.dirname(path.abspath(sys.argv[0]))
-				]:
-		if path.isfile(path.join(dir, 'config')):
-			return dir
+def findProjectConfiguration():
+	selfPath = path.abspath(sys.argv[0])
+	inlineSections = slInlineSections()
+	if 'config' in inlineSections:
+		return { 'configFile' : selfPath, 'config' : inlineSections['config'] }
+	else:
+		for dir in [
+			os.getcwd(),
+			path.dirname(selfPath)
+			]:
+			configFile = path.join(dir, 'config')
+			if path.isfile(configFile):
+				return { 'configFile' : configFile, 'config' : codecs.open(configFile, 'rU', 'utf').read() }
+				break
 	return None
 
-def slOpenFile(filePath, mode):
-	if not filePath:
-		filePath = "-"
-
-	result = None
-	if filePath == "-":
-		if mode == 'w':
-			result = sys.stdout
-		elif mode == 'r':
-			result = sys.stdin
-	else:
-		result = open(filePath, mode)
-
-def importConfiguration(input):
-	selfLines = slOpenFile(sys.argv[0], 'r').readlines()
-	extensionsStart = 0
-	for line in selfLines:
-		if line == '_SLMAKE EXTENSIONS BEGIN':
-			break
-		extensionsStart += 1
-	if extensionsStart == len(selfLines):
-		raise 5
-
-def exportConfiguration(output):
-	pass
-
-def importExtension(identifier, input):
-	pass
-
-def removeExtension(identifier):
-	pass
-
-def listExtensions(all):
-	pass
-
-################################################################################
-# _SLMAKE EXTENSIONS BEGIN
-# _SLMAKE EXTENSIONS END
-################################################################################
-
 def main():
-	print("platform: " + slPlatform())
+	#print("Sections:")
+	#pprint(slInlineSections())
+	#print("platform: " + slPlatform())
 	#	selfDirPath = os.path.dirname(path.abspath(argv[0]))
-	projectDir = configDir()
-	if projectDir:
-		fileInput = __builtins__.open(path.join(projectDir, 'config'))
+	projectConfiguration = findProjectConfiguration()
+	if projectConfiguration:
+		projectDir = path.dirname(projectConfiguration['configFile'])
+		fileInput = StringIO(projectConfiguration['config'])
+		#fileInput.name = 'config'
 		builder = CBuilder(projectDir)
 		parser = OptionParser()
-		parser.add_option("--importExtension", dest="importExtension")
-		parser.add_option("--removeExtension", dest="removeExtension")
-		parser.add_option("--listExtensions", dest="listExtensions")
-		parser.add_option("--targetPlatform", dest="targetPlatform")
 		(options, args) = parser.parse_args()
 		builder.globalDefinitions['targetPlatform'] = slPlatform();
 		parser = CParser()
+		parser.inputName = 'config'
 		parser.parseFileInputToBuilder(fileInput, builder)
 		builder.performBuild()
 	else:
 		print("Project directory not found")
-	print(sys.argv[0])
-	py_compile.compile(sys.argv[0])
 
 if __name__ == "__main__":
 	totalTime = time()

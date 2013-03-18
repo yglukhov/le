@@ -43,7 +43,7 @@ class CBuilder:
 			predicateMatched = False
 			try:
 				predicateMatched = eval(settingsData['predicate'], self.globalDefinitions, settings)
-			except SyntaxError as error:
+			except SyntaxError, error:
 				error.filename = settingsData['file']
 				error.lineno = settingsData['line']
 				raise
@@ -51,7 +51,7 @@ class CBuilder:
 			if predicateMatched:
 				try:
 					slExecWithEnv(settingsData['block'], self.globalDefinitions, settings)
-				except SyntaxError as error:
+				except SyntaxError, error:
 					error.filename = settingsData['file']
 					error.lineno += settingsData['line']
 					raise
@@ -79,7 +79,8 @@ class CBuilder:
 			'executableName' : '$(productName)',
 			'executableExtension' : '',
 			'headerSearchPaths' : [],
-			'wrapperExtension' : ''
+			'wrapperExtension' : '',
+			'libraries' : []
 			}
 		return result
 
