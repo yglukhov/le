@@ -37,10 +37,10 @@ void CFont::setSize(Float32 size)
 	mSize = size;
 }
 
-CResult CFont::getGlyphDataForString(const CString& string, CImage& image, CGlyphPositions& glyphPositions) const
+CResult CFont::getGlyphDataForCharactersInRange(WChar firstChar, UInt32 rangeLength, CImage& image, CGlyphPositions& glyphPositions) const
 {
 	CFontGlyphGenerator generator;
-	return generator.getGlyphDataForString(*this, string, image, glyphPositions);
+	return generator.getGlyphDataForCharactersInRange(*this, firstChar, rangeLength, image, glyphPositions);
 }
 
 void CFont::setRendererInfo(CObject::Ptr rendererInfo)

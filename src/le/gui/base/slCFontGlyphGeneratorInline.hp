@@ -9,7 +9,7 @@ namespace sokira
 class CFontGlyphGeneratorInline
 {
 	public:
-		CResult getGlyphDataForString(const CFont& font, const CString& string, CImage& image, CFont::CGlyphPositions& glyphPositions) const
+		CResult getGlyphDataForCharactersInRange(const CFont& font, WChar firstChar, UInt32 rangeLength, CImage& image, CFont::CGlyphPositions& glyphPositions) const
 		{
 			UInt8 letters[][13] = {
 				{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, 
@@ -116,16 +116,15 @@ class CFontGlyphGeneratorInline
 			UInt8* pixelData = new UInt8[textureWidth * textureHeight];
 			memset(pixelData, 0, textureWidth * textureHeight);
 
-			UInt32 len = string.length();
-			for (UInt32 i = 0; i < len; ++i)
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
-				WChar ch = string.characterAtIndex(i);
+				WChar ch = firstChar + i;
 				if (ch >= 32 && ch < 127)
 				{
 					UInt32 glyphIndex = ch - 32;
 					UInt32 glyphStart = glyphIndex * glyphWidth;
 
-					glyphPositions[ch] = std::make_pair((Float32)glyphStart, (Float32)glyphWidth);
+					glyphPositions[i] = std::make_pair((Float32)glyphStart, (Float32)glyphWidth);
 					for (UInt32 y = 0; y < glyphHeight; ++y)
 					{
 						for (UInt32 x = 0; x < glyphWidth - 1; ++x)

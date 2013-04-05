@@ -26,7 +26,7 @@ class CFont : public CObject
 		void setSize(Float32 size);
 
 		typedef std::vector<std::pair<Float32, Float32> > CGlyphPositions;
-		CResult getGlyphDataForString(const CString& string, CImage& image, CGlyphPositions& glyphPositions) const;
+		CResult getGlyphDataForCharactersInRange(WChar firstChar, UInt32 rangeLength, CImage& image, CGlyphPositions& glyphPositions) const;
 
 		void setRendererInfo(CObject::Ptr rendererInfo);
 		CObject::Ptr rendererInfo() const;

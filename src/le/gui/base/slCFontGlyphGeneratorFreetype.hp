@@ -14,7 +14,7 @@ namespace sokira
 class CFontGlyphGeneratorFreetype
 {
 	public:
-		CResult getGlyphDataForString(const CFont& font, const CString& string, CImage& image, CFont::CGlyphPositions& glyphPositions) const
+		CResult getGlyphDataForCharactersInRange(const CFont& font, WChar firstChar, UInt32 rangeLength, CImage& image, CFont::CGlyphPositions& glyphPositions) const
 		{
 			FT_Library freeType;
 			FT_Init_FreeType(&freeType);
@@ -29,23 +29,22 @@ class CFontGlyphGeneratorFreetype
 			}
 
 			UInt32 fontHeight = face->ascender + face->descender;
-			UInt32 length = string.length();
 
 			// Calculate total font width
 
 			UInt32 totalFontWidth = 0;
 
 			int maxBitmapTop = 0;
-			for (UInt32 i = 0; i < length; ++i)
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
-				FT_ULong character = string.characterAtIndex(i);
+				FT_ULong character = firstChar + i;
 				if (FT_Load_Char(face, character, FT_LOAD_RENDER))
 				{
 					std::cout << "ERROR LOADING CHAR: " << (char)character << std::endl;
 				}
 
 				Float32 advance = face->glyph->advance.x / 64;
-				glyphPositions[character] = std::make_pair(totalFontWidth, advance);
+				glyphPositions[i] = std::make_pair(totalFontWidth, advance);
 				totalFontWidth += advance;
 				if (face->glyph->bitmap_top > maxBitmapTop)
 				{
@@ -57,9 +56,9 @@ class CFontGlyphGeneratorFreetype
 			memset(fontTextureData, 0, totalFontWidth * fontHeight);
 			UInt32 currentXOffset = 0;
 
-			for (UInt32 i = 0; i < length; ++i)
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
-				FT_ULong character = string.characterAtIndex(i);
+				FT_ULong character = firstChar + i;
 				FT_Error err = FT_Load_Char(face, character, FT_LOAD_RENDER);
 				if (err)
 				{

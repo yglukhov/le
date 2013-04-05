@@ -5,6 +5,8 @@
 #include <le/core/slCData.h>
 #include <le/core/slCURL.h>
 #include <le/core/slCNumber.h>
+#include <le/core/slCIndexSet.h>
+#include <le/core/slCCharacterSet.h>
 #include <le/core/thread/slCThread.h>
 #include <le/core/base/slCImageImpl.hp>
 #include <le/gui/base/slCOpenGLTextureImpl.hp>
@@ -84,12 +86,32 @@ void COpenGLRenderingContext::setLineWidth(Float32 width)
 ////////////////////////////////////////////////////////////////////////////////
 // Geometry
 
+struct SGlyphRange : public TSRange<wchar_t, unsigned short>
+{
+	std::vector<std::pair<Float32, Float32> > glyphPositions;
+	GLuint fontTexture;
+	CSize2D textureSize;
+};
+
 class CFontData : public CObject
 {
 	public:
-		GLuint fontTexture;
-		std::vector<std::pair<Float32, Float32> > glyphPositions;
-		CSize2D textureSize;
+		TCIndexSet<SGlyphRange> glyphRanges;
+
+		void generateFontDataForRangeAtIndex(UInt32 index, CFont& font, COpenGLRenderingContext* context)
+		{
+			SGlyphRange& range = const_cast<SGlyphRange&>(glyphRanges.indexRanges()[index]);
+			range.glyphPositions = CFont::CGlyphPositions(range.length, std::make_pair(0.0f, 0.0f));
+			CImage image;
+			CCharacterSet charSet;
+			charSet.addCharactersInRange(range.location, range.length);
+
+			font.getGlyphDataForCharactersInRange(range.location, range.length, image, range.glyphPositions);
+			glGenTextures(1, &range.fontTexture);
+
+			CImageFrame frame = image.frameAtIndex(0);
+			range.textureSize = createTextureWithBitmapData(context, frame.size(), frame.pixelData(), frame.pixelFormat(), range.fontTexture);
+		}
 };
 
 static inline CFontData* fontData(COpenGLRenderingContext* context, CFont& font)
@@ -98,33 +120,9 @@ static inline CFontData* fontData(COpenGLRenderingContext* context, CFont& font)
 	if (!result)
 	{
 		result = new CFontData();
-		CString characters = CString::createWithCharacterRange('A', 26);
-		characters += CString::createWithCharacterRange('a', 26);
-		characters += CString::createWithCharacterRange('0', 10);
-		characters += " .:;\\/|{}()[]!@#$%^&*-+=?<>'\"~";
-
-		UInt32 length = characters.length();
-		UInt16 maxChar = 0;
-		for (UInt32 i = 0; i < length; ++i)
-		{
-			WChar ch = characters.characterAtIndex(i);
-			if (ch > maxChar)
-			{
-				maxChar = ch;
-			}
-		}
-
-		LE_ASSERT(maxChar <= 1024);
-
-		result->glyphPositions = CFont::CGlyphPositions(maxChar + 1, std::make_pair(0.0f, 0.0f));
-		CImage image;
-		font.getGlyphDataForString(characters, image, result->glyphPositions);
 		font.setRendererInfo(result);
-		glGenTextures(1, &result->fontTexture);
-
-		CImageFrame frame = image.frameAtIndex(0);
-		result->textureSize = createTextureWithBitmapData(context, frame.size(), frame.pixelData(), frame.pixelFormat(), result->fontTexture);
 	}
+
 	return result;
 }
 
@@ -136,21 +134,45 @@ void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& posi
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	CFontData* fontInfo = fontData(this, mFont);
 
-	glBindTexture(GL_TEXTURE_2D, fontInfo->fontTexture);
-
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	Float32 textureWidth = fontInfo->textureSize.width();
-	Float32 textureHeight = fontInfo->textureSize.height();
+	const WChar rangeRadius = 64;
 
 	UInt32 length = text.length();
 	Float32 xOffset = 0.0f;
+	TCIndexSet<SGlyphRange>& glyphRanges = fontInfo->glyphRanges;
 	for (UInt32 i = 0; i < length; ++i)
 	{
 		WChar ch = text.characterAtIndex(i);
 
-		GLfloat glyphStart = fontInfo->glyphPositions[ch].first;
-		GLfloat glyphWidth = fontInfo->glyphPositions[ch].second;
+		SInt32 rangeIndex = glyphRanges.indexOfRangeContainingIndex(ch);
+		if (rangeIndex == -1)
+		{
+			WChar firstChar = glyphRanges.indexLessThan(ch);
+			if (firstChar == -1 || firstChar < ch - rangeRadius)
+			{
+				firstChar = ch - rangeRadius;
+			}
+			WChar lastChar = glyphRanges.indexGreaterThan(ch);
+			if (lastChar == -1 || lastChar >= ch + rangeRadius)
+			{
+				lastChar = ch + rangeRadius;
+			}
+			SGlyphRange range;
+			range.location = firstChar;
+			range.length = lastChar - firstChar;
+			glyphRanges.addIndexesInRange(range);
+			rangeIndex = glyphRanges.indexOfRangeContainingIndex(ch);
+			fontInfo->generateFontDataForRangeAtIndex(rangeIndex, mFont, this);
+		}
+
+		const SGlyphRange& range = glyphRanges.indexRanges()[rangeIndex];
+
+		GLfloat glyphStart = range.glyphPositions[ch - range.location].first;
+		GLfloat glyphWidth = range.glyphPositions[ch - range.location].second;
+
+		Float32 textureWidth = range.textureSize.width();
+		Float32 textureHeight = range.textureSize.height();
 
 		GLfloat texCoords[] = {
 			glyphStart / textureWidth, 0,
@@ -165,6 +187,9 @@ void COpenGLRenderingContext::drawText(const CString& text, const CPoint2D& posi
 			position.x() + xOffset + glyphWidth, position.y() + textureHeight,
 			position.x() + xOffset, position.y() + textureHeight
 		};
+
+		GLuint texture = range.fontTexture;
+		glBindTexture(GL_TEXTURE_2D, texture);
 
 		xOffset += glyphWidth;
 		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);

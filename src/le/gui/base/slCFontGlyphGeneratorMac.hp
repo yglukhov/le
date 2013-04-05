@@ -17,24 +17,23 @@ namespace sokira
 class CFontGlyphGeneratorMac
 {
 	public:
-		CResult getGlyphDataForString(const CFont& font, const CString& string, CImage& image, CFont::CGlyphPositions& glyphPositions) const
+		CResult getGlyphDataForCharactersInRange(const CFont& font, WChar firstChar, UInt32 rangeLength, CImage& image, CFont::CGlyphPositions& glyphPositions) const
 		{
 			CTFontRef ctFont = CTFontCreateWithName(CFSTR("Times new roman"), font.size(), NULL);
 			LE_ASSERT(ctFont);
-			UInt32 len = string.length();
-			UniChar* characters = new UniChar[len];
-			for (UInt32 i = 0; i < len; ++i)
+			UniChar* characters = new UniChar[rangeLength];
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
-				characters[i] = string.characterAtIndex(i);
+				characters[i] = firstChar + i;
 			}
-			CGGlyph* glyphs = new CGGlyph[len];
-			CGSize* advances = new CGSize[len];
-			CTFontGetGlyphsForCharacters(ctFont, characters, glyphs, len);
+			CGGlyph* glyphs = new CGGlyph[rangeLength];
+			CGSize* advances = new CGSize[rangeLength];
+			CTFontGetGlyphsForCharacters(ctFont, characters, glyphs, rangeLength);
 			delete [] characters;
-			CTFontGetAdvancesForGlyphs(ctFont, kCTFontHorizontalOrientation, glyphs, advances, len);
+			CTFontGetAdvancesForGlyphs(ctFont, kCTFontHorizontalOrientation, glyphs, advances, rangeLength);
 
 			Float32 totalGlyphWidth = 20;
-			for (UInt32 i = 0; i < len; ++i)
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
 				totalGlyphWidth += advances[i].width;
 			}
@@ -58,12 +57,11 @@ class CFontGlyphGeneratorMac
 			CFRelease(ctFont);
 			CGContextSetTextPosition(context, 0, descent);
 			Float32 lastPosition = CGContextGetTextPosition(context).x;
-			for (UInt32 i = 0; i < len; ++i)
+			for (UInt32 i = 0; i < rangeLength; ++i)
 			{
-				char theChar = string.characterAtIndex(i);
 				CGContextShowGlyphs(context, glyphs + i, 1);
 				Float32 pos = CGContextGetTextPosition(context).x;
-				glyphPositions[theChar] = std::make_pair(lastPosition, pos - lastPosition);
+				glyphPositions[i] = std::make_pair(lastPosition, pos - lastPosition);
 				lastPosition = pos;
 			}
 

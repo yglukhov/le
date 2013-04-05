@@ -141,6 +141,55 @@ class TCIndexSet
 			return mRanges;
 		}
 
+		SInt32 indexOfRangeContainingIndex(TLocation index) const
+		{
+			SInt32 i = 0;
+			for (typename TRangeVector::const_iterator it = mRanges.begin(); it != mRanges.end(); ++it, ++i)
+			{
+				if (index >= it->location && index <= it->end())
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		TLocation indexLessThan(TLocation index) const
+		{
+			for (typename TRangeVector::const_reverse_iterator it = mRanges.rbegin(); it != mRanges.rend(); ++it)
+			{
+				if (index >= it->end())
+				{
+					return it->end();
+				}
+
+				if (index > it->location)
+				{
+					return index - 1;
+				}
+			}
+
+			return -1;
+		}
+
+		TLocation indexGreaterThan(TLocation index) const
+		{
+			for (typename TRangeVector::const_iterator it = mRanges.begin(); it != mRanges.end(); ++it)
+			{
+				if (index <= it->location)
+				{
+					return it->location;
+				}
+
+				if (index <= it->end())
+				{
+					return index + 1;
+				}
+			}
+
+			return -1;
+		}
+
 	private:
 		TRangeVector mRanges;
 };
