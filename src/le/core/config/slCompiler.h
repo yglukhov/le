@@ -63,4 +63,8 @@
 #	define LE_ARCHITECTURE_BITS 32
 #endif // defined(__LP64__) && (__LP64__ == 1)
 
+#if __cplusplus > 199711L
+#define LE_CPP11
+#endif
+
 #endif // not defined H_slCompiler_included

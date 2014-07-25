@@ -17,7 +17,7 @@ namespace sokira
 	namespace le
 	{
 
-LE_IMPLEMENT_RUNTIME_CLASS(CScriptTestSuite);
+//LE_IMPLEMENT_RUNTIME_CLASS(CScriptTestSuite);
 
 static void addMatchersToTokenizer(CLexer& tokenizer)
 {

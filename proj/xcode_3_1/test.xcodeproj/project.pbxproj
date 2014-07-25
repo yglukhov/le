@@ -298,6 +298,8 @@
 /* Begin PBXProject section */
 		B04FF9DA0A161A9C00F559ED /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = B04FF9DB0A161A9C00F559ED /* Build configuration list for PBXProject "test" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -515,6 +517,7 @@
 		B04FF9DC0A161A9C00F559ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
 				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -533,6 +536,7 @@
 					ppc,
 					x86_64,
 				);
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)/test";
 				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/$(CONFIGURATION)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;

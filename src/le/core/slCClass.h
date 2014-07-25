@@ -159,7 +159,7 @@ class CClass
 
 		inline bool isKindOfClass(const CClass& otherClass) const
 		{
-			return *this == otherClass || isChildOfStdClass(otherClass.stdType());
+			return *this == otherClass || isChildOfClass(otherClass);
 		}
 
 		bool instanceRespondsToSelector(const CBasicString& name) const;

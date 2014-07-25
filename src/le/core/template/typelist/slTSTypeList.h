@@ -34,7 +34,7 @@ struct TSTypeListBase
 	};
 
 	typedef typename TypeAtNonStrict<0>::result Front;
-	typedef typename TypeAtNonStrict<length-1>::result Back;
+	typedef typename TypeAtNonStrict<(UInt)(length-1)>::result Back;
 
 	template <template <typename T> class TPredicate>
 	struct FindIf

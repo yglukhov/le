@@ -25,7 +25,7 @@
 #ifndef SWEET_LEXER_LEXER_HPP_INCLUDED
 #define SWEET_LEXER_LEXER_HPP_INCLUDED
 
-#if defined(BUILD_PLATFORM_MSVC)
+#if defined(BUILD_PLATFORM_MSVC) || 1
 #include <functional>
 #else
 #include <tr1/functional>

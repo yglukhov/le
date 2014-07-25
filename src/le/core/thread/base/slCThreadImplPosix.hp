@@ -3,6 +3,7 @@
 #include <list>
 #include <pthread.h>
 #include <sys/time.h>
+#include <unistd.h>
 #include "slCThreadImplBase.hp"
 
 namespace sokira

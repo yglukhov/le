@@ -3,6 +3,7 @@
 #include <le/core/template/function/slTCBind.h>
 #include <le/core/slCAny.h>
 #include <le/core/auxiliary/slCBundle.h>
+#include <le/core/slCDictionary.h>
 
 #include <le/core/preprocessor/slPPand.h>
 #include <le/core/preprocessor/slPPor.h>
@@ -245,6 +246,11 @@ void CGeneralTestSuite::testBasicTypes()
 
 	LE_ASSERT(sizeof(Float32) == 4);
 	LE_ASSERT(sizeof(Float64) == 8);
+
+#ifdef LE_CPP11
+	CDictionary d("hi", 5, "bye", "test");
+	LE_ASSERT(d.toString() == "<dict><key>bye</key><string>test</string><key>hi</key><integer>5</integer></dict>");
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

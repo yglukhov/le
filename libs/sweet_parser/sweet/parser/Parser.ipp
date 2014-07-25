@@ -221,7 +221,6 @@ bool Parser<Iterator, UserData, Char, Traits, Allocator>::parse( const void* sym
 template <class Iterator, class UserData, class Char, class Traits, class Allocator>
 bool Parser<Iterator, UserData, Char, Traits, Allocator>::parse( const ParserSymbol* symbol, const std::basic_string<Char, Traits, Allocator>& lexeme )
 {
-	//std::cout << "received lexeme: " << lexeme << std::endl;
     bool accepted = false;
     bool rejected = false;
     

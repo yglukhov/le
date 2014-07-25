@@ -90,7 +90,6 @@ struct SStringProxy
 {
 	~SStringProxy()
 	{
-		LE_ASSERT(!mEmpty);
 		if (mFlags & eOwnPolicyDeallocWithDelete)
 		{
 			if (isWide())
@@ -217,7 +216,6 @@ struct SStringProxy
 
 	union
 	{
-		char* mString;
 		WChar* mWString;
 		NChar* mNString;
 	};
@@ -226,7 +224,6 @@ struct SStringProxy
 
 	UInt32 mRefCount;
 	UInt16 mFlags;
-	bool mEmpty;
 };
 
 template <>
@@ -291,7 +288,6 @@ static SStringProxy* createProxy(const TChar* string, UInt16 policy, UInt32 leng
 
 	result->mFlags = policy;
 	result->mRefCount = 1;
-	result->mEmpty = false;
 	setWideFlag<TChar>(result);
 
 	return result;
@@ -300,7 +296,6 @@ static SStringProxy* createProxy(const TChar* string, UInt16 policy, UInt32 leng
 static SStringProxy* createEmptyProxy()
 {
 	static SStringProxy* proxy = createProxy("", eOwnPolicyLiteral);
-	proxy->mEmpty = true;
 	return proxy->retain();
 }
 

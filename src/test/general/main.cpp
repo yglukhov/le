@@ -2,7 +2,6 @@
 
 #include <le/core/slCClassFactory.h>
 #include <le/core/debug/slDebug.h>
-#include <le/core/debug/slCAssertControl.h>
 #include <le/core/debug/slCAssertionPolicy.h>
 
 #include "slCTestSuite.h"
@@ -32,7 +31,7 @@ int main(int argc, char * const argv[])
 	LE_ENTER_LOG;
 	using namespace sokira::le;
 
-//	CAssertControl::instance()->setAssertionPolicy(new CUnitTestingAssertionPolicy());
+//	CUnitTestingAssertionPolicy::setCurrentPolicy(new CUnitTestingAssertionPolicy());
 
 	CClassFactory* factory = CClassFactory::defaultInstance();
 	CClassFactory::iterator it = factory->beginForChildsOf<CTestSuite>();

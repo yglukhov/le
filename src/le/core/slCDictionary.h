@@ -28,6 +28,16 @@ class CDictionary : public CObject
 		static CDictionary createFromStream(std::istream& stream);
 		static CDictionary createWithContentsOfURL(const CURL& url);
 
+		CDictionary() {}
+
+#ifdef LE_CPP11
+		template <typename ... T>
+		CDictionary(const CString& key, T...args)
+		{
+			initWithKeysAndValues(key, args...);
+		}
+#endif
+
 		////////////////////////////////////////////////////////////////////////
 		// Value accessors
 		////////////////////////////////////////////////////////////////////////
@@ -135,6 +145,21 @@ class CDictionary : public CObject
 		}
 
 	private:
+	
+#ifdef LE_CPP11
+		template <typename TObj, typename ... T>
+		void initWithKeysAndValues(const CString& key, TObj obj, T...args)
+		{
+			setValueForKey(key, obj);
+			initWithKeysAndValues(args...);
+		}
+
+		void initWithKeysAndValues()
+		{
+			
+		}
+#endif
+
 		void dumpContents(std::ostream& stream) const;
 
 		CObject::Ptr _valueForKey(const CString& key, CObject::Ptr defaultValue) const;

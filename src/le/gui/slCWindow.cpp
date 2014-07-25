@@ -31,6 +31,34 @@ namespace sokira
 
 LE_IMPLEMENT_RUNTIME_CLASS(CWindow);
 
+CWindow::Ptr CWindow::create(const CDictionary& params)
+{
+	CWindow::Ptr result = CClassFactory::defaultInstance()->bestSubclassOfClassWithParameters(CWindow::staticClass(), params).create<CWindow>();
+	result->initWithParameters(params);
+	return result;
+}
+
+CWindow::Ptr CWindow::create(bool fullscreen, const CString& title,
+				  const CRectangle& rect)
+{
+	CDictionary params;
+	params.setValueForKey("fullscreen", fullscreen);
+	params.setValueForKey("title", title);
+	params.setValueForKey("x", rect.x());
+	params.setValueForKey("y", rect.y());
+	params.setValueForKey("width", rect.width());
+	params.setValueForKey("height", rect.height());
+	return create(params);
+}
+
+void CWindow::initWithParameters(const CDictionary& params)
+{
+	LE_ENTER_LOG;
+	mTitle = params.valueAsStringForKey("title");
+	mFullScreen = params.valueAsBoolForKey("fullscreen");
+	setSize(CSize2D(params.valueAsFloat32ForKey("width"), params.valueAsFloat32ForKey("height")));
+	mPositionOnScreen = CPoint2D(params.valueAsFloat32ForKey("x"), params.valueAsFloat32ForKey("y"));
+}
 
 CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) :
 	CView(CRectangle(CPoint2D(), rect.size())),
@@ -44,7 +72,6 @@ CWindow::CWindow(bool fullscreen, const CString& title, const CRectangle& rect) 
 
 CWindow::~CWindow()
 {
-	CImage image;
 	LE_ENTER_LOG;
 	delete static_cast<CWindowImpl*>(mImpl);
 }

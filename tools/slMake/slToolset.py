@@ -187,7 +187,7 @@ class CToolset:
 
 	def copyFile(self, header, destination):
 		if not path.exists(destination) or path.getmtime(destination) < path.getmtime(header):
-			print('copying ' + header)
+			print('Copying ' + header)
 			shutil.copy(header, destination)
 
 	def copyHeaders(self):

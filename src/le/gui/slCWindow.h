@@ -22,6 +22,10 @@ class CWindow : public CView
 	LE_DECLARE_RUNTIME_CLASS(CWindow)
 
 	public:
+		static Ptr create(const CDictionary& params);
+		static Ptr create(bool fullscreen = true, const CString& title = CString(),
+						  const CRectangle& rect = DEFAULT_SCREEN_RECT);
+
 		CWindow(bool fullscreen = true, const CString& title = CString(),
 				  const CRectangle& rect = DEFAULT_SCREEN_RECT);
 		~CWindow();
@@ -63,6 +67,9 @@ class CWindow : public CView
 
 		void onResize();
 	protected:
+
+		virtual void initWithParameters(const CDictionary& params);
+
 
 		CRenderingContext::Ptr renderingContext();
 		virtual void* createImpl();

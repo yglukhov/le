@@ -1,5 +1,7 @@
-
 #include <le/core/config/slCompiler.h>
+
+#include <functional>
+
 
 #if LE_TARGET_PLATFORM_FAMILY == LE_PLATFORM_FAMILY_WINDOWS
 #define BUILD_OS_WINDOWS
@@ -9,12 +11,17 @@
 #define BUILD_OS_MACOSX
 #endif
 
+
 #define BUILD_MODULE_ASSERT
 
 
 #include <le/core/script/slCParser.h>
 #include <le/core/slCNumber.h>
 
+namespace std
+{
+	namespace tr1 = ::std;
+}
 
 #include <sweet/assert/assert.cpp>
 
@@ -53,8 +60,6 @@
 #include <sweet/lexer/Lexer.ipp>
 #include <sweet/lexer/Error.cpp>
 
-
-#include <le/core/template/function/slTCBind.h>
 
 namespace sokira
 {
@@ -260,14 +265,14 @@ using namespace sweet::parser;
 		if (rule->handler)
 		{
 			CString str(CNumber(i).valueAsString());
-			TParser::ParserActionFunction func = std::tr1::bind(SParserFunction::func, _1, _2, _3, rule->handler);
-			parser.set_action_handler(str.UTF8String(), func);
+//			TParser::ParserActionFunction func = std::bind(SParserFunction::func, _1, _2, _3, rule->handler);
+//			parser.set_action_handler(str.UTF8String(), func);
 		}
 		++i;
 	}
 
-	TParser::ParserActionFunction func = std::tr1::bind(SParserFunction::func, _1, _2, _3, SParserFunction::defaultHandler);
-	parser.set_default_action_handler(func);
+//	TParser::ParserActionFunction func = std::bind(SParserFunction::func, _1, _2, _3, SParserFunction::defaultHandler);
+//	parser.set_default_action_handler(func);
 
 	parser.parse(NULL, NULL);
 	return parser.user_data();
